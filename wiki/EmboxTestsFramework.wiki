@@ -72,7 +72,7 @@ $_DEPS-<test_name> += <dep>
 }}}
 
 = Конфигурирование теста =
-Необходимо добавить в файл конфигурации `sparc/mods-tests.conf` запись о новом тесте:
+Необходимо добавить в файл конфигурации `mods-tests.conf` запись о новом тесте:
 
 {{{
 test(<test_name>, <runlevel>)
@@ -87,4 +87,4 @@ test_platform(<test_name>, <runlevel>)
  * `<test_name>` - имя модуля теста, заданное в makefile'е.
  * `<runlevel>` - (необязательно) уровень выполнения системы, на котором следует запускать тест
 
-Любой тест можно запустить вручную командой [wiki:OvkMonitorCommandExpresstestDescription expresstest].
+Любой тест можно запустить вручную командой expresstest.
