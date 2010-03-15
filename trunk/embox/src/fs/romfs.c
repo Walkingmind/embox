@@ -12,45 +12,38 @@
 #include <drivers/flash_template.h>
 #include <drivers/flash_if.h>
 
-#define FLASH_FREE_SPACE_ID             0xFFFFFFFF
-#define MEMTABLE_FILE_ID                0x1
-#define FILETABLE_FILE_ID               0x2
-#define CONF_FILE_ID                    0xF
-
-#define MAGIC_OFFSET                0x200
-
 typedef struct _FILE_DESC {
 	int id;
 	unsigned int size_in_bytes;
 	unsigned int size_on_disk;
-	char name[MAX_LENGTH_FILE_NAME];
+	char name[CONFIG_MAX_LENGTH_FILE_NAME];
 	unsigned int mode;
 	unsigned int is_busy;
-}FILE_DESC;
+} FILE_DESC;
 
 // TODO this variable is never used
 static int file_desc_cnt;
-#define MAX_FILE_QUANTITY 0x10
 
-static FILE_INFO flist[MAX_FLASH_DEVS][MAX_FILE_QUANTITY];  //all files table
+static FILE_INFO flist[MAX_FLASH_DEVS][CONFIG_MAX_FILE_QUANTITY];  //all files table
 static uint32_t mlist[MAX_FLASH_DEVS][FLASH_TOTAL_NUMBLOCKS]; //memory table
 
 typedef struct _BLOCK_INFO {
 	int flash_dev;
 	int block_num;
-}BLOCK_INFO;
+} BLOCK_INFO;
 
-static void *fopen (const char *file_name, char *mode);
+static void *fopen (const char *file_name, const char *mode);
 static int fclose (void * file);
-static size_t fread (const void *buf, size_t size, size_t count, void *file);
+static size_t fread (void *buf, size_t size, size_t count, void *file);
 static size_t fwrite (const void *buf, size_t size, size_t count, void *file);
 static int fseek (void *file, long offset, int whence);
 
-static FILEOP fop = {fopen,
-		fclose,
-		fread,
-		fwrite,
-		fseek
+static FILEOP fop = {
+	fopen,
+	fclose,
+	fread,
+	fwrite,
+	fseek
 };
 
 #define FILE_DESC_QUANTITY 0x4
@@ -71,16 +64,16 @@ static FILE_HANDLER file_handlers [FILE_HANDLERS_QUANTITY]; //files handlers tab
 static int file_list_cnt;
 
 static FILE_INFO * file_list_iterator(FILE_INFO *finfo) {
-	int i;
-	if (MAX_FILE_QUANTITY <= file_list_cnt)
+	size_t i;
+	if (CONFIG_MAX_FILE_QUANTITY <= file_list_cnt)
 		return NULL;
 	while (!strcmp(flist[0][file_list_cnt].file_name, "")) {
-		if (MAX_FILE_QUANTITY <= file_list_cnt)
+		if (CONFIG_MAX_FILE_QUANTITY <= file_list_cnt)
 			return NULL;
 		file_list_cnt++;
 	}
 
-	if (MAX_FILE_QUANTITY <= file_list_cnt)
+	if (CONFIG_MAX_FILE_QUANTITY <= file_list_cnt)
 		return NULL;
 
 	strcpy(finfo->file_name, flist[0][file_list_cnt].file_name);
@@ -105,13 +98,14 @@ static FS_FILE_ITERATOR get_file_list_iterator(void) {
 	file_list_cnt = 0;
 	return file_list_iterator;
 }
+
 /**
  * find free file identificator in the table of all files
  * @return file id if success, -1 otherwise
  */
 static int find_free_file_id(void) {
-	int  j;
-	for (j = 0; j < MAX_FILE_QUANTITY; j++) {
+	size_t  j;
+	for (j = 0; j < CONFIG_MAX_FILE_QUANTITY; j++) {
 		if (0 == strcmp(flist[0][j].file_name, "")) {
 			return j;
 		} else {
@@ -127,8 +121,8 @@ static int find_free_file_id(void) {
  * @return file id if success, -1 otherwise
  */
 static int find_file_idx(const char *file_name) {
-	int  j;
-	for (j = 0; j < MAX_FILE_QUANTITY; j++) {
+	size_t  j;
+	for (j = 0; j < CONFIG_MAX_FILE_QUANTITY; j++) {
 		if (0 == strcmp(flist[0][j].file_name, file_name)) {
 			return j;
 		}
@@ -141,7 +135,7 @@ static int find_file_idx(const char *file_name) {
  * @return file descriptor id if success, -1 otherwise
  */
 static int find_free_desc(void) {
-	int i;
+	size_t i;
 	if (FILE_DESC_QUANTITY <= file_desc_cnt)
 		return -1;
 
@@ -165,7 +159,7 @@ static int find_file_desc(const char * file_name) {
 	int i;
 
 	for (i = 0; i < FILE_DESC_QUANTITY; i ++){
-		if ((0 == strncmp(fdesc[i].name, file_name, array_len(fdesc[i].name))) && (FLASH_FREE_SPACE_ID!= fdesc[i].is_busy)){
+		if ((0 == strncmp(fdesc[i].name, file_name, array_len(fdesc[i].name))) && (CONFIG_FLASH_FREE_SPACE_ID!= fdesc[i].is_busy)){
 			return i;
 		}
 	}
@@ -177,7 +171,7 @@ static int find_file_desc(const char * file_name) {
  * @return quantity of free memory in blocks
  */
 static int free_blocks_quantity(void) {
-	uint32_t i, j;
+	size_t i, j;
 	int quantity = 0, total_numblocks;
 	//uint32_t value;^M
 	printf("in free_blocks_quantity()\n\n");
@@ -186,7 +180,7 @@ static int free_blocks_quantity(void) {
 			total_numblocks = flash_devices_table[i].total_numblocks;
 			printf("total_numblocks = %d\n\n", total_numblocks);
 			for (j = 0; j < total_numblocks; j++) {
-				if (mlist[i][j] == FLASH_FREE_SPACE_ID) {
+				if (mlist[i][j] == CONFIG_FLASH_FREE_SPACE_ID) {
 					printf(".");
 					quantity++;
 				} else {
@@ -205,7 +199,7 @@ static int free_blocks_quantity(void) {
  * @return handler id if success, -1 otherwise
  */
 static int find_free_handler(void) {
-	int i;
+	size_t i;
 	if (FILE_HANDLERS_QUANTITY <= file_desc_cnt) {
 		return -1;
 	}
@@ -236,7 +230,7 @@ static int load_memtable(int slot_number) {
 							&memtable_base_offset);
 	total_numblocks = flash_devices_table[slot_number].total_numblocks;
 
-	read(&flash_devices_table[slot_number], MAGIC_OFFSET /*+ start_address*/ + memtable_base_offset,
+	read(&flash_devices_table[slot_number], CONFIG_MAGIC_OFFSET /*+ start_address*/ + memtable_base_offset,
 				mlist[slot_number], total_numblocks * sizeof (uint32_t), 0);
 
 	return 0;
@@ -247,7 +241,7 @@ static int load_memtable(int slot_number) {
  * @return 0 if success
  */
 static int load_memtables(void) {
-	int i;
+	size_t i;
 	for (i = 0; i < MAX_FLASH_DEVS; i++) {
 		if (-1 != flash_devices_table[i].dev) {
 			load_memtable(i);
@@ -272,7 +266,8 @@ static int load_filetable(int slot_number) {
 	get_block_address (&flash_devices_table[slot_number], filetable_block_num, &filetable_base_offset);
 
 	printf("load filetable %d, block %d, start address 0x%x, offset 0x%x\n\n", slot_number, filetable_block_num, start_address, filetable_base_offset);
-	read_flash(&flash_devices_table[slot_number], MAGIC_OFFSET /*+ start_address */+ filetable_base_offset, flist[slot_number], MAX_FILE_QUANTITY * sizeof(FILE_INFO), 0);
+	read_flash(&flash_devices_table[slot_number], CONFIG_MAGIC_OFFSET /*+ start_address */+ filetable_base_offset, 
+	flist[slot_number], CONFIG_MAX_FILE_QUANTITY * sizeof(FILE_INFO), 0);
 	return 0;
 }
 
@@ -281,7 +276,7 @@ static int load_filetable(int slot_number) {
  * @return 0 if success
  */
 static int load_filetables(void) {
-	int i;
+	size_t i;
 	for (i = 0; i < MAX_FLASH_DEVS; i++) {
 		if (-1 != flash_devices_table[i].dev) {
 			load_filetable(i);
@@ -313,10 +308,10 @@ static void print_memtables(void) {
 #endif
 
 static void print_filetable(int slot_number) {
-	int i;
+	size_t i;
 	printf("filetable\n\n");
 	printf("i\tmode\tname\t\tbytes\tdisk\n\n");
-	for (i = 0; i < MAX_FILE_QUANTITY; i++) {
+	for (i = 0; i < CONFIG_MAX_FILE_QUANTITY; i++) {
 		flist[slot_number][i].file_name[0x10] = '\0';
 		if (strcmp(flist[slot_number][i].file_name, "")) {
 			printf("%3d\t%d\t\"%8s\"\t%d\t%d\n", i,  flist[slot_number][i].mode,
@@ -328,7 +323,7 @@ static void print_filetable(int slot_number) {
 }
 
 static void print_filetables(void) {
-	int i;
+	size_t i;
 	for (i = 0; i < MAX_FLASH_DEVS; i++) {
 		if (-1 != flash_devices_table[i].dev) {
 			print_filetable(i);
@@ -362,7 +357,7 @@ static int rewrite_memtable(int slot_number) {
 	fls = erase_block(&flash_devices_table[slot_number], memtable_block_num, 1);
 	//fls = program_flash_buffered(start_address + memtable_base_offset, mlist[slot_number],
 	//							 total_numblocks * sizeof(uint32_t), 1);
-	cur_addr = /*start_address + */memtable_base_offset + MAGIC_OFFSET;
+	cur_addr = /*start_address + */memtable_base_offset + CONFIG_MAGIC_OFFSET;
 	ptr =  (uint32_t *) mlist[slot_number];
 	for (i = 0; i < total_numblocks * sizeof(uint32_t); i++) {//0X4??
 		fls = program_flash(&flash_devices_table[slot_number], cur_addr, *ptr , 1);
@@ -380,7 +375,7 @@ static int rewrite_memtable(int slot_number) {
  * @return 0 if success
  */
 static int rewrite_memtables(void) {
-	int i;
+	size_t i;
 	for (i = 0; i < MAX_FLASH_DEVS; i++) {
 		if (-1 != flash_devices_table[i].dev) {
 			rewrite_memtable(i);
@@ -418,10 +413,10 @@ static int rewrite_filetable(int slot_number) {
 	fls = erase_block(&flash_devices_table[slot_number], filetable_block_num, 1);
 //	printf("erase status:  0x%x\n\n", fls);
 
-	cur_addr =/* start_address +*/ filetable_base_offset + MAGIC_OFFSET;
+	cur_addr =/* start_address +*/ filetable_base_offset + CONFIG_MAGIC_OFFSET;
 //	printf("in rewrite_filetable, addr = 0x%x\n\n", cur_addr);
 	ptr = (uint32_t *) flist[slot_number];
-	for (i = 0; i < MAX_FILE_QUANTITY * sizeof(FILE_INFO) / 4; i++) {
+	for (i = 0; i < CONFIG_MAX_FILE_QUANTITY * sizeof(FILE_INFO) / 4; i++) {
 		fls = program_flash(&flash_devices_table[slot_number], cur_addr, *ptr , 1);
 //		printf("fls = 0x%x\n\n", fls.SR);
 		cur_addr += sizeof(uint32_t);
@@ -458,7 +453,7 @@ int format_flash(int slot_number){
 	int i, j, memtable_block_num, filetable_block_num, config1_block_num, config2_block_num;
 	uint32_t memtable_base_offset, filetable_base_offset;
 	printf("Formatting flash start ... \n\n");
-	for (j = 0; j < MAX_FILE_QUANTITY; j++) {
+	for (j = 0; j < CONFIG_MAX_FILE_QUANTITY; j++) {
 		strcpy(flist[slot_number][j].file_name, "");
 		flist[slot_number][j].mode = 0;
 		flist[slot_number][j].size_in_bytes = 0;
@@ -508,24 +503,24 @@ int format_flash(int slot_number){
 	free_blocks_quantity();
 	//init memtable
 	printf("... rewriting memtable ...\n\n");
-	mlist[slot_number][memtable_block_num] = MEMTABLE_FILE_ID;
-	mlist[slot_number][filetable_block_num] = FILETABLE_FILE_ID;
-	mlist[slot_number][config1_block_num] = CONF_FILE_ID;
-	mlist[slot_number][config2_block_num] = CONF_FILE_ID;
+	mlist[slot_number][memtable_block_num] = CONFIG_MEMTABLE_FILE_ID;
+	mlist[slot_number][filetable_block_num] = CONFIG_FILETABLE_FILE_ID;
+	mlist[slot_number][config1_block_num] = CONFIG_CONF_FILE_ID;
+	mlist[slot_number][config2_block_num] = CONFIG_CONF_FILE_ID;
 
 	rewrite_memtable(slot_number);
 	free_blocks_quantity();
 	//init_filetable
 	printf("... rewriting filetable ...\n\n");
-	strcpy(flist[slot_number][MEMTABLE_FILE_ID].file_name, "_mtt");
-	flist[slot_number][MEMTABLE_FILE_ID].mode = FILE_MODE_RO;
-	flist[slot_number][MEMTABLE_FILE_ID].size_in_bytes = total_numblocks * sizeof(uint32_t);
-	flist[slot_number][MEMTABLE_FILE_ID].size_on_disk = 1;
+	strcpy(flist[slot_number][CONFIG_MEMTABLE_FILE_ID].file_name, "_mtt");
+	flist[slot_number][CONFIG_MEMTABLE_FILE_ID].mode = FILE_MODE_RO;
+	flist[slot_number][CONFIG_MEMTABLE_FILE_ID].size_in_bytes = total_numblocks * sizeof(uint32_t);
+	flist[slot_number][CONFIG_MEMTABLE_FILE_ID].size_on_disk = 1;
 
-	strcpy(flist[slot_number][FILETABLE_FILE_ID].file_name, "_ftt");
-	flist[slot_number][FILETABLE_FILE_ID].mode = FILE_MODE_RO;
-	flist[slot_number][FILETABLE_FILE_ID].size_in_bytes = MAX_FILE_QUANTITY * sizeof(FILE_INFO);
-	flist[slot_number][FILETABLE_FILE_ID].size_on_disk = 1;
+	strcpy(flist[slot_number][CONFIG_FILETABLE_FILE_ID].file_name, "_ftt");
+	flist[slot_number][CONFIG_FILETABLE_FILE_ID].mode = FILE_MODE_RO;
+	flist[slot_number][CONFIG_FILETABLE_FILE_ID].size_in_bytes = CONFIG_MAX_FILE_QUANTITY * sizeof(FILE_INFO);
+	flist[slot_number][CONFIG_FILETABLE_FILE_ID].size_on_disk = 1;
 
 	rewrite_filetable(slot_number);
 
@@ -553,12 +548,12 @@ static int delete_file(const char *file_name);
  * @return 0 if success
  */
 static int init(void) {
-	int i, j, slot_number;
+	size_t i, j, slot_number;
 	TRACE("In romfs init() \n\n");
 	file_desc_cnt = 0;
 
 	for (i = 0; i < MAX_FLASH_DEVS; i++) {
-		for (j = 0; j < MAX_FILE_QUANTITY; j++){
+		for (j = 0; j < CONFIG_MAX_FILE_QUANTITY; j++){
 			strcpy(flist[i][j].file_name, "");
 			flist[i][j].mode = 0;
 			flist[i][j].size_in_bytes = 0;
@@ -650,7 +645,7 @@ static int get_free_block(BLOCK_INFO *block_info) {
 		if (-1 != flash_devices_table[i].dev) {
 			total_numblocks = flash_devices_table[i].total_numblocks;
 			for (j = 0; j < total_numblocks; j++) {
-				if ( mlist[i][j] == FLASH_FREE_SPACE_ID) {
+				if ( mlist[i][j] == CONFIG_FLASH_FREE_SPACE_ID) {
 					block_info->flash_dev = i;
 					block_info->block_num = j;
 					return 0;
@@ -747,7 +742,7 @@ static int resize_file(void *params){
 
 static int get_file_id_by_name(const char *file_name) {
 	int  j;
-	for (j = 0; j < MAX_FILE_QUANTITY; j++) {
+	for (j = 0; j < CONFIG_MAX_FILE_QUANTITY; j++) {
 		if (0 == strncmp(file_name, flist[0][j].file_name, sizeof(file_name))) {
 			return j;
 		}
@@ -773,7 +768,7 @@ static int delete_file(const char *file_name){
 			total_numblocks = flash_devices_table[i].total_numblocks;
 			for (j = 0; j < total_numblocks; j++) {
 				if (file_id == mlist[i][j]) {
-					mlist[i][j] = FLASH_FREE_SPACE_ID;
+					mlist[i][j] = CONFIG_FLASH_FREE_SPACE_ID;
 					printf("bingo %d, %d, %d\n\n", file_id, mlist[i][j], j);
 				}
 			}
@@ -853,7 +848,7 @@ static int block_info_array_filling(int nblocks, BLOCK_INFO *array, FILE_HANDLER
 	return 0;
 }
 
-static size_t fread (const void *buf, size_t size, size_t count, void *file){
+static size_t fread (void *buf, size_t size, size_t count, void *file){
 	FILE_HANDLER *fh = (FILE_HANDLER *)file;
 	int i, maxnblocks = 0, nblocks = 0, cur_address, cur_nblock, cur_offset,
 		cur_to_read, left_to_read, flash_dev;
