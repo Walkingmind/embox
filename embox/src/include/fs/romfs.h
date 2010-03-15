@@ -4,21 +4,20 @@
  * @date 29.06.2009
  * @author Anton Bondarev
  */
-#ifndef ROMFS_H_
-#define ROMFS_H_
+#ifndef FS_ROMFS_H_
+#define FS_ROMFS_H_
 
 #include <fs/rootfs.h>
 
-#define MAX_LENGTH_FILE_NAME 0x10
 //#define FLASH_SYS_FDESC_SIZE 0x20
 #define FLASH_WRITE_ENABLE      *((volatile uint32_t*)0x80000000) |= (1<<11)
 #define FLASH_WRITE_DISABLE     *((volatile uint32_t*)0x80000000) &= ~(1<<11)
 
 typedef struct _ROMFS_CREATE_PARAM {
 	unsigned int size;
-	char name[MAX_LENGTH_FILE_NAME];
+	char name[CONFIG_MAX_LENGTH_FILE_NAME];
 	unsigned int mode;
-}ROMFS_CREATE_PARAM;
+} ROMFS_CREATE_PARAM;
 
 extern FSOP_DESCRIPTION romfsop;
 
@@ -46,4 +45,4 @@ extern FSOP_DESCRIPTION romfsop;
 }FILE_DESC;
 */
 
-#endif /* ROMFS_H_ */
+#endif /* FS_ROMFS_H_ */
