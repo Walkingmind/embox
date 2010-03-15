@@ -8,14 +8,15 @@
 #define ROMFS_H_
 
 #include <fs/rootfs.h>
-#define MAX_LENCTH_FILE_NAME 0x10
-//#define FLASH_SYS_FDESC_SIZE 0x20
 
+#define MAX_LENGTH_FILE_NAME 0x10
+//#define FLASH_SYS_FDESC_SIZE 0x20
 #define FLASH_WRITE_ENABLE      *((volatile uint32_t*)0x80000000) |= (1<<11)
 #define FLASH_WRITE_DISABLE     *((volatile uint32_t*)0x80000000) &= ~(1<<11)
+
 typedef struct _ROMFS_CREATE_PARAM {
 	unsigned int size;
-	char name[MAX_LENCTH_FILE_NAME];
+	char name[MAX_LENGTH_FILE_NAME];
 	unsigned int mode;
 }ROMFS_CREATE_PARAM;
 
