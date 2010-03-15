@@ -23,7 +23,7 @@ typedef struct _FILE_DESC {
 	int id;
 	unsigned int size_in_bytes;
 	unsigned int size_on_disk;
-	char name[MAX_LENCTH_FILE_NAME];
+	char name[MAX_LENGTH_FILE_NAME];
 	unsigned int mode;
 	unsigned int is_busy;
 }FILE_DESC;
