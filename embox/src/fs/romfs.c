@@ -32,18 +32,18 @@ typedef struct _BLOCK_INFO {
 	int block_num;
 } BLOCK_INFO;
 
-static void *fopen (const char *file_name, const char *mode);
-static int fclose (void * file);
-static size_t fread (void *buf, size_t size, size_t count, void *file);
-static size_t fwrite (const void *buf, size_t size, size_t count, void *file);
-static int fseek (void *file, long offset, int whence);
+static void *romfs_fopen(const char *file_name, const char *mode);
+static int romfs_fclose(void * file);
+static size_t romfs_fread(void *buf, size_t size, size_t count, void *file);
+static size_t romfs_fwrite(const void *buf, size_t size, size_t count, void *file);
+static int romfs_fseek(void *file, long offset, int whence);
 
 static FILEOP fop = {
-	fopen,
-	fclose,
-	fread,
-	fwrite,
-	fseek
+	romfs_fopen,
+	romfs_fclose,
+	romfs_fread,
+	romfs_fwrite,
+	romfs_fseek
 };
 
 #define FILE_DESC_QUANTITY 0x4
@@ -549,7 +549,7 @@ static int delete_file(const char *file_name);
  */
 static int init(void) {
 	size_t i, j, slot_number;
-	TRACE("In romfs init() \n\n");
+	TRACE("Init ROMFS\n");
 	file_desc_cnt = 0;
 
 	for (i = 0; i < MAX_FLASH_DEVS; i++) {
@@ -561,7 +561,7 @@ static int init(void) {
 		}
 	}
 
-	print_filetables();
+	//print_filetables();
 	flash_if_init();
 
 	slot_number = flash_if_device_init(0x00000000, 1);
@@ -813,12 +813,12 @@ FSOP_DESCRIPTION romfsop = {init,
 	get_file_list_iterator
 };
 
-static void *fopen (const char *file_name, char *mode){
+static void *romfs_fopen(const char *file_name, const char *mode) {
 	TRACE("romfs file %s was opened\n", file_name);
 	return NULL;
 }
 
-static int fclose (void * file){
+static int romfs_fclose(void * file) {
 	FILE_HANDLER *fh = (FILE_HANDLER *)file;
 	fh->fileop = NULL;
 	fh->fdesc->is_busy = 0;
@@ -848,7 +848,7 @@ static int block_info_array_filling(int nblocks, BLOCK_INFO *array, FILE_HANDLER
 	return 0;
 }
 
-static size_t fread (void *buf, size_t size, size_t count, void *file){
+static size_t romfs_fread(void *buf, size_t size, size_t count, void *file) {
 	FILE_HANDLER *fh = (FILE_HANDLER *)file;
 	int i, maxnblocks = 0, nblocks = 0, cur_address, cur_nblock, cur_offset,
 		cur_to_read, left_to_read, flash_dev;
@@ -906,7 +906,7 @@ static size_t fread (void *buf, size_t size, size_t count, void *file){
 
 }
 
-static size_t fwrite (const void *buf, size_t size, size_t count, void *file){  //to fix like fread
+static size_t romfs_fwrite(const void *buf, size_t size, size_t count, void *file) {
 	FILE_HANDLER *fh = (FILE_HANDLER *)file;
 	FLASH_STATUS fls;
 	FLASH_UNLOCK_BLOCK unlock_block;
@@ -1014,7 +1014,7 @@ static size_t fwrite (const void *buf, size_t size, size_t count, void *file){  
 	return (uint32_t) cur_ptr - (uint32_t) buf;
 }
 
-static int fseek (void *file, long offset, int whence){
+static int romfs_fseek(void *file, long offset, int whence){
 	//FILE_HANDLER *fh = (FILE_HANDLER *)file;
 	return 0;
 }
