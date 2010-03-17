@@ -1,3 +1,3 @@
 { "ramfs", &ramfsop},
-{ "romfs", &romfsop}
+//{ "romfs", &romfsop}
 
