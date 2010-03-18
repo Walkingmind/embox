@@ -3,4 +3,4 @@
 "SYNOPSIS\n"
 "\ttcpdump [-i] [-c] [-h]\n"
 "AUTHORS\n"
-"\tSunnyA\n"
+"\tAlexandr Batyukov\n"
