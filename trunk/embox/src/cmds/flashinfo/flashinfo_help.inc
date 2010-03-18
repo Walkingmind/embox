@@ -15,4 +15,4 @@
 "\t-r 0xADDR [NWORDS] -  read from flash\n"
 "\t-w 0xADDR [NWORDS] -  write to flash\n"
 "AUTHORS\n"
-"\tSunnyA, zoomer"
+"\tAlexandr Batyukov, Roman Evstifeev"
