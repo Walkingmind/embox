@@ -1,4 +1,4 @@
-# $Id: codegen-dot.mk 9 2010-03-12 19:00:31Z Eldar.Abusalimov $
+# $Id: codegen-dot.mk 4948 2010-03-16 19:39:38Z eabusalimov $
 #
 # Dot tool binding.
 # NOTE: This code is not assumed to be good. Just to see how does it work.
@@ -14,15 +14,23 @@ include $(MK_DIR)/embuild.mk
 GRAPH_DOT = $(CODEGEN_DIR)/mod_dag.dot
 GRAPH_PS  = $(DOT_DIR)/$(TARGET).ps
 
-dot_mod = $(call dot_escape,$(mod))
-dot_dep = $(call dot_escape,$(dep))
-
-dot_escape = $(subst .,_,$(1))
+mod_package = $(basename $(mod))
+mod_name = $(patsubst .%,%,$(suffix $(mod)))
 
 generate_dot = $(strip \ndigraph EMBOX { \
-  $(foreach mod,$(MODS_BUILD), \
+  ratio=compress; size="50,50"; concentrate=true; ranksep="1.0 equal";\
+  $(foreach package,$(sort $(basename $(MODS_BUILD))), \
+    \nsubgraph "cluster.$(package)" { \
+      \nnode [style=filled,fillcolor=white]; \
+      \ngraph [label = "$(package)",style=rounded,style=filled,color=lightgray]; \
+      $(foreach mod,$(MODS_BUILD),$(if $(filter $(package),$(mod_package)),\
+        \n"$(mod)" [label = "$(mod_name)"];\
+      )) \
+    \n} \
+  ) \
+  $(foreach mod,$(MODS_BUILD),\
     $(foreach dep,$(DEPS-$(mod)), \
-      \n$(dot_mod) -> $(dot_dep); \
+      \n"$(mod)" -> "$(dep)"; \
     ) \
   ) \
 \n})\n
