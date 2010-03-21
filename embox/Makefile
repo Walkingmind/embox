@@ -1,4 +1,4 @@
-# $Id: Makefile 10 2010-03-12 19:02:36Z Eldar.Abusalimov $
+# $Id$
 #
 # EMBOX root Makefile
 #

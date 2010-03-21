@@ -1,4 +1,4 @@
-/* $Id: embox.lds.S 13 2010-03-12 23:28:49Z Eldar.Abusalimov $ */
+/* $Id$ */
 
 #include <asm-generic/embox.lds.h>
 

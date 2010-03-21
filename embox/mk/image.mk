@@ -1,4 +1,4 @@
-# $Id: image.mk 14 2010-03-12 23:47:21Z Eldar.Abusalimov $
+# $Id$
 #
 # Author: Eldar Abusalimov
 #

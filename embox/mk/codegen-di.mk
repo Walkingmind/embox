@@ -1,4 +1,4 @@
-# $Id: codegen-di.mk 16 2010-03-13 01:02:44Z Eldar.Abusalimov $
+# $Id$
 #
 # Dependency Injection model generator. 
 #

@@ -1,4 +1,4 @@
-# $Id: main.mk 9 2010-03-12 19:00:31Z Eldar.Abusalimov $
+# $Id$
 #
 # EMBOX main Makefile
 #
@@ -25,7 +25,7 @@ TEMPLATES_DIR  := $(ROOT_DIR)/templates
 THIRDPARTY_DIR := $(ROOT_DIR)/third-party
 PLATFORM_DIR   := $(ROOT_DIR)/platform
 SRC_DIR        := $(ROOT_DIR)/src
-                  
+
 ifndef PROJECT_NAME
 #	the only case it's not defined - when target is config
 #	In that case CONF_DIR must refer to ./conf
@@ -35,7 +35,7 @@ CONF_DIR       := $(ROOT_DIR)/conf/$(PROJECT_NAME)
 endif
 
 BACKUP_DIR     := $(ROOT_DIR)/conf/backup~
-                  
+
 BUILD_DIR      := $(ROOT_DIR)/build/$(PROJECT_NAME)
 BIN_DIR        := $(BUILD_DIR)/bin
 OBJ_DIR        := $(BUILD_DIR)/obj
@@ -47,17 +47,6 @@ AUTOCONF_DIR   := $(CODEGEN_DIR)
 
 CUR_TEMPLATE_FILES := $(wildcard $(TEMPLATES_DIR)/$(TEMPLATE)/*)
 
-__get_subdirs = \
-	  $(sort \
-	    $(notdir \
-	      $(patsubst %/,%, \
-	        $(filter %/, \
-	          $(wildcard $(1:%=%/)) \
-	        ) \
-	      ) \
-	    ) \
-	  )
-
 RM     := rm -f
 CP     := cp
 EDIT   := emacs
@@ -65,9 +54,9 @@ PRINTF := printf
 
 TEMPLATES = $(notdir $(wildcard $(TEMPLATES_DIR)/*))
 
-makegoals:=$(MAKECMDGOALS)
+makegoals := $(MAKECMDGOALS)
 ifeq ($(makegoals),)
-makegoals:=all
+makegoals := all
 endif
 ifeq ($(filter %clean %config,$(makegoals)),)
 # Need to include it prior to walking the source tree
@@ -79,13 +68,15 @@ include $(MK_DIR)/codegen-dot.mk
 endif
 endif
 
+__get_subdirs = $(sort $(notdir $(call d-wildcard,$(1/*))))
+
 .PHONY: all
 all:
-	$(foreach target_name, $(call __get_subdirs, $(CONF_DIR)/*), \
+	$(foreach target_name, $(call __get_subdirs, $(CONF_DIR)), \
 	$(MAKE) -C $(ROOT_DIR)/ PROJECT_NAME=$(target_name) build_target;     \
 	)
 
-old_phony: build_target prepare docs dot clean config xconfig menuconfig
+.PHONY: build_target prepare docs dot clean config xconfig menuconfig
 
 #	ex- all
 build_target: check_config prepare image
@@ -144,7 +135,7 @@ endif
 		mv -fv -t $(BACKUP_DIR) \
 			$(filter-out $(BACKUP_DIR),$(wildcard $(CONF_DIR)/*)); \
 	fi;	
-	$(foreach dir, $(call __get_subdirs, $(TEMPLATES_DIR)/$(TEMPLATE)/*), \
+	$(foreach dir, $(call __get_subdirs, $(TEMPLATES_DIR)/$(TEMPLATE)), \
 	  mkdir -p $(CONF_DIR)/$(dir); \
 	  cp -fv -t $(CONF_DIR)/$(dir) \
 	     $(wildcard $(TEMPLATES_DIR)/$(TEMPLATE)/*); \
