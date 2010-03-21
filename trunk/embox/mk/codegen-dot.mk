@@ -1,4 +1,4 @@
-# $Id: codegen-dot.mk 4948 2010-03-16 19:39:38Z eabusalimov $
+# $Id$
 #
 # Dot tool binding.
 # NOTE: This code is not assumed to be good. Just to see how does it work.

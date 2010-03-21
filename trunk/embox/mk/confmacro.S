@@ -1,4 +1,4 @@
-/* $Id: confmacro.S 9 2010-03-12 19:00:31Z Eldar.Abusalimov $
+/* $Id$
  *
  * EMBOX C PreProcessor-based Configuration file
  *
