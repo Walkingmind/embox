@@ -72,17 +72,16 @@ endif
 
 __get_subdirs = $(sort $(notdir $(call d-wildcard,$(1:%=%/*))))
 
-.PHONY: all
+.PHONY: all build_target prepare docs dot clean config xconfig menuconfig
 all:
 	$(foreach target_name, $(call __get_subdirs, $(CONF_DIR)), \
 	$(MAKE) -C $(ROOT_DIR)/ PROJECT_NAME=$(target_name) build_target;     \
 	)
-
-.PHONY: build_target prepare docs dot clean config xconfig menuconfig
+	@echo 'Build complete'
 
 #	ex- all
 build_target: check_config prepare image
-	@echo 'Build complete'
+	@echo '$(PROJECT_NAME) was build successfully'
 
 prepare:
 	@mkdir -p $(BUILD_DIR)
@@ -150,11 +149,8 @@ endif
 	  mkdir -p $(CONF_DIR)/$(dir); \
 	  cp -fv -t $(CONF_DIR)/$(dir) \
 	     $(wildcard $(PROJECTS_DIR)/$(PROJECT)/$(TEMPLATE)/*); \
-	if [-d $(PROJECTS_DIR)/$(PROJECT)/$(TEMPLATE)/$(dir)/*]; \
-	then \
 	  cp -fv -t $(CONF_DIR)/$(dir) \
 	     $(wildcard $(PROJECTS_DIR)/$(PROJECT)/$(TEMPLATE)/$(dir)/*); \
-	fi; \
 	)
 	@echo 'Config complete'
 
