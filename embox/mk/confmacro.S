@@ -13,7 +13,7 @@
 
 /* Note: $(or __VA_ARGS__) used to extract first arg only (if any). */
 #define option(option, ...) \
-	CONFIG_##option := $(or __VA_ARGS__, 1)
+	CONFIG_##option := $(or __VA_ARGS__,1)
 
 #include "options.conf"
 
@@ -27,9 +27,9 @@
 	RUNLEVEL-##mod := __FIRST_ARG(__VA_ARGS__)
 
 #define test(mod_name, ...) \
-	mod(embox.test.##mod_name, __VA_ARGS__)
+	mod(embox.test.##mod_name, $(or __VA_ARGS__, 1))
 #define test_platform(mod_name, ...) \
-	mod($(if $(PLATFORM),$(PLATFORM).test.##mod_name), __VA_ARGS__)
+	mod($(if $(PLATFORM),$(PLATFORM).test.##mod_name), $(or __VA_ARGS__,1))
 
 #define cmd(mod_name) \
 	mod(embox.cmd.##mod_name)
