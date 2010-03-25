@@ -5,7 +5,6 @@
  * @date 21.08.2009
  * @author Roman Ebstifeev
  */
-#include <common.h>
 #include <fs/mbfs.h>
 #include <drivers/flash_drv_wrap.h>
 

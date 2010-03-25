@@ -5,7 +5,6 @@
  * @author Roman Evstifeev
  */
 #include <fs/mbfs.h>
-#include <common.h>
 #include <drivers/flash_drv_wrap.h>
 #include <fs/fsop.h>
 

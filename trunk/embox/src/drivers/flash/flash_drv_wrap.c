@@ -6,7 +6,7 @@
  */
 #include <flash_template.h>
 //#include <flash_intel_p30.h>
-#include <common.h>
+#include <embox/kernel.h>
 
 FLASH_STATUS s_stat;
 uint8_t blockdata[FLASH_MAIN_BLOCK_NUMBYTES*2]; // MEGABUFFER of 256 KB "HELLO, MALLOC"
