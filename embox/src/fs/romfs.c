@@ -6,7 +6,6 @@
  * @author Alexander Batyukov
  */
 #include <string.h>
-#include <common.h>
 #include <fs/rootfs.h>
 #include <fs/romfs.h>
 #include <drivers/flash_template.h>

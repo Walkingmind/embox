@@ -8,7 +8,7 @@
 #define FLASH_IF_H_
 
 #include <types.h>
-#include <common.h>
+#include <embox/kernel.h>
 
 /* status return values */
 enum FLASH_COMMAND_STAT {

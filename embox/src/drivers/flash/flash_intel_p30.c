@@ -50,7 +50,7 @@
 #include <drivers/flash_template.h>
 
 #include <string.h>
-#include <common.h>
+#include <embox/kernel.h>
 #include <drivers/flash_if.h>
 
 /**

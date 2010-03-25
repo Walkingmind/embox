@@ -6,7 +6,7 @@
  */
 #include <drivers/flash_if.h>
 #include <drivers/flash_template.h>
-#include <common.h>
+#include <embox/kernel.h>
 #include <string.h>
 #if 0
 static FLASH_DEV flash_dev;
