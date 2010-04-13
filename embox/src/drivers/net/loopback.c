@@ -15,7 +15,6 @@
 #include <net/if_arp.h>
 #include <net/etherdevice.h>
 #include <net/net_pack_manager.h>
-#include <drivers/data_manager.h>
 #include <kernel/irq.h>
 #include <embox/unit.h>
 
