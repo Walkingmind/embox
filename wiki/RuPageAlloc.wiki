@@ -13,12 +13,12 @@
 
 = Интерфейс =
 В режиме компиляции под embox доступно:
-  * void\* page_alloc() 
-  * void page_free(void\*)
+  * void`*` page_alloc() 
+  * void page_free(void`*` )
 
 В режиме компиляции для тестирования под хост машиной:
-  * void\* page_alloc()
-  * void page_free(void\*)
+  * void`*` page_alloc()
+  * void page_free(void`*` )
   * PAGE_SIZE
   * PAGE_QUANTITY
   * get_cmark_p() возвращает указатель на кольцевую структуру описывающую свободную память.
