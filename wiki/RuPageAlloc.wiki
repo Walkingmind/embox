@@ -13,12 +13,12 @@
 
 = Интерфейс =
 В режиме компиляции под embox доступно:
-  * void* page_alloc() 
-  * page_free()
+  * void\* page_alloc() 
+  * void page_free(void\*)
 
 В режиме компиляции для тестирования под хост машиной:
-  * void* page_alloc()
-  * page_free()
+  * void\* page_alloc()
+  * void page_free(void\*)
   * PAGE_SIZE
   * PAGE_QUANTITY
   * get_cmark_p() возвращает указатель на кольцевую структуру описывающую свободную память.
@@ -35,3 +35,6 @@ config.h
   * STACK_POP_FROM_HEAD меняет порядок удаления при тестировании. (имеет смысл держать отключеной)
   * TEST_COUNT кол-во тестов.
   * MAX_PAGE_FOR_ALLOC максимальное кол-во страниц которое мы хотим, что бы могло запрашиваться каждым тестом.
+
+= USE = 
+Для нормальной работы, необходимо выставить правильные значения PAGE_SIZE, PAGE_QUANTITY, START_MEMORY_ADDR (начало пула) в page_alloc.c
