@@ -62,6 +62,7 @@ void mmu_on(void) {
 
 void mmu_off(void) {
 	unsigned long val;
+	mmu_flush_cache_all();
 	val = mmu_get_mmureg(LEON_CNR_CTRL);
 	val &= ~0x1;
 	mmu_set_mmureg(LEON_CNR_CTRL, val);
@@ -92,7 +93,7 @@ static pmark_t *clear_page_alloc(void) {
 uint8_t *cur_page = NULL;
 size_t cur_rest = 0;
 
-pmd_t *table_alloc(size_t size) {
+unsigned long *table_alloc(size_t size) {
 	uint8_t *t;
 	if (cur_rest < size) { 
 		cur_page = (uint8_t *) clear_page_alloc();
@@ -256,6 +257,25 @@ void mmu_set_env(mmu_env_t *env) {
 	env->status ? mmu_on() : mmu_off();
 }
 
+int last_ctx = 1;
+
+mmu_ctx_t mmu_create_context(void) {
+	if (last_ctx >= LEON_CNR_CTX_NCTX)
+		return -1;
+	mmu_ctxd_set(cur_env->ctx + last_ctx, table_alloc(MMU_PGD_TABLE_SIZE));
+	cur_env->cur_ctx = last_ctx;
+#ifdef DEBUG
+	printf("creating %d context\n",last_ctx);
+#endif
+	return last_ctx++;
+}
+
+void switch_mm(mmu_ctx_t prev, mmu_ctx_t next) {
+	cur_env->cur_ctx = next;
+	mmu_set_context(next);
+	mmu_flush_tlb_all();
+}
+	
 /**
  * Module initializing function.
  * Setups system environment, but neither switch on virtual mode.
