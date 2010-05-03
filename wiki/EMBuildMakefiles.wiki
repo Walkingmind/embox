@@ -1,0 +1,7 @@
+#summary Writing Makefiles that use EMBuild infrastructure.
+
+= Introduction =
+
+This document describes how to write Makefiles processed by EMBuild - EMBOX Build System. It is intended to be read by normal kernel developers who work with regular C/ASM code. Script writers who need to work directly with EMBuild model should follow another document - [EMBuildAPI].
+
+= Overview =
