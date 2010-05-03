@@ -2,6 +2,8 @@
 
 = Introduction =
 
-This document describes how to write Makefiles processed by EMBuild - EMBOX Build System. It is intended to be read by normal kernel developers who work with regular C/ASM code. Script writers who need to work directly with EMBuild model should follow another document - [EMBuildAPI].
+This document describes how to write Makefiles processed by *EMBuild* - EMBOX Build System. It is intended to be read by normal developers who work with regular C/ASM code implementing various kernel modules. Script writers who need to work directly with EMBuild model should follow another document - [EMBuildAPI].
 
 = Overview =
+
+Typical build process consists of several stages including generating and reading configuration files, traversing source tree reading Makefile of each subdirectory and finally constructing the model which completely describes the world around and defining make-rules to build the target.
