@@ -801,7 +801,8 @@ static int get_descriptors_info(void *params){
 	return 0;
 }
 
-FSOP_DESCRIPTION romfsop = {init,
+FSOP_DESCRIPTION romfsop = {
+	init,
 	open_file,
 	create_file,
 	resize_file,
