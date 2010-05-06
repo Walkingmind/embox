@@ -18,4 +18,4 @@ This chapter describes the syntax and special notation used in EMBuild Makefiles
 
 Typical EMBuild Makefile is composed of various definitions, such as libraries and modules declaration, source assignments, compilation flags, and list of subdirectories to be entered recursively. Each definition is regular `make` variable.
 
-It's important to note that every variable *TODO* the name of which starts with leading *$_* (dollar-underscore) sequence so-called *guard symbol*.
+It's important to note that every local variable used in EMBuild Makefiles should be named with leading *$`_`* (dollar-underscore) sequence so-called *guard symbol*. It is used to prevent namespace collisions between Makefiles and isolate them from each other.
