@@ -18,4 +18,35 @@ This chapter describes the syntax and special notation used in EMBuild Makefiles
 
 Typical EMBuild Makefile is composed of various definitions, such as libraries and modules declaration, source assignments, compilation flags, and list of subdirectories to be entered recursively. Each definition is regular `make` variable.
 
-It's important to note that every local variable used in EMBuild Makefiles should be named with leading *$`_`* (dollar-underscore) sequence so-called *guard symbol*. It is used to prevent namespace collisions between Makefiles and isolate them from each other.
+It's important to note that every local variable used in EMBuild Makefiles should be named with leading *$`_`* (dollar-underscore) sequence so-called *guard symbol*. It is used to prevent namespace collisions between Makefiles and isolates them from each other.
+
+Further will be discussed each special definition individually.
+
+== `$_MODS` ==
+Used to declare a new mod to be processed by EMBuild.
+{{{
+$_MODS += foo bar baz
+$_MODS += embox.test.foo
+}}}
+
+== `$_LIBS` ==
+{{{
+$_LIBS += libfoo.a
+}}}
+
+== `$_SRCS-`_`{<mod>|<lib>}`_ ==
+{{{
+$_SRCS-bar      += bar.c
+$_SRCS-libfoo.a += foo*.c
+}}}
+
+== `$_DEPS-`_`<mod>`_ ==
+== `$_USES-`_`<lib>`_ ==
+== `$_SUBS-`_`<lib>`_ ==
+
+== `$_PACKAGE` ==
+
+== `$_CFLAGS-`_`{<src>|<mod>|<lib>|<package>}`_ ==
+== `$_CPPFLAGS-`_`{<src>|<mod>|<lib>|<package>}`_ ==
+
+== `$_SUBDIRS` ==
