@@ -14,6 +14,8 @@ We'll focus on per-directory Makefiles so-called *EMBuild Makefiles*.
 
 = The EMBuild Makefiles =
 EMBuild Makefile is one placed in each subdirectory of the source tree and named `Makefile.em` or `Makefile`. If both files exist, then `Makefile.em` is preferred.
-This chapter describes the syntax and special definitions used in EMBuild Makefiles.
+This chapter describes the syntax and special notation used in EMBuild Makefiles.
 
-Typical EMBuild Makefile is composed of various definitions, such as libraries and modules declaration, source assignments, compilation flags, and list of subdirectories to be entered recursively.
+Typical EMBuild Makefile is composed of various definitions, such as libraries and modules declaration, source assignments, compilation flags, and list of subdirectories to be entered recursively. Each definition is regular `make` variable.
+
+It's important to note that every variable *TODO* the name of which starts with leading *$_* (dollar-underscore) sequence so-called *guard symbol*.
