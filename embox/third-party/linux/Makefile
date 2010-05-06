@@ -14,13 +14,19 @@ ROMFSDIR=$(BIN_DIR)/romfs
 ROMFSIMGOBJ=$(BIN_DIR)/rdimage.o
 SRC_DIR=arch/$(ARCH)
 
+ifeq ($(KERNEL),linux-2.6.33.3)
+AUTOCONF=$(KERNEL)/include/generated/autoconf.h
+else
+AUTOCONF=$(KERNEL)/include/linux/autoconf.h
+endif
+
 .PHONY: prepare romfs kernel image clean
 
-all: prepare romfs kernel piggy download
+all: prepare romfs kernel piggy
 
 prepare:
-	wget -c $(FTP_LINK)
-	tar -xvjf $(KERNEL).tar.bz2
+	[ -e $(KERNEL).tar.bz2 ] || wget -c $(FTP_LINK)
+	[ -d $(KERNEL) ] || tar -xvjf $(KERNEL).tar.bz2
 	@for p in $(PATCHES); do \
 		zcat $(SRC_DIR)/$$p | patch -p0; \
 	done
@@ -51,16 +57,16 @@ romfs:
 
 kernel:
 	$(MAKE) -C $(KERNEL) ARCH=$(ARCH) CROSS_COMPILE=$(CROSS_COMPILE) menuconfig
-	$(MAKE) -C $(KERNEL) ARCH=$(ARCH) CROSS_COMPILE=$(CROSS_COMPILE) prepare
 	$(MAKE) -C $(KERNEL) ARCH=$(ARCH) CROSS_COMPILE=$(CROSS_COMPILE) KBUILD_VERBOSE=1
 
 image: 
 	cp $(KERNEL)/arch/$(ARCH)/boot/image $(IMAGE)
 	$(CROSS_COMPILE)gcc -dM -C -E -P $(SRC_DIR)/dsu.lds.S | cut -d' ' -f -2 | sed 's/#define/#undef/g' > $(BIN_DIR)/remove_predefs.h
-	$(CROSS_COMPILE)gcc -I$(BIN_DIR) -include $(KERNEL)/include/linux/autoconf.h -E -C -P -DCONFIG_KERNEL_ROOTMEM_ROMFS="0" \
+	$(CROSS_COMPILE)gcc -I$(BIN_DIR) -include $(AUTOCONF) -include $(BIN_DIR)/remove_predefs.h \
+	    -E -C -P -DCONFIG_KERNEL_ROOTMEM_ROMFS="0" \
 	    -DRDIMAGE="$(ROMFSIMGOBJ)" -DLINUXIMAGE="$(IMAGE)" $(SRC_DIR)/dsu.lds.S -o $(BIN_DIR)/dsu.lds.o
-	$(CROSS_COMPILE)gcc -I$(KERNEL)/include -I$(KERNEL)/arch/$(ARCH)/include -I. -D__KERNEL__ -Wall -mno-fpu \
-	    -DCONFIG_KERNEL_ROOTMEM_INITRAMFS=1 -DCONFIG_KERNEL_ROOTMEM_ROMFS="0" -DCONFIG_KERNEL_INIT_PATH=\""/sbin/init"\" \
+	$(CROSS_COMPILE)gcc -I$(KERNEL)/include -I$(KERNEL)/arch/$(ARCH)/include -I. -include $(AUTOCONF) -D__KERNEL__ -Wall -mno-fpu \
+	    -DCONFIG_KERNEL_ROOTMEM_INITRAMFS=1 -DCONFIG_KERNEL_ROOTMEM_ROMFS="0" \
 	    -nostdinc -iwithprefix include -O2 -c -o $(BIN_DIR)/prom_stage2.o $(SRC_DIR)/prom_stage2.c
 	$(CROSS_COMPILE)gcc -Wall -mno-fpu -nostdinc -iwithprefix include -O2 -c -o $(BIN_DIR)/pgt.o $(SRC_DIR)/pgt.S
 	$(CROSS_COMPILE)ld -X -T $(BIN_DIR)/dsu.lds.o $(IMAGE) $(ROMFSIMGOBJ) $(BIN_DIR)/prom_stage2.o $(BIN_DIR)/pgt.o -o $(IMAGE).dsu
