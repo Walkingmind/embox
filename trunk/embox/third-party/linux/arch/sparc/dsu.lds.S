@@ -1,5 +1,3 @@
-#include "remove_predefs.h"
-
 OUTPUT_FORMAT("elf32-sparc", "elf32-sparc", "elf32-sparc")
 OUTPUT_ARCH(sparc)
 ENTRY(_start)

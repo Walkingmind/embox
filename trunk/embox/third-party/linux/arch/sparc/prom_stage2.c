@@ -10,19 +10,18 @@
  * Copyright (C) 2004 Stefan Holst <mail@s-holst.de>
  */
 
-#define KERNEL_VERSION 21
-
-#if KERNEL_VERSION < 33
-#include "linux/autoconf.h"
-#include "asm/sun4prom.h"
-#else
-#include "generated/autoconf.h"
-#endif
+#define LINUX_33
 
 #include "linux/kernel.h"
 #include "asm/asi.h"
 #include "asm/pgtsrmmu.h"
 #include "asm/leon.h"
+
+#ifdef LINUX_33
+#include "asm/leon_amba.h"
+#define CONFIG_LEON_3
+#endif
+
 #include "asm/page.h"
 #include "asm/head.h"
 #include "linux/kdev_t.h"
@@ -235,11 +234,7 @@ static struct leon_prom_info spi = {
 
         { /* idprom */
                 0x01, /* format */
-#if KERNEL_VERSION < 33
-                M_LEON2 | M_LEON2_SOC, /* machine type */
-#else
-		M_LEON | M_LEON3_SOC, /* machine type */
-#endif
+		M_LEON | M_LEON3_SOC /* maybe 0x01? */, /* machine type */
                 {0,0,0,0,0,0}, /* eth */
                 0, /* date */
                 0, /* sernum */
@@ -355,8 +350,7 @@ static struct leon_prom_info spi = {
 #else
         " init="
 #endif
-
-        CONFIG_KERNEL_INIT_PATH
+        "/sbin/init"
 };
 
 #if (CONFIG_KERNEL_ROOTMEM_ROMFS == 1)
@@ -402,7 +396,6 @@ static int leon_nbputchar(int c) {
 #else
         unsigned int old_cr;
 
-#if KERNEL_VERSION < 33
         old_cr = LEON_REGLOAD_PA(LEON_UCTRL0);
         LEON_REGSTORE_PA(LEON_UCTRL0,(old_cr & ~(LEON_UCTRL_TI)) | (LEON_UCTRL_TE));
 
@@ -411,7 +404,6 @@ static int leon_nbputchar(int c) {
 
         while (!(LEON_REGLOAD_PA(LEON_USTAT0) & 0x4));
         LEON_REGSTORE_PA(LEON_UCTRL0,old_cr);
-#endif
 #endif
         return 0;
 }
@@ -573,8 +565,13 @@ static void leon_prom_init() {
 
         spi.freq_khz = 20000;
         {
+#ifdef LINUX_33
+    		struct leon3_gptimer_regs_map *b;
+    		b = (struct leon3_gptimer_regs_map *)leon3_getapbbase(VENDOR_GAISLER,GAISLER_GPTIMER);
+#else
                 LEON3_GpTimer_Regs_Map *b;
                 b = (LEON3_GpTimer_Regs_Map *)leon3_getapbbase(VENDOR_GAISLER,GAISLER_GPTIMER);
+#endif
                 if (b) {
                         spi.freq_khz = ((b->scalar_reload)+1) * 1000;
                 }
@@ -677,7 +674,11 @@ int __attribute__ ((__section__ (".img.main.text"))) __main(void) {
         srmmu_set_ctable_ptr(&_bootloader_ph /*LEONSETUP_MEM_BASEADDR + PAGE_SIZE*/);
         srmmu_set_context(0);
         __asm__ __volatile__("flush\n\t");
+#ifdef LINUX_33
+        srmmu_set_mmureg(0x00000001 | (LEON_PAGE_SIZE_LEON << 16));
+#else
         srmmu_set_mmureg(0x00000001 | (CONFIG_PAGE_SIZE_LEON << 16));
+#endif
         leon_flush_tlb_all();
         void leon_flush_cache_all();
 
