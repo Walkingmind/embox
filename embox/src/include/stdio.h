@@ -5,9 +5,11 @@
  * @author Nikolay Korotky
  * @author Eldar Abusalimov
  */
+
 #ifndef STDIO_H_
 #define STDIO_H_
 
+#include <stdarg.h>
 #include <types.h>
 
 #define EOF (-1)
@@ -39,6 +41,10 @@ extern int printf(const char *format, ...);
  */
 extern int sprintf(char *s, const char *format, ...);
 
+int vprintf(const char *format, va_list args);
+
+int vsprintf(char *s, const char *format, va_list args);
+
 /**
  * Read formatted input from stdin according to the format string FORMAT.
  */
@@ -56,19 +62,19 @@ extern int sscanf(char *out, const char *format, ...);
 extern FILE *fopen(const char *path, const char *mode);
 
 /**
- * Read nmemb elements of data, each size bytes long, from the stream 
+ * Read nmemb elements of data, each size bytes long, from the stream
  * pointed to by stream, storing them at the location given by ptr.
  */
 extern size_t fwrite(const void *ptr, size_t size, size_t nmemb, FILE *stream);
 
 /**
- * Read nmemb elements of data, each size bytes long, from the stream 
+ * Read nmemb elements of data, each size bytes long, from the stream
  * pointed to by stream, storing them at the location given by ptr.
  */
 extern size_t fread(void *ptr, size_t size, size_t nmemb, FILE *stream);
 
 /**
- * Function will flushes the stream pointed to by fp (writing any buffered 
+ * Function will flushes the stream pointed to by fp (writing any buffered
  * output data using fflush(3)) and closes the underlying file descriptor.
  */
 extern int fclose(FILE *fp);
