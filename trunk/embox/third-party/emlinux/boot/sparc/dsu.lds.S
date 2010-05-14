@@ -7,11 +7,11 @@ SECTIONS
         . = 0x40000000;
         .stage2 : {
                 _start = .;
-                build/prom_stage2.o(.img.main.text)
-                build/prom_stage2.o
+                prom_stage2.o(.img.main.text)
+                prom_stage2.o
         	. = ALIGN(0x2000);
 		_bootloader_ph = .;
-		build/pgt.o
+		pgt.o
 	}
         . = ALIGN(0x4000);
         .vmlinux : {

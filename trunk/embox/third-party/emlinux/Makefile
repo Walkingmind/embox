@@ -5,62 +5,35 @@
 # Author: Nikolay Korotky
 #
 
-include linux.conf
+ARCH           = sparc
+CROSS_COMPILE  = sparc-linux-
+GENROMFS       = genromfs
+KERNEL_VERSION = 2.6.21.1
+KERNEL_SRC     = linux-$(KERNEL_VERSION).tar.bz2
+KERNEL_PATCHES = linux-$(KERNEL_VERSION)-$(ARCH).patch.gz
+KERNEL_CONFIG  = config-$(KERNEL_VERSION)-$(ARCH).default
 
-BIN_DIR=build
-IMAGE=$(BIN_DIR)/image
-PIGGY=$(BIN_DIR)/piggy
-ROMFSDIR=$(BIN_DIR)/romfs
-ROMFSIMGOBJ=$(BIN_DIR)/rdimage.o
-SRC_DIR=arch/$(ARCH)
+ROOT_DIR   = $(shell pwd)
+IMAGE_DIR  = $(ROOT_DIR)/images
+PATCH_DIR  = $(ROOT_DIR)/patches
+ROMFS_DIR  = $(ROOT_DIR)/romfs
+TOOLS_DIR  = $(ROOT_DIR)/tools
+KERNEL_DIR = $(ROOT_DIR)/linux-$(KERNEL_VERSION)
 
-ifeq ($(KERNEL),linux-2.6.33.3)
-AUTOCONF=$(KERNEL)/include/generated/autoconf.h
-else
-AUTOCONF=$(KERNEL)/include/linux/autoconf.h
-endif
+IMAGE      =$(IMAGE_DIR)/image
+PIGGY      =$(IMAGE_DIR)/piggy
+ROMFSIMGOBJ=$(IMAGE_DIR)/rdimage.o
+export
 
-.PHONY: prepare romfs kernel image clean
+.PHONY: kernel image piggy clean
 
-all: prepare romfs kernel piggy
-
-prepare:
-	[ -e $(KERNEL).tar.bz2 ] || wget -c $(FTP_LINK)
-	[ -d $(KERNEL) ] || tar -xvjf $(KERNEL).tar.bz2
-	@for p in $(PATCHES); do \
-		zcat $(SRC_DIR)/$$p | patch -p0; \
-	done
-
-romfs:
-	[ -d $(BIN_DIR) ] || mkdir -p $(BIN_DIR)
-	[ -d $(ROMFSDIR) ] || mkdir -p $(ROMFSDIR)
-	@for i in $(shell cat $(SRC_DIR)/$(DIRS_LIST)); do \
-	        [ -d $(ROMFSDIR)/$$i ] || mkdir -p $(ROMFSDIR)/$$i; \
-	done
-	#TODO: copy binaries into romfs dir
-	chmod +x $(KERNEL)/scripts/gen_initramfs_list.sh
-	$(KERNEL)/scripts/gen_initramfs_list.sh $(ROMFSDIR) > $(KERNEL)/$(INITRAMFS_LIST) 2>&1
-	@for i in $(shell cat $(SRC_DIR)/$(DEVICE_LIST)); do \
-	        name=$${i%%,*}; \
-	        i=$${i##$${name},}; \
-	        type=$${i%%,*}; \
-	        i=$${i##$${type},}; \
-	        maj=$${i%%,*}; \
-	        i=$${i##$${maj},}; \
-	        min=$${i%%,*}; \
-	        echo "nod /dev/$$name 0600 0 0 $$type $$maj $$min" >> $(KERNEL)/$(INITRAMFS_LIST); \
-	done
-	$(GENROMFS) -V "ROMdisk" -f $(ROMFSIMGOBJ).img -d $(ROMFSDIR)
-	gzip -f $(ROMFSIMGOBJ).img
-	$(CROSS_COMPILE)ld -r -b binary $(ROMFSIMGOBJ).img.gz -o $(ROMFSIMGOBJ)
-	rm -f $(ROMFSIMGOBJ).img.gz
+all: kernel piggy
 
 kernel:
-	$(MAKE) -C $(KERNEL) ARCH=$(ARCH) CROSS_COMPILE=$(CROSS_COMPILE) menuconfig
-	$(MAKE) -C $(KERNEL) ARCH=$(ARCH) CROSS_COMPILE=$(CROSS_COMPILE) KBUILD_VERBOSE=1
+	$(TOOLS_DIR)/build_kernel.sh
 
 image: 
-	make -C boot/sparc image
+	make -C boot/$(ARCH) image
 	$(CROSS_COMPILE)objdump -d $(IMAGE) > $(IMAGE).dis
 	$(CROSS_COMPILE)objdump -d $(IMAGE).dsu > $(IMAGE).dsu.dis
 
@@ -68,5 +41,5 @@ piggy: image
 	$(CROSS_COMPILE)objcopy -O binary -R .note -R .comment -S $(IMAGE).dsu $(PIGGY)
 
 clean:
-	make -C $(KERNEL) clean
-	rm -fr $(BIN_DIR)
+	make -C boot/$(ARCH) clean
+	rm -fr $(IMAGE_DIR) $(ROMFS_DIR) $(KERNEL_DIR)
