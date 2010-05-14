@@ -10,7 +10,7 @@
  * Copyright (C) 2004 Stefan Holst <mail@s-holst.de>
  */
 
-#define LINUX_33
+//#define LINUX_33
 
 #include "linux/kernel.h"
 #include "asm/asi.h"
