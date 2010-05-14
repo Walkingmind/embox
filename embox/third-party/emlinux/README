@@ -1,0 +1,5 @@
+emlinux is the Linux kernel based embedded OS.
+embox is used as the bootloader for emlinux.
+
+emlinux requirenments:
+  linux-2.6.21.1 sources

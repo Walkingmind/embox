@@ -6,6 +6,7 @@ dev/etherd
 dev/input
 dev/usb
 etc
+etc/init.d
 home 
 lib 
 proc 
