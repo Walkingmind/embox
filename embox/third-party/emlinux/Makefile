@@ -30,7 +30,8 @@ export
 all: kernel piggy
 
 kernel:
-	$(TOOLS_DIR)/build_kernel.sh
+	$(TOOLS_DIR)/build-busybox.sh
+	$(TOOLS_DIR)/build-kernel.sh
 
 image: 
 	make -C boot/$(ARCH) image
