@@ -1,6 +1,0 @@
-"NAME\n"
-"\ttcpdump - dump traffic on a network.\n"
-"SYNOPSIS\n"
-"\ttcpdump [-i] [-c] [-h]\n"
-"AUTHORS\n"
-"\tAlexandr Batyukov\n"
