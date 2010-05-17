@@ -14,8 +14,10 @@ KERNEL_PATCHES = linux-$(KERNEL_VERSION)-$(ARCH).patch.gz
 KERNEL_CONFIG  = config-$(KERNEL_VERSION)-$(ARCH).default
 
 ROOT_DIR   = $(shell pwd)
+CONFIG_DIR = $(ROOT_DIR)/config
 IMAGE_DIR  = $(ROOT_DIR)/images
 PATCH_DIR  = $(ROOT_DIR)/patches
+USER_DIR   = $(ROOT_DIR)/user
 ROMFS_DIR  = $(ROOT_DIR)/romfs
 TOOLS_DIR  = $(ROOT_DIR)/tools
 KERNEL_DIR = $(ROOT_DIR)/linux-$(KERNEL_VERSION)
@@ -30,7 +32,7 @@ export
 all: kernel piggy
 
 kernel:
-	$(TOOLS_DIR)/build-busybox.sh
+	make -C $(USER_DIR)
 	$(TOOLS_DIR)/build-kernel.sh
 
 image: 

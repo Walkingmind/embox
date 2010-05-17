@@ -1,0 +1,4 @@
+# System initialization (runs when system boots).
+
+::sysinit:/etc/init.d/rc.S
+::respawn:/bin/sh

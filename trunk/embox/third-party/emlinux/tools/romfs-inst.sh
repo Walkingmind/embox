@@ -9,8 +9,6 @@ for i in `cat $TOOLS_DIR/dirs.lst`; do
     [ -d $ROMFS_DIR/$i ] || mkdir -p $ROMFS_DIR/$i
 done
 
-#TODO: copy binaries into romfs dir
-
 ln -fs "/sbin/init" $ROMFS_DIR/init
 chmod +x $KERNEL_DIR/scripts/gen_initramfs_list.sh
 $KERNEL_DIR/scripts/gen_initramfs_list.sh $ROMFS_DIR > $KERNEL_DIR/initramfs.lst 2>&1
