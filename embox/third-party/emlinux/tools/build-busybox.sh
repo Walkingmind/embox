@@ -16,3 +16,8 @@ make ARCH=sparc_v7soft CONFIG_PREFIX=$ROMFS_DIR install
 
 popd > /dev/null 
  
+[ -d $ROMFS_DIR/etc ] || mkdir -p $ROMFS_DIR/etc
+cp $TOOLS_DIR/inittab $ROMFS_DIR/etc
+
+[ -d $ROMFS_DIR/etc/init.d ] || mkdir -p $ROMFS_DIR/etc/init.d
+cp $TOOLS_DIR/rc.S $ROMFS_DIR/etc/init.d
