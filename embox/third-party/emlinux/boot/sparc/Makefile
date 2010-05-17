@@ -1,4 +1,4 @@
-# $Id: Makefile $
+# $Id$
 #
 # sparc prom_stage2
 #
