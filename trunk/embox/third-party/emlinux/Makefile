@@ -1,4 +1,4 @@
-# $Id: Makefile $
+# $Id$
 #
 # emlinux Makefile
 #
