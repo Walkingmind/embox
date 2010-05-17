@@ -10,14 +10,12 @@
  * Copyright (C) 2004 Stefan Holst <mail@s-holst.de>
  */
 
-//#define LINUX_33
-
 #include "linux/kernel.h"
 #include "asm/asi.h"
 #include "asm/pgtsrmmu.h"
 #include "asm/leon.h"
 
-#ifdef LINUX_33
+#if (KERNEL_VERSION == "2.6.33.3")
 #include "asm/leon_amba.h"
 #define CONFIG_LEON_3
 #endif
@@ -565,7 +563,7 @@ static void leon_prom_init() {
 
         spi.freq_khz = 20000;
         {
-#ifdef LINUX_33
+#if (KERNEL_VERSION == "2.6.33.3")
     		struct leon3_gptimer_regs_map *b;
     		b = (struct leon3_gptimer_regs_map *)leon3_getapbbase(VENDOR_GAISLER,GAISLER_GPTIMER);
 #else
@@ -674,7 +672,7 @@ int __attribute__ ((__section__ (".img.main.text"))) __main(void) {
         srmmu_set_ctable_ptr(&_bootloader_ph /*LEONSETUP_MEM_BASEADDR + PAGE_SIZE*/);
         srmmu_set_context(0);
         __asm__ __volatile__("flush\n\t");
-#ifdef LINUX_33
+#if (KERNEL_VERSION == "2.6.33.3")
         srmmu_set_mmureg(0x00000001 | (LEON_PAGE_SIZE_LEON << 16));
 #else
         srmmu_set_mmureg(0x00000001 | (CONFIG_PAGE_SIZE_LEON << 16));
