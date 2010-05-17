@@ -17,9 +17,9 @@ image:
 	    -E -C -P -DCONFIG_KERNEL_ROOTMEM_ROMFS="0" \
 	    -DRDIMAGE="$(ROMFSIMGOBJ)" -DLINUXIMAGE="$(IMAGE)" dsu.lds.S -o dsu.lds.o
 	$(CROSS_COMPILE)gcc -I$(KERNEL_DIR)/include -I$(KERNEL_DIR)/arch/$(ARCH)/include -I. -include $(AUTOCONF) -D__KERNEL__ -Wall -mno-fpu \
-	    -DCONFIG_KERNEL_ROOTMEM_INITRAMFS=1 -DCONFIG_KERNEL_ROOTMEM_ROMFS="0" \
-	    -nostdinc -iwithprefix include -O2 -c -o prom_stage2.o prom_stage2.c
-	$(CROSS_COMPILE)gcc -Wall -mno-fpu -nostdinc -iwithprefix include -O2 -c -o pgt.o pgt.S
+	    -DCONFIG_KERNEL_ROOTMEM_INITRAMFS=1 -DCONFIG_KERNEL_ROOTMEM_ROMFS="0" -DKERNELS_VERSION=$(KERNEL_VERSION) \
+	    -nostdinc -iwithprefix include -O2 -c prom_stage2.c
+	$(CROSS_COMPILE)gcc -Wall -mno-fpu -nostdinc -iwithprefix include -O2 -c pgt.S
 	$(CROSS_COMPILE)ld -X -T dsu.lds.o $(IMAGE) $(ROMFSIMGOBJ) prom_stage2.o pgt.o -o $(IMAGE).dsu
 
 clean:
