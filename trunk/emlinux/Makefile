@@ -10,7 +10,7 @@ CROSS_COMPILE  = sparc-linux-
 GENROMFS       = genromfs
 KERNEL_VERSION = 2.6.21.1
 KERNEL_SRC     = linux-$(KERNEL_VERSION).tar.bz2
-KERNEL_PATCHES = linux-$(KERNEL_VERSION)-$(ARCH).patch.gz linux-$(KERNEL_VERSION)-ovk.patch.gz
+KERNEL_PATCHES = linux-$(KERNEL_VERSION)-$(ARCH).patch.gz
 KERNEL_CONFIG  = config-$(KERNEL_VERSION)-$(ARCH).default 
 
 ROOT_DIR   = $(shell pwd)
