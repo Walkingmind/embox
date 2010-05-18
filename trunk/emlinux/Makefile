@@ -10,8 +10,8 @@ CROSS_COMPILE  = sparc-linux-
 GENROMFS       = genromfs
 KERNEL_VERSION = 2.6.21.1
 KERNEL_SRC     = linux-$(KERNEL_VERSION).tar.bz2
-KERNEL_PATCHES = linux-$(KERNEL_VERSION)-$(ARCH).patch.gz
-KERNEL_CONFIG  = config-$(KERNEL_VERSION)-$(ARCH).default
+KERNEL_PATCHES = linux-$(KERNEL_VERSION)-$(ARCH).patch.gz linux-$(KERNEL_VERSION)-ovk.patch.gz
+KERNEL_CONFIG  = config-$(KERNEL_VERSION)-$(ARCH).default 
 
 ROOT_DIR   = $(shell pwd)
 CONFIG_DIR = $(ROOT_DIR)/config
@@ -27,12 +27,14 @@ PIGGY      =$(IMAGE_DIR)/piggy
 ROMFSIMGOBJ=$(IMAGE_DIR)/rdimage.o
 export
 
-.PHONY: kernel image piggy clean
+.PHONY: user kernel image piggy clean
 
-all: kernel piggy
+all: user kernel piggy
+
+user:
+	make -C $(USER_DIR)
 
 kernel:
-	make -C $(USER_DIR)
 	$(TOOLS_DIR)/build-kernel.sh
 
 image: 
@@ -46,3 +48,15 @@ piggy: image
 clean:
 	make -C boot/$(ARCH) clean
 	rm -fr $(IMAGE_DIR) $(ROMFS_DIR) $(KERNEL_DIR)
+
+menuconfig: KERNEL_VERSION := `dialog \
+                --stdout --backtitle "Linux kernel version" \
+                --inputbox version: 10 30`
+menuconfig:
+	@echo "#define KERNEL_VERSION $(KERNEL_VERSION)" > autoconf.h
+
+xconfig: KERNEL_VERSION := `Xdialog \
+                --stdout --backtitle "Linux kernel version" \
+                --inputbox version: 10 30`
+xconfig:
+	@echo "#define KERNEL_VERSION $(KERNEL_VERSION)" > autoconf.h
