@@ -21,7 +21,7 @@ image:
 	    -DKERNELS_VERSION=`echo $(KERNEL_VERSION) | perl -ne "s/(\d+).(\d+).(\d+).(\d+)/\3/;print;"` \
 	    -nostdinc -iwithprefix include -O2 -c prom_stage2.c
 	$(CROSS_COMPILE)gcc -Wall -mno-fpu -nostdinc -iwithprefix include -O2 -c pgt.S
-	$(CROSS_COMPILE)ld -X -T dsu.lds.o $(IMAGE) $(ROMFSIMGOBJ) prom_stage2.o pgt.o -o $(IMAGE).dsu
+	$(CROSS_COMPILE)ld -X -T dsu.lds.o $(IMAGE) prom_stage2.o pgt.o -o $(IMAGE).dsu
 
 clean:
 	rm -fr remove_predefs.h *.o

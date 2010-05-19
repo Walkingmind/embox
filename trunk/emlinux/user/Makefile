@@ -1,3 +1,3 @@
 
 all:
-	$(TOOLS_DIR)/build-busybox.sh
+	$(TOOLS_DIR)/build-busybox.sh || exit
