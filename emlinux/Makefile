@@ -9,17 +9,19 @@ ARCH           = sparc
 CROSS_COMPILE  = sparc-linux-
 GENROMFS       = genromfs
 KERNEL_VERSION = 2.6.21.1
+
 KERNEL_SRC     = linux-$(KERNEL_VERSION).tar.bz2
 KERNEL_PATCHES = linux-$(KERNEL_VERSION)-$(ARCH).patch.gz
 KERNEL_CONFIG  = config-$(KERNEL_VERSION)-$(ARCH).default 
 
 ROOT_DIR   = $(shell pwd)
+BOOT_DIR   = $(ROOT_DIR)/boot/$(ARCH)
 CONFIG_DIR = $(ROOT_DIR)/config
 IMAGE_DIR  = $(ROOT_DIR)/images
 PATCH_DIR  = $(ROOT_DIR)/patches
-USER_DIR   = $(ROOT_DIR)/user
 ROMFS_DIR  = $(ROOT_DIR)/romfs
 TOOLS_DIR  = $(ROOT_DIR)/tools
+USER_DIR   = $(ROOT_DIR)/user
 KERNEL_DIR = $(ROOT_DIR)/linux-$(KERNEL_VERSION)
 
 IMAGE      =$(IMAGE_DIR)/image
@@ -32,13 +34,13 @@ export
 all: user kernel piggy
 
 user:
-	make -C $(USER_DIR)
+	$(MAKE) -C $(USER_DIR)
 
 kernel:
 	$(TOOLS_DIR)/build-kernel.sh
 
 image: 
-	make -C boot/$(ARCH) image
+	$(MAKE) -C $(BOOT_DIR) image
 	$(CROSS_COMPILE)objdump -d $(IMAGE) > $(IMAGE).dis
 	$(CROSS_COMPILE)objdump -d $(IMAGE).dsu > $(IMAGE).dsu.dis
 
@@ -46,7 +48,7 @@ piggy: image
 	$(CROSS_COMPILE)objcopy -O binary -R .note -R .comment -S $(IMAGE).dsu $(PIGGY)
 
 clean:
-	make -C boot/$(ARCH) clean
+	$(MAKE) -C $(BOOT_DIR) clean
 	rm -fr $(IMAGE_DIR) $(ROMFS_DIR) $(KERNEL_DIR)
 
 menuconfig: KERNEL_VERSION := `dialog \
