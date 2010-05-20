@@ -7,7 +7,6 @@
 
 ARCH           = sparc
 CROSS_COMPILE  = sparc-linux-
-GENROMFS       = genromfs
 KERNEL_VERSION = 2.6.21.1
 
 KERNEL_SRC     = linux-$(KERNEL_VERSION).tar.bz2
@@ -26,7 +25,6 @@ KERNEL_DIR = $(ROOT_DIR)/linux-$(KERNEL_VERSION)
 
 IMAGE      =$(IMAGE_DIR)/image
 PIGGY      =$(IMAGE_DIR)/piggy
-ROMFSIMGOBJ=$(IMAGE_DIR)/rdimage.o
 export
 
 .PHONY: user kernel image piggy clean
@@ -49,6 +47,7 @@ piggy: image
 
 clean:
 	$(MAKE) -C $(BOOT_DIR) clean
+	$(MAKE) -C $(USER_DIR) clean
 	rm -fr $(IMAGE_DIR) $(ROMFS_DIR) $(KERNEL_DIR)
 
 menuconfig: KERNEL_VERSION := `dialog \

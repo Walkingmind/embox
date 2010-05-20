@@ -24,3 +24,4 @@ popd > /dev/null
 
 [ -d $IMAGE_DIR ] || mkdir -p $IMAGE_DIR
 cp $KERNEL_DIR/arch/$ARCH/boot/image $IMAGE_DIR
+

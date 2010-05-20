@@ -1,7 +1,5 @@
 #!/bin/sh
 
-ROMFSIMGOBJ="$IMAGE_DIR/rdimage.o"
-
 [ -d $ROMFS_DIR ] || mkdir -p $ROMFS_DIR
 [ -d $IMAGE_DIR ] || mkdir -p $IMAGE_DIR
 
@@ -24,7 +22,3 @@ for i in `cat $TOOLS_DIR/devices.lst`; do
     echo "nod /dev/$name 0600 0 0 $type $maj $min" >> $KERNEL_DIR/initramfs.lst
 done
 
-$GENROMFS -V "ROMdisk" -f $ROMFSIMGOBJ.img -d $ROMFS_DIR
-gzip -f $ROMFSIMGOBJ.img
-${CROSS_COMPILE}ld -r -b binary $ROMFSIMGOBJ.img.gz -o $ROMFSIMGOBJ
-rm -f $ROMFSIMGOBJ.img.gz

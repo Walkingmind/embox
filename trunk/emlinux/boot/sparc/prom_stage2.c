@@ -351,19 +351,6 @@ static struct leon_prom_info spi = {
         "/sbin/init"
 };
 
-#if (CONFIG_KERNEL_ROOTMEM_ROMFS == 1)
-/* from arch/sparc/kernel/setup.c */
-#define RAMDISK_LOAD_FLAG 0x4000
-extern unsigned short root_flags;
-extern unsigned short root_dev;
-extern unsigned short ram_flags;
-extern unsigned int sparc_ramdisk_image;
-extern unsigned int sparc_ramdisk_size;
-extern int root_mountflags;
-
-extern char initrd_end, initrd_start;
-#endif
-
 static void leon_reboot(char *bcommand) {
         while (1) {
                 printk(__va("Can't reboot\n"));
@@ -576,13 +563,6 @@ static void leon_prom_init() {
         }
         {
                 int j = 1;
-#ifdef CONFIG_SMP
-                LEON3_IrqCtrl_Regs_Map *b;
-                b = (LEON3_IrqCtrl_Regs_Map *)leon3_getapbbase(VENDOR_GAISLER,GAISLER_IRQMP);
-                if (b) {
-                        j = ((LEON3_BYPASS_LOAD_PA(&(b->mpstatus)) >> LEON3_IRQMPSTATUS_CPUNR) & 0xf)  + 1;
-                }
-#endif
                 spi.nodes[2+j].level = -1;
                 spi.nodes[2+j].properties = __va(spi.root_properties+3);
         }
@@ -622,50 +602,22 @@ int __attribute__ ((__section__ (".img.main.text"))) __main(void) {
 
         char *c;
         void (*kernel)(struct linux_romvec *);
-#ifdef CONFIG_SMP
-        int id = hard_smpleon_processor_id();;
-#endif
 
         /* disable mmu */
         srmmu_set_mmureg(0x00000000);
         __asm__ __volatile__("flush\n\t");
 
-#ifdef CONFIG_SMP
-        if (id==0) {
-#endif
-                /* clear bss */
-                c = &bss_start;
-                while (c < &bss_end) {
-                        *c=0;
-                        c++;
-                }
-
-                /* init prom info struct */
-
-                leon_prom_init();
-
-#if  (CONFIG_KERNEL_ROOTMEM_ROMFS  == 1)
-                /* boot options */
-
-                root_dev           = 0x100; /* HACK: was Root_RAM0; */
-                root_flags         = 0x0800 | RAMDISK_LOAD_FLAG;
-                root_mountflags   |= MS_RDONLY;
-
-                sparc_ramdisk_image = (unsigned long)&initrd_start
-                                      - LEONSETUP_MEM_BASEADDR;
-                sparc_ramdisk_size = &initrd_end - &initrd_start;
-#endif
-                /* mark as used for bootloader */
-#ifndef CONFIG_SMP
-                mark();
-#endif
-#ifdef CONFIG_SMP
+        /* clear bss */
+        c = &bss_start;
+        while (c < &bss_end) {
+                *c=0;
+                c++;
         }
-#endif
 
-#ifdef CONFIG_SMP
-        sparc_leon3_enable_snooping();
-#endif
+        /* init prom info struct */
+        leon_prom_init();
+        /* mark as used for bootloader */
+        mark();
 
         /* turn on mmu */
         extern unsigned long _bootloader_ph;

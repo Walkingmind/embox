@@ -14,10 +14,9 @@ endif
 image:
 	$(CROSS_COMPILE)gcc -dM -C -E -P dsu.lds.S | cut -d' ' -f -2 | sed 's/#define/#undef/g' > remove_predefs.h
 	$(CROSS_COMPILE)gcc -include $(AUTOCONF) -include remove_predefs.h \
-	    -E -C -P -DCONFIG_KERNEL_ROOTMEM_ROMFS="0" \
-	    -DRDIMAGE="$(ROMFSIMGOBJ)" -DLINUXIMAGE="$(IMAGE)" dsu.lds.S -o dsu.lds.o
-	$(CROSS_COMPILE)gcc -I$(KERNEL_DIR)/include -I$(KERNEL_DIR)/arch/$(ARCH)/include -I. -include $(AUTOCONF) -D__KERNEL__ -Wall -mno-fpu \
-	    -DCONFIG_KERNEL_ROOTMEM_INITRAMFS=1 -DCONFIG_KERNEL_ROOTMEM_ROMFS="0" \
+	    -E -C -P -DLINUXIMAGE="$(IMAGE)" dsu.lds.S -o dsu.lds.o
+	$(CROSS_COMPILE)gcc -I$(KERNEL_DIR)/include -I$(KERNEL_DIR)/arch/$(ARCH)/include -I. -include $(AUTOCONF) \
+	    -D__KERNEL__ -Wall -mno-fpu -DCONFIG_KERNEL_ROOTMEM_INITRAMFS=1 \
 	    -DKERNELS_VERSION=`echo $(KERNEL_VERSION) | perl -ne "s/(\d+).(\d+).(\d+).(\d+)/\3/;print;"` \
 	    -nostdinc -iwithprefix include -O2 -c prom_stage2.c
 	$(CROSS_COMPILE)gcc -Wall -mno-fpu -nostdinc -iwithprefix include -O2 -c pgt.S
@@ -25,3 +24,4 @@ image:
 
 clean:
 	rm -fr remove_predefs.h *.o
+
