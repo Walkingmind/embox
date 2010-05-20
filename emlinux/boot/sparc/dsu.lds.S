@@ -87,15 +87,6 @@ SECTIONS
         }
 	bss_end = .; 
 
-#if (CONFIG_KERNEL_ROOTMEM_ROMFS == 1)
-        .rdimage : {
-                . = ALIGN(0x1000);
-                initrd_start = .;
-                RDIMAGE
-                initrd_end = .;
-		. = ALIGN(16);
-        }
-#endif
         /DISCARD/ : {
                 *(.exit.text)
                 *(.exit.data)
