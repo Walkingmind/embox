@@ -61,83 +61,46 @@
  * This procedure is called to clear the status register on the flash
  * device.
  */
-void flash_clear_status ( FLASH_DEV *flash_dev )
-{
-	int flash_base_address = flash_dev->start_address;
-	flash_writef( flash_base_address,  FLASH_CLEAR_STATUS_REGISTER );
-
+void flash_clear_status(FLASH_DEV *flash_dev) {
+	flash_writef(flash_dev, 0, FLASH_CLEAR_STATUS_REGISTER);
 }
 
 /**
  * This procedure is called to erase a data block on the flash
  * device.
  * @param blocknum - the block number on the device.
- * @param returnSR - flag to indicate whether the device status register
- *				   value should be returned by this function.
- * @return TMPL_Status
+ * @return FLASH_STATUS
  */
-FLASH_STATUS flash_erase_block ( FLASH_DEV *flash_dev, uint16_t blocknum, uint8_t returnSR )
-{
-	int flash_base_address;
-	FLASH_STATUS   stat;
+FLASH_STATUS flash_erase_block(FLASH_DEV *flash_dev, uint16_t blocknum) {
+	FLASH_STATUS stat;
 	uint32_t blockadd;
 
-	stat = flash_get_block_address(flash_dev, blocknum, &blockadd );
+	stat = flash_get_block_offset(flash_dev, blocknum, &blockadd);
 
-	if ( stat.Result != StatCompleted )
-	{
-		return( stat );
+	if (stat.Result != StatCompleted) {
+		return (stat);
 	}
 
-	if ( returnSR )
-	{
-		flash_clear_status(flash_dev);
-	}
+	flash_clear_status(flash_dev);
 
+	flash_writef(flash_dev, blockadd, FLASH_BLOCK_ERASE);
+	flash_writef(flash_dev, blockadd, FLASH_CONFIRM );
 
-	flash_writef(blockadd, FLASH_BLOCK_ERASE);
-	flash_writef(blockadd, FLASH_CONFIRM );
-
-	if ( !flash_wait_until_ready(flash_dev, FLASH_ERASE_TIMEOUT / 2) )
-	{
+	if (!flash_wait_until_ready(flash_dev, FLASH_ERASE_TIMEOUT)) {
 		stat.Result = StatTimeout;
-	} else
-	{
+	} else {
 		stat.Result = StatCompleted;
 	}
 
-	if ( returnSR )
-	{
-		flash_readf(blockadd, (FLASH_FDATA_PTR)&stat.SR);
-	}
-
-	if ( !flash_wait_until_ready(flash_dev, FLASH_ERASE_TIMEOUT) )
-	{
-		stat.Result = StatTimeout;
-	} else
-	{
-		stat.Result = StatCompleted;
-	}
+	/* so? */
+	stat.SR = flash_readf(flash_dev, 0);
 
 	/* return device to read array mode */
 
-	flash_base_address = flash_dev->start_address;
-	flash_writef(flash_base_address, FLASH_READ_ARRAY );
-	return( stat );
+	flash_writef(flash_dev, 0, FLASH_READ_ARRAY );
+	return (stat);
 }
 
-/**
- * This procedure is called to return a flash ptr given a
- * specified device address.  This routine will likely need to be
- * provided externally by the template client in order to properly
- * deal with addressing details that are specific to the HW platform.
- * @param address  - the flash address
- * @return TMPL_FDATA_PTR  - address returned in ptr form
- */
-FLASH_FDATA_PTR  flash_get_fptr (uint32_t address )
-{
-	return( (FLASH_FDATA_PTR)address );
-}
 
 /**
  * This procedure is called to get the flash address for a given
@@ -145,21 +108,17 @@ FLASH_FDATA_PTR  flash_get_fptr (uint32_t address )
  * @param offset   - query offset location
  * @param (OUT) address  - the flash address for the specified query
  *						  offset.
- * @return TMPL_Status
+ * @return FLASH_STATUS
  */
-FLASH_STATUS flash_get_query_address (FLASH_DEV *flash_dev, uint32_t offset, uint32_t *address )
-{
+FLASH_STATUS flash_get_query_address(FLASH_DEV *flash_dev, uint32_t offset,
+		uint32_t *address) {
 	FLASH_STATUS stat;
-	int flash_base_address;
 	*address = offset << 2;
-
-	flash_base_address = flash_dev->start_address;
-	*address += flash_base_address;
 
 	stat.Result = StatCompleted;
 	stat.SR = 0;
 
-	return( stat );
+	return (stat);
 }
 
 /**
@@ -168,488 +127,424 @@ FLASH_STATUS flash_get_query_address (FLASH_DEV *flash_dev, uint32_t offset, uin
  * datasheet for specific details on this command.
  * @param address  - the flash address to be programmed.
  * @param item	 - the data value to be programmed.
- * @param returnSR - flag to indicate whether the device status register
- *				   value should be returned by this function.
- * @return TMPL_Status
+ * @return FLASH_STATUS
  */
-FLASH_STATUS flash_program_flash ( FLASH_DEV *flash_dev, uint32_t address, uint32_t item, uint8_t  returnSR )
-{
-#if 0
-	printf("flash_program_flash: flash_dev id = %d, address = 0x%x, item = %d\t\t",
-			flash_dev->dev, address, item);
-#endif
+FLASH_STATUS flash_program_flash(FLASH_DEV *flash_dev, uint32_t offset,
+		uint32_t item) {
 	FLASH_STATUS stat;
-	int flash_base_address;
-#if 0
-	FLASH_FDATA writedata;
-#endif
 
 	int flash_total_size = flash_dev->total_size;
 
 	stat.SR = 0;
 
-	if ( address >= flash_total_size )
-	{
+	if (offset >= flash_total_size) {
 		stat.Result = StatBadAddress;
 
-		return( stat );
+		return (stat);
 	}
 
-	if ( returnSR )
-	{
-		flash_clear_status(flash_dev);
+	flash_clear_status(flash_dev);
+
+	if ((offset & 0x1) != 0) {
+		offset--;
 	}
 
-/*	writedata = (FLASH_FDATA)( item );*/
+	flash_writef(flash_dev, offset, FLASH_PROGRAM_SETUP );
+	flash_writef(flash_dev, offset, item);
 
-	if ( ( address & 0x1 ) != 0 )
-	{
-		address--;
-/*		writedata |= 0xFF00;*/
-	} else
-	{
-/*	   writedata |= 0x00ff;*/
-	}
-
-	flash_wait_until_ready(flash_dev, FLASH_PROGRAM_TIMEOUT);  /*magic*/
-
-	flash_writef(address, FLASH_PROGRAM_SETUP );
-	flash_writef(address, item);
-
-	if ( !flash_wait_until_ready(flash_dev, FLASH_PROGRAM_TIMEOUT ) )
-	{
+	if (!flash_wait_until_ready(flash_dev, FLASH_PROGRAM_TIMEOUT)) {
 		stat.Result = StatTimeout;
-	} else
-	{
+	} else {
 		stat.Result = StatCompleted;
 	}
 
-	flash_base_address = flash_dev->start_address;
-	if ( returnSR )
-	{
-		flash_readf(flash_base_address, (FLASH_FDATA_PTR)&stat.SR);
-	}
+	/* so? */
+	stat.SR = flash_readf(flash_dev, 0);
 
 	/* return device to read array mode */
-	flash_writef(flash_base_address, FLASH_READ_ARRAY );
+	flash_writef(flash_dev, 0, FLASH_READ_ARRAY );
 
-	return( stat );
+	return (stat);
 }
 
 /**
  * This procedure is called to issue the query command to
  * the flash device.
  * @param (OUT) *query - pointer to query structure
- * @return TMPL_Status
+ * @return FLASH_STATUS
  */
-FLASH_STATUS flash_query (FLASH_DEV *flash_dev, struct _FLASH_QUERY_DATA *query )
-{
+FLASH_STATUS flash_query(FLASH_DEV *flash_dev, struct _FLASH_QUERY_DATA *query) {
 	FLASH_STATUS stat;
 	uint32_t add, offset, longitem, i;
 	FLASH_FDATA item;
-	int flash_base_address = flash_dev->start_address;
 
-	flash_writef(flash_base_address, FLASH_READ_QUERY );
+	flash_writef(flash_dev, 0, FLASH_READ_QUERY );
 
 	offset = FLASH_QUERY_START_OFFSET;
 
 	/* read query string */
-	for ( i=0; i < 3; i++ )
-	{
-		stat = flash_get_query_address(flash_dev,offset, &add);
+	for (i = 0; i < 3; i++) {
+		stat = flash_get_query_address(flash_dev, offset, &add);
 
-		if ( stat.Result != StatCompleted )
-		{
-			return( stat );
+		if (stat.Result != StatCompleted) {
+			return (stat);
 		}
 
-		flash_readf(add, &item);
+		item = flash_readf(flash_dev, add);
 
 		item &= 0xff;
-		query->QueryStr[i] = (char)item;
+		query->QueryStr[i] = (char) item;
 		offset++;
 	}
 	query->QueryStr[3] = '\0'; /* null terminate string */
 
 	/* read vendor id */
 	query->VendorId = 0;
-	for ( i=0; i < 2; i++ )
-	{
-		stat = flash_get_query_address(flash_dev,offset, &add);
+	for (i = 0; i < 2; i++) {
+		stat = flash_get_query_address(flash_dev, offset, &add);
 
-		if ( stat.Result != StatCompleted )
-		{
-			return( stat );
+		if (stat.Result != StatCompleted) {
+			return (stat);
 		}
 
-		flash_readf(add, &item);
+		item = flash_readf(flash_dev, add);
 
 		item &= 0x00ff;
-		item = item << (8*(1-i) );
+		item = item << (8 * (1 - i));
 
-		query->VendorId = (uint16_t)( query->VendorId | item );
+		query->VendorId = (uint16_t) (query->VendorId | item);
 		offset++;
 	}
 
 	/* read extended table ptr */
 	query->ExtTablePtr = 0;
-	for ( i=0; i < 2; i++ )
-	{
-		stat = flash_get_query_address(flash_dev,offset, &add);
+	for (i = 0; i < 2; i++) {
+		stat = flash_get_query_address(flash_dev, offset, &add);
 
-		if ( stat.Result != StatCompleted )
-		{
-			return( stat );
+		if (stat.Result != StatCompleted) {
+			return (stat);
 		}
 
-		flash_readf(add, &item);
+		item = flash_readf(flash_dev, add);
 
 		item &= 0x00ff;
-		item = item << (8*(1-i) );
+		item = item << (8 * (1 - i));
 
-		query->ExtTablePtr = (uint16_t)( query->ExtTablePtr | item );
+		query->ExtTablePtr = (uint16_t) (query->ExtTablePtr | item);
 		offset++;
 	}
 
 	/* read alternate vendor id */
 	query->AltVendorId = 0;
-	for ( i=0; i < 2; i++ )
-	{
-		stat = flash_get_query_address(flash_dev,offset, &add);
+	for (i = 0; i < 2; i++) {
+		stat = flash_get_query_address(flash_dev, offset, &add);
 
-		if ( stat.Result != StatCompleted )
-		{
-			return( stat );
+		if (stat.Result != StatCompleted) {
+			return (stat);
 		}
 
-		flash_readf(add, &item);
+		item = flash_readf(flash_dev, add);
 
 		item &= 0x00ff;
-		item = item << (8*(1-i) );
+		item = item << (8 * (1 - i));
 
-		query->AltVendorId = (uint16_t)( query->AltVendorId | item );
+		query->AltVendorId = (uint16_t) (query->AltVendorId | item);
 		offset++;
 	}
 
 	/* read secondary extended table ptr */
 	query->SecExtTablePtr = 0;
-	for ( i=0; i < 2; i++ )
-	{
-		stat = flash_get_query_address(flash_dev,offset, &add);
+	for (i = 0; i < 2; i++) {
+		stat = flash_get_query_address(flash_dev, offset, &add);
 
-		if ( stat.Result != StatCompleted )
-		{
-			return( stat );
+		if (stat.Result != StatCompleted) {
+			return (stat);
 		}
 
-		flash_readf(add, &item);
+		item = flash_readf(flash_dev, add);
 
 		item &= 0x00ff;
-		item = item << (8*(1-i) );
+		item = item << (8 * (1 - i));
 
-		query->SecExtTablePtr = (uint16_t)
-								( query->SecExtTablePtr | item );
+		query->SecExtTablePtr = (uint16_t) (query->SecExtTablePtr | item);
 		offset++;
 	}
 
 	/* read minimum voltage */
-	stat = flash_get_query_address(flash_dev,offset, &add);
+	stat = flash_get_query_address(flash_dev, offset, &add);
 
-	if ( stat.Result != StatCompleted )
-	{
-		return( stat );
+	if (stat.Result != StatCompleted) {
+		return (stat);
 	}
 
-	flash_readf(add, &item);
+	item = flash_readf(flash_dev, add);
 
 	item &= 0x00ff;
 
-	query->VccMin = (uint8_t)item;
+	query->VccMin = (uint8_t) item;
 	offset++;
 
 	/* read maximum voltage */
-	stat = flash_get_query_address(flash_dev,offset, &add);
+	stat = flash_get_query_address(flash_dev, offset, &add);
 
-	if ( stat.Result != StatCompleted )
-	{
-		return( stat );
+	if (stat.Result != StatCompleted) {
+		return (stat);
 	}
 
-	flash_readf(add, &item);
+	item = flash_readf(flash_dev, add);
 
 	item &= 0x00ff;
 
-	query->VccMax = (uint8_t)item;
+	query->VccMax = (uint8_t) item;
 	offset++;
 
 	/* read supply voltage */
-	stat = flash_get_query_address(flash_dev,offset, &add);
+	stat = flash_get_query_address(flash_dev, offset, &add);
 
-	if ( stat.Result != StatCompleted )
-	{
-		return( stat );
+	if (stat.Result != StatCompleted) {
+		return (stat);
 	}
 
-	flash_readf(add, &item);
+	item = flash_readf(flash_dev, add);
 
 	item &= 0x00ff;
 
-	query->VppMin = (uint8_t)item;
+	query->VppMin = (uint8_t) item;
 	offset++;
 
 	/* read supply max voltage */
-	stat = flash_get_query_address(flash_dev,offset, &add);
+	stat = flash_get_query_address(flash_dev, offset, &add);
 
-	if ( stat.Result != StatCompleted )
-	{
-		return( stat );
+	if (stat.Result != StatCompleted) {
+		return (stat);
 	}
 
-	flash_readf(add, &item);
+	item = flash_readf(flash_dev, add);
 
 	item &= 0x00ff;
 
-	query->VppMax = (uint8_t)item;
+	query->VppMax = (uint8_t) item;
 	offset++;
 
 	/* read typical program timeout */
-	stat = flash_get_query_address(flash_dev,offset, &add);
+	stat = flash_get_query_address(flash_dev, offset, &add);
 
-	if ( stat.Result != StatCompleted )
-	{
-		return( stat );
+	if (stat.Result != StatCompleted) {
+		return (stat);
 	}
 
-	flash_readf(add, &item);
+	item = flash_readf(flash_dev, add);
 
 	item &= 0x00ff;
 
-	query->TypicalProgTimeout = (uint8_t)item;
+	query->TypicalProgTimeout = (uint8_t) item;
 	offset++;
 
 	/* read typical buffer timeout */
-	stat = flash_get_query_address(flash_dev,offset, &add);
+	stat = flash_get_query_address(flash_dev, offset, &add);
 
-	if ( stat.Result != StatCompleted )
-	{
-		return( stat );
+	if (stat.Result != StatCompleted) {
+		return (stat);
 	}
 
-	flash_readf(add, &item);
+	item = flash_readf(flash_dev, add);
 
 	item &= 0x00ff;
 
-	query->TypicalBufferTimeout = (uint8_t)item;
+	query->TypicalBufferTimeout = (uint8_t) item;
 	offset++;
 
 	/* read block erase timeout */
-	stat = flash_get_query_address(flash_dev,offset, &add);
+	stat = flash_get_query_address(flash_dev, offset, &add);
 
-	if ( stat.Result != StatCompleted )
-	{
-		return( stat );
+	if (stat.Result != StatCompleted) {
+		return (stat);
 	}
 
-	flash_readf(add, &item);
+	item = flash_readf(flash_dev, add);
 
 	item &= 0x00ff;
 
-	query->BlockEraseTimeout = (uint8_t)item;
+	query->BlockEraseTimeout = (uint8_t) item;
 	offset++;
 
 	/* read chip erase timeout */
-	stat = flash_get_query_address(flash_dev,offset, &add);
+	stat = flash_get_query_address(flash_dev, offset, &add);
 
-	if ( stat.Result != StatCompleted )
-	{
-		return( stat );
+	if (stat.Result != StatCompleted) {
+		return (stat);
 	}
 
-	flash_readf(add, &item);
+	item = flash_readf(flash_dev, add);
 
 	item &= 0x00ff;
 
-	query->ChipEraseTimeout = (uint8_t)item;
+	query->ChipEraseTimeout = (uint8_t) item;
 	offset++;
 
 	/* read max single timeout */
-	stat = flash_get_query_address(flash_dev,offset, &add);
+	stat = flash_get_query_address(flash_dev, offset, &add);
 
-	if ( stat.Result != StatCompleted )
-	{
-		return( stat );
+	if (stat.Result != StatCompleted) {
+		return (stat);
 	}
 
-	flash_readf(add, &item);
+	item = flash_readf(flash_dev, add);
 
 	item &= 0x00ff;
 
-	query->MaxSingleTimeout = (uint8_t)item;
+	query->MaxSingleTimeout = (uint8_t) item;
 	offset++;
 
 	/* read max buffer timeout */
-	stat = flash_get_query_address(flash_dev,offset, &add);
+	stat = flash_get_query_address(flash_dev, offset, &add);
 
-	if ( stat.Result != StatCompleted )
-	{
-		return( stat );
+	if (stat.Result != StatCompleted) {
+		return (stat);
 	}
 
-	flash_readf(add, &item);
+	item = flash_readf(flash_dev, add);
 
 	item &= 0x00ff;
 
-	query->MaxBufferTimeout = (uint8_t)item;
+	query->MaxBufferTimeout = (uint8_t) item;
 	offset++;
 
 	/* read max block erase timeout */
-	stat = flash_get_query_address(flash_dev,offset, &add);
+	stat = flash_get_query_address(flash_dev, offset, &add);
 
-	if ( stat.Result != StatCompleted )
-	{
-		return( stat );
+	if (stat.Result != StatCompleted) {
+		return (stat);
 	}
 
-	flash_readf(add, &item);
+	item = flash_readf(flash_dev, add);
 
 	item &= 0x00ff;
 
-	query->MaxBlockEraseTimeout = (uint8_t)item;
+	query->MaxBlockEraseTimeout = (uint8_t) item;
 	offset++;
 
 	/* read max chip erase timeout */
-	stat = flash_get_query_address(flash_dev,offset, &add);
+	stat = flash_get_query_address(flash_dev, offset, &add);
 
-	if ( stat.Result != StatCompleted )
-	{
-		return( stat );
+	if (stat.Result != StatCompleted) {
+		return (stat);
 	}
 
-	flash_readf(add, &item);
+	item = flash_readf(flash_dev, add);
 
 	item &= 0x00ff;
 
-	query->MaxChipEraseTimeout = (uint8_t)item;
+	query->MaxChipEraseTimeout = (uint8_t) item;
 	offset++;
 
 	/* read device size */
-	stat = flash_get_query_address(flash_dev,offset, &add);
+	stat = flash_get_query_address(flash_dev, offset, &add);
 
-	if ( stat.Result != StatCompleted )
-	{
-		return( stat );
+	if (stat.Result != StatCompleted) {
+		return (stat);
 	}
 
-	flash_readf(add, &item);
+	item = flash_readf(flash_dev, add);
 
 	item &= 0x00ff;
 
-	query->DeviceSize = (uint8_t)item;
+	query->DeviceSize = (uint8_t) item;
 	offset++;
 
 	/* read device interface */
 	query->DeviceInterface = 0;
-	for ( i=0; i < 2; i++ )
-	{
-		stat = flash_get_query_address(flash_dev,offset, &add);
+	for (i = 0; i < 2; i++) {
+		stat = flash_get_query_address(flash_dev, offset, &add);
 
-		if ( stat.Result != StatCompleted )
-		{
-			return( stat );
+		if (stat.Result != StatCompleted) {
+			return (stat);
 		}
 
-		flash_readf(add, &item);
+		item = flash_readf(flash_dev, add);
 
 		item &= 0x00ff;
-		item = item << (8*(1-i) );
+		item = item << (8 * (1 - i));
 
-		query->DeviceInterface = (uint16_t)
-								 ( query->DeviceInterface | item );
+		query->DeviceInterface = (uint16_t) (query->DeviceInterface | item);
 		offset++;
 	}
 
 	/* read max write buffer bytes */
 	query->MaxWriteBufferBytes = 0;
-	for ( i=0; i < 2; i++ )
-	{
-		stat = flash_get_query_address(flash_dev,offset, &add);
+	for (i = 0; i < 2; i++) {
+		stat = flash_get_query_address(flash_dev, offset, &add);
 
-		if ( stat.Result != StatCompleted )
-		{
-			return( stat );
+		if (stat.Result != StatCompleted) {
+			return (stat);
 		}
 
-		flash_readf(add, &item);
+		item = flash_readf(flash_dev, add);
 
 		item &= 0x00ff;
-		item = item << (8*(1-i) );
+		item = item << (8 * (1 - i));
 
-		query->MaxWriteBufferBytes = (uint16_t)
-									 ( query->MaxWriteBufferBytes | item );
+		query->MaxWriteBufferBytes = (uint16_t) (query->MaxWriteBufferBytes
+				| item);
 		offset++;
 	}
 
 	/* read num erase blocks */
-	stat = flash_get_query_address(flash_dev,offset, &add);
+	stat = flash_get_query_address(flash_dev, offset, &add);
 
-	if ( stat.Result != StatCompleted )
-	{
-		return( stat );
+	if (stat.Result != StatCompleted) {
+		return (stat);
 	}
 
-	flash_readf(add, &item);
+	item = flash_readf(flash_dev, add);
 
 	item &= 0x00ff;
 
-	query->NumEraseBlocks = (uint8_t)item;
+	query->NumEraseBlocks = (uint8_t) item;
 	offset++;
 
 	/* read erase block information */
 	query->EraseBlock1Information = 0;
-	for ( i=0; i < 4; i++ )
-	{
-		stat = flash_get_query_address(flash_dev,offset, &add);
+	for (i = 0; i < 4; i++) {
+		stat = flash_get_query_address(flash_dev, offset, &add);
 
-		if ( stat.Result != StatCompleted )
-		{
-			return( stat );
+		if (stat.Result != StatCompleted) {
+			return (stat);
 		}
 
-		flash_readf(add, &item);
+		item = flash_readf(flash_dev, add);
 
 		item &= 0x00ff;
-		longitem = (uint32_t)((uint32_t)item << (8*(3-i) ));
+		longitem = (uint32_t) ((uint32_t) item << (8 * (3 - i)));
 
-		query->EraseBlock1Information = (uint32_t)
-									   ( query->EraseBlock1Information | longitem );
+		query->EraseBlock1Information
+				= (uint32_t) (query->EraseBlock1Information | longitem);
 
 		offset++;
 	}
-		query->EraseBlock2Information = 0;
-		for ( i=0; i < 4; i++ )
-		{
-			stat = flash_get_query_address(flash_dev,offset, &add);
+	query->EraseBlock2Information = 0;
+	for (i = 0; i < 4; i++) {
+		stat = flash_get_query_address(flash_dev, offset, &add);
 
-			if ( stat.Result != StatCompleted )
-			{
-				return( stat );
-			}
+		if (stat.Result != StatCompleted) {
+			return (stat);
+		}
 
-			flash_readf(add, &item);
+		item = flash_readf(flash_dev, add);
 
-			item &= 0x00ff;
-			longitem = (uint32_t)((uint32_t)item << (8*(3-i) ));
+		item &= 0x00ff;
+		longitem = (uint32_t) ((uint32_t) item << (8 * (3 - i)));
 
-			query->EraseBlock2Information = (uint32_t)
-										   ( query->EraseBlock2Information | longitem );
-			offset++;
+		query->EraseBlock2Information
+				= (uint32_t) (query->EraseBlock2Information | longitem);
+		offset++;
 	}
 
 	stat.Result = StatCompleted;
 
-	flash_writef(flash_base_address, FLASH_READ_ARRAY );
+	flash_writef(flash_dev, 0, FLASH_READ_ARRAY );
 
-	return( stat );
+	return (stat);
 }
 
 /**
@@ -657,54 +552,52 @@ FLASH_STATUS flash_query (FLASH_DEV *flash_dev, struct _FLASH_QUERY_DATA *query 
  * from the flash device.
  * @param (OUT) mcode	- the manufacturer code.
  * @param (OUT) deviceid - the device id.
- * @return TMPL_Status
+ * @return FLASH_STATUS
  */
-FLASH_STATUS flash_read_device_ID (FLASH_DEV *flash_dev, uint32_t *mcode, uint32_t *deviceid )
-{
+FLASH_STATUS flash_read_device_ID(FLASH_DEV *flash_dev, uint32_t *mcode,
+		uint32_t *deviceid) {
 	FLASH_STATUS stat;
 	uint32_t idaddress;
 
-	int flash_base_address = flash_dev->start_address;
-	idaddress = ( flash_base_address + sizeof( FLASH_FDATA ) );
+	idaddress = sizeof(FLASH_FDATA);
 
-	flash_writef(flash_base_address, FLASH_READ_ID_CODES);
+	flash_writef(flash_dev, 0, FLASH_READ_ID_CODES);
 
-	flash_readf(flash_base_address, mcode );
+	*mcode = flash_readf(flash_dev, 0);
 
-	flash_readf(idaddress, deviceid);
-#if 0
-	flash_readf(FLASH_BASE_ADDRESS + 0x80 * sizeof(FLASH_FDATA), &temp);
-	flash_readf(FLASH_BASE_ADDRESS + 0x85 * sizeof(FLASH_FDATA), &temp);
-	flash_readf(FLASH_BASE_ADDRESS + 0x86 * sizeof(FLASH_FDATA), &temp);
-	flash_readf(FLASH_BASE_ADDRESS + 0x87 * sizeof(FLASH_FDATA), &temp);
-	flash_readf(FLASH_BASE_ADDRESS + 0x88 * sizeof(FLASH_FDATA), &temp);
-	flash_readf(FLASH_BASE_ADDRESS + 0x89 * sizeof(FLASH_FDATA), &temp);
-#endif
-	flash_writef(flash_base_address, FLASH_READ_ARRAY ); /* o_O magic string*/
+	*deviceid = flash_readf(flash_dev, idaddress);
+
+	flash_writef(flash_dev, 0, FLASH_READ_ARRAY ); /* o_O magic string*/
 	stat.Result = StatCompleted;
 	stat.SR = 0;
 
-	return( stat );
+	return (stat);
 
 }
-
 /**
  * This procedure is called to read a single data item directly from the
  * specified device address.  This function is used internally by the
- * flash template api.  Clients that need to read data from the flash
- * device should use the TMPL_ReadFlash command.
- *	The flash device is in the READ_ARRAY mode when this function is
- *	called.
- * @param address  - the flash address to be read from.
- * @param (OUT) value - the flash data read from the device.
+ * flash template api.  Clients that need to read data to the flash
+ * device should use the flash_read_flash() command.
+ * @param offset  - the flash address to be written to.
+ * @return the flash data from the device.
  */
-/*volatile */int flash_readf (uint32_t address, FLASH_FDATA_PTR value ) {
-	FLASH_FDATA_PTR  fptr;
+inline volatile FLASH_FDATA flash_readf (FLASH_DEV *flash_dev, uint32_t offset) {
+	volatile uint32_t tmp;
 
-	fptr = flash_get_fptr(address);
+/*
+ * Something strange is happening in this function. Empty cycle and
+ * TRACE are necessary for correct execution. Who can tell me why? -- Alexander
+ */
+	int i;
+	for (i = 0; i < 100 ; i++) {
+	}
 
-	*value = *fptr;
-	return 0;
+	tmp = *((FLASH_FDATA * volatile)(flash_dev->start_address + offset));
+
+	TRACE("0x%x\n", tmp);
+
+	return tmp;
 }
 
 /**
@@ -713,63 +606,51 @@ FLASH_STATUS flash_read_device_ID (FLASH_DEV *flash_dev, uint32_t *mcode, uint32
  * @param address  - the starting device address.
  * @param (OUT) buffer - the buffer to contain the data items read.
  * @param numbytes - the number of data items to read.
- * @param returnSR - flag to indicate whether the device status register
- *				   value should be returned by this function.
- * @return TMPL_Status
+ * @return FLASH_STATUS
  */
-FLASH_STATUS flash_read_flash (FLASH_DEV *flash_dev, uint32_t address, void *buffer, uint32_t num, uint8_t returnSR )
-{
+FLASH_STATUS flash_read_flash(FLASH_DEV *flash_dev, uint32_t offset,
+		void *buffer, uint32_t num) {
 	FLASH_STATUS stat;
 	uint32_t cur_addr;
-	int flash_base_address, flash_total_size = flash_dev->total_size;
+	uint32_t *ptr;
+	int flash_total_size = flash_dev->total_size;
 
 	stat.SR = 0;
 
-	if ( ( address + num ) > flash_total_size )
-	{
+	if ((offset + num) > flash_total_size) {
 		stat.Result = StatBadAddress;
 
-		return( stat );
+		return (stat);
 	}
 
-	if ( returnSR )
-	{
-		flash_clear_status(flash_dev);
-	}
+	flash_clear_status(flash_dev);
+	flash_writef(flash_dev, 0, FLASH_READ_ARRAY );
 
-	flash_base_address = flash_dev->start_address;
-	flash_writef(flash_base_address, FLASH_READ_ARRAY );
-
-	for (cur_addr = address;
-		 cur_addr - address < (num);
-		 cur_addr += sizeof(uint32_t)) {
-		flash_readf(cur_addr, (void*)((char *)buffer + cur_addr - address));
+	for (cur_addr = offset; cur_addr - offset < (num); cur_addr
+			+= sizeof(uint32_t)) {
+		ptr = (FLASH_FDATA *) ((char *) buffer + cur_addr - offset);
+		*ptr = flash_readf(flash_dev, cur_addr);
 	}
 	stat.Result = StatCompleted;
 
-	if ( returnSR )
-	{
-		stat.SR = flash_read_status(flash_dev);
-	}
+	stat.SR = flash_read_status(flash_dev);
 
-	return( stat );
+	return stat;
 }
 
 /**
  * This procedure is called to read the status register value from
  * the flash device.
- * @return TMPL_FDATA - the status register value read from the device.
+ * @return FLASH_FDATA - the status register value read from the device.
  */
-FLASH_FDATA flash_read_status (FLASH_DEV *flash_dev)
-{
-	FLASH_FDATA status;
+FLASH_FDATA flash_read_status(FLASH_DEV *flash_dev) {
+	volatile FLASH_FDATA status = 0;
 
-	int flash_base_address = flash_dev->start_address;
-	flash_writef(flash_base_address, FLASH_READ_STATUS_REGISTER );
+	flash_writef(flash_dev, 0, FLASH_READ_STATUS_REGISTER );
 
-	flash_readf(flash_base_address, &status );
+	status = flash_readf(flash_dev, 0);
 
-	return( status );
+	return status;
 
 }
 
@@ -779,23 +660,23 @@ FLASH_FDATA flash_read_status (FLASH_DEV *flash_dev)
  * @param timeout  - timeout value specified as number of times
  *				   to read the status register before giving up.
  * @return uint8_t - boolean flag indicating whether the ready state was
- *				 reached before the timeout number of reads
- *				 occured.
+ *                 reached before the timeout number of reads
+ *                 occured.
  */
-uint8_t flash_wait_until_ready ( FLASH_DEV *flash_dev, uint32_t timeout )
-{
-
-	while ( timeout )
-	{
-
-		if ( mIsStatusReady( flash_read_status(flash_dev) ) )
+uint8_t flash_wait_until_ready(FLASH_DEV *flash_dev, uint32_t timeout) {
+	volatile FLASH_FDATA flash_status;
+	while (timeout--) {
+		flash_status = flash_read_status(flash_dev);
+		if (mIsStatusReady(flash_status))
 		{
-			return( true );
+			TRACE("\nready!\n");
+			return true;
 		}
-		timeout--;
+		if (timeout % 100000 == 0) {
+			TRACE("0x%x\n", flash_status);
+		}
 	}
-
-	return( false );
+	return false;
 }
 
 /**
@@ -804,17 +685,15 @@ uint8_t flash_wait_until_ready ( FLASH_DEV *flash_dev, uint32_t timeout )
  * flash template api.  Clients that need to write data to the flash
  * device should use the TMPL_ProgramFlash or TMPL_ProgramFlashBuffered
  * command.
- * @param address  - the flash address to be written to.
+ * @param offset  - the flash address to be written to.
  * @param value	- the flash data to write to the device.
  */
-/*volatile */int flash_writef ( uint32_t address, FLASH_FDATA value )
-{
-	FLASH_FDATA_PTR  fptr = flash_get_fptr(address);
-
-	*((volatile uint32_t*)0x80000000) |= (1<<11);
-
-	*fptr = value;
-
-	*((volatile uint32_t*)0x80000000) &= ~(1<<11);
-	return 0;
+inline void flash_writef(FLASH_DEV *flash_dev, uint32_t offset,
+		volatile FLASH_FDATA value) {
+	uint32_t *ptr;
+	ptr = (FLASH_FDATA * volatile ) (flash_dev->start_address + offset);
+	FLASH_WRITE_ENABLE;
+	*ptr = value;
+	FLASH_WRITE_DISABLE;
 }
+

@@ -11,13 +11,13 @@
 #include <drivers/flash_template.h>
 #include <fs/file_interface.h>
 
-#define FLASH_WRITE_ENABLE      *((volatile uint32_t*)0x80000000) |= (1<<11)
+//#define FLASH_WRITE_ENABLE      *((volatile uint32_t*)0x80000000) |= (1<<11)
 // TODO: use FLASH_WRITE_DISABLE after flash write operations
 //#define FLASH_WRITE_DISABLE     *((volatile uint32_t*)0x80000000) &= ~(1<<11)
 
 typedef enum {
 	BLOCK_UNUSED,
-	BLOCK_USED 
+	BLOCK_USED
 } BLK_USEFLAG;
 
 // blocks 255-258 are small params blocks
@@ -26,7 +26,7 @@ typedef enum {
 #define IS_BLOCKNUM_SANE(bnum) ((bnum>=0) && (bnum<MBFS_FTABLE_BLOCKNUM)) ? true : false
 
 // 32 blocks per file is enough... probably
-#define MAX_NOWNBLOCKS 32 
+#define MAX_NOWNBLOCKS 32
 
 typedef struct  {
 	long nbytes;

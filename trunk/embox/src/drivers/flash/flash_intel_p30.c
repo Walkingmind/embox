@@ -56,30 +56,26 @@
 /**
  * This procedure is called to erase all data blocks on the flash
  * device.
- * @param returnSR - flag to indicate whether the device status register
- *                   value should be returned by this function.
- * @return TMPL_Status
+ * @return FLASH_STATUS
  */
-FLASH_STATUS flash_erase_all_blocks ( FLASH_DEV *flash_dev, uint8_t returnSR ) {
-    int flash_total_numblocks, flash_base_address;
-    FLASH_STATUS stat;
-    uint16_t block;
+FLASH_STATUS flash_erase_all_blocks(FLASH_DEV *flash_dev) {
+	int flash_total_numblocks;
+	FLASH_STATUS stat;
+	uint16_t block;
 
-    flash_total_numblocks = flash_dev->total_numblocks;
-    for ( block=0; block < flash_total_numblocks; block++ ) {
-        stat = flash_erase_block(flash_dev, block, returnSR );
+	flash_total_numblocks = flash_dev->total_numblocks;
+	for (block = 0; block < flash_total_numblocks; block++) {
+		stat = flash_erase_block(flash_dev, block);
 
-        if ( stat.Result != StatCompleted )
-        {
-            return( stat );
-        }
-    }
+		if (stat.Result != StatCompleted) {
+			return (stat);
+		}
+	}
 
-    flash_base_address = flash_dev->start_address;
-    /* return device to read array mode */
-    flash_writef( flash_base_address, FLASH_READ_ARRAY );
+	/* return device to read array mode */
+	flash_writef(flash_dev, 0, FLASH_READ_ARRAY);
 
-    return( stat );
+	return (stat);
 
 }
 
@@ -89,36 +85,26 @@ FLASH_STATUS flash_erase_all_blocks ( FLASH_DEV *flash_dev, uint8_t returnSR ) {
  * When this function is called the device is currently in the erase
  * mode for the block identified.
  *
- * @param returnSR - flag to indicate whether the device status register
- *                   value should be returned by this function.
- * @return TMPL_Status
- *
+ * @return FLASH_STATUS
  */
-FLASH_STATUS flash_erase_suspend (FLASH_DEV *flash_dev, uint8_t returnSR )
-{
+FLASH_STATUS flash_erase_suspend(FLASH_DEV *flash_dev) {
 
-    FLASH_STATUS stat;
+	FLASH_STATUS stat;
 
-    int flash_base_address = flash_dev->start_address;
-    flash_writef( flash_base_address, FLASH_BLOCK_SUSPEND );
+	flash_writef(flash_dev, 0, FLASH_BLOCK_SUSPEND);
 
-    if ( !flash_wait_until_ready(flash_dev, FLASH_PROGRAM_TIMEOUT ) )
-    {
-        stat.Result = StatTimeout;
-    } else
-    {
-        stat.Result = StatCompleted;
-    }
+	if (!flash_wait_until_ready(flash_dev, FLASH_PROGRAM_TIMEOUT)) {
+		stat.Result = StatTimeout;
+	} else {
+		stat.Result = StatCompleted;
+	}
 
-    if ( returnSR )
-    {
-        stat.SR = flash_read_status(flash_dev);
-    }
+	stat.SR = flash_read_status(flash_dev);
 
-    /* return device to read array mode */
-    flash_writef( flash_base_address, FLASH_READ_ARRAY );
+	/* return device to read array mode */
+	flash_writef(flash_dev, 0, FLASH_READ_ARRAY);
 
-    return( stat );
+	return (stat);
 
 }
 
@@ -126,154 +112,144 @@ FLASH_STATUS flash_erase_suspend (FLASH_DEV *flash_dev, uint8_t returnSR )
  * This procedure is called to retrieve the extended query
  * data from the flash device.
  * @param (OUT) *extquery - pointer to extended query structure
- * @return TMPL_Status
+ * @return FLASH_STATUS
 */
-FLASH_STATUS flash_extended_query (FLASH_DEV *flash_dev, struct _FLASH_EXTQUERY *extquery) {
-    int flash_base_address;
-    FLASH_STATUS           stat;
-    struct _FLASH_QUERY_DATA query;
-    FLASH_FDATA            item;
-    uint32_t addr, longitem, i, offset;
+FLASH_STATUS flash_extended_query(FLASH_DEV *flash_dev,
+		struct _FLASH_EXTQUERY *extquery) {
+	FLASH_STATUS stat;
+	struct _FLASH_QUERY_DATA query;
+	FLASH_FDATA item;
+	uint32_t addr, longitem, i, offset;
 
-    stat = flash_query(flash_dev, &query );
+	stat = flash_query(flash_dev, &query);
 
-    if ( stat.Result != StatCompleted ) {
-        return( stat );
-    }
+	if (stat.Result != StatCompleted) {
+		return (stat);
+	}
 
-    offset = query.ExtTablePtr;
+	offset = query.ExtTablePtr;
 
-    flash_base_address = flash_dev->start_address;
-    flash_writef( flash_base_address, FLASH_READ_QUERY );
+	flash_writef(flash_dev, 0, FLASH_READ_QUERY );
 
-    /* read extended query string */
-    for ( i=0; i < 3; i++ )
-    {
-        stat = flash_get_query_address(flash_dev, offset, &addr );
+	/* read extended query string */
+	for (i = 0; i < 3; i++) {
+		stat = flash_get_query_address(flash_dev, offset, &addr);
 
-        if ( stat.Result != StatCompleted )
-        {
-            return( stat );
-        }
+		if (stat.Result != StatCompleted) {
+			return (stat);
+		}
 
-        flash_readf(addr, &item);
+		item = flash_readf(flash_dev, addr);
 
-        item &= 0xff;
-        extquery->ExtQueryStr[i] = (char)item;
-        offset++;
-    }
-    extquery->ExtQueryStr[3] = '\0'; /* null terminate string */
+		item &= 0xff;
+		extquery->ExtQueryStr[i] = (char) item;
+		offset++;
+	}
+	extquery->ExtQueryStr[3] = '\0'; /* null terminate string */
 
-    /* read major version number */
-    stat = flash_get_query_address(flash_dev, offset, &addr );
+	/* read major version number */
+	stat = flash_get_query_address(flash_dev, offset, &addr);
 
-    if ( stat.Result != StatCompleted )
-    {
-        return( stat );
-    }
+	if (stat.Result != StatCompleted) {
+		return (stat);
+	}
 
-    flash_readf(addr, &item);
-    item &= 0xff;
-    extquery->MajorVersionNum = (uint8_t)item;
-    offset++;
+	item = flash_readf(flash_dev, addr);
+	item &= 0xff;
+	extquery->MajorVersionNum = (uint8_t) item;
+	offset++;
 
-    /* read minor version number */
-    stat = flash_get_query_address( flash_dev, offset, &addr );
+	/* read minor version number */
+	stat = flash_get_query_address(flash_dev, offset, &addr);
 
-    if ( stat.Result != StatCompleted )
-    {
-        return( stat );
-    }
+	if (stat.Result != StatCompleted) {
+		return (stat);
+	}
 
-    flash_readf(addr, &item);
-    item &= 0xff;
-    extquery->MinorVersionNum = (uint8_t)item;
-    offset++;
+	item = flash_readf(flash_dev, addr);
+	item &= 0xff;
+	extquery->MinorVersionNum = (uint8_t) item;
+	offset++;
 
-    extquery->OptionalFeature = 0;
-    for ( i=0; i < 4; i++ )
-    {
-        stat = flash_get_query_address(flash_dev, offset, &addr );
+	extquery->OptionalFeature = 0;
+	for (i = 0; i < 4; i++) {
+		stat = flash_get_query_address(flash_dev, offset, &addr);
 
-        if ( stat.Result != StatCompleted )
-        {
-            return( stat );
-        }
+		if (stat.Result != StatCompleted) {
+			return (stat);
+		}
 
-        flash_readf(addr, &item);
-        item &= 0xff;
-        longitem = (uint32_t)((uint32_t)item << (8*i));
-        extquery->OptionalFeature = (uint32_t)( extquery->OptionalFeature | longitem );
-        offset++;
-    }
+		item = flash_readf(flash_dev, addr);
+		item &= 0xff;
+		longitem = (uint32_t) ((uint32_t) item << (8 * i));
+		extquery->OptionalFeature = (uint32_t) (extquery->OptionalFeature
+				| longitem);
+		offset++;
+	}
 
-    /* read after suspend functions */
-    stat = flash_get_query_address(flash_dev, offset, &addr );
+	/* read after suspend functions */
+	stat = flash_get_query_address(flash_dev, offset, &addr);
 
-    if ( stat.Result != StatCompleted )
-    {
-        return( stat );
-    }
+	if (stat.Result != StatCompleted) {
+		return (stat);
+	}
 
-    flash_readf(addr, &item);
+	item = flash_readf(flash_dev, addr);
 
-    item &= 0xff;
-    extquery->AfterSuspendFunctions = (uint8_t)item;
-    offset++;
+	item &= 0xff;
+	extquery->AfterSuspendFunctions = (uint8_t) item;
+	offset++;
 
-    /* read vendor id */
-    extquery->BlockLockStatus = 0;
-    for ( i=0; i < 2; i++ )
-    {
-        stat = flash_get_query_address(flash_dev, offset, &addr );
+	/* read vendor id */
+	extquery->BlockLockStatus = 0;
+	for (i = 0; i < 2; i++) {
+		stat = flash_get_query_address(flash_dev, offset, &addr);
 
-        if ( stat.Result != StatCompleted )
-        {
-            return( stat );
-        }
+		if (stat.Result != StatCompleted) {
+			return (stat);
+		}
 
-        flash_readf(addr, &item);
+		item = flash_readf(flash_dev, addr);
 
-        item &= 0xff;
-        item = item << (8*i);
-        extquery->BlockLockStatus = (uint16_t)( extquery->BlockLockStatus | item );
-        offset++;
-    }
+		item &= 0xff;
+		item = item << (8 * i);
+		extquery->BlockLockStatus = (uint16_t) (extquery->BlockLockStatus
+				| item);
+		offset++;
+	}
 
-    /* read vcc optimum */
-    stat = flash_get_query_address(flash_dev, offset, &addr );
+	/* read vcc optimum */
+	stat = flash_get_query_address(flash_dev, offset, &addr);
 
-    if ( stat.Result != StatCompleted )
-    {
-        return( stat );
-    }
+	if (stat.Result != StatCompleted) {
+		return (stat);
+	}
 
-    flash_readf(addr, &item);
+	item = flash_readf(flash_dev, addr);
 
-    item &= 0xff;
-    extquery->VccOptimum = (uint8_t)item;
-    offset++;
+	item &= 0xff;
+	extquery->VccOptimum = (uint8_t) item;
+	offset++;
 
-    /* read vpp optimum */
-    stat = flash_get_query_address(flash_dev, offset, &addr );
+	/* read vpp optimum */
+	stat = flash_get_query_address(flash_dev, offset, &addr);
 
-    if ( stat.Result != StatCompleted )
-    {
-        return( stat );
-    }
+	if (stat.Result != StatCompleted) {
+		return (stat);
+	}
 
-    flash_readf(addr, &item);
+	item = flash_readf(flash_dev, addr);
 
-    item &= 0xff;
-    extquery->VppOptimum = (uint8_t)item;
-    offset++;
+	item &= 0xff;
+	extquery->VppOptimum = (uint8_t) item;
+	offset++;
 
-    stat.Result = StatCompleted;
+	stat.Result = StatCompleted;
 
-    /* return device to read array mode */
-    flash_writef( flash_base_address, FLASH_READ_ARRAY );
+	/* return device to read array mode */
+	flash_writef(flash_dev, 0, FLASH_READ_ARRAY);
 
-    return( stat );
+	return (stat);
 
 }
 
@@ -283,76 +259,62 @@ FLASH_STATUS flash_extended_query (FLASH_DEV *flash_dev, struct _FLASH_EXTQUERY 
  * @param blocknum - the block number on the device.
  * @param (OUT) address  - the starting flash address for the specified
  *                         block.
- * @return TMPL_Status
+ * @return FLASH_STATUS
  */
-FLASH_STATUS flash_get_block_address (FLASH_DEV *flash_dev, uint32_t blocknum, uint32_t *address )
-{
-#if 0
-    printf("in get block address(), flash_dev = 0x%x, blocknum = %d\n\n", flash_dev->dev, blocknum);
-#endif
+FLASH_STATUS flash_get_block_offset(FLASH_DEV *flash_dev, uint32_t blocknum,
+		uint32_t *address) {
+	FLASH_STATUS stat;
+	int is_top = flash_dev->is_top;
 
-    FLASH_STATUS stat;
-    int flash_base_address = flash_dev->start_address;
-    int is_top = flash_dev->is_top;
+	if (!is_top) { /* Bottom Boot Device */
+		if (((blocknum >= FLASH_BOTTOM_BLOCK_LOWER) && (blocknum
+				<= FLASH_BOTTOM_BLOCK_UPPER))) {
 
+			*address = (blocknum * FLASH_PARM_BLOCK_NUMBYTES);
 
-    if (!is_top)
-    { /* Bottom Boot Device */
-        if ( ((blocknum >= FLASH_BOTTOM_BLOCK_LOWER) && (blocknum <= FLASH_BOTTOM_BLOCK_UPPER)) )
-        {
+			stat.Result = StatCompleted;
 
-            *address = flash_base_address + 2 * ( blocknum * FLASH_PARM_BLOCK_NUMBYTES );
+		}
 
-            stat.Result = StatCompleted;
+		else if ((blocknum >= 4 && blocknum <= FLASH_TOTAL_NUMBLOCKS)) {
+			*address = ((blocknum - FLASH_BOTTOM_BLOCK_UPPER)
+					* FLASH_MAIN_BLOCK_NUMBYTES);
 
-        }
+			stat.Result = StatCompleted;
+		}
 
-        else if
+		else {
+			stat.Result = StatBadBlock;
+		}
 
-             (  (blocknum >= 4 && blocknum <= FLASH_TOTAL_NUMBLOCKS) )
-        {
-            *address = flash_base_address + 2 * ( (blocknum-FLASH_BOTTOM_BLOCK_UPPER) * FLASH_MAIN_BLOCK_NUMBYTES );
+	}
 
-            stat.Result = StatCompleted;
-        }
+	else { /* Top Boot Device */
+		if ((blocknum >= FLASH_TOP_BLOCK_LOWER && blocknum
+				<= (FLASH_TOTAL_NUMBLOCKS-1))) {
 
-        else
-        {
-            stat.Result = StatBadBlock;
-        }
+			*address = (((FLASH_TOP_BLOCK_LOWER) * FLASH_MAIN_BLOCK_NUMBYTES)
+					+ ((blocknum - (FLASH_TOP_BLOCK_LOWER))
+							* FLASH_PARM_BLOCK_NUMBYTES));
 
-    }
+			stat.Result = StatCompleted;
+		}
 
-    else
-    {    /* Top Boot Device */
-        if (  (blocknum >= FLASH_TOP_BLOCK_LOWER && blocknum <= (FLASH_TOTAL_NUMBLOCKS-1) ) )
-        {
+		else if (((blocknum >= 0) && (blocknum <= (FLASH_TOP_BLOCK_LOWER-1)))) {
+			*address = (blocknum * FLASH_MAIN_BLOCK_NUMBYTES);
 
-            *address = flash_base_address + 2 * ( ((FLASH_TOP_BLOCK_LOWER)*FLASH_MAIN_BLOCK_NUMBYTES) + ( (blocknum-(FLASH_TOP_BLOCK_LOWER)) * FLASH_PARM_BLOCK_NUMBYTES) );
+			stat.Result = StatCompleted;
+		}
 
+		else {
+			stat.Result = StatBadBlock;
+		}
 
-            stat.Result = StatCompleted;
-        }
+	}
 
-        else if
+	stat.SR = 0;
 
-             ( ((blocknum >= 0) && (blocknum <= (FLASH_TOP_BLOCK_LOWER-1 ))) )
-        {
-            *address = flash_base_address + 2 * ( blocknum * FLASH_MAIN_BLOCK_NUMBYTES );
-
-            stat.Result = StatCompleted;
-        }
-
-        else
-        {
-            stat.Result = StatBadBlock;
-        }
-
-    }
-    
-    stat.SR = 0;
-    
-    return( stat );
+	return (stat);
 
 }
 
@@ -360,89 +322,67 @@ FLASH_STATUS flash_get_block_address (FLASH_DEV *flash_dev, uint32_t blocknum, u
  * This procedure is called to lock the specified block on the flash
  * device.
  * @param blocknum - the block number on the device.
- * @param returnSR - flag to indicate whether the device status register
- *                   value should be returned by this function.
- * @return TMPL_Status
+ * @return FLASH_STATUS
  */
-FLASH_STATUS flash_lock_block ( FLASH_DEV *flash_dev, 
-			    uint16_t blocknum, uint8_t  returnSR ) {
-    int flash_base_address;
-    FLASH_STATUS stat;
-    uint32_t blockaddr;
-    
-    stat.SR = 0;
+FLASH_STATUS flash_lock_block(FLASH_DEV *flash_dev, uint16_t blocknum) {
+	FLASH_STATUS stat;
+	uint32_t block_offset;
 
-    if (!flash_wait_until_ready(flash_dev, FLASH_PROGRAM_TIMEOUT))
-    {
-        stat.Result = StatTimeout;
-        return(stat);
-    }
+	if (!flash_wait_until_ready(flash_dev, FLASH_PROGRAM_TIMEOUT)) {
+		stat.Result = StatTimeout;
+		return (stat);
+	}
 
-    flash_get_block_address (flash_dev, blocknum,  &blockaddr );
+	flash_get_block_offset(flash_dev, blocknum, &block_offset);
 
-    flash_writef( blockaddr, FLASH_CONFIG_SETUP);
-    flash_writef( blockaddr, FLASH_LOCK_BIT_SET );
+	flash_writef(flash_dev, block_offset, FLASH_CONFIG_SETUP);
+	flash_writef(flash_dev, block_offset, FLASH_LOCK_BIT_SET);
 
-    if ( !flash_wait_until_ready(flash_dev, FLASH_PROGRAM_TIMEOUT ) )
-    {
-        stat.Result = StatTimeout;
-    }
+	if (!flash_wait_until_ready(flash_dev, FLASH_PROGRAM_TIMEOUT)) {
+		stat.Result = StatTimeout;
+	}
 
-    if ( returnSR )
-    {
-        stat.SR = flash_read_status(flash_dev);
-    }
+	stat.SR = flash_read_status(flash_dev);
 
-    flash_base_address = flash_dev->start_address;
-    /* return device to read array mode */
-    flash_writef(flash_base_address, FLASH_READ_ARRAY );
+	/* return device to read array mode */
+	flash_writef(flash_dev, 0, FLASH_READ_ARRAY );
 
-    return( stat );
+	return (stat);
 }
 
 /**
  * This procedure is called to lock down the specified block on the flash
  * device.
  * @param blocknum - the block number on the device.
- * @param returnSR - flag to indicate whether the device status register
- *                   value should be returned by this function.
- * @return TMPL_Status
+ * @return FLASH_STATUS
  */
-FLASH_STATUS flash_lock_block_down ( FLASH_DEV *flash_dev, 
-			    uint16_t blocknum, uint8_t  returnSR ) {
-    int flash_base_address;
-    FLASH_STATUS stat;
-    uint32_t      blockaddr;
-    
-    stat.SR = 0;
+FLASH_STATUS flash_lock_block_down(FLASH_DEV *flash_dev, uint16_t blocknum) {
+	FLASH_STATUS stat;
+	uint32_t block_offset;
 
-    if (!flash_wait_until_ready(flash_dev, FLASH_PROGRAM_TIMEOUT))
-    {
-        stat.Result = StatTimeout;
-        return(stat);
-    }
+	stat.SR = 0;
 
-    flash_get_block_address (flash_dev, blocknum,  &blockaddr );
+	if (!flash_wait_until_ready(flash_dev, FLASH_PROGRAM_TIMEOUT)) {
+		stat.Result = StatTimeout;
+		return (stat);
+	}
 
-    flash_writef( blockaddr, FLASH_CONFIG_SETUP);
+	flash_get_block_offset(flash_dev, blocknum, &block_offset);
 
-    flash_writef( blockaddr, FLASH_LOCKDOWN_BIT_SET );
+	flash_writef(flash_dev, block_offset, FLASH_CONFIG_SETUP);
 
-    if ( !flash_wait_until_ready(flash_dev, FLASH_PROGRAM_TIMEOUT ) )
-    {
-        stat.Result = StatTimeout;
-    }
+	flash_writef(flash_dev, block_offset, FLASH_LOCKDOWN_BIT_SET);
 
-    if ( returnSR )
-    {
-        stat.SR = flash_read_status(flash_dev);
-    }
+	if (!flash_wait_until_ready(flash_dev, FLASH_PROGRAM_TIMEOUT)) {
+		stat.Result = StatTimeout;
+	}
 
-    flash_base_address = flash_dev->start_address;
-    /* return device to read array mode */
-    flash_writef(flash_base_address, FLASH_READ_ARRAY );
+	stat.SR = flash_read_status(flash_dev);
 
-    return( stat );
+	/* return device to read array mode */
+	flash_writef(flash_dev, 0, FLASH_READ_ARRAY );
+
+	return (stat);
 
 }
 
@@ -451,137 +391,120 @@ FLASH_STATUS flash_lock_block_down ( FLASH_DEV *flash_dev,
  * bit on the flash device.
  * Protection Register number to be locked is valid
  * @param ProtectionRegister - Protection Register number to be locked
- * @param returnSR - flag to indicate whether the device status register
- *                   value should be returned by this function.
- * @return TMPL_Status
+ * @return FLASH_STATUS
  */
-FLASH_STATUS flash_lock_protection (FLASH_DEV *flash_dev, uint32_t ProtectionRegister, uint8_t returnSR )
-{
+FLASH_STATUS flash_lock_protection(FLASH_DEV *flash_dev,
+		uint32_t ProtectionRegister) {
 
-    uint32_t      baseadd;
-    FLASH_STATUS stat;
-    int is_top = flash_dev->is_top;
-    int flash_base_address = flash_dev->start_address;
+	uint32_t base_offset;
+	FLASH_STATUS stat;
+	int is_top = flash_dev->is_top;
 
-    if (!is_top)
-    {
+	if (!is_top) {
 
+		if (ProtectionRegister == 0) {
+			base_offset = FLASH_OTP_BASE + FLASH_BOTTOM_PARTITION_BASE;
+		} else {
+			base_offset = FLASH_OTP_BASE2 + FLASH_BOTTOM_PARTITION_BASE;
+		}
 
-        if (ProtectionRegister == 0)
-        {
-            baseadd = FLASH_OTP_BASE + FLASH_BOTTOM_PARTITION_BASE;
-        } else
-        {
-            baseadd = FLASH_OTP_BASE2 + FLASH_BOTTOM_PARTITION_BASE;
-        }
+	} else {
 
-    } else
-    {
+		if (ProtectionRegister == 0) {
+			base_offset = FLASH_OTP_BASE + FLASH_TOP_PARTITION_BASE;
+		} else {
+			base_offset = FLASH_OTP_BASE2 + FLASH_TOP_PARTITION_BASE;
+		}
 
+	}
 
-        if (ProtectionRegister == 0)
-        {
-            baseadd = FLASH_OTP_BASE + FLASH_TOP_PARTITION_BASE;
-        } else
-        {
-            baseadd = FLASH_OTP_BASE2 + FLASH_TOP_PARTITION_BASE;
-        }
+	/* Make sure part is ready */
+	if (!flash_wait_until_ready(flash_dev, FLASH_PROGRAM_TIMEOUT)) {
 
-    }
+		stat.Result = StatTimeout;
 
-    baseadd += flash_base_address;
-    /* Make sure part is ready */
-    if ( !flash_wait_until_ready(flash_dev,FLASH_PROGRAM_TIMEOUT) )
-    {
+		stat.SR = flash_read_status(flash_dev);
 
-        stat.Result = StatTimeout;
+		return (stat);
+	}
 
-        if ( returnSR )
-        {
-            stat.SR = flash_read_status(flash_dev);
-        }
+	flash_clear_status(flash_dev);
 
-        return( stat );
-    }
+	if (ProtectionRegister == 0) {
 
+		flash_writef(flash_dev, base_offset, FLASH_OTP_PROGRAM );
+		flash_writef(flash_dev, base_offset, FLASH_OTP_LOCK);
+	}
 
-    if ( returnSR )
-    {
-        flash_clear_status(flash_dev);
-    }
+	else {
 
+		flash_writef(flash_dev, base_offset, FLASH_OTP_PROGRAM );
 
+		switch (ProtectionRegister) {
+		case 1:
+			flash_writef(flash_dev, base_offset, FLASH_OTP_LOCK_PR1);
+			break;
+		case 2:
+			flash_writef(flash_dev, base_offset, FLASH_OTP_LOCK_PR2);
+			break;
+		case 3:
+			flash_writef(flash_dev, base_offset, FLASH_OTP_LOCK_PR3);
+			break;
+		case 4:
+			flash_writef(flash_dev, base_offset, FLASH_OTP_LOCK_PR4);
+			break;
+		case 5:
+			flash_writef(flash_dev, base_offset, FLASH_OTP_LOCK_PR5);
+			break;
+		case 6:
+			flash_writef(flash_dev, base_offset, FLASH_OTP_LOCK_PR6);
+			break;
+		case 7:
+			flash_writef(flash_dev, base_offset, FLASH_OTP_LOCK_PR7);
+			break;
+		case 8:
+			flash_writef(flash_dev, base_offset, FLASH_OTP_LOCK_PR8);
+			break;
+		case 9:
+			flash_writef(flash_dev, base_offset, FLASH_OTP_LOCK_PR9);
+			break;
+		case 10:
+			flash_writef(flash_dev, base_offset, FLASH_OTP_LOCK_PR10);
+			break;
+		case 11:
+			flash_writef(flash_dev, base_offset, FLASH_OTP_LOCK_PR11);
+			break;
+		case 12:
+			flash_writef(flash_dev, base_offset, FLASH_OTP_LOCK_PR12);
+			break;
+		case 13:
+			flash_writef(flash_dev, base_offset, FLASH_OTP_LOCK_PR13);
+			break;
+		case 14:
+			flash_writef(flash_dev, base_offset, FLASH_OTP_LOCK_PR14);
+			break;
+		case 15:
+			flash_writef(flash_dev, base_offset, FLASH_OTP_LOCK_PR15);
+			break;
+		case 16:
+			flash_writef(flash_dev, base_offset, FLASH_OTP_LOCK_PR16);
+			break;
+		}
 
-    if (ProtectionRegister == 0)
-    {
+	}
 
-        flash_writef(baseadd, FLASH_OTP_PROGRAM );
-        flash_writef(baseadd, FLASH_OTP_LOCK);
-    }
+	if (!flash_wait_until_ready(flash_dev, FLASH_PROGRAM_TIMEOUT)) {
+		stat.Result = StatTimeout;
+	} else {
+		stat.Result = StatCompleted;
+	}
 
-    else
-    {
+	stat.SR = flash_read_status(flash_dev);
 
+	/* return device to read array mode */
+	flash_writef(flash_dev, 0, FLASH_READ_ARRAY );
 
-        flash_writef(baseadd, FLASH_OTP_PROGRAM );
-
-
-        switch (ProtectionRegister)
-        {
-        case 1: flash_writef(baseadd, FLASH_OTP_LOCK_PR1);
-            break;
-        case 2: flash_writef(baseadd, FLASH_OTP_LOCK_PR2);
-            break;
-        case 3: flash_writef(baseadd, FLASH_OTP_LOCK_PR3);
-            break;
-        case 4: flash_writef(baseadd, FLASH_OTP_LOCK_PR4);
-            break;
-        case 5: flash_writef(baseadd, FLASH_OTP_LOCK_PR5);
-            break;
-        case 6: flash_writef(baseadd, FLASH_OTP_LOCK_PR6);
-            break;
-        case 7: flash_writef(baseadd, FLASH_OTP_LOCK_PR7);
-            break;
-        case 8: flash_writef(baseadd, FLASH_OTP_LOCK_PR8);
-            break;
-        case 9: flash_writef(baseadd, FLASH_OTP_LOCK_PR9);
-            break;
-        case 10: flash_writef(baseadd, FLASH_OTP_LOCK_PR10);
-            break;
-        case 11: flash_writef(baseadd, FLASH_OTP_LOCK_PR11);
-            break;
-        case 12: flash_writef(baseadd, FLASH_OTP_LOCK_PR12);
-            break;
-        case 13: flash_writef(baseadd, FLASH_OTP_LOCK_PR13);
-            break;
-        case 14: flash_writef(baseadd, FLASH_OTP_LOCK_PR14);
-            break;
-        case 15: flash_writef(baseadd, FLASH_OTP_LOCK_PR15);
-            break;
-        case 16: flash_writef(baseadd, FLASH_OTP_LOCK_PR16);
-            break;
-        }
-
-    }
-
-
-    if ( !flash_wait_until_ready(flash_dev, FLASH_PROGRAM_TIMEOUT ) )
-    {
-        stat.Result = StatTimeout;
-    } else
-    {
-        stat.Result = StatCompleted;
-    }
-
-    if ( returnSR )
-    {
-        stat.SR = flash_read_status(flash_dev);
-    }
-
-    /* return device to read array mode */
-    flash_writef(flash_base_address, FLASH_READ_ARRAY );
-
-    return( stat );
+	return (stat);
 
 }
 
@@ -595,33 +518,29 @@ FLASH_STATUS flash_lock_protection (FLASH_DEV *flash_dev, uint32_t ProtectionReg
  * @param enable - flag "1" to indicate the page mode is anable and
  *                 flag "0" to indicate the page mode is disable to
  *                 the device.
- * @return TMPL_Status
+ * @return FLASH_STATUS
  */
-FLASH_STATUS flash_page_mode (FLASH_DEV *flash_dev, uint16_t enable ) {
-    int flash_base_address;
-    FLASH_STATUS stat;
-    uint32_t      address; /* contains the address to load the
-                                               Read Configuration Register with */
+FLASH_STATUS flash_page_mode(FLASH_DEV *flash_dev, uint16_t enable) {
+	FLASH_STATUS stat;
+	uint32_t address; /* contains the address to load the
+	 Read Configuration Register with */
 
-    if ( enable ) {
-        address = FLASH_PAGE_READ_MODE;
-    } else {
-        address = FLASH_STD_READ_MODE;
-    }
+	if (enable) {
+		address = FLASH_PAGE_READ_MODE;
+	} else {
+		address = FLASH_STD_READ_MODE;
+	}
 
-    address = address << 1;  /* shift so address is on A16..A1 */
+	address = address << 1; /* shift so address is on A16..A1 */
 
-    flash_base_address = flash_dev->start_address;
-    address += flash_base_address; /* offset by base flash mem */
+	/* write Read Configuration command */
+	flash_writef(flash_dev, 0, FLASH_CONFIG_SETUP);
+	flash_writef(flash_dev, address, FLASH_SET_READ_CONFIG);
 
-    /* write Read Configuration command */
-    flash_writef( flash_base_address, FLASH_CONFIG_SETUP );
-    flash_writef( flash_base_address + address, FLASH_SET_READ_CONFIG );
+	stat.Result = StatCompleted;
+	stat.SR = 0;
 
-    stat.Result = StatCompleted;
-    stat.SR = 0;
-    
-    return( stat );
+	return (stat);
 }
 
 /**
@@ -630,78 +549,61 @@ FLASH_STATUS flash_page_mode (FLASH_DEV *flash_dev, uint16_t enable ) {
  * @param address  - the flash address to be programmed.
  * @param buffer   - the buffer containing data to be programmed.
  * @param numitems - the number of data items contained in the buffer.
- * @param returnSR - flag to indicate whether the device status register
- *                   value should be returned by this function.
- * @return TMPL_Status
+ * @return FLASH_STATUS
  */
-FLASH_STATUS flash_program_flash_buffered (FLASH_DEV *flash_dev, uint32_t address, uint32_t *buffer, uint32_t numwords, uint8_t returnSR )
-{
-    FLASH_STATUS     stat;
-    uint32_t         cur_add, expect;
+FLASH_STATUS flash_program_flash_buffered(FLASH_DEV *flash_dev,
+		uint32_t offset, uint32_t *buffer, uint32_t numwords) {
+	FLASH_STATUS stat;
+	uint32_t cur_add, expect;
 
-    int flash_buffer_size = flash_dev->buffer_size;
-    int flash_base_address = flash_dev->start_address;
-    address +=flash_base_address;
-    
-    stat.SR = 0;
+	int flash_buffer_size = flash_dev->buffer_size;
 
-    printf("\tin flash_program_flash_buffered\n");
-    
-    if (numwords > flash_buffer_size) {
-        stat.Result = StatTimeout;
-        printf("TT %d\n", numwords);
-        if ( returnSR ) {
-            stat.SR = flash_read_status(flash_dev);
-        }
+	stat.SR = 0;
 
-        return( stat );
-    }
+	printf("\tin flash_program_flash_buffered\n");
 
-    /* Make sure part is ready */
-    if ( !flash_wait_until_ready(flash_dev,FLASH_PROGRAM_TIMEOUT) )
-    {
+	if (numwords > flash_buffer_size) {
+		stat.Result = StatTimeout;
+		printf("TT %d\n", numwords);
+		stat.SR = flash_read_status(flash_dev);
 
-        stat.Result = StatTimeout;
-        if ( returnSR )
-        {
-            stat.SR = flash_read_status(flash_dev);
-        }
+		return (stat);
+	}
 
-        return( stat );
-    }
+	/* Make sure part is ready */
+	if (!flash_wait_until_ready(flash_dev, FLASH_PROGRAM_TIMEOUT)) {
 
-    /* Write program command, buffer size and data then wait until done */
-    flash_writef(address,FLASH_WRITE_TO_BUFFER);
+		stat.Result = StatTimeout;
+		stat.SR = flash_read_status(flash_dev);
 
-    flash_writef(address,(uint32_t)(numwords-1) );
+		return (stat);
+	}
 
-    for (cur_add=address;
-        cur_add-address < (numwords);
-        cur_add+=sizeof(uint32_t))
-    {
-        expect = *buffer;
-        flash_writef(cur_add,expect);
-    }
-    cur_add -= sizeof(uint32_t);  /* can't advance beyond end of array */
-    flash_writef(cur_add,FLASH_CONFIRM);
+	/* Write program command, buffer size and data then wait until done */
+	flash_writef(flash_dev, offset, FLASH_WRITE_TO_BUFFER);
 
-    if (!flash_wait_until_ready(flash_dev, FLASH_PROGRAM_TIMEOUT ))
-    {
-        stat.Result = StatTimeout;
+	flash_writef(flash_dev, offset, (uint32_t) (numwords - 1));
 
-        if ( returnSR )
-        {
-            stat.SR = flash_read_status(flash_dev);
-        }
+	for (cur_add = offset; cur_add - offset < (numwords); cur_add
+			+= sizeof(uint32_t)) {
+		expect = *buffer;
+		flash_writef(flash_dev, cur_add, expect);
+	}
+	cur_add -= sizeof(uint32_t); /* can't advance beyond end of array */
+	flash_writef(flash_dev, cur_add, FLASH_CONFIRM);
 
-        return( stat );
-    }
+	if (!flash_wait_until_ready(flash_dev, FLASH_PROGRAM_TIMEOUT)) {
+		stat.Result = StatTimeout;
 
-    flash_writef(address,FLASH_READ_ARRAY); /* return to array read mode */
+		stat.SR = flash_read_status(flash_dev);
 
+		return (stat);
+	}
 
-    stat.Result = StatCompleted;
-    return(stat);
+	flash_writef(flash_dev, offset, FLASH_READ_ARRAY); /* return to array read mode */
+
+	stat.Result = StatCompleted;
+	return (stat);
 
 }
 
@@ -712,74 +614,55 @@ FLASH_STATUS flash_program_flash_buffered (FLASH_DEV *flash_dev, uint32_t addres
  * @param  location - the protection register location on the flash
  *                    device to be programmed.
  * @param value    - the data item to be programmed.
- * @param returnSR - flag to indicate whether the device status register
- *                   value should be returned by this function.
- * @return TMPL_Status
+ * @return FLASH_STATUS
  */
-FLASH_STATUS flash_program_protection (FLASH_DEV *flash_dev, uint32_t location,  uint32_t value, uint8_t returnSR )
-{
-    uint32_t      baseaddr;
-    uint32_t      address;
-    FLASH_STATUS stat;
-    int flash_base_address = flash_dev->start_address;
-    int is_top = flash_dev->is_top;
-    
-    stat.SR = 0;
+FLASH_STATUS flash_program_protection(FLASH_DEV *flash_dev, uint32_t location,
+		uint32_t value) {
+	uint32_t base_offset;
+	uint32_t offset;
+	FLASH_STATUS stat;
+	int is_top = flash_dev->is_top;
 
-    if ( location > FLASH_OTP_NUMWORDS )
-    {
-        stat.Result = StatBadOtp;
-        return( stat );
-    }
+	stat.SR = 0;
 
-    if (!flash_wait_until_ready(flash_dev, FLASH_PROGRAM_TIMEOUT))
-    {
-        stat.Result = StatTimeout;
-        return(stat);
-    }
+	if (location > FLASH_OTP_NUMWORDS) {
+		stat.Result = StatBadOtp;
+		return (stat);
+	}
 
+	if (!flash_wait_until_ready(flash_dev, FLASH_PROGRAM_TIMEOUT)) {
+		stat.Result = StatTimeout;
+		return (stat);
+	}
 
-    if (!is_top)
-    {
-        baseaddr = flash_base_address;
-        address = FLASH_OTP_BASE + flash_base_address;
-    } else
-    {
-        baseaddr = FLASH_TOP_PARTITION_BASE + flash_base_address;
-        address = FLASH_OTP_BASE + (FLASH_TOP_PARTITION_BASE) + flash_base_address;
-    }
+	if (!is_top) {
+		base_offset = FLASH_BOTTOM_PARTITION_BASE;
+		offset = FLASH_OTP_BASE;
+	} else {
+		base_offset = FLASH_TOP_PARTITION_BASE;
+		offset = FLASH_OTP_BASE + (FLASH_TOP_PARTITION_BASE);
+	}
 
-    address += ( location * sizeof(FLASH_FDATA) );
+	offset += (location * sizeof(FLASH_FDATA));
 
-    if ( returnSR )
-    {
-        flash_clear_status(flash_dev);
-    }
+	flash_clear_status(flash_dev);
 
+	flash_writef(flash_dev, base_offset, FLASH_OTP_PROGRAM);
 
-    flash_writef( baseaddr, FLASH_OTP_PROGRAM );
+	flash_writef(flash_dev, offset, value);
 
-    flash_writef( address, value );
+	if (!flash_wait_until_ready(flash_dev, FLASH_PROGRAM_TIMEOUT)) {
+		stat.Result = StatTimeout;
+	} else {
+		stat.Result = StatCompleted;
+	}
 
+	stat.SR = flash_read_status(flash_dev);
 
+	/* return device to read array mode */
+	flash_writef(flash_dev, 0, FLASH_READ_ARRAY);
 
-    if ( !flash_wait_until_ready(flash_dev, FLASH_PROGRAM_TIMEOUT ) )
-    {
-        stat.Result = StatTimeout;
-    } else
-    {
-        stat.Result = StatCompleted;
-    }
-
-    if ( returnSR )
-    {
-        stat.SR = flash_read_status(flash_dev);
-    }
-
-    /* return device to read array mode */
-    flash_writef( flash_base_address, FLASH_READ_ARRAY );
-
-    return( stat );
+	return (stat);
 
 }
 
@@ -788,35 +671,26 @@ FLASH_STATUS flash_program_protection (FLASH_DEV *flash_dev, uint32_t location, 
  * the flash device.
  * When this function is called the device is currently in the program
  * mode for the block identified.
- * @param returnSR - flag to indicate whether the device status register
- *                   value should be returned by this function.
- * @return TMPL_Status
+ * @return FLASH_STATUS
  */
-FLASH_STATUS flash_program_suspend (FLASH_DEV *flash_dev, uint8_t returnSR )
-{
+FLASH_STATUS flash_program_suspend(FLASH_DEV *flash_dev) {
 
-    FLASH_STATUS stat;
-    int flash_base_address = flash_dev->start_address;
+	FLASH_STATUS stat;
 
-    flash_writef( flash_base_address, FLASH_BLOCK_SUSPEND);
+	flash_writef(flash_dev, 0, FLASH_BLOCK_SUSPEND);
 
-    if ( !flash_wait_until_ready(flash_dev, FLASH_PROGRAM_TIMEOUT ) )
-    {
-        stat.Result = StatTimeout;
-    } else
-    {
-        stat.Result = StatCompleted;
-    }
+	if (!flash_wait_until_ready(flash_dev, FLASH_PROGRAM_TIMEOUT)) {
+		stat.Result = StatTimeout;
+	} else {
+		stat.Result = StatCompleted;
+	}
 
-    if ( returnSR )
-    {
-        stat.SR = flash_read_status(flash_dev);
-    }
+	stat.SR = flash_read_status(flash_dev);
 
-    /* return device to read array mode */
-    flash_writef( flash_base_address, FLASH_READ_ARRAY );
+	/* return device to read array mode */
+	flash_writef(flash_dev, 0, FLASH_READ_ARRAY);
 
-    return( stat );
+	return (stat);
 
 }
 
@@ -826,41 +700,37 @@ FLASH_STATUS flash_program_suspend (FLASH_DEV *flash_dev, uint8_t returnSR )
  * @param blocknum - the block number on the device.
  * @param (OUT) blockstat- the status of the block as: unlocked, locked,
  *                         or locked down.
- * @return TMPL_Status
+ * @return FLASH_STATUS
  */
-FLASH_STATUS flash_read_block_status (FLASH_DEV *flash_dev, uint16_t blocknum, uint32_t *blockstat )
-{  int flash_base_address;
-    uint32_t      stataddress, blockaddr;
-    FLASH_STATUS stat;
+FLASH_STATUS flash_read_block_status(FLASH_DEV *flash_dev, uint16_t blocknum,
+		uint32_t *blockstat) {
+	uint32_t stat_offset, block_offset;
+	FLASH_STATUS stat;
 
-    stat = flash_get_block_address(flash_dev, blocknum, &blockaddr );
+	stat = flash_get_block_offset(flash_dev, blocknum, &block_offset);
 
-    if ( stat.Result != StatCompleted )
-    {
-        return( stat );
-    }
+	if (stat.Result != StatCompleted) {
+		return (stat);
+	}
 
-    stataddress = ( blockaddr + ( 2 * sizeof( FLASH_FDATA ) ) );
+	stat_offset = (block_offset + (2 * sizeof(FLASH_FDATA)));
 
-    if ( !flash_wait_until_ready(flash_dev, FLASH_PROGRAM_TIMEOUT) )
-    {
-        stat.Result = StatTimeout;
-    } else
-    {
-        stat.Result = StatCompleted;
-    }
+	if (!flash_wait_until_ready(flash_dev, FLASH_PROGRAM_TIMEOUT)) {
+		stat.Result = StatTimeout;
+	} else {
+		stat.Result = StatCompleted;
+	}
 
-    flash_writef( stataddress, FLASH_READ_ID_CODES );
+	flash_writef(flash_dev, stat_offset, FLASH_READ_ID_CODES);
 
-    flash_readf( stataddress, blockstat );
+	*blockstat = flash_readf(flash_dev, stat_offset);
 
-    flash_base_address = flash_dev->start_address;
-    /* return device to read array mode */
-    flash_writef( flash_base_address, FLASH_READ_ARRAY );
+	/* return device to read array mode */
+	flash_writef(flash_dev, 0, FLASH_READ_ARRAY);
 
-    stat.Result = StatCompleted;
+	stat.Result = StatCompleted;
 
-    return( stat );
+	return (stat);
 }
 
 /**
@@ -869,40 +739,37 @@ FLASH_STATUS flash_read_block_status (FLASH_DEV *flash_dev, uint16_t blocknum, u
  * @param location - the protection register location on the flash
  *                   device to be read from.
  * @param (OUT) value - the data item read from the register.
- * @return TMPL_Status
+ * @return FLASH_STATUS
  */
-FLASH_STATUS flash_read_protection ( FLASH_DEV *flash_dev,uint32_t location, uint32_t *value )
-{
-    uint32_t      baseaddr;
-    uint32_t      address;
-    FLASH_STATUS stat;
-    int flash_base_address = flash_dev->start_address;
-    
-    stat.SR = 0;
+FLASH_STATUS flash_read_protection(FLASH_DEV *flash_dev, uint32_t location,
+		uint32_t *value) {
+	uint32_t base_offset;
+	uint32_t offset;
+	FLASH_STATUS stat;
 
-    if ( location > FLASH_OTP_NUMWORDS )
-    {
-        stat.Result = StatBadOtp;
-        return( stat );
-    }
+	stat.SR = 0;
 
-    baseaddr = FLASH_OTP_BASE + flash_base_address;
+	if (location > FLASH_OTP_NUMWORDS) {
+		stat.Result = StatBadOtp;
+		return (stat);
+	}
 
-    address = FLASH_OTP_BASE + flash_base_address;
+	base_offset = FLASH_OTP_BASE;
 
-    address += ( location * sizeof(FLASH_FDATA) );
+	offset = FLASH_OTP_BASE;
 
-    flash_writef( baseaddr, FLASH_OTP_READ );
+	offset += (location * sizeof(FLASH_FDATA));
 
-    flash_readf( address, value);
+	flash_writef(flash_dev, base_offset, FLASH_OTP_READ);
 
+	*value = flash_readf(flash_dev, offset);
 
-    /* return device to read array mode */
-    flash_writef( flash_base_address, FLASH_READ_ARRAY );
+	/* return device to read array mode */
+	flash_writef(flash_dev, 0, FLASH_READ_ARRAY);
 
-    stat.Result = StatCompleted;
+	stat.Result = StatCompleted;
 
-    return( stat );
+	return (stat);
 
 }
 
@@ -912,32 +779,23 @@ FLASH_STATUS flash_read_protection ( FLASH_DEV *flash_dev,uint32_t location, uin
  *    The block indicated was previously program suspended or erase
  *    suspended.
  * @param blocknum - the block number to resume.
- * @param returnSR - flag to indicate whether the device status register
- *                    value should be returned by this function.
- * @return TMPL_Status
+ * @return FLASH_STATUS
  */
-FLASH_STATUS flash_resume (FLASH_DEV *flash_dev, uint8_t  returnSR )
-{
+FLASH_STATUS flash_resume(FLASH_DEV *flash_dev) {
 
-    FLASH_STATUS stat;
-    int flash_base_address = flash_dev->start_address;
+	FLASH_STATUS stat;
 
-    flash_writef( flash_base_address, FLASH_BLOCK_RESUME );
+	flash_writef(flash_dev, 0, FLASH_BLOCK_RESUME);
 
-    if ( !flash_wait_until_ready(flash_dev, FLASH_PROGRAM_TIMEOUT ) )
-    {
-        stat.Result = StatTimeout;
-    } else
-    {
-        stat.Result = StatCompleted;
-    }
+	if (!flash_wait_until_ready(flash_dev, FLASH_PROGRAM_TIMEOUT)) {
+		stat.Result = StatTimeout;
+	} else {
+		stat.Result = StatCompleted;
+	}
 
-    if ( returnSR )
-    {
-        stat.SR = flash_read_status(flash_dev);
-    }
+	stat.SR = flash_read_status(flash_dev);
 
-    return( stat );
+	return (stat);
 
 }
 
@@ -948,34 +806,29 @@ FLASH_STATUS flash_resume (FLASH_DEV *flash_dev, uint8_t  returnSR )
  * burst sequence, clock edge, and burst length.
  *    A valid configuration setting.
  * @param data - address of configuration data to be read in
- * @return TMPL_Status
+ * @return FLASH_STATUS
  */
-FLASH_STATUS flash_set_configuration (FLASH_DEV *flash_dev, uint16_t data )
-{
+FLASH_STATUS flash_set_configuration(FLASH_DEV *flash_dev, uint16_t data) {
 
-    FLASH_STATUS stat;
-    uint32_t      address; /* contains the address to load the
-                                    Read Configuration Register with */
+	FLASH_STATUS stat;
+	uint32_t address; /* contains the address to load the
+	 Read Configuration Register with */
 
-    int flash_base_address = flash_dev->start_address;
-    /********************************************************/
-    /* Convert the RCR into valid address then write it     */
-    /********************************************************/
-    address = (uint32_t) data;
-    address = address << (sizeof(uint16_t)-1);
-    address = address + flash_base_address;
+	/********************************************************/
+	/* Convert the RCR into valid address then write it     */
+	/********************************************************/
+	address = (uint32_t) data;
+	address = address << (sizeof(uint16_t) - 1);
 
+	/* write Read Configuration command */
 
-    /* write Read Configuration command */
+	flash_writef(flash_dev, 0, FLASH_CONFIG_SETUP);
+	flash_writef(flash_dev, address, FLASH_SET_READ_CONFIG);
 
-    flash_writef(flash_base_address,FLASH_CONFIG_SETUP);
-    flash_writef(address,FLASH_SET_READ_CONFIG);
+	stat.Result = StatCompleted;
+	stat.SR = 0;
 
-
-    stat.Result = StatCompleted;
-    stat.SR = 0;
-    
-    return( stat );
+	return (stat);
 
 }
 
@@ -983,61 +836,55 @@ FLASH_STATUS flash_set_configuration (FLASH_DEV *flash_dev, uint16_t data )
 /**
  * This procedure is called to unlock all blocks on the flash device.
  *    The blocks were previously locked.
- * @param returnSR - flag to indicate whether the device status register
- *                       value should be returned by this function.
- * @return TMPL_Status
+ * @return FLASH_STATUS
  */
-FLASH_STATUS flash_unlock_all_blocks (FLASH_DEV *flash_dev, uint8_t  returnSR )
-{
+FLASH_STATUS flash_unlock_all_blocks(FLASH_DEV *flash_dev) {
 
-    FLASH_STATUS stat;
-    uint16_t block;
-    int flash_total_numblocks = flash_dev->total_numblocks;
+	FLASH_STATUS stat;
+	uint16_t block;
+	int flash_total_numblocks = flash_dev->total_numblocks;
 
-    for ( block=0; block < flash_total_numblocks; block++ )
-    {
-        stat = flash_unlock_block(flash_dev, block, returnSR );
-        printf("block %d status 0x%x\n", block, stat.SR );
+	TRACE("\n");
+	for (block = 0; block < flash_total_numblocks; block++) {
+		stat = flash_unlock_block(flash_dev, block);
+		TRACE("block %d status 0x%x\n", block, stat.SR );
 
-        if ( stat.Result != StatCompleted )
-        {
-            return( stat );
-        }
-    }
+		if (stat.Result != StatCompleted) {
+			return (stat);
+		}
+	}
 
-    if ( returnSR )
-    {
-        stat.SR = flash_read_status(flash_dev);
-    }
+	stat.SR = flash_read_status(flash_dev);
 
-    return( stat );
+	return (stat);
 
 }
+/**
+ * This procedure is called to lock all blocks on the flash device.
+ * @return FLASH_STATUS
+ */
+FLASH_STATUS flash_lock_all_blocks(FLASH_DEV *flash_dev) {
 
-FLASH_STATUS flash_lock_all_blocks (FLASH_DEV *flash_dev, uint8_t  returnSR )
-{
+	FLASH_STATUS stat;
+	uint16_t block;
+	int flash_total_numblocks = flash_dev->total_numblocks;
 
-    FLASH_STATUS stat;
-    uint16_t block;
-    int flash_total_numblocks = flash_dev->total_numblocks;
+	TRACE("\n");
+	for (block = 0; block < flash_total_numblocks; block++) {
+		stat = flash_lock_block(flash_dev, block);
+		printf("block %d status 0x%x\n", block, stat.SR);
 
-    for ( block=0; block < flash_total_numblocks; block++ )
-    {
-        stat = flash_lock_block(flash_dev, block, returnSR );
-        printf("block %d status 0x%x\n", block, stat.SR );
+		if (stat.Result != StatCompleted) {
+			return (stat);
+		}
+	}
 
-        if ( stat.Result != StatCompleted )
-        {
-            return( stat );
-        }
-    }
+	stat.SR = flash_read_status(flash_dev);
 
-    if ( returnSR )
-    {
-        stat.SR = flash_read_status(flash_dev);
-    }
+	/* return device to read array mode */
+	flash_writef(flash_dev, 0, FLASH_READ_ARRAY);
 
-    return( stat );
+	return (stat);
 
 }
 
@@ -1046,42 +893,36 @@ FLASH_STATUS flash_lock_all_blocks (FLASH_DEV *flash_dev, uint8_t  returnSR )
  * device.
  *    The block indicated was previously locked.
  * @param blocknum - the block number to unlock.
- * @param returnSR - flag to indicate whether the device status register
- *                    value should be returned by this function.
- * @return TMPL_Status
+ * @return FLASH_STATUS
  */
-FLASH_STATUS flash_unlock_block (FLASH_DEV *flash_dev, uint16_t blocknum,
-                               uint8_t  returnSR )
-{
-    FLASH_STATUS stat;
-    uint32_t address;
-    
-    stat.SR = 0;
+FLASH_STATUS flash_unlock_block(FLASH_DEV *flash_dev, uint16_t blocknum) {
+	FLASH_STATUS stat;
+	uint32_t address;
 
-    if (!flash_wait_until_ready(flash_dev,FLASH_PROGRAM_TIMEOUT))
-    {
-        stat.Result = StatTimeout;
-        return(stat);
-    }
+	stat.SR = 0;
 
-    flash_get_block_address (flash_dev, blocknum,  &address );
+	if (!flash_wait_until_ready(flash_dev, FLASH_PROGRAM_TIMEOUT)) {
+		stat.Result = StatTimeout;
+		return (stat);
+	}
 
-    flash_writef(address,FLASH_CONFIG_SETUP );
+	flash_get_block_offset(flash_dev, blocknum, &address);
 
-    flash_writef(address,FLASH_LOCK_BIT_CLEAR);
+	flash_writef(flash_dev, address, FLASH_CONFIG_SETUP);
 
-    if (!flash_wait_until_ready(flash_dev,FLASH_ERASE_TIMEOUT))
-    {
-        stat.Result = StatTimeout;
-        return(stat);
-    }
+	flash_writef(flash_dev, address, FLASH_LOCK_BIT_CLEAR);
 
-    if ( returnSR )
-    {
-        stat.SR = flash_read_status(flash_dev);
-    }
+	if (!flash_wait_until_ready(flash_dev, FLASH_ERASE_TIMEOUT)) {
+		stat.Result = StatTimeout;
+		return (stat);
+	}
 
-    stat.Result = StatCompleted;
+	stat.SR = flash_read_status(flash_dev);
 
-    return(stat);
+	/* return device to read array mode */
+	flash_writef(flash_dev, 0, FLASH_READ_ARRAY);
+
+	stat.Result = StatCompleted;
+
+	return (stat);
 }
