@@ -4,7 +4,7 @@
  * @date 28.08.2009
  * @author Roman Evstifeev
  */
-#include <flash_template.h>
+#include <drivers/flash_template.h>
 //#include <flash_intel_p30.h>
 #include <embox/kernel.h>
 
@@ -77,10 +77,10 @@ int s_unlock_all_blocks(void) {
 //************* WRITE / READ *****************
 /*
 int s_program32_flash_buffered(uint32_t baddr, uint32_t* array, int nwords) {
-	
+
 	TRACE("currently unsupported!\n");
 	return -1;
-	
+
 	s_stat = flash_program_flash_buffered(baddr, array,nwords, 1);
 	if (s_stat.Result != StatCompleted) {
 		TRACE("flash_program_flash_buffered error!\n");
@@ -142,21 +142,21 @@ int b_get_blockdata (uint16_t bnum, void** pdata) {
 
 int b_put_blockdata (uint16_t bnum, int nwords) {
 	uint32_t addr, wrsize, blkstatus;
-	
+
 	if (s_block_getstatus(bnum, &blkstatus)<0)
 		return -1;
-	
+
 	if (blkstatus&0x10001) {
 		TRACE("block is locked, unlock it before write!\n");
 		return -1;
 	}
-	
+
 	flash_get_block_address(bnum,&addr);
 	wrsize = flash_get_block_size (bnum);
-	
+
 	// B_PUT_WHOLE_BLOCK == (-1)
 	wrsize = ((nwords*4>0) && (nwords*4<wrsize)) ? nwords*4 : wrsize;
-	
+
 	printf("blockdata addr: %08x ;  wrsz : %d\n",blockdata, wrsize);
 	printf ("put: ");
 	int i;

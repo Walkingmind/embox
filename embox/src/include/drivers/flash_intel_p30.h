@@ -48,13 +48,6 @@
  * P30 specific constants
  */
 
-/* set 1 and only 1 PARAMETER to TRUE */
-#if 0
-#define P30_TOP                         FALSE
-#define P30_BOTTOM                      TRUE
-#endif
-
-
 /* ERASE_TIMEOUT_CYCLES = # of times to check for status ready after erase
   commands are issued to the device */
 #define FLASH_ERASE_TIMEOUT              50000000L
@@ -78,8 +71,8 @@
 
 /******************** 256M *******************/
 #define FLASH_TOTAL_NUMBLOCKS        0x103
-#define FLASH_MAIN_BLOCK_NUMBYTES    0x20000         /* 64 K-Word block size */
-#define FLASH_PARM_BLOCK_NUMBYTES    0x8000          /* 16 K-Word block size */
+#define FLASH_MAIN_BLOCK_NUMBYTES    0x40000         /* 128 K-Word block size */
+#define FLASH_PARM_BLOCK_NUMBYTES    0x10000          /* 32 K-Word block size */
 
 #define FLASH_TOP_PARTITION_BASE     0xFF0000        /* address */
 #define FLASH_BOTTOM_PARTITION_BASE  0x0000          /* address */
