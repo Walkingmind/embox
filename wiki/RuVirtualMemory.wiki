@@ -1,0 +1,8 @@
+#summary This page describes virtual memory concepts and organization.
+
+<wiki:toc max_depth="2" />
+
+= Описание =
+Механизм виртуальной памяти был разработан для увеличения основной памяти системы...
+
+
