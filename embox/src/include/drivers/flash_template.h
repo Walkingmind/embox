@@ -268,7 +268,7 @@ FLASH_STATUS flash_read_device_ID (FLASH_DEV *flash_dev, uint32_t *mcode, uint32
  * @param offset  - the flash address to be written to.
  * @return the flash data from the device.
  */
-inline volatile FLASH_FDATA flash_readf (FLASH_DEV *flash_dev, uint32_t offset);
+extern volatile FLASH_FDATA flash_readf (FLASH_DEV *flash_dev, uint32_t offset);
 
 /**
  * This procedure is called to read one or more data items from
@@ -355,7 +355,7 @@ uint8_t flash_wait_until_ready (FLASH_DEV *flash_dev, uint32_t timeout);
  * @param offset  - the flash address to be written to.
  * @param value	- the flash data to write to the device.
  */
-inline void flash_writef (FLASH_DEV *flash_dev, uint32_t offset, FLASH_FDATA value);
+extern void flash_writef (FLASH_DEV *flash_dev, uint32_t offset, FLASH_FDATA value);
 
 #endif  /* __FLASH_TEMPLATE_H */
 
