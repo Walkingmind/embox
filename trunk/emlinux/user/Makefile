@@ -24,7 +24,7 @@ install:
 	$(MAKE) -C $(BUSYBOX_DIR) ARCH=sparc_v7soft CONFIG_PREFIX=$(ROMFS_DIR) install
 	# install libs from compiler
 	@[ -d $(ROMFS_DIR)/lib ] || mkdir -p $(ROMFS_DIR)/lib
-	for lib in ld-linux.so.2 libc.so.6 libm.so.6; do \
+	for lib in ld-linux.so.2 libc.so.6 libm.so.6 libcrypt.so.1; do \
 	    cp `readlink -f $(CROSS_COMPILER_DIR)/lib/$$lib` $(ROMFS_DIR)/lib/$$lib; \
 	done
 	# install /etc
