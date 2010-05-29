@@ -40,6 +40,12 @@ OBJDUMP = $(CROSS_COMPILE)objdump
 OBJCOPY = $(CROSS_COMPILE)objcopy
 SIZE    = size
 
+ifeq ($(C),1)
+CHECK   = sparse
+REAL_CC = $(CC)
+CC     := cgcc
+endif
+
 # Expand user defined flags and append them after default ones.
 
 # Preprocessor flags
