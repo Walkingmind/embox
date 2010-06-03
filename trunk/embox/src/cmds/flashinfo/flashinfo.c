@@ -20,7 +20,7 @@ static const char *man_page =
 
 DECLARE_SHELL_COMMAND(COMMAND_NAME, exec, COMMAND_DESC_MSG, HELP_MSG, man_page);
 
-int showdevinfo(void) {
+static int showdevinfo(void) {
 //	uint32_t mcode;
 //	uint32_t deviceid;
 //	FLASH_QUERY_DATA query;
