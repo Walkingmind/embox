@@ -44,6 +44,7 @@ image:
 
 piggy: image
 	$(CROSS_COMPILE)objcopy -O binary -R .note -R .comment -S $(IMAGE).dsu $(PIGGY)
+	$(CROSS_COMPILE)objcopy -O binary -R .note -R .comment -S $(IMAGE) $(IMAGE).raw
 
 clean:
 	$(MAKE) -C $(BOOT_DIR) clean

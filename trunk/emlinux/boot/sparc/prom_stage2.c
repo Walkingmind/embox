@@ -20,6 +20,8 @@
 #define CONFIG_LEON_3
 #endif
 
+#undef CONFIG_LEON_3
+
 #include "asm/page.h"
 #include "asm/head.h"
 #include "linux/kdev_t.h"
