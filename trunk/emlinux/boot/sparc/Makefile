@@ -17,7 +17,7 @@ image:
 	    -E -C -P -DLINUXIMAGE="$(IMAGE)" dsu.lds.S -o dsu.lds.o
 	$(CROSS_COMPILE)gcc -I$(KERNEL_DIR)/include -I$(KERNEL_DIR)/arch/$(ARCH)/include -I. -include $(AUTOCONF) \
 	    -D__KERNEL__ -Wall -mno-fpu -DCONFIG_KERNEL_ROOTMEM_INITRAMFS=1 \
-	    -DKERNELS_VERSION=`echo $(KERNEL_VERSION) | perl -ne "s/(\d+).(\d+).(\d+).(\d+)/\3/;print;"` \
+	    -DKERNEL_VERSION=$(shell echo $(KERNEL_VERSION) | perl -ne "s/(\d+).(\d+).(\d+).(\d+)/\3/;print;") \
 	    -nostdinc -iwithprefix include -O2 -c prom_stage2.c
 	$(CROSS_COMPILE)gcc -Wall -mno-fpu -nostdinc -iwithprefix include -O2 -c pgt.S
 	$(CROSS_COMPILE)ld -X -T dsu.lds.o $(IMAGE) prom_stage2.o pgt.o -o $(IMAGE).dsu
