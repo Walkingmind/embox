@@ -4,6 +4,8 @@
  * @auther Michail Skorginskii
  */
 
+#include <stdio.h>
+
 #include <embox/test.h>
 #include <lib/dm_malloc.h>
 #include <lib/list.h>
@@ -38,7 +40,7 @@ static int run(void) {
 		list_add( (struct list_head*) tmp, &int_list);
 		printf("tmp[%d] = %d | ", i, tmp->p);
 	}
-	
+
 	printf("\n\t\t = Test our list =\n");
 	list_for_each( tmp_h, &int_list) {
 		tmp = (struct list *)tmp_h;
@@ -50,6 +52,6 @@ static int run(void) {
 		tmp = (struct list *)tmp_h;
 		printf("now tmp[%d] if free | ", tmp->p/2);
 	}
-	TRACE("\ntest "); 
+	TRACE("\ntest ");
 	return result;
 }
