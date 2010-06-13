@@ -10,7 +10,17 @@
 #include <embox/kernel.h>
 
 #include <embox/runlevel.h>
-#include <embox/mod.h>
+
+#include <mod/ops.h>
+#include <mod/framework.h>
+
+// XXX rewrite this shit. -- Eldar
+#define __EMBUILD_MOD__
+#include <mod/bind.h>
+
+// XXX rewrite this shit. -- Eldar
+#define __EMBUILD__
+#include <mod/embuild.h>
 
 #define __RUNLEVEL_MOD_DEF(op, nr) \
 	MOD_DEF(runlevel##nr##_##op, generic, "runlevel"#nr"_"#op); \
@@ -45,6 +55,10 @@ RUNLEVEL_DEF(1);
 RUNLEVEL_DEF(2);
 RUNLEVEL_DEF(3);
 
+struct runlevel {
+	const struct mod *init_mod, *fini_mod;
+};
+
 static const struct runlevel runlevels[RUNLEVEL_NRS_TOTAL] = {
 	RUNLEVEL(0),
 	RUNLEVEL(1),
@@ -58,7 +72,7 @@ static int init_mod_enable(struct mod *mod) {
 	int ret;
 	int level = (runlevel_nr_t) mod_data(mod);
 
-	if (runlevel_nr_valid(level - 1) && 
+	if (runlevel_nr_valid(level - 1) &&
 		0 != (ret = mod_enable(runlevels[level - 1].init_mod))) {
 		return ret;
 	}
@@ -72,7 +86,7 @@ static int init_mod_disable(struct mod *mod) {
 	int ret;
 	int level = (runlevel_nr_t) mod_data(mod);
 
-	if (runlevel_nr_valid(level + 1) && 
+	if (runlevel_nr_valid(level + 1) &&
 		0 != (ret = mod_disable(runlevels[level + 1].init_mod))) {
 		return ret;
 	}
@@ -86,7 +100,7 @@ static int fini_mod_enable(struct mod *mod) {
 	int ret;
 	int level = (runlevel_nr_t) mod_data(mod);
 
-	if (runlevel_nr_valid(level - 1) && 
+	if (runlevel_nr_valid(level - 1) &&
 		0 != (ret = mod_enable(runlevels[level - 1].fini_mod))) {
 		return ret;
 	}
@@ -99,7 +113,7 @@ static int fini_mod_disable(struct mod *mod) {
 	int ret;
 	int level = (runlevel_nr_t) mod_data(mod);
 
-	if (runlevel_nr_valid(level + 1) && 
+	if (runlevel_nr_valid(level + 1) &&
 		0 != (ret = mod_disable(runlevels[level + 1].fini_mod))) {
 		return ret;
 	}
