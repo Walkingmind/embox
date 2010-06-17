@@ -12,8 +12,6 @@ for p in $KERNEL_PATCHES; do
     fi
 done
 
-exit
-
 $TOOLS_DIR/romfs-inst.sh
 
 [ -d $IMAGE_DIR ] || mkdir -p $IMAGE_DIR
