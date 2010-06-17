@@ -1,6 +1,6 @@
 #!/bin/sh
 
-FTP_LINK="ftp://ftp.kernel.org/pub/linux/kernel/v2.6/$KERNEL_VERSION"
+FTP_LINK="ftp://ftp.kernel.org/pub/linux/kernel/v2.6/linux-$KERNEL_VERSION.tar.bz2"
 export ftp_proxy="http://proxy.tepkom.spb.su:3128"
 
 [ -e $KERNEL_SRC ] || wget -c --proxy=on $FTP_LINK
@@ -11,6 +11,8 @@ for p in $KERNEL_PATCHES; do
 	zcat $PATCH_DIR/$p | patch -N -p0
     fi
 done
+
+exit
 
 $TOOLS_DIR/romfs-inst.sh
 
