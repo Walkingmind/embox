@@ -5,9 +5,15 @@
 # Author: Nikolay Korotky
 #
 
-ARCH           = sparc
+#ARCH           = sparc
+ARCH           = microblaze
+ifeq ($(ARCH), sparc)
 CROSS_COMPILE  = sparc-linux-
 KERNEL_VERSION = 2.6.21.1
+else
+CROSS_COMPILE  = mb-linux-
+KERNEL_VERSION = 2.6.33
+endif
 
 KERNEL_SRC     = linux-$(KERNEL_VERSION).tar.bz2
 KERNEL_PATCHES = linux-$(KERNEL_VERSION)-$(ARCH).patch.gz
@@ -23,8 +29,8 @@ TOOLS_DIR  = $(ROOT_DIR)/tools
 USER_DIR   = $(ROOT_DIR)/user
 KERNEL_DIR = $(ROOT_DIR)/linux-$(KERNEL_VERSION)
 
-IMAGE      =$(IMAGE_DIR)/image
-PIGGY      =$(IMAGE_DIR)/piggy
+IMAGE      = $(IMAGE_DIR)/image
+PIGGY      = $(IMAGE_DIR)/piggy
 export
 
 .PHONY: user kernel image piggy clean
