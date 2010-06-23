@@ -2,9 +2,10 @@ emlinux is the Linux kernel based embedded OS.
 embox is used as the bootloader for emlinux.
 
 emlinux requirenments:
-    linux-2.6.21.1 sources
-    linux-2.6.33.3 support in process...
+    linux-2.6.21.1 for leon
+    linux-2.6.33 for microblaze
     busybox-1.16.1 (opt.)
 
 supported platforms:
     SPARC LEON 3
+    MicroBlaze

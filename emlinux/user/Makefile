@@ -7,7 +7,11 @@ BUSYBOX_VERSION=1.8.2
 BUSYBOX_SRC=busybox-$(BUSYBOX_VERSION).tar.bz2
 BUSYBOX_LINK=http://busybox.net/downloads/$(BUSYBOX_SRC)
 BUSYBOX_DIR=busybox-$(BUSYBOX_VERSION)
+ifeq ($(CROSS_COMPILE),sparc-linux-)
 CROSS_COMPILER_DIR=$(shell dirname `which $(CROSS_COMPILE)gcc`)/../sparc-linux
+else
+CROSS_COMPILER_DIR=$(shell dirname `which $(CROSS_COMPILE)gcc`)/../microblaze-unknown-linux-gnu
+endif
 
 .PHONY: busybox install clean
 
