@@ -1,0 +1,3 @@
+#Sun Jun 27 04:09:02 MSD 2010
+commit.comment.template=(issue ${task.key})
+eclipse.preferences.version=1
