@@ -1,5 +1,9 @@
 #summary embox development roadmap
 
+= 2010/07/23 v0.1.6 [http://code.google.com/p/embox/issues/list?can=1&q=milestone=v0.1.6 [issues]] [http://code.google.com/p/embox/issues/list?q=milestone=v0.1.6 [open issues]] =
+
+Tercom Summer of Code's results presentation. 
+
 = 2010/06/28 v0.1.5 [http://code.google.com/p/embox/issues/list?can=1&q=milestone=v0.1.5 [issues]] [http://code.google.com/p/embox/issues/list?q=milestone=v0.1.5 [open issues]] =
 Start Tercom Summer of Code.
 
