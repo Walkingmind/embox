@@ -1,10 +1,10 @@
 #summary embox development roadmap
 #labels Phase-Requirements,Featured
 
-= 2010/07/23 v0.1.6 =
+= 2010/07/23 v0.1.6 [http://code.google.com/p/embox/issues/list?can=1&q=milestone=v0.1.6 [issues]] [http://code.google.com/p/embox/issues/list?q=milestone=v0.1.6 [open issues]] =
 Презентация результатов летней школы.
 
-= 2010/06/28 v0.1.5 =
+= 2010/06/28 v0.1.5 [http://code.google.com/p/embox/issues/list?can=1&q=milestone=v0.1.5 [issues]] [http://code.google.com/p/embox/issues/list?q=milestone=v0.1.5 [open issues]] =
 Начало летней школы ЗАО "Ланит-Терком".
 
 == Threading ==
@@ -24,10 +24,10 @@
  * Написаны тесты на виртуальную память
  
 
-= 2010/05/19 v0.1.4 =
+= 2010/05/19 v0.1.4 [http://code.google.com/p/embox/issues/list?can=1&q=milestone=v0.1.4 [issues]] [http://code.google.com/p/embox/downloads/detail?name=embox-0.1.4.txz [download]] =
 Презентация результатов студенческого проекта.
 
-= 2010/05/01 v0.1.3 =
+= 2010/05/01 v0.1.3 [http://code.google.com/p/embox/issues/list?can=1&q=milestone=v0.1.3 [issues]] [http://code.google.com/p/embox/downloads/detail?name=embox-0.1.3.txz [download]] =
 == Threading ==
  * Работает тривиальный планировщик
  * Тест (или команда), который запускает 2 потока, один из которых пишет на консоль "-", другой "+". На консоль выводится последовательность из как-то чередующихся + и -
@@ -50,11 +50,11 @@
  * поддержка протокола ICMP
  * ~~реализован интерфейс ioctl для сокетов~~
 
-= 2010/04/16 v0.1.2 =
+= 2010/04/16 v0.1.2 [http://code.google.com/p/embox/issues/list?can=1&q=milestone=v0.1.2 [issues]] [http://code.google.com/p/embox/downloads/detail?name=embox-0.1.2.txz [download]] =
 Все задачи распределены по участникам студенческого проекта.
 
-= 2010/04/02 v0.1.1 =
+= 2010/04/02 v0.1.1 [http://code.google.com/p/embox/issues/list?can=1&q=milestone=v0.1.1 [issues]] [http://code.google.com/p/embox/downloads/detail?name=embox-0.1.1.txz [download]] =
 Проведена презентация средств для тестирования оборудования.
 
-= 2010/03/13 v0.1 =
+= 2010/03/13 v0.1 [http://code.google.com/p/embox/issues/list?can=1&q=milestone=v0.1 [issues]] [http://code.google.com/p/embox/downloads/detail?name=embox-0.1.tar.bz2 [download]] =
 Начало времен.
