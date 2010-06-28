@@ -27,6 +27,10 @@ SECTIONS {
 		*(.init.text)
 		ALIGNMENT();
 		*(.eh_frame)
+		*(SORT(.ctors.*))
+		*(.ctors)
+		*(SORT(.dtors.*))
+		*(.dtors)
 		ALIGNMENT();
 	} SECTION_REGION(text)
 	SECTION_SYMBOLS(text)
