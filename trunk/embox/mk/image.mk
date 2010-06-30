@@ -12,7 +12,8 @@ IMAGE_SIZE = $(IMAGE).size
 IMAGE_PIGGY= $(IMAGE).piggy
 
 # XXX
-$(IMAGE): ../embox_ovk_piggy/build/base/bin/embox.piggy
+$(IMAGE): 
+#../embox_ovk_piggy/build/base/bin/embox.piggy
 
 .PHONY: image
 image: image_init
