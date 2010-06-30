@@ -9,6 +9,7 @@ ENTRY(start)
 MEMORY {
 	MEMORY_REGION(sdram)
 	MEMORY_REGION(flash)
+	MEMORY_REGION(internal)
 }
 
 /*_stack = _bend + 0x10000;*/
@@ -27,13 +28,18 @@ SECTIONS {
 		*(.init.text)
 		ALIGNMENT();
 		*(.eh_frame)
-		*(SORT(.ctors.*))
-		*(.ctors)
-		*(SORT(.dtors.*))
-		*(.dtors)
 		ALIGNMENT();
 	} SECTION_REGION(text)
 	SECTION_SYMBOLS(text)
+
+	.reloc : {
+		ALIGNMENT();
+		_reloc_text_start = .;
+		*(.reloc.text)
+		ALIGNMENT();
+		_reloc_text_end = .;
+	} SECTION_REGION(reloc)
+	SECTION_SYMBOLS(reloc)
 
 	.rodata (NOLOAD) : {
 		LDS_INPUT_RODATA
