@@ -1,8 +1,5 @@
 #!/bin/sh
 
-[ -d $ROMFS_DIR ] || mkdir -p $ROMFS_DIR
-[ -d $IMAGE_DIR ] || mkdir -p $IMAGE_DIR
-
 for i in `cat $TOOLS_DIR/dirs.lst`; do
     [ -d $ROMFS_DIR/$i ] || mkdir -p $ROMFS_DIR/$i
 done
