@@ -1,5 +1,5 @@
 #summary Simple command line
-#labels Phase-Implementation,Deprecated
+#labels Phase-Implementation
 
 = Оболочка системы =
 <wiki:toc max_depth="3" />
