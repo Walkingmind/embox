@@ -1,1 +1,1 @@
-ARCH=sparc
+ARCH=microblaze

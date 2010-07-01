@@ -20,7 +20,8 @@ all: busybox install
 busybox:
 	[ -e $(BUSYBOX_SRC) ] || wget -c $(BUSYBOX_LINK)
 	[ -d $(BUSYBOX_DIR) ] || tar -xvjf $(BUSYBOX_SRC)
-	@$(MAKE) -C $(BUSYBOX_DIR) ARCH=sparc_v7soft V=1 menuconfig
+	cp $(CONFIG_DIR)/config-busybox-$(BUSYBOX_VERSION).default $(BUSYBOX_DIR)/.config
+#	@$(MAKE) -C $(BUSYBOX_DIR) ARCH=sparc_v7soft V=1 menuconfig
 	@$(MAKE) -C $(BUSYBOX_DIR) ARCH=sparc_v7soft V=1
 
 install:
