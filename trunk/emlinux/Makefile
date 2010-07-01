@@ -5,12 +5,13 @@
 # Author: Nikolay Korotky
 #
 
-#ARCH           = sparc
-ARCH           = microblaze
+include $(CURDIR)/config.mk
+
 ifeq ($(ARCH), sparc)
 CROSS_COMPILE  = sparc-linux-
 KERNEL_VERSION = 2.6.21.1
-else
+endif
+ifeq ($(ARCH), microblaze)
 CROSS_COMPILE  = mb-linux-
 KERNEL_VERSION = 2.6.33
 endif
@@ -19,8 +20,8 @@ KERNEL_SRC     = linux-$(KERNEL_VERSION).tar.bz2
 KERNEL_PATCHES = linux-$(KERNEL_VERSION)-$(ARCH).patch.gz
 KERNEL_CONFIG  = config-$(KERNEL_VERSION)-$(ARCH).default 
 
-ROOT_DIR   = $(shell pwd)
-BOOT_DIR   = $(ROOT_DIR)/boot/$(ARCH)
+ROOT_DIR   = $(CURDIR)
+BOOT_DIR   = $(ROOT_DIR)/boot
 CONFIG_DIR = $(ROOT_DIR)/config
 IMAGE_DIR  = $(ROOT_DIR)/images
 PATCH_DIR  = $(ROOT_DIR)/patches
@@ -28,43 +29,60 @@ ROMFS_DIR  = $(ROOT_DIR)/romfs
 TOOLS_DIR  = $(ROOT_DIR)/tools
 USER_DIR   = $(ROOT_DIR)/user
 KERNEL_DIR = $(ROOT_DIR)/linux-$(KERNEL_VERSION)
+RM         = rm -fr
 
 IMAGE      = $(IMAGE_DIR)/image
+RAW_IMAGE  = $(IMAGE_DIR)/image.raw
+IMAGE_DSU  = $(IMAGE_DIR)/image.dsu
 PIGGY      = $(IMAGE_DIR)/piggy
+UIMAGE     = $(IMAGE_DIR)/uImage
 export
 
-.PHONY: user kernel image piggy clean
+.PHONY: users kernel image clean
 
-all: user kernel piggy
+all: users kernel image
 
-user:
-	$(MAKE) -C $(USER_DIR)
+users:
+	@$(MAKE) -C $(USER_DIR)
 
-kernel:
+kernel: users
 	$(TOOLS_DIR)/build-kernel.sh
 
-image: 
-	$(MAKE) -C $(BOOT_DIR) image
+image: kernel
+	# linux kernel image (elf)
+	cp $(KERNEL_DIR)/arch/$(ARCH)/boot/$(shell basename $(IMAGE)) $(IMAGE_DIR)
+	# raw linux kernel image (binary)
+	$(CROSS_COMPILE)objcopy -O binary -R .note -R .comment -S $(IMAGE) $(RAW_IMAGE)
+	# u-boot linux kernel image (binary)
+	cp $(KERNEL_DIR)/arch/$(ARCH)/boot/$(shell basename $(UIMAGE)) $(IMAGE_DIR)
+	# dsu loadable image (elf)
+	@$(MAKE) -C $(BOOT_DIR)/$(ARCH) image
+	# raw piggy image (binary)
+	$(CROSS_COMPILE)objcopy -O binary -R .note -R .comment -S $(IMAGE_DSU) $(PIGGY)
+	# disassemble
 	$(CROSS_COMPILE)objdump -d $(IMAGE) > $(IMAGE).dis
-	$(CROSS_COMPILE)objdump -d $(IMAGE).dsu > $(IMAGE).dsu.dis
-
-piggy: image
-	$(CROSS_COMPILE)objcopy -O binary -R .note -R .comment -S $(IMAGE).dsu $(PIGGY)
-	$(CROSS_COMPILE)objcopy -O binary -R .note -R .comment -S $(IMAGE) $(IMAGE).raw
+	$(CROSS_COMPILE)objdump -d $(IMAGE_DSU) > $(IMAGE).dsu.dis
+	@echo 'Build done'
 
 clean:
-	$(MAKE) -C $(BOOT_DIR) clean
-	$(MAKE) -C $(USER_DIR) clean
-	rm -fr $(IMAGE_DIR) $(ROMFS_DIR) $(KERNEL_DIR)
+	@$(MAKE) -C $(BOOT_DIR)/$(ARCH) clean
+	@$(MAKE) -C $(USER_DIR) clean
+	@$(RM) $(IMAGE_DIR) $(ROMFS_DIR) $(KERNEL_DIR)
+	@echo 'Clean complete'
 
-menuconfig: KERNEL_VERSION := `dialog \
-                --stdout --backtitle "Linux kernel version" \
-                --inputbox version: 10 30`
+menuconfig: ARCH := `dialog \
+                --stdout --backtitle "Arch" \
+                --radiolist "Select target arch:" 10 40 \
+                $(shell echo $(notdir $(wildcard $(BOOT_DIR)/*)) | wc -w) \
+                $(patsubst %,% "" off,$(notdir $(wildcard $(BOOT_DIR)/*)))`
 menuconfig:
-	@echo "#define KERNEL_VERSION $(KERNEL_VERSION)" > autoconf.h
+	@echo "ARCH=$(ARCH)" > config.mk
 
-xconfig: KERNEL_VERSION := `Xdialog \
-                --stdout --backtitle "Linux kernel version" \
-                --inputbox version: 10 30`
+xconfig: ARCH := `Xdialog \
+                --stdout --backtitle "Arch" \
+                --radiolist "Select target arch:" 20 40 \
+                $(shell echo $(notdir $(wildcard $(BOOT_DIR)/*)) | wc -w) \
+                $(patsubst %,% "" off,$(notdir $(wildcard $(BOOT_DIR)/*)))`
 xconfig:
-	@echo "#define KERNEL_VERSION $(KERNEL_VERSION)" > autoconf.h
+	@echo "ARCH=$(ARCH)" > config.mk
+
