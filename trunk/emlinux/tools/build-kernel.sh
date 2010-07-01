@@ -18,7 +18,7 @@ $TOOLS_DIR/romfs-inst.sh
 
 pushd $KERNEL_DIR > /dev/null
 
-cp $CONFIG_DIR/$KERNEL_CONFIG .config
+[ -e .config ] || cp $CONFIG_DIR/$KERNEL_CONFIG .config
 
 make ARCH=$ARCH CROSS_COMPILE=$CROSS_COMPILE KBUILD_VERBOSE=1 image.bin
 make ARCH=$ARCH CROSS_COMPILE=$CROSS_COMPILE KBUILD_VERBOSE=1 uImage
