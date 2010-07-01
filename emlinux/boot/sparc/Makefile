@@ -23,5 +23,5 @@ image:
 	$(CROSS_COMPILE)ld -X -T dsu.lds.o $(IMAGE) prom_stage2.o pgt.o -o $(IMAGE).dsu
 
 clean:
-	rm -fr remove_predefs.h *.o
+	$(RM) remove_predefs.h *.o
 

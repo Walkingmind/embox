@@ -96,6 +96,7 @@ CONFIG_LEON_3=y
 # Grlib: Amba device driver configuration
 #
 CONFIG_AMBA_PROC=y
+# CONFIG_AMBA_PNP_PRINT is not set
 
 #
 # Vendor Gaisler

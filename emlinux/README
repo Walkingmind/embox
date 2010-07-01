@@ -17,8 +17,8 @@ Usage:
     Select arch:
 	make menuconfig
     For build file system root tree:
-	make user
-    For build linux kernel (only after "make user"):
+	make users
+    For build linux kernel (only after "make users"):
 	make kernel
     For build images (only after "make kernel"):
 	make image

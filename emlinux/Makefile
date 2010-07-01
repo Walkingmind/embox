@@ -32,7 +32,7 @@ KERNEL_DIR = $(ROOT_DIR)/linux-$(KERNEL_VERSION)
 RM         = rm -fr
 
 IMAGE      = $(IMAGE_DIR)/image
-RAW_IMAGE  = $(IMAGE_DIR)/image.raw
+BIN_IMAGE  = $(IMAGE_DIR)/image.bin
 IMAGE_DSU  = $(IMAGE_DIR)/image.dsu
 PIGGY      = $(IMAGE_DIR)/piggy
 UIMAGE     = $(IMAGE_DIR)/uImage
@@ -51,8 +51,8 @@ kernel: users
 image: kernel
 	# linux kernel image (elf)
 	cp $(KERNEL_DIR)/arch/$(ARCH)/boot/$(shell basename $(IMAGE)) $(IMAGE_DIR)
-	# raw linux kernel image (binary)
-	$(CROSS_COMPILE)objcopy -O binary -R .note -R .comment -S $(IMAGE) $(RAW_IMAGE)
+	# linux kernel image (binary)
+	cp $(KERNEL_DIR)/arch/$(ARCH)/boot/$(shell basename $(BIN_IMAGE)) $(IMAGE_DIR)
 	# u-boot linux kernel image (binary)
 	cp $(KERNEL_DIR)/arch/$(ARCH)/boot/$(shell basename $(UIMAGE)) $(IMAGE_DIR)
 	# dsu loadable image (elf)
