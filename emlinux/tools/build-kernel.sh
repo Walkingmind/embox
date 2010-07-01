@@ -19,19 +19,14 @@ $TOOLS_DIR/romfs-inst.sh
 pushd $KERNEL_DIR > /dev/null
 
 if [[ $ARCH = "microblaze" ]]; then
-cp $USER_DIR/initramfs_minimal.cpio.gz .
-make ARCH=$ARCH CROSS_COMPILE=$CROSS_COMPILE xilinx_mmu_defconfig
+    cp $USER_DIR/initramfs_minimal.cpio.gz .
+    make ARCH=$ARCH CROSS_COMPILE=$CROSS_COMPILE xilinx_mmu_defconfig
 else
-cp $CONFIG_DIR/$KERNEL_CONFIG config.def
-make ARCH=$ARCH CROSS_COMPILE=$CROSS_COMPILE menuconfig
+    cp $CONFIG_DIR/$KERNEL_CONFIG config.def
+    make ARCH=$ARCH CROSS_COMPILE=$CROSS_COMPILE menuconfig
 fi
 
 make ARCH=$ARCH CROSS_COMPILE=$CROSS_COMPILE KBUILD_VERBOSE=1 image
-cp $KERNEL_DIR/arch/$ARCH/boot/image $IMAGE_DIR
-
-if [[ -e `which ${CROSS_COMPILE}mkimage`/${CROSS_COMPILE}mkimage ]]; then
-    make ARCH=$ARCH CROSS_COMPILE=$CROSS_COMPILE KBUILD_VERBOSE=1 uImage
-    cp $KERNEL_DIR/arch/$ARCH/boot/uImage $IMAGE_DIR
-fi
+make ARCH=$ARCH CROSS_COMPILE=$CROSS_COMPILE KBUILD_VERBOSE=1 uImage
 
 popd > /dev/null
