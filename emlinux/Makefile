@@ -31,6 +31,7 @@ TOOLS_DIR  = $(ROOT_DIR)/tools
 USER_DIR   = $(ROOT_DIR)/user
 KERNEL_DIR = $(ROOT_DIR)/linux-$(KERNEL_VERSION)
 RM         = rm -fr
+OBJCOPYFLAGS = -O binary -R .note -R .comment
 
 IMAGE      = $(IMAGE_DIR)/image
 BIN_IMAGE  = $(IMAGE_DIR)/image.bin
@@ -46,7 +47,7 @@ all: users kernel image
 users:
 	@$(MAKE) -C $(USER_DIR)
 
-kernel: users
+kernel:
 	[ -e $(KERNEL_SRC) ] || wget -c $(KERNEL_URL)
 	[ -d $(KERNEL_DIR) ] || tar -xvjf $(KERNEL_SRC)
 	for p in $(KERNEL_PATCHES); do \
@@ -59,7 +60,7 @@ kernel: users
 	[ -e $(KERNEL_DIR)/.config ] || cp $(CONFIG_DIR)/$(KERNEL_CONFIG) $(KERNEL_DIR)/.config
 	$(MAKE) -C $(KERNEL_DIR) ARCH=$(ARCH) CROSS_COMPILE=$(CROSS_COMPILE) KBUILD_VERBOSE=1 image.bin uImage
 
-image: kernel
+image:
 	# linux kernel image (elf)
 	[ -e $(KERNEL_DIR)/arch/$(ARCH)/boot/$(shell basename $(IMAGE)) ] && cp $(KERNEL_DIR)/arch/$(ARCH)/boot/$(shell basename $(IMAGE)) $(IMAGE_DIR)
 	# linux kernel image (binary)
@@ -67,9 +68,9 @@ image: kernel
 	# u-boot linux kernel image (binary)
 	[ -e $(KERNEL_DIR)/arch/$(ARCH)/boot/$(shell basename $(UIMAGE)) ] && cp $(KERNEL_DIR)/arch/$(ARCH)/boot/$(shell basename $(UIMAGE)) $(IMAGE_DIR)
 	# dsu loadable image (elf)
-	@$(MAKE) -C $(ARCH_DIR)/$(ARCH) image
+	@$(MAKE) -C $(ARCH_DIR)/$(ARCH) image.dsu
 	# raw piggy image (binary)
-	[ -e $(IMAGE_DSU) ] && $(CROSS_COMPILE)objcopy -O binary -R .note -R .comment -S $(IMAGE_DSU) $(PIGGY)
+	[ -e $(IMAGE_DSU) ] && $(CROSS_COMPILE)objcopy $(OBJCOPYFLAGS) -S $(IMAGE_DSU) $(PIGGY)
 	# disassemble
 	[ -e $(IMAGE) ] && $(CROSS_COMPILE)objdump -d $(IMAGE) > $(IMAGE).dis
 	[ -e $(IMAGE_DSU) ] && $(CROSS_COMPILE)objdump -d $(IMAGE_DSU) > $(IMAGE).dsu.dis
