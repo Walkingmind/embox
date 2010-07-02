@@ -2,8 +2,7 @@ OUTPUT_FORMAT("elf32-microblaze", "elf32-microblaze", "elf32-microblaze")
 OUTPUT_ARCH(microblaze)
 ENTRY(_start)
 
-SECTIONS
-{
+SECTIONS {
         . = 0x40000000;
         .stage2 : {
                 _start = .;
@@ -11,7 +10,6 @@ SECTIONS
                 boot.o
         	. = ALIGN(0x2000);
 		_bootloader_ph = .;
-		pgt.o
 	}
         . = ALIGN(0x4000);
         .vmlinux : {
