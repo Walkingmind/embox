@@ -19,10 +19,10 @@ endif
 KERNEL_SRC     = linux-$(KERNEL_VERSION).tar.bz2
 KERNEL_PATCHES = linux-$(KERNEL_VERSION)-$(ARCH).patch.gz
 KERNEL_CONFIG  = config-$(KERNEL_VERSION)-$(ARCH).default
-KERNEL_FTP     = ftp://ftp.kernel.org/pub/linux/kernel/v2.6/$(KERNEL_SRC)
+KERNEL_URL     = http://www.kernel.org/pub/linux/kernel/v2.6/$(KERNEL_SRC)
 
 ROOT_DIR   = $(CURDIR)
-BOOT_DIR   = $(ROOT_DIR)/boot
+ARCH_DIR   = $(ROOT_DIR)/arch
 CONFIG_DIR = $(ROOT_DIR)/config
 IMAGE_DIR  = $(ROOT_DIR)/images
 PATCH_DIR  = $(ROOT_DIR)/patches
@@ -47,7 +47,7 @@ users:
 	@$(MAKE) -C $(USER_DIR)
 
 kernel: users
-	[ -e $(KERNEL_SRC) ] || wget -c $(KERNEL_FTP)
+	[ -e $(KERNEL_SRC) ] || wget -c $(KERNEL_URL)
 	[ -d $(KERNEL_DIR) ] || tar -xvjf $(KERNEL_SRC)
 	for p in $(KERNEL_PATCHES); do \
 	    [[ -e $(PATCH_DIR)/$$p ]] && zcat $(PATCH_DIR)/$$p | patch -N -p0; \
@@ -67,7 +67,7 @@ image: kernel
 	# u-boot linux kernel image (binary)
 	[ -e $(KERNEL_DIR)/arch/$(ARCH)/boot/$(shell basename $(UIMAGE)) ] && cp $(KERNEL_DIR)/arch/$(ARCH)/boot/$(shell basename $(UIMAGE)) $(IMAGE_DIR)
 	# dsu loadable image (elf)
-	@$(MAKE) -C $(BOOT_DIR)/$(ARCH) image
+	@$(MAKE) -C $(ARCH_DIR)/$(ARCH) image
 	# raw piggy image (binary)
 	[ -e $(IMAGE_DSU) ] && $(CROSS_COMPILE)objcopy -O binary -R .note -R .comment -S $(IMAGE_DSU) $(PIGGY)
 	# disassemble
@@ -76,7 +76,7 @@ image: kernel
 	@echo 'Build done'
 
 clean:
-	@$(MAKE) -C $(BOOT_DIR)/$(ARCH) clean
+	@$(MAKE) -C $(ARCH_DIR)/$(ARCH) clean
 	@$(MAKE) -C $(USER_DIR) clean
 	@$(RM) $(IMAGE_DIR) $(ROMFS_DIR) $(KERNEL_DIR)
 	@echo 'Clean complete'
@@ -84,16 +84,16 @@ clean:
 menuconfig: ARCH := `dialog \
                 --stdout --backtitle "Arch" \
                 --radiolist "Select target arch:" 10 40 \
-                $(shell echo $(notdir $(wildcard $(BOOT_DIR)/*)) | wc -w) \
-                $(patsubst %,% "" off,$(notdir $(wildcard $(BOOT_DIR)/*)))`
+                $(shell echo $(notdir $(wildcard $(ARCH_DIR)/*)) | wc -w) \
+                $(patsubst %,% "" off,$(notdir $(wildcard $(ARCH_DIR)/*)))`
 menuconfig:
 	@echo "ARCH=$(ARCH)" > config.mk
 
 xconfig: ARCH := `Xdialog \
                 --stdout --backtitle "Arch" \
                 --radiolist "Select target arch:" 20 40 \
-                $(shell echo $(notdir $(wildcard $(BOOT_DIR)/*)) | wc -w) \
-                $(patsubst %,% "" off,$(notdir $(wildcard $(BOOT_DIR)/*)))`
+                $(shell echo $(notdir $(wildcard $(ARCH_DIR)/*)) | wc -w) \
+                $(patsubst %,% "" off,$(notdir $(wildcard $(ARCH_DIR)/*)))`
 xconfig:
 	@echo "ARCH=$(ARCH)" > config.mk
 

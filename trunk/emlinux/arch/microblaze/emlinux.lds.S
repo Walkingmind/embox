@@ -1,5 +1,5 @@
-OUTPUT_FORMAT("elf32-sparc", "elf32-sparc", "elf32-sparc")
-OUTPUT_ARCH(sparc)
+OUTPUT_FORMAT("elf32-microblaze", "elf32-microblaze", "elf32-microblaze")
+OUTPUT_ARCH(microblaze)
 ENTRY(_start)
 
 SECTIONS
@@ -7,8 +7,8 @@ SECTIONS
         . = 0x40000000;
         .stage2 : {
                 _start = .;
-                prom_stage2.o(.img.main.text)
-                prom_stage2.o
+                boot.o(.img.main.text)
+                boot.o
         	. = ALIGN(0x2000);
 		_bootloader_ph = .;
 		pgt.o
