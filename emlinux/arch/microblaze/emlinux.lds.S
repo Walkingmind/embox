@@ -3,7 +3,7 @@ OUTPUT_ARCH(microblaze)
 ENTRY(_start)
 
 SECTIONS {
-        . = 0x40000000;
+        . = CONFIG_KERNEL_BASE_ADDR - 0x4000;
         .stage2 : {
                 _start = .;
                 boot.o(.img.main.text)
@@ -41,9 +41,6 @@ SECTIONS {
 		LINUXIMAGE (.data1)
 		_edata = .;
 		PROVIDE (edata = .);
-		__start___fixup = .;
-		LINUXIMAGE (.fixup)
-		__stop___fixup = .;
 		__start___ex_table = .;
 		LINUXIMAGE (__ex_table)
 		__stop___ex_table = .;
