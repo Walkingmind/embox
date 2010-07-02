@@ -28,8 +28,8 @@ typedef struct image_header {
         uint8_t         ih_name[128];      /* Image Name           */                                                                                                          
 } image_header_t;
 
-/* STUB */
-int main(int argc, char **argv) {
+/* mark as section .img.main.text, to be referenced in linker script */
+int __attribute__ ((__section__ (".img.main.text"))) __main(void) {
     //unsigned long load_addr = CONFIG_SYS_LOAD_ADDR;
     //static bootm_headers_t images;
     //bootm_start
