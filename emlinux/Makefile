@@ -45,10 +45,10 @@ export
 
 all: users kernel image
 
-users:
+users u:
 	@$(MAKE) -C $(USER_DIR)
 
-kernel:
+kernel k:
 	[ -e $(KERNEL_SRC) ] || wget -c $(KERNEL_URL)
 	[ -d $(KERNEL_DIR) ] || tar -xvjf $(KERNEL_SRC)
 	for p in $(KERNEL_PATCHES); do \
@@ -56,12 +56,18 @@ kernel:
 	done
 	[ -d $(ROMFS_DIR) ] || mkdir -p $(ROMFS_DIR)
 	[ -d $(IMAGE_DIR) ] || mkdir -p $(IMAGE_DIR)
+	for i in `cat $(TOOLS_DIR)/dirs.lst`; do \
+	    [[ -d $(ROMFS_DIR)/$$i ]] || mkdir -p $(ROMFS_DIR)/$$i; \
+	done
+	ln -fs "/sbin/init" $(ROMFS_DIR)/init                                                                                                                                                 
+	chmod +x $(KERNEL_DIR)/scripts/gen_initramfs_list.sh                                                                                                                                  
+	$(KERNEL_DIR)/scripts/gen_initramfs_list.sh $(ROMFS_DIR) > $(KERNEL_DIR)/initramfs.lst 2>&1
 	$(TOOLS_DIR)/romfs-inst.sh
 	[ -d $(IMAGE_DIR) ] || mkdir -p $(IMAGE_DIR)
 	[ -e $(KERNEL_DIR)/.config ] || cp $(CONFIG_DIR)/$(KERNEL_CONFIG) $(KERNEL_DIR)/.config
 	$(MAKE) -C $(KERNEL_DIR) ARCH=$(ARCH) CROSS_COMPILE=$(CROSS_COMPILE) KBUILD_VERBOSE=1 image.bin uImage
 
-image:
+image i:
 	# linux kernel image (elf)
 	[ -e $(KERNEL_DIR)/arch/$(ARCH)/boot/$(shell basename $(IMAGE)) ] && cp $(KERNEL_DIR)/arch/$(ARCH)/boot/$(shell basename $(IMAGE)) $(IMAGE_DIR)
 	# linux kernel image (binary)
@@ -79,25 +85,25 @@ image:
 	[ -e $(IMAGE_RAM) ] && $(CROSS_COMPILE)objdump -d $(IMAGE_RAM) > $(IMAGE).ram.dis
 	@echo 'Build done'
 
-clean:
+clean c:
 	@$(MAKE) -C $(ARCH_DIR)/$(ARCH) clean
 	@$(MAKE) -C $(USER_DIR) clean
 	@$(RM) $(IMAGE_DIR) $(ROMFS_DIR) $(KERNEL_DIR)
 	@echo 'Clean complete'
 
-menuconfig: ARCH := `dialog \
+menuconfig m: ARCH := `dialog \
                 --stdout --backtitle "Arch" \
                 --radiolist "Select target arch:" 10 40 \
                 $(shell echo $(notdir $(wildcard $(ARCH_DIR)/*)) | wc -w) \
                 $(patsubst %,% "" off,$(notdir $(wildcard $(ARCH_DIR)/*)))`
-menuconfig:
+menuconfig m:
 	@echo "ARCH=$(ARCH)" > config.mk
 
-xconfig: ARCH := `Xdialog \
+xconfig x: ARCH := `Xdialog \
                 --stdout --backtitle "Arch" \
                 --radiolist "Select target arch:" 20 40 \
                 $(shell echo $(notdir $(wildcard $(ARCH_DIR)/*)) | wc -w) \
                 $(patsubst %,% "" off,$(notdir $(wildcard $(ARCH_DIR)/*)))`
-xconfig:
+xconfig x:
 	@echo "ARCH=$(ARCH)" > config.mk
 
