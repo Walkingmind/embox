@@ -32,8 +32,8 @@ void _scheduler_start(void); /* Начинает работу планировщ
     делает необходимые изменения в множестве исполняемых потоков. */
 void _scheduler_add(struct thread *added_thread); /* Добавляет в планировщик новый поток. */
 void _scheduler_init(void); /* Инициализирует структуру данных для хранения исполняемых потоков. */
-void thread_move_next(struct thread *prev_thread); /* Ищет поток, который будет работать следующим.
-   prev_thread - поток, который работал только что. */
+struct thread *_scheduler_next(struct thread *prev_thread); /* Ищет поток, который будет работать следующим.
+   Возвращает его в качестве результата. prev_thread - поток, который работал только что. */
 void _scheduler_remove(struct thread *removed_thread); /* Удаляет поток из множества исполняемых. */
 }}}
 
