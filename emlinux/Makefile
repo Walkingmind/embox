@@ -85,7 +85,7 @@ image i:
 	[ -e $(IMAGE_RAM) ] && $(CROSS_COMPILE)objdump -d $(IMAGE_RAM) > $(IMAGE).ram.dis
 	@echo 'Build done'
 
-clean c:
+distclean clean dc c:
 	@$(MAKE) -C $(ARCH_DIR)/$(ARCH) clean
 	@$(MAKE) -C $(USER_DIR) clean
 	@$(RM) $(IMAGE_DIR) $(ROMFS_DIR) $(KERNEL_DIR)
