@@ -35,7 +35,8 @@ OBJCOPYFLAGS = -O binary -R .note -R .comment
 
 IMAGE      = $(IMAGE_DIR)/image
 BIN_IMAGE  = $(IMAGE_DIR)/image.bin
-IMAGE_DSU  = $(IMAGE_DIR)/image.dsu
+IMAGE_RAM  = $(IMAGE_DIR)/image.ram
+IMAGE_ROM  = $(IMAGE_DIR)/image.rom
 PIGGY      = $(IMAGE_DIR)/piggy
 UIMAGE     = $(IMAGE_DIR)/uImage
 export
@@ -67,13 +68,15 @@ image:
 	[ -e $(KERNEL_DIR)/arch/$(ARCH)/boot/$(shell basename $(BIN_IMAGE)) ] && cp $(KERNEL_DIR)/arch/$(ARCH)/boot/$(shell basename $(BIN_IMAGE)) $(IMAGE_DIR)
 	# u-boot linux kernel image (binary)
 	[ -e $(KERNEL_DIR)/arch/$(ARCH)/boot/$(shell basename $(UIMAGE)) ] && cp $(KERNEL_DIR)/arch/$(ARCH)/boot/$(shell basename $(UIMAGE)) $(IMAGE_DIR)
-	# dsu loadable image (elf)
-	@$(MAKE) -C $(ARCH_DIR)/$(ARCH) image.dsu
+	# ram loadable image (elf)
+	@$(MAKE) -C $(ARCH_DIR)/$(ARCH) image.ram
 	# raw piggy image (binary)
-	[ -e $(IMAGE_DSU) ] && $(CROSS_COMPILE)objcopy $(OBJCOPYFLAGS) -S $(IMAGE_DSU) $(PIGGY)
+	[ -e $(IMAGE_RAM) ] && $(CROSS_COMPILE)objcopy $(OBJCOPYFLAGS) -S $(IMAGE_RAM) $(PIGGY)
+	# rom image
+	@$(MAKE) -C $(ARCH_DIR)/$(ARCH) image.rom
 	# disassemble
 	[ -e $(IMAGE) ] && $(CROSS_COMPILE)objdump -d $(IMAGE) > $(IMAGE).dis
-	[ -e $(IMAGE_DSU) ] && $(CROSS_COMPILE)objdump -d $(IMAGE_DSU) > $(IMAGE).dsu.dis
+	[ -e $(IMAGE_RAM) ] && $(CROSS_COMPILE)objdump -d $(IMAGE_RAM) > $(IMAGE).ram.dis
 	@echo 'Build done'
 
 clean:
