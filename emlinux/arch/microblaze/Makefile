@@ -18,8 +18,11 @@ emlinux.lds.o: emlinux.lds.S
 	$(CC) -include $(AUTOCONF) -include remove_predefs.h \
 	    -E -C -P -DLINUXIMAGE="$(IMAGE)" $< -o $@
 
-image.dsu: emlinux.lds.o boot.o
+image.ram: emlinux.lds.o boot.o
 	$(LD) -X -T emlinux.lds.o $(IMAGE) boot.o -o $(IMAGE_DIR)/$@
+
+image.rom:
+	@echo 'stub'
 
 clean:
 	$(RM) remove_predefs.h *.o
