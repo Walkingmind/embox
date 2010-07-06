@@ -6,7 +6,6 @@
 BUSYBOX_VERSION=1.8.2
 BUSYBOX_SRC=busybox-$(BUSYBOX_VERSION).tar.bz2
 BUSYBOX_LINK=http://busybox.net/downloads/$(BUSYBOX_SRC)
-BUSYBOX_DIR=busybox-$(BUSYBOX_VERSION)
 ifeq ($(CROSS_COMPILE),sparc-linux-)
 CROSS_COMPILER_DIR=$(shell dirname `which $(CROSS_COMPILE)gcc`)/../sparc-linux
 ARCH_BUSYBOX=sparc_v7soft
@@ -15,19 +14,30 @@ CROSS_COMPILER_DIR=$(shell dirname `which $(CROSS_COMPILE)gcc`)/../microblaze-un
 ARCH_BUSYBOX=microblaze
 endif
 
-.PHONY: busybox install clean
+BUSYBOX    := busybox-$(BUSYBOX_VERSION)
+SYS_DAEMON := sys_daemon
 
-all: busybox install
+MODULES := $(BUSYBOX) $(SYS_DAEMON)
 
-busybox:
+.PHONY: download $(MODULES) install clean
+
+all: download $(MODULES) install
+
+download:
+	# busybox
 	[ -e $(BUSYBOX_SRC) ] || wget -c $(BUSYBOX_LINK)
-	[ -d $(BUSYBOX_DIR) ] || tar -xvjf $(BUSYBOX_SRC)
-	cp $(CONFIG_DIR)/config-busybox-$(BUSYBOX_VERSION).default $(BUSYBOX_DIR)/.config
-	@$(MAKE) -C $(BUSYBOX_DIR) ARCH=$(ARCH_BUSYBOX) V=1
+	[ -d $@ ] || tar -xvjf $(BUSYBOX_SRC)
+
+$(BUSYBOX):
+	cp $(CONFIG_DIR)/config-busybox-$(BUSYBOX_VERSION).default $@/.config
+	@$(MAKE) -C $@ ARCH=$(ARCH_BUSYBOX)
+
+$(SYS_DAEMON):
+#	[ -e $@ ] && $(MAKE) -C $@
 
 install:
 	# install busybox
-	$(MAKE) -C $(BUSYBOX_DIR) ARCH=$(ARCH_BUSYBOX) CONFIG_PREFIX=$(ROMFS_DIR) install
+	$(MAKE) -C $(BUSYBOX) ARCH=$(ARCH_BUSYBOX) CONFIG_PREFIX=$(ROMFS_DIR) install
 	# install libs from compiler
 	@[ -d $(ROMFS_DIR)/lib ] || mkdir -p $(ROMFS_DIR)/lib
 	for lib in ld-linux.so.2 libc.so.6 libm.so.6 libcrypt.so.1 libstdc++.so.6 \
@@ -35,6 +45,8 @@ install:
 	    cp `readlink -f $(CROSS_COMPILER_DIR)/lib/$$lib` $(ROMFS_DIR)/lib/$$lib; \
 	done
 	find $(ROMFS_DIR)/lib -type f | xargs -r $(CROSS_COMPILE)strip -g
+	# install sys_daemon
+#	[ -e $(SYS_DAEMON) ] && $(MAKE) -C $(SYS_DAEMON) romfs
 	# install /etc
 	@[ -d $(ROMFS_DIR)/etc ] || mkdir -p $(ROMFS_DIR)/etc
 	cp etc/inittab $(ROMFS_DIR)/etc
@@ -42,5 +54,5 @@ install:
 	cp etc/rc.S $(ROMFS_DIR)/etc/init.d
 
 clean:
-	rm -fr $(BUSYBOX_DIR)
+	$(RM) $(BUSYBOX)
 
