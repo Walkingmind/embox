@@ -37,7 +37,7 @@ image.ram: emlinux.lds.o boot.o pgt.o
 
 image.rom: flash.lds.o
 	@echo 'stub'
-#	$(LD) -r -b binary -o piggy.o $(PIGGY)
+	$(LD) -r -b binary -o piggy.o $(PIGGY)
 #	$(LD) -X -T flash.lds.o locore.o main.o piggy.o -o $(IMAGE_DIR)/$@
 
 clean:
