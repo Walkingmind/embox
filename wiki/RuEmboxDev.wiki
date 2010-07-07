@@ -1,4 +1,4 @@
-#labels Phase-Design,Phase-Implementation,Featured
+#labels Phase-Design,Phase-Implementation
 =Устройства в ОС "Embox"=
 
 Предупреждаю, написано не совсем в официальном стиле, это скорее наброски, о чем я надумал, за последние пару дней, написанные для ознакомления других и обсуждения сего. =)
