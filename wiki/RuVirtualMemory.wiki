@@ -61,27 +61,28 @@
 
 = Интерфейс =
 
-Абстрактная модель памяти использует 3х уровневую систему трансляции. Существует указатель на глобальную таблицу трансляции (CONTEXT), и каталоги страниц GLOBAL, MIDDLE, PAGE, где запись в каталоге либо ссылка на каталог более мелкого дробления, либо указатель на физическую область памяти (PAGE_ENTRY). Таким образом, GLOBAL, MIDDLE, PAGE таблицы должны быть приводимы к PAGE_ENTRY.
+Абстрактная модель памяти использует 3х уровневую систему трансляции. Существует указатель на первую таблицу GLOBAL трансляции (CONTEXT), и каталоги страниц GLOBAL, MIDDLE, PAGE, где запись в каталоге либо ссылка на каталог более мелкого дробления, либо указатель на физическую область памяти (PAGE_ENTRY). Таким образом, GLOBAL, MIDDLE, PAGE таблицы должны быть приводимы к PAGE_ENTRY.
 
 Для каждой платформы поддерживающей механизм виртуальной памяти следует 
 
 * указать переменные препроцессора
 {{{
-__MMU_GTABLE_MASK
+__MMU_GTABLE_SIZE
+__MMU_MTABLE_SIZE
+__MMU_PTABLE_SIZE
+//количество записей в каждой из таблиц трансялции.
 
-__MMU_GTABLE_MASK_OFFSET
+__MMU_PAGE_SIZE // размер страницы
 
-__MMU_MTABLE_MASK
+__MMU_PAGE_CACHEABLE
+__MMU_PAGE_WRITEABLE
+__MMU_PAGE_EXECUTEABLE
+//Флаги разрешения для страниц
 
-__MMU_MTABLE_MASK_OFFSET
+__MMU_TABLE_HEADER_SIZE // минимиальное допустимое выравнивание для всех таблиц (больше машинного слова)
 
-__MMU_PTABLE_MASK
-
-__MMU_PTABLE_MASK_OFFSET
-
-__MMU_PAGE_MASK
 }}}
-таким образом, что, например, (addr & MMU_GTABLE_MASK_OFFSET) >> MMU_GTABLE_MASK_OFFSET было смещением в GLOBAL таблице для записи трансляции addr, MMU_PAGE_MASK -- маска для получения смещения addr на странице.
+
 
 * объявить типы 
 {{{
@@ -120,27 +121,27 @@ mmu_ctx_t mmu_create_context(void) // создать новый CONTEXT
 
 void mmu_delete_context(mmu_ctx_t ctx) // удалить CONTEXT
 
-void mmu_set_pte(pte_t *ptep, pte_t pteval) // записать PAGE_ENTRY по адресу
+void mmu_set_pte(mmu_pte_t *ptep, mmu_pte_t pteval) // записать PAGE_ENTRY по адресу
 
-void mmu_ctxd_set(ctxd_t *ctxp, pgd_t *pgdp) // установить в CONTEXT GLОBAL таблицу
+void mmu_ctxd_set(mmu_ctx_t *ctxp, mmu_pgd_t *pgdp) // установить в CONTEXT GLОBAL таблицу
 
-void mmu_pgd_set(pgd_t * pgdp, pmd_t * pmdp) // установать в GLOBAL MIDDLE таблицу
+void mmu_pgd_set(mmu_pgd_t * pgdp, mmu_pmd_t * pmdp) // установать в GLOBAL MIDDLE таблицу
 
-void mmu_pmd_set(pmd_t * pmdp, pte_t * ptep) // установить в MIDDLE PAGE таблицу
+void mmu_pmd_set(mmu_pmd_t * pmdp, mmu_pte_t * ptep) // установить в MIDDLE PAGE таблицу
 
-pmd_t *mmu_pgd_get(pgd_t * pgdp) // получить из GLOBAL MIDDLE таблицу
+mmu_pmd_t *mmu_pgd_get(mmu_pgd_t * pgdp) // получить из GLOBAL MIDDLE таблицу
 
-pte_t *mmu_pmd_get(pmd_t * pmdp) // получить из MIDDLE PAGE таблицу
+mmu_pte_t *mmu_pmd_get(mmu_pmd_t * pmdp) // получить из MIDDLE PAGE таблицу
 
 pte_t mmu_pte_format(__mmu_paddr_t addr, __mmu_page_flags_t flags) // построить PAGE_ENTRY по адресу с флагами
 
-paddr_t mmu_pte_extract(pte_t pte) // получить из PAGE_ENTRY физический адрес
+paddr_t mmu_pte_extract(mmu_pte_t pte) // получить из PAGE_ENTRY физический адрес
 
-mmu_page_flags_t mmu_flags_extract(pte_t pte) // получить из PAGE_ENTRY флаги
+mmu_page_flags_t mmu_flags_extract(mmu_pte_t pte) // получить из PAGE_ENTRY флаги
 
-int mmu_is_pte(pte_t pte) // проверить, является ли запись PAGE_ENTRY, или ссылкой на каталог
+bool mmu_is_pte(mmu_pte_t pte) // проверить, является ли запись PAGE_ENTRY
 
-__mmu_page_flags_t mmu_flags_translate(mmu_page_flags_t flags) // преобразовать архитектуро-независимые флаги в архитектуро-зависимые
+bool mmu_valid_entry(mmu_pte_t pte) // является ли запись или PAGE_ENTRY, или ссылкой на каталог
 
 pgd_t * mmu_get_root(mmu_ctx_t ctx) // получить из CONTEXT указатель на GLOBAL таблицу
 }}}
