@@ -1,0 +1,12 @@
+#summary How to run embox
+
+== TSIM ==
+[ftp://ftp.gaisler.com/gaisler.com/tsim/tsim-eval-2.0.15.tar.gz download]
+
+== QEMU ==
+~~...постигая дао бубна~~
+
+== SKYEYE ==
+[http://sourceforge.net/projects/skyeye/files/skyeye/skyeye-1.3.0_rc1.tar.gz/download download]
+
+Довольно продвинутый симулятр, поддерживает разные платформы (в основном arm семейства, из sparc только leon2), отладку по gdb, конфигурация железки задаётся в конфиге (память, сеть, uart и прочее). В результате медитации embox пока запустить не удалось.
