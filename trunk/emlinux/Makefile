@@ -31,6 +31,7 @@ TOOLS_DIR  = $(ROOT_DIR)/tools
 USER_DIR   = $(ROOT_DIR)/user
 KERNEL_DIR = $(ROOT_DIR)/linux-$(KERNEL_VERSION)
 RM         = rm -fr
+MKDIR      = mkdir -p
 OBJCOPYFLAGS = -O binary -R .note -R .comment
 
 IMAGE      = $(IMAGE_DIR)/image
@@ -52,18 +53,19 @@ kernel k:
 	[ -e $(KERNEL_SRC) ] || wget -c $(KERNEL_URL)
 	[ -d $(KERNEL_DIR) ] || tar -xvjf $(KERNEL_SRC)
 	for p in $(KERNEL_PATCHES); do \
-	    [[ -e $(PATCH_DIR)/$$p ]] && zcat $(PATCH_DIR)/$$p | patch -N -p0; \
+	    [[ -e $(PATCH_DIR)/$$p ]] && [[ ! -e $(KERNEL_DIR)/.patched_$$p ]] && zcat $(PATCH_DIR)/$$p | patch -N -p0; \
+	    touch $(KERNEL_DIR)/.patched_$$p; \
 	done
-	[ -d $(ROMFS_DIR) ] || mkdir -p $(ROMFS_DIR)
-	[ -d $(IMAGE_DIR) ] || mkdir -p $(IMAGE_DIR)
+	[ -d $(ROMFS_DIR) ] || $(MKDIR) $(ROMFS_DIR)
+	[ -d $(IMAGE_DIR) ] || $(MKDIR) $(IMAGE_DIR)
 	for i in `cat $(TOOLS_DIR)/dirs.lst`; do \
-	    [[ -d $(ROMFS_DIR)/$$i ]] || mkdir -p $(ROMFS_DIR)/$$i; \
+	    [[ -d $(ROMFS_DIR)/$$i ]] || $(MKDIR) $(ROMFS_DIR)/$$i; \
 	done
 	ln -fs "/sbin/init" $(ROMFS_DIR)/init                                                                                                                                                 
 	chmod +x $(KERNEL_DIR)/scripts/gen_initramfs_list.sh                                                                                                                                  
 	$(KERNEL_DIR)/scripts/gen_initramfs_list.sh $(ROMFS_DIR) > $(KERNEL_DIR)/initramfs.lst 2>&1
 	$(TOOLS_DIR)/romfs-inst.sh
-	[ -d $(IMAGE_DIR) ] || mkdir -p $(IMAGE_DIR)
+	[ -d $(IMAGE_DIR) ] || $(MKDIR) $(IMAGE_DIR)
 	[ -e $(KERNEL_DIR)/.config ] || cp $(CONFIG_DIR)/$(KERNEL_CONFIG) $(KERNEL_DIR)/.config
 	$(MAKE) -C $(KERNEL_DIR) ARCH=$(ARCH) CROSS_COMPILE=$(CROSS_COMPILE) KBUILD_VERBOSE=1 image.bin uImage
 
