@@ -1,15 +1,19 @@
-#summary One-sentence summary of this page.
+#summary list and escription of embox modules
 
 =Список модулей ОС "Embox"=
 *TO-DO: добавить модули, добавить краткое описание*
 
   * *core.kernel.drv_subsys*
+  * *core.kernel.printk*
   * *embox.hal.mm.opallocator*
   * *embox.hal.mm.mpallocator*
   * *embox.hal.mm.kmalloc*
   * *embox.libc.a*
   * *embox.driver.zero*
   * *embox.driver.fi_uart*
+
+==*core.kernel.printk*==
+Вывод для ядра, напрямую на какое-то устройство.
 
 ==*core.kernel.drv_subsys*==
 Модуль добавляющий поддержку подсистемы регистрации драйверов с файловым интерфейсом: (open,close,read,write,ioctl,devctl).
