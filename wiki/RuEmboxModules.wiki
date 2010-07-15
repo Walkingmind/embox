@@ -1,4 +1,4 @@
-#summary list and escription of embox modules
+#summary list and description of embox modules
 
 =Список модулей ОС "Embox"=
 *TO-DO: добавить модули, добавить краткое описание*
