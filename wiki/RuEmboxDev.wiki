@@ -1,4 +1,6 @@
+#summary Description driver subsystem for users and driver's developers.
 #labels Phase-Design,Phase-Implementation
+
 =Driver subsystem in embox=
 
 Находится в *core.kernel.drv_subsys*. Включается по `option(DRIVER_SUBSYSTEM)`. Интерфейсы: `driver.h`, реализация: `kernel/driver.c`. Пример-реализацию канонического устройства можно найти в `src/drivers/char/zero.c` (`/dev/zero`).
