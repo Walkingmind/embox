@@ -17,6 +17,7 @@
 
 ==*core.kernel.drv_subsys*==
 Модуль добавляющий поддержку подсистемы регистрации драйверов с файловым интерфейсом: (open,close,read,write,ioctl,devctl).
+*WARINING!!!* Ни в коем случае нельзя внутри драйверов пользоваться printf, взамен ее, если совсем нужно (для дебага например) пользуемся printk.
 
 ==*embox.hal.mm.opallocator, embox.hal.mm.mpallocator, embox.hal.mm.kmalloc*==
 Одностраничный, многостранничный, и побайтовый аллокаторы.
