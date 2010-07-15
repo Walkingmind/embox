@@ -51,7 +51,7 @@ static int mydriver_stop(void);
 Регистрируем так: {{{EMBOX_UNIT(mydriver_start,mydriver_stop)}}}
 
 ===Как драйвер регистрирует устройство===
-Для регистрации у удаления устройств из системы драйвер должен использовать следующие функции:
+Для регистрации и удаления устройств из системы драйвер должен использовать следующие функции:
 {{{
 device_t*   device_create( driver_t *this , const char *name , device_flags flags , size_t private_s );
 int         device_destroy( device_t *dev );
