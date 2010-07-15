@@ -1,104 +1,153 @@
 #labels Phase-Design,Phase-Implementation
-=Устройства в ОС "Embox"=
+=Driver subsystem in embox=
 
-Предупреждаю, написано не совсем в официальном стиле, это скорее наброски, о чем я надумал, за последние пару дней, написанные для ознакомления других и обсуждения сего. =)
-Приятного прочтения!
+Находится в *core.kernel.drv_subsys*. Включается по `option(DRIVER_SUBSYSTEM)`. Интерфейсы: `driver.h`, реализация: `kernel/driver.c`.
 
-==Интерфейсы в общих чертах==
-Предполагается ввести стандартизованный интерфейс для всех устройств системы 
-и общий пул для них. Как вариант пул это просто массив {{{ device_t[MAX_DEVICE_COUNT] }}}. 
+==Устройства==
 
-Дескриптор устройства в общем случае можно обозвать FILE 
-{{{ typedef int FILE; }}} 
-в нашем случае он будет просто индексом в массиве.
+Устройством в нашей системе может являться абсолютно все, для чего может быть написан реализующий указанный ниже интерфейс. (Например файлы, терминалы, дисплеи, коврик мыши)
 
-Для каждого процесса, файла, устройства, драйвера (всего что будет предоставлять символьный интерфейс) необходимо сделать привязку, т.е. куда собственно
-поток будет перенаправляться, и здесь возможны варианты (как я вижу):
-  # для каждого соединения сделать явный поток bind в котором будет крутиться вещь наподобие {{{ do { a.putc(b.getc()); } while(1); }}};
-  # это же можно сделать посредством callback т.е. хранить указатель на функцию которую необходимо вызвать при поступлении данных {{{ this.fun(this.getc()); }}} минусы -- сложно отследить появление и пропадание устройств в системе. по сути за этим в данном случае должен следить каждый драйвер, а не система;
-  # для всех символьных интерфейсов как свойство объявляем структуру 
+=Интерфейс утсройств=
+
+Было принято соглашение, что драйвер каждого устройства должен реализовывать следующие методы взаимодействия с устройством:
 {{{
-     typedef struct io_charcontext {
-         FILE stdin,stdout;
-     } io_charcontext_t;
-}}} 
-таким образом к любому устройству привязан поток и понятно куда девать данные по мере поступления. Но в данном случае ядро должно обрабатывать прерывание от устройства, что бы инициировать обработку потока устройством, которому поток собственно предназначается.
-
-Вполне возможно, что в системе окажутся не только символьные устройства. 
-  {{{ typedef enum { DT_EMPTY , DT_CHAR , DT_BLOCK } dev_type; }}}
-Кстати, {{{ dev_empty }}} можно вполне использовать, как список свободных дескрипторов (что бы в начале пула лежал всегда {{{ dev_empty_t }}} и указывал на список,
-т.к. список в массиве, можно обойтись без указателей, а лишь индексами {{{ next }}} )
-{{{ 
-typedef struct dev_empty {
-    int next; // may be better use FILE
-} dev_empty_t; 
+typedef struct device_ops {
+        int (*open)  ( device_t *dev , int mode );
+        int (*close) ( device_t *dev );
+        int (*read)  ( device_t *dev , char *buf    , size_t n  );
+        int (*write) ( device_t *dev , char *buf    , size_t n  );
+        int (*ioctl) ( device_t *dev , io_cmd c     , void *arg );
+        int (*devctl)( device_t *dev , device_cmd c , void *arg );
+} device_ops_t;
 }}}
 
-Собственно один из вариантов интерфейса символьного устройства:
-{{{ 
-typedef struct dev_char {
-    // interface
-    void (*putc)(void *context, int ch);
-    int (*getc)(void *context); 
-    // context
-    void *context;
-    // outside context
-    io_charcontext_t io;
-} dev_char_t; 
-}}}
-(Но здесь никак не фигурирует обработчик прерывания, вероятно он лежит внутри драйвера, (может быть массив из пар дескриптор устройства, обработчик))
+==Драйвера==
 
-Возможно имеет смысл завести какие то флаги для устройств обозначающие права на то, что мы с ними можем делать или т.п.
+Каждый драйвер, по своей сути является реализацией трех функций:
 {{{
-typedef int dev_flags;
- /** example 1 write 2 read ... e.t.c. */
+int mydriver_load( driver_t *drv );
+int mydriver_probe( driver_t *drv , void *arg );
+int mydriver_unload( driver_t *drv );
 }}}
 
-Как вариант описания абстрактного устройства в системе:
+====mydriver_load====
+Вызывается с указателем на структуру (память уже выделило ядро), в которую драйвер должен записать информацию о себе, а так же инициализировать указатели на методы обрращения к устройствам.
+
+====mydriver_probe====
+Данная функция вызывается если система предполагает наличие устройства, которое может обрабатываться данным драйвером. Т.е. при вызове драйвер должен попытаться зарегистрировать устройство. Параметр arg необходим, если мы, например, хотим запросить у драйвера файловой системы, зарегистрировать файл.
+
+*TO-DO* Не придуманы коды возврата для этой и большинства других функций.
+
+====mydriver_unload====
+При вызове этой функции драйвер должен корректно выгрузить устройства и освободить приватные поля.
+
+К сожалению, у нас пока нет отдельного фреймворка для драйверов и пока используется система модулей. Т.е. функции `_load` и `_probe` заворачиваем в `_start`, а `_unload` в `_stop`:
 {{{
-typedef struct device {
-    dev_type type;   
-	dev_flags flags;
-    // info
-    char *info;
-    
-	union {
-		dev_empty_t em;
-		dev_char_t  ch;
-		dev_block_t bl;
-		. . .
-	} dev;
-} device_t;
+static int mydriver_start(void);
+static int mydriver_stop(void);
 }}}
-   
-Пул устройств:
-{{{ device_t devices[MAX_DEVICES_COUNT]; }}}
+Регистрируем так: {{{EMBOX_UNIT(mydriver_start,mydriver_stop)}}}
 
-==Что для этого нужно==
-
-===Макро определения===
-
-Было бы неплохо сделать для всех драйверов сделать регистрацию в системе при помощи макросов схожую с модулями. Т.е. что-то наподобие 
-{{{ EMBOX_DRIVER( load , probe , unload ) }}} где load, probe, unload соответствующие функции.
-  * load инициализирует драйвер (допустим выделяет зануляет память)
-  * probe опрашивает систему, регистрирует устройства, которыми управляет этот драйвер
-  * unload соответственно уничтожает устройства, освобождает память
-
-(Поначалу можно обойтись модулями на runlevel==1 где probe будет находиться внутри start_mod)
-
-===Probe и регистрация устройства===
-
-Очевидно, что драйверу необходимо предоставить интерфейс для регистрации устройств (или как вариант, что бы probe возвращала список из устройств, но,
-кажется, первое предпочтительнее).
-Вариант интерфейса:
+===Как драйвер регистрирует устройство===
+Для регистрации у удаления устройств из системы драйвер должен использовать следующие функции:
 {{{
-device.h
-  device_t *get_device_mem(); /* get_device_empty() ? */
-  FILE device_add( device_t *ptr );
-  void device_del( device_t *ptr );
+device_t*   device_create( driver_t *this , const char *name , device_flags flags , size_t private_s );
+int         device_destroy( device_t *dev );
 }}}
 
-Реализация данной штуки посредством списков, как упомянуто ранее, вопросов не вызывает :)
+==С точки зрения прикладного программиста==
+Для использования на данный момент доступен следующий интерфейс:
+{{{
+device_desc device_select( const char *desc );  
+
+int device_open  ( device_desc dev , int mode );
+int device_close ( device_desc dev );
+int device_read  ( device_desc dev , char *buf    , size_t n  );  
+int device_write ( device_desc dev , char *buf    , size_t n  );  
+int device_ioctl ( device_desc dev , io_cmd c     , void *arg );
+int device_devctl( device_desc dev , device_cmd c , void *arg );
+}}}
+Где `device_select` предоставляет возможность получить по строке описания (которую устанавливает драйвер при регистрации устройства) получить дескриптор. Назначение следующих функций интуитивно понятно.
+
+==IO CONTEXT (same magic features)==
+Есть так же нереализованная идея взаимодействия устройств напрямую, посредством установления контекста ввода/вывода. `option(DEV_IO_CONTEXT)`
+
+Для этого можно реализовать системный вызов или команду, допустим bind
+{{{ void bind ( FILE from, FILE to ) }}} 
+работа которого сведется просто к
+{{{
+	devices[to].ch.io.stdin = from;
+	devices[from].ch.io.stdout = to;
+}}}
+И тогда, без взаимодействия сторонних приложений, напрямую можно было бы перенапрявлять потоки данных с одного устройства на другое.
+
+==Оставшиеся структуры и интерфейсы==
+
+{{{
+/*
+ * this interface for char device will not support fseek (call ioctl with some argument)
+ * but it may be common interface for all devices
+ */
+typedef struct device_ops {
+    int (*open)  ( device_t *dev , int mode );
+    int (*close) ( device_t *dev );
+    int (*read)  ( device_t *dev , char *buf    , size_t n  );
+    int (*write) ( device_t *dev , char *buf    , size_t n  );
+    int (*ioctl) ( device_t *dev , io_cmd c     , void *arg );
+    int (*devctl)( device_t *dev , device_cmd c , void *arg );
+} device_ops_t;
+}}}
+
+{{{
+struct io_context {
+    device_desc in, out; /* FILE in, out; */
+};
+}}}
+
+{{{
+/*
+ * device information, that accessible for kernel
+ */
+struct device {
+    const char          *desc;      /* char description of device */
+    device_flags        flags;      /* some flag, allows read/write or some operations? */
+#ifdef CONFIG_DEV_IO_CONTEXT
+    io_context_t        ioc;        /* in/out context */
+#endif
+    driver_t            *driver;    /* driver, that controlled its device */
+    size_t              private_s;  /* description of private data */
+    void                *private;
+};
+
+}}}
+
+
+{{{
+/*
+ * description of device's drivers
+ * generate by kernel on stage of registry driver in system. Macross EMBOX_DRIVER?
+ */
+struct driver {
+    const char      *name;      /* name of driver */
+    device_ops_t    ops;        /* interface of device, that controlled by this driver */
+    driver_flags    flags;      /* some flag of driver */
+    size_t          private_s;  /* size of private data */
+    void            *private;   /* private data */
+
+    int (*load)  ( driver_t *this );            /* init of driver, allocate memory and other */
+                                                /* return 0 or -ERR */
+
+    int (*probe) ( driver_t *this , void *arg); /* find more devices in system and registry they */
+                                                /* arg need for send driver some information, for
+                                                    example about path to file for driver of file system
+                                                    in order that create device of specific file */
+                                                /* return count of new devices or -ERR */
+
+    int (*unload)( driver_t *this );            /* free devices and memory */
+                                                /* return 0 or -ERR */
+};
+
+}}}
 
 Канонический probe() может выглядеть как-то так:
 {{{
@@ -116,21 +165,3 @@ int probe() {
 	}
 }
 }}}
-
-===Init.d/main/или как-то так===
-В конечном итоге получим массив символьных устройств связанных по умолчанию с /dev/null. Останется лишь их привязать к необходимым и в нужном порядке.
-Для этого можно реализовать системный вызов или команду, допустим bind
-{{{ void bind ( FILE from, FILE to ) }}} 
-работа которой сведется просто к
-{{{
-	devices[to].ch.io.stdin = from;
-	devices[from].ch.io.stdout = to;
-}}}
-запуск которой можно вложить в модуль инициализации или скрипт или куда еще.
-
-=Возвращаясь к исходной задаче с терминалом=
-все будет выглядеть так: в исходниках появляется драйвер символьного устройства терминал (probe вполне может создать более одного), регистрируется
-символьное устройство gaisler/uart, запускается модуль инициализации, который связывает их друг с другом.
-
-все это написано Just for fun, но мне показалось вполне разумным, предлагаю обсудить, и, если нет веских причин считать все это нерабочим, могу начать
-реализовывать device.h/c 
