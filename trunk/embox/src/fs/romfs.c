@@ -1016,7 +1016,7 @@ static size_t romfs_fwrite(const void *buf, size_t size, size_t count, void *fil
 
 static int romfs_fseek(void *file, long offset, int whence){
 	//FILE_HANDLER *fh = (FILE_HANDLER *)file;
-	return 0;
+	return -2;
 }
 
 //TODO format_part
