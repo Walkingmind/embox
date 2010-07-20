@@ -1,0 +1,60 @@
+#summary embox development roadmap
+
+= 2010/07/23 v0.1.6 [http://code.google.com/p/embox/issues/list?can=1&q=milestone=v0.1.6 [issues]] [http://code.google.com/p/embox/issues/list?q=milestone=v0.1.6 [open issues]] =
+
+Tercom Summer of Code's results presentation. 
+
+= 2010/06/28 v0.1.5 [http://code.google.com/p/embox/issues/list?can=1&q=milestone=v0.1.5 [issues]] [http://code.google.com/p/embox/issues/list?q=milestone=v0.1.5 [open issues]] =
+Start Tercom Summer of Code.
+
+== Threading ==
+ * The scheduler supports state of threads:
+  * RUN
+  * READY
+  * SLEEP
+ * The scheduler manages the queues of same state threads.
+ * Thread synchronization techniques:
+  * mutex
+  * conditional variables
+ * All above functionality is demonstrated by tests.
+
+== Memory ==
+ * Code review of previous results (Page_alloc, virtual memory< malloc).
+ * Written wiki pages with the justification what is a virtual memory for, and why it's bad to use the method of boundary markers.
+ * Virtual memory tests are written.
+ 
+
+= 2010/05/19 v0.1.4 [http://code.google.com/p/embox/issues/list?can=1&q=milestone=v0.1.4 [issues]] [http://code.google.com/p/embox/downloads/detail?name=embox-0.1.4.txz [download]] =
+The presentation of results of the student project.
+
+= 2010/05/01 v0.1.3 [http://code.google.com/p/embox/issues/list?can=1&q=milestone=v0.1.3 [issues]] [http://code.google.com/p/embox/downloads/detail?name=embox-0.1.3.txz [download]] =
+== Threading ==
+ * Trivial scheduler is working.
+ * A test (or command), which runs 2 threads, one of them wrote to the console "-" other "+". At the console displays a sequence of alternating somehow "+" and "-".
+
+== Manager of memory ==
+ * Allocation of memory pages.
+ * A test: look amount of memory, allocate, look, release and so on.
+
+== Virtual memory ==
+ * Context switching is working.
+ * A test for virtual memory is implemented: e.g., 2 functions of the different contexts in turn something written in one virtual address and then verify the correctness of records.
+
+== User applications ==
+ * Written application in C, which parses the ELF header file and displays its contents to the console. The result of processing coincides with the objdump.
+ * That application is integrated into embox as a module.
+ * readelf: displays information about ELF format object files.
+
+== Network ==
+ * ~~support for loopback~~
+ * support for ICMP
+ * ~~ioctl interface for sockets is implemented~~
+
+= 2010/04/16 v0.1.2 [http://code.google.com/p/embox/issues/list?can=1&q=milestone=v0.1.2 [issues]] [http://code.google.com/p/embox/downloads/detail?name=embox-0.1.2.txz [download]] =
+All tasks are distributed to the participants of the student project.
+
+= 2010/04/02 v0.1.1 [http://code.google.com/p/embox/issues/list?can=1&q=milestone=v0.1.1 [issues]] [http://code.google.com/p/embox/downloads/detail?name=embox-0.1.1.txz [download]] =
+The presentation of hardware testing tools.
+
+= 2010/03/13 v0.1 [http://code.google.com/p/embox/issues/list?can=1&q=milestone=v0.1 [issues]] [http://code.google.com/p/embox/downloads/detail?name=embox-0.1.tar.bz2 [download]] =
+Time beginning.
