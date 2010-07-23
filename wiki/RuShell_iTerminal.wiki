@@ -7,8 +7,8 @@
 |  iTerminal Driver                                  |   
 |____________________________________________________|
 |                                                    |  [        ]   
-|  __iterminal_main__           __iterminall_call__  |  [  JOB   ]<--+
-| [ | read           ]         [  cmd    |  task   ] |  [        ]>-+|
+|  __iterminal_main__           __iterminall_call__  |  [  JOB   ]>--+
+| [ | read           ]         [  cmd    |  task   ] |  [        ]<-+|
 | [ |                ]         [---------+---------] |  [________]  ||  
 | [ | + has token    ]         [ switch  | switch  ] |      |       ||  
 | [ | | call token   ] ======{ [  token1 |  ^C ----]-|------+       ||  
