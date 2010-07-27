@@ -22,3 +22,7 @@ Usage:
 	make kernel
     For build images (only after "make kernel"):
 	make image
+
+Requirenments:
+    patch < 2.6
+
