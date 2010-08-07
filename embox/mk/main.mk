@@ -53,6 +53,8 @@ TEMPLATES = $(notdir $(wildcard $(PROJECTS_DIR)/*))
 include $(MK_DIR)/rules.mk
 include $(MK_DIR)/util.mk
 
+include $(MK_DIR)/gmsl.mk
+
 makegoals := $(MAKECMDGOALS)
 ifeq ($(makegoals),)
 makegoals := all
