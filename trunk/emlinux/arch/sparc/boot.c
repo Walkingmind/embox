@@ -10,38 +10,27 @@
  * Copyright (C) 2004 Stefan Holst <mail@s-holst.de>
  */
 
-#include "linux/kernel.h"
-#include "asm/asi.h"
-#include "asm/pgtsrmmu.h"
-#include "asm/leon.h"
+#include <linux/kernel.h>
+#include <asm/asi.h>
+#include <asm/pgtsrmmu.h>
+#include <asm/leon.h>
 
 #if (KERNEL_VERSION == 33)
-#include "asm/leon_amba.h"
+#include <asm/leon_amba.h>
 #define CONFIG_LEON_3
 #endif
 
-#undef CONFIG_LEON_3
-
-#include "asm/page.h"
-#include "asm/head.h"
-#include "linux/kdev_t.h"
-#include "linux/major.h"
-#include "linux/root_dev.h"
-#include "linux/fs.h"
-#include "linux/string.h"
-#include "linux/init.h"
-#include "asm/oplib.h"
-#include "asm/idprom.h"
-#include "asm/machines.h"
-#include "asm/contregs.h"
+#include <asm/page.h>
+#include <linux/string.h>
+#include <asm/oplib.h>
+#include <asm/idprom.h>
+#include <asm/machines.h>
 
 /* ram configuration */
 #define LEONSETUP_MEM_BASEADDR 0x40000000
 
 /* for __va */
 #define phys_base LEONSETUP_MEM_BASEADDR
-
-#define CONFIG_KERNEL_COMMAND_LINE "console=ttyS0,38400"
 
 struct property {
         char *name;
@@ -75,6 +64,7 @@ struct leon_prom_info {
         int baudrates[2];
         struct property root_properties[4];
         struct property cpu_properties[7];
+        struct property uart_properties[7];
 #undef  CPUENTRY
 #define CPUENTRY(idx) struct property cpu_properties##idx[4];
         CPUENTRY(1)
@@ -119,8 +109,9 @@ struct leon_prom_info {
         struct linux_arguments_v0 *bootargs_p;
         struct linux_arguments_v0 bootargs;
         struct linux_romvec romvec;
-        struct node nodes[35];
+        struct node nodes[36];
         char s_device_type[12];
+        char s_device_name[5];
         char s_cpu[4];
         char s_mid[4];
         char s_idprom[7];
@@ -130,12 +121,24 @@ struct leon_prom_info {
         char s_frequency[16];
         char s_uart1_baud[11];
         char s_uart2_baud[11];
-        char arg[];
+        char s_serial[7];
+        char pv_stdin;
+        char pv_stdout;
+        char s_uart_name[16];
+        char s_uart_vendor[7];
+        char s_uart_device[7];
+        char s_uart_interrupts[11];
+        char s_uart_reg[4];
+        int uart_vendor;
+        int uart_device;
+        int uart_interrupts;
+        int uart_reg;
+        char arg[256];
 };
 
 /* static prom info */
 static struct leon_prom_info spi = {
-        0, /* freq_khz */
+        20000, /* freq_khz */
         256, /* leon_nctx */
         {
 #undef  CPUENTRY
@@ -177,7 +180,7 @@ static struct leon_prom_info spi = {
                 38400, 38400
         },
         { /* root_properties */
-                {__va(spi.s_device_type), __va(spi.s_idprom), 4},
+                {__va(spi.s_device_type), __va(spi.s_idprom), 7},
                 {__va(spi.s_idprom), (char *)__va(&spi.idprom), sizeof(struct idprom)},
                 {__va(spi.s_compatability), __va(spi.s_leon2), 5},
                 {NULL, NULL, -1}
@@ -190,6 +193,15 @@ static struct leon_prom_info spi = {
                 {__va(spi.s_uart1_baud), (char *)__va(&spi.baudrates[0]), 4},
                 {__va(spi.s_uart2_baud), (char *)__va(&spi.baudrates[1]), 4},
                 {NULL, NULL, -1}
+        },
+        { /* uart_properties */
+                 {__va(spi.s_device_name), __va(spi.s_uart_name), 16},
+                 {__va(spi.s_device_type), __va(spi.s_serial), 7},
+                 {__va(spi.s_uart_vendor), (char *)__va(&spi.uart_vendor), 4},
+                 {__va(spi.s_uart_device), (char *)__va(&spi.uart_device), 4},
+                 {__va(spi.s_uart_interrupts), (char *)__va(&spi.uart_interrupts), 4},
+                 {__va(spi.s_uart_reg), (char *)__va(&spi.uart_reg), 4},
+                 {NULL, NULL, -1}
         },
 #undef  CPUENTRY
 #define CPUENTRY(idx)							\
@@ -275,9 +287,8 @@ static struct leon_prom_info spi = {
                 0, 0,
                 { __va(&spi.totphys_p), __va(&spi.prommap_p), __va(&spi.avail_p) },
                 __va(&spi.nodeops),
-                NULL, { NULL /* ... */
-                      },
-                NULL, NULL,
+                NULL, { NULL /* ... */ },
+                __va(&spi.pv_stdin), __va(&spi.pv_stdout),
                 NULL, NULL,  /* pv_getchar, pv_putchar */
                 __va(leon_nbgetchar), __va(leon_nbputchar),
                 NULL,
@@ -292,11 +303,10 @@ static struct leon_prom_info spi = {
                 /*...*/
         },
         { /* nodes */
-                { 0, __va(spi.root_properties+3) /* NULL, NULL, -1 */
-                },
+                { 0, __va(spi.root_properties+3) /* NULL, NULL, -1 */},
                 { 0, __va(spi.root_properties) },
                 { 1, __va(spi.cpu_properties) }, /* cpu 0, must be spi.nodes[2] see leon_prom_init()*/
-
+                { 1, __va(spi.uart_properties) },
 #undef  CPUENTRY
 #define CPUENTRY(idx) \
 	  { 1, __va(spi.cpu_properties##idx) }, /* cpu <idx> */
@@ -335,6 +345,7 @@ static struct leon_prom_info spi = {
         }
         },
         "device_type",
+        "name",
         "cpu",
         "mid",
         "idprom",
@@ -344,16 +355,24 @@ static struct leon_prom_info spi = {
         "clock-frequency",
         "uart1_baud",
         "uart2_baud",
-        CONFIG_KERNEL_COMMAND_LINE
-#if (CONFIG_KERNEL_ROOTMEM_INITRAMFS  == 1)
-        " rdinit="
-#else
-        " init="
-#endif
-        "/sbin/init"
+        "serial",
+        PROMDEV_TTYA,
+        PROMDEV_TTYA,
+        "GAISLER_APBUART",
+        "vendor",
+        "device",
+        "interrupts",
+        "reg",
+        0x1,
+        0x0C,
+        0x2,
+        0x80000100,
+        "console=ttyS0,38400 rdinit=/sbin/init"
 };
 
 static void leon_reboot(char *bcommand) {
+	/* Reboot the CPU = jump to beginning of flash again. */
+	
         while (1) {
                 printk(__va("Can't reboot\n"));
         };
@@ -365,34 +384,44 @@ static void leon_halt(void) {
         };
 }
 
-/* get single char, don't care for blocking*/
+/* get single char, don't care for blocking */
 static int leon_nbgetchar(void) {
-//        BUG();
         return -1;
 }
 
+#define LEON_USTAT0 0x80000104
+#define LEON_UDATA0 0x80000100
+
 /* put single char, don't care for blocking*/
 static int leon_nbputchar(int c) {
-#ifdef CONFIG_LEON_3
-# ifdef CONFIG_GRLIB_GAISLER_APBUART
-        extern void leon3_rs_put_char(char ch);
-        leon3_rs_put_char(c);
-# else
+//#ifdef CONFIG_LEON_3
+//# ifdef CONFIG_GRLIB_GAISLER_APBUART
+//        extern void leon3_rs_put_char(char ch);
+//        leon3_rs_put_char(c);
+//# else
 //        BUG();
-# endif
-#else
-        unsigned int old_cr;
+//# endif
+//#else
+//        unsigned int old_cr;
 
-        old_cr = LEON_REGLOAD_PA(LEON_UCTRL0);
-        LEON_REGSTORE_PA(LEON_UCTRL0,(old_cr & ~(LEON_UCTRL_TI)) | (LEON_UCTRL_TE));
+//        old_cr = LEON_REGLOAD_PA(LEON_UCTRL0);
+//        LEON_REGSTORE_PA(LEON_UCTRL0,(old_cr & ~(LEON_UCTRL_TI)) | (LEON_UCTRL_TE));
 
-        while (!(LEON_REGLOAD_PA(LEON_USTAT0) & 0x4));
-        LEON_REGSTORE_PA(LEON_UDATA0, (unsigned char)c);
+        while (!(LEON_BYPASS_LOAD_PA(LEON_USTAT0) & 0x4));
+        LEON_BYPASS_STORE_PA(LEON_UDATA0, (unsigned char)c);
 
-        while (!(LEON_REGLOAD_PA(LEON_USTAT0) & 0x4));
-        LEON_REGSTORE_PA(LEON_UCTRL0,old_cr);
-#endif
+//        while (!(LEON_REGLOAD_PA(LEON_USTAT0) & 0x4));
+//        LEON_REGSTORE_PA(LEON_UCTRL0,old_cr);
+//#endif
         return 0;
+}
+
+static int leon_nbputstr(const char *str) {
+	char *ptr = (char*)str;
+	while(*ptr) {
+		leon_nbputchar(*ptr++);
+	}
+	return leon_nbputchar('\n');
 }
 
 /* node ops */
@@ -550,7 +579,6 @@ static void leon_prom_init() {
 
         leon3_amba_init();
 
-        spi.freq_khz = 20000;
         {
 #if (KERNEL_VERSION == 33)
     		struct leon3_gptimer_regs_map *b;
@@ -565,8 +593,8 @@ static void leon_prom_init() {
         }
         {
                 int j = 1;
-                spi.nodes[2+j].level = -1;
-                spi.nodes[2+j].properties = __va(spi.root_properties+3);
+                spi.nodes[3+j].level = -1;
+                spi.nodes[3+j].properties = __va(spi.root_properties+3);
         }
 #else
         spi.freq_khz = (*((unsigned long*)(LEON_PREGS+LEON_SRLD))+1) * 1000;
@@ -637,6 +665,7 @@ int __attribute__ ((__section__ (".img.main.text"))) __main(void) {
         /* call kernel */
 
         kernel = (void (*)(struct linux_romvec*)) KERNBASE+LOAD_ADDR;
+        leon_nbputstr("Call kernel");
         kernel(__va(&spi.romvec));
 
         return 1;
