@@ -48,5 +48,5 @@ install:
 	find $(ROMFS_DIR)/lib -type f | xargs -r $(CROSS_COMPILE)strip -g
 
 clean:
-	$(RM) $(BUSYBOX)
+	@$(MAKE) -C $(BUSYBOX) clean
 

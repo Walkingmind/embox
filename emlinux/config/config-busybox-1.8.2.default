@@ -185,7 +185,7 @@ CONFIG_ECHO=y
 # CONFIG_MKDIR is not set
 # CONFIG_FEATURE_MKDIR_LONG_OPTIONS is not set
 # CONFIG_MKFIFO is not set
-# CONFIG_MKNOD is not set
+CONFIG_MKNOD=y
 # CONFIG_MV is not set
 # CONFIG_FEATURE_MV_LONG_OPTIONS is not set
 # CONFIG_NICE is not set

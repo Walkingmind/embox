@@ -39,6 +39,9 @@ SECTIONS {
 		. = ALIGN(4096);		
 		LINUXIMAGE (.data)
 		LINUXIMAGE (.data.init)
+		__start_builtin_fw = .;
+		LINUXIMAGE (.builtin_fw)
+		__end_builtin_fw = .;
 		LINUXIMAGE (.data1)
 		_edata = .;
 		PROVIDE (edata = .);

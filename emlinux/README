@@ -8,7 +8,7 @@ emlinux is the Linux kernel based embedded OS.
 embox is used as the bootloader for emlinux.
 
 emlinux kernel requirenments:
-    For SPARC LEON 3: linux-2.6.21.1.tar.bz2
+    For SPARC LEON 3: linux-2.6.21.1.tar.bz2 or linux-2.6.33.tar.bz2
     For MicroBlaze: linux-2.6.33.tar.bz2
 
 Download the kernel sources manually or rely on the build script.

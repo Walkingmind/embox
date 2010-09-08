@@ -1,16 +1,15 @@
 # $Id$
 #
 
-AUTOCONF=$(KERNEL_DIR)/include/linux/autoconf.h
+#AUTOCONF=$(KERNEL_DIR)/include/linux/autoconf.h
+AUTOCONF=$(KERNEL_DIR)/include/generated/autoconf.h
 
-CC = $(CROSS_COMPILE)gcc
-LD = $(CROSS_COMPILE)ld
 CFLAGS += -Wall -mno-fpu -nostdinc -O2
 
 boot.o: boot.c
 	$(CC) -I$(KERNEL_DIR)/include -I$(KERNEL_DIR)/arch/$(ARCH)/include -I. -include $(AUTOCONF) \
-	    -D__KERNEL__ $(CFLAGS) -DCONFIG_KERNEL_ROOTMEM_INITRAMFS=1 \
-	    -DKERNEL_VERSION=$(shell echo $(KERNEL_VERSION) | perl -ne "s/(\d+).(\d+).(\d+).(\d+)/\3/;print;") \
+	    -D__KERNEL__ $(CFLAGS) \
+	    -DKERNEL_VERSION=$(shell echo $(KERNEL_VERSION) | perl -ne "s/(\d+).(\d+).(\d+)([\d.]*)/\3/;print;") \
 	    -iwithprefix include -c $<
 
 pgt.o: pgt.S
@@ -38,6 +37,7 @@ image.ram: emlinux.lds.o boot.o pgt.o
 image.rom: flash.lds.o
 	@echo 'stub'
 	$(LD) -r -b binary -o piggy.o $(PIGGY)
+	cp piggy.o $(IMAGE_DIR)
 #	$(LD) -X -T flash.lds.o locore.o main.o piggy.o -o $(IMAGE_DIR)/$@
 
 clean:
