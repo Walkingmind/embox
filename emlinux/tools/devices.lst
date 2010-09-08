@@ -6,7 +6,6 @@ fb0,c,29,0
 hda,b,3,0       hda1,b,3,1      hda2,b,3,2      hda3,b,3,3
 hda4,b,3,4      hdb,b,3,64      hdb1,b,3,65
 ptmx,c,5,2 
-gpio0,c,212,0   gpio1,c,212,1   gpio1,c,212,2   gpio1,c,212,3 
 ptyp0,c,2,0     ptyp1,c,2,1     ptyp2,c,2,2     ptyp3,c,2,3 
 ptyp4,c,2,4     ptyp5,c,2,5     ptyp6,c,2,6     ptyp7,c,2,7 
 ptyp8,c,2,8     ptyp9,c,2,9     ptypa,c,2,10    ptypb,c,2,11 
@@ -38,4 +37,3 @@ sdf,b,8,80     sdf1,b,8,81      sdf2,b,8,82      sdf3,b,8,83
 mtd0,c,90,0     mtdr0,c,90,1     mtd1,c,90,2       mtdr1,c,90,3 
 mtd2,c,90,4     mtdr2,c,90,5     mtd3,c,90,6       mtdr3,c,90,7 
 mtd4,c,90,8     mtdr4,c,90,9     mtd4,c,90,10      mtdr4,c,90,11 
-xsysace,b,254,0 xsysace1,b,254,1 xsysace2,b,254,2  xsysace3,b,254,3

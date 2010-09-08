@@ -3,8 +3,6 @@ dev
 dev/flash
 dev/pts
 dev/etherd
-dev/input
-dev/usb
 etc
 etc/init.d
 home 

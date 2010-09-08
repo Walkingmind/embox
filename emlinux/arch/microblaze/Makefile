@@ -3,14 +3,12 @@
 
 AUTOCONF=$(KERNEL_DIR)/include/generated/autoconf.h
 
-CC = $(CROSS_COMPILE)gcc
-LD = $(CROSS_COMPILE)ld
 CFLAGS = -Wall -ffixed-r31 -mno-xl-soft-mul -nostdinc -O2
 
 boot.o: boot.c
 	$(CC) -I$(KERNEL_DIR)/include -I$(KERNEL_DIR)/arch/$(ARCH)/include -I. -include $(AUTOCONF) \
-	    -D__KERNEL__ $(CFLAGS) -DCONFIG_KERNEL_ROOTMEM_INITRAMFS=1 \
-	    -DKERNEL_VERSION=$(shell echo $(KERNEL_VERSION) | perl -ne "s/(\d+).(\d+).(\d+).(\d+)/\3/;print;") \
+	    -D__KERNEL__ $(CFLAGS) \
+	    -DKERNEL_VERSION=$(shell echo $(KERNEL_VERSION) | perl -ne "s/(\d+).(\d+).(\d+).([\d]*)/\3/;print;") \
 	    -iwithprefix include -c $<
 
 emlinux.lds.o: emlinux.lds.S                                                                                                                                                        
@@ -23,6 +21,8 @@ image.ram: emlinux.lds.o boot.o
 
 image.rom:
 	@echo 'stub'
+	$(LD) -r -b binary -o piggy.o $(PIGGY)
+	cp piggy.o $(IMAGE_DIR)
 
 clean:
 	$(RM) remove_predefs.h *.o

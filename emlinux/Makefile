@@ -55,7 +55,7 @@ patch-kernel pk:
 		&& zcat $(PATCH_DIR)/$$p | patch -N -p0 && touch $(KERNEL_DIR)/.patched_$$p; \
 	done
 
-kernel k: #patch-kernel
+kernel k: patch-kernel
 	[ -d $(ROMFS_DIR) ] || $(MKDIR) $(ROMFS_DIR)
 	[ -d $(IMAGE_DIR) ] || $(MKDIR) $(IMAGE_DIR)
 	for i in `cat $(TOOLS_DIR)/dirs.lst`; do \
