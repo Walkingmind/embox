@@ -1,6 +1,9 @@
-#!/bin/sh
+#!/bin/bash
 
-for i in `cat $TOOLS_DIR/devices.lst`; do
+DEVICES_LIST=$TOOLS_DIR/devices.lst
+INITRAMFS_LIST=$KERNEL_DIR/initramfs.lst
+
+for i in `cat $DEVICES_LIST`; do
     name=${i%%,*}
     i=${i##${name},}
     type=${i%%,*}
@@ -8,6 +11,6 @@ for i in `cat $TOOLS_DIR/devices.lst`; do
     maj=${i%%,*}
     i=${i##${maj},}
     min=${i%%,*}
-    echo "nod /dev/$name 0600 0 0 $type $maj $min" >> $KERNEL_DIR/initramfs.lst
+    echo "nod /dev/$name 0600 0 0 $type $maj $min" >> $INITRAMFS_LIST
 done
 

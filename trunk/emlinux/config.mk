@@ -1,4 +1,4 @@
-ARCH           = sparc
+ARCH           = microblaze
 KERNEL_VERSION = 2.6.33
 KERNEL_SRC     = linux-$(KERNEL_VERSION).tar.bz2
 KERNEL_PATCHES = linux-$(KERNEL_VERSION)-$(ARCH).patch.gz

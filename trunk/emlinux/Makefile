@@ -29,6 +29,7 @@ KERNEL_DIR = $(ROOT_DIR)/linux-$(KERNEL_VERSION)
 RM         = rm -fr
 MKDIR      = mkdir -p
 OBJCOPYFLAGS = -O binary -R .note -R .comment
+GEN_INITRAMFS = $(KERNEL_DIR)/scripts/gen_initramfs_list.sh
 
 IMAGE      = $(IMAGE_DIR)/image
 BIN_IMAGE  = $(IMAGE_DIR)/image.bin
@@ -55,15 +56,15 @@ patch-kernel pk:
 		&& zcat $(PATCH_DIR)/$$p | patch -N -p0 && touch $(KERNEL_DIR)/.patched_$$p; \
 	done
 
-kernel k: patch-kernel
+kernel k: #patch-kernel
 	[ -d $(ROMFS_DIR) ] || $(MKDIR) $(ROMFS_DIR)
 	[ -d $(IMAGE_DIR) ] || $(MKDIR) $(IMAGE_DIR)
 	for i in `cat $(TOOLS_DIR)/dirs.lst`; do \
 	    [[ -d $(ROMFS_DIR)/$$i ]] || $(MKDIR) $(ROMFS_DIR)/$$i; \
 	done
 	ln -fs "/sbin/init" $(ROMFS_DIR)/init                                                                                                                                                 
-	chmod +x $(KERNEL_DIR)/scripts/gen_initramfs_list.sh                                                                                                                                  
-	$(KERNEL_DIR)/scripts/gen_initramfs_list.sh $(ROMFS_DIR) > $(KERNEL_DIR)/initramfs.lst 2>&1
+	chmod +x $(GEN_INITRAMFS)                                                                                                                                 
+	$(GEN_INITRAMFS) $(ROMFS_DIR) > $(KERNEL_DIR)/initramfs.lst 2>&1
 	$(TOOLS_DIR)/romfs-inst.sh
 	[ -d $(IMAGE_DIR) ] || $(MKDIR) $(IMAGE_DIR)
 	[ -e $(KERNEL_DIR)/.config ] || cp $(CONFIG_DIR)/$(KERNEL_CONFIG) $(KERNEL_DIR)/.config
@@ -129,7 +130,4 @@ xconfig x: KERNEL_VERSION := `Xdialog \
 xconfig x:
 	@perl -i -ne "s/^ARCH(\s+)=(\s\w+)/ARCH\1= $(ARCH)/;print" config.mk
 	@perl -i -ne "s/^KERNEL_VERSION(\s+)=(\s\w.+)/KERNEL_VERSION\1= $(KERNEL_VERSION)/;print" config.mk
-
-patch p:
-	cd $(PATCH_DIR); $(TOOLS_DIR)/make-ovk-patch.sh
 

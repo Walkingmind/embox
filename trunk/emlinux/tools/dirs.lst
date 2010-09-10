@@ -1,16 +1,13 @@
 bin
 dev
 dev/flash
-dev/pts
 dev/etherd
 etc
 etc/init.d
 home 
 lib 
-proc 
 sbin 
 usr 
 usr/bin 
 usr/sbin 
 var 
-sys
