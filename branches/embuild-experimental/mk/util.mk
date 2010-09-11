@@ -18,6 +18,11 @@ define \n
 endef
 \n := $(\n)
 
+\space :=
+\space +=
+
+$(\space):=
+
 escape = $(call assert_called,escape,$0)$(call dollar_encode,$1)
 
 dollar_encode = $(call assert_called,dollar_encode,$0)$(subst $$,$$$$,$1)
@@ -47,7 +52,7 @@ already_included = \
   $(or $(call get,included,$(self_makefile)), \
        $(call set,included,$(self_makefile),true))
 
-called = $()$(call seq,$1,$2)
+called = $(call seq,$1,$2)
 
 ##
 # Can be used to check whether the variable is expanded using call or not.
