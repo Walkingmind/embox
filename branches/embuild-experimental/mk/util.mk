@@ -22,6 +22,9 @@ endef
 \space +=
 
 $(\space):=
+$(\space)\n:=$(\n)
+\n$(\space):=$(\n)
+$(\space)\n$(\space):=$(\n)
 
 escape = $(call assert_called,escape,$0)$(call dollar_encode,$1)
 
