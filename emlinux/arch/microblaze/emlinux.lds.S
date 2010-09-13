@@ -80,7 +80,7 @@ SECTIONS {
         .bss : {
                 *(.bss)
         }
-	bss_end = .; 
+	bss_end = .;
 
         /DISCARD/ : {
                 *(.exit.text)

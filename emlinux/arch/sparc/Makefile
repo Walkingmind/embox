@@ -6,7 +6,7 @@ AUTOCONF=$(KERNEL_DIR)/include/generated/autoconf.h
 
 CFLAGS += -Wall -mno-fpu -nostdinc -O2
 
-boot.o: boot.c
+boot.o: boot.c $(AUTOCONF)
 	$(CC) -I$(KERNEL_DIR)/include -I$(KERNEL_DIR)/arch/$(ARCH)/include -I. -include $(AUTOCONF) \
 	    -D__KERNEL__ $(CFLAGS) \
 	    -DKERNEL_VERSION=$(shell echo $(KERNEL_VERSION) | perl -ne "s/(\d+).(\d+).(\d+)([\d.]*)/\3/;print;") \
@@ -15,7 +15,7 @@ boot.o: boot.c
 pgt.o: pgt.S
 	$(CC) $(CFLAGS) -iwithprefix include -c $<
 
-emlinux.lds.o: emlinux.lds.S
+emlinux.lds.o: emlinux.lds.S $(AUTOCONF)
 	$(CC) -dM -C -E -P $< | cut -d' ' -f -2 | sed 's/#define/#undef/g' > remove_predefs.h
 	$(CC) -include $(AUTOCONF) -include remove_predefs.h \
 	    -E -C -P -DLINUXIMAGE="$(IMAGE)" $< -o $@
