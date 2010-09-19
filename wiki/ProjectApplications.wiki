@@ -1,4 +1,4 @@
-#summary Where and how *embox* is used?
+#summary Where and how embox is used?
 #labels Featured,Phase-Requirements
 
 = Introduction =
@@ -7,7 +7,7 @@ Add your content here.
 
 = Commercial =
 
-*embox* originates in a commercial project of [http://lanit-tercom.com Lanit-Tercom, Inc.]. *TODO*
+*embox* originates from a commercial project of [http://lanit-tercom.com Lanit-Tercom, Inc.]. *TODO*
 
 == Hardware development ==
 Helps in hardware testing at very early stages of development.
@@ -16,7 +16,7 @@ Helps in hardware testing at very early stages of development.
 As far as the complete source tree is hardly ever used for the final release, there are special tools provided for those who need to pass the code certification. A fine-grained modular structure allows you to extract only those sources which are used in the final build.
 
 = Educational =
-*TODO*
+The core development team consists of students and graduates of [http://www.math.spbu.ru/en/index.html Saint-Petersburg State University]. *TODO*
 
 == Student projects ==
 == Coursework ==
