@@ -1,0 +1,232 @@
+#summary Main rules of embox codestyle are described here.
+
+== Введение ==
+В настоящий момент codestyle является неполным. Если есть какие-то недопонимания, как нужно писать код - обращайтесь. Мы расширим этот документ, объясним.
+
+По любым вопросам по документу из серии "почему" и "что это значит" также задавайте вопросы, будем рады ответить.
+
+
+Более того, codestyle был введен не с самого начала, поэтому возможны участки кода, где он соблюден плохо. В этом случае хорошо было бы исправить код, разумеется, не повредив целостности всего проекта=).
+
+== EMBOX codestyle ==
+За основу стиля кодирования, принятого в проекте EMBOX, взят стиль Кернигана и Ритчи (K&R). Далее перечислены основные правила структуры и оформления кода.
+
+=== Расположение текста ===
+Длина строк не должна превышать 80 символов.
+
+Размер функции должен быть порядка одного экрана (учимся писать по-хорошему).
+
+=== Табуляция и скобки ===
+Пример хорошо написанной функции:
+{{{
+int foo(void) {
+    while (NULL != p) {
+        for (i = 0; i < p->tabsize; i++) {
+            if (p->tab[i] == x) {
+                return i;
+            }
+        }
+        return -1;
+    }
+}
+
+}}}
+*Комментарии к примеру*:
+ * В качестве отступа используется табуляция, в редакторе следует задать длину табуляции в 4 знакоместа. 
+ * Сокращенная запись (например, однострочный if) не используется. Всегда ставить фигурные скобки.
+ * Открывающаяся фигурная скобка ставится на той же строке, где и операнд, к которому она относится (через 1 пробел).
+ * Закрывающаяся фигурная скобка ставится на новой строке, на том же уровне (отступ слева), что и "родительский" код
+
+=== Пробелы и пустые строки ===
+*Пустые строки*:
+ * Не более одной пустой строки подряд
+ * В конце файла 1 пустая строка
+ * Между объявлениями или определениями функций и переменных 1 пустая строка
+ * Определения локальных переменных функции отделяются от кода 1 пустой строкой
+
+Насчет пробелов все стандартно.
+
+*Один пробел ставится*:
+ * между операторами: 
+{{{
+int a = x + y * (1 + b) / foo(11);
+}}}
+ * между управляющими конструкциями (for/while/if/switch) и скобками:
+{{{
+if (a < 7) {
+  ...
+}
+}}}
+ * При приведении типа:
+{{{
+int x = (int) ((double) a / 13 + 13);
+}}}
+*Пробел не ставится*:
+ * При описании функции
+{{{
+int main(void) {
+}
+}}}
+ * При вызове функции:
+{{{
+int x = foo(1);
+}}}
+ * До или после операторов инкремента и декремента:
+{{{
+i++;
+}}}
+
+=== Макросы ===
+ * Все "задефайненные" константы пишутся большими буквами через подчеркивания.
+ * Макросы также пишутся большими буквами через подчеркивания.
+ * допускается (но не требуется) писать макрос маленькими буквами через подчеркивания, если при вызове он ни чем не отличается от обычной функции, то есть не имеет никаких побочных эффектов (не содержит инструкции *return* и т.п.)
+ * Если макрос многострочный - пишите его в несколько строк=) Для этого используется обратный слеш. Он должен ставиться через 1 пробел, но лучше через несколько пробелов, как в примере
+ * все аргументы макроса внутри него должны быть в скобках. Исключением является склеивание строк *##*
+ * Макросы, состоящие из нескольких выражений, заключаются внутрь *do { ... } while(0)*
+
+Примеры хороших макросов:
+{{{
+#define INTERRUPT_NRS_TOTAL 16
+}}}
+{{{
+#define interrupt_nr_valid(interrupt_nr) \
+	((interrupt_nr_t) interrupt_nr < (interrupt_nr_t) INTERRUPT_NRS_TOTAL)
+}}}
+{{{
+#define INTERRUPT_NR_CHECK(interrupt_nr)     \
+  do {                                       \
+    if (!interrupt_nr_valid(interrupt_nr)) { \
+      printf("Invalid interrupt number");    \
+      return -EINVAL;                        \
+    }                                        \
+  } while (0)
+}}}
+
+=== Именование ===
+Все экспортируемые (доступные извне) функции и переменные должны иметь префикс, единый для текущего модуля.
+
+Все, кроме макросов пишется маленькими буквами, через подчеркивание.
+
+=== Комментарии ===
+ * В коде должен присутствовать только английский язык и никакого транслита. Это касается не только комментариев, но и именования функций и переменных.
+ * Допускаются только комментарии в стиле Си: 
+{{{
+/* ... */
+}}}
+ * Комментарий *//...* не допускается
+ * Большие блоки кода следует отключать, используя условную компиляцию препроцессора:
+{{{
+#if 0
+  ... unused_code ...
+#endif
+}}}
+ * Многострочные комментарии начинаются со звездочки. В конце предложений ставится точка, Параграфы отделяются пустой строкой:
+{{{
+/* This code is necessary.
+ *
+ * Attension! It uses architecture-dependent code for SPARC.
+ */
+... Some code
+}}}
+ * В начале файлов и к каждой функции пишутся [http://www.stack.nl/~dimitri/doxygen/manual.html Doxygen] комментарии. Это относится в первую очередь к заголовочным файлам, содержащим API модуля.
+
+   Как начинать каждый файл:
+{{{
+/** 
+ * @file
+ * @brief Short brief: starts with capital letter, point on the end. 
+ * @details Complete description. Possible to be written not on one line
+ * Each line must be less then 80 symbols length. Each phrase ends with point.
+ * Different paragraphs should be separated with empty line.
+ * <empty line after description> 
+ * @date <creation date> 
+ * @author <Name Surname of the first author> 
+ * @author <Name Surname>
+ *         - <Changes description> 
+ *         - Doxygen understands any visual enhancement commands in this
+ *           section, e.g. you may use hyphens to create a list of items.
+ */
+}}}
+   Пример такого комментария:
+{{{
+/**
+ * @file
+ * @brief IO Boards driver.
+ * @details This driver defines generic operations with registers
+ * of IO board's address space: @link #io_board_reg_load() load @endlink
+ * and @link #io_board_reg_store() store @endlink.
+ *
+ * <b>Driver details</b>:
+ * <table>
+ * <tr><td>Bus</td>         <td>@c APB</td></tr>
+ * <tr><td>Vendor ID</td>   <td>@c 0x08 (Terkom)</td></tr>
+ * <tr><td>Device ID</td>   <td>@c 0x0A</td></tr>
+ * <tr><td>Base</td>        <td>@c 0x80000B00</td></tr>
+ * <tr><td>IRQ</td>         <td>@c --</td></tr>
+ * </table>
+ *
+ * @date Dec 18, 2008
+ * @author Anton Bondarev
+ *         - Initial implementation
+ * @author Eldar Abusalimov
+ *         - Reviewing, refactoring and documenting
+ */
+}}}
+
+ * Все макросы, объявления типов, прототипы функций, перечисления, объединения, структуры, а также их поля, являющиеся частью общедоступного API, обязаны быть подробно прокомментированы.
+
+{{{
+/**
+ * Checks if the specified irq_nr represents valid IRQ number.
+ * @note The same as HAL @link interrupt_nr_valid() @endlink macro.
+ */
+#define irq_nr_valid(irq_nr) interrupt_nr_valid(irq_nr)
+
+/**
+ * Type representing interrupt request number.
+ * @note The same as HAL #interrupt_nr_t type.
+ */
+typedef interrupt_nr_t irq_nr_t;
+
+/**
+ * Interrupt Service Routine type.
+ *
+ * @param irq_nr the number of interrupt request being handled
+ * @param data the device tag specified at @link irq_attach() @endlink time
+ *
+ * @return interrupt handling result
+ * @retval IRQ_NONE if ISR didn't handled the interrupt
+ * @retval IRQ_HANDLED if interrupt has been handled by this ISR
+ */
+typedef irq_return_t (*irq_handler_t)(irq_nr_t irq_nr, void *data);
+
+/**
+ * Attaches @link #irq_handler_t interrupt service routine @endlink to the
+ * specified @link #irq_nr_t IRQ number @endlink.
+ *
+ * @param irq_nr the IRQ number to attach the @c handler to
+ * @param handler the ISR itself
+ * @param flags TODO not yet implemented -- Eldar
+ * @param data the optional device tag which will be passed to the ISR.
+ * @param dev_name the optional device name
+ *
+ * @return attach result
+ * @retval 0 if all is OK
+ * @retval -EINVAL if @c irq_nr is not @link #irq_nr_valid() valid @endlink or
+ *                 if the @c handler is @c NULL
+ * @retval -EBUSY if another ISR has already been attached to the specified IRQ
+ *                number
+ * @retval -ENOSYS if kernel is compiled without IRQ support
+ */
+extern int irq_attach(irq_nr_t irq_nr, irq_handler_t handler,
+		irq_flags_t flags, void *data, const char *dev_name);
+}}}
+
+=== Заголовочные файлы ===
+Все, что описывается в файле *.h* должно быть "обернуто" следующим образом:
+{{{
+#ifndef <subsystem_prefix>_<file_name>_H_
+#define <subsystem_prefix>_<file_name>_H_
+
+#endif /* <subsystem_prefix>_<file_name>_H_ */
+}}}

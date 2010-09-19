@@ -1,5 +1,15 @@
 #summary embox development roadmap
 
+= 2010/10/15 v0.1.7 [http://code.google.com/p/embox/issues/list?can=1&q=milestone=v0.1.8 [issues]] [http://code.google.com/p/embox/issues/list?q=milestone=v0.1.8 [open issues]] =
+Demonstrate work of lego mindstorms
+ * Load user image
+ * Sound
+
+= 2010/10/01 v0.1.7 [http://code.google.com/p/embox/issues/list?can=1&q=milestone=v0.1.7 [issues]] [http://code.google.com/p/embox/issues/list?q=milestone=v0.1.7 [open issues]] =
+ * Clear code
+ * Check the results
+ * Improve build system.
+
 = 2010/07/23 v0.1.6 [http://code.google.com/p/embox/issues/list?can=1&q=milestone=v0.1.6 [issues]] [http://code.google.com/p/embox/issues/list?q=milestone=v0.1.6 [open issues]] =
 
 Tercom Summer of Code's results presentation. 
