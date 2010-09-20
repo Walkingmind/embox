@@ -5,7 +5,6 @@
  
 == EMBOX codestyle ==
 
-
 === Text placement ===
 
 === Tabs and Brackets ===
