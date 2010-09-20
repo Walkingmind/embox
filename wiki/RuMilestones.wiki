@@ -1,5 +1,4 @@
 #summary embox development roadmap
-#labels Phase-Requirements,Featured
 
 = 2010/10/15 v0.1.7 [http://code.google.com/p/embox/issues/list?can=1&q=milestone=v0.1.8 [issues]] [http://code.google.com/p/embox/issues/list?q=milestone=v0.1.8 [open issues]] =
 Работоспособный lego mindstorms

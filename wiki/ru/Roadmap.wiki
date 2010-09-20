@@ -1,15 +1,15 @@
 #summary embox development roadmap
 #labels Phase-Requirements,Featured
 
-= 2010/10/15 v0.1.7 [http://code.google.com/p/embox/issues/list?can=1&q=milestone=v0.1.8 [issues]] [http://code.google.com/p/embox/issues/list?q=milestone=v0.1.8 [open issues]] =
-Работоспособный lego mindstorms
- * заливка собственного образа
- * вывод звука
+= 2010/10/15 v0.1.8 [http://code.google.com/p/embox/issues/list?can=1&q=milestone=v0.1.8 [issues]] [http://code.google.com/p/embox/issues/list?q=milestone=v0.1.8 [open issues]] =
+== Lego Mindstorms NXT 2.0 ==
+ * Заливка собственного образа
+ * Вывод звука
 
 = 2010/10/01 v0.1.7 [http://code.google.com/p/embox/issues/list?can=1&q=milestone=v0.1.7 [issues]] [http://code.google.com/p/embox/issues/list?q=milestone=v0.1.7 [open issues]] =
  * Очистка кода
  * Проверка результатов
- * Улучшение системы сборки.
+ * Улучшение системы сборки
 
 = 2010/07/23 v0.1.6 [http://code.google.com/p/embox/issues/list?can=1&q=milestone=v0.1.6 [issues]] [http://code.google.com/p/embox/issues/list?q=milestone=v0.1.6 [open issues]] =
 Презентация результатов летней школы.
