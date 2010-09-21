@@ -23,7 +23,7 @@ MODULES := $(BUSYBOX)
 
 .PHONY: download $(MODULES) install clean
 
-all: download $(MODULES) install
+all: download $(MODULES)
 
 download:
 	# busybox
@@ -36,18 +36,15 @@ $(BUSYBOX):
 
 install:
 	# install /etc
-	@[ -d $(ROMFS_DIR)/etc ] || $(MKDIR) $(ROMFS_DIR)/etc
-	cp etc/inittab $(ROMFS_DIR)/etc
-	@[ -d $(ROMFS_DIR)/etc/init.d ] || $(MKDIR) $(ROMFS_DIR)/etc/init.d
-	cp etc/rc.S $(ROMFS_DIR)/etc/init.d
+	cp etc/inittab $(RAMFS_DIR)/etc
+	cp etc/rc.S $(RAMFS_DIR)/etc
 	# install busybox
-	$(MAKE) -C $(BUSYBOX) ARCH=$(ARCH_BUSYBOX) CONFIG_PREFIX=$(ROMFS_DIR) install
+	$(MAKE) -C $(BUSYBOX) ARCH=$(ARCH_BUSYBOX) CONFIG_PREFIX=$(RAMFS_DIR) install
 	# install libs from compiler
-	@[ -d $(ROMFS_DIR)/lib ] || $(MKDIR) $(ROMFS_DIR)/lib
 	for lib in $(LIBS); do \
-	    cp `readlink -f $(CROSS_COMPILER_DIR)/lib/$$lib` $(ROMFS_DIR)/lib/$$lib; \
+	    cp `readlink -f $(CROSS_COMPILER_DIR)/lib/$$lib` $(RAMFS_DIR)/lib/$$lib; \
 	done
-	find $(ROMFS_DIR)/lib -type f | xargs -r $(CROSS_COMPILE)strip -g
+	find $(RAMFS_DIR)/lib -type f | xargs -r $(CROSS_COMPILE)strip -g
 
 clean:
 	@$(MAKE) -C $(BUSYBOX) clean

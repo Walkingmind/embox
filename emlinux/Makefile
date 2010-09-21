@@ -17,13 +17,15 @@ ARCH_DIR    = $(ROOT_DIR)/arch
 BIN_DIR     = $(ROOT_DIR)/bin
 CONFIG_DIR  = $(ROOT_DIR)/config
 PATCH_DIR   = $(ROOT_DIR)/patches
-ROMFS_DIR   = $(ROOT_DIR)/romfs
+RAMFS_DIR   = $(BIN_DIR)/ramfs
 SCRIPTS_DIR = $(ROOT_DIR)/scripts
 USR_DIR     = $(ROOT_DIR)/usr
 KERNEL_DIR  = $(ROOT_DIR)/linux-$(KERNEL_VERSION)
 
 OBJCOPYFLAGS  = -O binary -R .note -R .comment
 GEN_INITRAMFS = $(KERNEL_DIR)/scripts/gen_initramfs_list.sh
+INITRAMFS_DIRS   = bin dev dev/etherd etc lib root sbin usr usr/bin usr/sbin var
+INITRAMFS_SOURCE = initramfs.lst
 
 # elf image for loading with embox
 IMAGE     = $(BIN_DIR)/image
@@ -47,26 +49,30 @@ all: usr kernel image
 usr u:
 	@$(MAKE) -C $(USR_DIR)
 
+# Get kernel sources and apply patches
 patch-kernel pk:
 	[ -e $(KERNEL_SRC) ] || wget -c $(KERNEL_URL)
 	[ -d $(KERNEL_DIR) ] || tar -xvjf $(KERNEL_SRC)
+	# WARN: be convinced of correct sequence of patches.
 	for p in $(KERNEL_PATCHES); do \
 	    [ "`cat $(PATCH_DIR)/CHECKSUMS.md5 | grep $$p | awk '{print $$1}'`" = \
 		"`md5sum $(PATCH_DIR)/$$p | awk '{print $$1}'`" ] || echo 'md5 checksumm incorrect!'; \
-	    [ -e $(PATCH_DIR)/$$p ] && [ ! -e $(KERNEL_DIR)/.patched_$$p ] \
-		&& zcat $(PATCH_DIR)/$$p | patch -N -p0 && touch $(KERNEL_DIR)/.patched_$$p; \
+	    [ -e $(KERNEL_DIR)/.patched_$$p ] || \
+		zcat $(PATCH_DIR)/$$p | patch -N -p0 && touch $(KERNEL_DIR)/.patched_$$p; \
 	done
 
-kernel k: #patch-kernel
-	[ -d $(ROMFS_DIR) ] || $(MKDIR) $(ROMFS_DIR)
+romfs:
 	[ -d $(BIN_DIR) ] || $(MKDIR) $(BIN_DIR)
-	for i in `cat $(SCRIPTS_DIR)/dirs.lst`; do \
-	    [[ -d $(ROMFS_DIR)/$$i ]] || $(MKDIR) $(ROMFS_DIR)/$$i; \
+	[ -d $(RAMFS_DIR) ] || $(MKDIR) $(RAMFS_DIR)
+	for i in $(INITRAMFS_DIRS); do \
+	    [[ -d $(RAMFS_DIR)/$$i ]] || $(MKDIR) $(RAMFS_DIR)/$$i; \
 	done
+	@$(MAKE) -C $(USR_DIR) install
+
+kernel k: patch-kernel romfs
 	chmod +x $(GEN_INITRAMFS)                                                                                                                                 
-	$(GEN_INITRAMFS) $(ROMFS_DIR) > $(KERNEL_DIR)/initramfs.lst 2>&1
+	$(GEN_INITRAMFS) $(RAMFS_DIR) > $(KERNEL_DIR)/$(INITRAMFS_SOURCE) 2>&1
 	$(SCRIPTS_DIR)/romfs-inst.sh
-	[ -d $(BIN_DIR) ] || $(MKDIR) $(BIN_DIR)
 	[ -e $(KERNEL_DIR)/.config ] || cp $(CONFIG_DIR)/$(KERNEL_CONFIG) $(KERNEL_DIR)/.config
 	$(MAKE) -C $(KERNEL_DIR) ARCH=$(ARCH) CROSS_COMPILE=$(CROSS_COMPILE) image.bin uImage
 
@@ -94,13 +100,13 @@ image i:
 clean c:
 	@$(MAKE) -C $(ARCH_DIR)/$(ARCH) clean
 	@$(MAKE) -C $(USR_DIR) clean
-	@$(RM) $(BIN_DIR) $(ROMFS_DIR)
+	@$(RM) $(BIN_DIR)
 	@$(MAKE) -C $(KERNEL_DIR) clean
 	@echo 'Clean complete'
 
 distclean dc:
 	@$(MAKE) -C $(KERNEL_DIR) distclean
-	@$(RM) $(KERNEL_DIR)/initramfs.lst
+	@$(RM) $(KERNEL_DIR)/$(INITRAMFS_SOURCE)
 	@echo 'Distclean complete'
 
 menuconfig m: ARCH := `dialog \
