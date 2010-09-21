@@ -62,7 +62,6 @@ kernel k: #patch-kernel
 	for i in `cat $(TOOLS_DIR)/dirs.lst`; do \
 	    [[ -d $(ROMFS_DIR)/$$i ]] || $(MKDIR) $(ROMFS_DIR)/$$i; \
 	done
-	ln -fs "/sbin/init" $(ROMFS_DIR)/init                                                                                                                                                 
 	chmod +x $(GEN_INITRAMFS)                                                                                                                                 
 	$(GEN_INITRAMFS) $(ROMFS_DIR) > $(KERNEL_DIR)/initramfs.lst 2>&1
 	$(TOOLS_DIR)/romfs-inst.sh
