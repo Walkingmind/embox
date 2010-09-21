@@ -32,13 +32,13 @@ flash.lds.o: flash.lds.S
 #	$(CC) -D__KERNEL_ $(CFLAGS) -iwithprefix include -c -o $@ $<
 
 image.ram: emlinux.lds.o boot.o pgt.o
-	$(LD) -X -T emlinux.lds.o $(IMAGE) boot.o pgt.o -o $(IMAGE_DIR)/$@
+	$(LD) -X -T emlinux.lds.o $(IMAGE) boot.o pgt.o -o $(BIN_DIR)/$@
 
 image.rom: flash.lds.o
 	@echo 'stub'
 	$(LD) -r -b binary -o piggy.o $(PIGGY)
-	cp piggy.o $(IMAGE_DIR)
-#	$(LD) -X -T flash.lds.o locore.o main.o piggy.o -o $(IMAGE_DIR)/$@
+	cp piggy.o $(BIN_DIR)
+#	$(LD) -X -T flash.lds.o locore.o main.o piggy.o -o $(BIN_DIR)/$@
 
 clean:
 	$(RM) remove_predefs.h *.o

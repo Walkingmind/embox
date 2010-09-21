@@ -17,12 +17,12 @@ emlinux.lds.o: emlinux.lds.S $(AUTOCONF)
 	    -E -C -P -DLINUXIMAGE="$(IMAGE)" $< -o $@
 
 image.ram: emlinux.lds.o boot.o
-	$(LD) -X -T emlinux.lds.o $(IMAGE) boot.o -o $(IMAGE_DIR)/$@
+	$(LD) -X -T emlinux.lds.o $(IMAGE) boot.o -o $(BIN_DIR)/$@
 
 image.rom:
 	@echo 'stub'
 	$(LD) -r -b binary -o piggy.o $(PIGGY)
-	cp piggy.o $(IMAGE_DIR)
+	cp piggy.o $(BIN_DIR)
 
 clean:
 	$(RM) remove_predefs.h *.o
