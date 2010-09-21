@@ -1,50 +1,51 @@
 # $Id$
 #
-# emlinux Makefile
-#
 # Author: Nikolay Korotky
 #
 
 include $(CURDIR)/config.mk
 
-ifeq ($(ARCH), sparc)
-CROSS_COMPILE  = sparc-linux-
-endif
-ifeq ($(ARCH), microblaze)
-CROSS_COMPILE  = mb-linux-
-endif
+CC      = $(CROSS_COMPILE)gcc
+LD      = $(CROSS_COMPILE)ld
+OBJDUMP = $(CROSS_COMPILE)objdump
+OBJCOPY = $(CROSS_COMPILE)objcopy
+RM      = rm -fr
+MKDIR   = mkdir -p
 
-CC = $(CROSS_COMPILE)gcc
-LD = $(CROSS_COMPILE)ld
+ROOT_DIR    = $(CURDIR)
+ARCH_DIR    = $(ROOT_DIR)/arch
+BIN_DIR     = $(ROOT_DIR)/bin
+CONFIG_DIR  = $(ROOT_DIR)/config
+PATCH_DIR   = $(ROOT_DIR)/patches
+ROMFS_DIR   = $(ROOT_DIR)/romfs
+SCRIPTS_DIR = $(ROOT_DIR)/scripts
+USR_DIR     = $(ROOT_DIR)/usr
+KERNEL_DIR  = $(ROOT_DIR)/linux-$(KERNEL_VERSION)
 
-ROOT_DIR   = $(CURDIR)
-ARCH_DIR   = $(ROOT_DIR)/arch
-CONFIG_DIR = $(ROOT_DIR)/config
-IMAGE_DIR  = $(ROOT_DIR)/images
-PATCH_DIR  = $(ROOT_DIR)/patches
-ROMFS_DIR  = $(ROOT_DIR)/romfs
-TOOLS_DIR  = $(ROOT_DIR)/tools
-USER_DIR   = $(ROOT_DIR)/user
-KERNEL_DIR = $(ROOT_DIR)/linux-$(KERNEL_VERSION)
-RM         = rm -fr
-MKDIR      = mkdir -p
-OBJCOPYFLAGS = -O binary -R .note -R .comment
+OBJCOPYFLAGS  = -O binary -R .note -R .comment
 GEN_INITRAMFS = $(KERNEL_DIR)/scripts/gen_initramfs_list.sh
 
-IMAGE      = $(IMAGE_DIR)/image
-BIN_IMAGE  = $(IMAGE_DIR)/image.bin
-IMAGE_RAM  = $(IMAGE_DIR)/image.ram
-IMAGE_ROM  = $(IMAGE_DIR)/image.rom
-PIGGY      = $(IMAGE_DIR)/piggy
-UIMAGE     = $(IMAGE_DIR)/uImage
+# elf image for loading with embox
+IMAGE     = $(BIN_DIR)/image
+# binary image for loading with embox
+IMAGE_BIN = $(BIN_DIR)/image.bin
+# elf image for loading without embox into RAM
+IMAGE_RAM = $(BIN_DIR)/image.ram
+# elf image for loading without embox into ROM
+IMAGE_ROM = $(BIN_DIR)/image.rom
+# piggy image
+PIGGY     = $(BIN_DIR)/piggy
+# Das U-Boot image
+UIMAGE    = $(BIN_DIR)/uImage
+
 export
 
-.PHONY: users patch-kernel kernel image clean patch
+.PHONY: patch-kernel usr kernel image
 
-all: users kernel image
+all: usr kernel image
 
-users u:
-	@$(MAKE) -C $(USER_DIR)
+usr u:
+	@$(MAKE) -C $(USR_DIR)
 
 patch-kernel pk:
 	[ -e $(KERNEL_SRC) ] || wget -c $(KERNEL_URL)
@@ -58,42 +59,42 @@ patch-kernel pk:
 
 kernel k: #patch-kernel
 	[ -d $(ROMFS_DIR) ] || $(MKDIR) $(ROMFS_DIR)
-	[ -d $(IMAGE_DIR) ] || $(MKDIR) $(IMAGE_DIR)
-	for i in `cat $(TOOLS_DIR)/dirs.lst`; do \
+	[ -d $(BIN_DIR) ] || $(MKDIR) $(BIN_DIR)
+	for i in `cat $(SCRIPTS_DIR)/dirs.lst`; do \
 	    [[ -d $(ROMFS_DIR)/$$i ]] || $(MKDIR) $(ROMFS_DIR)/$$i; \
 	done
 	chmod +x $(GEN_INITRAMFS)                                                                                                                                 
 	$(GEN_INITRAMFS) $(ROMFS_DIR) > $(KERNEL_DIR)/initramfs.lst 2>&1
-	$(TOOLS_DIR)/romfs-inst.sh
-	[ -d $(IMAGE_DIR) ] || $(MKDIR) $(IMAGE_DIR)
+	$(SCRIPTS_DIR)/romfs-inst.sh
+	[ -d $(BIN_DIR) ] || $(MKDIR) $(BIN_DIR)
 	[ -e $(KERNEL_DIR)/.config ] || cp $(CONFIG_DIR)/$(KERNEL_CONFIG) $(KERNEL_DIR)/.config
 	$(MAKE) -C $(KERNEL_DIR) ARCH=$(ARCH) CROSS_COMPILE=$(CROSS_COMPILE) image.bin uImage
 
 image i:
 	# linux kernel image (elf)
 	[ -e $(KERNEL_DIR)/arch/$(ARCH)/boot/$(shell basename $(IMAGE)) ] \
-	    && cp $(KERNEL_DIR)/arch/$(ARCH)/boot/$(shell basename $(IMAGE)) $(IMAGE_DIR)
+	    && cp $(KERNEL_DIR)/arch/$(ARCH)/boot/$(shell basename $(IMAGE)) $(BIN_DIR)
 	# linux kernel image (binary)
-	[ -e $(KERNEL_DIR)/arch/$(ARCH)/boot/$(shell basename $(BIN_IMAGE)) ] \
-	    && cp $(KERNEL_DIR)/arch/$(ARCH)/boot/$(shell basename $(BIN_IMAGE)) $(IMAGE_DIR)
+	[ -e $(KERNEL_DIR)/arch/$(ARCH)/boot/$(shell basename $(IMAGE_BIN)) ] \
+	    && cp $(KERNEL_DIR)/arch/$(ARCH)/boot/$(shell basename $(IMAGE_BIN)) $(BIN_DIR)
 	# u-boot linux kernel image (binary)
 	[ -e $(KERNEL_DIR)/arch/$(ARCH)/boot/$(shell basename $(UIMAGE)) ] \
-	    && cp $(KERNEL_DIR)/arch/$(ARCH)/boot/$(shell basename $(UIMAGE)) $(IMAGE_DIR)
+	    && cp $(KERNEL_DIR)/arch/$(ARCH)/boot/$(shell basename $(UIMAGE)) $(BIN_DIR)
 	# ram loadable image (elf)
 	@$(MAKE) -C $(ARCH_DIR)/$(ARCH) image.ram
 	# raw piggy image (binary)
-	[ -e $(IMAGE_RAM) ] && $(CROSS_COMPILE)objcopy $(OBJCOPYFLAGS) -S $(IMAGE_RAM) $(PIGGY)
+	[ -e $(IMAGE_RAM) ] && $(OBJCOPY) $(OBJCOPYFLAGS) -S $(IMAGE_RAM) $(PIGGY)
 	# rom image
 	@$(MAKE) -C $(ARCH_DIR)/$(ARCH) image.rom
 	# disassemble
-	[ -e $(IMAGE) ] && $(CROSS_COMPILE)objdump -d $(IMAGE) > $(IMAGE).dis
-	[ -e $(IMAGE_RAM) ] && $(CROSS_COMPILE)objdump -d $(IMAGE_RAM) > $(IMAGE).ram.dis
+	[ -e $(IMAGE) ] && $(OBJDUMP) -d $(IMAGE) > $(IMAGE).dis
+	[ -e $(IMAGE_RAM) ] && $(OBJDUMP) -d $(IMAGE_RAM) > $(IMAGE).ram.dis
 	@echo 'Build done'
 
 clean c:
 	@$(MAKE) -C $(ARCH_DIR)/$(ARCH) clean
-	@$(MAKE) -C $(USER_DIR) clean
-	@$(RM) $(IMAGE_DIR) $(ROMFS_DIR)
+	@$(MAKE) -C $(USR_DIR) clean
+	@$(RM) $(BIN_DIR) $(ROMFS_DIR)
 	@$(MAKE) -C $(KERNEL_DIR) clean
 	@echo 'Clean complete'
 

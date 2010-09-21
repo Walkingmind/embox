@@ -1,6 +1,6 @@
 #!/bin/bash
 
-DEVICES_LIST=$TOOLS_DIR/devices.lst
+DEVICES_LIST=$SCRIPTS_DIR/devices.lst
 INITRAMFS_LIST=$KERNEL_DIR/initramfs.lst
 
 for i in `cat $DEVICES_LIST`; do
