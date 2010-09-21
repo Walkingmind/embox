@@ -1,9 +1,6 @@
 # $Id$
 #
 
-#AUTOCONF=$(KERNEL_DIR)/include/linux/autoconf.h
-AUTOCONF=$(KERNEL_DIR)/include/generated/autoconf.h
-
 CFLAGS += -Wall -mno-fpu -nostdinc -O2
 
 boot.o: boot.c $(AUTOCONF)

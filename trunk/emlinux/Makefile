@@ -24,8 +24,10 @@ KERNEL_DIR  = $(ROOT_DIR)/linux-$(KERNEL_VERSION)
 
 OBJCOPYFLAGS  = -O binary -R .note -R .comment
 GEN_INITRAMFS = $(KERNEL_DIR)/scripts/gen_initramfs_list.sh
+#AUTOCONF      = $(KERNEL_DIR)/include/linux/autoconf.h
+AUTOCONF      = $(KERNEL_DIR)/include/generated/autoconf.h
 INITRAMFS_DIRS   = bin dev dev/etherd etc lib root sbin usr usr/bin usr/sbin var
-INITRAMFS_SOURCE = initramfs.lst
+INITRAMFS_SOURCE = $(KERNEL_DIR)/initramfs.lst
 
 # elf image for loading with embox
 IMAGE     = $(BIN_DIR)/image
@@ -71,7 +73,7 @@ romfs:
 
 kernel k: patch-kernel romfs
 	chmod +x $(GEN_INITRAMFS)                                                                                                                                 
-	$(GEN_INITRAMFS) $(RAMFS_DIR) > $(KERNEL_DIR)/$(INITRAMFS_SOURCE) 2>&1
+	$(GEN_INITRAMFS) $(RAMFS_DIR) > $(INITRAMFS_SOURCE) 2>&1
 	$(SCRIPTS_DIR)/romfs-inst.sh
 	[ -e $(KERNEL_DIR)/.config ] || cp $(CONFIG_DIR)/$(KERNEL_CONFIG) $(KERNEL_DIR)/.config
 	$(MAKE) -C $(KERNEL_DIR) ARCH=$(ARCH) CROSS_COMPILE=$(CROSS_COMPILE) image.bin uImage
@@ -106,7 +108,7 @@ clean c:
 
 distclean dc:
 	@$(MAKE) -C $(KERNEL_DIR) distclean
-	@$(RM) $(KERNEL_DIR)/$(INITRAMFS_SOURCE)
+	@$(RM) $(INITRAMFS_SOURCE)
 	@echo 'Distclean complete'
 
 menuconfig m: ARCH := `dialog \

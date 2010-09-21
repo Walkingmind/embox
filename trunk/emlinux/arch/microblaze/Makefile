@@ -1,8 +1,6 @@
 # $Id$
 #
 
-AUTOCONF=$(KERNEL_DIR)/include/generated/autoconf.h
-
 CFLAGS = -Wall -ffixed-r31 -mno-xl-soft-mul -nostdinc -O2
 
 boot.o: boot.c $(AUTOCONF)
@@ -17,7 +15,8 @@ emlinux.lds.o: emlinux.lds.S $(AUTOCONF)
 	    -E -C -P -DLINUXIMAGE="$(IMAGE)" $< -o $@
 
 image.ram: emlinux.lds.o boot.o
-	$(LD) -X -T emlinux.lds.o $(IMAGE) boot.o -o $(BIN_DIR)/$@
+	cp $(IMAGE) $(IMAGE_RAM)
+#	$(LD) -X -T emlinux.lds.o $(IMAGE) boot.o -o $(BIN_DIR)/$@
 
 image.rom:
 	@echo 'stub'
