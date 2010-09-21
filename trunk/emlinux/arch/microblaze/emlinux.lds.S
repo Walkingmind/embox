@@ -13,14 +13,19 @@ SECTIONS {
 	}
         . = ALIGN(0x4000);
         .vmlinux : {
+    		_stext = . ;
                 LINUXIMAGE (.text)
 		_etext = .;
                 PROVIDE (etext = .);
+                _fdt_start = . ;
+                LINUXIMAGE (__fdt_blob)
+                _fdt_end = . ;
 		. = ALIGN(4096);
 		__start_rodata = .;
                 LINUXIMAGE (.rodata)
 		LINUXIMAGE (.rodata1)
 		LINUXIMAGE (.pci_fixup)
+		LINUXIMAGE (.builtin_fw)
 		LINUXIMAGE (.rio_route)
 		LINUXIMAGE (__ksymtab)
 		LINUXIMAGE (__ksymtab_gpl)
@@ -33,8 +38,10 @@ SECTIONS {
 		LINUXIMAGE (__kcrctab_unused_gpl)
 		LINUXIMAGE (__kcrctab_gpl_future)
 		LINUXIMAGE (__ksymtab_strings)
+		LINUXIMAGE (__init_rodata)
 		LINUXIMAGE (__param)
 		__end_rodata = .;
+		LINUXIMAGE (__ex_table)
 		. = ALIGN(4096);		
 		LINUXIMAGE (.data)
 		LINUXIMAGE (.data.init)
@@ -44,6 +51,9 @@ SECTIONS {
 		__start___ex_table = .;
 		LINUXIMAGE (__ex_table)
 		__stop___ex_table = .;
+		LINUXIMAGE (.sdata2)
+		LINUXIMAGE (.sdata)
+		LINUXIMAGE (.sbss)
 		. = ALIGN(4096);
 		__init_begin = .;
 		_sinittext = .;
@@ -52,6 +62,9 @@ SECTIONS {
 		__init_text_end = .;
 		LINUXIMAGE (.init.data)
 		. = ALIGN(16);
+		__ivt_start = .;
+		LINUXIMAGE (.init.ivt)
+		__ivt_end = .;
 		__setup_start = .;
 		LINUXIMAGE (.init.setup)
 		__setup_end = .;

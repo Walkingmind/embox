@@ -32,7 +32,7 @@ static int xlnx_nbputstr(const char *str) {
 }
 
 extern unsigned short bss_start,bss_end;
-char *commandline = "console=ttyS0 rdinit=/sbin/init";
+char *commandline = "console=ttyUL0 rdinit=/sbin/init";
 
 /* mark as section .img.main.text, to be referenced in linker script */
 int __attribute__ ((__section__ (".img.main.text"))) __main(void) {
