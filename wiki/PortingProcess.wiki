@@ -6,14 +6,14 @@
 
 = List of architecture dependdent part =
  * [#Headers Headers]
- * [PortingProcess#Boot_code Boot code]
- * [PortingProcess#Linker_scripts Linker scripts]
+ * [#Boot_code Boot code]
+ * [#Linker_scripts Linker scripts]
 
-First of all [PortingProcess#Default_IO ]
+First of all [#Default_IO Default IO]
 Then:
- * [PortingProcess#Interrupt_handlers ]
- * [PortingProcess#System_timer ]
- * [ PortingProcess#Trap_handlers ]
+ * [#Interrupt_handlers Interrupt handlers]
+ * [#System_timer System timer]
+ * [#Trap_handlers  Traps handlers]
 
 == Headers ==
 
