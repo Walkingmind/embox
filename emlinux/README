@@ -14,7 +14,7 @@ Quickstart guide
 
 Supported platforms:
     SPARC LEON3
-    MicroBlaze
+    MicroBlaze Spartan3a
 
 Supported kernel's versions:
     linux-2.6.21.1
