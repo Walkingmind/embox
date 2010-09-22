@@ -17,7 +17,7 @@ emlinux.lds.o: emlinux.lds.S $(AUTOCONF)
 	$(CC) -include $(AUTOCONF) -include remove_predefs.h \
 	    -E -C -P -DLINUXIMAGE="$(IMAGE)" $< -o $@
 
-flash.lds.o: flash.lds.S
+flash.lds.o: flash.lds.S $(AUTOCONF)
 	echo "" > remove_predefs.h                                                               
 	$(CC) -dM -C -E -P $< | cut -d' ' -f -2 | sed 's/#define/#undef/g' > remove_predefs.h
 	$(CC) -include $(AUTOCONF) -E -C -P -DDATA_START=$(shell ls -la $(PIGGY) | awk '{print $$5}') -DPIGGY="piggy.o" $< -o $@

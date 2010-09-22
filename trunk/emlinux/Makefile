@@ -12,15 +12,17 @@ OBJCOPY = $(CROSS_COMPILE)objcopy
 RM      = rm -fr
 MKDIR   = mkdir -p
 
-ROOT_DIR    = $(CURDIR)
-ARCH_DIR    = $(ROOT_DIR)/arch
-BIN_DIR     = $(ROOT_DIR)/bin
-CONFIG_DIR  = $(ROOT_DIR)/config
-PATCH_DIR   = $(ROOT_DIR)/patches
-RAMFS_DIR   = $(BIN_DIR)/ramfs
-SCRIPTS_DIR = $(ROOT_DIR)/scripts
-USR_DIR     = $(ROOT_DIR)/usr
-KERNEL_DIR  = $(ROOT_DIR)/linux-$(KERNEL_VERSION)
+ROOT_DIR      = $(CURDIR)
+ARCH_DIR      = $(ROOT_DIR)/arch
+BIN_DIR       = $(ROOT_DIR)/bin
+CONFIG_DIR    = $(ROOT_DIR)/config
+DOWNLOADS_DIR = $(ROOT_DIR)/downloads
+PATCH_DIR     = $(ROOT_DIR)/patches
+RAMFS_DIR     = $(BIN_DIR)/ramfs
+SCRIPTS_DIR   = $(ROOT_DIR)/scripts
+USR_DIR       = $(ROOT_DIR)/usr
+KERNEL_DIR    = $(ROOT_DIR)/linux-$(KERNEL_VERSION)
+BOOT_DIR      = $(KERNEL_DIR)/arch/$(ARCH)/boot
 
 OBJCOPYFLAGS  = -O binary -R .note -R .comment
 GEN_INITRAMFS = $(KERNEL_DIR)/scripts/gen_initramfs_list.sh
@@ -44,17 +46,18 @@ UIMAGE    = $(BIN_DIR)/uImage
 
 export
 
-.PHONY: patch-kernel usr kernel image
+.PHONY: patch-kernel usr ramfs kernel image
 
-all: usr kernel image
+all: patch-kernel usr ramfs kernel image
 
 usr u:
 	@$(MAKE) -C $(USR_DIR)
 
 # Get kernel sources and apply patches
 patch-kernel pk:
-	[ -e $(KERNEL_SRC) ] || wget -c $(KERNEL_URL)
-	[ -d $(KERNEL_DIR) ] || tar -xvjf $(KERNEL_SRC)
+	[ -d $(DOWNLOADS_DIR) ] || $(MKDIR) $(DOWNLOADS_DIR)
+	[ -e $(DOWNLOADS_DIR)/$(KERNEL_SRC) ] || wget -O $(DOWNLOADS_DIR)/$(KERNEL_SRC) -c $(KERNEL_URL)
+	[ -d $(KERNEL_DIR) ] || tar -xvjf $(DOWNLOADS_DIR)/$(KERNEL_SRC)
 	# WARN: be convinced of correct sequence of patches.
 	for p in $(KERNEL_PATCHES); do \
 	    [ "`cat $(PATCH_DIR)/CHECKSUMS.md5 | grep $$p | awk '{print $$1}'`" = \
@@ -63,7 +66,7 @@ patch-kernel pk:
 		zcat $(PATCH_DIR)/$$p | patch -N -p0 && touch $(KERNEL_DIR)/.patched_$$p; \
 	done
 
-romfs:
+ramfs:
 	[ -d $(BIN_DIR) ] || $(MKDIR) $(BIN_DIR)
 	[ -d $(RAMFS_DIR) ] || $(MKDIR) $(RAMFS_DIR)
 	for i in $(INITRAMFS_DIRS); do \
@@ -71,7 +74,7 @@ romfs:
 	done
 	@$(MAKE) -C $(USR_DIR) install
 
-kernel k: patch-kernel romfs
+kernel k:
 	chmod +x $(GEN_INITRAMFS)                                                                                                                                 
 	$(GEN_INITRAMFS) $(RAMFS_DIR) > $(INITRAMFS_SOURCE) 2>&1
 	$(SCRIPTS_DIR)/romfs-inst.sh
@@ -80,14 +83,14 @@ kernel k: patch-kernel romfs
 
 image i:
 	# linux kernel image (elf)
-	[ -e $(KERNEL_DIR)/arch/$(ARCH)/boot/$(shell basename $(IMAGE)) ] \
-	    && cp $(KERNEL_DIR)/arch/$(ARCH)/boot/$(shell basename $(IMAGE)) $(BIN_DIR)
+	[ -e $(BOOT_DIR)/$(shell basename $(IMAGE)) ] \
+	    && cp $(BOOT_DIR)/$(shell basename $(IMAGE)) $(BIN_DIR)
 	# linux kernel image (binary)
-	[ -e $(KERNEL_DIR)/arch/$(ARCH)/boot/$(shell basename $(IMAGE_BIN)) ] \
-	    && cp $(KERNEL_DIR)/arch/$(ARCH)/boot/$(shell basename $(IMAGE_BIN)) $(BIN_DIR)
+	[ -e $(BOOT_DIR)/$(shell basename $(IMAGE_BIN)) ] \
+	    && cp $(BOOT_DIR)/$(shell basename $(IMAGE_BIN)) $(BIN_DIR)
 	# u-boot linux kernel image (binary)
-	[ -e $(KERNEL_DIR)/arch/$(ARCH)/boot/$(shell basename $(UIMAGE)) ] \
-	    && cp $(KERNEL_DIR)/arch/$(ARCH)/boot/$(shell basename $(UIMAGE)) $(BIN_DIR)
+	[ -e $(BOOT_DIR)/$(shell basename $(UIMAGE)) ] \
+	    && cp $(BOOT_DIR)/$(shell basename $(UIMAGE)) $(BIN_DIR)
 	# ram loadable image (elf)
 	@$(MAKE) -C $(ARCH_DIR)/$(ARCH) image.ram
 	# raw piggy image (binary)
