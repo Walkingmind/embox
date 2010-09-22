@@ -10,21 +10,22 @@ _util_mk_ := 1
 
 include gmsl.mk
 
-empty:=#
+empty :=
+
+\space :=
+\space +=
+
+$(\space) :=
 
 define \n
 
 
 endef
-\n := $(\n)
 
-\space :=
-\space +=
-
-$(\space):=
-$(\space)\n:=$(\n)
-\n$(\space):=$(\n)
-$(\space)\n$(\space):=$(\n)
+         \n          := $(\n)
+$(\space)\n          := $(\n)
+$(\space)\n$(\space) := $(\n)
+         \n$(\space) := $(\n)
 
 escape = $(call assert_called,escape,$0)$(call dollar_encode,$1)
 
@@ -67,7 +68,7 @@ called = $(call seq,$1,$2)
 #
 # Usage: $(call assert_called,var_name,$0)
 #
-ifeq (0,1)
+ifeq (1,1)
 assert_called = $(strip \
   $(call __assert_called,assert_called,$0) \
   $(call __assert_called,$1,$2) \
