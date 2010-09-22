@@ -5,14 +5,14 @@
 = Introduction =
 
 = List of architecture dependdent part =
- * [PortingProcess#Headers Headers]
- * [ PortingProcess#Boot_code Boot code ]
- * [ PortingProcess#Linker_scripts Linker scripts]
+ * [#Headers Headers]
+ * [PortingProcess#Boot_code Boot code]
+ * [PortingProcess#Linker_scripts Linker scripts]
 
-First of all [ PortingProcess#Default_IO ]
+First of all [PortingProcess#Default_IO ]
 Then:
- * [ PortingProcess#Headers ]
- * [ PortingProcess#System_timer ]
+ * [PortingProcess#Interrupt_handlers ]
+ * [PortingProcess#System_timer ]
  * [ PortingProcess#Trap_handlers ]
 
 == Headers ==
@@ -35,6 +35,6 @@ Then:
 == Boot code ==
 == Linker scripts ==
 == Default IO ==
-== Обработка прерываний ==
+== Interrupt handlers ==
 == System timer ==
 == Trap handlers  ==
