@@ -1,0 +1,40 @@
+#summary Advices for process of porting to different platform
+
+<wiki:toc max_depth="4" />
+
+= Introduction =
+
+= List of architecture dependdent part =
+ * [ PortingProcess#Headers Headers ]
+ * [ PortingProcess#Boot_code Boot code ]
+ * [ PortingProcess#Linker_scripts Linker scripts]
+
+First of all [ PortingProcess#Default_IO ]
+Then:
+ * [ PortingProcess#Headers ]
+ * [ PortingProcess#System_timer ]
+ * [ PortingProcess#Trap_handlers ]
+
+== Headers ==
+
+=== asm/types.h ===
+
+=== asm/hal* ===
+
+==== clock.h ====
+
+==== interrupt.h ====
+
+==== arch.h ====
+
+==== reg.h ====
+
+==== ipl.h ====
+ 
+
+== Boot code ==
+== Linker scripts ==
+== Default IO ==
+== Обработка прерываний ==
+== System timer ==
+== Trap handlers  ==
