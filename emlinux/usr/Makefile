@@ -3,18 +3,19 @@
 # Author: Nikolay Korotky
 #
 
-BUSYBOX_VERSION=1.8.2
-BUSYBOX_SRC=busybox-$(BUSYBOX_VERSION).tar.bz2
-BUSYBOX_LINK=http://busybox.net/downloads/$(BUSYBOX_SRC)
-LIBS=libc.so.6 libm.so.6 libcrypt.so.1 libstdc++.so.6 libgcc_s.so.1 libgcc_s_soft_v8.so.1 libpthread.so.0 libgcc_s_soft.so.1 librt.so.1
+BUSYBOX_VERSION = 1.8.2
+BUSYBOX_SRC     = busybox-$(BUSYBOX_VERSION).tar.bz2
+BUSYBOX_LINK    = http://busybox.net/downloads/$(BUSYBOX_SRC)
+LIBS = libc.so.6 libm.so.6 libcrypt.so.1 libstdc++.so.6 libgcc_s.so.1 \
+       libgcc_s_soft_v8.so.1 libpthread.so.0 libgcc_s_soft.so.1 librt.so.1
 ifeq ($(CROSS_COMPILE),sparc-linux-)
-CROSS_COMPILER_DIR=$(shell dirname `which $(CROSS_COMPILE)gcc`)/../sparc-linux
-LIBS+=ld-linux.so.2
-ARCH_BUSYBOX=sparc_v7soft
+CROSS_COMPILER_DIR = $(shell dirname `which $(CROSS_COMPILE)gcc`)/../sparc-linux
+LIBS              += ld-linux.so.2
+ARCH_BUSYBOX       = sparc_v7soft
 else
-CROSS_COMPILER_DIR=$(shell dirname `which $(CROSS_COMPILE)gcc`)/../microblaze-unknown-linux-gnu
-LIBS+=ld.so.1
-ARCH_BUSYBOX=microblaze
+CROSS_COMPILER_DIR = $(shell dirname `which $(CROSS_COMPILE)gcc`)/../microblaze-unknown-linux-gnu
+LIBS              += ld.so.1
+ARCH_BUSYBOX       = microblaze
 endif
 
 BUSYBOX := busybox-$(BUSYBOX_VERSION)
@@ -27,8 +28,8 @@ all: download $(MODULES)
 
 download:
 	# busybox
-	@[ -e $(BUSYBOX_SRC) ] || wget -c $(BUSYBOX_LINK)
-	@[ -d $@ ] || tar -xvjf $(BUSYBOX_SRC)
+	@[ -e $(DOWNLOADS_DIR)/$(BUSYBOX_SRC) ] || wget -O $(DOWNLOADS_DIR)/$(BUSYBOX_SRC) -c $(BUSYBOX_LINK)
+	@[ -d $(BUSYBOX) ] || tar -xvjf $(DOWNLOADS_DIR)/$(BUSYBOX_SRC)
 
 $(BUSYBOX):
 	cp $(CONFIG_DIR)/config-busybox-$(BUSYBOX_VERSION).default $@/.config
