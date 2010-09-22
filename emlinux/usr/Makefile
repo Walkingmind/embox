@@ -45,7 +45,7 @@ install:
 	for lib in $(LIBS); do \
 	    cp `readlink -f $(CROSS_COMPILER_DIR)/lib/$$lib` $(RAMFS_DIR)/lib/$$lib; \
 	done
-	find $(RAMFS_DIR)/lib -type f | xargs -r $(CROSS_COMPILE)strip -g
+	find $(RAMFS_DIR)/lib -type f | xargs -r $(STRIP) -g
 
 clean:
 	@$(MAKE) -C $(BUSYBOX) clean

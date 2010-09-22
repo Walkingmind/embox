@@ -9,6 +9,7 @@ CC      = $(CROSS_COMPILE)gcc
 LD      = $(CROSS_COMPILE)ld
 OBJDUMP = $(CROSS_COMPILE)objdump
 OBJCOPY = $(CROSS_COMPILE)objcopy
+STRIP   = $(CROSS_COMPILE)strip
 RM      = rm -fr
 MKDIR   = mkdir -p
 
