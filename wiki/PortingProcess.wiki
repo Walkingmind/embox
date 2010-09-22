@@ -5,7 +5,7 @@
 = Introduction =
 
 = List of architecture dependdent part =
- * [ PortingProcess#Headers Headers ]
+ * [PortingProcess#Headers Headers]
  * [ PortingProcess#Boot_code Boot code ]
  * [ PortingProcess#Linker_scripts Linker scripts]
 
