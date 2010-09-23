@@ -20,7 +20,7 @@ SECTIONS {
 	*(.glue_7t)
 	. = ALIGN(4);
 	input_data = .;
-	PIGGY
+	IMAGE_PIGGY
 	input_data_end = .;
 
 	_got_start = .;
