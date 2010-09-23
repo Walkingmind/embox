@@ -35,13 +35,15 @@ INITRAMFS_SOURCE = $(KERNEL_DIR)/initramfs.lst
 # elf image for loading with embox
 IMAGE     = $(BIN_DIR)/image
 # binary image for loading with embox
-IMAGE_BIN = $(BIN_DIR)/image.bin
+IMAGE_BIN = $(IMAGE).bin
 # elf image for loading without embox into RAM
-IMAGE_RAM = $(BIN_DIR)/image.ram
+IMAGE_RAM = $(IMAGE).ram
 # elf image for loading without embox into ROM
-IMAGE_ROM = $(BIN_DIR)/image.rom
+IMAGE_ROM = $(IMAGE).rom
+# srec image
+IMAGE_SREC= $(IMAGE).srec
 # piggy image
-PIGGY     = $(BIN_DIR)/piggy
+IMAGE_PIGGY = $(BIN_DIR)/piggy
 # Das U-Boot image
 UIMAGE    = $(BIN_DIR)/uImage
 
@@ -95,12 +97,14 @@ image i:
 	# ram loadable image (elf)
 	@$(MAKE) -C $(ARCH_DIR)/$(ARCH) image.ram
 	# raw piggy image (binary)
-	[ -e $(IMAGE_RAM) ] && $(OBJCOPY) $(OBJCOPYFLAGS) -S $(IMAGE_RAM) $(PIGGY)
+	[ -e $(IMAGE_RAM) ] && $(OBJCOPY) $(OBJCOPYFLAGS) -S $(IMAGE_RAM) $(IMAGE_PIGGY)
 	# rom image
 	@$(MAKE) -C $(ARCH_DIR)/$(ARCH) image.rom
+	# srec image
+	[ -e $(IMAGE_RAM) ] && $(OBJCOPY) -O srec $(IMAGE_RAM) $(IMAGE_SREC)
 	# disassemble
 	[ -e $(IMAGE) ] && $(OBJDUMP) -d $(IMAGE) > $(IMAGE).dis
-	[ -e $(IMAGE_RAM) ] && $(OBJDUMP) -d $(IMAGE_RAM) > $(IMAGE).ram.dis
+	[ -e $(IMAGE_RAM) ] && $(OBJDUMP) -d $(IMAGE_RAM) > $(IMAGE_RAM).dis
 	@echo 'Build done'
 
 clean c:

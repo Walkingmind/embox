@@ -20,7 +20,7 @@ emlinux.lds.o: emlinux.lds.S $(AUTOCONF)
 flash.lds.o: flash.lds.S $(AUTOCONF)
 	echo "" > remove_predefs.h                                                               
 	$(CC) -dM -C -E -P $< | cut -d' ' -f -2 | sed 's/#define/#undef/g' > remove_predefs.h
-	$(CC) -include $(AUTOCONF) -E -C -P -DDATA_START=$(shell ls -la $(PIGGY) | awk '{print $$5}') -DPIGGY="piggy.o" $< -o $@
+	$(CC) -include $(AUTOCONF) -E -C -P -DDATA_START=$(shell ls -la $(IMAGE_PIGGY) | awk '{print $$5}') -DIMAGE_PIGGY="$(IMAGE_PIGGY).o" $< -o $@
 
 #locore.o: locore.S
 #	$(CC) -D__ASSEMBLY__ -c -o $@ $<
@@ -33,9 +33,8 @@ image.ram: emlinux.lds.o boot.o pgt.o
 
 image.rom: flash.lds.o
 	@echo 'stub'
-	$(LD) -r -b binary -o piggy.o $(PIGGY)
-	cp piggy.o $(BIN_DIR)
-#	$(LD) -X -T flash.lds.o locore.o main.o piggy.o -o $(BIN_DIR)/$@
+	$(LD) -r -b binary -o $(IMAGE_PIGGY).o $(IMAGE_PIGGY)
+#	$(LD) -X -T flash.lds.o locore.o main.o $(IMAGE_PIGGY).o -o $(BIN_DIR)/$@
 
 clean:
 	$(RM) remove_predefs.h *.o

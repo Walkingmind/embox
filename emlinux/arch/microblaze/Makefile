@@ -20,8 +20,7 @@ image.ram: emlinux.lds.o boot.o
 
 image.rom:
 	@echo 'stub'
-	$(LD) -r -b binary -o piggy.o $(PIGGY)
-	cp piggy.o $(BIN_DIR)
+	$(LD) -r -b binary -o $(IMAGE_PIGGY).o $(IMAGE_PIGGY)
 
 clean:
 	$(RM) remove_predefs.h *.o
