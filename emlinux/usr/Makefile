@@ -13,22 +13,28 @@ CROSS_COMPILER_DIR = $(shell dirname `which $(CROSS_COMPILE)gcc`)/../microblaze-
 LIBS              += ld.so.1
 endif
 
+MAKEFILES = Makefile.busybox
+
 .PHONY: all install clean
 
 all:
-	@$(MAKE) -f Makefile.busybox all
+	for mk in $(MAKEFILES); do \
+	    $(MAKE) -f $$mk all; \
+	done
 
 install:
-	# install /etc
-	cp etc/inittab $(RAMFS_DIR)/etc
-	cp etc/rc.S $(RAMFS_DIR)/etc
-	@$(MAKE) -f Makefile.busybox install
+	for mk in $(MAKEFILES); do \
+	    $(MAKE) -f $$mk install; \
+	done
 	# install libs from compiler
 	for lib in $(LIBS); do \
 	    cp `readlink -f $(CROSS_COMPILER_DIR)/lib/$$lib` $(RAMFS_DIR)/lib/$$lib; \
 	done
+	cp etc/* $(RAMFS_DIR)/etc
 	find $(RAMFS_DIR)/lib -type f | xargs -r $(STRIP) -g
 
 clean:
-	@$(MAKE) -f Makefile.busybox clean
+	for mk in $(MAKEFILES); do \
+	    $(MAKE) -f $$mk clean; \
+	done
 
