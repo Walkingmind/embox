@@ -33,25 +33,27 @@ INITRAMFS_DIRS   = bin dev dev/etherd etc lib root sbin usr usr/bin usr/sbin var
 INITRAMFS_SOURCE = $(KERNEL_DIR)/initramfs.lst
 
 # elf image for loading with embox
-IMAGE     = $(BIN_DIR)/image
+IMAGE       = $(BIN_DIR)/image
 # binary image for loading with embox
-IMAGE_BIN = $(IMAGE).bin
+IMAGE_BIN   = $(IMAGE).bin
 # elf image for loading without embox into RAM
-IMAGE_RAM = $(IMAGE).ram
+IMAGE_RAM   = $(IMAGE).ram
 # elf image for loading without embox into ROM
-IMAGE_ROM = $(IMAGE).rom
+IMAGE_ROM   = $(IMAGE).rom
 # srec image
-IMAGE_SREC= $(IMAGE).srec
+IMAGE_SREC  = $(IMAGE).srec
 # piggy image
 IMAGE_PIGGY = $(BIN_DIR)/piggy
 # Das U-Boot image
-UIMAGE    = $(BIN_DIR)/uImage
+IMAGE_UBOOT = $(BIN_DIR)/uImage
 
 export
 
-.PHONY: patch-kernel usr ramfs kernel image
+.PHONY: patch-kernel usr ramfs kernel
 
-all: patch-kernel usr ramfs kernel image
+all: patch-kernel usr ramfs kernel \
+    $(IMAGE) $(IMAGE_BIN) $(IMAGE_UBOOT) $(IMAGE_RAM) $(IMAGE_PIGGY) $(IMAGE_SREC) $(IMAGE_ROM)
+	@echo 'Build complete'
 
 usr u:
 	@$(MAKE) -C $(USR_DIR)
@@ -84,28 +86,28 @@ kernel k:
 	[ -e $(KERNEL_DIR)/.config ] || cp $(CONFIG_DIR)/$(KERNEL_CONFIG) $(KERNEL_DIR)/.config
 	$(MAKE) -C $(KERNEL_DIR) ARCH=$(ARCH) CROSS_COMPILE=$(CROSS_COMPILE) image.bin uImage
 
-image i:
-	# linux kernel image (elf)
-	[ -e $(BOOT_DIR)/$(shell basename $(IMAGE)) ] \
-	    && cp $(BOOT_DIR)/$(shell basename $(IMAGE)) $(BIN_DIR)
-	# linux kernel image (binary)
-	[ -e $(BOOT_DIR)/$(shell basename $(IMAGE_BIN)) ] \
-	    && cp $(BOOT_DIR)/$(shell basename $(IMAGE_BIN)) $(BIN_DIR)
-	# u-boot linux kernel image (binary)
-	[ -e $(BOOT_DIR)/$(shell basename $(UIMAGE)) ] \
-	    && cp $(BOOT_DIR)/$(shell basename $(UIMAGE)) $(BIN_DIR)
-	# ram loadable image (elf)
+$(IMAGE):
+	cp $(BOOT_DIR)/$(shell basename $(IMAGE)) $(BIN_DIR)
+	@$(OBJDUMP) -d $(IMAGE) > $(IMAGE).dis
+
+$(IMAGE_BIN): $(IMAGE)
+	cp $(BOOT_DIR)/$(shell basename $(IMAGE_BIN)) $(BIN_DIR)
+
+$(IMAGE_RAM): $(IMAGE)
 	@$(MAKE) -C $(ARCH_DIR)/$(ARCH) image.ram
-	# raw piggy image (binary)
-	[ -e $(IMAGE_RAM) ] && $(OBJCOPY) $(OBJCOPYFLAGS) -S $(IMAGE_RAM) $(IMAGE_PIGGY)
-	# rom image
+	@$(OBJDUMP) -d $(IMAGE_RAM) > $(IMAGE_RAM).dis
+
+$(IMAGE_ROM): $(IMAGE)
 	@$(MAKE) -C $(ARCH_DIR)/$(ARCH) image.rom
-	# srec image
-	[ -e $(IMAGE_RAM) ] && $(OBJCOPY) -O srec $(IMAGE_RAM) $(IMAGE_SREC)
-	# disassemble
-	[ -e $(IMAGE) ] && $(OBJDUMP) -d $(IMAGE) > $(IMAGE).dis
-	[ -e $(IMAGE_RAM) ] && $(OBJDUMP) -d $(IMAGE_RAM) > $(IMAGE_RAM).dis
-	@echo 'Build done'
+
+$(IMAGE_SREC): $(IMAGE_RAM)
+	@$(OBJCOPY) -O srec $< $@
+
+$(IMAGE_PIGGY): $(IMAGE_RAM)
+	@$(OBJCOPY) $(OBJCOPYFLAGS) -S $< $@
+
+$(IMAGE_UBOOT): $(IMAGE)
+	cp $(BOOT_DIR)/$(shell basename $(IMAGE_UBOOT)) $(BIN_DIR)
 
 clean c:
 	@$(MAKE) -C $(ARCH_DIR)/$(ARCH) clean
