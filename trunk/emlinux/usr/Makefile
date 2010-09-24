@@ -32,7 +32,7 @@ download:
 	@[ -d $(BUSYBOX) ] || tar -xvjf $(DOWNLOADS_DIR)/$(BUSYBOX_SRC)
 
 $(BUSYBOX):
-	cp $(CONFIG_DIR)/config-busybox-$(BUSYBOX_VERSION).default $@/.config
+	[ -e $@/.config ] || cp $(CONFIG_DIR)/config-busybox-$(BUSYBOX_VERSION).default $@/.config
 	@$(MAKE) -C $@ ARCH=$(ARCH_BUSYBOX)
 
 install:
