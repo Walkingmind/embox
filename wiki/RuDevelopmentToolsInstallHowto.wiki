@@ -1,0 +1,78 @@
+#summary One-sentence summary of this page.
+
+= Introduction =
+
+Add your content here.
+
+== Что такое embox ==
+'''embox''' - это система, позволяющая с помощью системы конфигурации создавать различные [http://ru.wikipedia.org/wiki/%D0%9E%D0%B1%D1%80%D0%B0%D0%B7_%D0%9F%D0%97%D0%A3 образы], которые, будучи загруженными на плату, могут выполнять различные задачи:
+
+ * Тестовая система
+ * Загрузчик сторонней ОС
+ * Полноценная ОС, способная выполнить требуемые программы
+
+== Информация о проекте ==
+Проект расположен [http://www.code.google.com/p/embox здесь]. В настоящий момент ввиду технических неисправностей доступен только SVN. [http://ru.wikipedia.org/wiki/%D0%A1%D0%B8%D1%81%D1%82%D0%B5%D0%BC%D0%B0_%D1%83%D0%BF%D1%80%D0%B0%D0%B2%D0%BB%D0%B5%D0%BD%D0%B8%D1%8F_%D0%B2%D0%B5%D1%80%D1%81%D0%B8%D1%8F%D0%BC%D0%B8 Что такое SVN].
+
+С проектом ассоциирована [http://www.groups.google.com/group/embox google-группа].
+
+== Используемый инструментарий ==
+Код проекта написан на языке Си. для его сборки потребуются:
+
+ * gcc - под целевую платформу
+ * make
+
+Разработка проекта может вестись в любом редакторе (при соблюдении кодестайла). В репозитории находится файла проекта для IDE Eclipse. Для использования Eclipse требуется плагин cdt (плагин для разработки на языке C/C++).
+
+Для работы с репозиторием вам потребуется любой клиент svn. Для eclipse можно воспользоваться subclipse. 
+
+== Установка окружения (SPARC) ==
+=== Краткий порядок установки под Windows ===
+==== Экспресс-установка с использованием набора от Gaisler Research ====
+ 1. Установите пакет со страницы [http://www.gaisler.com/cms/index.php?option=com_content&task=view&id=272&Itemid=31 GRTools]. Пакет включает все необходимые для работы инструменты.[[BR]]Если Вы хотите использовать последнюю версию Eclipse (GRTools включает Eclipse версии 3.4), то следуйте инструкции пошаговой установки.
+ 1. '''Система контроля версий'''[[BR]]Установите систему контроля версий [http://subclipse.tigris.org/servlets/ProjectProcess?pageID=p4wYuA Subclipse].
+
+==== Пошаговая установка ====
+ 1. '''cygwin''' [[BR]]Установите [http://www.cygwin.com/ cygwin]. При выборе пакетов укажите ''gcc'' и ''make''.
+ 1. '''Кросс-компилятор'''[[BR]]Поставьте кросс-компилятор [ftp://gaisler.com/gaisler.com/bcc/bin отсюда]. Добавьте в переменную окружения PATH (в свойствах системы) папку bin распакованного архива. 
+ 1. '''IDE''' [[BR]]Установите ''[http://eclipse.org/downloads/ Eclipse] for C/C++ Developers'' (Если Вы хотите использовать установленный ''Eclipse'', то добавьте пакет ''CDT'').
+ 1. '''Система контроля версий'''[[BR]]Установите систему контроля версий [http://subclipse.tigris.org/servlets/ProjectProcess?pageID=p4wYuA Subclipse].
+
+=== Краткий порядок установки под Linux ===
+'''1. Утилиты''' [[BR]]Поставьте пакеты ''make'' и ''gcc''. 
+
+'''2. IDE''' [[BR]]Установите ''[http://eclipse.org/downloads/ Eclipse] for C/C++ Developers'' (Если используете другой ''Eclipse'', то добавьте пакет ''CDT''). 
+
+'''3. Компилятор''' [[BR]]Поставьте кросс-компилятор [ftp://gaisler.com/gaisler.com/bcc/bin отсюда]. Добавьте в переменную окружения PATH папку bin распакованного архива. Это можно сделать, добавив в .bashrc или в .profile что-то вроде export PATH=$!PATH:/opt/sparc-elf-3.4.4/bin
+
+'''4. Система контроля версий '''[[BR]]Установите систему контроля версий [http://subclipse.tigris.org/servlets/ProjectProcess?pageID=p4wYuA Subclipse]. 
+
+== Установка окружения (!MicroBlaze) ==
+=== Краткий порядок установки под Linux ===
+1. Ставим [http://sourceforge.net/projects/linux-hotplug/files fxload].[[BR]]2. Берём Xilinx_11.1_ISE_DS_SFD.tar и запускаем sudo ./xsetup[[BR]]3. Выбираем установить только Embedded Development Kit[[BR]]4. Далее выбираем Install Cable Drivers (если у вас не православный RH или Сусъ, то [http://www.xilinx.com/support/answers/22648.htm читаем] тут, со свежими ядрами (> 2.6.18) драйвер не собирается)[[BR]]5. Берём Xilinx_11.3_ISE_DS_lin.tar и апдейтим[[BR]]6. После подключения usb выполняем /sbin/fxload -v -t fx2 -I <path>/Xilinx/11.1/common/bin/lin/xusb_emb.hex -D /dev/bus/usb/<dev_num>/<id>[[BR]]7. export LD_PRELOAD=<path>/libusb-driver.so[[BR]]8. xmd -hw system.xml[[BR]]9. Далее цепляемся mb-gdb -nw <path>/embox[[BR]]>target remote !localhost:1234 [[BR]]>load[[BR]]>define ss[[BR]]>si[[BR]]>x/2i $pc[[BR]]>end[[BR]]
+== Загрузка проекта из репозитория'''''' ==
+При создании нового проекта укажите ''Checkout Projects from SVN''.
+
+Адрес репозитория: `https://embox.googlecode.com/svn/trunk/` Пароль можно получить [https://code.google.com/hosting/settings здесь].
+
+[[BR]]
+== Сборка ==
+[[BR]]Сконфигурируйте проект командой
+
+{{{
+make PROJECT=<project> PROFILE=<profile> config
+
+}}}
+Соберите проект командой
+
+{{{
+make
+
+
+}}}
+== Запуск ==
+Для SPARC:[[BR]]
+ * '''[ftp://ftp.gaisler.com/gaisler.com/tsim/tsim-eval-2.0.15.tar.gz TSIM2 LEON3 Evaluation] '''(linux, windows, cygwin''')'''
+
+== Создание теста ==
+См. на [http://code.google.com/p/embox/wiki/EmboxTestsFramework вики] проекта. =
