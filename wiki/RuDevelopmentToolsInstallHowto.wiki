@@ -76,3 +76,13 @@ make
 
 == Создание теста ==
 См. на [http://code.google.com/p/embox/wiki/EmboxTestsFramework вики] проекта. =
+
+
+= Temp =
+http://embox.googlecode.com/svn/wiki/cygwin-download.png
+http://embox.googlecode.com/svn/wiki/cygwin-setup-gcc4.png
+http://embox.googlecode.com/svn/wiki/cygwin-setup-make.png
+http://embox.googlecode.com/svn/wiki/eclipse-download.png
+http://embox.googlecode.com/svn/wiki/eclipse-marketplace.png
+http://embox.googlecode.com/svn/wiki/googlecode-password.png
+http://embox.googlecode.com/svn/wiki/eclipse-commit-password.png
