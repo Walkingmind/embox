@@ -3,7 +3,13 @@
 
 = Introduction =
 As far as embox uses GNU toolchain, you'll need to setup a Unix-like environment on you Windows machine.
-We recommend you to use [http://en.wikipedia.org/wiki/Cygwin Cygwin] for that purpose.
+We recommend you to use *[http://en.wikipedia.org/wiki/Cygwin Cygwin]* for that purpose.
+
+= Brief =
+If you are familiar with Cygwin installation procedure, you can skip the most of this guide. You should install the following packages:
+ * *make* 3.81 or above
+ * *gcc* or *gcc4* of any stable version
+Do not forget to add Cygwin `bin` directory to your *PATH*. 
 
 = Step-by-step =
 == Download ==
