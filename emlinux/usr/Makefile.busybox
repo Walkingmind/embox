@@ -3,8 +3,11 @@
 # Author: Nikolay Korotky
 #
 
-BUSYBOX_VERSION = 1.8.2
+#BUSYBOX_VERSION = 1.8.2
+BUSYBOX_VERSION = 1.17.2
 BUSYBOX_SRC     = busybox-$(BUSYBOX_VERSION).tar.bz2
+#BUSYBOX_CONFIG  = $(CONFIG_DIR)/config-$(BUSYBOX).default
+BUSYBOX_CONFIG  = $(CONFIG_DIR)/config-$(BUSYBOX)-mb.default
 BUSYBOX_LINK    = http://busybox.net/downloads/$(BUSYBOX_SRC)
 BUSYBOX         = busybox-$(BUSYBOX_VERSION)
 
@@ -24,7 +27,7 @@ download:
 	[ -d $(BUSYBOX) ] || tar -xvjf $(DOWNLOADS_DIR)/$(BUSYBOX_SRC)
 
 build:
-	[ -e $(BUSYBOX)/.config ] || cp $(CONFIG_DIR)/config-$(BUSYBOX).default $(BUSYBOX)/.config
+	[ -e $(BUSYBOX)/.config ] || cp $(BUSYBOX_CONFIG) $(BUSYBOX)/.config
 	@$(MAKE) -C $(BUSYBOX) ARCH=$(ARCH_BUSYBOX)
 
 install:
