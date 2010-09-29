@@ -1,0 +1,9 @@
+#summary Eclipse IDE installation HOWTO.
+#sidebar InstallDevelopmentToolsSideNav
+
+= Introduction =
+embox is "IDE-independent" project, so you can edit sources in your favorite editor, compiling them and invoking debugger directly from console. But those who prefer all-in-one solutions will probably look for some kind of [http://en.wikipedia.org/wiki/Integrated_development_environment IDE].
+We recommend you to use *[http://en.wikipedia.org/wiki/Eclipse_(software) Eclipse IDE]* with *CDT* plugin, especially since embox already contains the necessary project files.
+
+= Brief =
+If you have used Eclipse before, you can skip this guide.
