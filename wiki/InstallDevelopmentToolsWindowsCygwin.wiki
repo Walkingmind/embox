@@ -36,7 +36,9 @@ Setup your Internet connection which will be used to download installation files
 Choose any available mirror.
 
 === Select Packages ===
-We need GNU *[http://en.wikipedia.org/wiki/Make_(software) make]* [http://en.wikipedia.org/wiki/Build_automation build automation] tool and *[http://en.wikipedia.org/wiki/GNU_Compiler_Collection gcc]* for the host platform.
+Default Cygwin installation includes only minimal subset of all available packages.
+
+We also need GNU *[http://en.wikipedia.org/wiki/Make_(software) make]* [http://en.wikipedia.org/wiki/Build_automation build automation] tool and *[http://en.wikipedia.org/wiki/GNU_Compiler_Collection gcc]* for the host platform.
 
 ==== make ====
 Select package *make*, version *3.81* or higher.
@@ -48,28 +50,8 @@ You are free to choose between *gcc* and *gcc4* packages of any stable version.
  http://embox.googlecode.com/svn/wiki/cygwin-setup-gcc4.png
   Search for `gcc` and select _gcc_ or _gcc4_ from category _Devel_.
 ----
-Add your content here.
 
-== Используемый инструментарий ==
-Код проекта написан на языке Си. для его сборки потребуются:
+=== Finish the Installation ===
+You'll be notified about the packages to be installed and prompted whether to create desktop icons after the installation is complete.
 
- * gcc - под целевую платформу
- * make
-
-==== Пошаговая установка ====
- 1. '''cygwin''' [[BR]]Установите [http://www.cygwin.com/ cygwin]. При выборе пакетов укажите ''gcc'' и ''make''.
- 1. '''Кросс-компилятор'''[[BR]]Поставьте кросс-компилятор [ftp://gaisler.com/gaisler.com/bcc/bin отсюда]. Добавьте в переменную окружения PATH (в свойствах системы) папку bin распакованного архива. 
- 1. '''IDE''' [[BR]]Установите ''[http://eclipse.org/downloads/ Eclipse] for C/C++ Developers'' (Если Вы хотите использовать установленный ''Eclipse'', то добавьте пакет ''CDT'').
- 1. '''Система контроля версий'''[[BR]]Установите систему контроля версий [http://subclipse.tigris.org/servlets/ProjectProcess?pageID=p4wYuA Subclipse].
-
-== Краткий порядок установки под Windows ==
-
-1. cygwin [[BR]]
-[http://www.cygwin.com/ cygwin]- в правом верхнем углу сайта по первой ссылке ищем значок Install Cygwin now и скачиваем онлайн-инсталлятор.
-Запускаем ее, выбираем режим Install from Internet.
-Root Directory лучше прописать C:/cygwin. Ни в коем случае путь к Root Directory не должен содержать символов русской раскладки.
-Install for all users. Default text file type - DOS/Text.
-Local package directory любая.
-На вкладке Select connection type выберите тип Вашего подключения к интернет.
-Далее из списка сайтов выбираете любой и качаете с него.
-В итоге Ваших усилий после закачки запустится конфигуратор. В нем оставляете все по умолчанию и ставите на установку.
+== Setup the PATH ==
