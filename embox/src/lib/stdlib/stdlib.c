@@ -38,7 +38,7 @@ int ch_to_digit(char ch, int base) {
 	}
 	return -1;
 }
-#if 0 /*FIXME not compile at icebrick*/
+#if 1 /*FIXME not compile at icebrick*/
 double atof(const char *s) {
 	char    c;
 	double  val = 0, power = 1;
@@ -110,7 +110,7 @@ conv:
 	}
 	return sign ? -a : a;
 }
-#if 0 /*FIXME strtol not compile at icebrick*/
+#if 1 /*FIXME strtol not compile at icebrick*/
 long int atol(const char *nptr) {
 	return strtol(nptr,(char **)NULL, 10);
 }
