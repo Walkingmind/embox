@@ -61,3 +61,5 @@ You are free to choose between *gcc* and *gcc4* packages of any stable version.
 You'll be notified about the packages to be installed and prompted whether to create desktop icons after the installation is complete.
 
 == Setup the PATH ==
+ http://embox.googlecode.com/svn/wiki/environment-variables-path.png
+----
