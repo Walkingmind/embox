@@ -1,5 +1,5 @@
 #summary Cygwin installation HOWTO.
-#sidenav InstallDevelopmentToolsSideNav
+#sidebar InstallDevelopmentToolsSideNav
 
 = Introduction =
 As far as embox uses GNU toolchain, you'll need to setup a Unix-like environment on you Windows machine.
