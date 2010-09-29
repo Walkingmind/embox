@@ -20,16 +20,34 @@ Keep the default value:
  * *Install from Internet*
 
 === Installation directory ===
-When prompted, choose the installation directory. The default is *C:\cygwin*, but you can change it. Leave *Install for* as default:
+When prompted, choose the Cygwin installation directory. The default is *C:\cygwin*, but you can change it. Leave *Install for* as default:
  * *All Users*
 *Note* that the directory path *must not* contain any spaces or non-latin characters.
  http://embox.googlecode.com/svn/wiki/cygwin-setup-choosedirectory.png
+----
 
+=== Local Package directory ===
+Cygwin will download its installation files to the specified directory. The default is directory which was used to save the setup executable. You may leave the default value.  
 
-Proceed through...
-http://embox.googlecode.com/svn/wiki/cygwin-setup-gcc4.png
-http://embox.googlecode.com/svn/wiki/cygwin-setup-make.png
+=== Connection type ===
+Setup your Internet connection which will be used to download installation files. The right choice depends on your ISP and network settings.
 
+=== Download sites ===
+Choose any available mirror.
+
+=== Select Packages ===
+We need GNU *[http://en.wikipedia.org/wiki/Make_(software) make]* [http://en.wikipedia.org/wiki/Build_automation build automation] tool and *[http://en.wikipedia.org/wiki/GNU_Compiler_Collection gcc]* for the host platform.
+
+==== make ====
+Select package *make*, version *3.81* or higher.
+ http://embox.googlecode.com/svn/wiki/cygwin-setup-make.png
+  Type `make` into search field and select _make_ from category _Devel_.
+----
+==== gcc ====
+You are free to choose between *gcc* and *gcc4* packages of any stable version.
+ http://embox.googlecode.com/svn/wiki/cygwin-setup-gcc4.png
+  Search for `gcc` and select _gcc_ or _gcc4_ from category _Devel_.
+----
 Add your content here.
 
 == Используемый инструментарий ==
