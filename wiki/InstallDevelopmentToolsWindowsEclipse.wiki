@@ -8,3 +8,9 @@ We recommend you to use *[http://en.wikipedia.org/wiki/Eclipse_(software) Eclips
 
 = Brief =
 If you have used Eclipse before, you can skip this guide.
+
+= Step-by-step =
+http://embox.googlecode.com/svn/wiki/eclipse-download.png
+http://embox.googlecode.com/svn/wiki/eclipse-marketplace.png
+http://embox.googlecode.com/svn/wiki/googlecode-password.png
+http://embox.googlecode.com/svn/wiki/eclipse-commit-password.png
