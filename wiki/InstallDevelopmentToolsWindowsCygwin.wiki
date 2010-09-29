@@ -9,7 +9,7 @@ We recommend you to use *[http://en.wikipedia.org/wiki/Cygwin Cygwin]* for that 
 If you are familiar with Cygwin installation procedure, you can skip the most of this guide. You should install the following packages:
  * *make* 3.81 or above
  * *gcc* or *gcc4* of any stable version
-Do not forget to add Cygwin `bin` directory to your *PATH*. 
+Do not forget to add Cygwin's *`bin`* directory to your *PATH*. 
 
 = Step-by-step =
 == Download ==
@@ -26,7 +26,7 @@ Keep the default value:
  * *Install from Internet*
 
 === Installation directory ===
-When prompted, choose the Cygwin installation directory. The default is *C:\cygwin*, but you can change it. Leave *Install for* as default:
+When prompted, choose the Cygwin installation directory. The default is *`C:\cygwin`*, but you can change it. Leave *Install for* as default:
  * *All Users*
 *Note* that the directory path *must not* contain any spaces or non-latin characters.
  http://embox.googlecode.com/svn/wiki/cygwin-setup-choosedirectory.png
@@ -61,10 +61,10 @@ You are free to choose between *gcc* and *gcc4* packages of any stable version.
 You'll be notified about the packages to be installed and prompted whether to create desktop icons after the installation is complete.
 
 == Setup the PATH ==
-To invoke Cygwin applications outside Cygwin Bash Console you should also add *_<Cygwin root>_\bin* to *PATH* environment variable.
+To invoke Cygwin applications outside Cygwin Bash Console (e.g. from [InstallDevelopmentToolsWindowsEclipse Eclipse]) you should also add *_[#Installation_directory <Cygwin root>]_\bin* to the *PATH* environment variable.
 
  * Proceed through *System properties → Advanced → Environment Variables*
  * Press *New...* inside *User variables* pane
- * Type *PATH* inside the first field and *%PATH%;C:\cygwin\bin* inside the second one depending on where you have [#Installation_directory installed Cygwin]
+ * Type `PATH` inside the first field and `%PATH%;C:\cygwin\bin` inside the second one (depending on where you have [#Installation_directory installed Cygwin])
  http://embox.googlecode.com/svn/wiki/environment-variables-path.png
 ----
