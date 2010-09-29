@@ -3,7 +3,7 @@
 
 = Introduction =
 As far as embox uses GNU toolchain, you'll need to setup a Unix-like environment on you Windows machine.
-We recommend you to use [http://en.wikipedia.org/wiki/Cygwin Cygwin] for that purposes.
+We recommend you to use [http://en.wikipedia.org/wiki/Cygwin Cygwin] for that purpose.
 
 = Step-by-step =
 == Download ==
@@ -13,8 +13,15 @@ Go to *[http://cygwin.com]* and download Cygwin setup executable.
 ----
 == Setup Cygwin ==
 Run the setup executable and proceed through installation steps.
- 1. *TODO* type
- 1.  When prompted, choose the installation directory. The default is *C:\cygwin*, but you can change it.
+=== Installation type ===
+Keep the default value:
+ * *Install from Internet*
+ * Download without installing
+ * Install from Local Directory
+=== Installation directory ===
+When prompted, choose the installation directory. The default is *C:\cygwin*, but you can change it. Leave *Install for* as default:
+ * *All Users*
+*Note* that the directory path *must not* contain any spaces or non-latin characters.
  http://embox.googlecode.com/svn/wiki/cygwin-setup-choosedirectory.png
 
 
