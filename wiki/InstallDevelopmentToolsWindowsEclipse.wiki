@@ -20,6 +20,8 @@ Go to *[http://eclipse.org/downloads]* and select *Eclipse IDE for C/C++ Develop
 == Install ==
 All you do is unpack the downloaded file in the desired directory. The zip file contains single directory called `eclipse`, with multiple subdirectories under that. So you could unpack the zip file in the root directory (e.g., *`C:\`*) and Eclipse would be installed in *C:\eclipse*.
 
+Run the *eclipse* executable from the installation directory.
+
 == Install JRE ==
 This step will likely not be required. But if you get *VM*-related errors when launching Eclipse, then you have to install the latest [http://en.wikipedia.org/wiki/Java_Runtime_Environment JRE].
 
