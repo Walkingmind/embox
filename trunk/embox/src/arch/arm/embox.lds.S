@@ -76,13 +76,4 @@ SECTIONS {
 		_stack = _stack_top;
 		__stack = _stack;
 	} SECTION_REGION(stack)
-
-	.heap (NOLOAD): {
-		. = ALIGN(CONFIG_PAGE_SIZE);
-		_heap_start = .;
-		. += CONFIG_HEAP_SIZE;
-		. = ALIGN(CONFIG_PAGE_SIZE);
-		_heap_end = .;
-	} SECTION_REGION(heap)
-	SECTION_SYMBOLS(heap)
 }
