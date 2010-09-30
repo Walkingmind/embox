@@ -30,3 +30,6 @@ Open *_<Eclipse root>_\eclipse.ini* and add the following line after *`-vmargs`*
 -Duser.name=<You full name>
 }}}
 Now your full name will be used instead of your login when generating code from templates (for example, when creating a new file).
+
+=== Memory ===
+If your computer have plenty of RAM you can play with *`-Xms`*, *`-Xmx`* *`and -XX:MaxPermSize`* arguments. But this is not recommended if you do not have a clear understanding of what you are doing.
