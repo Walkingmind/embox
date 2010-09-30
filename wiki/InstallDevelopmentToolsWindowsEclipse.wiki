@@ -16,12 +16,19 @@ The one thing to mention is the use of older versions of Eclipse or CDT (for exa
 Go to *[http://eclipse.org/downloads]* and select *Eclipse IDE for C/C++ Developers*.
  http://embox.googlecode.com/svn/wiki/eclipse-download.png
   Choose the right version accordingly to your Windows.
-----
 
 == Install ==
 All you do is unpack the downloaded file in the desired directory. The zip file contains single directory called `eclipse`, with multiple subdirectories under that. So you could unpack the zip file in the root directory (e.g., *`C:\`*) and Eclipse would be installed in *C:\eclipse*.
 
-== Tweaks ==
+== Install JRE ==
+This step will likely not be required. But if you get *VM*-related errors when launching Eclipse, then you have to install the latest [http://en.wikipedia.org/wiki/Java_Runtime_Environment JRE].
+
+Go to *[http://www.oracle.com/technetwork/java/javase/downloads/]* and click _Download JRE_.
+ http://embox.googlecode.com/svn/wiki/java-download.png
+
+Then select you platform (*Windows* or *Windows x64*), agree with the license and click *Continue*. Download and run *Windows Offline Installation* executable. Proceed through installation steps.
+
+== Eclipse Tweaks ==
 Instructions of this section are not necessary to perform.
 
 === User name ===
@@ -29,7 +36,7 @@ Open *_<Eclipse root>_\eclipse.ini* and add the following line after *`-vmargs`*
 {{{
 -Duser.name=<You full name>
 }}}
-Now your full name will be used instead of your login when generating code from templates (for example, when creating a new file).
+Now your full name will be used instead of your login when generating code from templates (for example, when you create a new file).
 
 === Memory ===
-If your computer have plenty of RAM you can play with *`-Xms`*, *`-Xmx`* *`and -XX:MaxPermSize`* arguments. But this is not recommended if you do not have a clear understanding of what you are doing.
+If your computer have plenty of RAM you can play with *`-Xms`*, *`-Xmx`* *`and -XX:MaxPermSize`* arguments. But this is not recommended if you do not have a clear understanding of what you are doing. More info can be found [http://wiki.eclipse.org/FAQ_How_do_I_increase_the_heap_size_available_to_Eclipse%3F here].
