@@ -14,7 +14,7 @@ The one thing to mention is the use of older versions of Eclipse or CDT (for exa
 = Step-by-step =
 == Download ==
 Go to *[http://eclipse.org/downloads]* and select *Eclipse IDE for C/C++ Developers*.
- http://embox.googlecode.com/svn/wiki/eclipse-download.png
+ http://embox.googlecode.com/svn/wiki/images/eclipse-download.png
   Choose the right version accordingly to your Windows.
 
 == Install ==
@@ -26,7 +26,7 @@ Run the *eclipse* executable from the installation directory.
 This step will likely not be required. But if you get *VM*-related errors when launching Eclipse, then you have to install the latest [http://en.wikipedia.org/wiki/Java_Runtime_Environment JRE].
 
 Go to *[http://www.oracle.com/technetwork/java/javase/downloads/]* and click _Download JRE_.
- http://embox.googlecode.com/svn/wiki/java-download.png
+ http://embox.googlecode.com/svn/wiki/images/java-download.png
 
 Then select you platform (*Windows* or *Windows x64*), agree with the license and click *Continue*. Download and run *Windows Offline Installation* executable. Proceed through installation steps.
 

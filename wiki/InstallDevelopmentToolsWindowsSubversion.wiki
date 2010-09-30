@@ -8,14 +8,14 @@ Add your content here.
 
 = Details =
 
-http://embox.googlecode.com/svn/wiki/eclipse-marketplace.png
-http://embox.googlecode.com/svn/wiki/eclipse-restart.png
+http://embox.googlecode.com/svn/wiki/images/eclipse-marketplace.png
+http://embox.googlecode.com/svn/wiki/images/eclipse-restart.png
 
-http://embox.googlecode.com/svn/wiki/eclipse-newproject.png
-http://embox.googlecode.com/svn/wiki/eclipse-reposelect.png
-http://embox.googlecode.com/svn/wiki/eclipse-repoprompt.png
-http://embox.googlecode.com/svn/wiki/eclipse-repobrowse.png
+http://embox.googlecode.com/svn/wiki/images/eclipse-newproject.png
+http://embox.googlecode.com/svn/wiki/images/eclipse-reposelect.png
+http://embox.googlecode.com/svn/wiki/images/eclipse-repoprompt.png
+http://embox.googlecode.com/svn/wiki/images/eclipse-repobrowse.png
 
-http://embox.googlecode.com/svn/wiki/eclipse-team.png
-http://embox.googlecode.com/svn/wiki/googlecode-password.png
-http://embox.googlecode.com/svn/wiki/eclipse-commit-password.png
+http://embox.googlecode.com/svn/wiki/images/eclipse-team.png
+http://embox.googlecode.com/svn/wiki/images/googlecode-password.png
+http://embox.googlecode.com/svn/wiki/images/eclipse-commit-password.png
