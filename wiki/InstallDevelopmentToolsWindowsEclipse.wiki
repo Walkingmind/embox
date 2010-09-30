@@ -4,13 +4,19 @@
 = Introduction =
 embox is "[http://en.wikipedia.org/wiki/Integrated_development_environment IDE]-independent" project, so you can edit sources in your favorite editor, compiling them and invoking debugger directly from console. But those who prefer all-in-one solutions will probably look for some kind of integrated development environment.
 
-We recommend you to use *[http://en.wikipedia.org/wiki/Eclipse_(software) Eclipse IDE]* with *CDT* plugin, especially since embox already contains the necessary project files.
+We recommend you to use *[http://en.wikipedia.org/wiki/Eclipse_(software) Eclipse IDE]*, especially since embox already contains the necessary project files.
 
 = Brief =
-If you have used Eclipse before, you can skip this guide.
+If you have used Eclipse before, you can skip this guide. All you need is *Eclipse IDE* with *CDT* plugin and one of SVN client plugins (*Subversion* or *Subversive*).
+
+The one thing to mention is the use of older versions of Eclipse or CDT (for example, if you already have one installed). CDT is a relatively young project, and therefore it is growing rapidly. So it is desirable to use the version at least not older than one year.
 
 = Step-by-step =
-http://embox.googlecode.com/svn/wiki/eclipse-download.png
-http://embox.googlecode.com/svn/wiki/eclipse-marketplace.png
-http://embox.googlecode.com/svn/wiki/googlecode-password.png
-http://embox.googlecode.com/svn/wiki/eclipse-commit-password.png
+== Download ==
+Go to *[http://eclipse.org/downloads]* and select *Eclipse IDE for C/C++ Developers*.
+ http://embox.googlecode.com/svn/wiki/eclipse-download.png
+  Choose the right version accordingly to your Windows.
+----
+
+== Install ==
+All you do is unpack the downloaded file in the desired directory. The zip file contains single directory called `eclipse`, with multiple subdirectories under that. So you could unpack the zip file in the root directory (e.g., *`C:\`*) and Eclipse would be installed in *C:\eclipse*.
