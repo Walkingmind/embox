@@ -16,7 +16,6 @@ Do not forget to add Cygwin's *`bin`* directory to your *PATH*.
 Go to *[http://cygwin.com]* and download Cygwin setup executable.
  http://embox.googlecode.com/svn/wiki/images/cygwin-download.png
   Click on _Install or update Cygwin now!_
-----
 
 == Install ==
 Run the setup executable and proceed through installation steps.
@@ -30,7 +29,6 @@ When prompted, choose the Cygwin installation directory. The default is *`C:\cyg
  * *All Users*
 *Note* that the directory path *must not* contain any spaces or non-latin characters.
  http://embox.googlecode.com/svn/wiki/images/cygwin-setup-choosedirectory.png
-----
 
 === Local Package directory ===
 Cygwin will download its installation files to the specified directory. The default is directory which was used to save the setup executable. You may leave the default value.  
@@ -50,12 +48,11 @@ We also need GNU *[http://en.wikipedia.org/wiki/Make_(software) make]* [http://e
 Select package *make*, version *3.81* or higher.
  http://embox.googlecode.com/svn/wiki/images/cygwin-setup-make.png
   Type `make` into search field and select _make_ from category _Devel_.
-----
+
 ==== gcc ====
 You are free to choose between *gcc* and *gcc4* packages of any stable version.
  http://embox.googlecode.com/svn/wiki/images/cygwin-setup-gcc4.png
   Search for `gcc` and select _gcc_ or _gcc4_ from category _Devel_.
-----
 
 === Finish the Installation ===
 You'll be notified about the packages to be installed and prompted whether to create desktop icons after the installation is complete.
@@ -67,4 +64,3 @@ To invoke Cygwin applications outside Cygwin Bash Console (e.g. from [InstallDev
  * Press *New...* inside *User variables* pane
  * Type `PATH` inside the first field and `%PATH%;C:\cygwin\bin` inside the second one (depending on where you have [#Installation_directory installed Cygwin])
  http://embox.googlecode.com/svn/wiki/images/environment-variables-path.png
-----
