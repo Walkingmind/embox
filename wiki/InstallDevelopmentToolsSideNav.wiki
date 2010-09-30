@@ -2,5 +2,6 @@
   * [InstallDevelopmentToolsWindows Windows]
     * [InstallDevelopmentToolsWindowsCygwin Cygwin]
     * [InstallDevelopmentToolsWindowsEclipse Eclipse]
+    * [InstallDevelopmentToolsWindowsSubversion Subversion]
   * [InstallDevelopmentToolsLinux Linux]
     TBD
