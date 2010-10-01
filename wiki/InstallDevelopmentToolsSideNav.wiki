@@ -1,6 +1,7 @@
   * [Welcome ↑ Home]
   * [InstallDevelopmentToolsWindows Windows-specific]
     * [InstallDevelopmentToolsWindowsCygwin Cygwin]
+    * [InstallDevelopmentToolsWindowsCrossCompiler Cross-Compiler]
     * [InstallDevelopmentToolsWindowsEclipse Eclipse]
   * [InstallDevelopmentToolsLinux Linux-specific]
   * [InstallDevelopmentToolsSubversion Subversion]
