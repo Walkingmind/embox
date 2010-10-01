@@ -1,7 +1,6 @@
   * [Welcome ↑ Home]
-  * [InstallDevelopmentToolsWindows Windows]
+  * [InstallDevelopmentToolsWindows Windows-specific]
     * [InstallDevelopmentToolsWindowsCygwin Cygwin]
     * [InstallDevelopmentToolsWindowsEclipse Eclipse]
-    * [InstallDevelopmentToolsWindowsSubversion Subversion]
-  * [InstallDevelopmentToolsLinux Linux]
-    TBD
+  * [InstallDevelopmentToolsLinux Linux-specific]
+  * [InstallDevelopmentToolsSubversion Subversion]
