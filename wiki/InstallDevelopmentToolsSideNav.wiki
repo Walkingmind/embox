@@ -3,5 +3,6 @@
     * [InstallDevelopmentToolsWindowsCygwin Cygwin]
     * [InstallDevelopmentToolsWindowsCrossCompiler Cross-Compiler]
     * [InstallDevelopmentToolsWindowsEclipse Eclipse]
+    * [InstallDevelopmentToolsWindowsSubversion Subversion // TEMP]
   * [InstallDevelopmentToolsLinux Linux-specific]
   * [InstallDevelopmentToolsSubversion Subversion]
