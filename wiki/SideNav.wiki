@@ -1,3 +1,16 @@
+  * [ProjectDescription Project Description]
+  * [RuProjectManagerment Project Managerment]
+  * [ProjectApplications Project Applications]
+  * [Roadmap Roadmap]
+  * Setting up the toolchain
+    * Windows
+      * [InstallDevelopmentToolsWindowsCygwin Cygwin]
+      * [InstallDevelopmentToolsWindowsEclipse Eclipse]
+      * [InstallDevelopmentToolsWindowsSubversion Subversion]
+    * Linux
+  *
+  * Configure
+    * [EmboxConfigure Embox Configure]
   * [CodeStyle Code Style]
   * [AlgorithmAllocationMemory Algorithm Allocation Memory]
   * [EMBuildMakefiles EMBuild Makefiles]
@@ -5,9 +18,6 @@
   * [EmboxTestsFramework Embox Tests Framework]
   * [PartitionsInterfaceDescription  Partitions Interface Description]
   * [PortingProcess Porting Process]
-  * [ProjectApplications Project Applications]
-  * [ProjectDescription Project Description]
-  * [Roadmap Roadmap]
   * [RuEmboxDev Dev]
   * [RuEmboxModules Modules]
   * [RuEmboxTestsMmuFramework Tests Mmu Framework]
@@ -15,14 +25,9 @@
   * [RuEmboxTrapsDescription Traps Description]
   * [RuLoadOrder Load Order]
   * [RuPageAlloc Page Alloc]
-  * [RuProjectManagerment Project Managerment]
   * [RuShellTalking Shell Talking]
   * [RuShell_iTerminal Shell iTerminal]
   * [VirtualMemory Virtual Memory]
-  * Configure
-    * [EmboxConfigure Embox Configure]
-  * Install
-    * [InstallDevelopmentToolsWindowsCygwin Cygwin]
   * Devel
     * [RuIOShell IO Shell]
     * [RuNewIOShell New IO Shell]
