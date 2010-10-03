@@ -2,15 +2,12 @@
   * [ProjectManagerment Project Managerment]
   * [ProjectApplications Project Applications]
   * [Roadmap Roadmap]
-  * Setting up the toolchain
-    * Windows
-      * [InstallDevelopmentToolsWindowsCygwin Cygwin]
-      * [InstallDevelopmentToolsWindowsEclipse Eclipse]
-      * [InstallDevelopmentToolsWindowsSubversion Subversion]
-    * Linux
-      * [RuDevelopmentToolsInstallHowto Development Tools Install Howto]
-      * [RuUsageSmartSvn Usage SmartSvn]
-  *
+  * [InstallToolchain Setting up the toolchain]
+    * [InstallToolchainWindows Windows-specific]
+      * [InstallToolchainWindowsCygwin Cygwin]
+      * [InstallToolchainWindowsCrossCompiler Cross-Compiler]
+    * [InstallToolchainEclipse Eclipse]
+    * [InstallToolchainSubversion Subversion]
   * Configure
     * [EmboxConfigure Embox Configure]
     * [RuEmboxConfigureUsingEclipse Configure Using Eclipse]

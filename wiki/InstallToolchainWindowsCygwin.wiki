@@ -57,7 +57,7 @@ You are free to choose between *gcc* and *gcc4* packages of any stable version.
 You'll be notified about the packages to be installed and prompted whether to create desktop icons after the installation is complete.
 
 == Setup the PATH ==
-To invoke Cygwin applications outside Cygwin Bash Console (e.g. from [InstallDevelopmentToolsWindowsEclipse Eclipse]) you should also add *_[#Installation_directory <Cygwin root>]_\bin* to the *PATH* environment variable.
+To invoke Cygwin applications outside Cygwin Bash Console (e.g. from [InstallToolchainEclipse Eclipse]) you should also add *_[#Installation_directory <Cygwin root>]_\bin* to the *PATH* environment variable.
 
  * Proceed through *System properties → Advanced → Environment Variables*
  * Press *New...* inside *User variables* pane
