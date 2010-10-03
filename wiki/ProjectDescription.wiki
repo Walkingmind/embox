@@ -1,5 +1,6 @@
 #summary embox project quick overview.
+#sidebar SideNav
 
 = Introduction =
 
-*embox* is a configurable operating system. Instead of providing a monolithic kernel, all code are placed in libraries which realize different interfaces for example memory manager interface. Only required parts of the system are included into final image. The required parts are defined during configuration of system or in run time.
+*embox* is a configurable operating system. Instead of providing a monolithic kernel, all code is placed into libraries, each of which implements different interfaces, for example memory manager interface. Only required parts of the system are included into final image. The required parts are defined during configuration of system or in run time.
