@@ -1,5 +1,5 @@
   * [ProjectDescription Project Description]
-  * [RuProjectManagerment Project Managerment]
+  * [ProjectManagerment Project Managerment]
   * [ProjectApplications Project Applications]
   * [Roadmap Roadmap]
   * Setting up the toolchain
