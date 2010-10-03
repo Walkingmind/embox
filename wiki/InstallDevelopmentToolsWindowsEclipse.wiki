@@ -1,5 +1,4 @@
 #summary Eclipse IDE installation HOWTO.
-#sidebar InstallDevelopmentToolsSideNav
 
 = Introduction =
 embox is "[http://en.wikipedia.org/wiki/Integrated_development_environment IDE]-independent" project, so you can edit sources in your favorite editor, compiling them and invoking debugger directly from console. But those who prefer all-in-one solutions will probably look for some kind of integrated development environment.

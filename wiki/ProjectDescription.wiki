@@ -1,5 +1,4 @@
 #summary embox project quick overview.
-#sidebar SideNav
 
 = Introduction =
 

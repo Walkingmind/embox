@@ -1,5 +1,4 @@
 #summary Cygwin installation HOWTO.
-#sidebar InstallDevelopmentToolsSideNav
 
 = Introduction =
 As far as embox uses GNU toolchain, you'll need to setup a Unix-like environment on you Windows machine.
@@ -63,4 +62,4 @@ To invoke Cygwin applications outside Cygwin Bash Console (e.g. from [InstallDev
  * Proceed through *System properties → Advanced → Environment Variables*
  * Press *New...* inside *User variables* pane
  * Type `PATH` inside the first field and `%PATH%;C:\cygwin\bin` inside the second one (depending on where you have [#Installation_directory installed Cygwin])
- http://embox.googlecode.com/svn/wiki/images/environment-variables-path.png
+ http://embox.googlecode.com/svn/wiki/images/environment-variables-path-cygwin.png

@@ -1,5 +1,4 @@
 #summary Setup SVN client HOWTO.
-#sidebar InstallDevelopmentToolsSideNav
 
 = Introduction =
 
