@@ -4,9 +4,10 @@
 
 = Introduction =
 
-The terminal is a server which allows serial input/output through a hardware device driver. It looks like as tty devices in *NIX systems. A process/thread can request a terminal during creation.
+The terminal is a server which allows serial input/output through a hardware device driver. It looks like as tty devices in '*'NIX systems. A process/thread can request a terminal during creation.
 
 We separate three levels of the terminal:
+
  || shell   || command interpreter ||
  || console || tty driver || 
  || port    || device driver ||
