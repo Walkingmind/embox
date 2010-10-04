@@ -8,7 +8,7 @@
 
 = Roadmap =
 
-= HowTo =
+= How-To =
 
 To use ramfs image:
  * сreate a separate folder
