@@ -3,7 +3,7 @@
   * Development
     * [Roadmap Roadmap]
     * [CodeStyle Code Style]
-    * [ProjectManagerment Project Management]
+    * [ProjectManagement Project Management]
   * [InstallToolchain Setting up the toolchain]
     * [InstallToolchainWindows Windows-specific]
       * [InstallToolchainWindowsCygwin Cygwin]
