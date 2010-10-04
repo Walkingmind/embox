@@ -9,9 +9,9 @@ Released on Oct 1rd 2010.
 = Previous stable releases =
 
  * [http://embox.googlecode.com/files/embox-0.1.6.txz embox-0.1.6.txz] (size: 307 KB; SHA1 Checksum: 43a0bdbe9848996184d446b62335546ece74d00c)
- * [http://embox.googlecode.com/files/embox-0.1.6.txz embox-0.1.5.txz]
- * [http://embox.googlecode.com/files/embox-0.1.6.txz embox-0.1.4.txz]
- * [http://embox.googlecode.com/files/embox-0.1.6.txz embox-0.1.3.txz]
- * [http://embox.googlecode.com/files/embox-0.1.6.txz embox-0.1.2.txz]
- * [http://embox.googlecode.com/files/embox-0.1.6.txz embox-0.1.1.txz]
- * [http://embox.googlecode.com/files/embox-0.1.txz embox-0.1.txz]
+ * [http://embox.googlecode.com/files/embox-0.1.5.txz embox-0.1.5.txz] (size: 257 KB; SHA1 Checksum: dfcc08cd2b717998c74a8eda574776160080a8da)
+ * [http://embox.googlecode.com/files/embox-0.1.4.txz embox-0.1.4.txz] (size: 244 KB; SHA1 Checksum: 43a0bdbe9848996184d446b62335546ece74d00c)
+ * [http://embox.googlecode.com/files/embox-0.1.3.txz embox-0.1.3.txz] (size: 412 KB; SHA1 Checksum: 43a0bdbe9848996184d446b62335546ece74d00c)
+ * [http://embox.googlecode.com/files/embox-0.1.2.txz embox-0.1.2.txz] (size: 213 KB; SHA1 Checksum: 43a0bdbe9848996184d446b62335546ece74d00c)
+ * [http://embox.googlecode.com/files/embox-0.1.1.txz embox-0.1.1.txz] (size: 203 KB; SHA1 Checksum: 43a0bdbe9848996184d446b62335546ece74d00c)
+ * [http://embox.googlecode.com/files/embox-0.1.txz embox-0.1.txz] (size: 201 KB; SHA1 Checksum: 43a0bdbe9848996184d446b62335546ece74d00c)
