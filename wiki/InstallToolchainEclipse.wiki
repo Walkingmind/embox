@@ -48,19 +48,21 @@ sudo apt-get install openjdk-6-jre
 Please note, that Eclipse will not work with GCJ. Read [http://wiki.eclipse.org/IRC_FAQ#I_just_installed_Eclipse_on_Linux.2C_but_it_does_not_start._What_is_the_problem.3F more]...
 
 == Plugins installation problems ==
-There is a common problem that occurs when Eclipse is installed in a directory with too restrictive permissions (so called "shared installation"), for example, in a `root` only directory in Linux.
+There is a common problem that occurs when Eclipse is installed in a directory with too restrictive permissions (directory is not writeable to the user account; so called "shared installation"), for example, in a `root` only directory (in Linux).
 
-In such case Eclipse reports that a plugin is successfully installed, but it is not loaded during startup and thus is not visible. For example, you might install [InstallToolchainSubclipse Subclipse] plugin, but _Checkout Projects from SVN_ entry never appears in _New Project_ wizard.
+In such case Eclipse reports that a plugin is successfully installed, but it is not loaded during startup and thus is not visible. For example, you might install [InstallToolchainSubversion Subclipse] plugin, but _Checkout Projects from SVN_ entry never appears in _New Project_ wizard.
 
-== Eclipse Tweaks ==
+The only known solution guaranteed to work is to move Eclipse into "your" directory and then reinstall missing plugins.
+
+= Eclipse Tweaks =
 Instructions of this section are not necessary to perform.
 
-=== User name ===
+== User name ==
 Open *_<Eclipse root>_\eclipse.ini* and add the following line after *`-vmargs`* line:
 {{{
 -Duser.name=<You full name>
 }}}
 Now your full name will be used instead of your login when generating code from templates (for example, when you create a new file).
 
-=== Memory ===
+== Memory ==
 If your computer have plenty of RAM you can play with *`-Xms`*, *`-Xmx`* *`and -XX:MaxPermSize`* arguments. But this is not recommended if you do not have a clear understanding of what you are doing. More info can be found [http://wiki.eclipse.org/FAQ_How_do_I_increase_the_heap_size_available_to_Eclipse%3F here].
