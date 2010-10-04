@@ -21,8 +21,11 @@ Go to *[http://eclipse.org/downloads]* and select *Eclipse IDE for C/C++ Develop
   Be sure to choose the right version accordingly to your operating system.
 
 == Install ==
-All you do is unpack the downloaded file in the desired directory. The zip file contains single directory called `eclipse`, with multiple subdirectories under that. So you could unpack the zip file in the root directory (e.g., *`C:\`*) and Eclipse would be installed in *C:\eclipse*.
+All you do is unpack the downloaded file in the desired directory. The zip file contains single directory called `eclipse`, with multiple subdirectories under that. So you could unpack the zip file in the root directory (e.g., *`C:\`* for Windows) and Eclipse would be installed in *C:\eclipse*.
 
+*Note* for Linux users: the way of installation described above is preferred over using a Package Manager. Firstly, you probably will not find the latest Eclipse and CDT packages, and, secondly, Eclipse has its own update manager.
+
+== Run ==
 Run the *eclipse* executable from the installation directory.
 
 = Known issues =
@@ -52,7 +55,12 @@ There is a common problem that occurs when Eclipse is installed in a directory w
 
 In such case Eclipse reports that a plugin is successfully installed, but it is not loaded during startup and thus is not visible. For example, you might install [InstallToolchainSubversion Subclipse] plugin, but _Checkout Projects from SVN_ entry never appears in _New Project_ wizard.
 
-The only known solution guaranteed to work is to move Eclipse into "your" directory and then reinstall missing plugins.
+The only known solution guaranteed to work is to move Eclipse into "your" directory, making it writable for your user account, and then reinstall missing plugins. In Linux it could be achieved like so:
+{{{
+sudo chmod -R a+rw /path/to/your/eclipse
+}}}
+
+More info [https://bugs.eclipse.org/bugs/show_bug.cgi?id=287246 here] and [http://stackoverflow.com/questions/1357321/problem-with-eclipse-plugin-in-ubuntu here].
 
 = Eclipse Tweaks =
 Instructions of this section are not necessary to perform.
