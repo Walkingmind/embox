@@ -5,9 +5,9 @@
     * [CodeStyle Code Style]
     * [ProjectManagement Управление проектом]
   * [InstallToolchain Установка окружения для сборки]
-    * [InstallToolchainWindows Windows-specific]
+    * [InstallToolchainWindows Особенности установки в Windows]
       * [InstallToolchainWindowsCygwin Cygwin]
-      * [InstallToolchainWindowsCrossCompiler Cross-Compiler]
+    * [InstallToolchainPath Переменная окружения `PATH`]
     * [InstallToolchainEclipse Eclipse]
     * [InstallToolchainSubversion Subversion]
   * Конфигурирование

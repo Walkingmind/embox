@@ -5,9 +5,9 @@
     * [CodeStyle Code Style]
     * [ProjectManagement Project Management]
   * [InstallToolchain Setting up the toolchain]
-    * [InstallToolchainWindows Windows-specific]
+    * [InstallToolchainWindows Windows-specific setup]
       * [InstallToolchainWindowsCygwin Cygwin]
-      * [InstallToolchainWindowsCrossCompiler Cross-Compiler]
+    * [InstallToolchainPath `PATH` environment variable]
     * [InstallToolchainEclipse Eclipse]
     * [InstallToolchainSubversion Subversion]
   * Configure
