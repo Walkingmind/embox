@@ -39,7 +39,7 @@ ARM Cross-compiler for Linux:
 
 Simulators:
 
- * [http://embox.googlecode.com/files/tsim-eval-2.0.15.tar.gz tsim-eval-2.0.15.tar.gz] tsim-eval
+ * [ftp://ftp.gaisler.com/gaisler.com/tsim/tsim-eval-2.0.15b.tar.gz tsim-eval-2.0.15b.tar.gz] tsim-eval
 
 EMLinux:
  * [http://embox.googlecode.com/files/emlinux-0.1.txz emlinux-0.1.txz]
