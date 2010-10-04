@@ -39,7 +39,8 @@
       * [RuEmboxTestsTrapsFramework Tests Traps Framework]
       * [RuSound Звук]
     * Файловая система
-      * [PartitionsInterfaceDescription  Описание интерфейса разделов]
+      * [PartitionsInterfaceDescription Описание интерфейса разделов]
+      * [FileSystemDescription Описание файловых систем]
     * Потоки
       * [RuThreads Потоки]
       * [RuElfRunning Запуск Elf]

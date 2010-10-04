@@ -39,7 +39,8 @@
       * [RuEmboxTestsTrapsFramework Tests Traps Framework]
       * [RuSound Sound]
     * FS
-      * [PartitionsInterfaceDescription  Partitions Interface Description]
+      * [PartitionsInterfaceDescription Partitions Interface Description]
+      * [FileSystemDescription File systems Description]
     * Thread
       * [RuThreads Threads]
       * [RuElfRunning Elf Running]
