@@ -8,4 +8,13 @@
 
 = Roadmap =
 
-= HowTo =
+= How-To =
+
+Для сборки образа ramfs:
+
+ * создать отдельную папку
+ * поместить туда необходимое дерево файлов
+ * перейти в эту папку
+ * find . -depth -print | cpio -H newc -ov > ../ramfs.cpio
+ * Прописать полный путь в option(RAMFS_CPIO, "path/ramfs.cpio")
+ * mount cpio /ramfs 
