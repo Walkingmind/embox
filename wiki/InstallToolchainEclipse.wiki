@@ -1,5 +1,7 @@
 #summary Eclipse IDE installation HOWTO.
 
+<wiki:toc max_depth="1" />
+
 = Introduction =
 embox is "[http://en.wikipedia.org/wiki/Integrated_development_environment IDE]-independent" project, so you can edit sources in your favorite editor, compiling them and invoking debugger directly from console. But those who prefer all-in-one solutions will probably look for some kind of integrated development environment.
 
@@ -23,16 +25,19 @@ All you do is unpack the downloaded file in the desired directory. The zip file 
 
 Run the *eclipse* executable from the installation directory.
 
-== Install JRE ==
-This step will likely not be required. But if you get *VM*-related errors when launching Eclipse, then you have to install the latest [http://en.wikipedia.org/wiki/Java_Runtime_Environment JRE].
+= Known issues =
+These steps will likely not be required. But if you have some problems running Eclipse, read below.
 
-=== Windows ===
+== Missing JRE ==
+If you get *VM*-related errors when launching Eclipse, then you have to install the latest [http://en.wikipedia.org/wiki/Java_Runtime_Environment JRE].
+
+=== Install on Windows ===
 Go to *[http://www.oracle.com/technetwork/java/javase/downloads/]* and click _Download JRE_.
  http://embox.googlecode.com/svn/wiki/images/java-download.png
 
 Then select you platform (*Windows* or *Windows x64*), agree with the license and click *Continue*. Download and run *Windows Offline Installation* executable. Proceed through installation steps.
 
-=== Linux ===
+=== Install on Linux ===
 Linux users can follow the same installation steps as for Windows, but it is likely to be easier to use a Package Manager of your distribution.
 
 For example, Ubuntu users (particularly 10.04 LTS) should perform the following:
@@ -40,7 +45,12 @@ For example, Ubuntu users (particularly 10.04 LTS) should perform the following:
 sudo apt-get install openjdk-6-jre
 }}}
 
-*TODO* GCJ note
+Please note, that Eclipse will not work with GCJ. Read [http://wiki.eclipse.org/IRC_FAQ#I_just_installed_Eclipse_on_Linux.2C_but_it_does_not_start._What_is_the_problem.3F more]...
+
+== Plugins installation problems ==
+There is a common problem that occurs when Eclipse is installed in a directory with too restrictive permissions (so called "shared installation"), for example, in a `root` only directory in Linux.
+
+In such case Eclipse reports that a plugin is successfully installed, but it is not loaded during startup and thus is not visible. For example, you might install [InstallToolchainSubclipse Subclipse] plugin, but _Checkout Projects from SVN_ entry never appears in _New Project_ wizard.
 
 == Eclipse Tweaks ==
 Instructions of this section are not necessary to perform.
