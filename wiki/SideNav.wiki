@@ -19,7 +19,7 @@
     * [RuEmboxTrapsDescription Traps Description]
     * [RuLoadOrder Load Order]
     * [RuSimulation Simulation]
-    * Terminal
+    * [ModuleTerminalDescription Terminal]
       * [RuIOShell IO Shell]
       * [RuNewIOShell New IO Shell]
       * [RuShellTalking Shell Talking]
