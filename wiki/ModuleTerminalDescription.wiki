@@ -19,6 +19,7 @@ We separate three levels of the terminal:
  # We can use very simple console (the only output) or statically linked part of terminal
 
 = Roadmap =
-The first of our terminal was described [here RuIOShell].
+The first of our terminal was described [RuIOShell here].
+
 Started milestone 0.1.8 we decided rework this subsystem duided by the requirements of the Features. First of all we made up our mind to implement [RuShellTalking simple terminal]
  
