@@ -18,24 +18,27 @@
 
 = Tools =
 
-SPARC Cross-compiler for Windows:
+SPARC кросс-компилятор под Windows:
 
  * [http://embox.googlecode.com/files/sparc-elf-3.4.4-1.0.33-mingw.zip sparc-elf-3.4.4-1.0.33-mingw.zip]
  * [http://embox.googlecode.com/files/sparc-elf-3.4.4-1.0.35-mingw.zip sparc-elf-3.4.4-1.0.35-mingw.zip]
 
-SPARC Cross-compiler for Linux:
+SPARC кросс-компилятор под Linux:
 
  * [http://embox.googlecode.com/files/sparc-elf-3.4.4-1.0.33-linux.tar.bz2 sparc-elf-3.4.4-1.0.33-linux.tar.bz2]
  * [http://embox.googlecode.com/files/sparc-elf-4.4.2-1.0.33c.tar.bz2 sparc-elf-4.4.2-1.0.33c.tar.bz2]
 
-Microblaze Cross-compiler for Linux:
+Microblaze кросс-компилятор под Linux:
 
  * [http://embox.googlecode.com/files/microblaze-xilinx-elf-4.1.1.tar.bz2 microblaze-xilinx-elf-4.1.1.tar.bz2] Microblaze Cross-compiler for Linux
 
-ARM Cross-compiler под Linux:
+ARM кросс-компилятор под Linux:
 
  * [http://embox.googlecode.com/files/arm-elf-gcc-4.3.3.txz arm-elf-gcc-4.3.3.txz] ARM 7
  * [http://embox.googlecode.com/files/arm-elf-gcc-4.3.3.tar.bz2 arm-elf-gcc-4.3.3.tar.bz2] ARM 9
+
+EMLinux:
+ * [http://embox.googlecode.com/files/emlinux-0.1.txz emlinux-0.1.txz]
 
 Симуляторы:
 

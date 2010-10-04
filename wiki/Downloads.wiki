@@ -41,6 +41,9 @@ Simulators:
 
  * [http://embox.googlecode.com/files/tsim-eval-2.0.15.tar.gz tsim-eval-2.0.15.tar.gz] tsim-eval
 
+EMLinux:
+ * [http://embox.googlecode.com/files/emlinux-0.1.txz emlinux-0.1.txz]
+
 Others:
 
  * [http://embox.googlecode.com/files/cross-arm-elf-gdb-7.1-1-i686.pkg.tar.xz cross-arm-elf-gdb-7.1-1-i686.pkg.tar.xz]
