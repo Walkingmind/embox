@@ -7,7 +7,7 @@
   * [InstallToolchain Установка окружения для сборки]
     * [InstallToolchainWindows Особенности установки в Windows]
       * [InstallToolchainWindowsCygwin Cygwin]
-    * [InstallToolchainPath Переменная окружения `PATH`]
+    * [InstallToolchainPath Переменная окружения PATH]
     * [InstallToolchainEclipse Eclipse]
     * [InstallToolchainSubversion Subversion]
   * Конфигурирование

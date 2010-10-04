@@ -7,7 +7,7 @@
   * [InstallToolchain Setting up the toolchain]
     * [InstallToolchainWindows Windows-specific setup]
       * [InstallToolchainWindowsCygwin Cygwin]
-    * [InstallToolchainPath `PATH` environment variable]
+    * [InstallToolchainPath PATH environment variable]
     * [InstallToolchainEclipse Eclipse]
     * [InstallToolchainSubversion Subversion]
   * Configure
