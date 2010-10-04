@@ -1,17 +1,17 @@
 #summary Downloads
 
-Latest stable release - embox-0.1.7
+= Latest stable release - embox-0.1.7 =
 
 Released on Oct 1rd 2010.
 
- * [http://embox.googlecode.com/files/embox-0.1.7.txz embox-0.1.7.txz] (size: 323 KB; SHA1 Checksum: 4774e1b21769faf26e3df467b835b14eee814347).
+ * [http://embox.googlecode.com/files/embox-0.1.7.txz embox-0.1.7.txz] (size: 323 KB; SHA1 Checksum: 4774e1b21769faf26e3df467b835b14eee814347)
 
-Previous releases:
+= Previous stable releases =
 
-[http://embox.googlecode.com/files/embox-0.1.6.txz embox-0.1.6.txz]
-[http://embox.googlecode.com/files/embox-0.1.6.txz embox-0.1.5.txz]
-[http://embox.googlecode.com/files/embox-0.1.6.txz embox-0.1.4.txz]
-[http://embox.googlecode.com/files/embox-0.1.6.txz embox-0.1.3.txz]
-[http://embox.googlecode.com/files/embox-0.1.6.txz embox-0.1.2.txz]
-[http://embox.googlecode.com/files/embox-0.1.6.txz embox-0.1.1.txz]
-[http://embox.googlecode.com/files/embox-0.1.txz embox-0.1.txz]
+ * [http://embox.googlecode.com/files/embox-0.1.6.txz embox-0.1.6.txz] (size: 307 KB; SHA1 Checksum: 43a0bdbe9848996184d446b62335546ece74d00c)
+ * [http://embox.googlecode.com/files/embox-0.1.6.txz embox-0.1.5.txz]
+ * [http://embox.googlecode.com/files/embox-0.1.6.txz embox-0.1.4.txz]
+ * [http://embox.googlecode.com/files/embox-0.1.6.txz embox-0.1.3.txz]
+ * [http://embox.googlecode.com/files/embox-0.1.6.txz embox-0.1.2.txz]
+ * [http://embox.googlecode.com/files/embox-0.1.6.txz embox-0.1.1.txz]
+ * [http://embox.googlecode.com/files/embox-0.1.txz embox-0.1.txz]
