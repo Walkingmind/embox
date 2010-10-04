@@ -4,7 +4,17 @@
 
 = Introduction =
 
+TODO
+
+|| rootfs ||
+|| ramfs  || 
+|| devfs  ||
+
 = Features =
+
+ # We can use initramfs (cpio, tar formats)
+ # We can load ELF files
+ # We can use an interface for a device driver that appears in a file system (devfs)
 
 = Roadmap =
 
