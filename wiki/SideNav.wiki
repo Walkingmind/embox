@@ -13,6 +13,7 @@
   * Configure
     * [EmboxConfigure Embox Configure]
     * [RuEmboxConfigureUsingEclipse Configure Using Eclipse]
+  * Modules
     * [RuEmboxDev Embox Dev]
     * [RuEmboxModules Embox Modules]
     * [RuEmboxTrapsDescription Traps Description]
