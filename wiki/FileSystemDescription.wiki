@@ -15,5 +15,5 @@ To use ramfs image:
  * place there necessary files
  * cd into this folder
  * find . -depth -print | cpio -H newc -ov > ../ramfs.cpio
- * fix path in the option(RAMFS_CPIO, "<path>/ramfs.cpio")
+ * fix path in the option(RAMFS_CPIO, "path/ramfs.cpio")
  * mount cpio /ramfs
