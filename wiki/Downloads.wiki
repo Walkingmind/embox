@@ -1,8 +1,10 @@
 #summary Downloads
 
-= Downloads = 
+Latest stable release - embox-0.1.7
 
-Last stable version can be downloaded [http://embox.googlecode.com/files/embox-0.1.7.txz here].
+Released on Oct 1rd 2010.
+
+ * [http://embox.googlecode.com/files/embox-0.1.7.txz embox-0.1.7.txz] (size: 323 KB; SHA1 Checksum: 4774e1b21769faf26e3df467b835b14eee814347).
 
 Previous releases:
 
