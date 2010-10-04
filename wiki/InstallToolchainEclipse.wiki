@@ -5,6 +5,8 @@ embox is "[http://en.wikipedia.org/wiki/Integrated_development_environment IDE]-
 
 We recommend you to use *[http://en.wikipedia.org/wiki/Eclipse_(software) Eclipse IDE]*, especially since embox already contains the necessary project files.
 
+Eclipse is cross-platform IDE, and its installation procedure is similar for both Windows and Linux systems.
+
 = Brief =
 If you have used Eclipse before, you can skip this guide. All you need is *Eclipse IDE* with *CDT* plugin and one of SVN client plugins (*Subversion* or *Subversive*).
 
@@ -14,7 +16,7 @@ The one thing to mention is the use of older versions of Eclipse or CDT (for exa
 == Download ==
 Go to *[http://eclipse.org/downloads]* and select *Eclipse IDE for C/C++ Developers*.
  http://embox.googlecode.com/svn/wiki/images/eclipse-download.png
-  Choose the right version accordingly to your Windows.
+  Be sure to choose the right version accordingly to your operating system.
 
 == Install ==
 All you do is unpack the downloaded file in the desired directory. The zip file contains single directory called `eclipse`, with multiple subdirectories under that. So you could unpack the zip file in the root directory (e.g., *`C:\`*) and Eclipse would be installed in *C:\eclipse*.
@@ -24,10 +26,21 @@ Run the *eclipse* executable from the installation directory.
 == Install JRE ==
 This step will likely not be required. But if you get *VM*-related errors when launching Eclipse, then you have to install the latest [http://en.wikipedia.org/wiki/Java_Runtime_Environment JRE].
 
+=== Windows ===
 Go to *[http://www.oracle.com/technetwork/java/javase/downloads/]* and click _Download JRE_.
  http://embox.googlecode.com/svn/wiki/images/java-download.png
 
 Then select you platform (*Windows* or *Windows x64*), agree with the license and click *Continue*. Download and run *Windows Offline Installation* executable. Proceed through installation steps.
+
+=== Linux ===
+Linux users can follow the same installation steps as for Windows, but it is likely to be easier to use a Package Manager of your distribution.
+
+For example, Ubuntu users (particularly 10.04 LTS) should perform the following:
+{{{
+sudo apt-get install openjdk-6-jre
+}}}
+
+*TODO* GCJ note
 
 == Eclipse Tweaks ==
 Instructions of this section are not necessary to perform.
