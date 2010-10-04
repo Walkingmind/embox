@@ -1,7 +1,9 @@
   * [ProjectDescription Project Description]
-  * [ProjectManagerment Project Managerment]
   * [ProjectApplications Project Applications]
-  * [Roadmap Roadmap]
+  * Development
+    * [Roadmap Roadmap]
+    * [CodeStyle Code Style]
+    * [ProjectManagerment Project Management]
   * [InstallToolchain Setting up the toolchain]
     * [InstallToolchainWindows Windows-specific]
       * [InstallToolchainWindowsCygwin Cygwin]
@@ -11,7 +13,6 @@
   * Configure
     * [EmboxConfigure Embox Configure]
     * [RuEmboxConfigureUsingEclipse Configure Using Eclipse]
-  * Development
     * [RuEmboxDev Embox Dev]
     * [RuEmboxModules Embox Modules]
     * [RuEmboxTrapsDescription Traps Description]
@@ -46,4 +47,3 @@
       * [RuUSB USB]
     * Porting
       * [PortingProcess Porting Process]
-  * [CodeStyle Code Style]
