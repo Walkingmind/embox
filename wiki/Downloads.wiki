@@ -16,4 +16,17 @@ Released on Oct 1rd 2010.
  * [http://embox.googlecode.com/files/embox-0.1.1.txz embox-0.1.1.txz] (size: 203 KB; SHA1 Checksum: 43a0bdbe9848996184d446b62335546ece74d00c)
  * [http://embox.googlecode.com/files/embox-0.1.txz embox-0.1.txz] (size: 201 KB; SHA1 Checksum: 43a0bdbe9848996184d446b62335546ece74d00c)
 
+= Tools =
+
+ * [http://embox.googlecode.com/files/sparc-elf-3.4.4-1.0.35-mingw.zip sparc-elf-3.4.4-1.0.35-mingw.zip] SPARC Cross-compiler for Windows
+ * [http://embox.googlecode.com/files/cross-arm-elf-gdb-7.1-1-i686.pkg.tar.xz cross-arm-elf-gdb-7.1-1-i686.pkg.tar.xz]
+ * [http://embox.googlecode.com/files/arm-elf-gcc-4.3.3.txz arm-elf-gcc-4.3.3.txz] ARM 7 cross-compiler for Linux
+ * [http://embox.googlecode.com/files/sparc-elf-4.4.2-1.0.33c.tar.bz2 sparc-elf-4.4.2-1.0.33c.tar.bz2] SPARC Cross-Compiler for Linux
+ * [http://embox.googlecode.com/files/microblaze-xilinx-elf-4.1.1.tar.bz2 microblaze-xilinx-elf-4.1.1.tar.bz2] Microblaze Cross-compiler for Linux
+ * [http://embox.googlecode.com/files/sparc-elf-3.4.4-1.0.33-linux.tar.bz2 sparc-elf-3.4.4-1.0.33-linux.tar.bz2] SPARC Cross-compiler for Linux
+ * [http://embox.googlecode.com/files/sparc-elf-3.4.4-1.0.33-mingw.zip sparc-elf-3.4.4-1.0.33-mingw.zip] SPARC Cross-compiler for Windows
+ * [http://embox.googlecode.com/files/tsim-eval-2.0.15.tar.gz tsim-eval-2.0.15.tar.gz] tsim
+ * [http://embox.googlecode.com/files/arm-elf-gcc-4.3.3.tar.bz2 arm-elf-gcc-4.3.3.tar.bz2] ARM 9 cross-compiler for Linux
+ * [http://embox.googlecode.com/files/openocd.cfg openocd.cfg] openocd config for jtag debuging on at91sam7x256 
+
 = [http://code.google.com/p/embox/downloads/list View all] =
