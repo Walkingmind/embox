@@ -10,6 +10,7 @@
 Some things to denote first:
  * `PATH` variable on Windows uses _semicolon_ (*`;`*) to separate directories in the list
  * Variables can refer to another one using _percent_ signs: *`%VARIABLE_NAME%`*
+ * Environment variables on Windows are case insensitive
 
 To manage *Environment Variables* open the corresponding properties dialog:
  # Right click *My Computer* icon and select *Properties*
@@ -43,3 +44,15 @@ Thus we create new user variable (or modify existing one, if any) and name it `P
  http://embox.googlecode.com/svn/wiki/images/environment-variables-path-cygwin.png
 
 = Linux =
+Some important rules concerning environment variables in Linux (and Unix in general):
+ * `PATH` variable uses _colon_ (*`:`*) delimiter
+ * Variables can refer to another one using _dollar_ sign: *`$VARIABLE_NAME`*
+ * Environment variables are local to process, and child processes inherit all the environment variables of parent process
+ * Case sensitivity
+
+It is assumed that you are experienced enough to learn how to set environment variables in your shell.
+
+For `bash` you typically have to edit *`~/.profile`* or *`~/.bash_profile`* adding something like:
+{{{
+export PATH="$PATH:/path/to/your/bin"
+}}}
