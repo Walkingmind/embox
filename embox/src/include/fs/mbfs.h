@@ -9,7 +9,7 @@
 #define MBFS_H_
 
 #include <drivers/flash_template.h>
-#include <fs/file_interface.h>
+//#include <fs/file_interface.h>
 
 //#define FLASH_WRITE_ENABLE      *((volatile uint32_t*)0x80000000) |= (1<<11)
 // TODO: use FLASH_WRITE_DISABLE after flash write operations

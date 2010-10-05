@@ -1,5 +1,5 @@
 /**
- * @file mbfs.c
+ * @file
  * @details monitor bootloader filesystem
  *
  * @date 21.08.2009
