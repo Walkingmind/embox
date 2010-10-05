@@ -8,6 +8,7 @@
 #include <string.h>
 #include <fs/rootfs.h>
 #include <fs/romfs.h>
+#include <fs/fs.h>
 #include <drivers/flash_template.h>
 #include <drivers/flash_if.h>
 
@@ -542,13 +543,16 @@ int format_all_flash_devs(void) {
 static int create_file(void *params);
 static int delete_file(const char *file_name);
 
+static file_system_type ramfs_fs_type = {
+	.name           = "romfs",
+};
+
 /**
  * Initializing of romfs. Recreates existing files.
  * @return 0 if success
  */
 static int init(void) {
 	size_t i, j, slot_number;
-	TRACE("Init ROMFS\n");
 	file_desc_cnt = 0;
 
 	for (i = 0; i < MAX_FLASH_DEVS; i++) {
@@ -577,7 +581,7 @@ static int init(void) {
 	free_blocks_quantity();
 	print_filetables();
 
-	return 0;
+	return register_filesystem(&romfs_fs_type);
 }
 
 static void *open_file(const char *file_name, char *mode){
