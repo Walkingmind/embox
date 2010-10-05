@@ -1,0 +1,11 @@
+#summary Toolchain installation overview.
+
+= Introduction =
+*TODO*.
+
+= Details =
+== [InstallToolchainWindows Windows-specific setup] ==
+=== [InstallToolchainWindowsCygwin Cygwin] ===
+== [InstallToolchainPath PATH environment variable] ==
+== [InstallToolchainEclipse Eclipse] ==
+== [InstallToolchainSubversion Subversion] ==
