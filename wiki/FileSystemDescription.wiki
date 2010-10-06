@@ -4,7 +4,11 @@
 
 = Introduction =
 
-TODO
+The file system is an abstraction of a file interface (open, close, read, write, ioctrl) as well as a distribution and data formats in storage devices.
+
+We can describe root file system as structure of different file systems, and then handle file and folders in these file system through his symbolic name.
+
+Each file system can create file if permissions allow, and delete it. These operation describe in the appropriate structure.
 
 || rootfs ||
 || ramfs  || 
