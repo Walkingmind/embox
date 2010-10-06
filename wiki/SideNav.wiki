@@ -12,9 +12,8 @@
   * Configure
     * [EmboxConfigure Embox Configure]
     * [RuEmboxConfigureUsingEclipse Configure Using Eclipse]
-  * Modules
+  * [EmboxModules Modules]
     * [RuEmboxDev Embox Dev]
-    * [RuEmboxModules Embox Modules]
     * [RuEmboxTrapsDescription Traps Description]
     * [RuLoadOrder Load Order]
     * [RuSimulation Simulation]

@@ -12,9 +12,8 @@
   * Конфигурирование
     * [EmboxConfigure Embox Configure]
     * [RuEmboxConfigureUsingEclipse Конфигурирование в Eclipse]
-  * Модули
+  * [EmboxModules Модули]
     * [RuEmboxDev Embox Dev]
-    * [RuEmboxModules Embox модули]
     * [RuEmboxTrapsDescription Traps Description]
     * [RuLoadOrder Load Order]
     * [RuSimulation Симуляция]
