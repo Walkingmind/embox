@@ -19,7 +19,7 @@ typedef struct _ROMFS_CREATE_PARAM {
 	unsigned int mode;
 } ROMFS_CREATE_PARAM;
 
-extern FSOP_DESCRIPTION romfsop;
+extern fsop_desc_t romfsop;
 
 //typedef enum _FS_TYPE
 //{
