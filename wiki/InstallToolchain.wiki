@@ -1,11 +1,17 @@
 #summary Toolchain installation overview.
 
 = Introduction =
-*TODO*.
+This chapter describes how to setup necessary tools which you will need to develop *embox*.
 
-= Details =
-== [InstallToolchainWindows Windows-specific setup] ==
-=== [InstallToolchainWindowsCygwin Cygwin] ===
+= Contents =
+== [InstallToolchainWindowsCygwin Windows-specific setup] ==
+Windows user have to perform some additional steps to get things work. This article covers the installation procedure of *Cygwin* Unix-compatibility layer.
+
 == [InstallToolchainPath PATH environment variable] ==
+Describes how to set *`PATH`* environment variable in both Windows and Linux systems.
+
 == [InstallToolchainEclipse Eclipse] ==
+Installing and tweaking *Eclipse IDE* with *CDT* plugin.
+
 == [InstallToolchainSubversion Subversion] ==
+Installing *Subclipse* SVN plugin for Eclipse and checking out embox from repository.
