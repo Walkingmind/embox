@@ -18,7 +18,7 @@
     * [RuEmboxTrapsDescription Traps Description]
     * [RuLoadOrder Load Order]
     * [RuSimulation Симуляция]
-    * Терминал
+    * [ModuleTerminalDescription Терминал]
       * [RuIOShell IO Shell]
       * [RuNewIOShell New IO Shell]
       * [RuShellTalking Обсуждение Shell'a]
@@ -37,9 +37,8 @@
       * [RuEmboxTestsMmuFramework Tests Mmu Framework]
       * [RuEmboxTestsTrapsFramework Tests Traps Framework]
       * [RuSound Звук]
-    * Файловая система
+    * [FileSystemDescription Файловая система]
       * [PartitionsInterfaceDescription Описание интерфейса разделов]
-      * [FileSystemDescription Описание файловых систем]
     * Потоки
       * [RuThreads Потоки]
       * [RuElfRunning Запуск Elf]
