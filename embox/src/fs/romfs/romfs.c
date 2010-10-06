@@ -38,7 +38,7 @@ static size_t romfs_fread(void *buf, size_t size, size_t count, void *file);
 static size_t romfs_fwrite(const void *buf, size_t size, size_t count, void *file);
 static int romfs_fseek(void *file, long offset, int whence);
 
-static FILEOP fop = {
+static file_op_t fop = {
 	romfs_fopen,
 	romfs_fclose,
 	romfs_fread,
@@ -50,7 +50,7 @@ static FILEOP fop = {
 #define FILE_HANDLERS_QUANTITY		  0x4
 
 typedef struct _FILE_HANDLER {
-	FILEOP *fileop;
+	file_op_t *fileop;
 	FILE_DESC *fdesc;
 	int cur_pointer;
 	unsigned int mode;
@@ -543,7 +543,7 @@ int format_all_flash_devs(void) {
 static int create_file(void *params);
 static int delete_file(const char *file_name);
 
-static file_system_type ramfs_fs_type = {
+static file_system_driver_t ramfs_fs_type = {
 	.name           = "romfs",
 };
 
@@ -805,7 +805,7 @@ static int get_descriptors_info(void *params){
 	return 0;
 }
 
-FSOP_DESCRIPTION romfsop = {
+fsop_desc_t romfsop = {
 	init,
 	open_file,
 	create_file,
