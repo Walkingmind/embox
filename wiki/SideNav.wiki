@@ -9,6 +9,9 @@
     * [InstallToolchainPath PATH environment variable]
     * [InstallToolchainEclipse Eclipse]
     * [InstallToolchainSubversion Subversion]
+    * [InstallToolchainCrossCompiler Cross-Compiler]
+    * [InstallToolchainSimulation Simulation]
+    * [InstallToolchainEclipseDebug Debugging from Eclipse]
   * Configure
     * [EmboxConfigure Embox Configure]
     * [RuEmboxConfigureUsingEclipse Configure Using Eclipse]

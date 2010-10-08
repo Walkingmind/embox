@@ -9,6 +9,9 @@
     * [InstallToolchainPath Переменная окружения PATH]
     * [InstallToolchainEclipse Eclipse]
     * [InstallToolchainSubversion Subversion]
+    * [InstallToolchainCrossCompiler Кросс-компилятор]
+    * [InstallToolchainSimulation Симулятор]
+    * [InstallToolchainEclipseDebug Отладка из Eclipse]
   * Конфигурирование
     * [EmboxConfigure Embox Configure]
     * [RuEmboxConfigureUsingEclipse Конфигурирование в Eclipse]
