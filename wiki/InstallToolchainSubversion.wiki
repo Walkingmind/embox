@@ -6,7 +6,11 @@
 
 If you have just [InstallToolchainEclipse installed Eclipse IDE] you'll probably wish to manage sources being under version control directly from your IDE. In this article we'll take a look at how to install the most popular SVN client plugin for Eclipse called *Subclipse*.
 
-= Details =
+The installation of Subclipse is well described in [http://subclipse.tigris.org/servlets/ProjectProcess?pageID=p4wYuA Download and Install] section of Subclipse project site.
+
+*Note:* it is assumed that you have installed at least Eclipse *Helios* release (*v3.6*). Installation procedure for older Eclipses differs, and it is not covered here.
+
+= Step-by-step =
 
 http://embox.googlecode.com/svn/wiki/images/eclipse-marketplace.png
 http://embox.googlecode.com/svn/wiki/images/eclipse-restart.png
