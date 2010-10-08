@@ -1,6 +1,6 @@
 #summary Cygwin installation HOWTO.
 
-<wiki:toc max_depth="1" />
+<wiki:toc max_depth="2" />
 
 = Introduction =
 As far as embox uses GNU toolchain, you'll need to setup a Unix-like environment on you Windows machine.
