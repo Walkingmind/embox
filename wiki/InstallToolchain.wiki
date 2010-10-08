@@ -4,14 +4,14 @@
 This chapter describes how to setup necessary tools which you will need to develop *embox*.
 
 = Contents =
-== [InstallToolchainWindowsCygwin Windows-specific setup] ==
+== <img align="left" src="http://embox.googlecode.com/svn/wiki/images/cygwin_small.png" /> [InstallToolchainWindowsCygwin Windows-specific setup] ==
 Windows user have to perform some additional steps to get things work. This article covers the installation procedure of *Cygwin* Unix-compatibility layer.
 
-== [InstallToolchainPath PATH environment variable] ==
+== <img align="left" src="http://embox.googlecode.com/svn/wiki/images/console_small.png" /> [InstallToolchainPath PATH environment variable] ==
 Describes how to set *`PATH`* environment variable in both Windows and Linux systems.
 
-== [InstallToolchainEclipse Eclipse] ==
+== <img align="left" src="http://embox.googlecode.com/svn/wiki/images/eclipse_small.png" /> [InstallToolchainEclipse Eclipse] ==
 Installing and tweaking *Eclipse IDE* with *CDT* plugin.
 
-== [InstallToolchainSubversion Subversion] ==
+== <img align="left" src="http://embox.googlecode.com/svn/wiki/images/svn_small.png" /> [InstallToolchainSubversion Subversion] ==
 Installing *Subclipse* SVN plugin for Eclipse and checking out embox from repository.
