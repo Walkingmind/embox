@@ -1,6 +1,6 @@
 #summary Предложения по развитию системы сборки.
 
-<wiki:gadget url="http://embox.googlecode.com/svn/wiki/gadgets/userbox-feature-proposal.xml" width="640" height="100" border="0"/>
+<wiki:gadget0 url="http://embox.googlecode.com/svn/wiki/gadgets/userbox-feature-proposal.xml" width="640" height="100" border="0"/>
 
 = Введение =
 На этой странице результаты мозгового штурма на тему развития системы сборки EMBuild, просто идеи и мысли, а также план работ в этом направлении,
@@ -11,7 +11,32 @@
  * Теряется видение структуры проекта
  * Нет гибкости в задании зависимостей для модулей.
 
-На последней остановимся подробнее. Система позволяет задавать межмодульные зависимости. Например, модуль *Х* может зависеть от *Y*, тогда при включении в сборку *Х* тот потянет за собой *Y*.
+На последней остановимся подробнее.
+|| Система позволяет задавать межмодульные зависимости. Например, модуль *Х* может зависеть от *Y*, тогда при включении в сборку *Х* тот потянет за собой *Y*. Такое отношение назовем *depends*. || http://embox.googlecode.com/svn/wiki/images/mods-old-simple.png ||
+|| Проблемы начинаются, когда появляется необходимость менять реализации модулей. Пусть появился модуль *Z*, который выполняет схожие с *Y* функции (например, оба они реализуют алгоритмы выделения памяти). Тогда отношение *depends* становится узким местом. Еще один неочевидный, но существенный недостаток в том, что факт "схожести" *Y* и *Z* нигде не отражен. || http://embox.googlecode.com/svn/wiki/images/mods-old.png ||
+|| *TODO* || http://embox.googlecode.com/svn/wiki/images/mods-new.png ||
+
+<wiki:comment>
+digraph mods_old {
+	rankdir="LR";
+	node[shape=rect,style=filled]
+	X [color="#c3d9ff"];
+	Y [color="#c3d9ff"];
+	X -> Y [label="depends" color="blue"];
+}
+</wiki:comment>
+
+<wiki:comment>
+digraph mods_old {
+	rankdir="LR";
+	node[shape=rect,style=filled]
+	X [color="#c3d9ff"];
+	Y [color="#c3d9ff"];
+	Z [color="#c3d9ff"];
+	X -> Y [label="depends" color="blue"];
+	X -> Z [label="depends" color="red"];
+}
+</wiki:comment>
 
 Были попытки решить эту проблему используя опции `CONFIG_XXX`
   * Отсутствие контроля со стороны системы сборки, в `CONFIG_XXX` можно вписать что угодно
