@@ -12,36 +12,47 @@
  * Нет гибкости в задании зависимостей для модулей.
 
 На последней остановимся подробнее.
-|| Система позволяет задавать межмодульные зависимости. Например, модуль *Х* может зависеть от *Y*, тогда при включении в сборку *Х* тот потянет за собой *Y*. Такое отношение назовем *depends*. || http://embox.googlecode.com/svn/wiki/images/mods-old-simple.png ||
+|| Система позволяет задавать межмодульные зависимости. Например, модуль *Х* может зависеть от *Y*, тогда при включении в сборку *Х* тот потянет за собой *Y*. Это отношение *depends*.<br/>_Module *X* *depends* on module *Y*._ || http://embox.googlecode.com/svn/wiki/images/mods-old-simple.png ||
 || Проблемы начинаются, когда появляется необходимость менять реализации модулей. Пусть появился модуль *Z*, который выполняет схожие с *Y* функции (например, оба они реализуют алгоритмы выделения памяти). Тогда отношение *depends* становится узким местом. Еще один неочевидный, но существенный недостаток в том, что факт "схожести" *Y* и *Z* нигде не отражен. || http://embox.googlecode.com/svn/wiki/images/mods-old.png ||
 
-|| Предлагается ввести новую сущность || http://embox.googlecode.com/svn/wiki/images/mods-new.png ||
-
-<wiki:comment>
-digraph mods_old {
-	rankdir="LR";
-	node[shape=rect,style=filled]
-	X [color="#c3d9ff"];
-	Y [color="#c3d9ff"];
-	X -> Y [label="depends" color="blue"];
-}
-</wiki:comment>
-
-<wiki:comment>
-digraph mods_old {
-	rankdir="LR";
-	node[shape=rect,style=filled]
-	X [color="#c3d9ff"];
-	Y [color="#c3d9ff"];
-	Z [color="#c3d9ff"];
-	X -> Y [label="depends" color="blue"];
-	X -> Z [label="depends" color="red"];
-}
-</wiki:comment>
-
+= Решения =
 Были попытки решить эту проблему используя опции `CONFIG_XXX`
   * Отсутствие контроля со стороны системы сборки, в `CONFIG_XXX` можно вписать что угодно
   * В каждом отдельном случае необходимо городить эти опции заново, например, отдельно для драйверов контроллера прерываний, отдельно для стратегий планировщика и т.д.
   * Это сильно замедляет сборку из-за необходимости перекомпиляции всех исходников при изменении опций
   * Нигде не описано, какие именно опции нужно задать, чтобы собрать проект, и система сборки никак не может помочь или подсказать
   * Короче, это хак, и рано или поздно это придется исправить
+
+Одно из решений проблемы:
+|| Предлагается ввести, помимо модулей, новую сущность, называемую интерфейсом, а также два новых отношения: *provides* и *requires*. <br/>_Module *X* *requires* interface *A*._ <br/>_Module *Y* *provides* interface *A*_. <br/>_Module *Z* *provides* interface *A*_. || http://embox.googlecode.com/svn/wiki/images/mods-new.png ||
+<wiki:comment>
+digraph mods_old_simple {
+	rankdir="LR";
+	node[shape=rect,style=filled];
+	X [color="#c3d9ff"];
+	Y [color="#c3d9ff"];
+	X -> Y [label="depends" color="blue"];
+}
+
+digraph mods_old {
+	rankdir="LR";
+	node[shape=rect,style=filled];
+	X [color="#c3d9ff"];
+	Z [color="#c3d9ff"];
+	Y [color="#c3d9ff"];
+	X -> Z [color="red"];
+	X -> Y [color="blue" label="depends"];
+}
+
+digraph mods_new {
+	rankdir="LR";
+	node[shape=rect style=filled];
+	A [color="#ddf8cc" shape=ellipse];
+	X [color="#c3d9ff"];
+	Z [color="#c3d9ff"];
+	Y [color="#c3d9ff"];
+	X -> A [color="blue" label="requires"];
+	A -> Z [color="green" dir="back" arrowtail="inv"];
+	A -> Y [color="green" dir="back" arrowtail="inv" label="provides"];
+}
+</wiki:comment>
