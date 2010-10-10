@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?> 
 <Module>
   <ModulePrefs title="Under construction" /> 
-  <Content type="html" preferred_wigth="480">
+  <Content type="html" preferred_width="480">
      <![CDATA[ 
          <table style="clear: both; width: 480px; border-color:#AAB #AAB #AAB #ffb000; border-style: solid; border-width: 1px 1px 1px 10px; padding: 4px; margin: 1px auto 1px auto; vertical-align: center; background-color: #fefefe; text-align: left;">
            <tbody><tr>
