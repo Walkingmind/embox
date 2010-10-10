@@ -12,9 +12,15 @@
     * [InstallToolchainCrossCompiler Cross-Compiler]
     * [InstallToolchainSimulation Simulation]
     * [InstallToolchainEclipseDebug Debugging from Eclipse]
-  * Configure
-    * [EmboxConfigure Embox Configure]
-    * [RuEmboxConfigureUsingEclipse Configure Using Eclipse]
+  * [EMBuild Building the project]
+    * [EMBuildInfrastructure Infrastructure overview]
+    * [EMBuildCLI Command-line interface]
+    * [EMBuildConfigure Configure]
+    * [EMBuildMakefiles EMBuild Makefiles]
+    * [EMBuildInternals EMBuild Internals]
+      * [EMBuildInternalsAPI Internal API]
+      * [EMBuildInternalsImplementation Implementation]
+    * [EMBuildFeatureProposals Feature proposals]
   * [EmboxModules Modules]
     * [RuEmboxDev Embox Dev]
     * [RuEmboxTrapsDescription Traps Description]
@@ -30,8 +36,6 @@
       * [RuMultiPageAllocator Multi Page Allocator]
       * [RuPageAlloc Page Alloc]
       * [VirtualMemory Virtual Memory]
-    * EMBuild
-      * [EMBuildMakefiles EMBuild Makefiles]
     * Network
       * [EmboxNetworkDescription Network Description]
     * Testing

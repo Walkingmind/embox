@@ -4,7 +4,7 @@
     * [Roadmap Roadmap]
     * [CodeStyle Code Style]
     * [ProjectManagement Управление проектом]
-  * [InstallToolchain Установка окружения для сборки]
+  * [InstallToolchain Установка окружения]
     * [InstallToolchainWindowsCygwin Особенности установки в Windows]
     * [InstallToolchainPath Переменная окружения PATH]
     * [InstallToolchainEclipse Eclipse]
@@ -12,9 +12,15 @@
     * [InstallToolchainCrossCompiler Кросс-компилятор]
     * [InstallToolchainSimulation Симулятор]
     * [InstallToolchainEclipseDebug Отладка из Eclipse]
-  * Конфигурирование
-    * [EmboxConfigure Embox Configure]
-    * [RuEmboxConfigureUsingEclipse Конфигурирование в Eclipse]
+  * [EMBuild Сборка проекта]
+    * [EMBuildInfrastructure Обзор инфраструктуры]
+    * [EMBuildCLI Запуск из командной строки]
+    * [EMBuildConfigure Конфигурирование]
+    * [EMBuildMakefiles Makefile'ы EMBuild]
+    * [EMBuildInternals Внутренности EMBuild]
+      * [EMBuildInternalsAPI Внутренние интерфейсы]
+      * [EMBuildInternalsImplementation Реализация]
+    * [EMBuildFeatureProposals Предложения по развитию]
   * [EmboxModules Модули]
     * [RuEmboxDev Embox Dev]
     * [RuEmboxTrapsDescription Traps Description]
@@ -30,8 +36,6 @@
       * [RuMultiPageAllocator Многостраничное выделение]
       * [RuPageAlloc Выделение страниц]
       * [VirtualMemory Виртуальная память]
-    * EMBuild
-      * [EMBuildMakefiles EMBuild Makefiles]
     * Network
       * [EmboxNetworkDescription Описание сетевой подсистемы]
     * Тестирование

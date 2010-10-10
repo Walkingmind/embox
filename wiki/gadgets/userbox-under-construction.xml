@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<Module>
+  <ModulePrefs title="Under construction" /> 
+  <Content type="html">
+     <![CDATA[ 
+         <table style="clear: both; width: 80%; border-color:#AAB #AAB #AAB #ffb000; border-style: solid; border-width: 1px 1px 1px 10px; padding: 4px; margin: 1px auto 1px auto; vertical-align: center; background-color: #fefefe; text-align: left;">
+           <tbody><tr>
+             <td width="72px" height="auto"><img alt="" src="/svn/wiki/images/under_construction.png" width="64" height="64" border="0"></td>
+             <td style="vertical-align: middle"><b>Under construction</b><br>
+               This article describes something being developed right now, for example, experimental or unstable feature.<br>
+               <b>The contents of the article may not be actual at the moment of reading.</b>
+             </td>
+           </tr></tbody>
+         </table>
+     ]]>
+  </Content> 
+</Module>

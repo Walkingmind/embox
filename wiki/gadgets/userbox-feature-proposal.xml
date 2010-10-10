@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<Module>
+  <ModulePrefs title="Feature proposal" /> 
+  <Content type="html">
+     <![CDATA[ 
+         <table style="clear: both; width: 80%; border-color:#AAB #AAB #AAB #c3d9ff; border-style: solid; border-width: 1px 1px 1px 10px; padding: 4px; margin: 1px auto 1px auto; vertical-align: center; background-color: #fefefe; text-align: left;">
+           <tbody><tr>
+             <td width="72px" height="auto"><img alt="" src="/svn/wiki/images/light_bulb.png" width="64" height="64" border="0"></td>
+             <td style="vertical-align: middle"><b>Feature proposal</b><br>
+               This article describes some feature proposal or a result of a brainstorm.
+             </td>
+           </tr></tbody>
+         </table>
+     ]]>
+  </Content> 
+</Module>
