@@ -1,6 +1,6 @@
 #summary Предложения по развитию системы сборки.
 
-<wiki:gadget0 url="http://embox.googlecode.com/svn/wiki/gadgets/userbox-feature-proposal.xml" width="640" height="100" border="0"/>
+<wiki:gadget url="http://embox.googlecode.com/svn/wiki/gadgets/userbox-feature-proposal.xml" width="640" height="100" border="0"/>
 
 = Введение =
 На этой странице результаты мозгового штурма на тему развития системы сборки EMBuild, просто идеи и мысли, а также план работ в этом направлении,
@@ -14,7 +14,8 @@
 На последней остановимся подробнее.
 || Система позволяет задавать межмодульные зависимости. Например, модуль *Х* может зависеть от *Y*, тогда при включении в сборку *Х* тот потянет за собой *Y*. Такое отношение назовем *depends*. || http://embox.googlecode.com/svn/wiki/images/mods-old-simple.png ||
 || Проблемы начинаются, когда появляется необходимость менять реализации модулей. Пусть появился модуль *Z*, который выполняет схожие с *Y* функции (например, оба они реализуют алгоритмы выделения памяти). Тогда отношение *depends* становится узким местом. Еще один неочевидный, но существенный недостаток в том, что факт "схожести" *Y* и *Z* нигде не отражен. || http://embox.googlecode.com/svn/wiki/images/mods-old.png ||
-|| *TODO* || http://embox.googlecode.com/svn/wiki/images/mods-new.png ||
+
+|| Предлагается ввести новую сущность || http://embox.googlecode.com/svn/wiki/images/mods-new.png ||
 
 <wiki:comment>
 digraph mods_old {
