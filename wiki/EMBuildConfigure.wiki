@@ -1,7 +1,6 @@
 #summary embox configurator
 
-<wiki:gadget url="http://embox.googlecode.com/svn/wiki/gadgets/userbox-under-construction.xml"  />
-
+<wiki:gadget url="http://embox.googlecode.com/svn/wiki/gadgets/userbox-under-construction.xml" width="640" height="120" border="0"/>
 = Конфигурирование EMBOX =
 
 == Описание ==
