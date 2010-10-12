@@ -10,9 +10,9 @@ We can describe root file system as structure of different file systems, and the
 
 Each file system can create file if permissions allow, and delete it. These operation describe in the appropriate structure.
 
-|| rootfs ||
-|| ramfs  || 
-|| devfs  ||
+|| rootfs || Rootfs is a node with ramfs driver. Another systems just mount another filesystem over rootfs and ignore it. ||
+|| ramfs  || Resizable simple ram filesystem (virtual filesystem) ||
+|| devfs  || Device filesystem ||
 
 = Features =
 
