@@ -29,6 +29,7 @@ SPARC кросс-компилятор под Linux:
 
  * [http://embox.googlecode.com/files/sparc-elf-3.4.4-1.0.33-linux.tar.bz2 sparc-elf-3.4.4-1.0.33-linux.tar.bz2]
  * [http://embox.googlecode.com/files/sparc-elf-4.4.2-1.0.33c.tar.bz2 sparc-elf-4.4.2-1.0.33c.tar.bz2]
+ * [http://embox.googlecode.com/files/sparc-linux-3.4.4-2.6.21-1.0.1.tar.bz2 sparc-linux-3.4.4-2.6.21-1.0.1.tar.bz2]
 
 Microblaze кросс-компилятор под Linux:
 
