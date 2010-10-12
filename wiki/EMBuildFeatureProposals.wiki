@@ -13,11 +13,33 @@
 
 == Межмодульные зависимости ==
 === Проблема ===
-В двух словах - сейчас зависимости жестко прописаны в Makefile'ах, и у пользователя нет возможности повлиять на итоговый граф зависимостей.
+В двух словах - система позволяет задавать межмодульные зависимости, но сейчас они жестко прописаны в Makefile'ах, и у пользователя нет возможности повлиять на итоговый граф зависимостей.
 
-|| Система позволяет задавать межмодульные зависимости. Например, модуль *Х* может зависеть от *Y*, тогда при включении в сборку *Х* тот потянет за собой *Y*. Это отношение *depends*.<br/>_Module *X* *depends* on module *Y*._ || http://embox.googlecode.com/svn/wiki/images/mods-old-simple.png ||
-|| Проблемы начинаются, когда появляется необходимость менять реализации модулей. Пусть появился модуль *Z*, который выполняет схожие с *Y* функции (например, оба они реализуют алгоритмы выделения памяти). Тогда отношение *depends* становится узким местом. Еще один неочевидный, но существенный недостаток в том, что факт "схожести" *Y* и *Z* нигде не отражен. || http://embox.googlecode.com/svn/wiki/images/mods-old.png ||
-
+ Например, модуль *Х* может зависеть от *Y*, тогда при включении в сборку *Х* тот потянет за собой *Y*. Это отношение *depends*.
+  http://embox.googlecode.com/svn/wiki/images/mods-old-simple.png
+   _Module *X* *depends* on module *Y*._
+<wiki:comment>
+digraph mods_old_simple {
+	rankdir="LR";
+	node[shape=rect,style=filled];
+	X [color="#c3d9ff"];
+	Y [color="#c3d9ff"];
+	X -> Y [label="depends" color="blue"];
+}
+</wiki:comment>
+ Проблемы начинаются, когда появляется необходимость менять реализации модулей. Пусть появился модуль *Z*, который выполняет схожие с *Y* функции (например, оба они реализуют алгоритмы выделения памяти). Тогда отношение *depends* становится узким местом. Еще один неочевидный, но существенный недостаток в том, что факт "схожести" *Y* и *Z* нигде не отражен.
+  http://embox.googlecode.com/svn/wiki/images/mods-old.png
+<wiki:comment>
+digraph mods_old {
+	rankdir="LR";
+	node[shape=rect,style=filled];
+	X [color="#c3d9ff"];
+	Z [color="#c3d9ff"];
+	Y [color="#c3d9ff"];
+	X -> Z [color="red"];
+	X -> Y [color="blue" label="depends"];
+}
+</wiki:comment>
 === Текущее положение дел ===
 Были попытки решить эту проблему используя опции `CONFIG_XXX`. Но, очевидно, это временное решение, вот почему:
   * Отсутствие контроля со стороны системы сборки, в `CONFIG_XXX` можно вписать что угодно
@@ -28,26 +50,11 @@
 
 === Решение ===
 Одно из наиболее вероятных решений проблемы:
-|| Предлагается ввести, помимо модулей, новую сущность, называемую интерфейсом, а также два новых отношения: *requires* и *provides*. <br/>_Module *X* *requires* interface *A*._ <br/>_Interface *A* is *provided by* modules *Y* and *Z*_. || http://embox.googlecode.com/svn/wiki/images/mods-new.png ||
+Предлагается ввести, помимо модулей, новую сущность, называемую интерфейсом, а также два новых отношения: *requires* и *provides*.
+ Тогда пример выше будет выглядеть примерно так:
+  http://embox.googlecode.com/svn/wiki/images/mods-new.png
+   _Module *X* *requires* interface *A* which is *provided by* modules *Y* and *Z*_.
 <wiki:comment>
-digraph mods_old_simple {
-	rankdir="LR";
-	node[shape=rect,style=filled];
-	X [color="#c3d9ff"];
-	Y [color="#c3d9ff"];
-	X -> Y [label="depends" color="blue"];
-}
-
-digraph mods_old {
-	rankdir="LR";
-	node[shape=rect,style=filled];
-	X [color="#c3d9ff"];
-	Z [color="#c3d9ff"];
-	Y [color="#c3d9ff"];
-	X -> Z [color="red"];
-	X -> Y [color="blue" label="depends"];
-}
-
 digraph mods_new {
 	rankdir="LR";
 	node[shape=rect style=filled];
@@ -59,5 +66,4 @@ digraph mods_new {
 	A -> Z [color="green"];
 	A -> Y [color="green" label="provided by"];
 }
-
 </wiki:comment>
