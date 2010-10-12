@@ -32,7 +32,8 @@ SPARC кросс-компилятор под Linux:
 
 Microblaze кросс-компилятор под Linux:
 
- * [http://embox.googlecode.com/files/microblaze-xilinx-elf-4.1.1.tar.bz2 microblaze-xilinx-elf-4.1.1.tar.bz2] Microblaze Cross-compiler for Linux
+ * [http://embox.googlecode.com/files/microblaze-xilinx-elf-4.1.1.tar.bz2 microblaze-xilinx-elf-4.1.1.tar.bz2]
+ * [http://embox.googlecode.com/files/microblaze-xilinx-linux-4.1.2.tar.bz2 microblaze-xilinx-linux-4.1.2.tar.bz2]
 
 ARM кросс-компилятор под Linux:
 
