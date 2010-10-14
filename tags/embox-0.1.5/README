@@ -1,0 +1,11 @@
+EMBOX - Essential toolbox for embedded development.
+
+Quickstart guide
+
+make PROJECT=<project> PROFILE=<profile> config
+make all
+
+To be continued...
+
+Please visit the official web page of EMBOX, for more information.
+The URL is <http://code.google.com/p/embox>.
