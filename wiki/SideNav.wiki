@@ -51,6 +51,6 @@
       * [USBDescription USB]
     * Porting
       * [PortingProcess Porting Process]
-  * Supported platforms
+  * [PlatformsDescription Supported platforms]
     * [LegoDescription Lego MindStorm NXT]
       * [SoundNXT Sound]
