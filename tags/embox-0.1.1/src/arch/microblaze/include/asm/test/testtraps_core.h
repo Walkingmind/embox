@@ -1,0 +1,15 @@
+/**
+ * @file
+ *
+ * @date 15.03.2010
+ * @author Anton Bondarev
+ */
+
+#ifndef MICROBLAZE_TESTTRAPS_H_
+#define MICROBLAZE_TESTTRAPS_H_
+
+#include <types.h>
+#include <hal/traps_core.h>
+
+
+#endif /* MICROBLAZE_TESTTRAPS_H_ */
