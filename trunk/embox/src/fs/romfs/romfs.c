@@ -38,7 +38,7 @@ static size_t romfs_fread(void *buf, size_t size, size_t count, void *file);
 static size_t romfs_fwrite(const void *buf, size_t size, size_t count, void *file);
 static int romfs_fseek(void *file, long offset, int whence);
 
-static file_op_t fop = {
+static file_operations_t fop = {
 	romfs_fopen,
 	romfs_fclose,
 	romfs_fread,
@@ -50,7 +50,7 @@ static file_op_t fop = {
 #define FILE_HANDLERS_QUANTITY		  0x4
 
 typedef struct _FILE_HANDLER {
-	file_op_t *fileop;
+	file_operations_t *fileop;
 	FILE_DESC *fdesc;
 	int cur_pointer;
 	unsigned int mode;
@@ -159,7 +159,7 @@ static int find_file_desc(const char * file_name) {
 	int i;
 
 	for (i = 0; i < FILE_DESC_QUANTITY; i ++){
-		if ((0 == strncmp(fdesc[i].name, file_name, array_len(fdesc[i].name))) && (CONFIG_FLASH_FREE_SPACE_ID!= fdesc[i].is_busy)){
+		if ((0 == strncmp(fdesc[i].name, file_name, ARRAY_SIZE(fdesc[i].name))) && (CONFIG_FLASH_FREE_SPACE_ID!= fdesc[i].is_busy)){
 			return i;
 		}
 	}
