@@ -42,14 +42,15 @@
       * [EmboxTestsFramework Tests Framework]
       * [RuEmboxTestsMmuFramework Tests Mmu Framework]
       * [RuEmboxTestsTrapsFramework Tests Traps Framework]
-      * [RuSound Sound]
     * [FileSystemDescription FS]
       * [PartitionsInterfaceDescription Partitions Interface Description]
-    * Thread
-      * [RuThreads Threads]
+    * [ThreadsDescription Threads]
       * [RuElfRunning Elf Running]
       * [RuSchedulers Schedulers]
     * USB
-      * [RuUSB USB]
+      * [USBDescription USB]
     * Porting
       * [PortingProcess Porting Process]
+  * Supported platforms
+    * [LegoDescription Lego MindStorm NXT]
+      * [SoundNXT Sound]
