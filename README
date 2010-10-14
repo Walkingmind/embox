@@ -1,0 +1,8 @@
+EMBOX - Essential toolbox for embedded development.
+
+Quickstart guide
+
+make PROJECT=<project> PROFILE=<profile> config
+make all
+
+To be continued...
