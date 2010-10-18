@@ -194,4 +194,9 @@ int flash_if_get_block_size(FLASH_DEV *flash_dev, uint32_t blocknum);
 #define FLASH_WRITE_ENABLE	*((volatile uint32_t*) MEM_CTRLR_BASE) |= (1<<11)
 #define FLASH_WRITE_DISABLE	*((volatile uint32_t*) MEM_CTRLR_BASE) &= ~(1<<11)
 
+/* temporary, move to *.c file */
+static FLASH_DEV flash_devices_table[MAX_FLASH_DEVS];
+
+int flash_if_write(FLASH_DEV *flash_dev, uint32_t addr, void *buff, uint32_t size);
+
 #endif /* FLASH_IF_H_ */

@@ -12,7 +12,13 @@
 
 EMBOX_UNIT_INIT(unit_init);
 
-FLASH_DEV flash_devices_table[MAX_FLASH_DEVS];
+
+int flash_if_read_id(uint32_t address, uint32_t *mcode, uint32_t *device_id)
+								__attribute__ ((section (".reloc.flash_utils")));
+/*
+int flash_if_write(FLASH_DEV *flash_dev, uint32_t addr, void *buff, uint32_t size)
+								__attribute__ ((section (".reloc.flash_utils")));
+*/
 
 /**
  * Reads flash id and manufacturer using standard flash interface
@@ -140,6 +146,9 @@ static int flash_if_device_init(uint32_t address, int num) {
 	return slot_number;
 }
 
+int flash_if_get_block_size(FLASH_DEV *flash_dev, uint32_t blocknum)
+				__attribute__ ((section (".reloc.flash_utils")));
+
 int flash_if_get_block_size(FLASH_DEV *flash_dev, uint32_t blocknum) {
 	if (blocknum > flash_dev->total_numblocks) {
 		return -1;
@@ -155,11 +164,61 @@ int flash_if_get_block_size(FLASH_DEV *flash_dev, uint32_t blocknum) {
 	return flash_dev->main_block_size;
 }
 
+int flash_if_get_start_block(FLASH_DEV *flash_dev, uint32_t addr)
+					__attribute__ ((section (".reloc.flash_utils")));
+
+int flash_if_get_start_block(FLASH_DEV *flash_dev, uint32_t addr) {
+	size_t i;
+	uint32_t block_addr;
+
+	if ((addr > flash_dev->total_size) || (addr < flash_dev->start_address)) {
+		return -1;
+	}
+
+	for (i = 0; i < flash_dev->total_numblocks; i++) {
+		flash_dev->get_block_offset(flash_dev, i, &block_addr);
+		if (addr < block_addr) {
+			break;
+		}
+	}
+	return i - 1;
+}
+
 static int unit_init() {
 	int i;
 	for (i = 0; i < MAX_FLASH_DEVS; i++) {
 		flash_devices_table[i].dev = -1;
 	}
 	flash_if_device_init(0x0, 1);
+	return 0;
+}
+
+/* temporary.. it is really bullshit. My mistake. -- SunnyA */
+
+static uint32_t flash_buff[0x20000];
+
+int flash_if_write(FLASH_DEV *flash_dev, uint32_t addr, void *buff, uint32_t size)
+					__attribute__ ((section (".reloc.flash_utils")));
+
+int flash_if_write(FLASH_DEV *flash_dev, uint32_t addr, void *buff, uint32_t size) {
+	uint32_t block_num;
+	uint32_t start_block_addr;
+	uint32_t block_offset;
+	uint32_t block_size;
+	size_t i;
+	uint32_t curr_offset;
+
+	block_num = flash_if_get_start_block(flash_dev, addr);
+	block_size = flash_if_get_block_size(flash_dev, block_num);
+	flash_dev->get_block_offset(flash_dev, block_num, &start_block_addr);
+	block_offset = addr - start_block_addr;
+
+	flash_dev->read_flash(flash_dev, start_block_addr, &flash_buff, size);
+	memcpy(flash_buff + block_offset, buff, size);
+	flash_dev->erase_block(flash_dev, block_num);
+	for (i = 0, curr_offset = 0; i < block_size; i++, curr_offset+= 4) {
+		printf(".");
+		flash_dev->program_flash(flash_dev, curr_offset, *(flash_buff + i));
+	}
 	return 0;
 }
