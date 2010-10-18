@@ -3,3 +3,4 @@
 = Introduction =
 
 *embox* est un système d'exploitation configurable. Au lieu de fournir un noyau monolithique, tout le code est placé dans les bibliothèques, dont chacun met en œuvre différentes interfaces, par exemple l'interface du gestionnaire de mémoire. Seules les parties requises du système sont inclus dans l'image finale. Les pièces nécessaires sont définies lors de la configuration du système ou dans l'exécution.
+

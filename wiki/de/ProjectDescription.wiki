@@ -3,3 +3,4 @@
 = Einführung =
 
 *embox* ist eine konfigurierbare Betriebssystem. Anstelle eines monolithischen Kernels, ist der gesamte Code in Bibliotheken, von denen jeder unterschiedliche Schnittstellen implementiert, z. B. Speicher-Manager-Schnittstelle gesetzt. Nur erforderlich, Teile des Systems in die endgültige Bild enthalten sind. Die benötigten Teile werden während der Konfiguration des Systems oder zur Laufzeit festgelegt.
+
