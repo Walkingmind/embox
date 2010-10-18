@@ -1,6 +1,6 @@
 #summary Предложения по развитию системы сборки.
 
-<wiki:gadget1 url="http://embox.googlecode.com/svn/wiki/gadgets/userbox-feature-proposal.xml" width="640" height="100" border="0"/>
+<wiki:gadget url="http://embox.googlecode.com/svn/wiki/gadgets/userbox-feature-proposal.xml" width="640" height="100" border="0"/>
 <wiki:toc max_depth="2"/> 
 
 = Введение =
