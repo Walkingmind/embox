@@ -7,3 +7,4 @@ Modern computer’s system are used in a very different spectrum of problems, st
 All this facts affect on the process of code’s for the embedded system development. In this systems Test system design first of all, then develop some drivers for system loader and finally port a main operating system. As seen above the code of platform part of systems tripled and it leads to the errors.
 
 *embox* is a configurable operating system. Instead of providing a monolithic kernel, all code is placed into libraries, each of which implements different interfaces, for example memory manager interface. Only required parts of the system are included into final image. The required parts are defined during configuration of system or in run time.
+

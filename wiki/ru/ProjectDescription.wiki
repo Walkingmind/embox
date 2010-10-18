@@ -1,6 +1,5 @@
 #summary Краткое описание проекта embox.
 
-<wiki:gadget url="http://embox.googlecode.com/svn/wiki/gadgets/userbox-under-construction.xml" width="640" height="100" border="0"/>
 <wiki:toc max_depth="2"/>
 
 = Введение =
