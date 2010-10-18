@@ -1,6 +1,5 @@
 #summary Минимальные требования дя портирования EMBOX на новую платформу
 
-<wiki:gadget url="http://embox.googlecode.com/svn/wiki/gadgets/userbox-under-construction.xml" width="640" height="100" border="0"/>
 <wiki:toc max_depth="3" />
 
 = Описание =
