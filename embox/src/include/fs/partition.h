@@ -13,12 +13,12 @@
 
 typedef struct _PARTITION_DESCRIPTOR {
 	const char *name;
-	uint32_t flags;						/** read-write-execute */
-	uint32_t start_addr;				/** start address */
-	uint32_t size;						/** size */
-	uint32_t type;						/** info about type of content */
+	uint32_t flags;	      /** read-write-execute */
+	uint32_t start_addr;  /** start address */
+	uint32_t size;        /** size */
+	uint32_t type;        /** info about type of content */
 	/* operations */
-}PARTITION_DESCRIPTOR;
+} PARTITION_DESCRIPTOR;
 
 #define __DECLARE_PARTITION(idx, name, flags, start_addr, size, type) \
     static const PARTITION_DESCRIPTOR _descriptor##idx \
