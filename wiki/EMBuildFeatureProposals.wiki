@@ -1,6 +1,6 @@
 #summary Предложения по развитию системы сборки.
 
-<wiki:gadget0 url="http://embox.googlecode.com/svn/wiki/gadgets/userbox-feature-proposal.xml" width="640" height="100" border="0"/>
+<wiki:gadget url="http://embox.googlecode.com/svn/wiki/gadgets/userbox-feature-proposal.xml" width="640" height="100" border="0"/>
 <wiki:toc max_depth="2"/> 
 
 = Введение =
@@ -80,3 +80,94 @@ endif
 {{{
 $_DEPS-main += embox.hal.arch
 $_DEPS-main += irq
+
+ifdef CONFIG_IRQ
+ $_DEPS-irq += embox.hal.interrupt
+ $_DEPS-irq += softirq
+endif
+}}}
+ * И, наконец, описание классических правил make
+{{{
+$(IMAGE): $($_SELFDIR)/nosys.lds
+}}}
+
+Ясно, что с ростом проекта поддерживать эти файлы будет все сложнее и неприятнее.
+
+=== Возможное решение ===
+Первое, что приходит в голову, разбить такой Makefile на несколько, по одному на каждую сущность. Сущность - это либо модуль *MOD*, либо библиотека *LIB*.
+
+== Межмодульные зависимости ==
+=== Проблема ===
+В двух словах - система позволяет задавать межмодульные зависимости, но сейчас они жестко прописаны в Makefile'ах, и у пользователя нет возможности повлиять на итоговый граф зависимостей.
+
+ Например, модуль *Х* может зависеть от *Y*, тогда при включении в сборку *Х* тот потянет за собой *Y*. Это отношение *depends on*.
+  http://embox.googlecode.com/svn/wiki/images/mods-old-simple.png
+   _Module *X* *depends on* module *Y*._
+<wiki:comment>
+digraph mods_old_simple {
+	rankdir="LR";
+	node[shape=rect,style=filled];
+	X [color="#c3d9ff"];
+	Y [color="#c3d9ff"];
+	X -> Y [label="depends on" color="blue"];
+}
+</wiki:comment>
+ Проблемы начинаются, когда появляется необходимость менять реализации модулей. Пусть появился модуль *Z*, который выполняет схожие с *Y* функции (например, оба они реализуют алгоритмы выделения памяти). Тогда отношение *depends* становится узким местом. Еще один неочевидный, но существенный недостаток в том, что факт "схожести" *Y* и *Z* нигде не отражен.
+  http://embox.googlecode.com/svn/wiki/images/mods-old.png
+<wiki:comment>
+digraph mods_old {
+	rankdir="LR";
+	node[shape=rect,style=filled];
+	X [fillcolor="#c3d9ff" color="blue"];
+	Z [fillcolor="#c3d9ff" color="blue"];
+	Y [fillcolor="#c3d9ff" color="blue"];
+	X -> Z [color="red" label="?"];
+	X -> Y [color="blue" label="depends"];
+}
+</wiki:comment>
+=== Текущее положение дел ===
+Были попытки решить эту проблему используя опции `CONFIG_XXX`.
+ Вместо указания явной зависимости для *X* в Makefile'e указывается значение `$(CONFIG_XXX)`, которое раскрывается в нужный модуль, заданный в файле конфигурации с помощью `option(XXX)`.
+  http://embox.googlecode.com/svn/wiki/images/mods-try.png
+<wiki:comment>
+digraph mods_try {
+	rankdir="LR";
+	node[shape=rect style=filled];
+	С [fillcolor="#fff7c6" label="CONFIG_XXX" shape=note];
+	X [fillcolor="#c3d9ff" color="blue"];
+	Z [fillcolor="#c3d9ff" color="blue"];
+	Y [fillcolor="#c3d9ff" color="blue"];
+	W [fillcolor="#ffc6c6" color="red" label="???"];
+	X -> С [color="blue" label="depends on"];
+	С -> Z [dir="none"];
+	С -> Y [dir="none" label="is"];
+	С -> W [dir="none"];
+}
+</wiki:comment>
+
+Но, очевидно, это временное решение, вот почему:
+  * Отсутствие контроля со стороны системы сборки, в `CONFIG_XXX` можно вписать что угодно
+  * В каждом отдельном случае необходимо городить эти опции заново, например, отдельно для драйверов контроллера прерываний, отдельно для стратегий планировщика и т.д.
+  * Это сильно замедляет сборку из-за необходимости перекомпиляции всех исходников при изменении опций
+  * Нигде не описано, какие именно опции нужно задать, чтобы собрать проект, и система сборки никак не может помочь или подсказать
+  * _Короче, это хак, и рано или поздно это придется исправить_
+
+=== Решение ===
+Одно из наиболее вероятных решений проблемы:
+Предлагается ввести, помимо модулей, новую сущность, называемую интерфейсом, а также два новых отношения: *requires* и *provides*.
+ Тогда пример выше будет выглядеть примерно так:
+  http://embox.googlecode.com/svn/wiki/images/mods-new.png
+   _Module *X* *requires* interface *A* which is *provided by* modules *Y* and *Z*_.
+<wiki:comment>
+digraph mods_new {
+	rankdir="LR";
+	node[shape=rect style=filled];
+	A [fillcolor="#ddf8cc" color="green" shape=ellipse];
+	X [fillcolor="#c3d9ff" color="blue"];
+	Z [fillcolor="#c3d9ff" color="blue"];
+	Y [fillcolor="#c3d9ff" color="blue"];
+	X -> A [color="blue" label="requires"];
+	A -> Z [color="green"];
+	A -> Y [color="green" label="provided by"];
+}
+</wiki:comment>
