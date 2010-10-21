@@ -94,7 +94,53 @@ $(IMAGE): $($_SELFDIR)/nosys.lds
 Ясно, что с ростом проекта поддерживать эти файлы будет все сложнее и неприятнее.
 
 === Возможное решение ===
-Первое, что приходит в голову, разбить такой Makefile на несколько, по одному на каждую сущность. Сущность - это либо модуль *MOD*, либо библиотека *LIB*.
+Первое, что приходит в голову, разбить такой Makefile на несколько, по одному на каждую сущность (сущность - это либо модуль *MOD*, либо библиотека *LIB*). Такие файлы разумно называть по имени описываемой сущности с каким-нибудь специальным расширением. Возможные варианты (для модуля *xxx*):
+ * *xxx.embuild* - длинно, зато понятно. И не без пафоса ;-)
+ * *xxx.em* - по аналогии с файлами *`*`.am* системы `automake`
+
+Также потребуется как минимум файл для правил make.
+ * Можно оставить старое *Makefile*. Но это скорее пережиток прошлого, от которого хочется избавиться. К тому же имя Makefile подразумевает возможность запустить make не из корневой папки, чего делать нельзя
+ * *rules.mk* - мне нравится больше *TBD -- Eldar*
+
+Про текущий пакет поговорим чуть позже.
+
+Тогда в `src/kernel` появятся следующие файлы:
+ * *rules.mk*
+{{{
+$(IMAGE): $($_SELFDIR)/nosys.lds
+}}}
+ * *main.em*
+{{{
+$_MODS_CORE += main
+
+$_SRCS-main += main.c
+$_SRCS-main += init.c
+$_SRCS-main += nosys.c
+
+$_DEPS-main += embox.hal.arch
+$_DEPS-main += irq
+}}}
+
+{{{
+$_MODS      += irq
+
+ifdef CONFIG_IRQ
+ $_SRCS-irq += irq.c
+endif
+
+ifdef CONFIG_IRQ
+ $_DEPS-irq += embox.hal.interrupt
+ $_DEPS-irq += softirq
+endif
+}}}
+
+{{{
+$_MODS      += softirq
+
+ifdef CONFIG_SOFTIRQ
+ $_SRCS-softirq += softirq.c
+endif
+}}}
 
 == Межмодульные зависимости ==
 === Проблема ===
@@ -107,8 +153,8 @@ $(IMAGE): $($_SELFDIR)/nosys.lds
 digraph mods_old_simple {
 	rankdir="LR";
 	node[shape=rect,style=filled];
-	X [color="#c3d9ff"];
-	Y [color="#c3d9ff"];
+	X [fillcolor="#c3d9ff" color="blue"];
+	Y [fillcolor="#c3d9ff" color="blue"];
 	X -> Y [label="depends on" color="blue"];
 }
 </wiki:comment>
@@ -122,9 +168,10 @@ digraph mods_old {
 	Z [fillcolor="#c3d9ff" color="blue"];
 	Y [fillcolor="#c3d9ff" color="blue"];
 	X -> Z [color="red" label="?"];
-	X -> Y [color="blue" label="depends"];
+	X -> Y [color="blue" label="depends on"];
 }
 </wiki:comment>
+
 === Текущее положение дел ===
 Были попытки решить эту проблему используя опции `CONFIG_XXX`.
  Вместо указания явной зависимости для *X* в Makefile'e указывается значение `$(CONFIG_XXX)`, которое раскрывается в нужный модуль, заданный в файле конфигурации с помощью `option(XXX)`.
@@ -154,7 +201,7 @@ digraph mods_try {
 
 === Решение ===
 Одно из наиболее вероятных решений проблемы:
-Предлагается ввести, помимо модулей, новую сущность, называемую интерфейсом, а также два новых отношения: *requires* и *provides*.
+предлагается ввести, помимо модулей, новую сущность, называемую интерфейсом *API*, а также два новых отношения: *requires* и *provides*.
  Тогда пример выше будет выглядеть примерно так:
   http://embox.googlecode.com/svn/wiki/images/mods-new.png
    _Module *X* *requires* interface *A* which is *provided by* modules *Y* and *Z*_.
