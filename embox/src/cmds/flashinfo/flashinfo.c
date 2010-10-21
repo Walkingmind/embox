@@ -8,7 +8,7 @@
 #include <shell_command.h>
 #include <drivers/flash_template.h>
 #include <drivers/flash_if.h>
-#include <fs/mbfs.h>  // mbfs_format_flash
+//#include <fs/mbfs.h>  // mbfs_format_flash
 #include <drivers/flash_drv_wrap.h>
 
 #define COMMAND_NAME     "flashinfo"
