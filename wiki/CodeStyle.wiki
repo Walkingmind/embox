@@ -22,6 +22,20 @@ int foo(void) {
 }
 }}}
 
+{{{
+int foo(void) {
+    __asm__ __volatile__ (
+        "lwi  %0, %1, 0;\n\t"
+        "mfs     %0, rmsr;\n\t"
+        "or   %0, r0, %2;\n\t"
+        "mts   rmsr, %1, 0;\n\t" :
+        "=r"(msr), "=&r"(tmp):
+        "r"(status), "i"(MSR_VM_MASK) :
+        "memory"
+    );
+}
+}}}
+
 === Пробелы и пустые строки ===
 
 Насчет пробелов все стандартно.
