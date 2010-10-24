@@ -103,4 +103,5 @@
  * Очень сильная внутренняя фрагментация
 
 == Полезные ссылки ==
-http://rtportal.upv.es/rtmalloc/ аллокатор для реалтаймовых систем
+http://rtportal.upv.es/rtmalloc/ аллокатор для систем реального времени
+http://web.archive.org/web/20070728155440/http://dixx.ru/reference/tlsf - краткий перевод на русский
