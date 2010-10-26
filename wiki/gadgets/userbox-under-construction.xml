@@ -5,7 +5,7 @@
      <![CDATA[ 
          <table style="clear: both; width: 100%; border-color:#AAB #AAB #AAB #ffb000; border-style: solid; border-width: 1px 1px 1px 10px; padding: 4px; margin: 1px auto 1px auto; vertical-align: center; background-color: #fefefe; text-align: left;">
            <tbody><tr>
-             <td width="72px" height="auto"><img src="/gadgets/proxy?url=http://embox.googlecode.com/svn/wiki/images/under_construction.png" width="64" height="64" border="0"></td>
+             <td width="72px" height="auto"><div style="background-image: url(http://embox.googlecode.com/svn/wiki/images/under_construction.png)" width="64" height="64" border="0"></td>
              <td style="vertical-align: middle"><b>Under construction</b><br>
                This article describes something being developed right now, for example, experimental or unstable feature.<br>
                <b>The contents of the article may not be actual at the moment of reading.</b>
