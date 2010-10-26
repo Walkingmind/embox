@@ -1,8 +1,0 @@
-"NAME\n"
-"\trm - remove files or directories\n"
-"SYNOPSIS\n"
-"\trm FILE\n"
-"DESCRIPTION\n"
-"\trm removes each specified file  \n"
-"AUTHOR\n"
-"\tRoman Evstifeev"
