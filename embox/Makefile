@@ -10,7 +10,7 @@
 
 MK_DIR := $(abspath mk)
 
-ifdef mk_ready
+ifdef __mk_ready
 include main.mk
 else
 
@@ -23,7 +23,7 @@ MAKEFLAGS += --no-print-directory
 .DEFAULT_GOAL := all
 
 % :
-	@$(MAKE) mk_ready=1 $@
+	@$(MAKE) __mk_ready=1 $@
 
 endif
 
