@@ -1,10 +1,14 @@
 #summary embox development roadmap
 #labels Phase-Requirements,Featured
 
-= 2010/10/15 v0.1.8 [http://code.google.com/p/embox/issues/list?can=1&q=milestone=v0.1.8 [issues]] [http://code.google.com/p/embox/issues/list?q=milestone=v0.1.8 [open issues]] =
+= 2010/10/31 v0.1.8 [http://code.google.com/p/embox/issues/list?can=1&q=milestone=v0.1.8 [issues]] [http://code.google.com/p/embox/issues/list?q=milestone=v0.1.8 [open issues]] =
 == Lego Mindstorms NXT 2.0 ==
  * Заливка собственного образа
- * Вывод звука
+ * Вывод звука на lego mindstorms
+ * Логическая файловая система
+ * Init FS
+ * Вывод изображения на дисплее lego mindstorms
+ * Показана игра змейка на lego mindstorms
 
 = 2010/10/01 v0.1.7 [http://code.google.com/p/embox/issues/list?can=1&q=milestone=v0.1.7 [issues]] [http://code.google.com/p/embox/issues/list?q=milestone=v0.1.7 [open issues]] =
  * Очистка кода

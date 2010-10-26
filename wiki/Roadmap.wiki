@@ -1,10 +1,20 @@
 #summary embox development roadmap
 #labels Phase-Requirements,Featured
 
-= 2010/10/15 v0.1.8 [http://code.google.com/p/embox/issues/list?can=1&q=milestone=v0.1.8 [issues]] [http://code.google.com/p/embox/issues/list?q=milestone=v0.1.8 [open issues]] =
+= 2010/11/30 v0.1.9 [http://code.google.com/p/embox/issues/list?can=1&q=milestone=v0.1.9 [issues]] [http://code.google.com/p/embox/issues/list?q=milestone=v0.1.9 [open issues]] =
+== Restructure embox ==
+ * Clear NXT and arm code
+ * Update build system
+ * Rework shell
+
+= 2010/10/31 v0.1.8 [http://code.google.com/p/embox/issues/list?can=1&q=milestone=v0.1.8 [issues]] [http://code.google.com/p/embox/issues/list?q=milestone=v0.1.8 [open issues]] =
 == Lego Mindstorms NXT 2.0 ==
  * Load user image
- * Sound
+ * Logical FS
+ * Init FS
+ * Lego Sound
+ * Lego Display
+ * Lego snake has been shown
 
 = 2010/10/01 v0.1.7 [http://code.google.com/p/embox/issues/list?can=1&q=milestone=v0.1.7 [issues]] [http://code.google.com/p/embox/issues/list?q=milestone=v0.1.7 [open issues]] =
  * Code clean up
