@@ -243,3 +243,4 @@ extern int irq_attach(irq_nr_t irq_nr, irq_handler_t handler,
 
 #endif /* <subsystem_prefix>_<file_name>_H_ */
 }}}
+
