@@ -1,19 +1,25 @@
 #summary embox development roadmap
 #labels Phase-Requirements,Featured
 
+= 2010/11/30 v0.1.9 [http://code.google.com/p/embox/issues/list?can=1&q=milestone=v0.1.9 [issues]] [http://code.google.com/p/embox/issues/list?q=milestone=v0.1.9 [open issues]] =
+ * Рефакторинг кода ARM и Lego NXT
+ * Развитие системы сборки ([EMBuildFeatureProposals подробнее])
+ * Переработка оболочки и терминала
+
 = 2010/10/31 v0.1.8 [http://code.google.com/p/embox/issues/list?can=1&q=milestone=v0.1.8 [issues]] [http://code.google.com/p/embox/issues/list?q=milestone=v0.1.8 [open issues]] =
 == Lego Mindstorms NXT 2.0 ==
- * Заливка собственного образа
- * Вывод звука на lego mindstorms
+ * Раскрутка процессора ARM и инициализация контроллера AVR
+ * Вывод изображения и звука
+ * Показ змейки на кубике Лего
+
+== Файловая система ==
  * Логическая файловая система
- * Init FS
- * Вывод изображения на дисплее lego mindstorms
- * Показана игра змейка на lego mindstorms
+ * initfs
 
 = 2010/10/01 v0.1.7 [http://code.google.com/p/embox/issues/list?can=1&q=milestone=v0.1.7 [issues]] [http://code.google.com/p/embox/issues/list?q=milestone=v0.1.7 [open issues]] =
  * Очистка кода
  * Проверка результатов
- * Улучшение системы сборки
+ * ~~Улучшение системы сборки~~
 
 = 2010/07/23 v0.1.6 [http://code.google.com/p/embox/issues/list?can=1&q=milestone=v0.1.6 [issues]] [http://code.google.com/p/embox/issues/list?q=milestone=v0.1.6 [open issues]] =
 Презентация результатов летней школы.
@@ -36,7 +42,6 @@
  * Проревьюины все результаты (Page_alloc, virtual memory< malloc)
  * Написаны странички вики с обоснованием почему нужна виртуальная память и почему плохо использовать чистый метод граничных маркеров
  * Написаны тесты на виртуальную память
- 
 
 = 2010/05/19 v0.1.4 [http://code.google.com/p/embox/issues/list?can=1&q=milestone=v0.1.4 [issues]] [http://code.google.com/p/embox/downloads/detail?name=embox-0.1.4.txz [download]] =
 Презентация результатов студенческого проекта.
@@ -65,7 +70,7 @@
  * ~~реализован интерфейс ioctl для сокетов~~
 
 = 2010/04/16 v0.1.2 [http://code.google.com/p/embox/issues/list?can=1&q=milestone=v0.1.2 [issues]] [http://code.google.com/p/embox/downloads/detail?name=embox-0.1.2.txz [download]] =
-Все задачи распределены по участникам студенческого проекта.
+Все задачи распределены по участникам весеннего студенческого проекта Ланит-Теркома.
 
 = 2010/04/02 v0.1.1 [http://code.google.com/p/embox/issues/list?can=1&q=milestone=v0.1.1 [issues]] [http://code.google.com/p/embox/downloads/detail?name=embox-0.1.1.txz [download]] =
 Проведена презентация средств для тестирования оборудования.
