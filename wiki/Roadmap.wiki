@@ -6,7 +6,7 @@
  * Build system development ([EMBuildFeatureProposals details, RU only])
  * Rework shell
 
-= 2010/10/31 v0.1.8 [http://code.google.com/p/embox/issues/list?can=1&q=milestone=v0.1.8 [issues]] [http://code.google.com/p/embox/issues/list?q=milestone=v0.1.8 [open issues]] =
+= 2010/10/25 v0.1.8 [http://code.google.com/p/embox/issues/list?can=1&q=milestone=v0.1.8 [issues]] [http://code.google.com/p/embox/downloads/detail?name=embox-0.1.8.txz [download]] =
 == Lego Mindstorms NXT 2.0 ==
  * ARM7 bootstrap and proper AVR initialization
  * Display and Sound
@@ -16,15 +16,15 @@
  * Logical FS
  * initfs
 
-= 2010/10/01 v0.1.7 [http://code.google.com/p/embox/issues/list?can=1&q=milestone=v0.1.7 [issues]] [http://code.google.com/p/embox/issues/list?q=milestone=v0.1.7 [open issues]] =
+= 2010/10/01 v0.1.7 [http://code.google.com/p/embox/issues/list?can=1&q=milestone=v0.1.7 [issues]] [http://code.google.com/p/embox/downloads/detail?name=embox-0.1.7.txz [download]] =
  * Code clean up
  * Check the results
  * ~~Build system improvements~~
 
-= 2010/07/23 v0.1.6 [http://code.google.com/p/embox/issues/list?can=1&q=milestone=v0.1.6 [issues]] [http://code.google.com/p/embox/issues/list?q=milestone=v0.1.6 [open issues]] =
+= 2010/07/23 v0.1.6 [http://code.google.com/p/embox/issues/list?can=1&q=milestone=v0.1.6 [issues]] [http://code.google.com/p/embox/downloads/detail?name=embox-0.1.6.txz [download]] =
 Tercom Summer of Code's results presentation. 
 
-= 2010/06/28 v0.1.5 [http://code.google.com/p/embox/issues/list?can=1&q=milestone=v0.1.5 [issues]] [http://code.google.com/p/embox/issues/list?q=milestone=v0.1.5 [open issues]] =
+= 2010/06/28 v0.1.5 [http://code.google.com/p/embox/issues/list?can=1&q=milestone=v0.1.5 [issues]] [http://code.google.com/p/embox/downloads/detail?name=embox-0.1.5.txz [download]] =
 Start Tercom Summer of Code.
 
 == Threading ==

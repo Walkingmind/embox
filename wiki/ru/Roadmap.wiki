@@ -6,7 +6,7 @@
  * Развитие системы сборки ([EMBuildFeatureProposals подробнее])
  * Переработка оболочки и терминала
 
-= 2010/10/31 v0.1.8 [http://code.google.com/p/embox/issues/list?can=1&q=milestone=v0.1.8 [issues]] [http://code.google.com/p/embox/issues/list?q=milestone=v0.1.8 [open issues]] =
+= 2010/10/25 v0.1.8 [http://code.google.com/p/embox/issues/list?can=1&q=milestone=v0.1.8 [issues]] [http://code.google.com/p/embox/downloads/detail?name=embox-0.1.8.txz [download]] =
 == Lego Mindstorms NXT 2.0 ==
  * Раскрутка процессора ARM и инициализация контроллера AVR
  * Вывод изображения и звука
@@ -16,15 +16,15 @@
  * Логическая файловая система
  * initfs
 
-= 2010/10/01 v0.1.7 [http://code.google.com/p/embox/issues/list?can=1&q=milestone=v0.1.7 [issues]] [http://code.google.com/p/embox/issues/list?q=milestone=v0.1.7 [open issues]] =
+= 2010/10/01 v0.1.7 [http://code.google.com/p/embox/issues/list?can=1&q=milestone=v0.1.7 [issues]] [http://code.google.com/p/embox/downloads/detail?name=embox-0.1.7.txz [download]] =
  * Очистка кода
  * Проверка результатов
  * ~~Улучшение системы сборки~~
 
-= 2010/07/23 v0.1.6 [http://code.google.com/p/embox/issues/list?can=1&q=milestone=v0.1.6 [issues]] [http://code.google.com/p/embox/issues/list?q=milestone=v0.1.6 [open issues]] =
+= 2010/07/23 v0.1.6 [http://code.google.com/p/embox/issues/list?can=1&q=milestone=v0.1.6 [issues]] [http://code.google.com/p/embox/downloads/detail?name=embox-0.1.6.txz [download]] =
 Презентация результатов летней школы.
 
-= 2010/06/28 v0.1.5 [http://code.google.com/p/embox/issues/list?can=1&q=milestone=v0.1.5 [issues]] [http://code.google.com/p/embox/issues/list?q=milestone=v0.1.5 [open issues]] =
+= 2010/06/28 v0.1.5 [http://code.google.com/p/embox/issues/list?can=1&q=milestone=v0.1.5 [issues]] [http://code.google.com/p/embox/downloads/detail?name=embox-0.1.5.txz [download]] =
 Начало летней школы ЗАО "Ланит-Терком".
 
 == Threading ==
