@@ -1,0 +1,2 @@
+#summary Describes some simulators where embox can be run
+
