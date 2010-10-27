@@ -1,0 +1,4 @@
+#summary This page describes concept of traps working.
+
+<wiki:toc max_depth="2" />
+
