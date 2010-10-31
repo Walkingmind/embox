@@ -343,10 +343,10 @@ digraph mods_try {
 
 == Решение ==
 Одно из наиболее вероятных решений проблемы:
-предлагается ввести, помимо модулей, новую сущность, называемую интерфейсом *API*, а также два новых отношения: *requires* и *provides*.
+предлагается ввести, помимо модулей, новую сущность, называемую *service*, а также два новых отношения: *requires* и *provides*.
  Тогда пример выше будет выглядеть примерно так:
   http://embox.googlecode.com/svn/wiki/images/mods-new.png
-   _Module *X* *requires* interface *A* which is *provided by* modules *Y* and *Z*_.
+   _Module *X* *requires* service *A* which is *provided by* modules *Y* and *Z*_.
 <wiki:comment>
 digraph mods_new {
 	rankdir="LR";
@@ -384,8 +384,8 @@ $_SUBDIRS := $(filter-out include,$($_SUBDIRS))
  * *CORE_MOD* - модуль, включаемый в сборку всегда
  * *LIB* - библиотека
 
-|| *API* || `BRIEF`<br>`DETAILS` || `HEADERS` ||
-|| *INTERFACE* || `BRIEF`<br>`DETAILS` || `HEADERS` ||
-|| *LIBRARY* || `BRIEF`<br>`DETAILS` || `SOURCES`<br>`OBJECTS` || `RULES` || `USES`<br>`OVERRIDES` ||
-|| *MODULE* || `BRIEF`<br>`DETAILS` || `SOURCES`<br>`OBJECTS`<br>`HEADERS` || `RULES` || `USES` || `DEPENDS`<br>`CONFLICTS` || `PROVIDES`<br>`REQUIRES` || `IMPLEMENTS`<br>`MANAGES` || 
-|| *↳* || *`<text>`* || *`<file>`* || *`<make>`* || *LIBRARY* || *MODULE* || *API* || *INTERFACE* ||
+|| *service* || `brief`<br>`details` || `headers` ||
+|| *interface* || `brief`<br>`details` || `headers` ||
+|| *library* || `brief`<br>`details` || `sources`<br>`objects` || `rules` || `uses`<br>`overrides` ||
+|| *module* || `brief`<br>`details` || `sources`<br>`objects`<br>`headers` || `rules` || `uses` || `depends`<br>`conflicts` || `provides`<br>`requires` || `implements`<br>`manages` || 
+|| *↳* || *`<text>`* || *`<file>`* || *`<make>`* || *library* || *module* || *service* || *interface* ||
