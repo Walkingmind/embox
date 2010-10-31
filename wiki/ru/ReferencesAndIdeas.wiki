@@ -1,0 +1,6 @@
+тематическая вики
+   wiki.osdev.org
+
+интересный пример ОС, в которой можно позаимствовать интерфейсы :)
+   http://prex.sourceforge.net/doc/dki.html#dev
+   http://prex.sourceforge.net/doc/driver.html 
