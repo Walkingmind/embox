@@ -224,6 +224,8 @@ endef
  * Переименовать основные свойства, убрав сокращения (хотя можно и оставить, как минимум для обратной совместимости):
   * *SRCS → SOURCES*
   * *DEPS → DEPENDS*
+  * *MOD → MODULE*
+  * *LIB → LIBRARY*
  * Наконец, найден способ избавиться от символа контекста (*$`_`*)
 
 Итак, на данный момент представляется два варианта синтаксиса.
@@ -370,11 +372,16 @@ $_SUBDIRS := $(filter-out include,$($_SUBDIRS))
 }}}
 Таким образом, система сборки обрабатывала, вообще говоря, далеко не все Makefile'ы. С одной стороны это хорошо, это чуть-чуть ускоряет сборку, немного помогает в изоляции пространств имен для каждой архитектуры. Но в целом это все-таки пережиток прошлого.
 
-
-
 *TODO -- Eldar*
 
 = TODO =
  * *MOD* - обычный модуль
  * *CORE_MOD* - модуль, включаемый в сборку всегда
  * *LIB* - библиотека
+
+|| *API* || `BRIEF`<br>`DETAILS` || `HEADERS` ||
+|| *INTERFACE* || `BRIEF`<br>`DETAILS` || `HEADERS` ||
+|| *LIBRARY* || `BRIEF`<br>`DETAILS` || `SOURCES`<br>`OBJECTS` || `RULES` || `USES`<br>`OVERRIDES` ||
+|| *MODULE* || `BRIEF`<br>`DETAILS` || `SOURCES`<br>`OBJECTS`<br>`HEADERS` || `RULES` || `USES` || `DEPENDS`<br>`CONFLICTS` || `PROVIDES`<br>`REQUIRES` || `IMPLEMENTS`<br>`MANAGES` || 
+|| *↳* || *`<text>`* || *`<file>`* || *`<make>`* || *LIBRARY* || *MODULE* || *API* || *INTERFACE* ||
+
