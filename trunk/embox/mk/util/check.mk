@@ -1,4 +1,4 @@
-# $Id: $
+# $Id$
 #
 #   Date: Sep 10, 2010
 # Author: Eldar Abusalimov
