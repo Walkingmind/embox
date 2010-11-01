@@ -1,5 +1,35 @@
 #summary How to execute elf file in embox.
 
+Файл формата ELF состоит из следующих частей:
+
+  * Заголовок ELF файла
+  * Таблица программных секций (в объектных модулях может отсутствовать)
+  * Секции ELF файла
+  * Таблица секций (в выполняемом модуле может отсутствовать)
+
+заголовок файла:
+
+{{{
+#define EI_NIDENT 16
+
+struct elf32_hdr {
+    unsigned char e_ident[EI_NIDENT];
+    Elf32_Half e_type;
+    Elf32_Half e_machine;
+    Elf32_Word e_version;
+    Elf32_Addr e_entry;  /* Entry point */
+    Elf32_Off e_phoff;
+    Elf32_Off e_shoff;
+    Elf32_Word e_flags;
+    Elf32_Half e_ehsize;
+    Elf32_Half e_phentsize;
+    Elf32_Half e_phnum;
+    Elf32_Half e_shentsize;
+    Elf32_Half e_shnum;
+    Elf32_Half e_shstrndx;
+};
+}}}
+
 == Что делать ==
 
 В embox можно выполнять elf файлы. На данный момент опция протестирована для microblaze (но там есть проблема, что у нас нет многопоточности, следовательно, запускаемый файл нельзя запускать в новом потоке и система исчезнет). На sparc единственная проблема пока что в том, что неизвестно, как помещать в память файл и узнавать его местоположение там. А в принципе работать должно.
