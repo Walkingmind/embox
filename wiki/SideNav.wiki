@@ -40,8 +40,8 @@
       * [EmboxNetworkDescription Network Description]
     * Testing
       * [EmboxTestsFramework Tests Framework]
-      * [RuEmboxTestsMmuFramework Tests Mmu Framework]
-      * [RuEmboxTestsTrapsFramework Tests Traps Framework]
+      * [EmboxTestsMmuFramework Tests Mmu Framework]
+      * [EmboxTestsTrapsFramework Tests Traps Framework]
     * [FileSystemDescription FS]
       * [PartitionsInterfaceDescription Partitions Interface Description]
     * [ThreadsDescription Threads]
