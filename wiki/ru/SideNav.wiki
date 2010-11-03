@@ -38,8 +38,8 @@
       * [EmboxNetworkDescription Описание сетевой подсистемы]
     * Тестирование
       * [EmboxTestsFramework Tests Framework]
-      * [RuEmboxTestsMmuFramework Tests Mmu Framework]
-      * [RuEmboxTestsTrapsFramework Tests Traps Framework]
+      * [EmboxTestsMmuFramework Tests Mmu Framework]
+      * [EmboxTestsTrapsFramework Tests Traps Framework]
     * [FileSystemDescription Файловая система]
       * [PartitionsInterfaceDescription Описание интерфейса разделов]
     * [ThreadsDescription Потоки]
