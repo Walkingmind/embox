@@ -43,8 +43,8 @@
     * [FileSystemDescription Файловая система]
       * [PartitionsInterfaceDescription Описание интерфейса разделов]
     * [ThreadsDescription Потоки]
-      * [RuElfRunning Запуск Elf]
-      * [RuSchedulers Менеджер потоков]
+      * [ElfRunning Запуск Elf]
+      * [Schedulers Менеджер потоков]
     * USB
       * [USBDescription USB]
     * Портирование

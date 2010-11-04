@@ -43,8 +43,8 @@
     * [FileSystemDescription FS]
       * [PartitionsInterfaceDescription Partitions Interface Description]
     * [ThreadsDescription Threads]
-      * [RuElfRunning Elf Running]
-      * [RuSchedulers Schedulers]
+      * [ElfRunning Elf Running]
+      * [Schedulers Schedulers]
     * USB
       * [USBDescription USB]
     * Porting
