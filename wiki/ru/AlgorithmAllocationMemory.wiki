@@ -120,4 +120,5 @@
 == Полезные ссылки ==
 http://rtportal.upv.es/rtmalloc/ аллокатор для систем реального времени
 http://web.archive.org/web/20070728155440/http://dixx.ru/reference/tlsf - краткий перевод на русский
-
+http://wkaras.webs.com/heapmm/heapmm.html
+http://www.iolanguage.com/Library/Papers/MemoryManagement/fragsolved.pdf
