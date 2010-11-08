@@ -34,13 +34,13 @@ typedef struct _PARTITION_DESCRIPTOR {
 #define DECLARE_LINK_PARTITION(idx, name, flags, link_addr) \
 	__DECLARE_PARTITION(idx, name, flags, link_addr, 0, PARTITION_LINK_TYPE)
 
-int fs_init_second_level_table(uint32_t addr);
+extern int fs_init_second_level_table(uint32_t addr);
 
-PARTITION_DESCRIPTOR *fs_add_new_partition(char *name, /* temp */ uint32_t addr,
+extern PARTITION_DESCRIPTOR *fs_add_new_partition(char *name, /* temp */ uint32_t addr,
 		uint32_t size, uint32_t type);
 
-int fs_delete_partition(PARTITION_DESCRIPTOR *desc);
+extern int fs_delete_partition(PARTITION_DESCRIPTOR *desc);
 
 /* for debug only */
-int fs_print_all_partitions(void);
+extern int fs_print_all_partitions(void);
 #endif /* PARTITION_H_ */
