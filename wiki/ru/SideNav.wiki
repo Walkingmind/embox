@@ -52,3 +52,4 @@
   * [PlatformsDescription Поддерживаемые платформы]
     * [LegoDescription Lego MindStorm NXT]
       * [SoundNXT Звук]
+    * [SpartanDescription HW-SPAR3AN-SK-UNI-G Starter Kit]

@@ -8,5 +8,5 @@
 
 [http://www.olimex.com/dev/index.html SAM7-P256 development board for AT91SAM7S256 ARM7TDMI-S]
 
-[http://mindstorms.lego.com/en-us/products Lego Mindstorms NXT Atmel AT91SAM7S256 ARM7TDMI]
+[http://mindstorms.lego.com/en-us/Default.aspx Lego Mindstorms NXT Atmel AT91SAM7S256 ARM7TDMI]
 
