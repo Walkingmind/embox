@@ -1,0 +1,6 @@
+#summary Описание процесса отладки на Virtex-5 LXT FPGA ML505 Evaluation Platform
+
+= HOW-TO =
+
+ # Скачать [ftp://gaisler.com/gaisler.com/grmon/grmon-eval-1.1.44.tar.gz grmon-eval]
+ # grmon-eval -nb -xilusb -ni
