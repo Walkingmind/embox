@@ -1,4 +1,2 @@
-
-$_MODS += flash
-
-$_SRCS-flash += *.c
+$_MODS       += flash
+$_SRCS-flash += flash.c
