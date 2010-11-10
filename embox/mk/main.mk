@@ -122,13 +122,13 @@ docs:
 
 dot: $(GRAPH_PS)
 	@echo 'Dot complete'
-	
+
 create_romfs: build
 	@$(RM) -rv $(ROMFS_DIR)
 	@mkdir -p $(ROMFS_DIR)
 	$(CP) $(BUILD_DIR)/bin/embox $(ROMFS_DIR)
-	pushd $(ROMFS_DIR);	find ./ -depth -print | cpio -H newc -ov > ../ramfs.cpio; popd;
-	
+	pushd $(ROMFS_DIR); find ./ -depth -print | cpio -H newc -ov > ../ramfs.cpio; popd;
+
 clean c: _clean
 	@echo 'Clean complete'
 

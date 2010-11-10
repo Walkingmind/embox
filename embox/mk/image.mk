@@ -141,6 +141,6 @@ $(IMAGE_SIZE): $(IMAGE) $(OBJS_BUILD) $(DEPSINJECT_OBJ)
 		$(call image_size_sort,4,total)    \
 		$(RM) $@.tmp;                      \
 	else                                   \
-		echo "size util not found" > $@;   \
+		echo "$(SIZE) util not found" > $@;   \
 	fi;
 
