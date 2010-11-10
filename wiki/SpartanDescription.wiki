@@ -3,11 +3,11 @@
 = HOW-TO =
 
  # Install [http://downloads.sourceforge.net/linux-hotplug/fxload-2008_10_13.tar.gz fxload].
- # Install Xilinx_11.1_ISE_DS_SFD.tar by "sudo ./xsetup"
+ # Install *Xilinx_11.1_ISE_DS_SFD.tar* by _sudo ./xsetup_
  # Choose to install *Embedded Development Kit*
  # Choose *Install Cable Drivers* (если у вас не православный RH или Сусъ, то читаем тут, со свежими ядрами (> 2.6.18) драйвер не собирается)
- # Update with Xilinx_11.3_ISE_DS_lin.tar
- # После подключения usb выполняем _/sbin/fxload -v -t fx2 -I path/Xilinx/11.1/common/bin/lin/xusb_emb.hex -D /dev/bus/usb/dev_num/id_
+ # Update with *Xilinx_11.3_ISE_DS_lin.tar*
+ # After connection usb cable try  _/sbin/fxload -v -t fx2 -I path/Xilinx/11.1/common/bin/lin/xusb_emb.hex -D /dev/bus/usb/dev_num/id_
  # export LD_PRELOAD=path/libusb-driver.so
  # export PATH=path/Xilinx/11.1/EDK/bin/lin:$PATH
  # _xmd -hw system.xml_
@@ -21,3 +21,4 @@
 >end
 }}}
 
+Download [http://embox.googlecode.com/files/xilinx-spartan-dev-kit.xz scripts].
