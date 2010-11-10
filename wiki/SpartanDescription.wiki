@@ -2,14 +2,14 @@
 
 = HOW-TO =
 
- # Install [http://downloads.sourceforge.net/linux-hotplug/fxload-2008_10_13.tar.gz fxload].
+ # Install [http://downloads.sourceforge.net/linux-hotplug/fxload-2008_10_13.tar.gz fxload]
  # Install *Xilinx_11.1_ISE_DS_SFD.tar* by _sudo ./xsetup_
  # Choose to install *Embedded Development Kit*
- # Choose *Install Cable Drivers* (если у вас не православный RH или Сусъ, то читаем тут, со свежими ядрами (> 2.6.18) драйвер не собирается)
+ # Choose *Install Cable Drivers* (if you don't use RH or Suse, then [http://www.xilinx.com/support/answers/22648.htm readme], driver doesn't support kernel > 2.6.18)
  # Update with *Xilinx_11.3_ISE_DS_lin.tar*
  # After connection usb cable try  _/sbin/fxload -v -t fx2 -I path/Xilinx/11.1/common/bin/lin/xusb_emb.hex -D /dev/bus/usb/dev_num/id_
- # export LD_PRELOAD=path/libusb-driver.so
- # export PATH=path/Xilinx/11.1/EDK/bin/lin:$PATH
+ # _export LD_PRELOAD=libusb-driver.so_
+ # _export PATH=path/Xilinx/11.1/EDK/bin/lin:$PATH_
  # _xmd -hw system.xml_
  # attach with _mb-gdb -nw path/embox_
 {{{
