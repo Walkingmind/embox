@@ -1,4 +1,4 @@
-#summary Describes project embox's usage on platform lego mindstorms nxt2
+#summary Описание процесса отладки на Lego Mindstorms NXT Atmel AT91SAM7S256 ARM7TDMI
 
 = Introduction =
 

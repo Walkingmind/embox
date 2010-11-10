@@ -1,11 +1,15 @@
-#summary Describes project embox's usage on platform lego mindstorms nxt2
+#summary Describes project embox's usage on platform Lego Mindstorms NXT Atmel AT91SAM7S256 ARM7TDMI
 
 = Introduction =
 
 Project *embox* has been ported on platform [http://mindstorms.lego.com/en-us/Default.aspx lego-mindstorms]. We use this platform to show possibilities of *embox* to manage realtime systems which include limited hardware resources.
 
 = Subsystems implemantation =
+
 == Microcontroller ==
+
 == Sound ==
+
 [SoundNXT sound]
+
 == Display ==
