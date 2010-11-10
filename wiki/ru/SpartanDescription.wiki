@@ -2,15 +2,16 @@
 
 = HOW-TO =
 
- # Ставим fxload.
- # Берём Xilinx_11.1_ISE_DS_SFD.tar и запускаем sudo ./xsetup
- # Выбираем установить только Embedded Development Kit
- # Далее выбираем Install Cable Drivers (если у вас не православный RH или Сусъ, то читаем тут, со свежими ядрами (> 2.6.18) драйвер не собирается)
+ # Ставим [http://downloads.sourceforge.net/linux-hotplug/fxload-2008_10_13.tar.gz fxload].
+ # Берём Xilinx_11.1_ISE_DS_SFD.tar и запускаем "sudo ./xsetup"
+ # Выбираем установить только *Embedded Development Kit*
+ # Далее выбираем *Install Cable Drivers* (если у вас не православный RH или Сусъ, то читаем тут, со свежими ядрами (> 2.6.18) драйвер не собирается)
  # Берём Xilinx_11.3_ISE_DS_lin.tar и апдейтим
- # После подключения usb выполняем /sbin/fxload -v -t fx2 -I path/Xilinx/11.1/common/bin/lin/xusb_emb.hex -D /dev/bus/usb/dev_num/id
+ # После подключения usb выполняем _/sbin/fxload -v -t fx2 -I path/Xilinx/11.1/common/bin/lin/xusb_emb.hex -D /dev/bus/usb/dev_num/id_
  # export LD_PRELOAD=path/libusb-driver.so
- # xmd -hw system.xml
- # Далее цепляемся mb-gdb -nw path/embox
+ # export PATH=path/Xilinx/11.1/EDK/bin/lin:$PATH
+ # _xmd -hw system.xml_
+ # Далее цепляемся _mb-gdb -nw path/embox_
 {{{
 >target remote localhost:1234
 >load
