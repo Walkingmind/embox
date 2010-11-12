@@ -1,6 +1,6 @@
 #summary Main rules of embox codestyle are described here.
 
-<wiki:toc max_depth="2" />
+<wiki:toc max_depth="3" />
 
 = Introduction =
 
