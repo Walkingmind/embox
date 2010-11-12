@@ -1,4 +1,6 @@
-#summary embox project quick overview.
+#summary Embox project quick overview.
+
+<wiki:toc max_depth="2"/>
 
 = Introduction =
 
@@ -6,4 +8,19 @@ Modern computer’s system are used in a very different spectrum of problems, st
 
 All this facts affect on the process of code’s for the embedded system development. In this systems Test system design first of all, then develop some drivers for system loader and finally port a main operating system. As seen above the code of platform part of systems tripled and it leads to the errors.
 
-*embox* is a configurable operating system. Instead of providing a monolithic kernel, all code is placed into libraries, each of which implements different interfaces, for example memory manager interface. Only required parts of the system are included into final image. The required parts are defined during configuration of system or in run time.
+*EMBOX* is a configurable operating system. Instead of providing a monolithic kernel, all code is placed into libraries, each of which implements different interfaces, for example memory manager interface. Only required parts of the system are included into final image. The required parts are defined during configuration of system or in run time.
+
+= Architecture description =
+
+At this point, the project identified a number of interfaces for various subsystems (they may change in future). These include an interface package HAL, dynamic memory management, virtual memory management, networking subsystem, the file subsystem.
+
+== HAL Architecture ==
+
+== Memory Management ==
+
+== Virtual Memory ==
+
+== Network ==
+
+== File System ==
+
