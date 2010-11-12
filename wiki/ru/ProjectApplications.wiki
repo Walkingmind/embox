@@ -1,6 +1,8 @@
 #summary Где и как используется embox?
 #labels Featured,Phase-Requirements
 
+<wiki:toc max_depth="2" />
+
 = Введение =
 *TODO*
 Добавь что-нибудь полезное сюда.

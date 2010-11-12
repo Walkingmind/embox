@@ -2,6 +2,7 @@
 
 = Introduction =
 This chapter describes how to setup necessary tools which you will need to develop *embox*.
+This section is in no way trying to impose on you the proposed tools, you are free to enjoy a more comfortable and familiar (e.g. *Emacs*, *Vim*).
 
 = Contents =
 == <img align="left" src="http://embox.googlecode.com/svn/wiki/images/cygwin_small.png" /> [InstallToolchainWindowsCygwin Windows-specific setup] ==
@@ -15,3 +16,4 @@ Installing and tweaking *Eclipse IDE* with *CDT* plugin.
 
 == <img align="left" src="http://embox.googlecode.com/svn/wiki/images/svn_small.png" /> [InstallToolchainSubversion Subversion] ==
 Installing *Subclipse* SVN plugin for Eclipse and checking out embox from repository.
+

@@ -1,4 +1,4 @@
-#summary Paper describes project management in open source project is used in student projects
+#summary Описание управления open-source проектом на примере студенческого проекта
 <wiki:toc max_depth="3" />
 = Описание =
 Данная статья описывает процесс управления проектами с открытым кодом, в частности для применения в студенческих проектах [http://www.lanit-tercom.com/ Ланит - Терком] и [http://se.math.spbu.ru/SE кафедры системного программирования СПбГУ]
