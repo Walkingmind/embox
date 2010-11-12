@@ -1,14 +1,24 @@
 #summary Main rules of embox codestyle are described here.
 
+<wiki:toc max_depth="2" />
+
 = Introduction =
+
  TODO this part hasn't described yet
  
 == EMBOX codestyle ==
 
+As a basis for coding style adopted in the EMBOX project, take the style Kernighan and Ritchie (K & R). The following are the basic rules of structure and design code.
+
 === Text placement ===
+
+The length of the rows should not exceed 80 characters.
+
+The size of the function must be of the order of one screen (learn to write in a good manner).
 
 === Tabs and Brackets ===
 
+An example of a well-written functions:
 {{{
 int foo(void) {
     while (NULL != p) {
@@ -35,54 +45,66 @@ int bar(void) {
     );
 }
 }}}
+*Comments to the example*:
+ * As the indentation is used tabs, the editor should specify the length of tabs in 4.
+ * Tiny notation (for example, a single if) is not used. Always put curly braces.
+ * The opening brace is placed on the same line, where the operand to which it belongs (after 1 space).
+ * Closing brace is put on a new line at the same level (the indentation), as 'parent' code.
 
-=== Пробелы и пустые строки ===
+=== Blanks and blank lines ===
 
-Насчет пробелов все стандартно.
+*Blank lines*:
+ * No more than one blank line in a row
+ * At the end of the file one blank line
+ * Between the declarations or definitions of the functions and variables one blank line
+ * Definition of local variables of the function is separated from code by one blank line
 
-*Один пробел ставится*:
- * между операторами: 
+Spaces are arranged as standard.
+
+*One space is placed*:
+ * between operators: 
 {{{
 int a = x + y * (1 + b) / foo(11);
 }}}
- * между управляющими конструкциями (for/while/if/switch) и скобками:
+ * between control constructs (for/while/if/switch) and brackets:
 {{{
 if (a < 7) {
   ...
 }
 }}}
- * При приведении типа:
+ * When casting the type:
 {{{
 int x = (int) ((double) a / 13 + 13);
 }}}
-*Пробел не ставится*:
- * При описании функции
+*No space is placed*:
+ * Function definition:
 {{{
 int main(void) {
 }
 }}}
- * При вызове функции:
+ * Function call:
 {{{
 int x = foo(1);
 }}}
- * До или после операторов инкремента и декремента:
+ * Before and after increment and decrement operator:
 {{{
 i++;
 }}}
- * При указателе между именем и *:
+ * At a pointer between a name and *:
 {{{
 struct list_head *tmp;
 }}}
 
 === Macroses ===
- * Все "задефайненные" константы пишутся большими буквами через подчеркивания.
- * Макросы также пишутся большими буквами через подчеркивания.
- * допускается (но не требуется) писать макрос маленькими буквами через подчеркивания, если при вызове он ни чем не отличается от обычной функции, то есть не имеет никаких побочных эффектов (не содержит инструкции *return* и т.п.)
- * Если макрос многострочный - пишите его в несколько строк=) Для этого используется обратный слеш. Он должен ставиться через 1 пробел, но лучше через несколько пробелов, как в примере
- * все аргументы макроса внутри него должны быть в скобках. Исключением является склеивание строк *##*
- * Макросы, состоящие из нескольких выражений, заключаются внутрь *do { ... } while(0)*
 
-Примеры хороших макросов:
+ * Все "задефайненные" константы пишутся большими буквами через подчеркивания.
+ * Macros are also written in large letters with the underscore.
+ * Допускается (но не требуется) писать макрос маленькими буквами через подчеркивания, если при вызове он ни чем не отличается от обычной функции, то есть не имеет никаких побочных эффектов (не содержит инструкции *return* и т.п.)
+ * Если макрос многострочный - пишите его в несколько строк=) Для этого используется обратный слеш. Он должен ставиться через 1 пробел, но лучше через несколько пробелов, как в примере
+ * Все аргументы макроса внутри него должны быть в скобках. Исключением является склеивание строк *##*
+ * Macros consisted of several expressions must be in *do { ... } while(0)*
+
+Examples of good macros:
 {{{
 #define INTERRUPT_NRS_TOTAL 16
 }}}
@@ -101,18 +123,20 @@ struct list_head *tmp;
 }}}
 
 === Naming conventions ===
-Все экспортируемые (доступные извне) функции и переменные должны иметь префикс, единый для текущего модуля.
 
-Все, кроме макросов пишется маленькими буквами, через подчеркивание.
+All exported (externally accessible) functions and variables must be prefixed, specific for the current module.
+
+All except the macro is written in small letters, through emphasis.
 
 === Conventional comments ===
- * В коде должен присутствовать только английский язык и никакого транслита. Это касается не только комментариев, но и именования функций и переменных.
- * Допускаются только комментарии в стиле Си: 
+
+ * The code must contain only English language. This applies not only to comment, but the naming of functions and variables.
+ * Allowed only comments in the C-style:
 {{{
 /* ... */
 }}}
- * Комментарий *//...* не допускается
- * Большие блоки кода следует отключать, используя условную компиляцию препроцессора:
+ * Comments *//...* not allowed
+ * Large blocks of code should be disabled by using the conditional compilation preprocessor:
 {{{
 #if 0
   ... unused_code ...
@@ -128,7 +152,7 @@ struct list_head *tmp;
 }}}
  * В начале файлов и к каждой функции пишутся [http://www.stack.nl/~dimitri/doxygen/manual.html Doxygen] комментарии. Это относится в первую очередь к заголовочным файлам, содержащим API модуля.
 
-   Как начинать каждый файл:
+   How to start each file:
 {{{
 /** 
  * @file
@@ -145,7 +169,7 @@ struct list_head *tmp;
  *           section, e.g. you may use hyphens to create a list of items.
  */
 }}}
-   Пример такого комментария:
+   An example of such comments:
 {{{
 /**
  * @file
