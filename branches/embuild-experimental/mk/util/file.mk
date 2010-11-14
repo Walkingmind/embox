@@ -5,7 +5,7 @@
 # Author: Eldar Abusalimov
 #
 
-#include util/core.mk
+include util/common.mk
 
 ##
 # Function: r-wildcard
