@@ -12,7 +12,7 @@
  *          - Rewriting by hand using GNU C language extensions
  */
 
-#include <drivers/vtparse_table.h>
+#include <drivers/vtparse_state.h>
 
 /* Perform both action and the state change. */
 #define ACTION_TRANSIT(action, state) \
