@@ -51,8 +51,8 @@ export
 
 .PHONY: patch-kernel usr ramfs kernel
 
-all: patch-kernel usr ramfs kernel \
-    $(IMAGE) $(IMAGE_BIN) $(IMAGE_UBOOT) $(IMAGE_RAM) $(IMAGE_PIGGY) $(IMAGE_SREC) $(IMAGE_ROM)
+all: patch-kernel usr ramfs kernel image image_bin image_uboot \
+    image_ram image_piggy image_srec image_rom
 	@echo 'Build complete'
 
 usr u:
@@ -86,27 +86,29 @@ kernel k:
 	[ -e $(KERNEL_DIR)/.config ] || cp $(CONFIG_DIR)/$(KERNEL_CONFIG) $(KERNEL_DIR)/.config
 	$(MAKE) -C $(KERNEL_DIR) ARCH=$(ARCH) CROSS_COMPILE=$(CROSS_COMPILE) image.bin uImage
 
-$(IMAGE):
+image:
 	cp $(BOOT_DIR)/$(shell basename $(IMAGE)) $(BIN_DIR)
+	[ -e $(BIN_DIR)/System.map ] || ln -s $(KERNEL_DIR)/System.map $(BIN_DIR)/System.map
+	[ -e $(BIN_DIR)/config ] || ln -s $(KERNEL_DIR)/.config $(BIN_DIR)/config
 	@$(OBJDUMP) -d $(IMAGE) > $(IMAGE).dis
 
-$(IMAGE_BIN): $(IMAGE)
+image_bin: $(IMAGE)
 	cp $(BOOT_DIR)/$(shell basename $(IMAGE_BIN)) $(BIN_DIR)
 
-$(IMAGE_RAM): $(IMAGE)
+image_ram: $(IMAGE)
 	@$(MAKE) -C $(ARCH_DIR)/$(ARCH) image.ram
 	@$(OBJDUMP) -d $(IMAGE_RAM) > $(IMAGE_RAM).dis
 
-$(IMAGE_ROM): $(IMAGE)
+image_rom: $(IMAGE)
 	@$(MAKE) -C $(ARCH_DIR)/$(ARCH) image.rom
 
-$(IMAGE_SREC): $(IMAGE_RAM)
-	@$(OBJCOPY) -O srec $< $@
+image_srec: $(IMAGE_RAM)
+	@$(OBJCOPY) -O srec $< $(IMAGE_SREC)
 
-$(IMAGE_PIGGY): $(IMAGE_RAM)
-	@$(OBJCOPY) $(OBJCOPYFLAGS) -S $< $@
+image_piggy: $(IMAGE_RAM)
+	@$(OBJCOPY) $(OBJCOPYFLAGS) -S $< $(IMAGE_PIGGY)
 
-$(IMAGE_UBOOT): $(IMAGE)
+image_uboot: $(IMAGE)
 	cp $(BOOT_DIR)/$(shell basename $(IMAGE_UBOOT)) $(BIN_DIR)
 
 clean c:
