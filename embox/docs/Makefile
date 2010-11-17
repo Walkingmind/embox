@@ -1,12 +1,8 @@
 # $Id$
-#TODO
 
+TARGET   = embox_ref_manual
 PDFLATEX = pdflatex
-CHAPTERS = cross-compiler
 
 all:
-	$(PDFLATEX) $(CHAPTERS)/arm_build.tex
-
-clean:
-	$(RM) *.aux *.log *.out
+	$(PDFLATEX) -output-directory $(DOCS_OUT_DIR) $(TARGET).tex
 
