@@ -2,14 +2,16 @@
 
 == TSIM ==
 
-[ftp://ftp.gaisler.com/gaisler.com/tsim/tsim-eval-2.0.15.tar.gz download]
+ # Установить [ftp://ftp.gaisler.com/gaisler.com/tsim/tsim-eval-2.0.18.tar.gz tsim-eval]
+ # tsim-leon3 -gdb
+ # Присоединиться к gdb серверу
 
 == QEMU ==
 
- # Install [http://wiki.qemu.org/Download QEMU]
+ # Установить [http://wiki.qemu.org/Download QEMU]
  # qemu-img create hd0.img 2G
  # fdisk hd0.img
-  # Setup geometry:
+  # Задать геометрию диска:
    * x - extra functionality
    * h 16
    * s 63
@@ -24,7 +26,7 @@
  # mv path/embox /mnt/flash 
  # umount /mnt/flash
  # losetup -d /dev/loop0
- # Download a [ftp://alpha.gnu.org/gnu/grub/grub-0.97-i386-pc.ext2fs grub boot disk] for the floppy disk
+ # Загрузить [ftp://alpha.gnu.org/gnu/grub/grub-0.97-i386-pc.ext2fs загрузочный образ grub] для floppy диска
  # ln -s grub-0.97-i386-pc.ext2fs floppy.img
  # qemu -hda hd0.img -fda floppy.img -m 256 -boot a
   * grub> kernel (hd0,0)/embox

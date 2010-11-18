@@ -2,7 +2,9 @@
 
 == TSIM ==
 
-[ftp://ftp.gaisler.com/gaisler.com/tsim/tsim-eval-2.0.15.tar.gz download]
+ # Install [ftp://ftp.gaisler.com/gaisler.com/tsim/tsim-eval-2.0.18.tar.gz tsim-eval]
+ # tsim-leon3 -gdb
+ # Connect to gdb server
 
 == QEMU ==
 
@@ -34,7 +36,7 @@
 
 [http://sourceforge.net/projects/skyeye/files/skyeye/skyeye-1.3.0_rc1.tar.gz/download download skyeye-1.3.0rc1]
 
-[http://sourceforge.net/projects/skyeye/files/skyeye/skyeye-1.2.6_rc1/skyeye-1.2.6_rc1.tar.bz2/download download skyeye-1.2.6rc1] (рекомендуется)
+[http://sourceforge.net/projects/skyeye/files/skyeye/skyeye-1.2.6_rc1/skyeye-1.2.6_rc1.tar.bz2/download download skyeye-1.2.6rc1] (recommended)
 
 Довольно продвинутый симулятр, поддерживает разные платформы (в основном arm семейства, из sparc только leon2), отладку по gdb, конфигурация железки задаётся в конфиге (память, сеть, uart и прочее).
 
