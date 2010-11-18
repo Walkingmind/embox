@@ -9,7 +9,7 @@ SECTIONS {
 	} SECTION_REGION(rodata)
 	SECTION_SYMBOLS(rodata)
 
-		.reloc : {
+	.reloc : {
 		ALIGNMENT();
 		_flash_utils_start = .;
 		*(.reloc.flash_utils)
