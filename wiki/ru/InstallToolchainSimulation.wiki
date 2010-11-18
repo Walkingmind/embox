@@ -17,7 +17,7 @@
   # n, p, 1, enter, enter - create new partition
   # a 1 - make bootable     
   # w - write the table to disk
- # losetup -o 32256 /dev/loop0 hd0.img (32256 = 63 sectors * 512 bytes)
+ # losetup -o 32256 /dev/loop0 hd0.img (32256 = 63 sectors x 512 bytes)
  # mke2fs -j /dev/loop0     
  # mount /dev/loop0 /mnt/flash
  # mv path/embox /mnt/flash 
