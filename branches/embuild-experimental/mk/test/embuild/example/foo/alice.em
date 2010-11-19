@@ -1,5 +1,5 @@
 # $Id$
 
-define module-alice
+define module 	alice
   depends = bob
 endef
