@@ -1,4 +1,4 @@
-# $Id: $
+# $Id$
 #
 # Utility for checking whether some variables are defined or not.
 # It is primarily useful applied to environmental checks.

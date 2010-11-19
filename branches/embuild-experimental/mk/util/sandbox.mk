@@ -1,4 +1,4 @@
-# $Id: $
+# $Id$
 #
 # Well, it is not quite a sandbox, as one might think. It's just a kind of
 # wrapper around some code which filters all newly defined variables.
