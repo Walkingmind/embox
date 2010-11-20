@@ -71,6 +71,7 @@
 #
 # Integer math.
 #
+# Author: John Graham-Cumming
 # Author: Eldar Abusalimov
 #
 
