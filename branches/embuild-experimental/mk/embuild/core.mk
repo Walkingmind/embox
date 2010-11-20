@@ -3,9 +3,7 @@
 # Author: Eldar Abusalimov
 #
 
-include util.mk
 include util/wildcard.mk
-include util/var.mk
 
 traverse = $(call r-wildcard,$(1:%=%/**/*.em))
 
