@@ -1,5 +1,7 @@
 # $Id$
 #
+# Variable identifiers mangling/demangling.
+#
 #   Date: Nov 20, 2010
 # Author: Eldar Abusalimov
 #
@@ -11,9 +13,8 @@ include util/common.mk
 include util/math.mk
 include util/list.mk
 
-# TODO only single words and whitespace separated pairs for now... -- Eldar
-var_name_escape = $(call __var_name_escape1,$(or $(value 1),$(.VARIABLES)))
-var_name_unescape = $(subst $$$$,$$,$(call __var_name_unescape_whitespace,$1))
+var_name_mangle = $(call __var_name_escape1,$(or $(value 1),$(.VARIABLES)))
+var_name_demangle = $(subst $$$$,$$,$(call __var_name_unescape_whitespace,$1))
 
 # Params:
 #  1. Variables list
@@ -34,7 +35,7 @@ __var_name_escape3 = $(subst $$,$$$$,$2) \
   $(foreach combo,$(call __var_name_escape_combos,$ \
                 $(subst $$,$$$$,$3),$(call int_seq,x,$(3:%=x)),$(words $3)),$ \
     $(if $(findstring undefined,$(flavor \
-                $(call var_name_unescape,$(combo)))),,$(combo))$ \
+                $(call var_name_demangle,$(combo)))),,$(combo))$ \
    )
 
 # Params:
@@ -72,7 +73,7 @@ __var_name_singles = \
 #  2. Remaining singles
 # Returns: the variable list with all singles removed (not escaped)
 __var_name_multies = \
-  $(if $2,$(call $0,$(subst $( ) $(call first,$2) , ,$1),$(call rest,$2)),$1)
+  $(if $2,$(call $0,$(subst $( ) $(call first,$2) , , $1 ),$(call rest,$2)),$1)
 
 __var_name_escape_whitespace = \
   $(subst $(\space),_$$s,$(subst $(\t),_$$t,$(subst $(\n),_$$n,$1)))
