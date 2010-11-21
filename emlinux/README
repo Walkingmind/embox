@@ -13,11 +13,11 @@ Quickstart guide
 ----------------
 
 Supported platforms:
-    SPARC LEON3
-    MicroBlaze Spartan3a
+    Virtex-5 LXT FPGA ML505 Evaluation Platform (SPARC Leon3)
+    HW-SPAR3AN-SK-UNI-G Starter Kit (Microblaze)
 
 Supported kernel's versions:
-    linux-2.6.21.1
+    linux-2.6.21.1 (leon3 only)
     linux-2.6.33
 
 Building
