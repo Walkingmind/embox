@@ -53,6 +53,10 @@ multiboot_entry:
 	pushl	%eax
 
 	call	EXT_C(multiboot_check)
+	
+	/*mov     $0x0e, %ah
+	mov     $0x35, %al
+	int     $0x10*/
 
 	call	EXT_C(kernel_start)
 
