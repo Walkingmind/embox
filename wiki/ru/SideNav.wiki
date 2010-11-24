@@ -54,3 +54,4 @@
       * [SoundNXT Звук]
     * [SpartanDescription HW-SPAR3AN-SK-UNI-G Starter Kit]
     * [ML505Description Virtex-5 LXT FPGA ML505 Evaluation Platform]
+  * [EmboxArt Art]
