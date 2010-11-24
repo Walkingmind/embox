@@ -8,29 +8,55 @@
 
 == QEMU ==
 
- # Установить [http://wiki.qemu.org/Download QEMU]
- # qemu-img create hd0.img 2G
- # fdisk hd0.img
+Установить [http://wiki.qemu.org/Download QEMU]
+
+Установка GRUB на образ диска, используемый Qemu:
+
+ # Создать образ диска (21 MB)
+{{{dd if=/dev/zero of=hd0.img count=40320}}}
+ # Создать раздел на образе диска
+{{{/sbin/fdisk hd0.img}}}
   # Задать геометрию диска:
    * x - extra functionality
    * h 16
    * s 63
-   * c 3047
+   * c 40
    * r - return to main menu
   # n, p, 1, enter, enter - create new partition
-  # a 1 - make bootable     
+  # a 1 - make bootable
   # w - write the table to disk
- # losetup -o 32256 /dev/loop0 hd0.img (32256 = 63 sectors x 512 bytes)
- # mke2fs -j /dev/loop0     
- # mount /dev/loop0 /mnt/flash
- # mv path/embox /mnt/flash 
- # umount /mnt/flash
- # losetup -d /dev/loop0
- # Загрузить [ftp://alpha.gnu.org/gnu/grub/grub-0.97-i386-pc.ext2fs загрузочный образ grub] для floppy диска
- # ln -s grub-0.97-i386-pc.ext2fs floppy.img
- # qemu -hda hd0.img -fda floppy.img -m 256 -boot a
-  * grub> kernel (hd0,0)/embox
-  * grub> boot
+ # Setup the loopback device (1048576 =  2048 x 512 bytes)
+{{{losetup -o 1048576 /dev/loop0 hd0.img}}}
+ # Создать файловую систему
+{{{sudo /sbin/mkfs.ext2 /dev/loop0}}}
+ # Примонтировать образ
+{{{sudo mount /dev/loop0 /mnt/flash}}}
+ # Установить GRUB (stage1 и stage2 берутся с хостовой системы)
+{{{
+sudo mkdir -p /mnt/flash/boot/grub
+sudo cp /boot/grub/stage1 /boot/grub/stage2 /mnt/flash/boot/grub
+}}}
+ # Put embox image
+{{{cp path/embox /mnt/flash}}}
+ # Отмонтировать образ диска
+{{{sudo umount /mnt/flash}}}
+ # Отсоединить loopback устройство
+{{{sudo /sbin/losetup -d /dev/loop0}}}
+ # Установить GRUB device map
+{{{
+/usr/sbin/grub --device-map=/dev/null
+    > device (hd0) hd0.img
+    > geometry (hd0) 40 16 63
+    > root (hd0,0)
+    > setup (hd0)
+    > quit
+}}}
+ # Загрузиться с помощью Qemu
+{{{
+qemu -hda hd0.img -m 256
+    grub> kernel /boot/embox
+    grub> boot
+}}}
 
 == SKYEYE ==
 
