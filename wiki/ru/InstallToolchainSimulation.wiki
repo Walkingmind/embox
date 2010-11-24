@@ -13,9 +13,13 @@
 Установка GRUB на образ диска, используемый Qemu:
 
  # Создать образ диска (21 MB)
-{{{dd if=/dev/zero of=hd0.img count=40320}}}
+{{{
+dd if=/dev/zero of=hd0.img count=40320
+}}}
  # Создать раздел на образе диска
-{{{/sbin/fdisk hd0.img}}}
+{{{
+/sbin/fdisk hd0.img
+}}}
   # Задать геометрию диска:
    * x - extra functionality
    * h 16
@@ -26,22 +30,35 @@
   # a 1 - make bootable
   # w - write the table to disk
  # Setup the loopback device (1048576 =  2048 x 512 bytes)
-{{{losetup -o 1048576 /dev/loop0 hd0.img}}}
+{{{
+/sbin/fdisk -u -l hd0.img
+sudo /sbin/losetup -o 1048576 /dev/loop0 hd0.img
+}}}
  # Создать файловую систему
-{{{sudo /sbin/mkfs.ext2 /dev/loop0}}}
+{{{
+sudo /sbin/mkfs.ext2 /dev/loop0
+}}}
  # Примонтировать образ
-{{{sudo mount /dev/loop0 /mnt/flash}}}
+{{{
+sudo mount /dev/loop0 /mnt/flash
+}}}
  # Установить GRUB (stage1 и stage2 берутся с хостовой системы)
 {{{
 sudo mkdir -p /mnt/flash/boot/grub
 sudo cp /boot/grub/stage1 /boot/grub/stage2 /mnt/flash/boot/grub
 }}}
  # Put embox image
-{{{cp path/embox /mnt/flash}}}
+{{{
+cp path/embox /mnt/flash
+}}}
  # Отмонтировать образ диска
-{{{sudo umount /mnt/flash}}}
+{{{
+sudo umount /mnt/flash
+}}}
  # Отсоединить loopback устройство
-{{{sudo /sbin/losetup -d /dev/loop0}}}
+{{{
+sudo /sbin/losetup -d /dev/loop0
+}}}
  # Установить GRUB device map
 {{{
 /usr/sbin/grub --device-map=/dev/null
