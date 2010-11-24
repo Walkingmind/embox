@@ -75,12 +75,39 @@ qemu -hda hd0.img -m 256
     grub> boot
 }}}
 
-== SKYEYE ==
+== SKYEYE == 
 
-[http://sourceforge.net/projects/skyeye/files/skyeye/skyeye-1.3.0_rc1.tar.gz/download download skyeye-1.3.0rc1]
+Targeted to ARM simulation. Used for Atmel AT91 simulation as that installed in Lego NXT brick. Have UART support.
 
-[http://sourceforge.net/projects/skyeye/files/skyeye/skyeye-1.2.6_rc1/skyeye-1.2.6_rc1.tar.bz2/download download skyeye-1.2.6rc1] (recommended)
+=== Install ===
 
-Довольно продвинутый симулятр, поддерживает разные платформы (в основном arm семейства, из sparc только leon2), отладку по gdb, конфигурация железки задаётся в конфиге (память, сеть, uart и прочее).
+  * Compile from source 
+   
+   [http://sourceforge.net/projects/skyeye/files/skyeye/skyeye-1.3.0_rc1.tar.gz/download download skyeye-1.3.0rc1]
 
-Начальная поддержка embox-arm.
+   [http://sourceforge.net/projects/skyeye/files/skyeye/skyeye-1.2.6_rc1/skyeye-1.2.6_rc1.tar.bz2/download download skyeye-1.2.6rc1] (recommended)
+   
+   {{{
+$ ./configure
+$ make
+$ make install
+}}}
+
+=== Run ===
+  
+  Start simulator
+  {{{
+  $ skyeye -d -c [path-to-embox]/third-party/conf/skyeye.conf
+}}}
+
+  Load embox into skyeye
+  {{{
+$ arm-elf-gdb [path-to-embox-elf]
+(gdb) tar extended-remote :12345
+(gdb) load
+}}}
+  
+  Now we can debug, e.g. just run 
+  {{{
+ (gdb) c
+}}}
