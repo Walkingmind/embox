@@ -1,0 +1,20 @@
+#summary not only programming
+
+== 1. simple ==
+
+|| http://embox.googlecode.com/svn/wiki/images/art/01.png || http://embox.googlecode.com/svn/wiki/images/art/02.jpg || http://embox.googlecode.com/svn/wiki/images/art/03.png || http://embox.googlecode.com/svn/wiki/images/art/04.png ||
+
+== 2. box-concept ==
+
+|| http://embox.googlecode.com/svn/wiki/images/art/05.png || http://embox.googlecode.com/svn/wiki/images/art/05_2.png || http://embox.googlecode.com/svn/wiki/images/art/05_3.png ||
+|| http://embox.googlecode.com/svn/wiki/images/art/05_4.png || http://embox.googlecode.com/svn/wiki/images/art/05_5.png || http://embox.googlecode.com/svn/wiki/images/art/06.png ||
+|| http://embox.googlecode.com/svn/wiki/images/art/06_2.png || http://embox.googlecode.com/svn/wiki/images/art/06_3.png ||
+
+== 3. ox-idea ==
+
+|| http://embox.googlecode.com/svn/wiki/images/art/03_3.png || http://embox.googlecode.com/svn/wiki/images/art/06_4.png || http://embox.googlecode.com/svn/wiki/images/art/06_5.png ||
+|| http://embox.googlecode.com/svn/wiki/images/art/07_3.png || http://embox.googlecode.com/svn/wiki/images/art/08.png ||
+
+== 4. emb-rotating ==
+
+|| http://embox.googlecode.com/svn/wiki/images/art/09.png || http://embox.googlecode.com/svn/wiki/images/art/10.png || http://embox.googlecode.com/svn/wiki/images/art/11.png ||
