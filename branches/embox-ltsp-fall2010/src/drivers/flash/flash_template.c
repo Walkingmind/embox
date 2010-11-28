@@ -679,6 +679,8 @@ uint8_t flash_wait_until_ready(FLASH_DEV *flash_dev, uint32_t timeout) {
 	return false;
 }
 
+void flash_writef(FLASH_DEV *flash_dev, uint32_t offset,
+		volatile FLASH_FDATA value) __attribute__ ((section (".reloc.flash_utils")));
 /**
  * This procedure is called to write a single data item directly to the
  * specified device address.  This function is used internally by the
