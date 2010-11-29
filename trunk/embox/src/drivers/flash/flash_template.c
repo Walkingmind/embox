@@ -57,6 +57,8 @@
 #include <drivers/flash_template.h>
 #include <drivers/flash_if.h>
 
+#define __ATTR //__attribute__ ((section (".reloc.flash_utils")))
+
 /**
  * This procedure is called to clear the status register on the flash
  * device.
@@ -680,7 +682,7 @@ uint8_t flash_wait_until_ready(FLASH_DEV *flash_dev, uint32_t timeout) {
 }
 
 void flash_writef(FLASH_DEV *flash_dev, uint32_t offset,
-		volatile FLASH_FDATA value) __attribute__ ((section (".reloc.flash_utils")));
+		volatile FLASH_FDATA value) __ATTR;
 /**
  * This procedure is called to write a single data item directly to the
  * specified device address.  This function is used internally by the
