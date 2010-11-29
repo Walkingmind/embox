@@ -12,7 +12,7 @@
 
 EMBOX_UNIT_INIT(unit_init);
 
-#define __ATTR __attribute__ ((section (".reloc.flash_utils")))
+#define __ATTR //__attribute__ ((section (".reloc.flash_utils")))
 
 FLASH_DEV flash_devices_table[MAX_FLASH_DEVS];
 
