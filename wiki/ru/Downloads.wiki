@@ -19,6 +19,20 @@
  * [http://embox.googlecode.com/files/embox-0.1.1.txz embox-0.1.1.txz] (размер: 203 KB; SHA1 Checksum: c2ea3f5c63b16aa13c03560066e80c590c45d416)
  * [http://embox.googlecode.com/files/embox-0.1.txz embox-0.1.txz] (размер: 201 KB; SHA1 Checksum: 7c9b327d87ac992b477ff6a1b3c2572895b306a0)
 
+= EmLinux =                          
+                                     
+Крайний стабильный релиз - emlinux-0.2.
+
+Вышел 30 Ноя 2010.
+
+EmLinux - часть проекта Embox.
+
+EmLinux набор скриптов для генерации легковесного образа Linux системы.
+Использует Embox в качестве загрузчика.
+
+ * [http://embox.googlecode.com/files/emlinux-0.2.txz emlinux-0.2.txz]
+ * [http://embox.googlecode.com/files/emlinux-0.1.txz emlinux-0.1.txz]
+
 = Tools =
 
 SPARC кросс-компилятор под Windows:
@@ -41,9 +55,6 @@ ARM кросс-компилятор под Linux:
 
  * [http://embox.googlecode.com/files/arm-elf-gcc-4.3.3.txz arm-elf-gcc-4.3.3.txz] ARM 7
  * [http://embox.googlecode.com/files/arm-elf-gcc-4.3.3.tar.bz2 arm-elf-gcc-4.3.3.tar.bz2] ARM 9
-
-EMLinux:
- * [http://embox.googlecode.com/files/emlinux-0.1.txz emlinux-0.1.txz]
 
 Симуляторы:
 
