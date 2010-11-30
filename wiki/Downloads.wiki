@@ -55,7 +55,6 @@ Microblaze Cross-compiler for Linux:
 ARM Cross-compiler for Linux:
 
  * [http://embox.googlecode.com/files/arm-elf-gcc-4.3.3.txz arm-elf-gcc-4.3.3.txz] ARM 7
- * [http://embox.googlecode.com/files/arm-elf-gcc-4.3.3.tar.bz2 arm-elf-gcc-4.3.3.tar.bz2] ARM 9
 
 Simulators:
 
