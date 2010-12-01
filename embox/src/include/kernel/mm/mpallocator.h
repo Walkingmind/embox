@@ -1,7 +1,7 @@
 /**
  * @file
  * @brief multipage allocator header
- * @details 
+ * @details
  *
  * @date 28.04.10
  * @author Fedor Burdun

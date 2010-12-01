@@ -54,7 +54,7 @@ TEST_HARD_TRAP;                                                 ! 24 cp_disabled
 				TEST_HARD_TRAP; TEST_HARD_TRAP; TEST_HARD_TRAP; ! 25 - 27 undefined
 TEST_HARD_TRAP;                                                 ! 28 cp_exception
 				TEST_HARD_TRAP;                                 ! 29 undefined
-								TEST_HARD_TRAP;                 ! 2A division_by_zero  
+								TEST_HARD_TRAP;                 ! 2A division_by_zero
 												TEST_HARD_TRAP; ! 2B data_store_error
 TEST_HARD_TRAP; TEST_HARD_TRAP; TEST_HARD_TRAP; TEST_HARD_TRAP; ! 2C - 2F undefined
 TEST_HARD_TRAP; TEST_HARD_TRAP; TEST_HARD_TRAP; TEST_HARD_TRAP; ! 30 - 33 undefined

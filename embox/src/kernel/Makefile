@@ -18,7 +18,7 @@ $_MODS += printk
 $_SRCS-main += main.c
 $_SRCS-main += init.c
 $_SRCS-main += nosys.c
-$_SRCS-job += job.c 
+$_SRCS-job += job.c
 $_DEPS-main += embox.hal.arch
 $_DEPS-main += irq
 $_DEPS-main += timer
@@ -40,9 +40,9 @@ ifdef CONFIG_IRQ
 endif
 #ifdef CONFIG_PRINTK
  # $_SRCS-printk  += printk.c
-  #$_SRCS-printk  += printk/putchar.c ../lib/stdio/printf.c 
+  #$_SRCS-printk  += printk/putchar.c ../lib/stdio/printf.c
   #$_SRCS-printk  += printk/putchar.c printk/printf.c
- # $_DEPS-printk  += embox.driver.abstract.mod_diag 
+ # $_DEPS-printk  += embox.driver.abstract.mod_diag
 #endif
 ifdef CONFIG_SOFTIRQ
   $_SRCS-softirq += softirq.c
@@ -59,14 +59,14 @@ ifdef CONFIG_DRIVER_SUBSYSTEM
 endif
 
 ifdef CONFIG_WATCHDOG
-  $_DEPS-main += embox.driver.abstract.watchdog 
+  $_DEPS-main += embox.driver.abstract.watchdog
 endif
 
 ifdef CONFIG_MEASURE_IRQ
   $_MODS += measure
   $_SRCS-measure += measure.c
-  $_DEPS-measure += $(CONFIG_MEASURE_IRQ) timer 
-  $_DEPS-main += measure 
+  $_DEPS-measure += $(CONFIG_MEASURE_IRQ) timer
+  $_DEPS-main += measure
 endif
 
 ifdef CONFIG_MOD_DIAG

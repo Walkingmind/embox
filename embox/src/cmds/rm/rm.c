@@ -12,10 +12,10 @@
 #define COMMAND_DESC_MSG "remove file or directory"
 #define HELP_MSG         "Usage: rm [OPTIONS] FILE"
 
-static const char *man_page = 
+static const char *man_page =
 	#include "rm_help.inc"
 	;
-	
+
 DECLARE_SHELL_COMMAND(COMMAND_NAME, exec, COMMAND_DESC_MSG, HELP_MSG, man_page);
 
 static int exec(int argsc, char **argsv) {
@@ -44,6 +44,6 @@ static int exec(int argsc, char **argsv) {
 
 	file_path = argsv[argsc - 1];
 	//TODO:
-	
+
 	return remove(file_path);
 }

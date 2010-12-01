@@ -96,7 +96,7 @@ typedef __libelf_u32_t    Elf32_Word;
  * ELF Header. Code style from specification.
  */
 typedef struct {
-	uint8_t    e_ident[EI_NIDENT];    	
+	uint8_t    e_ident[EI_NIDENT];
 	Elf32_Half e_type;
 	Elf32_Half e_machine;
 	Elf32_Word e_version;
@@ -570,7 +570,7 @@ typedef struct {
 /**
  * Relocation table entry in sections with SHT_REL type.
  * Code style from specification
- */	
+ */
 typedef struct {
 	Elf32_Addr r_offset;
 	Elf32_Word r_info;

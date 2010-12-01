@@ -44,10 +44,10 @@ static int exec(int argsc, char **argsv) {
 		default:
 			return 0;
 		}
-	} while(-1 != nextOption);
+	} while (-1 != nextOption);
 
-	//eth_listen(eth_get_if(name), 0 /*??*/, NULL);
+	//eth_listen(eth_get_if (name), 0 /*??*/, NULL);
 	//printf("not realized\n");
-	
+
 	return 0;
 }

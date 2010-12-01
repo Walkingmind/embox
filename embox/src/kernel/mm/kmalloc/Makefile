@@ -1,7 +1,7 @@
 
 ifdef CONFIG_KMALLOC
 
-$_MODS += kmalloc 
+$_MODS += kmalloc
 
 $_SRCS-kmalloc += ${CONFIG_KMALLOC}
 #PACKAGE = embox.hal.mm.kmalloc

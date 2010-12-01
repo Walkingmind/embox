@@ -4,4 +4,4 @@
 #error "GCC no longer implements <varargs.h>."
 #error "Revise your code to use <stdarg.h>."
 
-#endif /* MICROBLAZE_VARARGS_H */ 
+#endif /* MICROBLAZE_VARARGS_H */

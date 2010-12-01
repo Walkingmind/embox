@@ -253,7 +253,7 @@ static struct leon_prom_info spi = {
 	0x1,
 	0x0C,
 	0x2,
-	0x80000100,		
+	0x80000100,
 	KERNEL_ARGS
 };
 
@@ -354,14 +354,19 @@ static char *no_nextprop(int node,char *name) {
 
 static void mark(void) {
 	__asm__ __volatile__(
-			"sethi  %%hi(%0), %%l0    \n\t" \
-			"st    %%g0,[%%lo(%0)+%%l0]\n\t" \
-			: : "i" (LEONSETUP_MEM_BASEADDR) : "l0" );
+		"sethi  %%hi(%0), %%l0    \n\t"
+		"st    %%g0,[%%lo(%0)+%%l0]\n\t"
+		: : "i" (LEONSETUP_MEM_BASEADDR)
+		: "l0"
+	);
 }
 
 static inline void set_cache(unsigned long regval) {
-	asm volatile("sta %0, [%%g0] %1\n\t" : :
-			"r" (regval), "i" (2) : "memory");
+	__asm__ __volatile__(
+		"sta %0, [%%g0] %1\n\t" :
+		: "r" (regval), "i" (2)
+		: "memory"
+	);
 }
 
 #define GETREGSP(sp) __asm__ __volatile__("mov %%sp, %0" : "=r" (sp))
@@ -408,14 +413,14 @@ static void linux_mmu_init(unsigned int addr) {
 	mark();
 
 	mmu_map_region((mmu_ctx_t)0, (uint32_t) &_text_start,
-			(uint32_t) &_text_start, 0x1000000,
-			MMU_PAGE_CACHEABLE | MMU_PAGE_WRITEABLE | MMU_PAGE_EXECUTEABLE);
+		(uint32_t) &_text_start, 0x1000000,
+		MMU_PAGE_CACHEABLE | MMU_PAGE_WRITEABLE | MMU_PAGE_EXECUTEABLE);
 	mmu_map_region((mmu_ctx_t)0, (uint32_t) 0x44000000,
-			(uint32_t) 0xf4000000, 0x1000000,
-			MMU_PAGE_CACHEABLE | MMU_PAGE_WRITEABLE | MMU_PAGE_EXECUTEABLE);
+		(uint32_t) 0xf4000000, 0x1000000,
+		MMU_PAGE_CACHEABLE | MMU_PAGE_WRITEABLE | MMU_PAGE_EXECUTEABLE);
 	mmu_map_region((mmu_ctx_t)0, (uint32_t) 0x7f000000,
-			(uint32_t) 0x7f000000, 0x1000000,
-			MMU_PAGE_CACHEABLE | MMU_PAGE_WRITEABLE | MMU_PAGE_EXECUTEABLE);
+		(uint32_t) 0x7f000000, 0x1000000,
+		MMU_PAGE_CACHEABLE | MMU_PAGE_WRITEABLE | MMU_PAGE_EXECUTEABLE);
 	if (&__stack > (&_text_start + 0x1000000)) {
 		/* if have to map data sections */
 		mmu_map_region((mmu_ctx_t)0, (paddr_t)&_data_start, (vaddr_t)&_data_start,
@@ -423,10 +428,10 @@ static void linux_mmu_init(unsigned int addr) {
 	}
 	//TODO mmu fix direct io map
 	mmu_map_region((mmu_ctx_t)0, (uint32_t) 0x80000000,
-			(uint32_t) 0x80000000, 0x1000000, MMU_PAGE_WRITEABLE );
+		(uint32_t) 0x80000000, 0x1000000, MMU_PAGE_WRITEABLE);
 
 	mmu_map_region((mmu_ctx_t)0, (paddr_t)addr, KERNBASE, 0x1000000,
-			MMU_PAGE_CACHEABLE | MMU_PAGE_WRITEABLE | MMU_PAGE_EXECUTEABLE);
+		MMU_PAGE_CACHEABLE | MMU_PAGE_WRITEABLE | MMU_PAGE_EXECUTEABLE);
 
 	mmu_set_context(0);
 
@@ -440,7 +445,7 @@ static void linux_mmu_init(unsigned int addr) {
 void bootm_linux(unsigned int addr, unsigned int entry_addr) {
 	interrupt_nr_t interrupt_nr;
 	void (*kernel)(struct linux_romvec *);
-	
+
 	for (interrupt_nr = 0; interrupt_nr < INTERRUPT_NRS_TOTAL; ++interrupt_nr) {
 		interrupt_disable(interrupt_nr);
 	}

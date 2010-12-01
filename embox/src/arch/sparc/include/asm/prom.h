@@ -123,7 +123,7 @@ struct leon_prom_info {
         int uart_vendor;
         int uart_device;
         int uart_interrupts;
-        int uart_reg;        
+        int uart_reg;
         char arg[256];
 };
 

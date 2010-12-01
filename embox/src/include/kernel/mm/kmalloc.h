@@ -18,7 +18,7 @@
 
 /**
  * Dynamic memory allocator arbitrary size.
- * 
+ *
  * @param size requested memory size
  *
  * @return pointer to the memory of the requested size.

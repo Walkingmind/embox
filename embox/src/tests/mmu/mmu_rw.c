@@ -50,16 +50,16 @@ static int run(void) {
 	mmu_map_region((mmu_ctx_t)0, (paddr_t)&_data_start, 0xf0000000, 0x1000,
 			MMU_PAGE_CACHEABLE | MMU_PAGE_WRITEABLE);
 
-	printf("%lu\n", mmu_get_fault_reg()); 
+	printf("%lu\n", mmu_get_fault_reg());
 	mmu_on();
 
-	if ((*((volatile uint32_t *)vaddr)) != (*((unsigned long *)&addr))) {
+	if ((*((volatile uint32_t *) vaddr)) != (*((unsigned long *) &addr))) {
 		status = -1;
 	}
 
 	/* test read/write */
-	*((volatile uint32_t *)vaddr) = 0x87654321;
-	if ( (*((volatile uint32_t *)vaddr) ) != 0x87654321 ) {
+	*((volatile uint32_t *) vaddr) = 0x87654321;
+	if (*((volatile uint32_t *) vaddr) != 0x87654321) {
 		status = -2;
 	}
 

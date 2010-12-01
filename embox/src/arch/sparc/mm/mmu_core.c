@@ -6,7 +6,7 @@
  * @date 18.04.2010
  * @author Anton Bondarev
  * @author Nikolay Korotky
- * @author Anton Kozlov 
+ * @author Anton Kozlov
  */
 #include <types.h>
 #include <string.h>
@@ -136,21 +136,21 @@ mmu_ctx_t mmu_create_context(void) {
 		return -1;
 	mmu_ctxd_set(cur_env->ctx + i, mmu_table_alloc(MMU_GTABLE_SIZE));
 	used_context[i] = 1;
-	return i; 
+	return i;
 }
 
 void mmu_delete_context(mmu_ctx_t ctx) {
 	used_context[ctx] = 0;
 	LOG_DEBUG("delete %d\n",ctx);
-	mmu_table_free((unsigned long *) (((unsigned long) (*( cur_env->ctx + ctx)) & MMU_CTX_PMASK) << 4), 1);
-}   
+	mmu_table_free((unsigned long *) (((unsigned long) (*(cur_env->ctx + ctx)) & MMU_CTX_PMASK) << 4), 1);
+}
 
 void switch_mm(mmu_ctx_t prev, mmu_ctx_t next) {
 	cur_env->cur_ctx = next;
 	mmu_set_context(next);
 	mmu_flush_tlb_all();
 }
-	
+
 /**
  * Module initializing function.
  * Setups system environment, but neither switch on virtual mode.

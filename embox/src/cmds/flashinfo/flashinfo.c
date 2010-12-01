@@ -75,7 +75,7 @@ static int exec(int argsc, char **argsv) {
 		default:
 			return 0;
 		}
-	} while(-1 != nextOption);
+	} while (-1 != nextOption);
 
 	/*
 	if (!strcmp (argsv[0],"-f")) {
@@ -142,7 +142,7 @@ static int exec(int argsc, char **argsv) {
 
 		if (argsc>2) {
 			sscanf(argsv[2], "%d", &nwords);
-			if(nwords>16) {
+			if (nwords>16) {
 				TRACE("max nwords is 16");
 				nwords = 16;
 			}
@@ -155,7 +155,7 @@ static int exec(int argsc, char **argsv) {
 		}
 
 		for (i=0;i<nwords;i++) {
-			if( i%4==0 )
+			if (i%4 == 0)
 				TRACE("\n0x%08x : ", addr+i*4);
 			TRACE("0x%08x ", buf[i]);
 		}
@@ -184,7 +184,7 @@ static int exec(int argsc, char **argsv) {
 
 		if (argsc>3) {
 			sscanf(argsv[3], "%d", &nwords);
-			if(nwords>16) {
+			if (nwords>16) {
 				TRACE("max nwords is 16");
 				nwords = 16;
 			}

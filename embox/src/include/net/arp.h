@@ -83,7 +83,7 @@ extern void arp_queue(sk_buff_t *skb);
 //extern void arp_init(void);
 
 /**
- * Handle arp packet. This function called protocal stack 
+ * Handle arp packet. This function called protocal stack
  * when arp packet has been received
  * @param pack net_packet
  */

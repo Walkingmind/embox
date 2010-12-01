@@ -2,7 +2,7 @@
  * @file
  * @brief timer test -- blinking led
  *
- * @date 01.10.2010 
+ * @date 01.10.2010
  * @author Anton Kozlov
  */
 
@@ -44,3 +44,4 @@ static int run(void) {
 	}
 	return (changed ? 0 : -1);
 }
+

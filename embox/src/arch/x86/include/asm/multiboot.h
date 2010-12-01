@@ -1,7 +1,7 @@
 /**
  * @file
  * @brief the header for Multiboot
- * 
+ *
  * @date 10.11.10
  * @author Nikolay Korotky
  */

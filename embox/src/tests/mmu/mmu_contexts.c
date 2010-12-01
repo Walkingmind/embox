@@ -1,9 +1,9 @@
 /**
  * @file
- * @brief Testing mapping with different contexts 
+ * @brief Testing mapping with different contexts
  *
  * @date 17.04.2010
- * @author Anton Kozlov 
+ * @author Anton Kozlov
  */
 
 #include <types.h>
@@ -26,16 +26,16 @@ static void worker_a(void) {
 	__asm__  __volatile__ (
 		".align 0x1000\n\t"
 		"worker_a_aligned:\n\t"
-	);	
-	is_a_done = 1;	
-} 
+	);
+	is_a_done = 1;
+}
 
 static void worker_b(void) {
 	__asm__   __volatile__(
 		".align 0x1000\n\t"
 		"worker_b_aligned:\n\t"
-	);		
-	is_b_done = 1;	
+	);
+	is_b_done = 1;
 }
 
 static int run(void) {
@@ -51,7 +51,7 @@ static int run(void) {
 	mmu_save_env(&prev_mmu_env);
 	cur_mmu_env = testmmu_env();
 	mmu_set_env(cur_mmu_env);
-	
+
 	/* have to do this, otherwise compiler throw out
 	 * worker_a and worker_b */
 	temp = &worker_a;
@@ -65,11 +65,11 @@ static int run(void) {
 				MMU_PAGE_CACHEABLE | MMU_PAGE_WRITEABLE | MMU_PAGE_EXECUTEABLE);
 		if (&__stack > (&_text_start + 0x1000000)) {
 			/* if have to map data sections */
-			mmu_map_region( t[i], _data_start, _data_start, 0x1000000,
+			mmu_map_region(t[i], _data_start, _data_start, 0x1000000,
 					MMU_PAGE_CACHEABLE | MMU_PAGE_WRITEABLE);
 		}
 		mmu_map_region((mmu_ctx_t) t[i], (uint32_t) 0x80000000,
-				(uint32_t) 0x80000000, 0x1000000, MMU_PAGE_WRITEABLE );
+				(uint32_t) 0x80000000, 0x1000000, MMU_PAGE_WRITEABLE);
 	}
 	mmu_map_region(t[1], (paddr_t) &worker_a_aligned, BIGADDR, 0x1000,
 			MMU_PAGE_CACHEABLE | MMU_PAGE_WRITEABLE | MMU_PAGE_EXECUTEABLE);
@@ -87,14 +87,14 @@ static int run(void) {
 	mmu_off();
 	switch_mm(t[2], 0);
 	//printf("a is %d \nb is %d\n",is_a_done, is_b_done);
-#if 1 
-	if (is_a_done) 
+#if 1
+	if (is_a_done)
 		printf("call a was done\n");
-	if (is_b_done) 
+	if (is_b_done)
 		printf("call b was done\n");
 
 #endif
 	mmu_restore_env(&prev_mmu_env);
-	status = !(is_a_done && is_b_done); 
+	status = !(is_a_done && is_b_done);
 	return status;
 }

@@ -11,7 +11,7 @@
 #define TTY_H_
 
 #if 0
-#define CONFIG_TTY_WITH_VTPARSE 
+#define CONFIG_TTY_WITH_VTPARSE
 #endif
 
 #include <types.h>
@@ -28,7 +28,7 @@
 typedef volatile struct tty_device {
 	uint8_t  out_buff[TTY_RXBUFF_SIZE + 1];
 #ifdef CONFIG_TTY_WITH_VTPARSE
-	struct vt_token rx_buff[TTY_RXBUFF_SIZE + 1];	
+	struct vt_token rx_buff[TTY_RXBUFF_SIZE + 1];
 #else
 	uint8_t  rx_buff[TTY_RXBUFF_SIZE + 1];
 #endif

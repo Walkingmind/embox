@@ -1,9 +1,9 @@
 /**
  * @file
- * @brief Implements measure unit interface by AT91 PIT 
+ * @brief Implements measure unit interface by AT91 PIT
  *
  * @date 17.11.2010
- * @author Anton Kozlov 
+ * @author Anton Kozlov
  */
 
 #include <types.h>

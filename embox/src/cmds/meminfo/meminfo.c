@@ -17,12 +17,13 @@
 #define COMMAND_NAME     "meminfo"
 #define COMMAND_DESC_MSG "write memory statistic for kmalloc or mpallocator"
 #define HELP_MSG         "Usage: meminfo [-h] [-k] -m\n"
+
 static const char *man_page =
 #include "meminfo_help.inc"
 ;
 
-DECLARE_SHELL_COMMAND(COMMAND_NAME, exec, COMMAND_DESC_MSG, HELP_MSG, man_page)
-;
+DECLARE_SHELL_COMMAND(COMMAND_NAME, exec,
+	COMMAND_DESC_MSG, HELP_MSG, man_page);
 
 static LIST_HEAD(mpblocks_info_list);
 static LIST_HEAD(kmblocks_info_list);
@@ -50,10 +51,11 @@ static void print_statistic(struct list_head* list) {
 		busy_bytes_count += (cur_block->free ? 0 : cur_block->size
 				* CONFIG_PAGE_SIZE);
 
-		if (cur_block->free)
+		if (cur_block->free) {
 			printf("%d. free      %d\n", i, cur_block->size);
-		else
+		} else {
 			printf("%d. busy      %d\n", i, cur_block->size);
+		}
 		i++;
 	}
 	printf("-----------------\n");
@@ -103,3 +105,4 @@ static int exec(int argsc, char **argsv) {
 
 	return 0;
 }
+

@@ -1,23 +1,21 @@
 /**
  * @file
- * @brief avr init test
+ * @brief Init Atmel AVR ATmega8 PDIP.
  *
  * @date 16.10.10
  * @author Anton Kozlov
  */
 
 #include <embox/unit.h>
-#include <drivers/at91sam7s256.h>
 #include <string.h>
 #include <hal/reg.h>
-#include <drivers/twi.h>
 #include <unistd.h>
 #include <kernel/timer.h>
+#include <drivers/at91sam7s256.h>
+#include <drivers/twi.h>
 #include <drivers/nxt_buttons.h>
 
 EMBOX_UNIT_INIT(init);
-
-void nxt_lcd_set_all_pixels_on(__u32 on);
 
 const char avr_brainwash_string[] =
   "\xCC" "Let's samba nxt arm in arm, (c)LEGO System A/S";
@@ -70,7 +68,7 @@ static bool avr_line_locked = false;
 
 static uint32_t avr_handler(void) {
 	int new_state = 0;
-	
+
 	if (avr_line_locked) {
 		//return LINE_LOCKED;
 		return 0;
@@ -94,10 +92,10 @@ static uint32_t avr_handler(void) {
 					buttons_state = new_state;
 					buttons_accum_state |= new_state;
 				}
-			} else { 
+			} else {
 				state_count--;
 			}
-		} else { 
+		} else {
 			if (!state_count) { /*button just released*/
 			}
 			old_state = new_state;
@@ -120,8 +118,9 @@ static int init(void) {
 	data_avr.pwm_frequency = 0;
 	data_avr.output_mode = 0;
 	data_avr.input_power = 0;
-	
+
 	set_timer(0, 500, (TIMER_FUNC) avr_handler);
 
 	return result;
 }
+

@@ -48,7 +48,7 @@ extern int ip_rt_init(void);
  * @param mask Genmask
  * @param gw Gateway
  */
-extern int rt_add_route(net_device_t *dev, in_addr_t dst, 
+extern int rt_add_route(net_device_t *dev, in_addr_t dst,
 				in_addr_t mask, in_addr_t gw, int flags);
 
 /**

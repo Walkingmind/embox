@@ -5,22 +5,22 @@
 typedef struct _AT91S_SSC {
 	AT91_REG	 SSC_CR; 	// Control Register
 	AT91_REG	 SSC_CMR; 	// Clock Mode Register
-	AT91_REG	 Reserved0[2]; 	// 
+	AT91_REG	 Reserved0[2]; 	//
 	AT91_REG	 SSC_RCMR; 	// Receive Clock ModeRegister
 	AT91_REG	 SSC_RFMR; 	// Receive Frame Mode Register
 	AT91_REG	 SSC_TCMR; 	// Transmit Clock Mode Register
 	AT91_REG	 SSC_TFMR; 	// Transmit Frame Mode Register
 	AT91_REG	 SSC_RHR; 	// Receive Holding Register
 	AT91_REG	 SSC_THR; 	// Transmit Holding Register
-	AT91_REG	 Reserved1[2]; 	// 
+	AT91_REG	 Reserved1[2]; 	//
 	AT91_REG	 SSC_RSHR; 	// Receive Sync Holding Register
 	AT91_REG	 SSC_TSHR; 	// Transmit Sync Holding Register
-	AT91_REG	 Reserved2[2]; 	// 
+	AT91_REG	 Reserved2[2]; 	//
 	AT91_REG	 SSC_SR; 	// Status Register
 	AT91_REG	 SSC_IER; 	// Interrupt Enable Register
 	AT91_REG	 SSC_IDR; 	// Interrupt Disable Register
 	AT91_REG	 SSC_IMR; 	// Interrupt Mask Register
-	AT91_REG	 Reserved3[44]; 	// 
+	AT91_REG	 Reserved3[44]; 	//
 	AT91_REG	 SSC_RPR; 	// Receive Pointer Register
 	AT91_REG	 SSC_RCR; 	// Receive Counter Register
 	AT91_REG	 SSC_TPR; 	// Transmit Pointer Register
@@ -33,13 +33,13 @@ typedef struct _AT91S_SSC {
 	AT91_REG	 SSC_PTSR; 	// PDC Transfer Status Register
 } AT91S_SSC, *AT91PS_SSC;
 
-// -------- SSC_CR : (SSC Offset: 0x0) SSC Control Register -------- 
+// -------- SSC_CR : (SSC Offset: 0x0) SSC Control Register --------
 #define AT91C_SSC_RXEN        ((unsigned int) 0x1 <<  0) // (SSC) Receive Enable
 #define AT91C_SSC_RXDIS       ((unsigned int) 0x1 <<  1) // (SSC) Receive Disable
 #define AT91C_SSC_TXEN        ((unsigned int) 0x1 <<  8) // (SSC) Transmit Enable
 #define AT91C_SSC_TXDIS       ((unsigned int) 0x1 <<  9) // (SSC) Transmit Disable
 #define AT91C_SSC_SWRST       ((unsigned int) 0x1 << 15) // (SSC) Software Reset
-// -------- SSC_RCMR : (SSC Offset: 0x10) SSC Receive Clock Mode Register -------- 
+// -------- SSC_RCMR : (SSC Offset: 0x10) SSC Receive Clock Mode Register --------
 #define AT91C_SSC_CKS         ((unsigned int) 0x3 <<  0) // (SSC) Receive/Transmit Clock Selection
 #define 	AT91C_SSC_CKS_DIV                  ((unsigned int) 0x0) // (SSC) Divided Clock
 #define 	AT91C_SSC_CKS_TK                   ((unsigned int) 0x1) // (SSC) TK Clock signal
@@ -61,7 +61,7 @@ typedef struct _AT91S_SSC {
 #define 	AT91C_SSC_START_0                    ((unsigned int) 0x8 <<  8) // (SSC) Compare 0
 #define AT91C_SSC_STTDLY      ((unsigned int) 0xFF << 16) // (SSC) Receive/Transmit Start Delay
 #define AT91C_SSC_PERIOD      ((unsigned int) 0xFF << 24) // (SSC) Receive/Transmit Period Divider Selection
-// -------- SSC_RFMR : (SSC Offset: 0x14) SSC Receive Frame Mode Register -------- 
+// -------- SSC_RFMR : (SSC Offset: 0x14) SSC Receive Frame Mode Register --------
 #define AT91C_SSC_DATLEN      ((unsigned int) 0x1F <<  0) // (SSC) Data Length
 #define AT91C_SSC_LOOP        ((unsigned int) 0x1 <<  5) // (SSC) Loop Mode
 #define AT91C_SSC_MSBF        ((unsigned int) 0x1 <<  7) // (SSC) Most Significant Bit First
@@ -75,11 +75,11 @@ typedef struct _AT91S_SSC {
 #define 	AT91C_SSC_FSOS_HIGH                 ((unsigned int) 0x4 << 20) // (SSC) Selected Receive/Transmit Frame Sync Signal: Driver High during data transfer
 #define 	AT91C_SSC_FSOS_TOGGLE               ((unsigned int) 0x5 << 20) // (SSC) Selected Receive/Transmit Frame Sync Signal: Toggling at each start of data transfer
 #define AT91C_SSC_FSEDGE      ((unsigned int) 0x1 << 24) // (SSC) Frame Sync Edge Detection
-// -------- SSC_TCMR : (SSC Offset: 0x18) SSC Transmit Clock Mode Register -------- 
-// -------- SSC_TFMR : (SSC Offset: 0x1c) SSC Transmit Frame Mode Register -------- 
+// -------- SSC_TCMR : (SSC Offset: 0x18) SSC Transmit Clock Mode Register --------
+// -------- SSC_TFMR : (SSC Offset: 0x1c) SSC Transmit Frame Mode Register --------
 #define AT91C_SSC_DATDEF      ((unsigned int) 0x1 <<  5) // (SSC) Data Default Value
 #define AT91C_SSC_FSDEN       ((unsigned int) 0x1 << 23) // (SSC) Frame Sync Data Enable
-// -------- SSC_SR : (SSC Offset: 0x40) SSC Status Register -------- 
+// -------- SSC_SR : (SSC Offset: 0x40) SSC Status Register --------
 #define AT91C_SSC_TXRDY       ((unsigned int) 0x1 <<  0) // (SSC) Transmit Ready
 #define AT91C_SSC_TXEMPTY     ((unsigned int) 0x1 <<  1) // (SSC) Transmit Empty
 #define AT91C_SSC_ENDTX       ((unsigned int) 0x1 <<  2) // (SSC) End Of Transmission
@@ -92,11 +92,11 @@ typedef struct _AT91S_SSC {
 #define AT91C_SSC_RXSYN       ((unsigned int) 0x1 << 11) // (SSC) Receive Sync
 #define AT91C_SSC_TXENA       ((unsigned int) 0x1 << 16) // (SSC) Transmit Enable
 #define AT91C_SSC_RXENA       ((unsigned int) 0x1 << 17) // (SSC) Receive Enable
-// -------- SSC_IER : (SSC Offset: 0x44) SSC Interrupt Enable Register -------- 
-// -------- SSC_IDR : (SSC Offset: 0x48) SSC Interrupt Disable Register -------- 
-// -------- SSC_IMR : (SSC Offset: 0x4c) SSC Interrupt Mask Register -------- 
+// -------- SSC_IER : (SSC Offset: 0x44) SSC Interrupt Enable Register --------
+// -------- SSC_IDR : (SSC Offset: 0x48) SSC Interrupt Disable Register --------
+// -------- SSC_IMR : (SSC Offset: 0x4c) SSC Interrupt Mask Register --------
 
-// ========== Register definition for PDC_SSC peripheral ========== 
+// ========== Register definition for PDC_SSC peripheral ==========
 #define AT91C_SSC_TNCR  ((AT91_REG *) 	0xFFFD411C) // (PDC_SSC) Transmit Next Counter Register
 #define AT91C_SSC_RPR   ((AT91_REG *) 	0xFFFD4100) // (PDC_SSC) Receive Pointer Register
 #define AT91C_SSC_RNCR  ((AT91_REG *) 	0xFFFD4114) // (PDC_SSC) Receive Next Counter Register
@@ -107,7 +107,7 @@ typedef struct _AT91S_SSC {
 #define AT91C_SSC_RNPR  ((AT91_REG *) 	0xFFFD4110) // (PDC_SSC) Receive Next Pointer Register
 #define AT91C_SSC_TNPR  ((AT91_REG *) 	0xFFFD4118) // (PDC_SSC) Transmit Next Pointer Register
 #define AT91C_SSC_PTSR  ((AT91_REG *) 	0xFFFD4124) // (PDC_SSC) PDC Transfer Status Register
-// ========== Register definition for SSC peripheral ========== 
+// ========== Register definition for SSC peripheral ==========
 #define AT91C_SSC_RHR   ((AT91_REG *) 	0xFFFD4020) // (SSC) Receive Holding Register
 #define AT91C_SSC_RSHR  ((AT91_REG *) 	0xFFFD4030) // (SSC) Receive Sync Holding Register
 #define AT91C_SSC_TFMR  ((AT91_REG *) 	0xFFFD401C) // (SSC) Transmit Frame Mode Register

@@ -218,7 +218,7 @@ extern int dev_change_flags(net_device_t *dev, unsigned flags);
 
 /**
  * this function call ip protocol,
- * it call rebuild mac header function, 
+ * it call rebuild mac header function,
  * if can resolve dest addr else it send arp packet and drop this packet
  * and send packet by calling ndo_start_xmit() function
  * return 0 if success else -1
@@ -234,7 +234,7 @@ extern int dev_queue_xmit(sk_buff_t *pack);
 extern int netif_rx(sk_buff_t *pack);
 
 /**
- * Called by irq handler. 
+ * Called by irq handler.
  */
 extern void netif_rx_schedule(net_device_t *dev);
 

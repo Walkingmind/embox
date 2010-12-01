@@ -11,7 +11,7 @@
 #include <net/sock.h>
 #include <net/in.h>
 
-/** 
+/**
 * IP Options
 * @faddr - Saved first hop address
 * @is_data - Options in __data, rather than skb

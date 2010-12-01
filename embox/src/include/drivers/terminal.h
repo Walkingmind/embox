@@ -228,7 +228,7 @@ bool terminal_receive(TERMINAL *terminal, TERMINAL_TOKEN *token,
 
 bool terminal_transmit(TERMINAL *terminal, TERMINAL_TOKEN token,
 						short *params, int params_len);
-bool terminal_transmit_va(TERMINAL *terminal, TERMINAL_TOKEN token, 
+bool terminal_transmit_va(TERMINAL *terminal, TERMINAL_TOKEN token,
 						int params_len, ...);
 
 #endif /* TERMINAL_H_ */

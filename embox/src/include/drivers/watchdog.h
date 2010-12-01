@@ -1,9 +1,9 @@
 /**
  * @file
- * @brief General interface for watchdog 
+ * @brief General interface for watchdog
  *
  * @date 29.09.2010
- * @author Anton Kozlov 
+ * @author Anton Kozlov
  */
 
 #ifndef WATCHDOG_H_
