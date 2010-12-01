@@ -2,14 +2,15 @@
 
 Мы используем [http://en.wikipedia.org/wiki/Apache_Subversion Subversion] репозиторий для разработки. Вы можете [http://code.google.com/p/embox/source/checkout взять] свежий snapshot из `/trunk` или просмотреть репозиторий используя [http://code.google.com/p/embox/source/browse web-based viewer].
 
-= Крайний стабильный релиз - embox-0.1.8 =
+= Крайний стабильный релиз - embox-0.1.9 =
 
-Вышел 15 Окт 2010.
+Вышел 30 Ноя 2010.
 
- * [http://embox.googlecode.com/files/embox-0.1.8.txz embox-0.1.8.txz] (размер: 327 KB; SHA1 Checksum: 859f6874cb2aba03d5dd3aa1da28348ad61acabc)
+ * [http://embox.googlecode.com/files/embox-0.1.9.txz embox-0.1.9.txz] (размер: 335 KB; SHA1 Checksum: 675302e81ecdf71e44f24b3de72002525b3da732)
 
 = Предыдущие стабильные релизы =
 
+ * [http://embox.googlecode.com/files/embox-0.1.8.txz embox-0.1.8.txz] (размер: 327 KB; SHA1 Checksum: 859f6874cb2aba03d5dd3aa1da28348ad61acabc)
  * [http://embox.googlecode.com/files/embox-0.1.7.txz embox-0.1.7.txz] (размер: 323 KB; SHA1 Checksum: 4774e1b21769faf26e3df467b835b14eee814347)
  * [http://embox.googlecode.com/files/embox-0.1.6.txz embox-0.1.6.txz] (размер: 307 KB; SHA1 Checksum: 43a0bdbe9848996184d446b62335546ece74d00c)
  * [http://embox.googlecode.com/files/embox-0.1.5.txz embox-0.1.5.txz] (размер: 257 KB; SHA1 Checksum: dfcc08cd2b717998c74a8eda574776160080a8da)
