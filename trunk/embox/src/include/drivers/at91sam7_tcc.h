@@ -6,7 +6,7 @@
 typedef struct _AT91S_TC {
 	AT91_REG	 TC_CCR; 	// Channel Control Register
 	AT91_REG	 TC_CMR; 	// Channel Mode Register (Capture Mode / Waveform Mode)
-	AT91_REG	 Reserved0[2]; 	// 
+	AT91_REG	 Reserved0[2]; 	//
 	AT91_REG	 TC_CV; 	// Counter Value
 	AT91_REG	 TC_RA; 	// Register A
 	AT91_REG	 TC_RB; 	// Register B
@@ -17,11 +17,11 @@ typedef struct _AT91S_TC {
 	AT91_REG	 TC_IMR; 	// Interrupt Mask Register
 } AT91S_TC, *AT91PS_TC;
 
-// -------- TC_CCR : (TC Offset: 0x0) TC Channel Control Register -------- 
+// -------- TC_CCR : (TC Offset: 0x0) TC Channel Control Register --------
 #define AT91C_TC_CLKEN        ((unsigned int) 0x1 <<  0) // (TC) Counter Clock Enable Command
 #define AT91C_TC_CLKDIS       ((unsigned int) 0x1 <<  1) // (TC) Counter Clock Disable Command
 #define AT91C_TC_SWTRG        ((unsigned int) 0x1 <<  2) // (TC) Software Trigger Command
-// -------- TC_CMR : (TC Offset: 0x4) TC Channel Mode Register: Capture Mode / Waveform Mode -------- 
+// -------- TC_CMR : (TC Offset: 0x4) TC Channel Mode Register: Capture Mode / Waveform Mode --------
 #define AT91C_TC_CLKS         ((unsigned int) 0x7 <<  0) // (TC) Clock Selection
 #define 	AT91C_TC_CLKS_TIMER_DIV1_CLOCK     ((unsigned int) 0x0) // (TC) Clock selected: TIMER_DIV1_CLOCK
 #define 	AT91C_TC_CLKS_TIMER_DIV2_CLOCK     ((unsigned int) 0x1) // (TC) Clock selected: TIMER_DIV2_CLOCK
@@ -64,7 +64,7 @@ typedef struct _AT91S_TC {
 #define 	AT91C_TC_WAVESEL_UP_AUTO              ((unsigned int) 0x2 << 13) // (TC) UP mode with automatic trigger on RC Compare
 #define 	AT91C_TC_WAVESEL_UPDOWN_AUTO          ((unsigned int) 0x3 << 13) // (TC) UPDOWN mode with automatic trigger on RC Compare
 #define AT91C_TC_CPCTRG       ((unsigned int) 0x1 << 14) // (TC) RC Compare Trigger Enable
-#define AT91C_TC_WAVE         ((unsigned int) 0x1 << 15) // (TC) 
+#define AT91C_TC_WAVE         ((unsigned int) 0x1 << 15) // (TC)
 #define AT91C_TC_ACPA         ((unsigned int) 0x3 << 16) // (TC) RA Compare Effect on TIOA
 #define 	AT91C_TC_ACPA_NONE                 ((unsigned int) 0x0 << 16) // (TC) Effect: none
 #define 	AT91C_TC_ACPA_SET                  ((unsigned int) 0x1 << 16) // (TC) Effect: set
@@ -115,7 +115,7 @@ typedef struct _AT91S_TC {
 #define 	AT91C_TC_BSWTRG_SET                  ((unsigned int) 0x1 << 30) // (TC) Effect: set
 #define 	AT91C_TC_BSWTRG_CLEAR                ((unsigned int) 0x2 << 30) // (TC) Effect: clear
 #define 	AT91C_TC_BSWTRG_TOGGLE               ((unsigned int) 0x3 << 30) // (TC) Effect: toggle
-// -------- TC_SR : (TC Offset: 0x20) TC Channel Status Register -------- 
+// -------- TC_SR : (TC Offset: 0x20) TC Channel Status Register --------
 #define AT91C_TC_COVFS        ((unsigned int) 0x1 <<  0) // (TC) Counter Overflow
 #define AT91C_TC_LOVRS        ((unsigned int) 0x1 <<  1) // (TC) Load Overrun
 #define AT91C_TC_CPAS         ((unsigned int) 0x1 <<  2) // (TC) RA Compare
@@ -127,27 +127,27 @@ typedef struct _AT91S_TC {
 #define AT91C_TC_CLKSTA       ((unsigned int) 0x1 << 16) // (TC) Clock Enabling
 #define AT91C_TC_MTIOA        ((unsigned int) 0x1 << 17) // (TC) TIOA Mirror
 #define AT91C_TC_MTIOB        ((unsigned int) 0x1 << 18) // (TC) TIOA Mirror
-// -------- TC_IER : (TC Offset: 0x24) TC Channel Interrupt Enable Register -------- 
-// -------- TC_IDR : (TC Offset: 0x28) TC Channel Interrupt Disable Register -------- 
-// -------- TC_IMR : (TC Offset: 0x2c) TC Channel Interrupt Mask Register -------- 
+// -------- TC_IER : (TC Offset: 0x24) TC Channel Interrupt Enable Register --------
+// -------- TC_IDR : (TC Offset: 0x28) TC Channel Interrupt Disable Register --------
+// -------- TC_IMR : (TC Offset: 0x2c) TC Channel Interrupt Mask Register --------
 
 // *****************************************************************************
 //              SOFTWARE API DEFINITION  FOR Timer Counter Interface
 // *****************************************************************************
 typedef struct _AT91S_TCB {
 	AT91S_TC	 TCB_TC0; 	// TC Channel 0
-	AT91_REG	 Reserved0[4]; 	// 
+	AT91_REG	 Reserved0[4]; 	//
 	AT91S_TC	 TCB_TC1; 	// TC Channel 1
-	AT91_REG	 Reserved1[4]; 	// 
+	AT91_REG	 Reserved1[4]; 	//
 	AT91S_TC	 TCB_TC2; 	// TC Channel 2
-	AT91_REG	 Reserved2[4]; 	// 
+	AT91_REG	 Reserved2[4]; 	//
 	AT91_REG	 TCB_BCR; 	// TC Block Control Register
 	AT91_REG	 TCB_BMR; 	// TC Block Mode Register
 } AT91S_TCB, *AT91PS_TCB;
 
-// -------- TCB_BCR : (TCB Offset: 0xc0) TC Block Control Register -------- 
+// -------- TCB_BCR : (TCB Offset: 0xc0) TC Block Control Register --------
 #define AT91C_TCB_SYNC        ((unsigned int) 0x1 <<  0) // (TCB) Synchro Command
-// -------- TCB_BMR : (TCB Offset: 0xc4) TC Block Mode Register -------- 
+// -------- TCB_BMR : (TCB Offset: 0xc4) TC Block Mode Register --------
 #define AT91C_TCB_TC0XC0S     ((unsigned int) 0x3 <<  0) // (TCB) External Clock Signal 0 Selection
 #define 	AT91C_TCB_TC0XC0S_TCLK0                ((unsigned int) 0x0) // (TCB) TCLK0 connected to XC0
 #define 	AT91C_TCB_TC0XC0S_NONE                 ((unsigned int) 0x1) // (TCB) None signal connected to XC0
@@ -164,7 +164,7 @@ typedef struct _AT91S_TCB {
 #define 	AT91C_TCB_TC2XC2S_TIOA0                ((unsigned int) 0x2 <<  4) // (TCB) TIOA0 connected to XC2
 #define 	AT91C_TCB_TC2XC2S_TIOA1                ((unsigned int) 0x3 <<  4) // (TCB) TIOA2 connected to XC2
 
-// ========== Register definition for TC0 peripheral ========== 
+// ========== Register definition for TC0 peripheral ==========
 #define AT91C_TC0_SR    ((AT91_REG *) 	0xFFFA0020) // (TC0) Status Register
 #define AT91C_TC0_RC    ((AT91_REG *) 	0xFFFA001C) // (TC0) Register C
 #define AT91C_TC0_RB    ((AT91_REG *) 	0xFFFA0018) // (TC0) Register B
@@ -175,7 +175,7 @@ typedef struct _AT91S_TCB {
 #define AT91C_TC0_IDR   ((AT91_REG *) 	0xFFFA0028) // (TC0) Interrupt Disable Register
 #define AT91C_TC0_CV    ((AT91_REG *) 	0xFFFA0010) // (TC0) Counter Value
 #define AT91C_TC0_IMR   ((AT91_REG *) 	0xFFFA002C) // (TC0) Interrupt Mask Register
-// ========== Register definition for TC1 peripheral ========== 
+// ========== Register definition for TC1 peripheral ==========
 #define AT91C_TC1_RB    ((AT91_REG *) 	0xFFFA0058) // (TC1) Register B
 #define AT91C_TC1_CCR   ((AT91_REG *) 	0xFFFA0040) // (TC1) Channel Control Register
 #define AT91C_TC1_IER   ((AT91_REG *) 	0xFFFA0064) // (TC1) Interrupt Enable Register
@@ -186,7 +186,7 @@ typedef struct _AT91S_TCB {
 #define AT91C_TC1_RC    ((AT91_REG *) 	0xFFFA005C) // (TC1) Register C
 #define AT91C_TC1_IMR   ((AT91_REG *) 	0xFFFA006C) // (TC1) Interrupt Mask Register
 #define AT91C_TC1_CV    ((AT91_REG *) 	0xFFFA0050) // (TC1) Counter Value
-// ========== Register definition for TC2 peripheral ========== 
+// ========== Register definition for TC2 peripheral ==========
 #define AT91C_TC2_CMR   ((AT91_REG *) 	0xFFFA0084) // (TC2) Channel Mode Register (Capture Mode / Waveform Mode)
 #define AT91C_TC2_CCR   ((AT91_REG *) 	0xFFFA0080) // (TC2) Channel Control Register
 #define AT91C_TC2_CV    ((AT91_REG *) 	0xFFFA0090) // (TC2) Counter Value
@@ -197,7 +197,7 @@ typedef struct _AT91S_TCB {
 #define AT91C_TC2_RC    ((AT91_REG *) 	0xFFFA009C) // (TC2) Register C
 #define AT91C_TC2_IER   ((AT91_REG *) 	0xFFFA00A4) // (TC2) Interrupt Enable Register
 #define AT91C_TC2_SR    ((AT91_REG *) 	0xFFFA00A0) // (TC2) Status Register
-// ========== Register definition for TCB peripheral ========== 
+// ========== Register definition for TCB peripheral ==========
 #define AT91C_TCB_BMR   ((AT91_REG *) 	0xFFFA00C4) // (TCB) TC Block Mode Register
 #define AT91C_TCB_BCR   ((AT91_REG *) 	0xFFFA00C0) // (TCB) TC Block Control Register
 

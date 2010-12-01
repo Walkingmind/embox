@@ -18,7 +18,7 @@ EMBOX_UNIT_INIT(sound_init);
 
 static sound_handler_t current_handler = NULL;
 
-irq_return_t sound_interrupt (int irq_num, void *dev_id) {
+static irq_return_t sound_interrupt(int irq_num, void *dev_id) {
 	SAMPLEWORD *next_buff;
 	if (current_handler == NULL) { /*inefficient */
 		return IRQ_HANDLED;
@@ -46,10 +46,10 @@ static int __init sound_init(void) {
 	REG_STORE(AT91C_PIOA_PDR, AT91C_PA17_TD);
 
 	REG_STORE(AT91C_SSC_CR, AT91C_SSC_SWRST);
-	REG_STORE(AT91C_SSC_TCMR, AT91C_SSC_CKS_DIV + 
+	REG_STORE(AT91C_SSC_TCMR, AT91C_SSC_CKS_DIV +
 		AT91C_SSC_CKO_CONTINOUS + AT91C_SSC_START_CONTINOUS);
-	
-	REG_STORE(AT91C_SSC_TFMR, (SAMPLEWORDBITS - 1) + 
+
+	REG_STORE(AT91C_SSC_TFMR, (SAMPLEWORDBITS - 1) +
 		((SAMPLEWORDS & 0xF) << 8) + AT91C_SSC_MSBF);
 	/* TX enable */
 	REG_STORE(AT91C_SSC_CR, AT91C_SSC_TXEN);
@@ -58,8 +58,8 @@ static int __init sound_init(void) {
 	return 0;
 }
 
-void sound_start_play(uint32_t freq, useconds_t ms, 
-	SAMPLEWORD *buff, SAMPLEWORD *next_buff, sound_handler_t sound_hnd ) {
+void sound_start_play(uint32_t freq, useconds_t ms,
+	SAMPLEWORD *buff, SAMPLEWORD *next_buff, sound_handler_t sound_hnd) {
 
 	current_handler = sound_hnd;
 

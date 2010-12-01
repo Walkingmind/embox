@@ -1,6 +1,6 @@
 /**
  * @file
- * @brief test page allocator 
+ * @brief test page allocator
  * @details Some random tests for page allocator
  *
  * @date 28.07.10

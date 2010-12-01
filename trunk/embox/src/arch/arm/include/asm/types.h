@@ -2,8 +2,8 @@
  * @file
  * @brief Necessary arch-dependent typedefs.
  *
- * @date 01.07.2010 
- * @author Anton Kozlov 
+ * @date 01.07.2010
+ * @author Anton Kozlov
  */
 
 #ifndef ARM_TYPES_H_

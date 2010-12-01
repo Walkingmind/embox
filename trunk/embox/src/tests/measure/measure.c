@@ -1,6 +1,6 @@
 /**
  * @file
- * @brief Test measure 
+ * @brief Test measure
  *
  * @date 27.11.2010
  * @author Anton Kozlov

@@ -1,9 +1,9 @@
 /**
  * @file
- * @brief Interface for hardware-enabled clock ticks measuring unit 
+ * @brief Interface for hardware-enabled clock ticks measuring unit
  *
  * @date 16.11.2010
- * @author Anton Kozlov 
+ * @author Anton Kozlov
  */
 
 #ifndef MEASURE_UNIT_H_
@@ -20,7 +20,7 @@
 extern uint32_t measure_unit_clocks(void);
 
 /**
- * Get count of unhandled system ticks 
+ * Get count of unhandled system ticks
  * @return count unhandled system ticks
  */
 extern uint8_t unhandled_ticks(void);

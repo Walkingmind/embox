@@ -1,13 +1,12 @@
 /**
  * @file
- * @brief TODO
+ * @brief Diag LCD output
  *
  * @date 7.06.2010
- * @author Anton Kozlov 
+ * @author Anton Kozlov
  */
 
 #include <types.h>
-
 #include <drivers/lcd.h>
 #include <kernel/diag.h>
 
@@ -30,7 +29,8 @@ int diag_has_symbol(void) {
 	/*should be disabled in release for consistency */
 #ifdef DEBUG_GETC
 	return true;
-#else 
+#else
 	return false;
 #endif
 }
+

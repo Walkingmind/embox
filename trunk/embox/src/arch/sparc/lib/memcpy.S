@@ -417,7 +417,7 @@ ENTRY(memmove)
 	add		%o1, -16, %o1
 	st		%g2, [%o0]
 	add		%o0, -16, %o0
-	bne,a		5b	
+	bne,a		5b
 	 ld		[%o1 + 12], %o3
 	sll		%o5, %g4, %g2
 	srl		%g1, %g6, %g5
@@ -428,7 +428,7 @@ ENTRY(memmove)
 	st		%g2, [%o0 + 12]
 	be		1f
 	 andcc		%o2, 1, %g0
-	
+
 	ldub		[%o1 + 15], %g5
 	add		%o1, -2, %o1
 	stb		%g5, [%o0 + 11]
@@ -637,7 +637,7 @@ ENTRY(memcpy)		/* %o0=dst %o1=src %o2=len */
 	mov		32, %g2
 	be		4f
 	 sub		%g2, %g4, %g6
-	
+
 	blu		3f
 	 cmp		%g3, 0x8
 
@@ -870,7 +870,7 @@ ENTRY(memcpy)		/* %o0=dst %o1=src %o2=len */
 	add		%o1, 64, %o1
 	bne		41b
 	 add		%o0, 64, %o0
-	 
+
 	andcc		%o2, 0x30, %o3
 	be,a		1f
 	 srl		%g1, 16, %g2
@@ -915,7 +915,7 @@ ENTRY(memcpy)		/* %o0=dst %o1=src %o2=len */
 	add		%o1, 64, %o1
 	bne		42b
 	 add		%o0, 64, %o0
-	 
+
 	andcc		%o2, 0x30, %o3
 	be,a		1f
 	 srl		%g1, 16, %g2
@@ -929,7 +929,7 @@ ENTRY(memcpy)		/* %o0=dst %o1=src %o2=len */
 1:	sth		%g2, [%o0 - 2]
 
 	/* Fall through */
-	 
+
 88:	and		%o2, 0xe, %o3
 	mov		%o7, %g2
 	sll		%o3, 3, %o4

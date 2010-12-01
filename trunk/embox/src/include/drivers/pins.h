@@ -1,9 +1,9 @@
 /**
  * @file
- * @brief Pins system interface 
+ * @brief Pins system interface
  *
  * @date 26.11.2010
- * @author Anton Kozlov 
+ * @author Anton Kozlov
  */
 
 #ifndef PINS_H_

@@ -1,7 +1,7 @@
 /**
  * @file
- * @brief Testing automatic mapping on unmapped virtual address space 
- * 
+ * @brief Testing automatic mapping on unmapped virtual address space
+ *
  * @author Anton Kozlov
  *
  * @date 04.05.10
@@ -33,7 +33,7 @@ static int run(void) {
 	int result = 0;
 	extern char _text_start, __stack, _data_start;
 	extern int test_trap_handler_worked;
-	extern trap_table;	
+	extern trap_table;
 	mmu_env_t prev_mmu_env;
 	traps_env_t old_env, *test_env;
 	int t = 0;
@@ -51,15 +51,15 @@ static int run(void) {
 	switch_mm(0,t1);
 	//testtraps_set_handler(TRAP_TYPE_HARDTRAP, 0x2a , &handler); // div by zero
 	testtraps_set_handler(TRAP_TYPE_HARDTRAP, 0x2c - CONFIG_MIN_HWTRAP_NUMBER, &handler); //data mmu miss
-	testtraps_set_handler(TRAP_TYPE_HARDTRAP, 0x29 - CONFIG_MIN_HWTRAP_NUMBER, &handler); //data mmu error 
+	testtraps_set_handler(TRAP_TYPE_HARDTRAP, 0x29 - CONFIG_MIN_HWTRAP_NUMBER, &handler); //data mmu error
 	testtraps_set_handler(TRAP_TYPE_HARDTRAP, 0x9, &handler);  //data except
 	testtraps_set_handler(TRAP_TYPE_HARDTRAP, 0x3c - CONFIG_MIN_HWTRAP_NUMBER, &handler); //instr mmu miss
 	testtraps_set_handler(TRAP_TYPE_HARDTRAP, 0x1, &handler);  //instr excpt
-	printf("text_start %x; stack %x, data_start %x\n", &_text_start, &__stack, &_data_start); 
+	printf("text_start %x; stack %x, data_start %x\n", &_text_start, &__stack, &_data_start);
 /* instr mmu miss */
 #if 1
 	/* map all that we seems to have to map (_everything_)*/
-	mmu_map_region(t1, 0, 0, 0x40000000, 
+	mmu_map_region(t1, 0, 0, 0x40000000,
 			MMU_PAGE_CACHEABLE | MMU_PAGE_WRITEABLE | MMU_PAGE_EXECUTEABLE);
 	/* map one to one section text and may be whole image with stack */
 	mmu_map_region(t1, (uint32_t) &_text_start,
@@ -74,7 +74,7 @@ static int run(void) {
 #endif
 /* div by zero */
 #if 0
-	//now printing about no existance of handler -- OK 
+	//now printing about no existance of handler -- OK
 	t = 1 / 0;
 	t = 2 / 0;
 #endif

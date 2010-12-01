@@ -56,7 +56,7 @@ static int exec(int argsc, char **argsv) {
 			return 0;
 		}
 	} while (-1 != nextOption);
-	
+
 	file = fopen(file_name, "r");
 	fioctl(file, 0, &file_addr);
 
@@ -64,6 +64,6 @@ static int exec(int argsc, char **argsv) {
 	stat(file_name, &sb);
 
 	TRACE("loading...addr=0x%08x, size=%d\n", file_addr, sb.st_size);
-	memcpy((void *)load_addr, (void *)file_addr, sb.st_size);
+	memcpy((void *) load_addr, (void *) file_addr, sb.st_size);
 	return 0;
 }

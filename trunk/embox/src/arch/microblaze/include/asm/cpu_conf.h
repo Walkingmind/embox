@@ -1,7 +1,7 @@
 /**
  * @file
  * @brief This file includes platform specific settings.
- * @details This file includes microblaze specific settings. 
+ * @details This file includes microblaze specific settings.
  *          It's included into autoconf.h.
  *          This file may be change by configure script.
  *

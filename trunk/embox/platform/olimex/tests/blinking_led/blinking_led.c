@@ -2,7 +2,7 @@
  * @file
  * @brief timer test -- blinking led
  *
- * @date 01.10.2010 
+ * @date 01.10.2010
  * @author Anton Kozlov
  */
 
@@ -43,7 +43,7 @@ static int blinking_led(void) {
 		led1_off();
 		delay(del);
 		//sleep(1);
-		del += INC; 
+		del += INC;
 	}
 
 	return 0;

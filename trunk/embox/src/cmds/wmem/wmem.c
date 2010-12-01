@@ -58,13 +58,13 @@ static int exec(int argsc, char **argsv) {
 		default:
 			return 0;
 		}
-	} while(-1 != nextOption);
-	
-	if(flag != 2) {
+	} while (-1 != nextOption);
+
+	if (flag != 2) {
 		LOG_ERROR("wmem: -a and -v keys expected!\n");
 		return -1;
 	}
-	
+
 	*((uint32_t *) address) = new_value;
 	return 0;
 }

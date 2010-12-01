@@ -8,7 +8,7 @@
 
 struct context_kregs {
 	/* 0x00 */uint32_t lr; /**< Return address for #context_switch(). */
-	/* 0x04 */uint32_t cpsr; /**< State register */ 
+	/* 0x04 */uint32_t cpsr; /**< State register */
 	/* 0x08 */uint32_t sp; /**< Stack pointer */
 };
 
@@ -20,9 +20,9 @@ struct context {
 #else /* __ASSEMBLER__ */
 
 /* Offsets for struct context_kregs. */
-#define CTX_LR    0x00
+#define CTX_LR      0x00
 #define CTX_CPSR    0x04
-#define CTX_SP    0x08
+#define CTX_SP      0x08
 
 #endif /* __ASSEMBLER__ */
 

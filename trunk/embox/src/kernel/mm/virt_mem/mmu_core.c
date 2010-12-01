@@ -35,7 +35,7 @@ unsigned long mmu_level_capacity[] = {
 	MMU_MTABLE_SIZE * MMU_PTABLE_SIZE * MMU_PAGE_SIZE,
 	MMU_PTABLE_SIZE * MMU_PAGE_SIZE,
 	MMU_PAGE_SIZE,
-	1       
+	1
 };
 
 mmu_page_table_set_t mmu_page_table_sets[] = {
@@ -69,10 +69,10 @@ int mmu_map_region(mmu_ctx_t ctx, paddr_t phy_addr, vaddr_t virt_addr,
 	phy_addr &= ~MMU_PAGE_MASK;
 	virt_addr &= ~MMU_PAGE_MASK;
 	reg_size &= ~MMU_PAGE_MASK;
-	treg_size = reg_size & (~(MMU_PAGE_MASK ));
+	treg_size = reg_size & (~(MMU_PAGE_MASK));
 	/* will map the best fitting area on each step
 	 * will choose smaller area, while not found the best fitting */
-	while ( treg_size > 0) {
+	while (treg_size > 0) {
 		for (cur_level = 1; cur_level < 4; cur_level++) {
 			cur_offset = ((virt_addr & mmu_table_masks[cur_level])
 				>> blog2(mmu_table_masks[cur_level]));
@@ -83,7 +83,7 @@ int mmu_map_region(mmu_ctx_t ctx, paddr_t phy_addr, vaddr_t virt_addr,
 			/* if mapping vaddr is aligned and if required size is pretty fit */
 			LOG_DEBUG("%x %x \n", treg_size, mmu_level_capacity[cur_level]);
 			if ((virt_addr % mmu_level_capacity[cur_level] == 0) &&
-				//(phy_addr % mmu_level_capacity[cur_level] == 0) && 
+				//(phy_addr % mmu_level_capacity[cur_level] == 0) &&
 				(mmu_level_capacity[cur_level] <= treg_size)) {
 				LOG_DEBUG("exiting\n");
 				break;
@@ -117,7 +117,7 @@ int mmu_map_region(mmu_ctx_t ctx, paddr_t phy_addr, vaddr_t virt_addr,
 				LOG_DEBUG("no mapping\n");
 				/* there is no middle page - creating */
 				table = (void *) mmu_table_alloc(mmu_page_table_sizes[cur_level + 1]);
-				if (table == NULL) { 
+				if (table == NULL) {
 					return -1;
 				}
 				/* setting it's pointer to a prev level page */
@@ -132,7 +132,7 @@ int mmu_map_region(mmu_ctx_t ctx, paddr_t phy_addr, vaddr_t virt_addr,
 			LOG_DEBUG("going down to 0x%8x\n", context[cur_level + 1]);
 		}
 		/* we are on the best fitting level - creating mapping */
-		mmu_set_pte(context[cur_level] + cur_offset, mmu_pte_format(phy_addr, flags)); 
+		mmu_set_pte(context[cur_level] + cur_offset, mmu_pte_format(phy_addr, flags));
 		LOG_DEBUG("pte is %x\n", mmu_pte_format(phy_addr, flags));
 		/* reducing mapping area */
 		treg_size -= mmu_level_capacity[cur_level];

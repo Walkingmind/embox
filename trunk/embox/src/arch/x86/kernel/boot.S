@@ -7,7 +7,7 @@
  */
 
 #include <asm/multiboot.h>
-	
+
 	.text
 
 	.globl	start, _start
@@ -17,7 +17,7 @@ _start:
 
 	/* Align 32 bits boundary.  */
 	.align	4
-	
+
 	/* Multiboot header.  */
 multiboot_header:
 	/* magic */
@@ -53,7 +53,7 @@ multiboot_entry:
 	pushl	%eax
 
 	call	EXT_C(multiboot_check)
-	
+
 	/*mov     $0x0e, %ah
 	mov     $0x35, %al
 	int     $0x10*/

@@ -106,7 +106,7 @@
 #define __MMU_ENTRY_SIZE    4
 
 /* must be aligned for sizes of all tables */
-#define PAGE_HEADER_SIZE 0x400 
+#define PAGE_HEADER_SIZE 0x400
 
 /** 4K-byte pages */
 #define __MMU_PAGE_SIZE            (1<<12)
@@ -182,7 +182,7 @@ typedef unsigned long ctxd_t;
 #define __nocache_pa(VADDR)  VADDR
 #define __nocache_va(PADDR)  PADDR
 #define __nocache_fix(VADDR) VADDR
-#if 1 
+#if 1
 #define __MMU_GTABLE_MASK         0xFF000000
 #define __MMU_GTABLE_MASK_OFFSET  24
 #define __MMU_MTABLE_MASK         0x00FC0000
@@ -190,7 +190,7 @@ typedef unsigned long ctxd_t;
 #define __MMU_PTABLE_MASK         0x0003F000
 #define __MMU_PTABLE_MASK_OFFSET  12
 #define __MMU_PAGE_MASK           0xFFF
-#endif 
+#endif
 
 #define MMU_GTABLE_MASK_OFFSET __MMU_GTABLE_MASK_OFFSET
 #define MMU_MTABLE_MASK_OFFSET __MMU_MTABLE_MASK_OFFSET
@@ -297,7 +297,7 @@ static inline mmu_pte_t *mmu_pmd_get(mmu_pmd_t * pmdp) {
 }
 
 static inline mmu_pte_t mmu_pte_format(paddr_t addr, mmu_page_flags_t flags) {
-	return (((addr >> 4) ) & MMU_PTE_PMASK) | flags | MMU_PTE_ET; 
+	return ((addr >> 4) & MMU_PTE_PMASK) | flags | MMU_PTE_ET;
 }
 
 static inline paddr_t mmu_pte_extract(mmu_pte_t pte) {
@@ -306,7 +306,7 @@ static inline paddr_t mmu_pte_extract(mmu_pte_t pte) {
 
 static inline mmu_page_flags_t mmu_flags_extract(mmu_pte_t pte) {
 	return (pte & 0xff);
-}	
+}
 
 static inline int mmu_is_pte(mmu_pte_t pte) {
 	return pte & MMU_PTE_ET;

@@ -1,4 +1,4 @@
-/** 
+/**
  * @file
  *
  * @date 1.10.09
@@ -24,7 +24,7 @@ char *strchr(const char *s, int c_in) {
 	}
 
 	longword_ptr = (unsigned long int *) char_ptr;
-	
+
 	switch (sizeof (longword)) {
 	case 4: magic_bits = 0x7efefeffL; break;
 	case 8: magic_bits = ((0x7efefefeL << 16) << 16) | 0xfefefeffL; break;

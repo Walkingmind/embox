@@ -1,7 +1,7 @@
 /**
  * @file
  * @brief multipage allocator buddy algorithm
- * @details Use `page allocator' when we need allocate or free only one page, 
+ * @details Use `page allocator' when we need allocate or free only one page,
  * else see `multipage allocator' or `malloc'.
  *
  * @date 01.07.10
@@ -22,7 +22,7 @@
  */
 
 /* MY code MARKS
- * TFMBR - this function must be rewriting 
+ * TFMBR - this function must be rewriting
  * TFwR  - this function was rewriting
  * TFW   - this function work (while don't see any bugs)
  */
@@ -82,7 +82,7 @@ inline char get_bits(taddr addr) {
 /**
  * initialization of tree
  * Mark block if it isn't in heap.
- * 
+ *
  * return 1 if subtree isn't in heap
  * return 0 if node with subtree is in heap
  */
@@ -216,7 +216,7 @@ void * mpalloc(size_t size) {
 #ifdef ANY_OPTIMIZATION
 		/* if children was released then parent released */
 		if (HAS_BIT(block, 4) && HAS_BIT(block^1, 4)) {
-			SET_BIT1( parent , 4 );
+			SET_BIT1(parent , 4);
 		}
 #endif
 	}
@@ -358,8 +358,8 @@ extern void multipage_info() {
 	TRACE("\tsize of pool(real)=(hex)%08x\n",sizeofpool);
 	TRACE("\tsize of pool(real)=(dec)%ld\n",sizeofpool);
 	TRACE("\n\tTree:\n\t\t");
-	for ( ptr=HEAP_START_PTR; ptr<(HEAP_START_PTR+2*rootblocksize-1); ++ptr ) {
-		TRACE("%ld ",*ptr);
+	for (ptr = HEAP_START_PTR; ptr < (HEAP_START_PTR + 2 * rootblocksize - 1); ++ptr) {
+		TRACE("%ld ", *ptr);
 	}
 	TRACE("\n");
 	TRACE("info end\n");

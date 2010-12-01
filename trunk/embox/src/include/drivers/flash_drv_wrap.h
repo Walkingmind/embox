@@ -20,7 +20,7 @@ int s_erase_block(int NBLOCK);
 int s_lock_block(int NBLOCK);
 int s_unlock_block(int NBLOCK);
 int s_unlock_all_blocks(void);
-	
+
 
 //************* WRITE / READ *****************
 

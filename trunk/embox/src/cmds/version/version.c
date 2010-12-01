@@ -31,7 +31,7 @@ static int exec(int argsc, char **argsv) {
 		default:
 			return 0;
 		}
-	} while(-1 != nextOption);
+	} while (-1 != nextOption);
 
 	printf("                ____\n");
 	printf("               |  _ \\\n");
@@ -40,7 +40,7 @@ static int exec(int argsc, char **argsv) {
 	printf("|  __/ | | | | | |_) | (_) >  <  \n");
 	printf(" \\___|_| |_| |_|____/ \\___/_/\\_\\\n");
 	printf("Date: %12s\n", __DATE__);
-	printf("Time: %9s\n", __TIME__);	
+	printf("Time: %9s\n", __TIME__);
 	printf("Compiler: %s\n", __VERSION__);
 	printf("Revision: r%d\n", rev);
 	return 0;

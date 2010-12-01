@@ -109,7 +109,7 @@ extern int ip_send_packet(inet_sock_t *sk, sk_buff_t *pack);
 
 extern int ip_queue_xmit(sk_buff_t *skb, int ipfragok);
 
-extern void ip_send_reply(struct sock *sk, in_addr_t saddr, in_addr_t daddr, 
+extern void ip_send_reply(struct sock *sk, in_addr_t saddr, in_addr_t daddr,
 			sk_buff_t *skb, unsigned int len);
 
 extern int rebuild_ip_header(sk_buff_t *pack, unsigned char ttl,
