@@ -25,33 +25,33 @@ void early_printk(const char *format, ...) {
 	while ((c = *format++) != 0) {
 		if (c != '%') {
 			vga_putc(c);
-		} else {
-			char *p;
+			continue;
+		}
+		char *p;
 
-			c = *format++;
-			switch (c) {
-			case 'd':
-			case 'u':
-			case 'x':
-				itoa (buf, c, *((int *) arg++));
-				p = buf;
-				goto string;
-				break;
+		c = *format++;
+		switch (c) {
+		case 'd':
+		case 'u':
+		case 'x':
+			itoa (buf, c, *((int *) arg++));
+			p = buf;
+			goto string;
+			break;
 
-			case 's':
-				p = *arg++;
-				if (! p) {                                                                                                                                                p = "(null)";
-					p = "(null)";
-				}
-string:
-				while (*p) {
-					vga_putc(*p++);
-				}
-				break;
-			default:
-				vga_putc(*((int *) arg++));
-				break;
+		case 's':
+			p = *arg++;
+			if (! p) {                                                                                                                                                p = "(null)";
+				p = "(null)";
 			}
+string:
+			while (*p) {
+				vga_putc(*p++);
+			}
+			break;
+		default:
+			vga_putc(*((int *) arg++));
+			break;
 		}
 	}
 }
