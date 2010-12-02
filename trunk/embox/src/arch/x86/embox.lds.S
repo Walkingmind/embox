@@ -11,8 +11,10 @@ _text_end = _text_vma + _text_len;
 SECTIONS {
 	. = 0x100000;
 	.text : {
+		ALIGNMENT();
 		*(.text)
 		*(.init.text)
+		ALIGNMENT();
 	}
 	SECTION_SYMBOLS(text)
 
@@ -22,15 +24,19 @@ SECTIONS {
 	SECTION_SYMBOLS(rodata)
 
 	.data : {
+		ALIGNMENT();
 		_data_start = .;
 		*(.data)
+		ALIGNMENT();
 		_data_end = .;
 	}
 	SECTION_SYMBOLS(data)
 
 	.bss : {
+		ALIGNMENT();
 		_bstart = .;
 		*(.bss)
+		ALIGNMENT();
 		_bend = .;
 	}
 	SECTION_SYMBOLS(bss)

@@ -5,6 +5,11 @@
  * @author Nikolay Korotky
  */
 
+#include <asm/setjmp.h>
+
+        .text
+
+        .global setjmp
 setjmp:
 	movl    4(%esp), %ecx   /* fetch buffer */
 	movl    %ebx, 0(%ecx)
@@ -17,6 +22,7 @@ setjmp:
 	xorl    %eax, %eax
 	jmp     *%edx
 
+	.global longjmp
 longjmp:
 	movl    8(%esp), %eax    /* return(v) */
 	movl    4(%esp), %ecx    /* fetch buffer */
