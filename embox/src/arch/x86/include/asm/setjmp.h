@@ -11,9 +11,13 @@
 
 #include <types.h>
 
+#ifndef __ASSEMBLER__
+
 typedef struct {
 	uint32_t pc;
 } __jmp_buf[1];
+
+#endif /* __ASSEMBLER__ */
 
 #endif /* X86_SETJMP_H_ */
 
