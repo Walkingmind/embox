@@ -10,6 +10,7 @@
 #include <drivers/at91sam7s256.h>
 #include <drivers/twi.h>
 #include <hal/reg.h>
+#include <drivers/nxt_avr.h>
 
 #define   I2CClk           400000L
 #define   CLDIV            (((CONFIG_SYS_CLOCK/I2CClk)/2)-3)
@@ -23,7 +24,7 @@ static uint32_t twi_pending;
 static uint8_t *twi_ptr;
 static uint32_t twi_mask;
 
-static uint8_t out_buff[sizeof(to_avr) + 1];
+static uint8_t out_buff[sizeof(to_avr_t) + 1];
 
 static void systick_wait_ns(uint32_t ns) {
 	volatile uint32_t x = (ns >> 7) + 1;
