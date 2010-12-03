@@ -11,6 +11,8 @@
 
 #include <types.h>
 
+#define NXT_N_MOTORS 3
+
 typedef void (*tacholimit_hnd_t)(void);
 
 typedef enum {
@@ -28,7 +30,7 @@ typedef struct {
 	motor_state_t state;
 } motor_t;
 
-extern motor_t motor1, motor2, motor3;
+extern motor_t motors[];
 
 /**
  * Start motor
