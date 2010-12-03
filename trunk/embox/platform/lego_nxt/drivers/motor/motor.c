@@ -24,26 +24,19 @@
 #define NXT_PIN_MOTOR_C0 0
 #define NXT_PIN_MOTOR_C1 8
 
+int pin_motor_S0[] = 
+	    { NXT_PIN_MOTOR_A0,
+		  NXT_PIN_MOTOR_B0,
+		  NXT_PIN_MOTOR_C0 };
+
+int pin_motor_S1[] = 
+	    { NXT_PIN_MOTOR_A1,
+		  NXT_PIN_MOTOR_B1,
+		  NXT_PIN_MOTOR_C1 };
+
 EMBOX_UNIT_INIT(nxt_motor_init);
 
-motor_t motor1, motor2, motor3;
-
-#define MOTOR_PIN_HANDLER(motor,mask) \
-do {\
-	(motor)->tacho_count--;\
-	if ((motor)->tacho_count == 0) {\
-		(motor)->tacho_count = (motor)->tacho_limit;\
-		if ((motor)->limit_hnd != NULL)\
-			(motor)->limit_hnd();\
-	} \
-} while (0)
-									
-#define MOTOR_INIT(motor, symbol) \
-do {\
-	(motor)->m_0 = NXT_PIN_MOTOR_##symbol##0;\
-	(motor)->m_1 = NXT_PIN_MOTOR_##symbol##1;\
-	(motor)->pin_handler = m##symbol##_pin_hnd; \
-} while (0)
+motor_t motors[3];
 
 void motor_start(motor_t *motor, int8_t power, uint32_t limit, 
 			tacholimit_hnd_t lim_handler) {
@@ -67,22 +60,30 @@ void motor_set_power(motor_t *motor, int8_t power) {
 	data_to_avr.output_percent[motor->id] = power;
 }
 
-static void mA_pin_hnd(int mask) {
-	MOTOR_PIN_HANDLER(&motor1, mask);
-}
-
-static void mB_pin_hnd(int mask) {
-	MOTOR_PIN_HANDLER(&motor2, mask);
-}
-
-static void mC_pin_hnd(int mask) {
-	MOTOR_PIN_HANDLER(&motor3, mask);
+static void motor_pin_handler(int ch_mask, int mon_mask) {
+	int i;
+	for (i = 0; i < NXT_AVR_N_OUTPUTS; i++) {
+	   if (pin_motor_S0[i] & mon_mask) {
+			motors[i].tacho_count--;
+			if (motors[i].tacho_count == 0) {
+				motors[i].tacho_count = motors[i].tacho_limit;
+				if (motors[i].limit_hnd != NULL) {
+					motors[i].limit_hnd();
+				}
+			}
+			break;
+	   }
+	}
 }
 
 static int nxt_motor_init(void) {
-	MOTOR_INIT(&motor1, A);
-	MOTOR_INIT(&motor2, B);
-	MOTOR_INIT(&motor3, C);
+	int i;
+	for (i = 0; i < NXT_N_MOTORS; i++) {
+		motors[i].m_0 = pin_motor_S0[i];
+		motors[i].m_1 = pin_motor_S1[i];
+		motors[i].pin_handler = (pin_handler_t) motor_pin_handler;
+		motors[i].id = i;
+	}
 	
 	data_to_avr.output_mode = PWM_FREQ;
 	return 0;
