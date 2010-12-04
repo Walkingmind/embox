@@ -91,7 +91,11 @@ static int init(void) {
 	data_to_avr.output_mode = 0;
 	data_to_avr.input_power = 0;
 
+	sensors_init();
+
 	set_timer(0, 1, (TIMER_FUNC) avr_handler);
+
+
 
 	return result;
 }

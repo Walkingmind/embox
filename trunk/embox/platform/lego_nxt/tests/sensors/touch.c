@@ -9,23 +9,25 @@
 #include <types.h>
 #include <embox/test.h>
 #include <unistd.h>
-
+#include <drivers/nxt_buttons.h>
 #include <drivers/nxt_touch_sensor.h>
 
-#define TOUCH_PORT 0
+#define TOUCH_PORT (&sensors[0])
 
 EMBOX_TEST(nxt_test_sensor_touch);
 
 int flag = 1;
 
-static void touch_handler(sensor_t sensor) {
+static void touch_handler(sensor_t *sensor) {
 	flag = 0;
 }
 
 static int nxt_test_sensor_touch(void) {
 	touch_sensor_init(TOUCH_PORT, (touch_hnd_t) touch_handler);
 
-	while (flag);
+	while (flag && (!nxt_buttons_was_pressed())) {
+		usleep(1000);
+	}
 
 	return 0;
 }

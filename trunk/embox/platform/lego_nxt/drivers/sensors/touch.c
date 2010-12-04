@@ -18,13 +18,13 @@
 
 static touch_hnd_t touch_sens_hnds[NXT_AVR_N_INPUTS];
 
-static void touch_handler(sensor_t sensor, sensor_val_t val) {
+static void touch_handler(sensor_t *sensor, sensor_val_t val) {
 	if (val <= TOUCH_ADC_EDGE) {
-		touch_sens_hnds[sensor](sensor);
+		touch_sens_hnds[sensor->id](sensor);
 	}
 }
 
-void touch_sensor_init (sensor_t sensor, touch_hnd_t handler) {
-	touch_sens_hnds[sensor] = handler;
+void touch_sensor_init (sensor_t *sensor, touch_hnd_t handler) {
+	touch_sens_hnds[sensor->id] = handler;
 	nxt_sensor_conf_pass(sensor, (sensor_hnd_t) touch_handler);
 }
