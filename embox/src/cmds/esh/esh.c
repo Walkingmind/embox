@@ -15,11 +15,6 @@
 
 #define CMDLINE_MAX_LENGTH 127
 
-/* TO-DO:
- 	1) must work without embox.cmds.shell
-	2) some troubles with testreadline exit
-*/
-
 #if 1 /* while linked with old embox shell. Where must be located its functions ???? */
 /* *str becomes pointer to first non-space character*/
 static void skip_spaces(char **str) {
@@ -58,7 +53,8 @@ static int esh_start(void) {
 	char *words[CMDLINE_MAX_LENGTH + 1];
 	char *cmdline;
 
-//	FILE *ff = fopen("/dev/uart","r");
+	printf("\n%s\n",CONFIG_SHELL_WELCOME_MSG);
+/*	FILE *ff = fopen("/dev/uart","r"); */
 
 	for (;;) {
 		cmdline = readline(CONFIG_SHELL_PROMPT);
@@ -77,10 +73,11 @@ static int esh_start(void) {
 			continue;
 		}
 		shell_command_exec(c_desc, words_counter, words);
+		printf("\n"); /* any command don't print \n in end */
 		freeline(cmdline);
 	}
 
-//	fclose(ff);
+/*	fclose(ff); */
 
 	return 0;
 }
