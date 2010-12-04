@@ -12,9 +12,9 @@
 
 #include <drivers/nxt_sensor.h>
 
-typedef void (*touch_hnd_t)(sensor_t sensor);
+typedef void (*touch_hnd_t)(sensor_t *sensor);
 
-extern void touch_sensor_init (sensor_t sensor, touch_hnd_t handler);
+extern void touch_sensor_init (sensor_t *sensor, touch_hnd_t handler);
 
 #endif /*NXT_SENSOR_H_*/
 

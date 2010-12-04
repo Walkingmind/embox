@@ -10,40 +10,37 @@
 #include <embox/test.h>
 #include <unistd.h>
 #include <drivers/nxt_buttons.h>
+#include <drivers/pins.h>
 
 #include <drivers/nxt_sensor.h>
 
 EMBOX_TEST(sensor_test);
 
-#define TOUCH_PORT 1
+#define TOUCH_PORT (&sensors[1]) 
 
-#define DIGIA0 23
-#define DIGIA1 18
-#define DIGIB0 28
-#define DIGIB1 19
-#define DIGIC0 29
-#define DIGIC1 20
-#define DIGID0 30
-#define DIGID1 2
+sensor_val_t sval = 10;
 
-int flag = 1;
-
-void sensor_handler(sensor_t sensor, sensor_val_t val) {
-	if (nxt_buttons_are_pressed() & BT_ENTER) {
-		TRACE("%d\n", val);
-	}
-	if (nxt_buttons_are_pressed() & BT_DOWN) {
-		flag = 0;
-	}
+void sensor_handler(sensor_t *sensor, sensor_val_t val) {
+	sval = val;
 }
 
 static int sensor_test(void) {
 	nxt_sensor_conf_pass(TOUCH_PORT, (sensor_hnd_t) sensor_handler);
 
-	pin_config_output((1 << DIGIB0) | (1 << DIGIB1));
-	pin_set_output((1 << DIGIB0) | (1 << DIGIB1));
+	pin_config_output((1 << TOUCH_PORT->n0p) | (1 << TOUCH_PORT->n1p));
+	pin_set_output((1 << TOUCH_PORT->n0p | (1 << TOUCH_PORT->n1p)));
+	//pin_clear_output((1 << DIGIB0) | (1 << DIGIB1));
 
-	while (flag);
+	while (true) {
+		int butt_state = nxt_buttons_was_pressed(); 
+		if (butt_state & BT_ENTER) {
+			TRACE("%d\n", sval);
+		}
+		if (butt_state & BT_DOWN) {
+			break;
+		}
+		usleep(500);
+	}
 
 	return 0;
 }
