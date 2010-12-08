@@ -42,7 +42,7 @@ sudo /sbin/mkfs.ext2 /dev/loop0
 {{{
 sudo mount /dev/loop0 /mnt/flash
 }}}
- # Установить GRUB (stage1 и stage2 берутся с хостовой системы, если он имеется и его версия 0.9*, иначе соберите сначала GRUB)
+ # Установить GRUB (stage1 и stage2 берутся с хостовой системы, если он имеется и его версия 0.9\*, иначе соберите сначала GRUB)
 {{{
 sudo mkdir -p /mnt/flash/boot/grub
 sudo cp /boot/grub/stage1 /boot/grub/stage2 /mnt/flash/boot/grub
