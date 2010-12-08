@@ -1,6 +1,9 @@
 #summary embox development roadmap
 #labels Phase-Requirements,Featured
 
+= 2010/12/31 v0.1.10 [http://code.google.com/p/embox/issues/list?can=1&q=milestone=v0.1.10 [issues]] [http://code.google.com/p/embox/issues/list?q=milestone=v0.1.10 [open issues]] =
+ * TODO
+
 = 2010/11/30 v0.1.9 [http://code.google.com/p/embox/issues/list?can=1&q=milestone=v0.1.9 [issues]] [http://code.google.com/p/embox/issues/list?q=milestone=v0.1.9 [open issues]] =
  * Refactoring ARM and Lego NXT code
  * Build system development ([EMBuildFeatureProposals details, RU only])
