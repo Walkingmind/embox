@@ -42,7 +42,7 @@ sudo /sbin/mkfs.ext2 /dev/loop0
 {{{
 sudo mount /dev/loop0 /mnt/flash
 }}}
- # Установить GRUB (stage1 и stage2 берутся с хостовой системы)
+ # Установить GRUB (stage1 и stage2 берутся с хостовой системы, если он имеется и его версия 0.9*, иначе соберите сначала GRUB)
 {{{
 sudo mkdir -p /mnt/flash/boot/grub
 sudo cp /boot/grub/stage1 /boot/grub/stage2 /mnt/flash/boot/grub
@@ -77,8 +77,8 @@ qemu -hda hd0.img -m 256
 
 == SKYEYE ==
 
-Targeted to ARM simulation. Used for Atmel AT91 simulation as that installed in Lego NXT brick. Have UART support.
-                            
+Из интересующих платформ можем использовать для симуляции под ARM (Atmel AT91) (вообще говоря возможно для LEON2). Имеется поддержка UART.
+
 Установить Skyeye:             
 
    [http://sourceforge.net/projects/skyeye/files/skyeye/skyeye-1.3.0_rc1.tar.gz/download skyeye-1.3.0rc1]
