@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Module>
+    <ModulePrefs title="release" />
+    <UserPref name="version" default_value=""/>
+    <UserPref name="date" default_value=""/>
+    <Content type="html">
+	<![CDATA[
+	<script type="text/javascript">
+	fubction show_header() {
+	    var prefs = new _IG_Prefs();
+	    var version = prefs.getString("version");
+	    var date = prefs.getString("date");
+	    var url = "http://code.google.com/p/embox/issues/list?can=1&q=milestone=v" + _esc(version);
+	    //TODO
+	}
+	_IG_RegisterOnloadHandler(show_header);
+	</script>
+     ]]>
+  </Content>
+</Module>
+
