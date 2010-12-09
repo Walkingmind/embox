@@ -29,7 +29,7 @@ typedef volatile struct tty_device {
 	bool     ins_mod;
 	#if 1 /* to-do: USE IT! */
 	struct 	 vtbuild vtb[1]; 
-	struct 	 vtparse vtt[1];
+	struct 	 vtparse vtp[1];
 	bool	 has_init;
 	#endif
 	file_operations_t *file_op;
