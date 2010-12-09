@@ -22,6 +22,8 @@ The core development team consists of students and graduates of [http://www.math
 
 == Student projects ==
 == Coursework ==
+http://se.math.spbu.ru/SE/YearlyProjects/2010/445/Batyukov_report.pdf/view
+http://se.math.spbu.ru/SE/YearlyProjects/2010/445/Fomin_report.doc/view
 
 = Just for fun =
 Enjoy the kernel hacking!
