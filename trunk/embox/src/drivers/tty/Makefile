@@ -9,7 +9,7 @@ endif
 
 $_MODS += vconsole
 $_SRCS-vconsole += vconsole.c 
-$_DEPS-vconsole += tty 
+$_DEPS-vconsole += tty tty_action
 
 $_MODS += tty_action
 $_SRCS-tty_action += tty_action.c
