@@ -21,9 +21,12 @@
 Команда разработчиков состоит из студентов и выпускников [http://www.math.spbu.ru/ru/index.html Санкт-Петербургского Государственного Университета]. *TODO*
 
 == Студенческие проекты ==
+
 == Курсовые работы ==
-http://se.math.spbu.ru/SE/YearlyProjects/2010/445/Batyukov_report.pdf/view
-http://se.math.spbu.ru/SE/YearlyProjects/2010/445/Fomin_report.doc/view
+
+[http://se.math.spbu.ru/SE/YearlyProjects/2010/445/Batyukov_report.pdf/view Разработка системы тестирования программно-аппаратных комплексов (Батюков А.М.)]
+
+[http://se.math.spbu.ru/SE/YearlyProjects/2010/445/Fomin_report.doc/view Особенности open-source разработки на основе проекта “embox” (Фомин А.Д.)]
 
 = Just for fun =
 Enjoy the kernel hacking!

@@ -21,9 +21,12 @@ As far as the complete source tree is hardly ever used for the final release, th
 The core development team consists of students and graduates of [http://www.math.spbu.ru/en/index.html Saint-Petersburg State University]. *TODO*
 
 == Student projects ==
+
 == Coursework ==
-http://se.math.spbu.ru/SE/YearlyProjects/2010/445/Batyukov_report.pdf/view
-http://se.math.spbu.ru/SE/YearlyProjects/2010/445/Fomin_report.doc/view
+
+[http://se.math.spbu.ru/SE/YearlyProjects/2010/445/Batyukov_report.pdf/view Разработка системы тестирования программно-аппаратных комплексов (Батюков А.М.)]
+
+[http://se.math.spbu.ru/SE/YearlyProjects/2010/445/Fomin_report.doc/view Особенности open-source разработки на основе проекта “embox” (Фомин А.Д.)]
 
 = Just for fun =
 Enjoy the kernel hacking!
