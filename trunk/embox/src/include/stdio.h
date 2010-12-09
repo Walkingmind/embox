@@ -119,7 +119,13 @@ extern int fioctl(FILE *fp, int request, ...);
 extern int stat(const char *path, stat_t *buf);
 
 #if defined(CONFIG_TRACE)
-# define TRACE(...)  printk(__VA_ARGS__)
+  #if defined(CONFIG_PROM_PRINTF)
+     #include <kernel/prom_printf.h>
+     # define TRACE(...) prom_printf(__VA_ARGS__)
+  #else
+     # define TRACE(...)  do ; while(0)
+ #endif
+//# define TRACE(...)  printk(__VA_ARGS__)
 #else
 # define TRACE(...)  do ; while (0)
 #endif
