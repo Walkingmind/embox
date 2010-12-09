@@ -79,7 +79,8 @@ char pipe_read(int pipe) {
 			tmp_pipe->is_full) return EMPTY_PIPE;
 
 	int i = tmp_pipe->read_index;
-	tmp_pipe->read_index++;
+	if (tmp_pipe->read_index < MAX_PIPE_SIZE - 1) tmp_pipe->read_index++;
+		else tmp_pipe->read_index = 0;
 
 	if (tmp_pipe->read_index = tmp_pipe->write_index)
 		tmp_pipe->is_full = true;
@@ -101,7 +102,8 @@ int pipe_write(int pipe, char data) {
 
 	if (i != j) {
     	tmp_pipe->sync_data[j] = &data;
-    	tmp_pipe->write_index++;
+    	if (tmp_pipe->write_index < MAX_PIPE_SIZE - 1) tmp_pipe->write_index++;
+			else tmp_pipe->write_index = 0;
     	return 0;
     }
 
