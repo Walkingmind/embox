@@ -16,7 +16,7 @@ extern int display_fill(uint8_t, uint8_t, uint8_t, uint8_t, int);
 static int run_fill(void) {
 
 	uint8_t buff[8] = {0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF};
-	
+	display_clear_screen();
 	display_draw(70, 1, 1,	8, &buff[0]);
 	display_draw(70, 3, 1,	8, &buff[0]);
 	display_draw(70, 5, 1,	8, &buff[0]);
@@ -54,7 +54,7 @@ static int run_fill(void) {
 	display_fill(25, 5, 1, 1, 0);
 	display_fill(26, 6, 1, 1, 0);
 	display_fill(27, 7, 1, 1, 0);
-	usleep(1000);
+	usleep(10000);
 	display_fill(0, 0, 100, 64, 0);
 	usleep(1000);
 	display_fill(5, 5, 90, 54, 1);
