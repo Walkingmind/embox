@@ -3,6 +3,7 @@
 <wiki:toc max_depth="1" />
 
 = Introduction =
+
 embox is "[http://en.wikipedia.org/wiki/Integrated_development_environment IDE]-independent" project, so you can edit sources in your favorite editor, compiling them and invoking debugger directly from console. But those who prefer all-in-one solutions will probably look for some kind of integrated development environment.
 
 We recommend you to use *[http://en.wikipedia.org/wiki/Eclipse_(software) Eclipse IDE]*, especially since embox already contains the necessary project files.
@@ -73,4 +74,4 @@ Open *_<Eclipse root>_\eclipse.ini* and add the following line after *`-vmargs`*
 Now your full name will be used instead of your login when generating code from templates (for example, when you create a new file).
 
 == Memory ==
-If your computer have plenty of RAM you can play with *`-Xms`*, *`-Xmx`* *`and -XX:MaxPermSize`* arguments. But this is not recommended if you do not have a clear understanding of what you are doing. More info can be found [http://wiki.eclipse.org/FAQ_How_do_I_increase_the_heap_size_available_to_Eclipse%3F here].
+If your computer have plenty of RAM you can play with *`-Xms`*, *`-Xmx`* and *`-XX:MaxPermSize`* arguments. But this is not recommended if you do not have a clear understanding of what you are doing. More info can be found [http://wiki.eclipse.org/FAQ_How_do_I_increase_the_heap_size_available_to_Eclipse%3F here].
