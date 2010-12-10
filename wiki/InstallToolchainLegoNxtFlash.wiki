@@ -1,0 +1,23 @@
+#summary Steps to flash Embox to NXT brick
+#labels Phase-Deploy,Phase-Implementation
+
+<wiki:toc max_depth="2" />
+
+== Using libnxt ==
+
+ # [http://code.google.com/p/libnxt/downloads/detail?name=libnxt-0.3.tar.gz&can=2&q= Getting] and compiling libnxt
+{{{
+$ ./configure
+$ make
+# make install
+}}}
+ # Configure Embox with 'arm' platform 'nxt' template
+ # Flashing Embox 
+{{{
+# fwflash embox.bin
+}}}
+
+ === Troubleshooting ===
+
+ * You must have write access for usb device! (Notice fwflash running with root priveleges)
+ * Even with root you probably cannot flash nxt. Check if existing Linux drivers gets device (e.g. cdc_acm for me)
