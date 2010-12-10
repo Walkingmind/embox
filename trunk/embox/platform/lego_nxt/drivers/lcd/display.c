@@ -252,28 +252,23 @@ int display_fill(uint8_t x, uint8_t y, uint8_t width, uint8_t height, int q){
 	up_whole_offset = y >> 3;
 	up_offset = y % 8;
 	up_higth = 8 - up_offset;
-	if (height > up_higth){
-		whole_field_y = (height - up_higth) >> 3;
-		under_higth = (height - up_higth) % 8;
-	} else {
-		whole_field_y = 0;
-		under_higth = 0;
-	}
-	if ((height < 8) && (under_higth == 0)) {
+	if (height <= up_higth){
 		for (x_offset = 0; x_offset < width; x_offset++) {
 			x_fill = x + x_offset;
 			display_little_field(x_fill, up_whole_offset, height, up_offset, q);
 		}
 	} else {
+		t = (q + 1) % 2;
 		for (x_offset = 0; x_offset < width; x_offset++) {
 			x_fill = x + x_offset;
-			t = (q + 1) % 2;
 			display_part(x_fill, up_whole_offset, up_offset, q);
 			for (y_offset = 0; y_offset < whole_field_y; y_offset++) {
 				y_fill = up_whole_offset+1 + y_offset;
 				display_buffer[y_fill][x_fill] = (q == 0 ? 0 : 0xFF);
 			}
-			display_part(x_fill, up_whole_offset+whole_field_y+1, under_higth, t);
+			if (under_higth != 0){
+				display_part(x_fill, up_whole_offset+whole_field_y+1, under_higth, t);
+			}
 		}
 	}
 	nxt_lcd_force_update();

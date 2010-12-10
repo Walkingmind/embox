@@ -3,6 +3,7 @@ $_MODS += nxt_lcd_picture
 $_MODS += nxt_splash
 $_MODS += nxt_fill
 $_MODS += nxt_new_fill
+$_MODS += nxt_lcd_picture_fill
 
 $_SRCS-nxt_lcd_picture += picture_embox.c
 $_DEPS-nxt_lcd_picture += $(PLATFORM).driver.nxt_lcd
@@ -15,3 +16,6 @@ $_DEPS-nxt_fill += $(PLATFORM).driver.nxt_lcd
 
 $_SRCS-nxt_new_fill += new_fill.c
 $_DEPS-nxt_new_fill += $(PLATFORM).driver.nxt_lcd
+
+$_SRCS-nxt_lcd_picture_fill += picture_embox_fill.c
+$_DEPS-nxt_lcd_picture_fill += $(PLATFORM).driver.nxt_lcd
