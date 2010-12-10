@@ -12,6 +12,7 @@
     * [InstallToolchainCrossCompiler Cross-Compiler]
     * [InstallToolchainSimulation Simulation]
     * [InstallToolchainEclipseDebug Debugging from Eclipse]
+    * [InstallToolchainLegoNxtFlash Flashing Lego NXT]
   * [EMBuild Building the project]
     * [EMBuildInfrastructure Infrastructure overview]
     * [EMBuildCLI Command-line interface]
