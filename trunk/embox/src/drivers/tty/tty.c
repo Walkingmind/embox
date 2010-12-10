@@ -53,6 +53,7 @@ void tty_vtparse_callback(struct vtparse *tty_vtparse, struct vt_token *token) {
 		case VT_ACTION_PRINT: /* Print any char */
 			if (cur_tty->ins_mod) { /* INSERT MODE */
 				if (cur_tty->rx_cnt < TTY_RXBUFF_SIZE) {
+					#if 0 
 					uint32_t i;
 					++cur_tty->rx_cnt;
 					for (i=cur_tty->rx_cnt; i>cur_tty->rx_cur; --i) {
@@ -66,6 +67,17 @@ void tty_vtparse_callback(struct vtparse *tty_vtparse, struct vt_token *token) {
 					for (i=cur_tty->rx_cur; i<cur_tty->rx_cnt; ++i) {
 						vtbuild(cur_tty->vtb, TOKEN_LEFT);
 					}
+					#else
+					++cur_tty->rx_cnt;
+					copy_backward( 
+						&cur_tty->rx_buff[cur_tty->rx_cur], 
+						&cur_tty->rx_buff[cur_tty->rx_cur+1],
+						cur_tty->rx_cnt - cur_tty->rx_cur);
+					cur_tty->rx_buff[cur_tty->rx_cur++] = token->ch; 
+					vtbuild( cur_tty->vtb, token );
+					tty_write_line( cur_tty, &cur_tty->rx_buff[cur_tty->rx_cur], 
+						cur_tty->rx_cnt - cur_tty->rx_cur, 0);
+					#endif
 				}
 			} else { /* REPLACE MOD */
 				if (cur_tty->rx_cur < TTY_RXBUFF_SIZE) {
@@ -83,32 +95,45 @@ void tty_vtparse_callback(struct vtparse *tty_vtparse, struct vt_token *token) {
 				case 'D': /* LEFT */
 					if (cur_tty->rx_cur>0) {
 						--cur_tty->rx_cur;
-						vtbuild(cur_tty->vtb, token);
+						//vtbuild(cur_tty->vtb, token);
+						tty_go_left( cur_tty, 1 );
 					}
 				break;
 				case 'C': /* RIGHT */
 					if (cur_tty->rx_cur < cur_tty->rx_cnt) {
 						++cur_tty->rx_cur;
-						vtbuild(cur_tty->vtb, token);
+						//vtbuild(cur_tty->vtb, token);
+						tty_go_right( cur_tty, 1 );
 					}
 				break;
 				case '~': /* HOME, END and others */
 					if (token->params_len == 1) {
 						switch (token->params[0]) {
 							case 7: /* HOME */
+								#if 0
 								while (cur_tty->rx_cur>0) {
 									--cur_tty->rx_cur;
 									vtbuild(cur_tty->vtb, TOKEN_LEFT);
 								}
+								#else
+								tty_go_cursor_position( cur_tty, cur_tty->rx_cur, 0 );
+								cur_tty->rx_cur = 0;
+								#endif
 							break;
 							case 8: /* END */
+								#if 0
 								while (cur_tty->rx_cur<cur_tty->rx_cnt) {
 									++cur_tty->rx_cur;
 									vtbuild(cur_tty->vtb, TOKEN_RIGHT);
 								}
+								#else
+								tty_go_cursor_position( cur_tty, cur_tty->rx_cur, cur_tty->rx_cnt );
+								cur_tty->rx_cur = cur_tty->rx_cnt;
+								#endif
 							break;
 							case 3: /* DEL */
 								if (cur_tty->rx_cur<cur_tty->rx_cnt) {
+								#if 0
 									uint32_t i;
 									for (i=cur_tty->rx_cur; i<cur_tty->rx_cnt-1; ++i) {
 										cur_tty->rx_buff[i] = cur_tty->rx_buff[i+1];
@@ -119,6 +144,16 @@ void tty_vtparse_callback(struct vtparse *tty_vtparse, struct vt_token *token) {
 										vtbuild(cur_tty->vtb, TOKEN_LEFT);
 									}
 									--cur_tty->rx_cnt;
+								#else
+									copy_forward( 
+										&cur_tty->rx_buff[cur_tty->rx_cur+1],
+										&cur_tty->rx_buff[cur_tty->rx_cur],
+										--cur_tty->rx_cnt - cur_tty->rx_cur );
+									tty_rewrite_line( cur_tty,
+										&cur_tty->rx_buff[cur_tty->rx_cur], 
+										cur_tty->rx_cnt - cur_tty->rx_cur,
+										cur_tty->rx_cnt - cur_tty->rx_cur + 1, 0, 0);
+								#endif
 								}
 							break;
 							case 2: /* INS */
@@ -131,18 +166,9 @@ void tty_vtparse_callback(struct vtparse *tty_vtparse, struct vt_token *token) {
 				#ifdef CONFIG_TTY_SYSTEM_COUNT
 					if ((token->params_len==1) && 
 						(token->params[0]-10<=CONFIG_TTY_SYSTEM_COUNT)) {
-						#if 0
-						printf("^F%d",token->params[0]-10);
-						#endif
 						vconsole_deactivate(&tty_console[tty_console_cur]);
 						tty_console_cur = token->params[0]-11;
-						vtbuild(cur_tty->vtb, TOKEN_LEFT);
-						vtbuild(cur_tty->vtb, TOKEN_LEFT);
-						vtbuild(cur_tty->vtb, TOKEN_LEFT);
-						vtbuild(cur_tty->vtb, TOKEN_LEFT);
-						vtbuild(cur_tty->vtb, TOKEN_LEFT);
-						vtbuild(cur_tty->vtb, TOKEN_LEFT);
-						vtbuild(cur_tty->vtb, TOKEN_LEFT);
+						tty_go_left( cur_tty, 7 ); /* erase `TTY-X$' */
 						printf("TTY-%d$ ",tty_console_cur+1);
 						vconsole_activate(&tty_console[tty_console_cur]);
 					}
@@ -166,6 +192,7 @@ void tty_vtparse_callback(struct vtparse *tty_vtparse, struct vt_token *token) {
 				break;
 
 				case 21: /* ^U clean line */ {
+				#if 0
 					uint32_t i;
 					for (i=0; i<cur_tty->rx_cur; ++i) {
 						cur_tty->rx_buff[i] = cur_tty->rx_buff[i+cur_tty->rx_cur];
@@ -184,9 +211,22 @@ void tty_vtparse_callback(struct vtparse *tty_vtparse, struct vt_token *token) {
 						vtbuild(cur_tty->vtb, TOKEN_LEFT);
 					}
 					cur_tty->rx_cur = 0;
+				#else
+					copy_forward(
+						&cur_tty->rx_buff[cur_tty->rx_cur],
+						&cur_tty->rx_buff[0],
+						cur_tty->rx_cnt - cur_tty->rx_cur );
+					tty_rewrite_line( cur_tty, 
+						&cur_tty->rx_buff[0],
+						cur_tty->rx_cnt - cur_tty->rx_cur,
+						cur_tty->rx_cnt, cur_tty->rx_cur, 0);
+					cur_tty->rx_cnt -= cur_tty->rx_cur;
+					cur_tty->rx_cur = 0;
+				#endif
 				} break;
 
 				case 23: /* ^W remove last word */ {
+				#if 0
 					uint32_t i,tps; /* tps - to position space */
 					for (tps=cur_tty->rx_cur; tps>0 && tty_isalpha(cur_tty->rx_buff[tps]); --tps);
 					for (; tps>0 && tty_isspace(cur_tty->rx_buff[tps]); --tps);
@@ -209,6 +249,29 @@ void tty_vtparse_callback(struct vtparse *tty_vtparse, struct vt_token *token) {
 						vtbuild(cur_tty->vtb, TOKEN_LEFT);
 					}
 					cur_tty->rx_cur = tps;
+				#else
+					/* find end of prev word */
+					uint32_t tps; /* tps - to position space */
+					tps = cur_tty->rx_cur>0 ? cur_tty->rx_cur-1 : 0;
+					for (; tps>0 && tty_isalpha(cur_tty->rx_buff[tps]); --tps);
+					for (; tps>0 && tty_isspace(cur_tty->rx_buff[tps]); --tps);
+					if (tps>0) {++tps;}
+
+					copy_forward( 
+						&cur_tty->rx_buff[cur_tty->rx_cur],
+						&cur_tty->rx_buff[tps], 
+						cur_tty->rx_cnt - cur_tty->rx_cur + tps );
+						
+					tty_rewrite_line( cur_tty,
+						&cur_tty->rx_buff[tps],
+						cur_tty->rx_cnt - cur_tty->rx_cur ,
+						cur_tty->rx_cnt - tps,
+						cur_tty->rx_cur - tps, 0 );
+
+					cur_tty->rx_cnt -= cur_tty->rx_cur - tps;
+					cur_tty->rx_cur = tps;
+
+				#endif
 				}
 				break;
 
@@ -243,7 +306,6 @@ void tty_vtparse_callback(struct vtparse *tty_vtparse, struct vt_token *token) {
 
 void tty_vtbuild_callback(struct vtparse *tty_vtbuild, char ch) {
 	cur_tty->file_op->fwrite(&ch,sizeof(char),1,NULL);
-	// uart_putc(ch); // to remove
 }
 
 static int tty_init_flag = 0;

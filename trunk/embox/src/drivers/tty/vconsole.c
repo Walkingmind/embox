@@ -7,6 +7,7 @@
  * @author Anton Bondarev
  */
 #include <embox/unit.h>
+#include <drivers/tty_action.h>
 #include <drivers/vconsole.h>
 #include <fs/file.h>
 
@@ -41,12 +42,7 @@ int vconsole_activate(vconsole_t *con) {
 	}
 	/* go to saved cursor position */
 	for (;*s>*t;--*s) {
-		#if 1 /* def TTY_USE_CONTROL_H_CHAR */
-		uart_putc(8);
-		#warning NOT SURE, THAT IT WORKS FOR ALL PLATFORMS. # uart_putc(ch)  
-		#else
-		/* vtbuild(tty_vtbuild, TOKEN_LEFT); */
-		#endif
+		vtbuild(con->tty->vtb, TOKEN_LEFT); 
 	}
 	*s = con->cl_cnt;
 	return 0;
@@ -59,23 +55,16 @@ int vconsole_deactivate(vconsole_t *con) {
 	con->cl_cur = *t;
 	/* clear current command line */
 	for (;*t>0;--*t) {
-		uart_putc(8);
-		#warning NOT SURE, THAT IT WORKS FOR ALL PLATFORMS. # uart_putc(ch)  
+		vtbuild(con->tty->vtb, TOKEN_LEFT); 
 	}
 	for (;*t<*s;++*t) {
-		uart_putc(' ');
-		#warning NOT SURE, THAT IT WORKS FOR ALL PLATFORMS. # uart_putc(ch)  
+		con->tty->file_op->fwrite(" ",sizeof(char),1,NULL);
 	}
 	/* copy command line in buffer */
 	con->cl_buff[0] = con->tty->rx_buff[0];
 	for (;*s>0;--*s) {
 		con->cl_buff[*s] = con->tty->rx_buff[*s];
-		#if 1 /* def TTY_USE_CONTROL_H_CHAR */
-		uart_putc(8);
-		#warning NOT SURE, THAT IT WORKS FOR ALL PLATFORMS. # uart_putc(ch)  
-		#else
-		/* vtbuild(tty_vtbuild, TOKEN_LEFT); */
-		#endif
+		vtbuild(con->tty->vtb, TOKEN_LEFT); 
 	}
 	*s = *t = 0;
 	return 0;
