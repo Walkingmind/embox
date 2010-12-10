@@ -1,8 +1,6 @@
 #summary Steps to flash Embox to NXT brick
 #labels Phase-Deploy,Phase-Implementation
 
-<wiki:toc max_depth="1" />
-
 == Using libnxt ==
 
  # [http://code.google.com/p/libnxt/downloads/detail?name=libnxt-0.3.tar.gz&can=2&q= Getting] and compiling libnxt
