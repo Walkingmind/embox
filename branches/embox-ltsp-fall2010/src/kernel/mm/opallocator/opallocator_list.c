@@ -1,7 +1,7 @@
 /**
  * @file
- * @brief page allocator 
- * @details Use `page allocator' when we need allocate or free only one page, 
+ * @brief page allocator
+ * @details Use `page allocator' when we need allocate or free only one page,
  * else see `multipage allocator' or `malloc'.
  *
  * @date 04.04.10
@@ -82,13 +82,13 @@ void *opalloc(void) {
 		page_alloc_init();
 		page_alloc_hasinit = 1;
 	}
-	
+
 	if (cmark_p == NULL) { /* don't exist memory enough */
 		/* generate error */
 		#if 0
 		errno = ENOMEM;
 		#endif
-		return NULL; 
+		return NULL;
 	}
 	/* find first proper block */
 	pcur = cmark_p;
@@ -100,7 +100,7 @@ void *opalloc(void) {
 	/* check finded block */
 
 	/* change list and return value */
-	if (pcur->psize > 1 ) { /* 1 := psize */
+	if (pcur->psize > 1) { /* 1 := psize */
 		tt = (pmark_t *) ((unsigned long) pcur +
 			(unsigned long) CONFIG_PAGE_SIZE * (unsigned long) 1);
 		/* 1:= psize */
@@ -108,13 +108,13 @@ void *opalloc(void) {
 		tmp = cmark_p->pnext;
 		cmark_p->pprev->pnext = tt;
 		tmp->pprev = tt;
-		cmark_p = copy_mark( pcur , tt );
+		cmark_p = copy_mark(pcur, tt);
 		return pcur;
 	} else {/* psize =: 1 == pcur->psize */
 		if (pcur->pnext == pcur) { /* it's last block */
 			cmark_p = NULL;
 			return pcur;
-		} else { 
+		} else {
 			pcur->pprev->pnext = pcur->pnext;
 			pcur->pnext->pprev = pcur->pprev;
 			cmark_p = pcur->pnext;
@@ -125,7 +125,7 @@ void *opalloc(void) {
 }
 
 /* free page that was allocated */
-void opfree(void *addr) { 
+void opfree(void *addr) {
 	pmark_t *paddr = (pmark_t*) addr;
 	#if 0
 	if (paddr == NULL) {

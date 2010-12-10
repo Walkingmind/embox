@@ -50,7 +50,7 @@ static cpio_newc_header_t *parse_item(cpio_newc_header_t *cpio_h, char *name) {
 	mode       = parsed[1];
 	mtime      = parsed[5];
 
-	if(0 == strcmp(name, "TRAILER!!!")) {
+	if (0 == strcmp(name, "TRAILER!!!")) {
 		return NULL;
 	} else {
 		//TODO: set start_addr, file_size, mode.
@@ -69,16 +69,16 @@ int unpack_to_rootfs(void) {
 	cpio_newc_header_t *cpio_h, *cpio_next;
 	char buff_name[CONFIG_MAX_LENGTH_FILE_NAME];
 
-	if(&_ramfs_end == &_ramfs_start) {
+	if (&_ramfs_end == &_ramfs_start) {
 		TRACE("No availible initramfs\n");
 		return -1;
 	}
 	TRACE("cpio initramfs at 0x%08x\n", (unsigned int)&_ramfs_start);
-	
+
 	init_fs = find_filesystem("ramfs");
-	
+
 	cpio_h = (cpio_newc_header_t *)&_ramfs_start;
-	while(NULL != (cpio_next = parse_item(cpio_h, buff_name))) {
+	while (NULL != (cpio_next = parse_item(cpio_h, buff_name))) {
 		cpio_h = cpio_next;
 	}
 

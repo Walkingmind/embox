@@ -3,7 +3,7 @@
  * @brief Implements diag and serial driver for at91 controller
  *
  * @date 7.06.2010
- * @author Anton Kozlov 
+ * @author Anton Kozlov
  */
 
 #include <types.h>
@@ -54,8 +54,8 @@ void diag_init(void) {
 	REG_STORE(AT91C_US0_CR, AT91C_US_RXDIS | AT91C_US_TXDIS | \
 					AT91C_US_RSTRX | AT91C_US_RSTTX);
 	/* was 0x8c0, now there is Even Parity */
-	//REG_STORE(AT91C_US0_MR, AT91C_US_CHRL_8_BITS | AT91C_US_CLKS_CLOCK );
-	REG_STORE(AT91C_US0_BRGR, UART_CLOCK_DIVIDER); 
+	//REG_STORE(AT91C_US0_MR, AT91C_US_CHRL_8_BITS | AT91C_US_CLKS_CLOCK);
+	REG_STORE(AT91C_US0_BRGR, UART_CLOCK_DIVIDER);
 	REG_STORE(AT91C_US0_MR,  AT91C_US_PAR_NONE | \
 			AT91C_US_CHRL_8_BITS | AT91C_US_CLKS_CLOCK);
 	/* enabling clocking USART */
@@ -75,7 +75,7 @@ int diag_has_symbol(void) {
 }
 
 void diag_putc(char ch) {
-	while (!(AT91C_US_TXRDY & REG_LOAD(AT91C_US0_CSR))) { 
+	while (!(AT91C_US_TXRDY & REG_LOAD(AT91C_US0_CSR))) {
 	//while (!line_is_accepts_new_char)
 	}
 	REG_STORE(AT91C_US0_THR, (unsigned long) ch);

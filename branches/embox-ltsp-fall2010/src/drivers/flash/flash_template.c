@@ -57,6 +57,8 @@
 #include <drivers/flash_template.h>
 #include <drivers/flash_if.h>
 
+#define __ATTR //__attribute__ ((section (".reloc.flash_utils")))
+
 /**
  * This procedure is called to clear the status register on the flash
  * device.
@@ -84,7 +86,7 @@ FLASH_STATUS flash_erase_block(FLASH_DEV *flash_dev, uint16_t blocknum) {
 	flash_clear_status(flash_dev);
 
 	flash_writef(flash_dev, blockadd, FLASH_BLOCK_ERASE);
-	flash_writef(flash_dev, blockadd, FLASH_CONFIRM );
+	flash_writef(flash_dev, blockadd, FLASH_CONFIRM);
 
 	if (!flash_wait_until_ready(flash_dev, FLASH_ERASE_TIMEOUT)) {
 		stat.Result = StatTimeout;
@@ -97,7 +99,7 @@ FLASH_STATUS flash_erase_block(FLASH_DEV *flash_dev, uint16_t blocknum) {
 
 	/* return device to read array mode */
 
-	flash_writef(flash_dev, 0, FLASH_READ_ARRAY );
+	flash_writef(flash_dev, 0, FLASH_READ_ARRAY);
 	return (stat);
 }
 
@@ -149,7 +151,7 @@ FLASH_STATUS flash_program_flash(FLASH_DEV *flash_dev, uint32_t offset,
 		offset--;
 	}
 
-	flash_writef(flash_dev, offset, FLASH_PROGRAM_SETUP );
+	flash_writef(flash_dev, offset, FLASH_PROGRAM_SETUP);
 	flash_writef(flash_dev, offset, item);
 
 	if (!flash_wait_until_ready(flash_dev, FLASH_PROGRAM_TIMEOUT)) {
@@ -162,7 +164,7 @@ FLASH_STATUS flash_program_flash(FLASH_DEV *flash_dev, uint32_t offset,
 	stat.SR = flash_readf(flash_dev, 0);
 
 	/* return device to read array mode */
-	flash_writef(flash_dev, 0, FLASH_READ_ARRAY );
+	flash_writef(flash_dev, 0, FLASH_READ_ARRAY);
 
 	return (stat);
 }
@@ -172,13 +174,14 @@ FLASH_STATUS flash_program_flash(FLASH_DEV *flash_dev, uint32_t offset,
  * the flash device.
  * @param (OUT) *query - pointer to query structure
  * @return FLASH_STATUS
+ * WARNING: overly complex function.
  */
 FLASH_STATUS flash_query(FLASH_DEV *flash_dev, struct _FLASH_QUERY_DATA *query) {
 	FLASH_STATUS stat;
 	uint32_t add, offset, longitem, i;
 	FLASH_FDATA item;
 
-	flash_writef(flash_dev, 0, FLASH_READ_QUERY );
+	flash_writef(flash_dev, 0, FLASH_READ_QUERY);
 
 	offset = FLASH_QUERY_START_OFFSET;
 
@@ -542,7 +545,7 @@ FLASH_STATUS flash_query(FLASH_DEV *flash_dev, struct _FLASH_QUERY_DATA *query) 
 
 	stat.Result = StatCompleted;
 
-	flash_writef(flash_dev, 0, FLASH_READ_ARRAY );
+	flash_writef(flash_dev, 0, FLASH_READ_ARRAY);
 
 	return (stat);
 }
@@ -567,7 +570,7 @@ FLASH_STATUS flash_read_device_ID(FLASH_DEV *flash_dev, uint32_t *mcode,
 
 	*deviceid = flash_readf(flash_dev, idaddress);
 
-	flash_writef(flash_dev, 0, FLASH_READ_ARRAY ); /* o_O magic string*/
+	flash_writef(flash_dev, 0, FLASH_READ_ARRAY); /* o_O magic string*/
 	stat.Result = StatCompleted;
 	stat.SR = 0;
 
@@ -582,7 +585,7 @@ FLASH_STATUS flash_read_device_ID(FLASH_DEV *flash_dev, uint32_t *mcode,
  * @param offset  - the flash address to be written to.
  * @return the flash data from the device.
  */
-volatile FLASH_FDATA flash_readf (FLASH_DEV *flash_dev, uint32_t offset) {
+FLASH_FDATA flash_readf(FLASH_DEV *flash_dev, uint32_t offset) {
 	volatile uint32_t tmp;
 
 /*
@@ -624,7 +627,7 @@ FLASH_STATUS flash_read_flash(FLASH_DEV *flash_dev, uint32_t offset,
 	}
 
 	flash_clear_status(flash_dev);
-	flash_writef(flash_dev, 0, FLASH_READ_ARRAY );
+	flash_writef(flash_dev, 0, FLASH_READ_ARRAY);
 
 	for (cur_addr = offset; cur_addr - offset < (num); cur_addr
 			+= sizeof(uint32_t)) {
@@ -646,7 +649,7 @@ FLASH_STATUS flash_read_flash(FLASH_DEV *flash_dev, uint32_t offset,
 FLASH_FDATA flash_read_status(FLASH_DEV *flash_dev) {
 	volatile FLASH_FDATA status = 0;
 
-	flash_writef(flash_dev, 0, FLASH_READ_STATUS_REGISTER );
+	flash_writef(flash_dev, 0, FLASH_READ_STATUS_REGISTER);
 
 	status = flash_readf(flash_dev, 0);
 
@@ -680,7 +683,7 @@ uint8_t flash_wait_until_ready(FLASH_DEV *flash_dev, uint32_t timeout) {
 }
 
 void flash_writef(FLASH_DEV *flash_dev, uint32_t offset,
-		volatile FLASH_FDATA value) __attribute__ ((section (".reloc.flash_utils")));
+		volatile FLASH_FDATA value) __ATTR;
 /**
  * This procedure is called to write a single data item directly to the
  * specified device address.  This function is used internally by the
@@ -693,7 +696,7 @@ void flash_writef(FLASH_DEV *flash_dev, uint32_t offset,
 void flash_writef(FLASH_DEV *flash_dev, uint32_t offset,
 		volatile FLASH_FDATA value) {
 	uint32_t *ptr;
-	ptr = (FLASH_FDATA * volatile ) (flash_dev->start_address + offset);
+	ptr = (FLASH_FDATA * volatile) (flash_dev->start_address + offset);
 	FLASH_WRITE_ENABLE;
 	*ptr = value;
 	FLASH_WRITE_DISABLE;

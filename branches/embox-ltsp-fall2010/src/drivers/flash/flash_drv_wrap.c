@@ -12,7 +12,7 @@ FLASH_STATUS s_stat;
 uint8_t blockdata[FLASH_MAIN_BLOCK_NUMBYTES*2]; // MEGABUFFER of 256 KB "HELLO, MALLOC"
 
 int s_block_getstatus(int NBLOCK, uint32_t* blkstat) {
-	s_stat = flash_read_block_status(NBLOCK,(FLASH_FDATA *)blkstat);
+	s_stat = flash_read_block_status(NBLOCK, (FLASH_FDATA *) blkstat);
 	if (s_stat.Result != StatCompleted) {
 		TRACE("flash_read_block_status %d error!\n", NBLOCK);
 		return-1;
@@ -132,12 +132,11 @@ int b_get_blockdata (uint16_t bnum, void** pdata) {
 	uint32_t addr,size;
 	flash_get_block_address(bnum,&addr);
 	size = flash_get_block_size (bnum);
-	*pdata = (void*)blockdata;
+	*pdata = (void*) blockdata;
 	if (s_read_flash(addr, blockdata, size))
 		return -1;
 	return size;
 }
-
 
 
 int b_put_blockdata (uint16_t bnum, int nwords) {
@@ -160,13 +159,13 @@ int b_put_blockdata (uint16_t bnum, int nwords) {
 	printf("blockdata addr: %08x ;  wrsz : %d\n",blockdata, wrsize);
 	printf ("put: ");
 	int i;
-	for (i=0;i<80;i++) {
-		if(i%16==0)
+	for (i = 0; i < 80; i++) {
+		if (i % 16 == 0)
 			printf ("\n");
 		printf ("%08x ",*((uint32_t*)(blockdata)+i));
 	}
 	printf ("\n");
 	if (s_erase_block(bnum))
 		return -1;
-	return s_program32_flash_unbuffered(addr, (uint32_t*)blockdata, wrsize/4);
+	return s_program32_flash_unbuffered(addr, (uint32_t*) blockdata, wrsize/4);
 }

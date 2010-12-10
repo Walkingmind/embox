@@ -3,7 +3,7 @@
  * @brief Tests messages.
  * @details Test, starting two threads.
  * First thread sends second message of wrong type and doesn't unblock the last one.
- * Then the first one a lot of times writes "1". 
+ * Then the first one a lot of times writes "1".
  * Then first thread sends message to second and unblocks it.
  * Second thread some times writes "2".
  * First thread can't die until the end of second (waits for a message).

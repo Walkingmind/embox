@@ -44,13 +44,13 @@ extern long int atol(const char *nptr);
 extern double strtod(const char *nptr, char **endptr);
 
 /**
- * Converts the initial part of the string in nptr to a long 
+ * Converts the initial part of the string in nptr to a long
  * integer value according to the given base.
  */
 extern long int strtol(const char *nptr, char **endptr, int base);
 
 /**
- * Return directory part of PATH or "." if none is available. 
+ * Return directory part of PATH or "." if none is available.
  */
 extern char *dirname(char *path);
 

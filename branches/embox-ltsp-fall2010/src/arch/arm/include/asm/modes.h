@@ -1,9 +1,9 @@
 /**
  * @file
- * @brief ARM modes 
+ * @brief ARM modes
  *
  * @date 5.11.2010
- * @author Anton Kozlov 
+ * @author Anton Kozlov
  */
 
 #ifndef ARM_MODES_H_

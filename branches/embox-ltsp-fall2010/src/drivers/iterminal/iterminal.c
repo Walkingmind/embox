@@ -10,7 +10,7 @@
  * @author Fedor Burdun
  * @auther Michail Skorginskii
  *         - I made some simple refactor - renaming,
- *           delete and some part of code, wich i can't understad. 
+ *           delete and some part of code, wich i can't understad.
  *           We make simple terminal, right?
  */
 
@@ -94,7 +94,7 @@ int iterminal_probe(driver_t *drv, void *arg) {
 }
 
 int iterminal_unload(driver_t *drv) {
-	device_destroy( drv->private );
+	device_destroy(drv->private);
 	drv->private = NULL;
 	drv->private_s = 0;
 	return 0;
@@ -102,12 +102,12 @@ int iterminal_unload(driver_t *drv) {
 
 /*
  * interface for registry in embox as module (FIXME while don't exist driver's framework)
- * 
+ *
  * FIXME rewrite all thease functions for their real need's
  */
 #ifdef START_AS_MOD
 /*
- * for work need add to mods-? mods( ?.iterminal , 1 ) or ?
+ * for work need add to mods-? mods(?.iterminal, 1) or ?
  */
 static int iterminal_start(void) {
 	printk("\e[1;34miTerminal driver was started!\e[0;0m\n");
@@ -126,7 +126,7 @@ static int iterminal_stop(void) {
 	return 0;
 }
 
-EMBOX_UNIT(iterminal_start, iterminal_stop); 
+EMBOX_UNIT(iterminal_start, iterminal_stop);
 
 #else
 

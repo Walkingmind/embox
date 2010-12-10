@@ -3,7 +3,7 @@ $_MODS += shell shell_command
 
 ifdef CONFIG_SHELL_SOURCE
 
-  ifeq ($(CONFIG_SHELL_SOURCE), shell.c) # old 
+  ifeq ($(CONFIG_SHELL_SOURCE), shell.c) # old
 
     $_SRCS-shell += shell.c console/*.c
 #    $_DEPS-shell += core.kernel.job embox.hal.context
@@ -15,7 +15,7 @@ ifdef CONFIG_SHELL_SOURCE
     $($_SELFDIR)/shell.c : $(AUTOCONF_DIR)/start_script.inc
 
 
-  else # new 
+  else # new
 
     $_SRCS-shell += $(CONFIG_SHELL_SOURCE)
     $_DEPS-shell += core.kernel.job embox.hal.context core.kernel.drv_subsys core.kernel.scheduler core.kernel.thread

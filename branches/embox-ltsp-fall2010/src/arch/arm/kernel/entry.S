@@ -16,11 +16,11 @@
 
 .text
 .align 4
-.global	SWI_handler 
-.global	IRQ_handler 
+.global	SWI_handler
+.global	IRQ_handler
 .global IRQ_def_handler
 
-IRQ_def_handler : 
+IRQ_def_handler :
 	b IRQ_def_handler
 
 IRQ_handler:
@@ -32,7 +32,7 @@ IRQ_handler:
 	mrs		LR, SPSR
 	stmfd	sp!, {r0-r12, lr}
 
-#ifdef CONFIG_MEASURE_IRQ
+#ifdef CONFIG_MEASURE
 	bl measure_start
 	bl measure_stop
 	bl measure_irq_measure_overhead
@@ -50,10 +50,10 @@ IRQ_handler:
 
 	/*going to higher level handler, passing first arg number of source interrupt */
 	mov	r1, #0
-	msr CPSR_c, #ARM_MODE_SVC | I_BIT | F_BIT /* going to SVC mode, still disabling interrupts */ 
+	msr CPSR_c, #ARM_MODE_SVC | I_BIT | F_BIT /* going to SVC mode, still disabling interrupts */
 	stmfd sp!, {lr} /* stoirqring address of returning in interrupted program flow */
 
-#ifdef CONFIG_MEASURE_IRQ
+#ifdef CONFIG_MEASURE
 	stmfd sp!, {r0}
 	bl measure_stop
 	bl measure_irq_head_process
@@ -72,7 +72,7 @@ IRQ_handler:
 #endif
 
 /*measure irq dispatch*/
-#ifdef CONFIG_MEASURE_IRQ
+#ifdef CONFIG_MEASURE
 	bl	measure_stop
 	mov r1, r0
 	ldmfd sp!, {r0}
@@ -81,26 +81,26 @@ IRQ_handler:
 #endif
 
 	ldmfd sp!, {lr}
-	/* now interrupted program is unaffected, interrupt serviced, correctly exiting handler */	
+	/* now interrupted program is unaffected, interrupt serviced, correctly exiting handler */
 	msr CPSR_c, #ARM_MODE_IRQ | I_BIT | F_BIT /*disable interrupts, restoring state better uninterrupted */
 
 	/*telling AIC "we've done"*/
 	ldr	r1, =AT91C_AIC_EOICR
 	str	r0, [r1]
-	
-#ifdef CONFIG_MEASURE_IRQ
+
+#ifdef CONFIG_MEASURE
 	bl measure_stop
 	bl measure_irq_tail_process
 #endif
 
-	/*interrupts are disabled, so restoring goes OK */ 
+	/*interrupts are disabled, so restoring goes OK */
 	ldmfd	sp!, {r0-r12, lr}
-	msr		SPSR, LR	
+	msr		SPSR, LR
 	/*regs & SPSR on theirs places, as before handler */
-	
+
 	/*returning from interrupt handler, CPSR <- SPSR */
-	ldmfd       sp!, {pc}^ 
-	/*continue from place, where interrupt raised */ 	
+	ldmfd       sp!, {pc}^
+	/*continue from place, where interrupt raised */
 
 	/*What a Terrible Failure? */
 	b die

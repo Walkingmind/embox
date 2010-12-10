@@ -3,7 +3,7 @@
  * @brief Measure framework
  *
  * @data 17.11.2010
- * @author Anton Kozlov 
+ * @author Anton Kozlov
  */
 
 #include <types.h>
@@ -24,7 +24,7 @@ static measure_time_t measure_overhead;
 static int measure_init() {
 	int i = 0;
 	for (; i < INTERRUPT_NRS_TOTAL; i++) {
-		irq_process[i].ticks = 0; 
+		irq_process[i].ticks = 0;
 		irq_process[i].clocks = 0;
 	}
 

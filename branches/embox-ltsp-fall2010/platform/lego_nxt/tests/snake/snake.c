@@ -13,7 +13,7 @@ extern __u8 display_buffer[NXT_LCD_DEPTH+1][NXT_LCD_WIDTH];
 
 #define SPEED_INC 5
 #define SIZE_X 25
-#define SIZE_Y 16 
+#define SIZE_Y 16
 #define SNAKE_LEN 4
 #define SNK '*'
 #define FRU 'o'
@@ -126,12 +126,12 @@ static void fruit_draw(void) {
 	}
 	draw(d2f(t), FRU);
 	draw_nxt_fruit(d2f(t));
-} 
+}
 
 static void refresh(void) {
 	int i, j;
 	display_clear_screen();
-	for (i = 0; i < SIZE_Y; i++) { 
+	for (i = 0; i < SIZE_Y; i++) {
 		for (j = 0; j < SIZE_X; j++) {
 			if (!space(field[f2d(j,i)])) {
 				point p = {j, i};
@@ -143,8 +143,8 @@ static void refresh(void) {
 
 static void field_init(void) {
 	int i, j;
-	for (i = 0; i < SIZE_X; i++) 
-		for (j = 0; j < SIZE_Y; j++) 
+	for (i = 0; i < SIZE_X; i++)
+		for (j = 0; j < SIZE_Y; j++)
 			field[f2d(i,j)] = '.';
 	for (i = 0; i < SIZE_X; i++) {
 		field[f2d(i,0)] = field[f2d(i,SIZE_Y - 1)] = '-';
@@ -177,13 +177,13 @@ static char button_dispatch(uint32_t btns) {
 	for (i = 1; i < 16; i = i << 1) {
 		if ((btns & i) == btns) {
 			switch (i) {
-			case BT_DOWN:	
+			case BT_DOWN:
 				return 'j';
-			case BT_LEFT:	
+			case BT_LEFT:
 				return 'h';
-			case BT_RIGHT:	
+			case BT_RIGHT:
 				return 'l';
-			case BT_ENTER:	
+			case BT_ENTER:
 				return 'k';
 			default:
 				return ' ';
@@ -221,7 +221,7 @@ static int snake_update(void) {
 	dir[f2d(head.x, head.y)] = diff_char;
 
 	switch (new_pos) {
-	case FRU: 
+	case FRU:
 		if (!speed_count--) {
 			if (sleep_time >= 50)
 				sleep_time -= 20;
@@ -232,7 +232,7 @@ static int snake_update(void) {
 		draw_nxt_connect(head, diff);
 		draw_nxt_white(p);
 		draw_nxt_head(p);
-		head = p;	  
+		head = p;
 		score += 10;
 		draw(p,SNK);
 		fruit_draw();
@@ -285,11 +285,11 @@ static int exec() {
 		//usleep(sleep_time);
 		//refresh();
 		usleep(sleep_time);
-		last_valid = 0; 
+		last_valid = 0;
 		ch = button_dispatch(nxt_buttons_are_pressed());
 		d = dispatch(ch);
 		d2 = point_plus(d,diff);
-		
+
 		if (valid(d2)) {
 			diff = d;
 			diff_char = ch;

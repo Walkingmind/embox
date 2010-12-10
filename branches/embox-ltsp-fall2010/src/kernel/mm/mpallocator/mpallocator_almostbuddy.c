@@ -1,7 +1,7 @@
 /**
  * @file
- * @brief multipage allocator 
- * @details Use `page allocator' when we need allocate or free only one page, 
+ * @brief multipage allocator
+ * @details Use `page allocator' when we need allocate or free only one page,
  * else see `multipage allocator' or `malloc'.
  *
  * @date 28.04.10
@@ -29,7 +29,7 @@ extern char *_heap_end;
 typedef size_t taddr; /* addres in tree */
 char* heap_start;     /* real heap_start */
 size_t sizeofpool;    /* real size of heap */
-int hasinit = 0;		
+int hasinit = 0;
 size_t maxblocksize;
 
 /**
@@ -85,7 +85,7 @@ void rec_init(taddr addr, char *ptr, size_t size) {
 	}
 	if (size > 1) {
 		rec_init(2 * addr, ptr, size / 2);
-		rec_init(2 * addr + 1, 
+		rec_init(2 * addr + 1,
 			ptr + CONFIG_PAGE_SIZE * size / 2, size / 2);
 	}
 }
@@ -115,7 +115,7 @@ void multipage_init(void) {
 	for (maxblocksize = 1; maxblocksize < PAGE_QUANTITY; maxblocksize *= 2);
 	sizeoftree = 2 * maxblocksize / 1; /* change 1 to 8 (bit pack) */
 	// sizeoftree = maxblocksize / 4;
-	
+
 	/* (sizeoftree - 1) / 0x1000 + 1 // quantity of pages for tree */
 	qpt = ((sizeoftree - 1) / CONFIG_PAGE_SIZE + 1);
 
@@ -142,7 +142,7 @@ void free_addr(taddr addr) {
 		set_bits(addr, 0);
 	}
 
-	if (!get_bits(addr^1)) { 
+	if (!get_bits(addr^1)) {
 		free_addr(addr / 2);
 	}
 }
@@ -203,7 +203,7 @@ void *find_block_avail(taddr addr) {
 		return taddr_to_ptr(addr + i);
 	} else {
 		return NULL;
-	} 
+	}
 }
 
 /**
@@ -216,9 +216,11 @@ void *mpalloc(size_t size) {
 		multipage_init();
 		hasinit = 1;
 	}
-	for ( size_fr=1 ; ( size_fr < size ) ; size_fr<<=1 );
-	for ( ; (size_fr <= maxblocksize) && !(ptr=find_block_avail(maxblocksize/size_fr)) ; size_fr<<=1 ); // WHY maxblocksize/size_fr ??
-	//may be enought only ptr=find_block_avail(size_fr) because if size_fr isn't available, than size_fr*2 also isn't available
+	for (size_fr = 1; (size_fr < size); size_fr <<= 1);
+	for (; (size_fr <= maxblocksize) &&
+	    !(ptr=find_block_avail(maxblocksize/size_fr)); size_fr <<= 1); /* WHY maxblocksize/size_fr ?? */
+	/* may be enought only ptr=find_block_avail(size_fr)
+	   because if size_fr isn't available, than size_fr*2 also isn't available */
 	return ptr;
 }
 
@@ -236,7 +238,7 @@ void robin_taddr(void *ptr) {
 		free_addr(saddr);
 		free_down(saddr);
 		return;
-	} 
+	}
 
 	if (marked(before)) {
 		free_addr(before);
@@ -251,9 +253,16 @@ void robin_taddr(void *ptr) {
 void mpfree(void *ptr) {
 	if (ptr == NULL) {
 		/* errno = XXX */
-		return; 
+		return;
 	}
 	robin_taddr(ptr);
+}
+
+/**
+ * return list of free and busy blocks in heap
+ */
+void mpget_blocks_info(struct list_head* list) {
+	//TODO:
 }
 
 /**

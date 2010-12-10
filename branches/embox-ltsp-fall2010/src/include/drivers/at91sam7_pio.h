@@ -1,9 +1,9 @@
 /**
  * @file
- * @brief Parallel Input/Output Controller interface 
+ * @brief Parallel Input/Output Controller interface
  *
  * @date 26.09.2010
- * @author Anton Kozlov 
+ * @author Anton Kozlov
  */
 
 #ifndef AT91SAM7_PIO_H_
@@ -15,15 +15,15 @@ typedef struct _AT91S_PIO {
 	AT91_REG	 PIO_PER; 	// PIO Enable Register
 	AT91_REG	 PIO_PDR; 	// PIO Disable Register
 	AT91_REG	 PIO_PSR; 	// PIO Status Register
-	AT91_REG	 Reserved0[1]; 	// 
+	AT91_REG	 Reserved0[1]; 	//
 	AT91_REG	 PIO_OER; 	// Output Enable Register
 	AT91_REG	 PIO_ODR; 	// Output Disable Registerr
 	AT91_REG	 PIO_OSR; 	// Output Status Register
-	AT91_REG	 Reserved1[1]; 	// 
+	AT91_REG	 Reserved1[1]; 	//
 	AT91_REG	 PIO_IFER; 	// Input Filter Enable Register
 	AT91_REG	 PIO_IFDR; 	// Input Filter Disable Register
 	AT91_REG	 PIO_IFSR; 	// Input Filter Status Register
-	AT91_REG	 Reserved2[1]; 	// 
+	AT91_REG	 Reserved2[1]; 	//
 	AT91_REG	 PIO_SODR; 	// Set Output Data Register
 	AT91_REG	 PIO_CODR; 	// Clear Output Data Register
 	AT91_REG	 PIO_ODSR; 	// Output Data Status Register
@@ -35,15 +35,15 @@ typedef struct _AT91S_PIO {
 	AT91_REG	 PIO_MDER; 	// Multi-driver Enable Register
 	AT91_REG	 PIO_MDDR; 	// Multi-driver Disable Register
 	AT91_REG	 PIO_MDSR; 	// Multi-driver Status Register
-	AT91_REG	 Reserved3[1]; 	// 
+	AT91_REG	 Reserved3[1]; 	//
 	AT91_REG	 PIO_PPUDR; 	// Pull-up Disable Register
 	AT91_REG	 PIO_PPUER; 	// Pull-up Enable Register
 	AT91_REG	 PIO_PPUSR; 	// Pull-up Status Register
-	AT91_REG	 Reserved4[1]; 	// 
+	AT91_REG	 Reserved4[1]; 	//
 	AT91_REG	 PIO_ASR; 	// Select A Register
 	AT91_REG	 PIO_BSR; 	// Select B Register
 	AT91_REG	 PIO_ABSR; 	// AB Select Status Register
-	AT91_REG	 Reserved5[9]; 	// 
+	AT91_REG	 Reserved5[9]; 	//
 	AT91_REG	 PIO_OWER; 	// Output Write Enable Register
 	AT91_REG	 PIO_OWDR; 	// Output Write Disable Register
 	AT91_REG	 PIO_OWSR; 	// Output Write Status Register
@@ -145,7 +145,7 @@ typedef struct _AT91S_PIO {
 #define AT91C_PIO_PA9        ((unsigned int) 1 <<  9) // Pin Controlled by PA9
 #define AT91C_PA9_DRXD     ((unsigned int) AT91C_PIO_PA9) //  DBGU Debug Receive Data
 #define AT91C_PA9_NPCS1    ((unsigned int) AT91C_PIO_PA9) //  SPI Peripheral Chip Select 1
-// ========== Register definition for PIOA peripheral ========== 
+// ========== Register definition for PIOA peripheral ==========
 #define AT91C_PIOA_ODR  ((AT91_REG *) 	0xFFFFF414) // (PIOA) Output Disable Registerr
 #define AT91C_PIOA_SODR ((AT91_REG *) 	0xFFFFF430) // (PIOA) Set Output Data Register
 #define AT91C_PIOA_ISR  ((AT91_REG *) 	0xFFFFF44C) // (PIOA) Interrupt Status Register

@@ -1,4 +1,4 @@
-/** 
+/**
  * @file
  * @description Interface for use in drivers.
  *
@@ -98,7 +98,7 @@ struct driver {
 	/* private data */
 	void            *private;
 
-	/** 
+	/**
 	 * init of driver, allocate memory and other
 	 * return 0 or -ERR
 	 */
@@ -138,7 +138,7 @@ extern int device_destroy(device_t *dev);
  * select device by description string (devFS?)
  * if can't find device, return /dev/null
  */
-extern device_desc device_select(const char *desc); 
+extern device_desc device_select(const char *desc);
 
 /* shared device's interface */
 extern int device_open  (device_desc dev, int mode);
@@ -152,7 +152,7 @@ extern int device_devctl(device_desc dev, device_cmd c, void *arg);
 #define IOCTLR_UNKNOW_OPERATION	0x0001
 #define IOCTLR_OK               0x0001
 
-#define IOCTL_SET_BASE_OPTIONS  0x0001 
+#define IOCTL_SET_BASE_OPTIONS  0x0001
 /* arg <=> int* */
 #define IOCTL_GET_BASE_OPTIONS  0x0002
 /* arg <=> int* */

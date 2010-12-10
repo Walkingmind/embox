@@ -42,12 +42,12 @@ struct sockaddr_in {
 };
 
 /**
- * Convert Internet number in IN to ASCII representation.  
+ * Convert Internet number in IN to ASCII representation.
  * The return value is a pointer to an internal array containing the string.
  */
 char *inet_ntoa(struct in_addr in);
 
-/** 
+/**
  * Convert Internet host address from numbers-and-dots notation in CP
  * into binary data in network byte order.
  */

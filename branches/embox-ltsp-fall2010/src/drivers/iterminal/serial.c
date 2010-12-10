@@ -78,7 +78,7 @@ static int serial_stop(void) {
 
 EMBOX_UNIT(serial_start, serial_stop);
 
-#else 
+#else
 
 EMBOX_DEVICE(serial_load, serial_probe, serial_unload);
 

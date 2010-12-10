@@ -34,6 +34,7 @@ void pin_config_input(int mask) {
 
 void pin_config_output(int mask) {
 	pin_disable_perf(mask);
+	REG_STORE(AT91C_PIOA_OWER, (uint32_t) mask);
 	REG_STORE(AT91C_PIOA_OER, (uint32_t) mask);
 }
 
@@ -42,8 +43,11 @@ int pin_get_input(void) {
 }
 
 void pin_set_output(int mask) {
-	REG_STORE(AT91C_PIOA_SODR, mask); 
-	REG_STORE(AT91C_PIOA_CODR, (~mask)); 
+	REG_STORE(AT91C_PIOA_SODR, mask);
+}
+
+void pin_clear_output(int mask) {
+	REG_STORE(AT91C_PIOA_CODR, mask);
 }
 
 void pin_set_input_interrupt(int mask) {

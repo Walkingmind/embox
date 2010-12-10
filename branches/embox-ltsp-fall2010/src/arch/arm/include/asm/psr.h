@@ -1,9 +1,9 @@
 /**
  * @file
- * @brief cpsr utilities 
+ * @brief cpsr utilities
  *
- * @date 21.07.2010 
- * @author Anton Kozlov 
+ * @date 21.07.2010
+ * @author Anton Kozlov
  */
 
 #ifndef ARM_PSR_H_
@@ -11,12 +11,20 @@
 
 static inline unsigned __get_cpsr(void) {
 	unsigned long retval;
-	asm volatile (" mrs  %0, cpsr" : "=r" (retval) : /* no inputs */);
+	__asm__ __volatile__(
+		"mrs  %0, cpsr\n\t"
+		: "=r" (retval)
+		: /* no inputs */
+	);
 	return retval;
 }
 
 static inline void __set_cpsr(unsigned val) {
-	asm volatile (" msr  cpsr, %0" : /* no outputs */ : "r" (val) );
+	__asm__ __volatile__(
+		"msr  cpsr, %0\n\t"
+		: /* no outputs */
+		: "r" (val)
+	);
 }
 
 #endif /* ARM_PSR_H_ */
