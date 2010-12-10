@@ -12,6 +12,7 @@
     * [InstallToolchainCrossCompiler Кросс-компилятор]
     * [InstallToolchainSimulation Симулятор]
     * [InstallToolchainEclipseDebug Отладка из Eclipse]
+    * [InstallToolchainLegoNxtFlash Flashing Lego NXT]
   * [EMBuild Сборка проекта]
     * [EMBuildInfrastructure Обзор инфраструктуры]
     * [EMBuildCLI Запуск из командной строки]
@@ -55,3 +56,4 @@
     * [SpartanDescription HW-SPAR3AN-SK-UNI-G Starter Kit]
     * [ML505Description Virtex-5 LXT FPGA ML505 Evaluation Platform]
   * [EmboxArt Art]
+
