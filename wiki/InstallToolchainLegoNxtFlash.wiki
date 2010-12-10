@@ -1,7 +1,7 @@
 #summary Steps to flash Embox to NXT brick
 #labels Phase-Deploy,Phase-Implementation
 
-<wiki:toc max_depth="2" />
+<wiki:toc max_depth="1" />
 
 == Using libnxt ==
 
