@@ -13,6 +13,7 @@
     * [InstallToolchainSimulation Simulation]
     * [InstallToolchainEclipseDebug Debugging from Eclipse]
     * [InstallToolchainLegoNxtFlash Flashing Lego NXT]
+    * [ExecutionOn86 Execution on x86 architecture]
   * [EMBuild Building the project]
     * [EMBuildInfrastructure Infrastructure overview]
     * [EMBuildCLI Command-line interface]
