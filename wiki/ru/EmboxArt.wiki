@@ -1,4 +1,4 @@
-#summary not only programming
+#summary не только кодинг, но и...
 
 == 1. simple ==
 
