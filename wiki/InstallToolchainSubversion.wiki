@@ -13,6 +13,7 @@ The installation of Subclipse is well described in [http://subclipse.tigris.org/
 *Note:* it is assumed that you have installed at least Eclipse *Helios* release (*v3.6*). Installation procedure for older Eclipses differs and thus is not covered here.
 
 = Step-by-step =
+
 == Open Eclipse Marketplace ==
 From Eclipse main menu open *Help → Eclipse Marketplace...*
  * If you're using Marketplace for the first time, you will be prompted to choose a _solution catalog_. Select *Eclipse Marketplace* and press *Next >*.
