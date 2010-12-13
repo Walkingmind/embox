@@ -10,6 +10,6 @@ Project *embox* has been ported on platform [http://mindstorms.lego.com/en-us/De
 
 == Sound ==
 
-[SoundNXT sound]
+[PlatformLegoNxtSound sound]
 
 == Display ==

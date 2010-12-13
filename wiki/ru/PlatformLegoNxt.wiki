@@ -7,5 +7,5 @@ Project *embox* has been ported on platform [http://mindstorms.lego.com/en-us/De
 = Subsystems implemantation =
 == Microcontroller ==
 == Sound ==
-[SoundNXT sound]
+[PlatformLegoNxtSound sound]
 == Display ==
