@@ -1,4 +1,4 @@
-#summary embox configurator
+#summary конфигурирование embox
 
 = Конфигурирование EMBOX =
 <wiki:gadget url="http://embox.googlecode.com/svn/wiki/gadgets/userbox-under-construction.xml" width="640" height="120" border="0"/>
@@ -14,8 +14,7 @@
  * `build.conf` - Общие параметры, влияющие на процесс сборки системы
  * `lds.conf` - Параметры, необходимые для генерации линкер-скрипта
  * `mods.conf` - Список модулей, включаемых в сборку системы
- * `options.conf` - Параметры, необходимые для настройки системы
-
+ * `options.conf` - Параметры модулей
 
 С дистрибутивом системы EMBOX поставляется несколько групп готовых конфигураций для различных платформ, файлы которых находятся в папке `./templates`.
 

@@ -1,9 +1,95 @@
-= UNDER CONSTRUCTION =
+#summary embox configurator
 
-This article describes something being developed right now, for example,
-experimental or unstable feature.
-*The contents of the article may not be actual at the moment of reading.*
+= EMBOX configure =
+<wiki:gadget url="http://embox.googlecode.com/svn/wiki/gadgets/userbox-under-construction.xml" width="640" height="120" border="0"/>
+
+== Description ==
 
 The localized version of this article is being under construction.
 Please switch to unlocalized version.
 
+== Configuration files ==
+
+All configuration files are placed in `./conf/<template_name>/`:
+ * `build.conf` - build parameters
+ * `lds.conf` - linker parameters
+ * `mods.conf` - list of modules
+ * `options.conf` - modules' parameters
+
+== Syntax ==
+
+ * `build.conf`:
+  * *`TARGET`*
+{{{
+TARGET = embox
+}}}
+  * *`ARCH`*
+{{{
+ARCH = sparc
+}}}
+  * *`CROSS_COMPILE`*
+{{{
+CROSS_COMPILE = sparc-elf-
+}}}
+  * *`CPPFLAGS`*, *`CFLAGS`* и *`LDFLAGS`*
+{{{
+CPPFLAGS += -D_TEST_SYSTEM_
+
+CFLAGS += -O1 -g
+CFLAGS += -msoft-float -mcpu=v8
+
+LDFLAGS += -N -g
+}}}
+ * `lds.conf`:
+  * *`lds_region`*
+{{{
+lds_region(sdram, 0x40000000, 1024M)
+}}}
+  * *`lds_section`*
+{{{
+lds_section(bss, sdram)
+}}}
+  * *`lds_section_load`*
+{{{
+lds_section_load(data, sdram, flash)
+}}}
+ * `options.conf`:
+  * *`option`*
+{{{
+option(NOIRQ)
+}}}
+{{{
+#!c
+#ifdef CONFIG_NOIRQ
+/* code */
+#endif
+}}}
+{{{
+#!sh
+ifndef CONFIG_NOIRQ
+    $_SRCS-irq += irq.c
+    $_DEPS-irq += embox.hal.interrupt
+    $_DEPS-irq += softirq
+endif
+}}}
+{{{
+option(CORE_FREQ, 50000000)
+}}}
+ * Файл `mods.conf`:
+  * Директива *`mod`*
+{{{
+mod(embox.driver.terminal)
+}}}
+  * *`unit`* *Not yet implemented*
+  * *`runlevel`* *Not yet implemented*
+  * *`cmd`*
+{{{
+cmd(echo)
+}}}
+  * *`test`*
+{{{
+test(timer, 1)
+}}}
+
+== Realization ==
+ 
