@@ -1,37 +1,62 @@
-#summary embox configurator
+#summary конфигурирование embox
 
-= EMBOX configure =
+<wiki:toc max_depth="3" />
+
+= Конфигурирование EMBOX =
 <wiki:gadget url="http://embox.googlecode.com/svn/wiki/gadgets/userbox-under-construction.xml" width="640" height="120" border="0"/>
 
-== Description ==
+== Описание ==
+Система сборки EMBOX позволяет задавать параметры конфигурации требуемого образа в зависимости от необходимой функциональности. Параметры задаются в виде текстовых файлов описания проекта и могут редактироваться любым текстовом редактором.
 
-The localized version of this article is being under construction.
-Please switch to unlocalized version.
+Система сборки проекта позволяет собирать сразу несколько конфигураций. Это требуется, в первую очередь, для реализации автоматической системы регрессионного тестирования. 
+Файлы с параметрами текущих конфигураций проекта располагаются в подпапках папки `./conf`. В момент сборки из данных файлов генерируются непосредственно файлы, участвующие в процессе компиляции и сборки проекта, они располагаются в папках вида `./build/<template_name>/codegen`.
 
-== Configuration files ==
+== Файлы конфигурации ==
+Все файлы конфигурации находятся в папках `./conf/<template_name>/`:
+ * `build.conf` - Общие параметры, влияющие на процесс сборки системы
+ * `lds.conf` - Параметры, необходимые для генерации линкер-скрипта
+ * `mods.conf` - Список модулей, включаемых в сборку системы
+ * `options.conf` - Параметры модулей
 
-All configuration files are placed in `./conf/<template_name>/`:
- * `build.conf` - build parameters
- * `lds.conf` - linker parameters
- * `mods.conf` - list of modules
- * `options.conf` - modules' parameters
+С дистрибутивом системы EMBOX поставляется несколько групп готовых конфигураций для различных платформ, файлы которых находятся в папке `./templates`.
 
-== Syntax ==
+Собираются шаблоны как напрямую через Eclipse (см. [http://code.google.com/p/embox/wiki/RuEmboxConfigureUsingEclipse здесь]), так и с помощью командной строки:
 
- * `build.conf`:
-  * *`TARGET`*
+Скопировать шаблон в папку `./conf` поможет команда
+{{{
+make PROJECT=<project> TEMPLATE=<profile> config
+}}}
+Вместо `<project>` следует указать имя проекта - одну из папок ./templates/*, например sparc. `<profile>` - название группы шаблонов. Название шаблона совпадает с именем соответствующей папки в `./templates/<project>`, например это будет 
+{{{
+make PROJECT=sparc TARGET=release config
+}}}
+
+Если в папке `./conf` до этого были какие-либо файлы, то их запасная копия помещается в папку `./conf/backup~`.
+В папке с группой шаблонов содержатся общие для всех шаблонов файлы конфигурации `*.conf`, а также одна или более папок с уникальными для каждого шаблона файлами (в данном примере - это папка `./templates/sparc/release/`).
+Алгоритм обработки шаблона следующий (это делается для каждой папки из группы шаблонов):
+ * в папке `.conf/` Создается папка с именем шаблона (совпадает с именем папки с уникальными для него файлами)
+ * в эту папку копируются общие для группы шаблонов файлы конфигурации - (в рассматриваемом примере - `./templates/sparc/*.conf`)
+ * в эту же папку с заменой копируется содержимое папки шаблона (`./templates/sparc/release/*.conf`)
+
+== Синтаксис ==
+Файлы конфигурации состоят из набора директив, управляющих различными процессами сборки и позволяющих тонко настроить систему под определенные нужды.
+ * Файл `build.conf` имеет синтаксис языка `make`, в нем следует определить следующие переменные:
+  * *`TARGET`* задает имя целевого образа (если не определена, по умолчанию принимает значение `embox`).
 {{{
 TARGET = embox
 }}}
-  * *`ARCH`*
+   В данном случае это `./build/bin/embox`.
+  * *`ARCH`* определяет целевую платформу, под которую производится сборка. Это *обязательная* переменная.
 {{{
 ARCH = sparc
 }}}
-  * *`CROSS_COMPILE`*
+   В данном случае архитектурно-зависимый код будет взят из папки `./src/arch/sparc`.
+  * *`CROSS_COMPILE`* задает префикс кросс-компилятора, используемого при сборке.
 {{{
 CROSS_COMPILE = sparc-elf-
 }}}
-  * *`CPPFLAGS`*, *`CFLAGS`* и *`LDFLAGS`*
+   Таким образом, сборку будут осуществлять такие пакеты, как `sparc-elf-gcc`, `sparc-elf-ld`, `sparc-elf-objdump` и т.д.
+  * *`CPPFLAGS`*, *`CFLAGS`* и *`LDFLAGS`* определяют флаги, передаваемые компилятору на различных стадиях сборки (`CPPFLAGS` - препроцессор, `CFLAGS` - компиляция, `LDFLAGS` - компоновка).
 {{{
 CPPFLAGS += -D_TEST_SYSTEM_
 
@@ -40,56 +65,129 @@ CFLAGS += -msoft-float -mcpu=v8
 
 LDFLAGS += -N -g
 }}}
- * `lds.conf`:
-  * *`lds_region`*
+ * В файле `lds.conf` доступны следующие директивы:
+  * *`lds_region`* объявляет регион памяти для редактора связей. Более подробная информация в [http://sourceware.org/binutils/docs/ld/MEMORY.html разделе MEMORY] документации GNU Linker.
 {{{
 lds_region(sdram, 0x40000000, 1024M)
 }}}
-  * *`lds_section`*
+   В этом примере описывается регион памяти по имени `sdram`, начинающийся с адреса 0x40000000 и размером 1024 Мегабайт.
+  * *`lds_section`* задает отображение секции в регион памяти. Дополнительная информация в [http://sourceware.org/binutils/docs/ld/Output-Section-Region.html разделе Output Section Region] документации GNU Linker.
 {{{
 lds_section(bss, sdram)
 }}}
-  * *`lds_section_load`*
+   Предписывает редактору связей отобразить все ссылки на неинициализированные данные секции `bss` в регион памяти `sdram`.
+  * *`lds_section_load`* задает, помимо отображения в виртуальную память, также регион памяти, из которого будет загружен первоначальный образ секции. Дополнительная информация в [http://sourceware.org/binutils/docs/ld/Output-Section-LMA.html разделе Output Section LMA] документации GNU Linker.
 {{{
 lds_section_load(data, sdram, flash)
 }}}
- * `options.conf`:
-  * *`option`*
+   Размещает образ секции `data` в регионе памяти `flash`, а все ссылки отображает в регион `sdram`.
+ * Файл `options.conf`:
+  * *`option`* - единственная директива, доступная в файле `options.conf`. Эта директива помимо внешних процессов сборки, управляемых утилитой `make`, также оказывает влияние на компилируемый код, преобразуя и экспортируя аргумент в директиву препроцессора языка Си.
 {{{
 option(NOIRQ)
 }}}
+   Непосредственно из кода обратиться к значению опции можно через макрос с префиксом `CONFIG_`.  В данном случае опцию `NOIRQ` можно использовать для условной компиляции следующим образом:
 {{{
 #!c
 #ifdef CONFIG_NOIRQ
-/* code */
+/* код, включаемый в сборку только если задана опция NOIRQ. */
 #endif
 }}}
+   Из `Makefile`'а получить значение опции можно, раскрыв соответствующую переменную с префиксом `CONFIG_`. Такая возможность может быть использована, к примеру, для модификации модели зависимостей модулей или списка исходников модуля:
 {{{
 #!sh
 ifndef CONFIG_NOIRQ
-    $_SRCS-irq += irq.c
-    $_DEPS-irq += embox.hal.interrupt
-    $_DEPS-irq += softirq
+  $_SRCS-irq += irq.c
+  $_DEPS-irq += embox.hal.interrupt
+  $_DEPS-irq += softirq
 endif
 }}}
+   Опция может принимать не только логическое, но и любое другое значение. Значение указывается вторым аргументом директивы `option`:
 {{{
 option(CORE_FREQ, 50000000)
 }}}
- * Файл `mods.conf`:
-  * Директива *`mod`*
+   Доступ из Си и из `make`'а аналогичен.
+ * Файл `mods.conf`
+  * Директива *`mod`* позволяет добавить в сборку конкретный модуль системы.
 {{{
 mod(embox.driver.terminal)
 }}}
-  * *`unit`* *Not yet implemented*
-  * *`runlevel`* *Not yet implemented*
-  * *`cmd`*
+   Модуль является основной единицей абстракции на уровне сборке системы. Описываемые далее `unit`, `runlevel`, `option`, `cmd`, `test` по сути также добавляют в сборку определенные модули. Отличаются эти директивы передаваемыми параметрами и некоторыми дополнительными свойствами.
+  * Директива *`unit`* *Not yet implemented*
+  * Директива *`runlevel`* *Not yet implemented*
+  * Директива *`cmd`* позволяет добавить в сборку команду для консоли пользователя.
 {{{
 cmd(echo)
 }}}
-  * *`test`*
+   В качестве параметра директиве передается имя команды, совпадающее с указанным в `Makefile`. 
+  * Директива *`test`* позволяет добавить в сборку тест.
 {{{
 test(timer, 1)
 }}}
+   Первый параметр задает имя теста, второй указывает на уровень выполнения этого теста. 
 
-== Realization ==
- 
+== Реализация ==
+*TODO* информация немного устарела
+
+В процессе сборки файлы конфигурации преобразуются в несколько файлов, реально участвующих в сборке:
+ * `./build/codegen/build.mk` - Makefile, подключаемый при запуске утилиты `make`. Задает платформу, для которой производится сборка, опции препроцессора, компилятора и линкера
+ * `./build/codegen/mods.mk` - Makefile, содержащий список файлов для включения в сборку.
+ * `./build/codegen/depsinject.c` - файл, описывающий межмодульные зависимости в системе.
+ * `./build/codegen/config.h` - Заголовочный файл, содержащий список включенных в сборку модулей в виде макросов, используемых при условной компиляции программы.
+ * `./build/codegen/config.lds.h` - Заголовочный файл, содержащий объявления, необходимые для генерации линкер-скрипта (доступные регионы памяти, секции и т.п.).
+
+*TODO* 
+Преобразование осуществляет специальный скрипт [source:/OVK/swleon/trunk/monitor/mk/configure.mk ./mk/configure.mk], написанный на языке `make`.
+{{{
+#!sh
+$(addprefix $(AUTOCONF_DIR)/,config.mk config.lds.h config.h) : \
+  $(MK_DIR)/confmacro.S $(addprefix $(CONF_DIR)/,$(CONF_FILES)) \
+  | mkdir # mkdir shouldn't force target to be updated
+	$(HOST_CPP) -Wp, -P -undef $(CPPFLAGS_$(notdir $@)) -I$(CONF_DIR) -nostdinc $< \
+		| sed 's/$$define/\n#define/g' | uniq > $@
+}}}
+Эти строки вызывают препроцессор языка Си для файла [source:/OVK/swleon/trunk/monitor/mk/confmacro.S ./mk/confmacro.S], который, в свою очередь, включает все файлы конфигурации посредством директивы `#include`:
+{{{
+#!c
+#include "common.conf"
+#include "lds.conf"
+#include "drivers.conf"
+#include "fs.conf"
+#include "net.conf"
+#include "tests.conf"
+#include "usr.conf"
+#include "ugly.conf"
+}}}
+Таким образом, файлы конфигурации также подвергаются обработке препроцессора, который раскрывает все описанные выше директивы в зависимости от генерируемого в данный момент файла.
+Например для Makefile'а `./build/conf/config.mk` директива `option` раскрывается следующим образом:
+{{{
+#!c
+#define option(option) MONITOR_##option=y
+}}}
+Тогда как для заголовочных файлов `./build/conf/config.h` и `./build/conf/config.lds.h` определение `option` такое:
+{{{
+#!c
+#define option(option) \
+	$define CONFIG_##option
+}}}
+Другой пример - директивы, относящиеся к параметрам редактора связей. При генерации файла `./build/conf/config.lds.h`, их аргументы преобразуются в следующее:
+{{{
+#!c
+#define lds_region(name, base, size) \
+	$define LDS_REGION_BASE_##name base \
+	$define LDS_REGION_SIZE_##name size
+
+#define lds_section_load(name, vma_region, lma_region) \
+	$define LDS_SECTION_VMA_##name vma_region \
+	$define LDS_SECTION_LMA_##name lma_region
+
+#define lds_section(name, region) \
+	lds_section_load(name, region, region)
+}}}
+Для двух других же файлов эти директивы просто игнорируются, заменяясь пустыми строками:
+{{{
+#!c
+#define lds_region(name, base, size)
+#define lds_section(name, region)
+#define lds_section_load(name, vma_region, lma_region)
+}}}
