@@ -80,8 +80,8 @@ qemu -hda hd0.img -m 256
   # during loading process press 'c' to enter grub console, if necessary
   # discover path where was embox image placed with command "ls"
   # load the image by the command
-   * "kernel <path>" for grub (0.9x)
-   * "multiboot <path>" for grub2 (1.98)
+   * {{{"kernel <path>"}}} for grub (0.9x)
+   * {{{"multiboot <path>"}}} for grub2 (1.98)
 {{{
     grub> kernel /boot/embox
 }}}

@@ -80,8 +80,8 @@ qemu -hda hd0.img -m 256
   # во время загрузки нажмите 'c' для входа в консоль grub'а, если необходимо
   # найдите, где находиться ваш образ embox, можно с помощью команды "ls"
   # загрузите образ командой
-   * "kernel <path>" для grub (0.9x)
-   * "multiboot <path>" для grub2 (1.98)
+   * {{{"kernel <path>"}}} для grub (0.9x)
+   * {{{"multiboot <path>"}}} для grub2 (1.98)
 {{{
     grub> kernel /boot/embox
 }}}

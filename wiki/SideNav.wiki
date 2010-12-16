@@ -50,7 +50,6 @@
     * Porting
       * [PortingProcess Porting Process]
   * [PlatformsDescription Supported platforms]
-    * [ExecutionOn86 Executing on x86]
     * [PlatformLegoNxt Lego Mindstorms NXT]
       * [PlatformLegoNxtFlashing Flashing]
       * [PlatformLegoNxtSound Sound]
