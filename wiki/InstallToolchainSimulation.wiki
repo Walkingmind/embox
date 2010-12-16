@@ -42,10 +42,14 @@ sudo /sbin/mkfs.ext2 /dev/loop0
 {{{
 sudo mount /dev/loop0 /mnt/flash
 }}}
- # Install GRUB (stage1 and stage2 are from host system, if your GRUB version <= 0.98, otherwise build GRUB before)
+ # Build GRUB
+  # Download [ftp://alpha.gnu.org/gnu/grub/grub-0.97.tar.gz grub-0.97.tar.gz]
+  # tar -xzf grub-0.97.tar.gz
+  # cd grub-0.97 && ./configure && make && cd ..
+ # Install GRUB (stage1 and stage2)
 {{{
 sudo mkdir -p /mnt/flash/boot/grub
-sudo cp /boot/grub/stage1 /boot/grub/stage2 /mnt/flash/boot/grub
+sudo cp grub-0.97/stage1/stage1 grub-0.97/stage2/stage2 /mnt/flash/boot/grub
 }}}
  # Put embox image
 {{{
@@ -61,7 +65,7 @@ sudo /sbin/losetup -d /dev/loop0
 }}}
  # Setup GRUB device map
 {{{
-/usr/sbin/grub --device-map=/dev/null
+grub-0.97/grub/grub --device-map=/dev/null
     > device (hd0) hd0.img
     > geometry (hd0) 40 16 63
     > root (hd0,0)
