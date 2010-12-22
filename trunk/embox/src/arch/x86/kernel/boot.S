@@ -53,7 +53,7 @@ multiboot_entry:
 	pushl	%eax
 
 	call	EXT_C(multiboot_check)
-	
+
 	call	EXT_C(kernel_start)
 
 loop:	hlt
