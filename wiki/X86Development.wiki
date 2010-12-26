@@ -1,4 +1,4 @@
 #summary Temporary page for x86 developers
 
- * [http://www.insidepro.com/kk/209r.shtml Сonformity AT&T and Intel syntacsis]
+ * [http://www.insidepro.com/kk/209r.shtml Сonformity AT&T and Intel syntaxis]
  * [http://www.jamesmolloy.co.uk/tutorial_html/4.-The%20GDT%20and%20IDT.html gdt and idt tutorial]
