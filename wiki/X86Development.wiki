@@ -2,3 +2,4 @@
 
  * [http://www.insidepro.com/kk/209r.shtml Сonformity AT&T and Intel syntaxis]
  * [http://www.jamesmolloy.co.uk/tutorial_html/4.-The%20GDT%20and%20IDT.html gdt and idt tutorial]
+ * [http://www.jamesmolloy.co.uk/tutorial_html/5.-IRQs%20and%20the%20PIT.html irq and timers]
