@@ -1,11 +1,28 @@
-#summary Описание процесса отладки на Lego Mindstorms NXT Atmel AT91SAM7S256 ARM7TDMI
+#summary Описание платформы Lego Mindstorms NXT
 
-= Introduction =
+= Описание =
+ Платформа [http://ru.wikipedia.org/wiki/LEGO_Mindstorms Lego Mindstorms] может работать с двумя типами контроллеров RCX и NXT. На последнем контроллере и выполняется *embox*. Он представляет из себя вычислительный модуль на основе микроконтроллера Atmel AT91SAM7S256 ARM7TDMI, а так же подсоединенного к нему по интерфейсу I2C контроллера AVR. AVR используется для сбора данных с большинства датчиков и для управления моторами.
+ 
+= Разработка =
+ Код для платформенной части Lego Nxt расположен в папке /platform/lego_nxt/ В ней нахотся код драйверов, описание интерфейсов, а также примеры использования.
+ 
+ Для того что бы начать разработку под даную платформу необходимо установить окружение, А именно:
+  * кросс-компилятор gcc для ARM (рекомендуетмя взять ...)
+  * Eclipse (cdt) для упрошения разработки
+  * Cygwin если у вас установлен Windows ?mingw?
+  
 
-Project *embox* has been ported on platform [http://mindstorms.lego.com/en-us/Default.aspx lego-mindstorms]. We use this platform to show possibilities of *embox* to manage realtime systems which include limited hardware resources.
-
-= Subsystems implemantation =
-== Microcontroller ==
-== Sound ==
+== Драйвера ==
+ На сегодняшний день *embox* поддерживате следующие устройства входящие в состав Lego Mindstorms.
+ * моторы
+ * Сенсор касания
+ * Сонар
+ 
+== API ==
+ Вы можете использовать следующие функции для работы с роботами Lego
+ 
+ 
+ 
+=== Sound ===
 [PlatformLegoNxtSound sound]
-== Display ==
+=== Display ===
