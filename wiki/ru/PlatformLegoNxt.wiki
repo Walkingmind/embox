@@ -26,9 +26,9 @@
  * 4 кнопки
  * 6 AA батареек/ 1400 mAH аккумулятор
  
- <img src="http://embox.googlecode.com/svn/wiki/images/LEGO-NXT-Scheme.png" width="350" height="250">
+ <img src="http://embox.googlecode.com/svn/wiki/images/LEGO-NXT-Scheme.PNG" width="350" height="250">
  
- *embox* работает на контроллере NXT.
+  OC *embox* работает на контроллере NXT.
  
 = Разработка =
  Код для платформенной части Lego Nxt расположен в папке /platform/lego_nxt/ В ней находятся код драйверов,
