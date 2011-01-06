@@ -4,9 +4,9 @@
 
 = Introduction =
 
-Modern computer’s system are used in a very different spectrum of problems, starting from engine’s management to huge data centers serving querying of plenty users in real time. Different tasks require different resources and the system requirements are different. Therefore the software manages this hardware must be different. This is particularly evident in embedded systems.  OS soft and hard real-time often are used In these systems. Users are expected predictability from such systems in their reaction on a event it means the system can’t refuse in any situation. Usually those failures occur due to errors in code of system drivers. Because the drivers are developed by hardware producers, and it is known their code is lower quality. In addition the driver’s code is a hard debugging.
+Modern computer systems are used for a variety of problems, starting from engine’s management to huge data centers serving the queries of many users in real time. Different tasks require different resources and the system requirements are different. Therefore the software that manages this hardware must be different. This is particularly evident in embedded systems.  OS soft and hard real-time often are used in these systems. Users expect predictability from such systems in their reaction to an event it means the system can’t refuse in any situation. Usually those failures occur due to errors in the code of system drivers. Because the drivers are developed by hardware manufacturers, and it is known their code is lower quality. In addition the driver’s code is hard to debug.
 
-All this facts affect on the process of code’s for the embedded system development. In this systems Test system design first of all, then develop some drivers for system loader and finally port a main operating system. As seen above the code of platform part of systems tripled and it leads to the errors.
+All these facts affect the process of coding for embedded systems. In these systems test system design first of all, then develop some drivers for system loader and finally port a main operating system. As seen above the code of platform part of systems tripled and it leads to the errors.
 
 *EMBOX* is a configurable operating system. Instead of providing a monolithic kernel, all code is placed into libraries, each of which implements different interfaces, for example memory manager interface. Only required parts of the system are included into final image. The required parts are defined during configuration of system or in run time.
 
@@ -23,4 +23,3 @@ At this point, the project identified a number of interfaces for various subsyst
 == Network ==
 
 == File System ==
-
