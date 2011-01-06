@@ -7,22 +7,22 @@
 
 == Description ==
 
-The localized version of this article is being under construction.
+The localized version of this article is under construction.
 Please switch to unlocalized version.
 
 == Configuration files ==
 
-All configuration files are placed in `./conf`:
+All configuration files are placed under `./conf`:
  * `build.conf` - build parameters
  * `lds.conf` - linker parameters
  * `mods.conf` - list of modules
  * `options.conf` - modules' parameters
 
-To load a configuration from a template use the following command:
+To populate ./conf from one of the pre-defined templates use the following command:
 {{{
 make config PROJECT=<project> PROFILE=<profile>
 }}}
-where `<project>` is a name of a subdirectory of `./templates`, and `<profile>` is in turn a subdirectory of `./templates/<project>`.
+where `<project>` is the name of a subdirectory of `./templates`, and `<profile>` is in turn a subdirectory of `./templates/<project>`.
 For example:
 {{{
 make config PROJECT=sparc PROFILE=debug
