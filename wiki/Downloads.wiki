@@ -2,13 +2,14 @@
 
 We use [http://en.wikipedia.org/wiki/Apache_Subversion Subversion] repository for the development. You can [http://code.google.com/p/embox/source/checkout checkout] the latest source snapshot from `/trunk` or examine the repository using [http://code.google.com/p/embox/source/browse web-based viewer].
 
-= Latest stable release - embox-0.1.9 =
+= Latest stable release - embox-0.1.10 =
 
-Released on Nov 30rd 2010.
+Released on Jan 1st 2011.
 
- * [http://embox.googlecode.com/files/embox-0.1.10.gz embox-0.1.10.gz] (size: 564 KB;)
+ * [http://embox.googlecode.com/files/embox-0.1.10.tar.gz embox-0.1.10.tar.gz] (size: 563 KB; SHA1 Checksum: b608b408941c50daddfaabebf8e9dbf2e00f157b)
 
 = Previous stable releases =
+
  * [http://embox.googlecode.com/files/embox-0.1.9.txz embox-0.1.9.txz] (size: 335 KB; SHA1 Checksum: 675302e81ecdf71e44f24b3de72002525b3da732)
  * [http://embox.googlecode.com/files/embox-0.1.8.txz embox-0.1.8.txz] (size: 327 KB; SHA1 Checksum: 859f6874cb2aba03d5dd3aa1da28348ad61acabc)
  * [http://embox.googlecode.com/files/embox-0.1.7.txz embox-0.1.7.txz] (size: 323 KB; SHA1 Checksum: 4774e1b21769faf26e3df467b835b14eee814347)
