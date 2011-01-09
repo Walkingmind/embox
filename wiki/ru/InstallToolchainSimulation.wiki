@@ -94,7 +94,7 @@ qemu -hda hd0.img -m 256
 
 Из интересующих платформ можем использовать для симуляции под ARM (Atmel AT91) (вообще говоря возможно для LEON2). Имеется поддержка UART.
 
-Установить Skyeye:             
+Установить Skyeye:
 
    [http://sourceforge.net/projects/skyeye/files/skyeye/skyeye-1.3.0_rc1.tar.gz/download skyeye-1.3.0rc1]
 
@@ -121,7 +121,7 @@ arm-elf-gdb [path-to-embox-elf]
     (gdb) tar extended-remote :12345
     (gdb) load
 }}}
- # Теперо можно отлаживать
+ # Теперь можно отлаживать
 {{{
     (gdb) c
 }}}

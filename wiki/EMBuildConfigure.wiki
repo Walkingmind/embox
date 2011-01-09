@@ -104,5 +104,4 @@ cmd(echo)
 test(timer, 1)
 }}}
 
-== Realization ==
  

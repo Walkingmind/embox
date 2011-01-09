@@ -191,3 +191,4 @@ $(addprefix $(AUTOCONF_DIR)/,config.mk config.lds.h config.h) : \
 #define lds_section(name, region)
 #define lds_section_load(name, vma_region, lma_region)
 }}}
+
