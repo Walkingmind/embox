@@ -1,4 +1,4 @@
-# $Id$
+# $Id: check.mk 1480 2010-11-19 00:18:25Z Eldar.Abusalimov $
 #
 #   Date: Sep 10, 2010
 # Author: Eldar Abusalimov
@@ -6,6 +6,20 @@
 
 ifndef __util_check_mk
 __util_check_mk := 1
+
+include util/var_assign.mk
+
+# 1. Target variable
+# 2. Pre-expansion hook
+var_intercept_attach_before = \
+  $(__var_intercept_attach_check_init)$()
+
+# 1. Target variable
+# 2. Post-expansion hook
+var_intercept_attach_after =
+
+__var_intercept_attach_check_init = \
+  $(if $(call var_defined))
 
 check_attach = $(strip $(if $(value $(__unchecked_name)), \
   $(call var_assign_append,$(__check_hooks),$2), \
