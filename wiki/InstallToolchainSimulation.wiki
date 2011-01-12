@@ -76,8 +76,13 @@ grub-0.97/grub/grub --device-map=/dev/null
     > quit
 }}}
  # Boot using Qemu
+  # with GRUB
 {{{
 qemu -hda hd0.img -m 256
+}}}
+  # with qemu internal bootloader
+{{{
+qemu -kernel path/embox -m 256
 }}}
  # Boot embox using GRUB
   # during loading process press 'c' to enter grub console, if necessary

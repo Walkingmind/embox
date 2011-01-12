@@ -73,8 +73,13 @@ grub-0.97/grub/grub --device-map=/dev/null
     > quit
 }}}
  # Загрузиться с помощью Qemu
+  # используя GRUB
 {{{
 qemu -hda hd0.img -m 256
+}}}
+  # или внутренний загрузчик qemu
+{{{
+qemu -kernel path/embox -m 256
 }}}
  # Запустите embox из GRUB     
   # во время загрузки нажмите 'c' для входа в консоль grub'а, если необходимо
