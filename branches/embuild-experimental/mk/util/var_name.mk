@@ -78,6 +78,7 @@ __util_var_name_mk := 1
 #
 
 include util/common.mk
+include util/var_info.mk # var_defined
 include util/math.mk # sequences generator
 include util/list.mk # first/rest
 
@@ -128,8 +129,7 @@ __var_name_escape2 = \
 __var_name_escape3 = $(subst $$,$$$$,$2) \
   $(foreach combo,$(call __var_name_escape_combos,$ \
                 $(subst $$,$$$$,$3),$(call int_seq,x,$(3:%=x)),$(words $3)),$ \
-    $(if $(findstring undefined,$(flavor \
-                $(call var_name_demangle,$(combo)))),,$(combo))$ \
+    $(if $(call var_undefined,$(call var_name_demangle,$(combo))),,$(combo))$ \
    )
 
 # Params:
@@ -159,8 +159,8 @@ __var_name_escape_do_combo_pairmap = \
 #  1. Unescaped variables list
 # Returns: list of singleword-named variables (still not escaped)
 __var_name_singles = \
-  $(foreach single,$1,$(if $(or $(findstring undefined,$(flavor $(single))),$ \
-            $(filter-out 1,$(words $(filter $(single),$1)))),,$(single)))
+  $(foreach single,$1,$(if $(and $(call var_defined,$(single)), \
+            $(call list_single,$(filter $(single),$1))),$(single)))
 
 # Params:
 #  1. Unescaped variables list
@@ -175,5 +175,7 @@ __var_name_escape_whitespace = \
   $(subst $(\space),_$$s,$(subst $(\t),_$$t,$(subst $(\n),_$$n,$1)))
 __var_name_unescape_whitespace = \
   $(subst _$$s,$(\space),$(subst _$$t,$(\t),$(subst _$$n,$(\n),$1)))
+
+# TODO 
 
 endif # __util_var_name_mk
