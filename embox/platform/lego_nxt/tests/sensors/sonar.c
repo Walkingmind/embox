@@ -24,7 +24,7 @@ static void read_val(i2c_port_t *port) {
 	i2c_write(PORT, 1, &reg, 1);
 	while (port->state != IDLE) {
 	}
-	i2c_read(PORT, 1, &sonar_val, 1); 
+	i2c_read(PORT, 1, &sonar_val, 1);
 	while (port->state != IDLE) {
 	}
 	TRACE("\n0x%x",  sonar_val);
@@ -33,7 +33,7 @@ static void read_val(i2c_port_t *port) {
 static int sonar_test(void) {
 	int buts;
 	i2c_init(PORT);
-	
+
 	while (!(( buts = nxt_buttons_was_pressed()) & BT_DOWN)){
 		read_val((i2c_port_t *) PORT);
 		usleep(1000);
