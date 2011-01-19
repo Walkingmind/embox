@@ -6,8 +6,8 @@
 # Author: Eldar Abusalimov
 #
 
-ifndef __util_string_mk
-__util_string_mk := 1
+ifndef __core_string_mk
+__core_string_mk := 1
 
 ##
 # Function: nowords
@@ -83,4 +83,4 @@ nolastword = \
   $(wordlist 2,$(words $1),x $1)
 
 
-endif # __util_string_mk
+endif # __core_string_mk
