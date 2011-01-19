@@ -3,19 +3,16 @@
 # Author: Nikolay Korotky
 #
 
-#BUSYBOX_VERSION = 1.8.2
+ifeq ($(ARCH), microblaze)
 BUSYBOX_VERSION = 1.17.2
+else
+BUSYBOX_VERSION = 1.8.2
+#ARCH            = sparc_v7soft
+endif
+BUSYBOX_CONFIG  = $(CONFIG_DIR)/config-$(BUSYBOX)-$(ARCH).default
 BUSYBOX_SRC     = busybox-$(BUSYBOX_VERSION).tar.bz2
-#BUSYBOX_CONFIG  = $(CONFIG_DIR)/config-$(BUSYBOX).default
-BUSYBOX_CONFIG  = $(CONFIG_DIR)/config-$(BUSYBOX)-mb.default
 BUSYBOX_LINK    = http://busybox.net/downloads/$(BUSYBOX_SRC)
 BUSYBOX         = busybox-$(BUSYBOX_VERSION)
-
-ifeq ($(CROSS_COMPILE),sparc-linux-)
-ARCH            = sparc_v7soft
-else
-ARCH            = microblaze
-endif
 
 .PHONY: all download build install clean
 
@@ -27,8 +24,8 @@ download:
 	[ -d $(BUSYBOX) ] || tar -xvjf $(DOWNLOADS_DIR)/$(BUSYBOX_SRC)
 
 build:
-	[ -e $(BUSYBOX)/.config ] || cp $(BUSYBOX_CONFIG) $(BUSYBOX)/.config
-	@$(MAKE) -C $(BUSYBOX) ARCH=$(ARCH_BUSYBOX)
+	[ -e $(BUSYBOX)/.config ] || $(CP) $(BUSYBOX_CONFIG) $(BUSYBOX)/.config
+	@$(MAKE) -C $(BUSYBOX) ARCH=$(ARCH)
 
 install:
 	@$(MAKE) -C $(BUSYBOX) ARCH=$(ARCH) CONFIG_PREFIX=$(RAMFS_DIR) install
