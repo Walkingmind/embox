@@ -11,6 +11,7 @@ OBJDUMP = $(CROSS_COMPILE)objdump
 OBJCOPY = $(CROSS_COMPILE)objcopy
 STRIP   = $(CROSS_COMPILE)strip
 RM      = rm -fr
+CP      = cp
 MKDIR   = mkdir -p
 
 ROOT_DIR      = $(CURDIR)
@@ -27,8 +28,11 @@ BOOT_DIR      = $(KERNEL_DIR)/arch/$(ARCH)/boot
 
 OBJCOPYFLAGS  = -O binary -R .note -R .comment
 GEN_INITRAMFS = $(KERNEL_DIR)/scripts/gen_initramfs_list.sh
-#AUTOCONF      = $(KERNEL_DIR)/include/linux/autoconf.h
+ifeq ($(KERNEL_VERSION), 2.6.33)
 AUTOCONF      = $(KERNEL_DIR)/include/generated/autoconf.h
+else
+AUTOCONF      = $(KERNEL_DIR)/include/linux/autoconf.h
+endif
 INITRAMFS_DIRS   = bin dev dev/etherd etc lib root sbin usr usr/bin usr/sbin var
 INITRAMFS_SOURCE = $(KERNEL_DIR)/initramfs.lst
 
@@ -83,17 +87,17 @@ kernel k:
 	chmod +x $(GEN_INITRAMFS)                                                                                                                                 
 	$(GEN_INITRAMFS) $(RAMFS_DIR) > $(INITRAMFS_SOURCE) 2>&1
 	$(SCRIPTS_DIR)/romfs-inst.sh
-	[ -e $(KERNEL_DIR)/.config ] || cp $(CONFIG_DIR)/$(KERNEL_CONFIG) $(KERNEL_DIR)/.config
+	[ -e $(KERNEL_DIR)/.config ] || $(CP) $(CONFIG_DIR)/$(KERNEL_CONFIG) $(KERNEL_DIR)/.config
 	$(MAKE) -C $(KERNEL_DIR) ARCH=$(ARCH) CROSS_COMPILE=$(CROSS_COMPILE) image.bin uImage
 
 image:
-	cp $(BOOT_DIR)/$(shell basename $(IMAGE)) $(BIN_DIR)
+	$(CP) $(BOOT_DIR)/$(shell basename $(IMAGE)) $(BIN_DIR)
 	[ -e $(BIN_DIR)/System.map ] || ln -s $(KERNEL_DIR)/System.map $(BIN_DIR)/System.map
 	[ -e $(BIN_DIR)/config ] || ln -s $(KERNEL_DIR)/.config $(BIN_DIR)/config
 	@$(OBJDUMP) -d $(IMAGE) > $(IMAGE).dis
 
 image_bin: $(IMAGE)
-	cp $(BOOT_DIR)/$(shell basename $(IMAGE_BIN)) $(BIN_DIR)
+	$(CP) $(BOOT_DIR)/$(shell basename $(IMAGE_BIN)) $(BIN_DIR)
 
 image_ram: $(IMAGE)
 	@$(MAKE) -C $(ARCH_DIR)/$(ARCH) image.ram
@@ -109,7 +113,7 @@ image_piggy: $(IMAGE_RAM)
 	@$(OBJCOPY) $(OBJCOPYFLAGS) -S $< $(IMAGE_PIGGY)
 
 image_uboot: $(IMAGE)
-	cp $(BOOT_DIR)/$(shell basename $(IMAGE_UBOOT)) $(BIN_DIR)
+	$(CP) $(BOOT_DIR)/$(shell basename $(IMAGE_UBOOT)) $(BIN_DIR)
 
 clean c:
 	@$(MAKE) -C $(ARCH_DIR)/$(ARCH) clean

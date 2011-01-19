@@ -1,4 +1,5 @@
 #!/bin/bash
+#$Id:$
 
 DEVICES_LIST=$SCRIPTS_DIR/devices.lst
 
