@@ -7,6 +7,7 @@ We use [http://en.wikipedia.org/wiki/Apache_Subversion Subversion] repository fo
 Released on Jan 1st 2011.
 
  * [http://embox.googlecode.com/files/embox-0.1.10.txz embox-0.1.10.txz] (size: 356 KB; SHA1 Checksum: ea5194728818042b9a630fc9ab5ddba2f2298a33)
+ * [http://embox.googlecode.com/files/embox-0.1.10.tar.gz embox-0.1.10.tar.gz] (size: 466 KB; SHA1 Checksum: 27b6228d4b32a5fd41a0fb3ff935e376060171c6)
 
 = Previous stable releases =
 
