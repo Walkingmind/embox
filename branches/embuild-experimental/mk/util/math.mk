@@ -1,4 +1,4 @@
-# $Id: map.mk 1284 2010-10-26 18:36:55Z Eldar.Abusalimov $
+# $Id$
 
 #
 # Copyright 2008-2010, Mathematics and Mechanics faculty

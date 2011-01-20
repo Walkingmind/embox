@@ -1,4 +1,4 @@
-# $Id: $
+# $Id$
 #
 # Author: Eldar Abusalimov
 #
@@ -11,7 +11,7 @@ export SRC_DIR = mk/test
 export OBJ_DIR = build/obj
 export PRINTF := printf
 
-#$(foreach v,$(.VARIABLES), \
+$(foreach v,$(.VARIABLES), \
   $(if $(filter environment,$(origin $v)),${eval unexport $v}) \
 )
 

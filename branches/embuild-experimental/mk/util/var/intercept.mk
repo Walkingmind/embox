@@ -1,4 +1,4 @@
-# $Id: check.mk 1480 2010-11-19 00:18:25Z Eldar.Abusalimov $
+# $Id$
 #
 #   Date: Sep 10, 2010
 # Author: Eldar Abusalimov
