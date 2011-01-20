@@ -1,4 +1,4 @@
-# $ Id: $
+# $Id$
 
 #
 # Copyright 2008-2010, Mathematics and Mechanics faculty
