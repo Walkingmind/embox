@@ -75,6 +75,8 @@
 # Author: Eldar Abusalimov
 #
 
+# XXX this code really annoys me. -- Eldar
+
 ifndef __util_math_mk
 __util_math_mk := 1
 
