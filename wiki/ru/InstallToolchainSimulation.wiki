@@ -95,6 +95,27 @@ qemu -kernel path/embox -m 256
     grub> boot
 }}}
 
+Эмуляция сети в QEMU через TAP интерфейс:
+{{{                         
+/sbin/ifconfig eth0 down    
+/sbin/ifconfig eth0 0.0.0.0 promisc up
+/usr/sbin/openvpn --mktun --dev tap0 --user `id -un`
+/sbin/ifconfig tap0 0.0.0.0 promisc up
+/usr/sbin/brctl addbr br0   
+/usr/sbin/brctl addif br0 eth0
+/usr/sbin/brctl addif br0 tap0
+/usr/sbin/brctl stp br0 off
+/sbin/ifconfig br0 10.0.2.3 netmask 255.0.0.0 broadcast 10.255.255.255
+/sbin/route add default gw 10.0.2.2
+qemu -m 256 -hda hd0.img -net nic,model=ne2k_pci -net tap,ifname=tap0,script=no
+/sbin/ifconfig eth0 down
+/sbin/ifconfig br0 down
+/usr/sbin/brctl delbr br0
+/sbin/ifconfig eth0 -promisc
+/sbin/ifconfig eth0 up
+/usr/sbin/openvpn --rmtun --dev tap0
+}}}
+
 == SKYEYE ==
 
 Из интересующих платформ можем использовать для симуляции под ARM (Atmel AT91) (вообще говоря возможно для LEON2). Имеется поддержка UART.
