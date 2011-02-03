@@ -4,7 +4,7 @@
  * @details Driver to fool Qemu into sending and receiving
  *          packets for us via it's ne2k_isa emulation
  *          This driver is unlikely to work with real hardware
- *          without substantial modifications and is purely for 
+ *          without substantial modifications and is purely for
  *          helping with the development of network stacks.
  *          Interrupts are not supported.
  *
@@ -97,26 +97,26 @@ inline static void rx_disable(void) {
 inline static void set_tx_count(uint32_t val) {
 	/* Set how many bytes we're going to send. */
 	out8(val & 0xff, EN0_TBCR_LO);
-	out8((val & 0xff00) >> 8, EN0_TBCR_HI);  
+	out8((val & 0xff00) >> 8, EN0_TBCR_HI);
 }
 
 inline static void set_rem_address(uint32_t val) {
 	/* Set how many bytes we're going to send. */
 	out8(val & 0xff, EN0_REM_START_LO);
-	out8((val & 0xff00) >> 8, EN0_REM_START_HI);  
+	out8((val & 0xff00) >> 8, EN0_REM_START_HI);
 }
 
 inline static void set_rem_byte_count(uint32_t val) {
 	/* Set how many bytes we're going to send. */
 	out8(val & 0xff, EN0_REM_CNT_LO);
-	out8((val & 0xff00) >> 8, EN0_REM_CNT_HI);  
+	out8((val & 0xff00) >> 8, EN0_REM_CNT_HI);
 }
 
 static void copy_data_to_card(uint32_t dest, uint8_t* src, uint32_t length) {
 	uint32_t i;
 	set_rem_address(dest);
 	set_rem_byte_count(length);
-	for(i = 0; i < length; i++) {
+	for (i = 0; i < length; i++) {
 		out8(*src, NE_BASE + 0x10);
 		src++;
 	}
@@ -126,7 +126,7 @@ static void copy_data_from_card(uint32_t src, uint8_t *dest, uint32_t length) {
 	uint32_t i;
 	set_rem_address(src);
 	set_rem_byte_count(length);
-	for(i = 0; i < length; i++) {
+	for (i = 0; i < length; i++) {
 		*dest = in8(NE_BASE + 0x10);
 		dest++;
 	}
@@ -166,7 +166,7 @@ static size_t copy_pkt_from_card(uint8_t *dest, uint32_t max_len) {
 static size_t pkt_receive(struct sk_buff *skb) {
 	uint32_t boundary, current;
 	size_t ret = 0;
-  
+
 	out8(NE_PAGE1, NE_CMD);
 	current = in8(EN1_CURR);
 
@@ -177,7 +177,7 @@ static size_t pkt_receive(struct sk_buff *skb) {
 	if (boundary != current) {
 		ret = copy_pkt_from_card(skb->data, skb->len);
 	}
-	return ret;  
+	return ret;
 }
 
 /**
@@ -200,7 +200,7 @@ static int start_xmit(struct sk_buff *skb, struct net_device *dev) {
 	while (in8(NE_CMD) & 0x04);
 
 	//TRACE("Done transmit\n");
-	
+
 	return skb->len;
 }
 
@@ -252,7 +252,7 @@ static const struct net_device_ops _netdev_ops = {
 static int __init unit_init(void) {
 	net_device_t *nic;
 	uint8_t* mac;
-	
+
 	if (NULL != (nic = alloc_etherdev(0))) {
 		nic->netdev_ops = &_netdev_ops;
 		nic->base_addr  = NE_BASE;

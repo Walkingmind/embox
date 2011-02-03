@@ -3,7 +3,7 @@
  * @brief Touch sensor interface of nxt
  *
  * @date 02.12.2010
- * @author Anton Kozlov 
+ * @author Anton Kozlov
  */
 
 

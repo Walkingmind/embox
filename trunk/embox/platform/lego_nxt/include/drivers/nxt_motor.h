@@ -1,6 +1,6 @@
 /**
  * @file
- * @brief Motor driver interface 
+ * @brief Motor driver interface
  *
  * @date 02.12.10
  * @author Anton Kozlov
@@ -43,8 +43,8 @@ extern motor_t motors[];
  * @param limit Count of tacho ticks before handler call
  * @param lim_handler Handler called when @link limit @endlink ticks passed
  */
-extern void motor_start(motor_t *motor, int8_t power, uint32_t limit, 
-			tacholimit_hnd_t lim_handler); 
+extern void motor_start(motor_t *motor, int8_t power, uint32_t limit,
+			tacholimit_hnd_t lim_handler);
 /**
  * Set power of running motor
  * @param motor Motor

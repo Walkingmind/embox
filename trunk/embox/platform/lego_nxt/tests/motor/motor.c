@@ -28,7 +28,7 @@ static void motor1_stop(void) {
 }
 
 static int motor_run(void) {
-	
+
 	motor_start(&motors[0], 100, 360, motor1_stop);
 
 	while (flag);

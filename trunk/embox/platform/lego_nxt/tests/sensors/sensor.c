@@ -1,9 +1,9 @@
 /**
  * @file
- * @brief Color sensor test 
+ * @brief Color sensor test
  *
  * @date 05.11.2010
- * @author Anton Kozlov 
+ * @author Anton Kozlov
  */
 
 #include <types.h>
@@ -16,7 +16,7 @@
 
 EMBOX_TEST(sensor_test);
 
-#define TOUCH_PORT (&sensors[3]) 
+#define TOUCH_PORT (&sensors[3])
 
 sensor_val_t sval = 10;
 
@@ -32,7 +32,7 @@ static int sensor_test(void) {
 	//pin_clear_output((1 << DIGIB0) | (1 << DIGIB1));
 
 	while (true) {
-		int butt_state = nxt_buttons_was_pressed(); 
+		int butt_state = nxt_buttons_was_pressed();
 		if (butt_state & BT_ENTER) {
 			TRACE("%d\n", sval);
 		}

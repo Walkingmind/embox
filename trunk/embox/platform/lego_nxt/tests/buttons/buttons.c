@@ -1,6 +1,6 @@
 /**
  * @file
- * @brief nxt buttons test 
+ * @brief nxt buttons test
  *
  * @date 02.12.10
  * @author Anton Kozlov
@@ -22,5 +22,5 @@ static int nxt_buttons_test(void) {
 		usleep(200);
 	}
 	return 0;
-}	
+}
 

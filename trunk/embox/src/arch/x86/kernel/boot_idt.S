@@ -87,7 +87,7 @@ excep_stub:
 	movl	%esp, %eax
 
 	call    EXT_C(exception_handler)
-	
+
 	pop     %gs
 	pop     %fs
 	pop     %es
@@ -116,7 +116,7 @@ irq_stub:
 	movl    %ss, %eax
 	movl    %eax, %ds
 	movl    %eax, %es
-	movl    %esp, %eax	
+	movl    %esp, %eax
 #else
     movw %ds,%ax               // Lower 16-bits of eax = ds.
     pushl %eax                 // Save the data segment descriptor

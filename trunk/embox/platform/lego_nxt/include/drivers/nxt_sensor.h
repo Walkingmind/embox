@@ -3,7 +3,7 @@
  * @brief Input interface of nxt
  *
  * @date 02.12.2010
- * @author Anton Kozlov 
+ * @author Anton Kozlov
  */
 
 
@@ -13,15 +13,15 @@
 #include <drivers/nxt_avr.h>
 #include <drivers/soft_i2c.h>
 
-typedef enum { 
-	PASSIVE, 
-	ACTIVE, 
+typedef enum {
+	PASSIVE,
+	ACTIVE,
 } port_type_t;
 
 typedef struct {
 	uint8_t id;
 	port_type_t type;
-	i2c_port_t i2c_port;	
+	i2c_port_t i2c_port;
 } sensor_t;
 
 extern sensor_t sensors[NXT_AVR_N_INPUTS];

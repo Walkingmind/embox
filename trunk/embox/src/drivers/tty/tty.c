@@ -83,7 +83,7 @@ void tty_vtparse_callback(struct vtparse *tty_vtparse, struct vt_token *token) {
 				break;
 				case '^': /* ^F1-^F12 switch console */
 				#ifdef CONFIG_TTY_CONSOLE_COUNT
-					if ((token->params_len==1) && 
+					if ((token->params_len==1) &&
 						(token->params[0]-10<=CONFIG_TTY_CONSOLE_COUNT)) {
 						tac_switch_console( cur_tty, token->params[0]-11 );
 					}
@@ -98,11 +98,11 @@ void tty_vtparse_callback(struct vtparse *tty_vtparse, struct vt_token *token) {
 					tac_key_enter( cur_tty, token );
 				break;
 
-				case 21: /* ^U clean line */ 
+				case 21: /* ^U clean line */
 					tac_remove_line( cur_tty );
 				break;
 
-				case 23: /* ^W remove last word */ 
+				case 23: /* ^W remove last word */
 					tac_remove_word( cur_tty );
 				break;
 
@@ -177,10 +177,10 @@ static int tty_init(void) {
 }
 
 int tty_register(tty_device_t *tty) {
-	if (NULL == vtparse_init((struct vtparse *)tty->vtp, tty_vtparse_callback)) {
+	if (NULL == vtparse_init((struct vtparse *) tty->vtp, tty_vtparse_callback)) {
 		LOG_ERROR("Error while initialization vtparse.\n");
 	}
-	if (NULL == vtbuild_init((struct vtbuild *)tty->vtb, tty_vtbuild_callback)) {
+	if (NULL == vtbuild_init((struct vtbuild *) tty->vtb, tty_vtbuild_callback)) {
 		LOG_ERROR("Error while initialization vtbuild.\n");
 	}
 
@@ -208,7 +208,7 @@ int tty_get_uniq_number(void) {
  * add parsed char to receive buffer
  */
 int tty_add_char(tty_device_t *tty, int ch) {
-	vtparse((struct vtparse *)cur_tty->vtp, ch);
+	vtparse((struct vtparse *) cur_tty->vtp, ch);
 	return 0;
 }
 

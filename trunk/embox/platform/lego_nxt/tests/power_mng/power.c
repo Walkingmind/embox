@@ -1,9 +1,9 @@
 /**
  * @file
- * @brief Power managment test of nxt 
+ * @brief Power managment test of nxt
  *
  * @date 03.12.2010
- * @author Anton Kozlov 
+ * @author Anton Kozlov
  */
 
 #include <types.h>

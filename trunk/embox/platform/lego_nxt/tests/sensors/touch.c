@@ -1,7 +1,7 @@
 /**
  * @file
- * @brief blind intelegent robot  
- * @details implements scheme: moving forward before getting 
+ * @brief blind intelegent robot
+ * @details implements scheme: moving forward before getting
  * to wall, etc, then moving a few backward then stoping.
  *
  * @date 02.12.10
@@ -16,8 +16,8 @@
 
 #include <drivers/nxt_motor.h>
 
-#define MOTOR_POWER -100 
-#define BREAK_TIME 150 
+#define MOTOR_POWER -100
+#define BREAK_TIME 150
 
 #define TOUCH_PORT (&sensors[3])
 #define MOTOR0 (&motors[0])

@@ -1,6 +1,6 @@
 /**
  * @file
- * @brief nxt buttons driver 
+ * @brief nxt buttons driver
  *
  * @date 02.12.10
  * @author Anton Kozlov
@@ -14,7 +14,7 @@
 static int buttons_state = 0;
 static int buttons_accum_state = 0;
 
-#define DEL 10 
+#define DEL 10
 static int old_state = 0;
 static int state_count = DEL;
 
@@ -55,15 +55,14 @@ void buttons_updated(buttons_t buttons_val) {
 			/*button pressed*/
 			buttons_state = new_state;
 			buttons_accum_state |= new_state;
-		} else { 
+		} else {
 			state_count--;
 		}
-	} else { 
+	} else {
 		if (!state_count) { /*button just released*/
 		}
 		old_state = new_state;
 		state_count = DEL;
 	}
 }
-
 

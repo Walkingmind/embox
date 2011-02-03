@@ -27,14 +27,14 @@ static int run_picture_with_fill(void) {
 	uint8_t pict_buff6[8] = {0x00, 0x00, 0x00, 0x00, 0x03, 0x0F, 0x3F, 0xFF};
 	uint8_t pict_buff10[8] = {0xFF, 0x3F, 0x0F, 0x03, 0x03, 0x0F, 0x3F, 0xFF};
 	uint8_t pict_buff11[8] = {0xFF, 0xFC, 0xF0, 0xC0, 0xC0, 0xF0, 0xFC, 0xFF};
-	
+
 	uint32_t b;
 	b = nxt_buttons_was_pressed();
 	if (b!=0) {
 		return 0;
 	}
-	
-	
+
+
 	int i;
 	display_fill(96, 60, 4, 4, 1);
 	for (i = 0; i < 6; i++) {
@@ -47,7 +47,7 @@ static int run_picture_with_fill(void) {
 	/*14*/	display_draw(10, i-1, 1, 8, &pict_buff4[0]);
 	/*23*/	display_draw(2, i, 1, 8, &pict_buff1[0]);
 	/*24*/	display_draw(10, i, 1, 8, &pict_buff2[0]);
-		
+
 	/*m*/
 	/*4*/	display_draw(18, i-2, 1, 8, &pict_buff1[0]);
 	/*5*/	display_draw(26, i-2, 1, 8, &pict_buff2[0]);
@@ -83,15 +83,15 @@ static int run_picture_with_fill(void) {
 	/*34*/	display_draw(90, i, 1, 8, &pict_buff7[0]);
 	usleep(250);
 	}
-	
+
 /*jamp*/
 	for (i = 0; i < 5; i++) {
-		
+
 		b = nxt_buttons_was_pressed();
 		if (b!=0) {
 			return 0;
 		}
-		
+
 		display_fill(2, 24, 16, 24, 0);
 		/*e*/
 		/*2*/	display_draw(2, 2, 1, 8, &pict_buff1[0]);
@@ -191,8 +191,8 @@ static int run_picture_with_fill(void) {
 		/*32*/	display_draw(74, 5, 1, 8, &pict_buff8[0]);
 		/*33*/	display_draw(82, 5, 1, 8, &pict_buff10[0]);
 		/*34*/	display_draw(90, 5, 1, 8, &pict_buff7[0]);
-		
+
 		usleep(250);
-	}	
+	}
 	return 0;
 }
