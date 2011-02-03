@@ -34,7 +34,7 @@ typedef struct vconsole {
 	size_t columns;
 
 	uint8_t scr_buff[CONFIG_SCR_BUFF_S];
-	uint8_t scr_line; 
+	uint8_t scr_line;
 	uint8_t scr_column;
 
 	uint32_t cl_cnt;

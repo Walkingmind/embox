@@ -823,7 +823,7 @@ static void *romfs_fopen(const char *file_name, const char *mode) {
 }
 
 static int romfs_fclose(void * file) {
-	FILE_HANDLER *fh = (FILE_HANDLER *)file;
+	FILE_HANDLER *fh = (FILE_HANDLER *) file;
 	fh->fileop = NULL;
 	fh->fdesc->is_busy = 0;
 	TRACE("file %s was closed\n", fh->fdesc->name);
@@ -853,7 +853,7 @@ static int block_info_array_filling(int nblocks, BLOCK_INFO *array, FILE_HANDLER
 }
 
 static size_t romfs_fread(void *buf, size_t size, size_t count, void *file) {
-	FILE_HANDLER *fh = (FILE_HANDLER *)file;
+	FILE_HANDLER *fh = (FILE_HANDLER *) file;
 	int i, maxnblocks = 0, nblocks = 0, cur_address, cur_nblock, cur_offset,
 		cur_to_read, left_to_read, flash_dev;
 	char *cur_ptr;
@@ -946,7 +946,7 @@ static size_t romfs_fwrite(const void *buf, size_t size, size_t count, void *fil
 	cur_nblock = cur_address / 0x40000;
 	cur_offset = cur_address % 0x40000;
 	left_to_write = size * count;
-	cur_ptr = (char *)buf;
+	cur_ptr = (char *) buf;
 
 	while (left_to_write > 0) {
 //		printf("left to write %d\n\n", left_to_write);
@@ -1019,7 +1019,7 @@ static size_t romfs_fwrite(const void *buf, size_t size, size_t count, void *fil
 }
 
 static int romfs_fseek(void *file, long offset, int whence) {
-	//FILE_HANDLER *fh = (FILE_HANDLER *)file;
+	//FILE_HANDLER *fh = (FILE_HANDLER *) file;
 	return -2;
 }
 

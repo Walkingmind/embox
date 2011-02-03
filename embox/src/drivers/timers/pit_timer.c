@@ -13,7 +13,7 @@
 #include <hal/interrupt.h>
 #include <asm/io.h>
 
-#define INPUT_CLOCK 1193180 
+#define INPUT_CLOCK 1193180
 #define IRQ0 0x0
 
 /**

@@ -32,7 +32,7 @@ typedef volatile struct tty_device {
 	bool     out_busy; /*whether out_buff is busy*/
 	bool     ins_mod;
 	#if 1 /* to-do: USE IT! */
-	struct 	 vtbuild vtb[1]; 
+	struct 	 vtbuild vtb[1];
 	struct 	 vtparse vtp[1];
 	bool	 has_init;
 	#endif

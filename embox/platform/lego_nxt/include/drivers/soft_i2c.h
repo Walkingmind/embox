@@ -33,7 +33,7 @@ typedef enum {
 	IDLE
 } i2c_state_t;
 
-enum operation_enum_t { WRITE, READ}; 
+enum operation_enum_t { WRITE, READ};
 /* allow sharing common parts in i2c_state */
 
 typedef struct {
@@ -53,10 +53,10 @@ typedef struct {
  * must be in @link IDLE @endlink state
  * @param port Port
  * @param addr 7-bit addres of device on bus
- * @param data Data will be read to 
+ * @param data Data will be read to
  * @param @count Size of data read
  */
-void i2c_read(i2c_port_t *port, uint8_t addr, uint8_t *data, uint32_t count); 
+void i2c_read(i2c_port_t *port, uint8_t addr, uint8_t *data, uint32_t count);
 /**
  * Set @link port @endlink state to start. For proper use @link port->state @endlink
  * must be in @link IDLE @endlink state

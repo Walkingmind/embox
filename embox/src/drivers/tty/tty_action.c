@@ -80,13 +80,13 @@ void tac_key_alpha( tty_device_t *tty, struct vt_token *token ) {
 	if (tty->ins_mod) { /* INSERT MODE */
 		if (tty->rx_cnt < TTY_RXBUFF_SIZE) {
 			++tty->rx_cnt;
-			copy_backward( 
-				&tty->rx_buff[tty->rx_cur], 
+			copy_backward(
+				&tty->rx_buff[tty->rx_cur],
 				&tty->rx_buff[tty->rx_cur+1],
 				tty->rx_cnt - tty->rx_cur);
-			tty->rx_buff[tty->rx_cur++] = token->ch; 
+			tty->rx_buff[tty->rx_cur++] = token->ch;
 			vtbuild( tty->vtb, token );
-			tty_write_line( tty, &tty->rx_buff[tty->rx_cur], 
+			tty_write_line( tty, &tty->rx_buff[tty->rx_cur],
 				tty->rx_cnt - tty->rx_cur, 0);
 		}
 	} else { /* REPLACE MOD */
@@ -103,12 +103,12 @@ void tac_key_alpha( tty_device_t *tty, struct vt_token *token ) {
 /* remove one char */
 void tac_key_del( tty_device_t *tty ) {
 	if (cur_tty->rx_cur<cur_tty->rx_cnt) {
-		copy_forward( 
+		copy_forward(
 			&cur_tty->rx_buff[cur_tty->rx_cur+1],
 			&cur_tty->rx_buff[cur_tty->rx_cur],
 			--cur_tty->rx_cnt - cur_tty->rx_cur );
 		tty_rewrite_line( cur_tty,
-			&cur_tty->rx_buff[cur_tty->rx_cur], 
+			&cur_tty->rx_buff[cur_tty->rx_cur],
 			cur_tty->rx_cnt - cur_tty->rx_cur,
 			cur_tty->rx_cnt - cur_tty->rx_cur + 1, 0, 0);
 	}
@@ -171,7 +171,7 @@ void tac_key_ins( tty_device_t *tty ) {
 void tac_key_enter( tty_device_t *tty, struct vt_token *token ) {
 	if (tty->out_busy) return;
 	/* add string to output buffer */
-	memcpy((void*) tty->out_buff,(const void*) 
+	memcpy((void*) tty->out_buff,(const void*)
 		tty->rx_buff, tty->rx_cnt);
 	tty->out_buff[tty->rx_cnt] = '\0';
 	tty->rx_cnt = 0;
@@ -189,11 +189,11 @@ void tac_remove_word( tty_device_t *tty ) {
 	for (; tps>0 && isspace(tty->rx_buff[tps]); --tps);
 	if (tps>0) {++tps;}
 
-	copy_forward( 
+	copy_forward(
 		&tty->rx_buff[tty->rx_cur],
-		&tty->rx_buff[tps], 
+		&tty->rx_buff[tps],
 		tty->rx_cnt - tty->rx_cur + tps );
-		
+
 	tty_rewrite_line( tty,
 		&tty->rx_buff[tps],
 		tty->rx_cnt - tty->rx_cur ,
@@ -210,7 +210,7 @@ void tac_remove_line( tty_device_t *tty ) {
 		&tty->rx_buff[tty->rx_cur],
 		&tty->rx_buff[0],
 		tty->rx_cnt - tty->rx_cur );
-	tty_rewrite_line( tty, 
+	tty_rewrite_line( tty,
 		&tty->rx_buff[0],
 		tty->rx_cnt - tty->rx_cur,
 		tty->rx_cnt, tty->rx_cur, 0);

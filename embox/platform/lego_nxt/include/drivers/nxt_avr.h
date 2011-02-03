@@ -3,7 +3,7 @@
  * @brief IO interface of nxt avr
  *
  * @date 05.11.2010
- * @author Anton Kozlov 
+ * @author Anton Kozlov
  */
 
 #include <types.h>

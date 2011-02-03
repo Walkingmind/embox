@@ -21,7 +21,7 @@ static int run_fill(void) {
 	display_draw(70, 3, 1,	8, &buff[0]);
 	display_draw(70, 5, 1,	8, &buff[0]);
 	display_draw(70, 7, 1,	8, &buff[0]);
-	
+
 	display_fill(50, 1, 8, 40, 1);
 	display_fill(60, 3, 8, 40, 0);
 	display_fill(80, 0, 8, 40, 1);
@@ -35,12 +35,12 @@ static int run_fill(void) {
 	display_fill(5, 5, 1, 1, 1);
 	display_fill(6, 6, 1, 1, 1);
 	display_fill(7, 7, 1, 1, 1);
-	
+
 	display_fill(20, 20, 10, 30, 1);
 	display_fill(30, 30, 8, 20, 0);
 	display_fill(40, 20, 3, 13, 1);
 	display_fill(50, 55, 8, 4, 0);
-	
+
 	display_draw(10, 1, 1,	8, &buff[0]);
 	display_draw(10, 3, 1,	8, &buff[0]);
 	display_draw(10, 5, 1,	8, &buff[0]);
@@ -59,7 +59,6 @@ static int run_fill(void) {
 	usleep(1000);
 	display_fill(5, 5, 90, 54, 1);
 	usleep(8000);
-
 
 
 	return 0;

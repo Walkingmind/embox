@@ -23,7 +23,7 @@
 #define CONFIG_PP_COUNT 10
 
 #ifdef CONFIG_PP_TEST
-char share_variable; 
+char share_variable;
 #endif
 
 static void* pp_pool[PP_INIT_LIST_S];
@@ -43,7 +43,7 @@ static uint32_t pp_process_pool_c = 0;
 struct pprocess* get_more_pp() {
 	if (pp_process_pool_c>=CONFIG_PP_COUNT) {
 		LOG_ERROR("ERROR: Not enough pool size for pprocess. C:%d, S:%d",pp_process_pool_c,CONFIG_PP_COUNT);
-		while(true);
+		while (true);
 	}
 	return &pp_process_pool[pp_process_pool_c++];
 }

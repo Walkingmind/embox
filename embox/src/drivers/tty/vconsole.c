@@ -45,7 +45,7 @@ void vconsole_loadline(vconsole_t *con) {
 	}
 	/* go to saved cursor position */
 	for (;*s>*t;--*s) {
-		vtbuild(con->tty->vtb, TOKEN_LEFT); 
+		vtbuild(con->tty->vtb, TOKEN_LEFT);
 	}
 	*s = con->cl_cnt;
 }
@@ -57,7 +57,7 @@ void vconsole_saveline(vconsole_t *con) {
 	con->cl_cur = *t;
 	/* clear current command line */
 	for (;*t>0;--*t) {
-		vtbuild(con->tty->vtb, TOKEN_LEFT); 
+		vtbuild(con->tty->vtb, TOKEN_LEFT);
 	}
 	for (;*t<*s;++*t) {
 		con->tty->file_op->fwrite(" ",sizeof(char),1,NULL);
@@ -66,7 +66,7 @@ void vconsole_saveline(vconsole_t *con) {
 	con->cl_buff[0] = con->tty->rx_buff[0];
 	for (;*s>0;--*s) {
 		con->cl_buff[*s] = con->tty->rx_buff[*s];
-		vtbuild(con->tty->vtb, TOKEN_LEFT); 
+		vtbuild(con->tty->vtb, TOKEN_LEFT);
 	}
 	*s = *t = 0;
 }

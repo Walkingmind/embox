@@ -1,6 +1,6 @@
 /**
  * @file
- * @brief Soft I2C 
+ * @brief Soft I2C
  *
  * @date 12.12.2010
  * @author Anton Kozlov
@@ -43,159 +43,159 @@ static int port_count = 0;
 
 i2c_state_t wait_state;
 
-#define TRACE(...) 
+#define TRACE(...)
 static void i2c_port_process(i2c_port_t *port) {
 	REG_LOAD(AT91C_TC0_SR); //XXX
 	switch (port->state) {
-		case START:
-			if (pin_get_input(port->sda) && pin_get_input(port->scl)) {
-				TRACE("START");
-				pin_set_low(port->sda);
-				port->state = WRITE_FALL;
-			}
-			break;
-		case READ_FALL:
-			if (pin_get_input(port->scl)) {
-				TRACE("READ_FALL");
-				scl_set_low(port->scl);
-				port->state = READ_RISE;
-				if (port->bit_cnt == 8) {
-					port->data++;
-					port->bit_cnt = 0;
-					port->state = READ_ACK_RISE; 
-					if (port->data_cnt-- == 0) {
-						port->state = READ_NOT_ACK_RISE;
-					}
+	case START:
+		if (pin_get_input(port->sda) && pin_get_input(port->scl)) {
+			TRACE("START");
+			pin_set_low(port->sda);
+			port->state = WRITE_FALL;
+		}
+		break;
+	case READ_FALL:
+		if (pin_get_input(port->scl)) {
+			TRACE("READ_FALL");
+			scl_set_low(port->scl);
+			port->state = READ_RISE;
+			if (port->bit_cnt == 8) {
+				port->data++;
+				port->bit_cnt = 0;
+				port->state = READ_ACK_RISE;
+				if (port->data_cnt-- == 0) {
+					port->state = READ_NOT_ACK_RISE;
 				}
 			}
-			break;
-		case READ_NOT_ACK_RISE: 
-			TRACE("READ_NOT_ACK_RISE");
-			pin_set_high(port->sda); 
-			scl_set_high(port->scl);
-			port->state = READ_NOT_ACK_FALL;
-			break;
-		case READ_NOT_ACK_FALL:
-			if (pin_get_input(port->scl)) {
-				TRACE("READ_NOT_ACK_FALL");
-				scl_set_low(port->scl);
+		}
+		break;
+	case READ_NOT_ACK_RISE:
+		TRACE("READ_NOT_ACK_RISE");
+		pin_set_high(port->sda);
+		scl_set_high(port->scl);
+		port->state = READ_NOT_ACK_FALL;
+		break;
+	case READ_NOT_ACK_FALL:
+		if (pin_get_input(port->scl)) {
+			TRACE("READ_NOT_ACK_FALL");
+			scl_set_low(port->scl);
+			port->state = STOP_DATA_FALL;
+		}
+		break;
+	case READ_RISE:
+		scl_set_high(port->scl);
+		if (pin_get_input(port->scl)) {
+			uint8_t *ptr;
+			ptr = port->data;
+			TRACE("READ_RISE,%x",*ptr);
+			*ptr = *ptr << 1;
+			if (pin_get_input(port->sda)) {
+				*ptr = *ptr | 1;
+			}
+			TRACE("READ_RISE,%x",*ptr);
+			port->bit_cnt++;
+			port->state = READ_FALL;
+		}
+		break;
+	case READ_ACK_FALL:
+		if (pin_get_input(port->scl)) {
+			TRACE("READ_ACK_FALL");
+			scl_set_low(port->scl);
+			pin_set_high(port->sda);
+			port->state = READ_RISE;
+		}
+		break;
+	case READ_ACK_RISE:
+		TRACE("READ_ACK_RISE");
+		pin_set_low(port->sda);
+		scl_set_high(port->scl);
+		port->state = READ_ACK_FALL;
+		break;
+	case STOP_DATA_FALL:
+		TRACE("STOP_DATA_FALL");
+		pin_set_low(port->sda);
+		scl_set_high(port->scl);
+		port->state = I2C_STOP;
+		break;
+	case I2C_STOP:
+		if (pin_get_input(port->scl)) {
+			TRACE("STOP");
+			pin_set_high(port->sda);
+			port->state = STOP_FALL;
+		}
+		break;
+	case STOP_FALL:
+		if (pin_get_input(port->sda) && pin_get_input(port->scl)) {
+			scl_set_low(port->scl);
+			port->state = STOP_RISE;
+		}
+		break;
+	case STOP_RISE:
+		scl_set_high(port->scl);
+		port->state = IDLE;
+		break;
+	case WRITE_FALL:
+		if (pin_get_input(port->scl)) {
+			TRACE("WRITE_FALL, %x", port->bit_cnt);
+			scl_set_low(port->scl);
+			if (port->write_byte & 0x80) {
+				pin_set_high(port->sda);
+			} else {
+				pin_set_low(port->sda);
+			}
+			port->write_byte <<= 1;
+			if (port->bit_cnt-- == 0) { //0_o
+				pin_set_high(port->sda);
+				port->state = WRITE_ACK_RISE;
+			} else {
+				port->state = WRITE_RISE;
+			}
+		}
+		break;
+	case WRITE_RISE:
+		TRACE("WRITE_RISE");
+		scl_set_high(port->scl);
+		port->state = WRITE_FALL;
+		break;
+	case WRITE_ACK_RISE:
+		TRACE("WRITE_ACK_RISE");
+		scl_set_high(port->scl);
+		port->state = WRITE_ACK_FALL;
+		if (port->operation == WRITE) {
+			port->write_byte = *(port->data++);
+			port->bit_cnt = 8;
+		}
+		break;
+	case WRITE_ACK_FALL:
+		if (pin_get_input(port->scl)) {
+			uint32_t was_state = pin_get_input(port->sda);
+			TRACE("WRITE_ACK_FALL");
+			scl_set_low(port->scl);
+			if (was_state) {
+				port->state = STOP_DATA_FALL;
+			} else {
+				if (port->operation == WRITE) {
+					if (port->write_byte & 0x80) {
+						pin_set_high(port->sda);
+					} else {
+						pin_set_low(port->sda);
+					}
+					port->write_byte <<= 1;
+					port->bit_cnt--;
+					port->state = WRITE_RISE;
+				} else {
+					port->bit_cnt = 0;
+					port->state = READ_RISE;
+				}
+			}
+			if (port->data_cnt-- == 0) {
 				port->state = STOP_DATA_FALL;
 			}
-			break;
-		case READ_RISE:
-			scl_set_high(port->scl);
-			if (pin_get_input(port->scl)) {
-				uint8_t *ptr;
-			    ptr	= port->data;
-				TRACE("READ_RISE,%x",*ptr);
-				*ptr = *ptr << 1;
-				if (pin_get_input(port->sda)) {
-					*ptr = *ptr | 1;
-				}
-				TRACE("READ_RISE,%x",*ptr);
-				port->bit_cnt ++;
-				port->state = READ_FALL;
-			}
-			break;
-		case READ_ACK_FALL:
-			if (pin_get_input(port->scl)) {
-				TRACE("READ_ACK_FALL");
-				scl_set_low(port->scl);
-				pin_set_high(port->sda);
-				port->state = READ_RISE;
-			}
-			break;
-		case READ_ACK_RISE:
-			TRACE("READ_ACK_RISE");
-			pin_set_low(port->sda);
-			scl_set_high(port->scl);
-			port->state = READ_ACK_FALL;
-			break;
-		case STOP_DATA_FALL:
-			TRACE("STOP_DATA_FALL");
-			pin_set_low(port->sda);
-			scl_set_high(port->scl);
-			port->state = I2C_STOP;
-			break;
-		case I2C_STOP:
-			if (pin_get_input(port->scl)) {
-				TRACE("STOP");
-				pin_set_high(port->sda);
-				port->state = STOP_FALL;
-			}
-			break;
-		case STOP_FALL:
-			if (pin_get_input(port->sda) && pin_get_input(port->scl)) {
-				scl_set_low(port->scl);
-				port->state = STOP_RISE; 
-			}
-			break;
-		case STOP_RISE:
-			scl_set_high(port->scl);
-			port->state = IDLE;
-			break;
-		case WRITE_FALL:
-			if (pin_get_input(port->scl)) {
-				TRACE("WRITE_FALL, %x", port->bit_cnt);
-				scl_set_low(port->scl);
-				if (port->write_byte & 0x80) {
-					pin_set_high(port->sda);
-				} else {
-					pin_set_low(port->sda);
-				}
-				port->write_byte <<= 1;
-				if (port->bit_cnt-- == 0) { //0_o
-					pin_set_high(port->sda);
-					port->state = WRITE_ACK_RISE; 
-				} else {
-					port->state = WRITE_RISE;
-				}
-			}
-			break;
-		case WRITE_RISE:
-			TRACE("WRITE_RISE");
-			scl_set_high(port->scl);
-			port->state = WRITE_FALL;
-			break;
-		case WRITE_ACK_RISE:
-			TRACE("WRITE_ACK_RISE");
-			scl_set_high(port->scl);
-			port->state = WRITE_ACK_FALL;
-			if (port->operation == WRITE) {
-				port->write_byte = *(port->data++);
-				port->bit_cnt = 8;
-			}
-			break;
-		case WRITE_ACK_FALL:
-			if (pin_get_input(port->scl)) {
-				uint32_t was_state = pin_get_input(port->sda);
-				TRACE("WRITE_ACK_FALL");
-				scl_set_low(port->scl);
-				if (was_state) {
-					port->state = STOP_DATA_FALL;
-				} else {
-					if (port->operation == WRITE) {
-						if (port->write_byte & 0x80) {
-							pin_set_high(port->sda);
-						} else {
-							pin_set_low(port->sda);
-						}
-						port->write_byte <<= 1;
-						port->bit_cnt--;
-						port->state = WRITE_RISE;
-					} else {
-						port->bit_cnt = 0;
-						port->state = READ_RISE;
-					}
-				}
-				if (port->data_cnt-- == 0) {
-					port->state = STOP_DATA_FALL;
-				}
-			}
-			break;
-		case IDLE:
-		default:
-			break;
+		}
+		break;
+	case IDLE:
+	default:
+		break;
 	}
 }
 
@@ -224,7 +224,7 @@ void i2c_write(i2c_port_t *port, uint8_t addr, uint8_t *data, uint32_t count) {
 static irq_return_t timer_handler(irq_nr_t irq_nr, void *data) {
 	int i;
 	 REG_LOAD(((uint8_t *) AT91C_TC0_SR) + TIMER * sizeof(AT91S_TCB));
-	for (i = 0; i < port_count; i++) {		
+	for (i = 0; i < port_count; i++) {
 		i2c_port_process(ports[i]);
 	}
 	tc_reset(TIMER);
@@ -237,17 +237,17 @@ void i2c_init(i2c_port_t *port) {
 	REG_STORE(AT91C_PIOA_PPUER, port->sda);
 	REG_STORE(AT91C_PIOA_ODR, port->sda);
 
-	REG_STORE(AT91C_PIOA_MDER, port->scl);	
+	REG_STORE(AT91C_PIOA_MDER, port->scl);
 	REG_STORE(AT91C_PIOA_PPUER, port->scl);
 	REG_STORE(AT91C_PIOA_SODR, port->scl);
 	REG_STORE(AT91C_PIOA_OER, port->scl);
-	
+
 	port->state = IDLE;
 }
 
 static int i2c_unit_init(void) {
 	tc_init(TIMER);
-	tc_config_input(TIMER, (uint32_t) AT91C_TC_CLKS_TIMER_DIV1_CLOCK); /* MCLK/2, RC compare trigger */ 
+	tc_config_input(TIMER, (uint32_t) AT91C_TC_CLKS_TIMER_DIV1_CLOCK); /* MCLK/2, RC compare trigger */
 	tc_set_limit(TIMER, (CONFIG_SYS_CLOCK/2)/(2 * I2C_CLOCK)); /* running on twice speed i2c_clock*/
 	tc_limit_int_enable(TIMER, timer_handler);
 	tc_reset(TIMER);

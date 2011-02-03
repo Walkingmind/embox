@@ -1,6 +1,6 @@
 /**
  * @file
- * @brief nxt sensors driver 
+ * @brief nxt sensors driver
  *
  * @date 02.12.10
  * @author Anton Kozlov
@@ -58,6 +58,4 @@ void sensors_init(void) {
 		sensors[i].i2c_port.state = OFF;
 	}
 }
-
-
 

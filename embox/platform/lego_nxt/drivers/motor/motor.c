@@ -1,6 +1,6 @@
 /**
  * @file
- * @brief Motor driver 
+ * @brief Motor driver
  *
  * @date 02.12.10
  * @author Anton Kozlov
@@ -24,12 +24,12 @@
 #define NXT_PIN_MOTOR_C0 0
 #define NXT_PIN_MOTOR_C1 8
 
-int pin_motor_S0[] = 
+int pin_motor_S0[] =
 	    { NXT_PIN_MOTOR_A0,
 		  NXT_PIN_MOTOR_B0,
 		  NXT_PIN_MOTOR_C0 };
 
-int pin_motor_S1[] = 
+int pin_motor_S1[] =
 	    { NXT_PIN_MOTOR_A1,
 		  NXT_PIN_MOTOR_B1,
 		  NXT_PIN_MOTOR_C1 };
@@ -38,9 +38,9 @@ EMBOX_UNIT_INIT(nxt_motor_init);
 
 motor_t motors[3];
 
-void motor_start(motor_t *motor, int8_t power, uint32_t limit, 
+void motor_start(motor_t *motor, int8_t power, uint32_t limit,
 			tacholimit_hnd_t lim_handler) {
-	
+
 	motor->state = RUN;
 	motor->limit_hnd = lim_handler;
 	motor->tacho_limit = limit;
@@ -84,9 +84,8 @@ static int nxt_motor_init(void) {
 		motors[i].pin_handler = (pin_handler_t) motor_pin_handler;
 		motors[i].id = i;
 	}
-	
+
 	data_to_avr.output_mode = PWM_FREQ;
 	return 0;
 }
-
 

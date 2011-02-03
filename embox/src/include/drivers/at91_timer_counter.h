@@ -50,7 +50,7 @@ uint32_t tc_counter_value(uint8_t channel);
 extern void tc_stop(uint8_t channel);
 
 /**
- * Set limit for counter 
+ * Set limit for counter
  */
 void tc_set_limit(uint8_t channel, uint32_t limit);
 

@@ -35,7 +35,7 @@ static int avr_send_data(to_avr_t *data_to_avr) {
 #ifdef CONFIG_MEASURE
 	measure_start();
 #endif
-	
+
 	avr_line_locked = true;
 	twi_send(NXT_AVR_ADDRESS, (uint8_t *) data_to_avr, sizeof(to_avr_t));
 	avr_line_locked = false;
@@ -57,7 +57,7 @@ static int avr_get_data(from_avr_t *data_from_avr) {
 	avr_line_locked = true;
 	res = twi_receive(NXT_AVR_ADDRESS, (uint8_t *) data_from_avr,
 		sizeof(from_avr_t));
-	avr_line_locked = false; 
+	avr_line_locked = false;
 #ifdef CONFIG_MEASURE
 	avr_get_process(measure_stop());
 #endif
@@ -76,7 +76,7 @@ static uint32_t avr_handler(void) {
 		sensors_updated(data_from_avr.adc_value);
 	}
 
-	return 0; 
+	return 0;
 }
 
 static int init(void) {
@@ -94,7 +94,6 @@ static int init(void) {
 	sensors_init();
 
 	set_timer(0, 1, (TIMER_FUNC) avr_handler);
-
 
 
 	return result;
