@@ -1,6 +1,18 @@
 #summary embox development roadmap
 #labels Phase-Requirements,Featured
 
+= 2011/02/31 v0.2.0 =
+ == Lego NXT ==
+  * Добавление поддержки bluetooth
+  * Добавление датчикастандартного цвета
+  * Разработка нескольких примеров для работы с устройством
+  * Документация (добавление описания для пользователей)
+  
+ == 0x86 ==
+  * запуск на виртуальной машине QEMU
+  * поддержка шины PCI
+  * Поддержка сетевой карты ne2000 на шине PCI
+  
 = 2010/12/31 v0.1.10 [http://code.google.com/p/embox/issues/list?can=1&q=milestone=v0.1.10 [issues]] [http://code.google.com/p/embox/issues/list?q=milestone=v0.1.10 [open issues]] =
  * Портирование под x86 (VGA консоль, клавиатура)
  * Улучшена работа с графикой на Lego
