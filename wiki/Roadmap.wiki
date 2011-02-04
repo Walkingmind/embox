@@ -1,7 +1,7 @@
 #summary embox development roadmap
 #labels Phase-Requirements,Featured
 
-= 2011/02/31 v0.2.0 =
+= 2011/02/28 v0.2.0 =
  == Lego NXT ==
   * Support bluetooth comunication
   * Support color sensor
