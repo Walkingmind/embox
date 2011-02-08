@@ -1,7 +1,7 @@
 #
 # Automatically generated make config: don't edit
 # Linux kernel version: 2.6.33
-# Wed Sep  8 17:44:02 2010
+# Tue Feb  8 16:44:00 2011
 #
 # CONFIG_64BIT is not set
 CONFIG_SPARC=y
@@ -27,7 +27,7 @@ CONFIG_CONSTRUCTORS=y
 CONFIG_EXPERIMENTAL=y
 CONFIG_BROKEN_ON_SMP=y
 CONFIG_INIT_ENV_ARG_LIMIT=32
-CONFIG_LOCALVERSION="leon3"
+CONFIG_LOCALVERSION="-leon3"
 CONFIG_LOCALVERSION_AUTO=y
 CONFIG_SYSVIPC=y
 # CONFIG_POSIX_MQUEUE is not set
@@ -105,6 +105,7 @@ CONFIG_HAVE_DMA_API_DEBUG=y
 #
 # CONFIG_SLOW_WORK is not set
 # CONFIG_HAVE_GENERIC_DMA_COHERENT is not set
+CONFIG_SLABINFO=y
 CONFIG_RT_MUTEXES=y
 CONFIG_BASE_SMALL=0
 # CONFIG_MODULES is not set
@@ -247,6 +248,7 @@ CONFIG_DEFAULT_TCP_CONG="cubic"
 #
 # Network testing
 #
+# CONFIG_NET_PKTGEN is not set
 # CONFIG_HAMRADIO is not set
 # CONFIG_CAN is not set
 # CONFIG_IRDA is not set
@@ -449,6 +451,7 @@ CONFIG_RTC_CLASS=y
 #
 # RTC interfaces
 #
+CONFIG_RTC_INTF_PROC=y
 # CONFIG_RTC_INTF_DEV is not set
 # CONFIG_RTC_DRV_TEST is not set
 
@@ -512,7 +515,10 @@ CONFIG_RTC_DRV_M48T59=y
 #
 # Pseudo filesystems
 #
-# CONFIG_PROC_FS is not set
+CONFIG_PROC_FS=y
+# CONFIG_PROC_KCORE is not set
+# CONFIG_PROC_SYSCTL is not set
+# CONFIG_PROC_PAGE_MONITOR is not set
 # CONFIG_SYSFS is not set
 # CONFIG_TMPFS is not set
 # CONFIG_HUGETLB_PAGE is not set

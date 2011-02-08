@@ -1,7 +1,7 @@
 #
 # Automatically generated make config: don't edit
 # Busybox version: 1.17.2
-# Wed Sep 29 17:40:19 2010
+# Tue Feb  8 15:56:39 2011
 #
 CONFIG_HAVE_DOT_CONFIG=y
 
@@ -535,7 +535,7 @@ CONFIG_DEFAULT_DEPMOD_FILE=""
 # CONFIG_FEATURE_MKSWAP_UUID is not set
 # CONFIG_MORE is not set
 # CONFIG_FEATURE_USE_TERMIOS is not set
-# CONFIG_MOUNT is not set
+CONFIG_MOUNT=y
 # CONFIG_FEATURE_MOUNT_FAKE is not set
 # CONFIG_FEATURE_MOUNT_VERBOSE is not set
 # CONFIG_FEATURE_MOUNT_HELPERS is not set
@@ -557,6 +557,10 @@ CONFIG_DEFAULT_DEPMOD_FILE=""
 # CONFIG_SWITCH_ROOT is not set
 # CONFIG_UMOUNT is not set
 # CONFIG_FEATURE_UMOUNT_ALL is not set
+
+#
+# Common options for mount/umount
+#
 # CONFIG_FEATURE_MOUNT_LOOP is not set
 # CONFIG_FEATURE_MOUNT_LOOP_CREATE is not set
 # CONFIG_FEATURE_MTAB_SUPPORT is not set

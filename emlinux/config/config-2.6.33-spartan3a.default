@@ -1,7 +1,7 @@
 #
 # Automatically generated make config: don't edit
 # Linux kernel version: 2.6.33
-# Mon Nov 22 01:12:35 2010
+# Tue Feb  8 16:04:54 2011
 #
 CONFIG_MICROBLAZE=y
 # CONFIG_SWAP is not set
@@ -33,7 +33,7 @@ CONFIG_CONSTRUCTORS=y
 CONFIG_EXPERIMENTAL=y
 CONFIG_BROKEN_ON_SMP=y
 CONFIG_INIT_ENV_ARG_LIMIT=32
-CONFIG_LOCALVERSION="xilmb"
+CONFIG_LOCALVERSION="-xilmb"
 CONFIG_LOCALVERSION_AUTO=y
 CONFIG_SYSVIPC=y
 # CONFIG_POSIX_MQUEUE is not set
@@ -106,6 +106,7 @@ CONFIG_HAVE_DMA_API_DEBUG=y
 #
 # CONFIG_SLOW_WORK is not set
 # CONFIG_HAVE_GENERIC_DMA_COHERENT is not set
+CONFIG_SLABINFO=y
 CONFIG_BASE_SMALL=1
 # CONFIG_MODULES is not set
 # CONFIG_BLOCK is not set
@@ -181,6 +182,7 @@ CONFIG_MMU=y
 #
 # CONFIG_CMDLINE_BOOL is not set
 CONFIG_OF=y
+# CONFIG_PROC_DEVICETREE is not set
 
 #
 # Advanced setup
@@ -279,6 +281,7 @@ CONFIG_DEFAULT_TCP_CONG="cubic"
 #
 # Network testing
 #
+# CONFIG_NET_PKTGEN is not set
 # CONFIG_HAMRADIO is not set
 # CONFIG_CAN is not set
 # CONFIG_IRDA is not set
@@ -474,7 +477,10 @@ CONFIG_XILINX_EDK=y
 #
 # Pseudo filesystems
 #
-# CONFIG_PROC_FS is not set
+CONFIG_PROC_FS=y
+# CONFIG_PROC_KCORE is not set
+# CONFIG_PROC_SYSCTL is not set
+# CONFIG_PROC_PAGE_MONITOR is not set
 # CONFIG_SYSFS is not set
 # CONFIG_HUGETLB_PAGE is not set
 # CONFIG_MISC_FILESYSTEMS is not set
