@@ -1,7 +1,7 @@
 #
 # Automatically generated make config: don't edit
 # Busybox version: 1.8.2
-# Wed Sep 29 18:08:23 2010
+# Thu Feb  3 18:40:57 2011
 #
 CONFIG_HAVE_DOT_CONFIG=y
 
@@ -444,7 +444,7 @@ CONFIG_FEATURE_EXTRA_QUIET=y
 # CONFIG_FEATURE_MKSWAP_V0 is not set
 # CONFIG_MORE is not set
 # CONFIG_FEATURE_USE_TERMIOS is not set
-# CONFIG_MOUNT is not set
+CONFIG_MOUNT=y
 # CONFIG_FEATURE_MOUNT_HELPERS is not set
 # CONFIG_FEATURE_MOUNT_NFS is not set
 # CONFIG_FEATURE_MOUNT_CIFS is not set
@@ -458,6 +458,10 @@ CONFIG_FEATURE_EXTRA_QUIET=y
 # CONFIG_SWITCH_ROOT is not set
 # CONFIG_UMOUNT is not set
 # CONFIG_FEATURE_UMOUNT_ALL is not set
+
+#
+# Common options for mount/umount
+#
 # CONFIG_FEATURE_MOUNT_LOOP is not set
 # CONFIG_FEATURE_MTAB_SUPPORT is not set
 

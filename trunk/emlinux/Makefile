@@ -33,7 +33,7 @@ AUTOCONF      = $(KERNEL_DIR)/include/generated/autoconf.h
 else
 AUTOCONF      = $(KERNEL_DIR)/include/linux/autoconf.h
 endif
-INITRAMFS_DIRS   = bin dev dev/etherd etc lib root sbin usr usr/bin usr/sbin var
+INITRAMFS_DIRS   = bin dev dev/etherd etc lib root sbin usr usr/bin usr/sbin var proc
 INITRAMFS_SOURCE = $(KERNEL_DIR)/initramfs.lst
 
 # elf image for loading with embox
