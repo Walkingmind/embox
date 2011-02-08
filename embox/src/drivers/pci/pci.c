@@ -68,14 +68,14 @@ uint32_t pci_write_config8(uint32_t bus, uint32_t dev_fn,
 	out8(value, PCI_CONFIG_DATA + (where & 3));
 	return 0;
 }
-                
+
 uint32_t pci_write_config16(uint32_t bus, uint32_t dev_fn,
 				uint32_t where, uint16_t value) {
 	out32(CONFIG_CMD(bus, dev_fn, where), PCI_CONFIG_ADDRESS);
 	out16(value, PCI_CONFIG_DATA + (where & 2));
 	return 0;
 }
-                        
+
 uint32_t pci_write_config32(uint32_t bus, uint32_t dev_fn,
 				uint32_t where, uint32_t value) {
 	out32(CONFIG_CMD(bus, dev_fn, where), PCI_CONFIG_ADDRESS);
@@ -134,7 +134,7 @@ static void scan_bus(void) {
 			}
 			vendor = l & 0xffff;
 			device = (l >> 16) & 0xffff;
-			
+
 			pci_read_config8(bus, devfn, PCI_BASECLASS_CODE, &baseclass);
 			pci_read_config8(bus, devfn, PCI_SUBCLASS_CODE, &subclass);
 			pci_read_config8(bus, devfn, PCI_REVISION_ID, &rev);
