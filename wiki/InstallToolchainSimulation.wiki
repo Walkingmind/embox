@@ -128,7 +128,6 @@ qemu -m 256 -hda hd0.img -net nic,model=ne2k_pci -net tap,ifname=tap0,script=no
 == Bochs ==
 
  # Create hd0.img (as stated above)
-
  # bochs.cfg
 {{{
 megs: 32
@@ -145,7 +144,6 @@ clock: sync=realtime
 #gdbstub: enabled=1, port=1234, text_base=0, data_base=0, bss_base=0
 #ne2k: ioaddr=0x300, irq=9, mac=AA:BB:CC:DD:EE:00, ethmod=linux, ethdev=eth0
 }}}
-
  # bochs -f bochs.cfg
 
 NOTE: there is a problem with booting embox from grub, need for fix.
