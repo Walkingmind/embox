@@ -1,10 +1,16 @@
 #summary Описание некоторых симуляторов, на которых можно запустить  embox
 
+<wiki:toc max_depth="2" />
+
+= SPARC =
+
 == TSIM ==
 
  # Установить [ftp://ftp.gaisler.com/gaisler.com/tsim/tsim-eval-2.0.18.tar.gz tsim-eval]
  # tsim-leon3 -gdb
  # Присоединиться к gdb серверу
+
+= x86 =
 
 == QEMU ==
 
@@ -115,6 +121,33 @@ qemu -m 256 -hda hd0.img -net nic,model=ne2k_pci -net tap,ifname=tap0,script=no
 /sbin/ifconfig eth0 up
 /usr/sbin/openvpn --rmtun --dev tap0
 }}}
+
+== Bochs ==                 
+                            
+# Создать hd0.img (как описано выше)
+
+# пример bochs.cfg
+{{{
+megs: 32
+cpu: count=1, ips=15000000
+romimage: file=/usr/share/bochs/BIOS-bochs-latest, address=0xe0000
+vgaromimage: /usr/share/bochs/VGABIOS-elpin-2.40
+vga: extension=vbe
+ata0: enabled=1, ioaddr1=0x1f0, ioaddr2=0x3f0, irq=14
+ata0-master: type=disk, path=hd0.img, mode=flat, cylinders=40, heads=16, spt=63, translation=none
+boot: disk                  
+log: bochsout.txt
+mouse: enabled=0
+clock: sync=realtime
+#gdbstub: enabled=1, port=1234, text_base=0, data_base=0, bss_base=0
+#ne2k: ioaddr=0x300, irq=9, mac=AA:BB:CC:DD:EE:00, ethmod=linux, ethdev=eth0
+}}}
+
+# bochs -f bochs.cfg
+
+NOTE: на данный момент в bochs имеет место проблема запуска embox из grub.
+
+= ARM =
 
 == SKYEYE ==
 
