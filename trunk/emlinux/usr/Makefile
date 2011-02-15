@@ -4,10 +4,10 @@
 #
 
 LIBS = libc.so.6 libm.so.6 libcrypt.so.1 libstdc++.so.6 libgcc_s.so.1 \
-       libgcc_s_soft_v8.so.1 libpthread.so.0 libgcc_s_soft.so.1 librt.so.1
+       libpthread.so.0 librt.so.1
 ifeq ($(CROSS_COMPILE),sparc-linux-)
 CROSS_COMPILER_DIR = $(shell dirname `which $(CROSS_COMPILE)gcc`)/../sparc-linux
-LIBS              += ld-linux.so.2
+LIBS              += ld-linux.so.2 libgcc_s_soft_v8.so.1 libgcc_s_soft.so.1
 else
 CROSS_COMPILER_DIR = $(shell dirname `which $(CROSS_COMPILE)gcc`)/../microblaze-unknown-linux-gnu
 LIBS              += ld.so.1
