@@ -79,7 +79,7 @@ ramfs:
 	[ -d $(BIN_DIR) ] || $(MKDIR) $(BIN_DIR)
 	[ -d $(RAMFS_DIR) ] || $(MKDIR) $(RAMFS_DIR)
 	for i in $(INITRAMFS_DIRS); do \
-	    [[ -d $(RAMFS_DIR)/$$i ]] || $(MKDIR) $(RAMFS_DIR)/$$i; \
+	    [ -d $(RAMFS_DIR)/$$i ] || $(MKDIR) $(RAMFS_DIR)/$$i; \
 	done
 	@$(MAKE) -C $(USR_DIR) install
 

@@ -28,9 +28,9 @@ install:
 	done
 	# install libs from compiler
 	for lib in $(LIBS); do \
-	    cp `readlink -f $(CROSS_COMPILER_DIR)/lib/$$lib` $(RAMFS_DIR)/lib/$$lib; \
+	    $(CP) `readlink -f $(CROSS_COMPILER_DIR)/lib/$$lib` $(RAMFS_DIR)/lib/$$lib; \
 	done
-	cp etc/* $(RAMFS_DIR)/etc
+	$(CP) etc/* $(RAMFS_DIR)/etc
 	find $(RAMFS_DIR)/lib -type f | xargs -r $(STRIP) -g
 
 clean:
