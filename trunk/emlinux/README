@@ -25,18 +25,13 @@ Building
 
 Download the kernel sources manually or rely on the build script.
 
-Select arch:
-    make menuconfig
-For build file system root tree:
-    make users
-For build linux kernel (only after "make users"):
-    make kernel
-For build images (only after "make kernel"):
-    make image
+For build images:
+    edit config.mk
+    make
 
 Notes
 -----
-    It's recommended to use patch-2.6.1.
+    Don't use patch-2.6, it has the bug #31669: file creation (http://savannah.gnu.org/bugs/?func=detailitem&item_id=31669)
 
 Please visit the official web page of EMBOX, for more information.
 The URL is <http://code.google.com/p/embox>.

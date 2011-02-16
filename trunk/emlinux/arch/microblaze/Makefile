@@ -15,7 +15,7 @@ emlinux.lds.o: emlinux.lds.S $(AUTOCONF)
 	    -E -C -P -DLINUXIMAGE="$(IMAGE)" $< -o $@
 
 image.ram: emlinux.lds.o boot.o
-	cp $(IMAGE) $(IMAGE_RAM)
+	$(CP) $(IMAGE) $(IMAGE_RAM)
 #	$(LD) -X -T emlinux.lds.o $(IMAGE) boot.o -o $(BIN_DIR)/$@
 
 image.rom:
