@@ -23,29 +23,19 @@ C_ENTRY(_start):
 	.balign 0x8
 	brai _hw_exception_handler
 
-
 	nop
 	nop
 	nop
 	nop
 
-
 	nop
 	nop
 	nop
 	nop
 
+	nop
+	nop
 
-	nop
-	nop
-#if 1
-	.balign 0x8
-	brai full_align_entry /*align 0x50*/
-	//brai _interrupt_handler
-	.balign 0x8
-	//brai _interrupt_handler
-	brai full_align_entry /*align 0x58*/
-#endif
 	.section ".text"
 
 C_ENTRY(_hardreset):
