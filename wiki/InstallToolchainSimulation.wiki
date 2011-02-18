@@ -125,6 +125,19 @@ qemu -m 256 -hda hd0.img -net nic,model=ne2k_pci -net tap,ifname=tap0,script=no
 /usr/sbin/openvpn --rmtun --dev tap0
 }}}
 
+Remote Debugging:
+ # Start qemu with the -s
+{{{
+qemu -s -kernel path/embox
+}}}
+ # Start GDB
+{{{
+gdb path/embox
+.
+.
+(gdb) target remote :1234
+}}}
+
 == Bochs ==
 
  # Create hd0.img (as stated above)
