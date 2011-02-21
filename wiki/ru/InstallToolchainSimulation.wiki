@@ -123,9 +123,9 @@ qemu -m 256 -hda hd0.img -net nic,model=ne2k_pci -net tap,ifname=tap0,script=no
 }}}
 
 Отладка с помощью GDB:
- # Запускаем qemu с ключём -s
+ # Запускаем qemu с ключями -s -S
 {{{
-qemu -s -kernel path/embox
+qemu -s -S -kernel path/embox
 }}}
  # Запускаем GDB
 {{{
@@ -133,6 +133,8 @@ gdb path/embox
 .
 .
 (gdb) target remote :1234
+(gdb) br foo
+(gdb) c
 }}}
 
 == Bochs ==                 

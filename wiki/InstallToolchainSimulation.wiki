@@ -126,9 +126,9 @@ qemu -m 256 -hda hd0.img -net nic,model=ne2k_pci -net tap,ifname=tap0,script=no
 }}}
 
 Remote Debugging:
- # Start qemu with the -s
+ # Start qemu with the -s -S
 {{{
-qemu -s -kernel path/embox
+qemu -s -S -kernel path/embox
 }}}
  # Start GDB
 {{{
@@ -136,6 +136,8 @@ gdb path/embox
 .
 .
 (gdb) target remote :1234
+(gdb) br foo
+(gdb) c
 }}}
 
 == Bochs ==
