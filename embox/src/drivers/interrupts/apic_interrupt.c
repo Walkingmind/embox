@@ -35,7 +35,7 @@ void interrupt_init(void) {
 
 	out8(NON_SPEC_EOI, PIC1_COMMAND);
 	out8(NON_SPEC_EOI, PIC2_COMMAND);
-	
+
 	apic_disable_all();
 }
 
@@ -53,6 +53,10 @@ void interrupt_disable(interrupt_nr_t int_nr) {
 	} else {
 		out8(in8(PIC1_DATA) | (1 << int_nr), PIC1_DATA);
 	}
+}
+
+void interrupt_force(interrupt_nr_t irq_num) {
+
 }
 
 void irqc_set_mask(__interrupt_mask_t mask) {
