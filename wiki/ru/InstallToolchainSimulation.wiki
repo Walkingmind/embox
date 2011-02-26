@@ -16,7 +16,7 @@
 
 Установить [http://wiki.qemu.org/Download QEMU]
 
-Установка GRUB на образ диска, используемый Qemu:
+=== Установка GRUB на образ диска, используемый Qemu ===
 
  # Создать образ диска (21 MB)
 {{{
@@ -101,8 +101,9 @@ qemu -kernel path/embox -m 256
     grub> boot
 }}}
 
-Эмуляция сети в QEMU через TAP интерфейс:
-{{{                         
+=== Эмуляция сети в QEMU через TAP интерфейс ===
+
+{{{
 /sbin/ifconfig eth0 down    
 /sbin/ifconfig eth0 0.0.0.0 promisc up
 /usr/sbin/openvpn --mktun --dev tap0 --user `id -un`
@@ -122,7 +123,20 @@ qemu -m 256 -hda hd0.img -net nic,model=ne2k_pci -net tap,ifname=tap0,script=no
 /usr/sbin/openvpn --rmtun --dev tap0
 }}}
 
-Отладка с помощью GDB:
+=== Эмуляция сети в QEMU через сокеты ===
+
+ # Загрузите [http://wiki.qemu.org/download/linux-0.2.img.bz2 образ linux диска]
+ # Запустите эмуляцию linux
+{{{                              
+qemu -hda linux-0.2.img -net nic,model=ne2k_pci,macaddr=AA:BB:CC:DD:EE:01 -net socket,listen=:1234
+}}}
+ # Запустите эмуляцию Embox
+{{{
+qemu -kernel build/base/bin/embox -net nic,model=ne2k_pci,macaddr=AA:BB:CC:DD:EE:02 -net socket,connect=127.0.0.1:1234
+}}}
+ # Каждый фрейм отправленный из Linux будет получен в Embox, и наоборот
+
+=== Отладка с помощью GDB ===
  # Запускаем qemu с ключями -s -S
 {{{
 qemu -s -S -kernel path/embox
