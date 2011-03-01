@@ -1,6 +1,6 @@
 
 /* Reserved by SPARC architecture traps */
-b boot_start; nop; nop; nop;  ! 00 reset trap 
+b boot_start; nop; nop; nop;  ! 00 reset trap
 SRMMU_TFAULT;                 ! 01 instruction_access_exception
 BAD_TRAP;                     ! 02 illegal_instruction
 BAD_TRAP;                     ! 03 priveleged_instruction
@@ -66,9 +66,9 @@ WEAK(0x7C); WEAK(0x7D); WEAK(0x7E); WEAK(0x7F); ! 7C - 7F undefined
 
 /* Software traps */
 SOFT_TRAP;  SOFT_TRAP;  SOFT_TRAP;              ! 80 - 82
-                                    SOFT_TRAP;  ! 83 TODO flush windows -- Eldar
+                                    TRAP_ENTRY(winflush_entry);  ! 83 TODO flush windows -- Eldar
 SOFT_TRAP;  SOFT_TRAP;  SOFT_TRAP;  SOFT_TRAP;  ! 84 - 87
-SOFT_TRAP;  SOFT_TRAP;  SOFT_TRAP;  SOFT_TRAP;  ! 88 - 8B 
+SOFT_TRAP;  SOFT_TRAP;  SOFT_TRAP;  SOFT_TRAP;  ! 88 - 8B
 SOFT_TRAP;  SOFT_TRAP;  SOFT_TRAP;  SOFT_TRAP;  ! 8C - 8F
 SOFT_TRAP;  SOFT_TRAP;  SOFT_TRAP;  SOFT_TRAP;  ! 90 - 93
 SOFT_TRAP;  SOFT_TRAP;  SOFT_TRAP;  SOFT_TRAP;  ! 94 - 97

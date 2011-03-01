@@ -26,9 +26,9 @@
  */
 
 #if 0
-#define MMU_GTABLE_MASK         __MMU_GTABLE_MASK 
+#define MMU_GTABLE_MASK         __MMU_GTABLE_MASK
 #define MMU_GTABLE_MASK_OFFSET  __MMU_GTABLE_MASK_OFFSET
-#define MMU_MTABLE_MASK		__MMU_MTABLE_MASK        
+#define MMU_MTABLE_MASK		__MMU_MTABLE_MASK
 #define MMU_MTABLE_MASK_OFFSET  __MMU_MTABLE_MASK_OFFSET
 #define MMU_PTABLE_MASK         __MMU_PTABLE_MASK
 #define MMU_PTABLE_MASK_OFFSET  __MMU_PTABLE_MASK_OFFSET
@@ -45,16 +45,19 @@
 #define __mmu_mask_offset_calc(mask) ((unsigned long) (blog2(mask & (~mask + 1))))
 
 #define MMU_PAGE_MASK		(MMU_PAGE_SIZE - 1)
-#define MMU_PTABLE_MASK		__mmu_mask_calc(MMU_PAGE_SIZE, MMU_PTABLE_SIZE )
-//#define MMU_PTABLE_MASK_OFFSET	__mmu_mask_offset_calc(MMU_PTABLE_MASK)	
-#define MMU_MTABLE_MASK		__mmu_mask_calc(MMU_PTABLE_SIZE * MMU_PAGE_SIZE, MMU_MTABLE_SIZE )
+#define MMU_PTABLE_MASK		__mmu_mask_calc(MMU_PAGE_SIZE, MMU_PTABLE_SIZE)
+//#define MMU_PTABLE_MASK_OFFSET	__mmu_mask_offset_calc(MMU_PTABLE_MASK)
+#define MMU_MTABLE_MASK		__mmu_mask_calc( \
+			MMU_PTABLE_SIZE * MMU_PAGE_SIZE, MMU_MTABLE_SIZE)
 //#define MMU_MTABLE_MASK_OFFSET  __mmu_mask_offset_calc(MMU_MTABLE_MASK)
-#define MMU_GTABLE_MASK		__mmu_mask_calc(MMU_MTABLE_SIZE * MMU_PTABLE_SIZE * MMU_PAGE_SIZE, MMU_GTABLE_SIZE)
+#define MMU_GTABLE_MASK		__mmu_mask_calc( \
+			MMU_MTABLE_SIZE * MMU_PTABLE_SIZE * MMU_PAGE_SIZE, \
+			MMU_GTABLE_SIZE)
 //#define MMU_GTABLE_MASK_OFFSET  __mmu_mask_offset_calc(MMU_GTABLE_MASK)
 
 
 /** Error code for MMU module operation*/
-#define MMU_RRTURN_ERROR     (mmu_ctx)(-1)
+#define MMU_RRTURN_ERROR     (mmu_ctx) (-1)
 
 /**
  * Setup pointed MMU environment to system.
@@ -136,7 +139,7 @@ extern void mmu_delete_context(mmu_ctx_t ctx);
  * Set page entry in pte
  *
  * @param ptep - address of entry in table
- * @param pteval - formated value to write in table 
+ * @param pteval - formated value to write in table
  */
 extern void mmu_set_pte(mmu_pte_t *ptep, mmu_pte_t pteval);
 
@@ -179,7 +182,7 @@ extern mmu_pmd_t *mmu_pgd_get(mmu_pgd_t * pgdp);
 extern mmu_pte_t *mmu_pmd_get(mmu_pmd_t * pmdp);
 
 /**
- * Format page entry with specified address and flags 
+ * Format page entry with specified address and flags
  *
  * @param addr - physical address
  * @param flags - flags of entry
@@ -189,30 +192,30 @@ extern mmu_pte_t mmu_pte_format(__mmu_paddr_t addr, __mmu_page_flags_t flags);
 /**
  * Get physical address from page entry
  *
- * @param pte - page entry 
+ * @param pte - page entry
  */
 extern paddr_t mmu_pte_extract(mmu_pte_t pte);
 
 /**
  * Get flags from page entry
  *
- * @param pte - page entry 
+ * @param pte - page entry
  */
 extern mmu_page_flags_t mmu_flags_extract(mmu_pte_t pte);
 
 /**
  * Checks if the pte is pte.
- * Some archs allow using pte in pmd or pgd 
+ * Some archs allow using pte in pmd or pgd
  *
- * @param pte - page entry 
+ * @param pte - page entry
  */
 extern int mmu_is_pte(mmu_pte_t pte);
 
 /**
  * Checks if the pte is pte.
- * Some archs allow using pte in pmd or pgd 
+ * Some archs allow using pte in pmd or pgd
  *
- * @param pte - page entry 
+ * @param pte - page entry
  */
 extern int mmu_valid_entry(mmu_pte_t pte);
 
@@ -220,7 +223,8 @@ extern int mmu_valid_entry(mmu_pte_t pte);
  * Get root pointer of context
  *
  * @param ctx - context
- * @retval pointer to first pgd of memory 
+ * @retval pointer to first pgd of memory
  */
 extern mmu_pgd_t * mmu_get_root(mmu_ctx_t ctx);
+
 #endif /* MMU_CORE_H_ */

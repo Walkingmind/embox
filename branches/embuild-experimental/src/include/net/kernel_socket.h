@@ -18,7 +18,7 @@
  *
  * @param sock socket to close
  */
-extern void kernel_sock_release(struct socket *sock);
+extern int kernel_sock_release(struct socket *sock);
 
 /**
  * Initialize kernel sockets.
@@ -33,7 +33,7 @@ extern int kernel_sock_init(void);
  * @param protocol a particular protocol to be used with the socket.
  * @param res pointer to the socket structure
  */
-extern int sock_create_kern(int family, int type, int protocol, 
+extern int sock_create_kern(int family, int type, int protocol,
 					struct socket **res);
 
 /**
@@ -84,28 +84,28 @@ extern int kernel_connect(struct socket *sock, const struct sockaddr *addr,
  * Get socket name.
  * Note: not realized.
  */
-extern int kernel_getsockname(struct socket *sock, struct sockaddr *addr, 
+extern int kernel_getsockname(struct socket *sock, struct sockaddr *addr,
 					int *addrlen);
 
 /**
  * Get name of connected peer socket.
  * Note: not realized.
  */
-extern int kernel_getpeername(struct socket *sock, struct sockaddr *addr, 
+extern int kernel_getpeername(struct socket *sock, struct sockaddr *addr,
 					int *addrlen);
 
 /**
  * Get options on socket.
  * Note: not realized.
  */
-extern int kernel_getsockopt(struct socket *sock, int level, int optname, 
+extern int kernel_getsockopt(struct socket *sock, int level, int optname,
 					char *optval, int optlen);
 
 /**
  * Set options on socket.
  * Note: not realized.
  */
-extern int kernel_setsockopt(struct socket *sock, int level, int optname, 
+extern int kernel_setsockopt(struct socket *sock, int level, int optname,
 					char *optval, int optlen);
 
 /**
@@ -117,7 +117,7 @@ extern int kernel_setsockopt(struct socket *sock, int level, int optname,
  * @param msg
  * @param size
  */
-extern int kernel_sendmsg(struct kiocb *iocb, struct socket *sock, 
+extern int kernel_sendmsg(struct kiocb *iocb, struct socket *sock,
 				struct msghdr *msg, size_t size);
 
 /**
@@ -129,7 +129,7 @@ extern int kernel_sendmsg(struct kiocb *iocb, struct socket *sock,
  * @param msg
  * @param size
  */
-extern int kernel_recvmsg(struct kiocb *iocb, struct socket *sock, 
+extern int kernel_recvmsg(struct kiocb *iocb, struct socket *sock,
 				struct msghdr *msg, size_t size, int flags);
 
 #if 0

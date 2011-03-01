@@ -1,9 +1,13 @@
-/* @file
- * @brief USART Controller interface 
+/**
+ * @file
+ * @brief USART Controller interface
  *
  * @date 26.09.2010
- * @author Anton Kozlov 
+ * @author Anton Kozlov
  */
+
+#ifndef AT91SAM7_US_H_
+#define AT91SAM7_US_H_
 
 #include <types.h>
 
@@ -19,12 +23,12 @@ typedef struct _AT91S_USART {
 	AT91_REG	 US_BRGR; 	// Baud Rate Generator Register
 	AT91_REG	 US_RTOR; 	// Receiver Time-out Register
 	AT91_REG	 US_TTGR; 	// Transmitter Time-guard Register
-	AT91_REG	 Reserved0[5]; 	// 
+	AT91_REG	 Reserved0[5]; 	//
 	AT91_REG	 US_FIDI; 	// FI_DI_Ratio Register
 	AT91_REG	 US_NER; 	// Nb Errors Register
-	AT91_REG	 Reserved1[1]; 	// 
+	AT91_REG	 Reserved1[1]; 	//
 	AT91_REG	 US_IF; 	// IRDA_FILTER Register
-	AT91_REG	 Reserved2[44]; 	// 
+	AT91_REG	 Reserved2[44]; 	//
 	AT91_REG	 US_RPR; 	// Receive Pointer Register
 	AT91_REG	 US_RCR; 	// Receive Counter Register
 	AT91_REG	 US_TPR; 	// Transmit Pointer Register
@@ -38,7 +42,7 @@ typedef struct _AT91S_USART {
 
 } AT91S_USART, *AT91PS_USART;
 
-// -------- US_CR : (USART Offset: 0x0) Debug Unit Control Register -------- 
+// -------- US_CR : (USART Offset: 0x0) Debug Unit Control Register --------
 #define AT91C_US_STTBRK       ((unsigned int) 0x1 <<  9) // (USART) Start Break
 #define AT91C_US_STPBRK       ((unsigned int) 0x1 << 10) // (USART) Stop Break
 #define AT91C_US_STTTO        ((unsigned int) 0x1 << 11) // (USART) Start Time-out
@@ -50,7 +54,7 @@ typedef struct _AT91S_USART {
 #define AT91C_US_DTRDIS       ((unsigned int) 0x1 << 17) // (USART) Data Terminal ready Disable
 #define AT91C_US_RTSEN        ((unsigned int) 0x1 << 18) // (USART) Request to Send enable
 #define AT91C_US_RTSDIS       ((unsigned int) 0x1 << 19) // (USART) Request to Send Disable
-// -------- US_MR : (USART Offset: 0x4) Debug Unit Mode Register -------- 
+// -------- US_MR : (USART Offset: 0x4) Debug Unit Mode Register --------
 #define AT91C_US_USMODE       ((unsigned int) 0xF <<  0) // (USART) Usart mode
 #define 	AT91C_US_USMODE_NORMAL               ((unsigned int) 0x0) // (USART) Normal
 #define 	AT91C_US_USMODE_RS485                ((unsigned int) 0x1) // (USART) RS485
@@ -84,7 +88,7 @@ typedef struct _AT91S_USART {
 #define AT91C_US_MAX_ITER     ((unsigned int) 0x1 << 24) // (USART) Number of Repetitions
 #define AT91C_US_FILTER       ((unsigned int) 0x1 << 28) // (USART) Receive Line Filter
 
-// -------- US_IER : (USART Offset: 0x8) Debug Unit Interrupt Enable Register -------- 
+// -------- US_IER : (USART Offset: 0x8) Debug Unit Interrupt Enable Register --------
 #define AT91C_US_RXBRK        ((unsigned int) 0x1 <<  2) // (USART) Break Received/End of Break
 #define AT91C_US_TIMEOUT      ((unsigned int) 0x1 <<  8) // (USART) Receiver Time-out
 #define AT91C_US_ITERATION    ((unsigned int) 0x1 << 10) // (USART) Max number of Repetitions Reached
@@ -93,15 +97,15 @@ typedef struct _AT91S_USART {
 #define AT91C_US_DSRIC        ((unsigned int) 0x1 << 17) // (USART) Data Set Ready Input Change Flag
 #define AT91C_US_DCDIC        ((unsigned int) 0x1 << 18) // (USART) Data Carrier Flag
 #define AT91C_US_CTSIC        ((unsigned int) 0x1 << 19) // (USART) Clear To Send Input Change Flag
-// -------- US_IDR : (USART Offset: 0xc) Debug Unit Interrupt Disable Register -------- 
-// -------- US_IMR : (USART Offset: 0x10) Debug Unit Interrupt Mask Register -------- 
-// -------- US_CSR : (USART Offset: 0x14) Debug Unit Channel Status Register -------- 
+// -------- US_IDR : (USART Offset: 0xc) Debug Unit Interrupt Disable Register --------
+// -------- US_IMR : (USART Offset: 0x10) Debug Unit Interrupt Mask Register --------
+// -------- US_CSR : (USART Offset: 0x14) Debug Unit Channel Status Register --------
 #define AT91C_US_RI           ((unsigned int) 0x1 << 20) // (USART) Image of RI Input
 #define AT91C_US_DSR          ((unsigned int) 0x1 << 21) // (USART) Image of DSR Input
 #define AT91C_US_DCD          ((unsigned int) 0x1 << 22) // (USART) Image of DCD Input
 #define AT91C_US_CTS          ((unsigned int) 0x1 << 23) // (USART) Image of CTS Input
 
-// ========== Register definition for PDC_US1 peripheral ========== 
+// ========== Register definition for PDC_US1 peripheral ==========
 #define AT91C_US1_RNCR  ((AT91_REG *) 	0xFFFC4114) // (PDC_US1) Receive Next Counter Register
 #define AT91C_US1_PTCR  ((AT91_REG *) 	0xFFFC4120) // (PDC_US1) PDC Transfer Control Register
 #define AT91C_US1_TCR   ((AT91_REG *) 	0xFFFC410C) // (PDC_US1) Transmit Counter Register
@@ -112,7 +116,7 @@ typedef struct _AT91S_USART {
 #define AT91C_US1_RPR   ((AT91_REG *) 	0xFFFC4100) // (PDC_US1) Receive Pointer Register
 #define AT91C_US1_TNCR  ((AT91_REG *) 	0xFFFC411C) // (PDC_US1) Transmit Next Counter Register
 #define AT91C_US1_TPR   ((AT91_REG *) 	0xFFFC4108) // (PDC_US1) Transmit Pointer Register
-// ========== Register definition for US1 peripheral ========== 
+// ========== Register definition for US1 peripheral ==========
 #define AT91C_US1_IF    ((AT91_REG *) 	0xFFFC404C) // (US1) IRDA_FILTER Register
 #define AT91C_US1_NER   ((AT91_REG *) 	0xFFFC4044) // (US1) Nb Errors Register
 #define AT91C_US1_RTOR  ((AT91_REG *) 	0xFFFC4024) // (US1) Receiver Time-out Register
@@ -127,7 +131,7 @@ typedef struct _AT91S_USART {
 #define AT91C_US1_FIDI  ((AT91_REG *) 	0xFFFC4040) // (US1) FI_DI_Ratio Register
 #define AT91C_US1_CR    ((AT91_REG *) 	0xFFFC4000) // (US1) Control Register
 #define AT91C_US1_MR    ((AT91_REG *) 	0xFFFC4004) // (US1) Mode Register
-// ========== Register definition for PDC_US0 peripheral ========== 
+// ========== Register definition for PDC_US0 peripheral ==========
 #define AT91C_US0_TNPR  ((AT91_REG *) 	0xFFFC0118) // (PDC_US0) Transmit Next Pointer Register
 #define AT91C_US0_RNPR  ((AT91_REG *) 	0xFFFC0110) // (PDC_US0) Receive Next Pointer Register
 #define AT91C_US0_TCR   ((AT91_REG *) 	0xFFFC010C) // (PDC_US0) Transmit Counter Register
@@ -138,7 +142,7 @@ typedef struct _AT91S_USART {
 #define AT91C_US0_RCR   ((AT91_REG *) 	0xFFFC0104) // (PDC_US0) Receive Counter Register
 #define AT91C_US0_RPR   ((AT91_REG *) 	0xFFFC0100) // (PDC_US0) Receive Pointer Register
 #define AT91C_US0_RNCR  ((AT91_REG *) 	0xFFFC0114) // (PDC_US0) Receive Next Counter Register
-// ========== Register definition for US0 peripheral ========== 
+// ========== Register definition for US0 peripheral ==========
 #define AT91C_US0_BRGR  ((AT91_REG *) 	0xFFFC0020) // (US0) Baud Rate Generator Register
 #define AT91C_US0_NER   ((AT91_REG *) 	0xFFFC0044) // (US0) Nb Errors Register
 #define AT91C_US0_CR    ((AT91_REG *) 	0xFFFC0000) // (US0) Control Register
@@ -164,11 +168,11 @@ typedef struct _AT91S_DBGU {
 	AT91_REG	 DBGU_RHR; 	// Receiver Holding Register
 	AT91_REG	 DBGU_THR; 	// Transmitter Holding Register
 	AT91_REG	 DBGU_BRGR; 	// Baud Rate Generator Register
-	AT91_REG	 Reserved0[7]; 	// 
+	AT91_REG	 Reserved0[7]; 	//
 	AT91_REG	 DBGU_CIDR; 	// Chip ID Register
 	AT91_REG	 DBGU_EXID; 	// Chip ID Extension Register
 	AT91_REG	 DBGU_FNTR; 	// Force NTRST Register
-	AT91_REG	 Reserved1[45]; 	// 
+	AT91_REG	 Reserved1[45]; 	//
 	AT91_REG	 DBGU_RPR; 	// Receive Pointer Register
 	AT91_REG	 DBGU_RCR; 	// Receive Counter Register
 	AT91_REG	 DBGU_TPR; 	// Transmit Pointer Register
@@ -181,7 +185,7 @@ typedef struct _AT91S_DBGU {
 	AT91_REG	 DBGU_PTSR; 	// PDC Transfer Status Register
 } AT91S_DBGU, *AT91PS_DBGU;
 
-// -------- DBGU_CR : (DBGU Offset: 0x0) Debug Unit Control Register -------- 
+// -------- DBGU_CR : (DBGU Offset: 0x0) Debug Unit Control Register --------
 #define AT91C_US_RSTRX        ((unsigned int) 0x1 <<  2) // (DBGU) Reset Receiver
 #define AT91C_US_RSTTX        ((unsigned int) 0x1 <<  3) // (DBGU) Reset Transmitter
 #define AT91C_US_RXEN         ((unsigned int) 0x1 <<  4) // (DBGU) Receiver Enable
@@ -189,7 +193,7 @@ typedef struct _AT91S_DBGU {
 #define AT91C_US_TXEN         ((unsigned int) 0x1 <<  6) // (DBGU) Transmitter Enable
 #define AT91C_US_TXDIS        ((unsigned int) 0x1 <<  7) // (DBGU) Transmitter Disable
 #define AT91C_US_RSTSTA       ((unsigned int) 0x1 <<  8) // (DBGU) Reset Status Bits
-// -------- DBGU_MR : (DBGU Offset: 0x4) Debug Unit Mode Register -------- 
+// -------- DBGU_MR : (DBGU Offset: 0x4) Debug Unit Mode Register --------
 #define AT91C_US_PAR          ((unsigned int) 0x7 <<  9) // (DBGU) Parity type
 #define 	AT91C_US_PAR_EVEN                 ((unsigned int) 0x0 <<  9) // (DBGU) Even Parity
 #define 	AT91C_US_PAR_ODD                  ((unsigned int) 0x1 <<  9) // (DBGU) Odd Parity
@@ -202,7 +206,7 @@ typedef struct _AT91S_DBGU {
 #define 	AT91C_US_CHMODE_AUTO                 ((unsigned int) 0x1 << 14) // (DBGU) Automatic Echo: Receiver Data Input is connected to the TXD pin.
 #define 	AT91C_US_CHMODE_LOCAL                ((unsigned int) 0x2 << 14) // (DBGU) Local Loopback: Transmitter Output Signal is connected to Receiver Input Signal.
 #define 	AT91C_US_CHMODE_REMOTE               ((unsigned int) 0x3 << 14) // (DBGU) Remote Loopback: RXD pin is internally connected to TXD pin.
-// -------- DBGU_IER : (DBGU Offset: 0x8) Debug Unit Interrupt Enable Register -------- 
+// -------- DBGU_IER : (DBGU Offset: 0x8) Debug Unit Interrupt Enable Register --------
 #define AT91C_US_RXRDY        ((unsigned int) 0x1 <<  0) // (DBGU) RXRDY Interrupt
 #define AT91C_US_TXRDY        ((unsigned int) 0x1 <<  1) // (DBGU) TXRDY Interrupt
 #define AT91C_US_ENDRX        ((unsigned int) 0x1 <<  3) // (DBGU) End of Receive Transfer Interrupt
@@ -215,8 +219,11 @@ typedef struct _AT91S_DBGU {
 #define AT91C_US_RXBUFF       ((unsigned int) 0x1 << 12) // (DBGU) RXBUFF Interrupt
 #define AT91C_US_COMM_TX      ((unsigned int) 0x1 << 30) // (DBGU) COMM_TX Interrupt
 #define AT91C_US_COMM_RX      ((unsigned int) 0x1 << 31) // (DBGU) COMM_RX Interrupt
-// -------- DBGU_IDR : (DBGU Offset: 0xc) Debug Unit Interrupt Disable Register -------- 
-// -------- DBGU_IMR : (DBGU Offset: 0x10) Debug Unit Interrupt Mask Register -------- 
-// -------- DBGU_CSR : (DBGU Offset: 0x14) Debug Unit Channel Status Register -------- 
-// -------- DBGU_FNTR : (DBGU Offset: 0x48) Debug Unit FORCE_NTRST Register -------- 
+// -------- DBGU_IDR : (DBGU Offset: 0xc) Debug Unit Interrupt Disable Register --------
+// -------- DBGU_IMR : (DBGU Offset: 0x10) Debug Unit Interrupt Mask Register --------
+// -------- DBGU_CSR : (DBGU Offset: 0x14) Debug Unit Channel Status Register --------
+// -------- DBGU_FNTR : (DBGU Offset: 0x48) Debug Unit FORCE_NTRST Register --------
 #define AT91C_US_FORCE_NTRST  ((unsigned int) 0x1 <<  0) // (DBGU) Force NTRST in JTAG
+
+#endif /* AT91SAM7_US_H_ */
+

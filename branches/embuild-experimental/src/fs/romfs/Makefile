@@ -6,8 +6,10 @@ $_DEPS-romfs += core
 
 $_SRCS-partition += partition.c
 $_DEPS-partition += core
-$_DEPS-partition += embox.driver.flash 
+$_DEPS-partition += embox.driver.flash
 
+#describe special section
+ifdef CONFIG_ROMFS_CPIO
 
 $_LDFLAGS += $($_lds)
 
@@ -19,3 +21,5 @@ $($_lds): $($_SELFDIR)/romfs.lds.S $(AUTOCONF_DIR)/config.lds.h
 		-imacros $(AUTOCONF_DIR)/config.lds.h -MMD -MT $@ -MF $@.d -o $@ $<
 
 -include $($_lds).d
+endif
+

@@ -60,7 +60,7 @@ static inline int is_valid_ether_addr(const uint8_t *addr) {
 
 /**
  * Functions provided by eth.c
- */ 
+ */
 
 /**
  * Extract hardware address from packet.

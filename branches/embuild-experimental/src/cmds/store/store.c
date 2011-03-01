@@ -49,7 +49,7 @@ static int store_area(uint32_t src_addr, uint32_t start_block_num, int numwords)
 		TRACE("program\n");
 		for (i = 0; i < curr_block_size / sizeof(uint32_t); i++) {
 			flash_status = PROGRAM_FLASH(flash_devices_table[0],
-					block_addr + sizeof(uint32_t) * i, *((uint32_t *)curr_addr + i));
+				block_addr + sizeof(uint32_t) * i, *((uint32_t *) curr_addr + i));
 			if (--numwords <= 0) {
 				break;
 			}
@@ -113,7 +113,7 @@ static int exec(int argsc, char **argsv) {
 		default:
 			return 0;
 		}
-	} while(-1 != nextOption);
+	} while (-1 != nextOption);
 
 	store_area(src_addr, start_block_num, numwords);
 

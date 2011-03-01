@@ -2,7 +2,7 @@
  * @file
  *
  * @date 28.03.2010
- * @author Anton Kozlov 
+ * @author Anton Kozlov
  */
 
 /**
@@ -17,6 +17,8 @@
  * 0x1C - FIQ (_fast IRQ)
  */
 
+#include <asm/modes.h>
+
 .weak hardware_init_hook
 .weak software_init_hook
 .weak kernel_start
@@ -29,60 +31,48 @@
 .section .trap_table, "x"
 /* trap table
  * this code specific for ARM7TDMI cores
- * 
+ *
  * actually, this is general for all ARM cores
  */
 start:
     ldr pc, reset_handler_addr
     ldr pc, undef_handler_addr
-    ldr pc, SWI_handler_addr 
+    ldr pc, SWI_handler_addr
     ldr pc, prefetch_abt_handler_addr
     ldr pc, data_abt_handler_addr
     nop /*bad exception not_used:		.word not_used*/
     ldr pc, IRQ_handler_addr
     ldr pc, FIQ_handler_addr
 
-reset_handler_addr: 
+reset_handler_addr:
     .word reset_handler
-undef_handler_addr: 
+undef_handler_addr:
     .word undef_handler
-SWI_handler_addr: 
-    .word SWI_handler 
-prefetch_abt_handler_addr: 
+SWI_handler_addr:
+    .word SWI_handler
+prefetch_abt_handler_addr:
     .word prefetch_abt_handler
-data_abt_handler_addr: 
+data_abt_handler_addr:
     .word data_abt_handler
-IRQ_handler_addr: 
+IRQ_handler_addr:
     .word IRQ_handler
-FIQ_handler_addr: 
+FIQ_handler_addr:
     .word FIQ_handler
 
 /** stubs */
-undef_handler: 
+undef_handler:
     B undef_handler
-prefetch_abt_handler: 
+prefetch_abt_handler:
     B prefetch_abt_handler
-data_abt_handler: 
+data_abt_handler:
     B data_abt_handler
-FIQ_handler: 
+FIQ_handler:
     B FIQ_handler
-
-.EQU ARM_MODE_FIQ, 0x11
-.EQU ARM_MODE_IRQ, 0x12
-.EQU ARM_MODE_SVC, 0x13
-.EQU ARM_MODE_ABT, 0x17
-.EQU ARM_MODE_UND, 0x1B
-.EQU ARM_MODE_USR, 0x10
-
-/** disable IRQ, FIQ */
-.EQU I_BIT, 0x80
-.EQU F_BIT, 0x40
-
 
 .text
 /** initialize stack */
 .RAM_TOP:
-    .word _stack_top 
+    .word _stack_top
 reset_handler:
     msr CPSR_c, #ARM_MODE_SVC | I_BIT | F_BIT
     ldr	    r0, =0
@@ -95,13 +85,13 @@ loop_excpt:
 
     ldr r0, .RAM_TOP
 
-    msr CPSR_c, #ARM_MODE_FIQ | I_BIT | F_BIT
-    mov sp, r0
-    sub r0, r0, #CONFIG_ARM_FIQ_STACK_SIZE
-
     msr CPSR_c, #ARM_MODE_IRQ | I_BIT | F_BIT
     mov sp, r0
     sub r0, r0, #CONFIG_ARM_IRQ_STACK_SIZE
+
+    msr CPSR_c, #ARM_MODE_FIQ | I_BIT | F_BIT
+    mov sp, r0
+    sub r0, r0, #CONFIG_ARM_FIQ_STACK_SIZE
 
     msr CPSR_c, #ARM_MODE_SVC | I_BIT | F_BIT
     mov sp, r0
@@ -115,7 +105,7 @@ loop_excpt:
     mov sp, r0
     sub r1, r0, #CONFIG_ARM_UND_STACK_SIZE
 
-    msr CPSR_c, #ARM_MODE_SVC | I_BIT | F_BIT 
+    msr CPSR_c, #ARM_MODE_SYS | I_BIT | F_BIT
     mov sp, r0
 
 /** initialize memory */
@@ -157,16 +147,15 @@ loop_cp_reloc:
 init_hook:
     nop
     ldr     r0, =hardware_init_hook
-    blne    hardware_init_hook    
+    blne    hardware_init_hook
 
     ldr     r0, =software_init_hook
     blne    software_init_hook
-	
-    ldr	    lr, =kernel_start
-    push    {lr}
+
 /* enabling interrupts */
-    msr	    CPSR_c, #ARM_MODE_SVC 
+    msr	    CPSR_c, #ARM_MODE_SVC
+
 /** kernel start */
-    ldr	    pc, =kernel_start
+	bl		kernel_start
 die:
     b 	    die

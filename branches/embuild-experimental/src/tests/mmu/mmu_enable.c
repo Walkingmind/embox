@@ -18,19 +18,18 @@
 #include <hal/mm/mmu_core.h>
 #include <hal/test/mmu_core.h>
 
-/* declare test in system */
 EMBOX_TEST(run);
 
 /* starting function for test */
-static int run() {
+static int run(void) {
 	extern char _text_start, __stack, _data_start;
 	mmu_env_t prev_mmu_env;
 
 	mmu_save_env(&prev_mmu_env);
 	mmu_set_env(testmmu_env());
 
-	printf("\n\nGTABLE MASK %8x \nMTABLE MASK %8x\nPTABLE_MASK %8x\n\n",
-			MMU_GTABLE_MASK, MMU_MTABLE_MASK, MMU_PTABLE_MASK); 
+	printf("\n\nGTABLE MASK %8lx \nMTABLE MASK %8lx\nPTABLE_MASK %8lx\n\n",
+			MMU_GTABLE_MASK, MMU_MTABLE_MASK, MMU_PTABLE_MASK);
 	/* map one to one section text and may be whole image with stack */
 	mmu_map_region((mmu_ctx_t) 0, (uint32_t) &_text_start,
 		(uint32_t) &_text_start, 0x1000000, MMU_PAGE_CACHEABLE
@@ -45,6 +44,6 @@ static int run() {
 
 	mmu_on();
 	mmu_restore_env(&prev_mmu_env);
-	
+
 	return 0;
 }

@@ -1,5 +1,6 @@
 /**
  * @file
+ * @brief Text and graphics output to the LCD display.
  *
  * @date 09.10.10
  * @author Nikolay Korotky
@@ -8,34 +9,37 @@
 #include <embox/unit.h>
 #include <linux/init.h>
 #include <hal/reg.h>
+#include <string.h>
 #include <drivers/at91sam7s256.h>
 #include <drivers/lcd.h>
-#include <string.h>
 
-EMBOX_UNIT_INIT(lcd_init);
+EMBOX_UNIT_INIT(unit_lcd_init);
 
 #define CS_PIN  (1<<10)
 #define CD_PIN  (1<<12)
 
 __u8 mode = 0xff;
 
-__u8 display_buffer[NXT_LCD_DEPTH+1][NXT_LCD_WIDTH];
+__u8 display_buffer[NXT_LCD_DEPTH + 1][NXT_LCD_WIDTH];
 
-static void spi_set_mode(__u8 m) {   
+static void spi_set_mode(__u8 m) {
 	__u32 status;
 
 	/* nothing to do if we are already in the correct mode */
-	if (m == mode) return;
+	if (m == mode) {
+		return;
+	}
 
 	/* Wait until all bytes have been sent */
 	do {
-		status = *AT91C_SPI_SR;
+		status = REG_LOAD(AT91C_SPI_SR);
 	} while (!(status & 0x200));
 	/* Set command or data mode */
-	if (m)
+	if (m) {
 		REG_STORE(AT91C_PIOA_SODR, CD_PIN);
-	else
+	} else {
 		REG_STORE(AT91C_PIOA_CODR, CD_PIN);
+	}
 	/* remember the current mode */
 	mode = m;
 }
@@ -43,7 +47,7 @@ static void spi_set_mode(__u8 m) {
 static void nxt_spi_write(__u32 CD, const __u8 *data, __u32 nBytes) {
 	__u32 status;
 	__u32 cd_mask = (CD ? 0x100 : 0);
-  
+
 	spi_set_mode(CD);
 	while (nBytes) {
 		REG_STORE(AT91C_SPI_TDR, (*data | cd_mask));
@@ -51,9 +55,8 @@ static void nxt_spi_write(__u32 CD, const __u8 *data, __u32 nBytes) {
 		nBytes--;
 		/* Wait until byte sent */
 		do {
-			status = *AT91C_SPI_SR;
+			status = REG_LOAD(AT91C_SPI_SR);
 		} while (!(status & 0x200));
-  
 	}
 }
 
@@ -136,11 +139,11 @@ void nxt_lcd_set_all_pixels_on(__u32 on) {
 static void nxt_lcd_power_up(void) {
 	//sleep(20);
 	int i = 0;
-	while(i<10000) {i++;}
+	while (i<10000) {i++;}
 	nxt_lcd_reset();
 	//sleep(20);
 	i = 0;
-	while(i<10000) {i++;}
+	while (i<10000) {i++;}
 	nxt_lcd_set_multiplex_rate(3);
 	nxt_lcd_set_bias_ratio(3);
 	nxt_lcd_set_pot(0x60);
@@ -157,7 +160,7 @@ static void nxt_lcd_power_up(void) {
 
 void nxt_lcd_force_update(void) {
 	int i;
-	__u8 *disp = (__u8*)display_buffer;
+	__u8 *disp = (__u8*) display_buffer;
 	REG_STORE(AT91C_SPI_IER, AT91C_SPI_ENDTX);
 
 	for (i = 0; i < NXT_LCD_DEPTH; i++) {
@@ -168,13 +171,13 @@ void nxt_lcd_force_update(void) {
 	}
 }
 
-static int __init lcd_init(void) {
-	REG_STORE(AT91C_PMC_PCER, (1L << AT91C_ID_SPI)); /* Enable MCK clock     */
+int __init lcd_init(void) {
+	REG_STORE(AT91C_PMC_PCER, (1L << AT91C_ID_SPI)); /* Enable MCK clock */
 	REG_STORE(AT91C_PIOA_PER, AT91C_PIO_PA12); /*EnableA0onPA12*/
 	REG_STORE(AT91C_PIOA_OER, AT91C_PIO_PA12);
 	REG_STORE(AT91C_PIOA_CODR, AT91C_PIO_PA12);
 	REG_STORE(AT91C_PIOA_PDR, AT91C_PA14_SPCK); /*EnableSPCKonPA14*/
-	
+
 	REG_STORE(AT91C_PIOA_ASR, AT91C_PA14_SPCK);
 	REG_STORE(AT91C_PIOA_ODR, AT91C_PA14_SPCK);
 	REG_STORE(AT91C_PIOA_OWER, AT91C_PA14_SPCK);
@@ -184,7 +187,7 @@ static int __init lcd_init(void) {
 	REG_STORE(AT91C_PIOA_CODR, AT91C_PA14_SPCK);
 	REG_STORE(AT91C_PIOA_IDR, AT91C_PA14_SPCK);
 	REG_STORE(AT91C_PIOA_PDR, AT91C_PA13_MOSI); /*EnablemosionPA13*/
-	
+
 	REG_STORE(AT91C_PIOA_ASR, AT91C_PA13_MOSI);
 	REG_STORE(AT91C_PIOA_ODR, AT91C_PA13_MOSI);
 	REG_STORE(AT91C_PIOA_OWER, AT91C_PA13_MOSI);
@@ -194,7 +197,7 @@ static int __init lcd_init(void) {
 	REG_STORE(AT91C_PIOA_CODR, AT91C_PA13_MOSI);
 	REG_STORE(AT91C_PIOA_IDR, AT91C_PA13_MOSI);
 	REG_STORE(AT91C_PIOA_PDR, AT91C_PA10_NPCS2); /*Enablenpcs0onPA10*/
-	
+
 	REG_STORE(AT91C_PIOA_BSR, AT91C_PA10_NPCS2);
 	REG_STORE(AT91C_PIOA_ODR, AT91C_PA10_NPCS2);
 	REG_STORE(AT91C_PIOA_OWER, AT91C_PA10_NPCS2);
@@ -203,7 +206,7 @@ static int __init lcd_init(void) {
 	REG_STORE(AT91C_PIOA_IFDR, AT91C_PA10_NPCS2);
 	REG_STORE(AT91C_PIOA_CODR, AT91C_PA10_NPCS2);
 	REG_STORE(AT91C_PIOA_IDR, AT91C_PA10_NPCS2);
-	
+
 	REG_STORE(AT91C_SPI_CR, AT91C_SPI_SWRST);/*Softreset*/
 	REG_STORE(AT91C_SPI_CR, AT91C_SPI_SPIEN);/*Enablespi*/
 	REG_STORE(AT91C_SPI_MR, AT91C_SPI_MSTR|AT91C_SPI_MODFDIS | (0xB<<16));
@@ -214,4 +217,7 @@ static int __init lcd_init(void) {
 	return 0;
 }
 
+static int unit_lcd_init(void) {
+	return lcd_init();
+}
 

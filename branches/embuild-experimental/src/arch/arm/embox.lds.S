@@ -22,11 +22,13 @@ _text_end = _text_vma + _text_len;
 /*_reloc_end = _reloc_start + _reloc_len; */
 SECTIONS {
 	.text : {
-		*(.trap_table) 
+		*(.trap_table)
 		*(.text)
 		*(.init.text)
 		ALIGNMENT();
 		*(.eh_frame)
+		ALIGNMENT();
+		*(.glue_7t) *(.glue_7)
 		ALIGNMENT();
 	} SECTION_REGION(text)
 	SECTION_SYMBOLS(text)

@@ -9,7 +9,7 @@
 char *dirname(char *path) {
 	static const char dot[] = ".";
 	char *last_slash;
-	
+
 	/* Find last '/'.  */
 	last_slash = path != NULL ? strrchr (path, '/') : NULL;
 

@@ -79,7 +79,7 @@ static FILE_INFO * file_list_iterator(FILE_INFO *finfo) {
 	strcpy(finfo->file_name, flist[0][file_list_cnt].file_name);
 	finfo->mode = FILE_MODE_RO;
 	finfo->size_in_bytes = 0;
-	for (i = 0; i < MAX_FLASH_DEVS; i++){
+	for (i = 0; i < MAX_FLASH_DEVS; i++) {
 		if (-1 != flash_devices_table[i].dev) {
 			finfo->size_in_bytes += flist[i][file_list_cnt].size_in_bytes;
 		}
@@ -139,8 +139,8 @@ static int find_free_desc(void) {
 	if (FILE_DESC_QUANTITY <= file_desc_cnt)
 		return -1;
 
-	for (i = 0; i < FILE_DESC_QUANTITY; i ++){
-		if (0 == fdesc[i].is_busy){
+	for (i = 0; i < FILE_DESC_QUANTITY; i++) {
+		if (0 == fdesc[i].is_busy) {
 			fdesc[i].id = i;
 			fdesc[i].is_busy = 1;
 			return i;
@@ -156,10 +156,10 @@ static int find_free_desc(void) {
  */
 #if 0
 static int find_file_desc(const char * file_name) {
-	int i;
-
-	for (i = 0; i < FILE_DESC_QUANTITY; i ++){
-		if ((0 == strncmp(fdesc[i].name, file_name, ARRAY_SIZE(fdesc[i].name))) && (CONFIG_FLASH_FREE_SPACE_ID!= fdesc[i].is_busy)){
+	size_t i;
+	for (i = 0; i < FILE_DESC_QUANTITY; i++) {
+		if ((0 == strncmp(fdesc[i].name, file_name, ARRAY_SIZE(fdesc[i].name)))
+		    && (CONFIG_FLASH_FREE_SPACE_ID!= fdesc[i].is_busy)) {
 			return i;
 		}
 	}
@@ -204,8 +204,8 @@ static int find_free_handler(void) {
 		return -1;
 	}
 
-	for (i = 0; i < FILE_HANDLERS_QUANTITY; i ++){
-		if (0 == file_handlers[i].fileop){
+	for (i = 0; i < FILE_HANDLERS_QUANTITY; i++) {
+		if (0 == file_handlers[i].fileop) {
 			return i;
 		}
 	}
@@ -266,7 +266,7 @@ static int load_filetable(int slot_number) {
 	get_block_address (&flash_devices_table[slot_number], filetable_block_num, &filetable_base_offset);
 
 	printf("load filetable %d, block %d, start address 0x%x, offset 0x%x\n\n", slot_number, filetable_block_num, start_address, filetable_base_offset);
-	read_flash(&flash_devices_table[slot_number], CONFIG_MAGIC_OFFSET /*+ start_address */+ filetable_base_offset, 
+	read_flash(&flash_devices_table[slot_number], CONFIG_MAGIC_OFFSET /*+ start_address */+ filetable_base_offset,
 	flist[slot_number], CONFIG_MAX_FILE_QUANTITY * sizeof(FILE_INFO), 0);
 	return 0;
 }
@@ -291,7 +291,7 @@ static void print_memtable(int slot_number) {
 	printf("memtable\n");
 	total_numblocks = flash_devices_table[slot_number].total_numblocks;
 	printf("i\tmem\n");
-	for (i = 0; i < /*0x4*/total_numblocks; i++){
+	for (i = 0; i < /*0x4*/total_numblocks; i++) {
 		printf("%3d\t0x%8x\n", i, mlist[slot_number][i]);
 	}
 	printf("\n");
@@ -442,7 +442,7 @@ static int rewrite_filetables(void) {
 	return 0;
 }
 
-int format_flash(int slot_number){
+int format_flash(int slot_number) {
 	FLASH_STATUS fls;
 	FLASH_UNLOCK_BLOCK unlock_block = flash_devices_table[slot_number].flash_if_unlock_block;
 	FLASH_ERASE_BLOCK erase_block = flash_devices_table[slot_number].flash_if_erase_block;
@@ -556,7 +556,7 @@ static int init(void) {
 	file_desc_cnt = 0;
 
 	for (i = 0; i < MAX_FLASH_DEVS; i++) {
-		for (j = 0; j < CONFIG_MAX_FILE_QUANTITY; j++){
+		for (j = 0; j < CONFIG_MAX_FILE_QUANTITY; j++) {
 			strcpy(flist[i][j].file_name, "");
 			flist[i][j].mode = 0;
 			flist[i][j].size_in_bytes = 0;
@@ -584,7 +584,7 @@ static int init(void) {
 	return register_filesystem(&romfs_fs_type);
 }
 
-static void *open_file(const char *file_name, char *mode){
+static void *open_file(const char *file_name, char *mode) {
 	FILE_HANDLER *fh;
 	FILE_DESC *fd;
 	int i, file_idx, desc_num, handler_num, size_on_disc = 0,
@@ -631,7 +631,7 @@ static void *open_file(const char *file_name, char *mode){
 		buf[i] = 0x41 + i % (0x5B - 0x41);
 	}
 	printf("write start\n\n");
-	//static size_t fwrite (const void *buf, size_t size, size_t count, void *file){
+	//static size_t fwrite (const void *buf, size_t size, size_t count, void *file) {
 	printf("%10s\n\n", fh->fdesc->name);
 	for (i = 0; i < 3; i++) {
 		fh->fileop->write(buf, sizeof(char), 0x4000, fh);
@@ -648,7 +648,7 @@ static int get_free_block(BLOCK_INFO *block_info) {
 		if (-1 != flash_devices_table[i].dev) {
 			total_numblocks = flash_devices_table[i].total_numblocks;
 			for (j = 0; j < total_numblocks; j++) {
-				if ( mlist[i][j] == CONFIG_FLASH_FREE_SPACE_ID) {
+				if (mlist[i][j] == CONFIG_FLASH_FREE_SPACE_ID) {
 					block_info->flash_dev = i;
 					block_info->block_num = j;
 					return 0;
@@ -684,8 +684,8 @@ static int get_block_with_id(int id, BLOCK_INFO *block_info) {
  * @param params
  * @return 0 if success, -1 if failed
  */
-static int create_file(void *params){
-	ROMFS_CREATE_PARAM *par = (ROMFS_CREATE_PARAM *)params;
+static int create_file(void *params) {
+	ROMFS_CREATE_PARAM *par = (ROMFS_CREATE_PARAM *) params;
 	int free_blocks, size, size_in_blocks, file_id, i, last_size;
 	BLOCK_INFO block_info;
 	printf("in create_file(), params %10s, %d\n", par->name, par->mode);
@@ -701,7 +701,7 @@ static int create_file(void *params){
 	}
 
 	//find free file id in flist
-	if (-1 == (file_id = find_free_file_id())){
+	if (-1 == (file_id = find_free_file_id())) {
 		printf("can't find free file id\n");
 		return -1;
 	}
@@ -739,7 +739,7 @@ static int create_file(void *params){
 	return 0;
 }
 
-static int resize_file(void *params){
+static int resize_file(void *params) {
 	return 0;
 }
 
@@ -758,7 +758,7 @@ static int get_file_id_by_name(const char *file_name) {
  * @param file_name
  * @return 0 if success
  */
-static int delete_file(const char *file_name){
+static int delete_file(const char *file_name) {
 	int i, j, file_id, total_numblocks;
 	printf("in delete file %10s\n\n", file_name);
 	if (-1 == (file_id = get_file_id_by_name(file_name))) {
@@ -793,15 +793,15 @@ static int delete_file(const char *file_name){
 	return 0;
 }
 
-static int get_capacity(const char *file_name){
+static int get_capacity(const char *file_name) {
 	return 0;
 }
 
-static int get_freespace(const char *file_name){
+static int get_freespace(const char *file_name) {
 	return 0;
 }
 
-static int get_descriptors_info(void *params){
+static int get_descriptors_info(void *params) {
 	return 0;
 }
 
@@ -823,7 +823,7 @@ static void *romfs_fopen(const char *file_name, const char *mode) {
 }
 
 static int romfs_fclose(void * file) {
-	FILE_HANDLER *fh = (FILE_HANDLER *)file;
+	FILE_HANDLER *fh = (FILE_HANDLER *) file;
 	fh->fileop = NULL;
 	fh->fdesc->is_busy = 0;
 	TRACE("file %s was closed\n", fh->fdesc->name);
@@ -853,14 +853,14 @@ static int block_info_array_filling(int nblocks, BLOCK_INFO *array, FILE_HANDLER
 }
 
 static size_t romfs_fread(void *buf, size_t size, size_t count, void *file) {
-	FILE_HANDLER *fh = (FILE_HANDLER *)file;
+	FILE_HANDLER *fh = (FILE_HANDLER *) file;
 	int i, maxnblocks = 0, nblocks = 0, cur_address, cur_nblock, cur_offset,
 		cur_to_read, left_to_read, flash_dev;
 	char *cur_ptr;
 	BLOCK_INFO file_blocks[/*maxnblocks*/ 518];
 	printf("romfs in fread()\n\n");
 
-	if (fh->cur_pointer >= fh->fdesc->size_in_bytes){
+	if (fh->cur_pointer >= fh->fdesc->size_in_bytes) {
 		TRACE("end read\n");
 		return 0;
 	}
@@ -880,7 +880,7 @@ static size_t romfs_fread(void *buf, size_t size, size_t count, void *file) {
 	cur_nblock = cur_address / 0x40000;
 	cur_offset = cur_address % 0x40000;
 	left_to_read = size * count;
-	cur_ptr = (char *)buf;
+	cur_ptr = (char *) buf;
 
 	printf("In fread()\n\n cur_address = 0x%x, cur_nblock = %d, cur_offset = 0x%x\n\n",
 			cur_address, cur_nblock, cur_offset);
@@ -902,7 +902,7 @@ static size_t romfs_fread(void *buf, size_t size, size_t count, void *file) {
 	}
 
 	fh->cur_pointer += (uint32_t) cur_ptr - (uint32_t) buf;
-//	if (NULL == (fh->cur_pointer % 0x10000)){
+//	if (NULL == (fh->cur_pointer % 0x10000)) {
 //		TRACE("cur = 0x%X\t size = 0x%X\n",fh->cur_pointer,fh->fdesc->size_in_bytes);
 //	}
 	printf("successful %d\n\n", (uint32_t) cur_ptr - (uint32_t) buf);
@@ -911,7 +911,7 @@ static size_t romfs_fread(void *buf, size_t size, size_t count, void *file) {
 }
 
 static size_t romfs_fwrite(const void *buf, size_t size, size_t count, void *file) {
-	FILE_HANDLER *fh = (FILE_HANDLER *)file;
+	FILE_HANDLER *fh = (FILE_HANDLER *) file;
 	FLASH_STATUS fls;
 	FLASH_UNLOCK_BLOCK unlock_block;
 	FLASH_ERASE_BLOCK erase_block;
@@ -927,7 +927,7 @@ static size_t romfs_fwrite(const void *buf, size_t size, size_t count, void *fil
 	char read_buf [0x40000];
 	printf("romfs in fwrite(), size = %d, count = %d\t", size, count);
 
-	if (fh->cur_pointer >= fh->fdesc->size_in_bytes){  //fixed
+	if (fh->cur_pointer >= fh->fdesc->size_in_bytes) {  //fixed
 		TRACE("end write\n\n");
 		return 0;
 	}
@@ -946,7 +946,7 @@ static size_t romfs_fwrite(const void *buf, size_t size, size_t count, void *fil
 	cur_nblock = cur_address / 0x40000;
 	cur_offset = cur_address % 0x40000;
 	left_to_write = size * count;
-	cur_ptr = (char *)buf;
+	cur_ptr = (char *) buf;
 
 	while (left_to_write > 0) {
 //		printf("left to write %d\n\n", left_to_write);
@@ -1018,8 +1018,8 @@ static size_t romfs_fwrite(const void *buf, size_t size, size_t count, void *fil
 	return (uint32_t) cur_ptr - (uint32_t) buf;
 }
 
-static int romfs_fseek(void *file, long offset, int whence){
-	//FILE_HANDLER *fh = (FILE_HANDLER *)file;
+static int romfs_fseek(void *file, long offset, int whence) {
+	//FILE_HANDLER *fh = (FILE_HANDLER *) file;
 	return -2;
 }
 

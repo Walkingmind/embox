@@ -29,6 +29,11 @@ extern double atof(const char *nptr);
 extern int atoi(const char *nptr);
 
 /**
+ * Convert an integer to a string.
+ */
+extern void itoa(char *buf, int base, int d);
+
+/**
  * Convert a string to a long integer.
  */
 extern long int atol(const char *nptr);
@@ -39,13 +44,13 @@ extern long int atol(const char *nptr);
 extern double strtod(const char *nptr, char **endptr);
 
 /**
- * Converts the initial part of the string in nptr to a long 
+ * Converts the initial part of the string in nptr to a long
  * integer value according to the given base.
  */
 extern long int strtol(const char *nptr, char **endptr, int base);
 
 /**
- * Return directory part of PATH or "." if none is available. 
+ * Return directory part of PATH or "." if none is available.
  */
 extern char *dirname(char *path);
 

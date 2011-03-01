@@ -14,14 +14,14 @@
 #define COMMAND_DESC_MSG "Simple game with Vi-like control"
 #define HELP_MSG         "Usage: snake"
 
-static const char *man_page = 
+static const char *man_page =
 	#include "snake_help.inc"
 ;
 
 DECLARE_SHELL_COMMAND(COMMAND_NAME, exec, COMMAND_DESC_MSG, HELP_MSG, man_page);
 
 #define SPEED_INC 5
-#define SIZE 18 
+#define SIZE 18
 #define SNAKE_LEN 4
 #define SNK '*'
 #define FRU 'o'
@@ -102,7 +102,7 @@ static void fruit_draw(void) {
 	t = random() % (SIZE * SIZE);
     draw(d2f(t), FRU);
     gotohome();
-} 
+}
 
 static void field_init(void) {
     int i;
@@ -116,12 +116,12 @@ static void field_init(void) {
     }
     field[f2d(0,0)] = field[f2d(0,SIZE-1)] = \
 		      field[f2d(SIZE-1,0)] = field[f2d(SIZE-1,SIZE-1)] = '+';
-    for (i=1;i<SIZE-1;i++) 
-	for (j=1;j<SIZE-1;j++) 
+    for (i=1;i<SIZE-1;i++)
+	for (j=1;j<SIZE-1;j++)
 	    field[f2d(i,j)] = '.';
     snake_init();
-    for (i=0;i<SIZE;i++) { 
-	for (j=0;j<SIZE;j++) 
+    for (i=0;i<SIZE;i++) {
+	for (j=0;j<SIZE;j++)
 	    printf("%c",field[f2d(j,i)]);
 	putchar('\n');
     }
@@ -169,13 +169,13 @@ static int snake_update(void) {
     dir[f2d(head.x, head.y)] = diff_char;
 
     switch (new_pos) {
-	case FRU: 
+	case FRU:
 	    if (!speed_count--) {
 		if (sleep_time >= 50)
 		    sleep_time -= 20;
 		speed_count = SPEED_INC;
 	    }
-	    head = p;	  
+	    head = p;
 	    score += 10;
 	    draw(p,SNK);
 	    fruit_draw();
@@ -216,7 +216,7 @@ static int exec(int argsc, char **argsv) {
 		char ch = ' ';
 
 		usleep(sleep_time);
-		last_valid = 0; 
+		last_valid = 0;
 		while (diag_has_symbol() && !last_valid ) {
 			d = dispatch((ch = getchar()));
 			d2 = point_plus(d,diff);

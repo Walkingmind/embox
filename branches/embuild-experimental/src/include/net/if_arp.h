@@ -29,7 +29,7 @@
 typedef struct arphdr {
 	__be16         ar_hrd;           /**< format of hardware address = 0x0001;//ethernet */
 	__be16         ar_pro;           /**< format of protocol address = 0x0800;//ip */
-	unsigned char  ar_hln;           /**< hardware addr len */    
+	unsigned char  ar_hln;           /**< hardware addr len */
 	unsigned char  ar_pln;           /**< protocol addr len */
 	__be16         ar_op;            /**< ARP opcode (command)    */
 	unsigned char  ar_sha[ETH_ALEN]; /**< Sender hardware address */
@@ -41,7 +41,7 @@ typedef struct arphdr {
 #define ARP_HEADER_SIZE (sizeof(struct arphdr))
 
 static inline arphdr_t *arp_hdr(const sk_buff_t *skb) {
-	return (arphdr_t *)skb->nh.raw;
+	return (arphdr_t *) skb->nh.raw;
 }
 
 #endif	/* _IF_ARP_H */

@@ -11,6 +11,7 @@
 
 #include <types.h>
 #include <embox/kernel.h>
+#include <lib/bits/byteswap.h>
 
 /**< Standard well-defined IP protocols.  */
 enum {
@@ -42,12 +43,12 @@ struct sockaddr_in {
 };
 
 /**
- * Convert Internet number in IN to ASCII representation.  
+ * Convert Internet number in IN to ASCII representation.
  * The return value is a pointer to an internal array containing the string.
  */
 char *inet_ntoa(struct in_addr in);
 
-/** 
+/**
  * Convert Internet host address from numbers-and-dots notation in CP
  * into binary data in network byte order.
  */
@@ -60,9 +61,9 @@ in_addr_t inet_addr(const char *cp);
 int inet_aton(const char *cp, struct in_addr *addr);
 
 /*TODO: htons not realize now*/
-#define htons(n)            n
+#define htons(n)            __bswap_16(n)
 #define ntohs(n)            n
-#define htonl(n)            n
+#define htonl(n)            __bswap_32(n)
 #define ntohl(n)            n
 
 /* Address to accept any incoming messages. */

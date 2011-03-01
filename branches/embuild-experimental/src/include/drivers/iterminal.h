@@ -2,11 +2,11 @@
  * @file
  * @author Fedor Burdun
  * @date 19.07.2010
- * @brief /dev/iterminal 
- * 
+ * @brief /dev/iterminal
+ *
  * @auther Michail Skorginskii
  * @changes Some desctiption of chanes takes place in src/drivers/iterminal/iterminal.c
- *          Therefore, i add new driver - serial char driver. 
+ *          Therefore, i add new driver - serial char driver.
  *          I don't know for what we must know time of life, ask Fedir XXX -- rasmikun
  */
 
@@ -29,7 +29,7 @@ typedef struct iterminal_private {
 
 #if 1 /* under construction */
 
-//    int     is_live;                        /* flag of time of life */ 
+//    int     is_live;                        /* flag of time of life */
     int     call_state;                     /* state of call (task or cmdline edit) */
 
     char    buffer_in[ITERM_BUFFER_SIZE];   /* buffer for read from input device */

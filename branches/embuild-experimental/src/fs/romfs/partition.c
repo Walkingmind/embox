@@ -141,14 +141,14 @@ int fs_print_all_partitions(void) {
 		}
 	}
 
-	p_desc = (PARTITION_DESCRIPTOR *)p_desc->start_addr;
+	p_desc = (PARTITION_DESCRIPTOR *) p_desc->start_addr;
 
 	while ((PARTITION_END_TYPE != p_desc->type)) {
 		printf("user:   %s\n", p_desc->name);
 		if (PARTITION_LINK_TYPE != p_desc->type) {
 			p_desc++;
 		} else {
-			p_desc = (PARTITION_DESCRIPTOR *)p_desc->start_addr;
+			p_desc = (PARTITION_DESCRIPTOR *) p_desc->start_addr;
 		}
 	}
 	return 0;

@@ -129,7 +129,7 @@ FLASH_STATUS flash_extended_query(FLASH_DEV *flash_dev,
 
 	offset = query.ExtTablePtr;
 
-	flash_writef(flash_dev, 0, FLASH_READ_QUERY );
+	flash_writef(flash_dev, 0, FLASH_READ_QUERY);
 
 	/* read extended query string */
 	for (i = 0; i < 3; i++) {
@@ -345,9 +345,9 @@ FLASH_STATUS flash_lock_block(FLASH_DEV *flash_dev, uint16_t blocknum) {
 	stat.SR = flash_read_status(flash_dev);
 
 	/* return device to read array mode */
-	flash_writef(flash_dev, 0, FLASH_READ_ARRAY );
+	flash_writef(flash_dev, 0, FLASH_READ_ARRAY);
 
-	return (stat);
+	return stat;
 }
 
 /**
@@ -380,9 +380,9 @@ FLASH_STATUS flash_lock_block_down(FLASH_DEV *flash_dev, uint16_t blocknum) {
 	stat.SR = flash_read_status(flash_dev);
 
 	/* return device to read array mode */
-	flash_writef(flash_dev, 0, FLASH_READ_ARRAY );
+	flash_writef(flash_dev, 0, FLASH_READ_ARRAY);
 
-	return (stat);
+	return stat;
 
 }
 
@@ -432,13 +432,13 @@ FLASH_STATUS flash_lock_protection(FLASH_DEV *flash_dev,
 
 	if (ProtectionRegister == 0) {
 
-		flash_writef(flash_dev, base_offset, FLASH_OTP_PROGRAM );
+		flash_writef(flash_dev, base_offset, FLASH_OTP_PROGRAM);
 		flash_writef(flash_dev, base_offset, FLASH_OTP_LOCK);
 	}
 
 	else {
 
-		flash_writef(flash_dev, base_offset, FLASH_OTP_PROGRAM );
+		flash_writef(flash_dev, base_offset, FLASH_OTP_PROGRAM);
 
 		switch (ProtectionRegister) {
 		case 1:
@@ -502,7 +502,7 @@ FLASH_STATUS flash_lock_protection(FLASH_DEV *flash_dev,
 	stat.SR = flash_read_status(flash_dev);
 
 	/* return device to read array mode */
-	flash_writef(flash_dev, 0, FLASH_READ_ARRAY );
+	flash_writef(flash_dev, 0, FLASH_READ_ARRAY);
 
 	return (stat);
 
@@ -847,7 +847,7 @@ FLASH_STATUS flash_unlock_all_blocks(FLASH_DEV *flash_dev) {
 	TRACE("\n");
 	for (block = 0; block < flash_total_numblocks; block++) {
 		stat = flash_unlock_block(flash_dev, block);
-		TRACE("block %d status 0x%x\n", block, stat.SR );
+		TRACE("block %d status 0x%x\n", block, stat.SR);
 
 		if (stat.Result != StatCompleted) {
 			return (stat);
