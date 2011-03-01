@@ -1,6 +1,6 @@
 # $Id$
 #
-# EMBOX root Makefile.
+# Embox root Makefile.
 #
 # This file have just to setup proper make flags and to invoke mk/main.mk
 # which will perform the real work.
