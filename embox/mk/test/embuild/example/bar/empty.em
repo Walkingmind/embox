@@ -1,0 +1,3 @@
+# $Id$
+
+# no entities defined
