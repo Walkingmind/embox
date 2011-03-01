@@ -1,6 +1,6 @@
 /* $Id: embox.lds.h 4913 2010-03-11 12:47:15Z eabusalimov $
  *
- * This file is part of EMBOX.
+ * This file is part of Embox.
  */
 
 /**

@@ -1,6 +1,6 @@
 # $Id$
 #
-# EMBOX main Makefile
+# Embox main Makefile
 #
 
 # Check Make version (we need at least GNU Make 3.81)
