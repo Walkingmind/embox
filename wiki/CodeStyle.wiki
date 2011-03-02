@@ -1,4 +1,4 @@
-#summary Main rules of embox codestyle are described here.
+#summary Main rules of Embox codestyle are described here.
 
 <wiki:toc max_depth="3" />
 
@@ -6,9 +6,9 @@
 
  TODO this part hasn't described yet
  
-== EMBOX codestyle ==
+== Embox codestyle ==
 
-As a basis for coding style adopted in the EMBOX project, take the style Kernighan and Ritchie (K & R). The following are the basic rules of structure and design code.
+As a basis for coding style adopted in the Embox project, take the style Kernighan and Ritchie (K & R). The following are the basic rules of structure and design code.
 
 === Text placement ===
 
@@ -245,6 +245,7 @@ extern int irq_attach(irq_nr_t irq_nr, irq_handler_t handler,
 }}}
 
 === Header (‘.h’) files ===
+
 The body of header file must be organized in the following way:
 {{{
 #ifndef <subsystem_prefix>_<file_name>_H_

@@ -59,11 +59,6 @@ ARM Cross-compiler for Linux:
 
  * [http://embox.googlecode.com/files/arm-elf-gcc-4.3.3.txz arm-elf-gcc-4.3.3.txz] ARM 7
 
-Simulators:
-
- * [http://embox.googlecode.com/files/tsim-eval-2.0.18.tar.gz tsim-eval-2.0.18.tar.gz] tsim-eval
- * [http://sourceforge.net/projects/skyeye/files/skyeye/skyeye-1.3.0_rc1.tar.gz/download skyeye-1.3.0_rc1.tar.gz] skyeye
-
 Others:
 
  * [http://embox.googlecode.com/files/cross-arm-elf-gdb-7.1-1-i686.pkg.tar.xz cross-arm-elf-gdb-7.1-1-i686.pkg.tar.xz]

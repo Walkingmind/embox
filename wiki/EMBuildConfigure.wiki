@@ -1,8 +1,9 @@
-#summary embox configurator
+#summary Embox configurator
 
 <wiki:toc max_depth="3" />
 
-= EMBOX configure =
+= Embox configure =
+
 <wiki:gadget url="http://embox.googlecode.com/svn/wiki/gadgets/userbox-under-construction.xml" width="640" height="120" border="0"/>
 
 == Description ==
@@ -27,7 +28,6 @@ For example:
 {{{
 make config PROJECT=sparc PROFILE=debug
 }}}
-
 
 == Syntax ==
 
@@ -104,4 +104,5 @@ cmd(echo)
 test(timer, 1)
 }}}
 
+== Implemetation ==
  

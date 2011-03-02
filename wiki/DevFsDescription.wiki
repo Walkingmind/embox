@@ -1,7 +1,9 @@
-#summary Описание файловой системы initfs
+#summary Description of initfs file system
 
-<wiki:toc max_depth="1" />
+<wiki:toc max_depth="2" />
 
 = Introduction =
-Файловая система devfs позволяет абстрагироваться от оборудования и общаться с любым устройством через [FileInterfaceDescription файловый интерфейс]
+
+Filesystem devfs abstracts the hardware and communicate with any device using a
+[FileInterfaceDescription file interface].
 
