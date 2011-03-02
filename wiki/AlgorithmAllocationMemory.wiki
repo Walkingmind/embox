@@ -1,8 +1,51 @@
-#summary Describes algorithms of memory allocation
+#summary Describes memory allocation algorithms
 
-<wiki:toc max_depth="3" />
+<wiki:toc max_depth="4" />
 
-http://rtportal.upv.es/rtmalloc/ аллокатор для систем реального времени
-http://web.archive.org/web/20070728155440/http://dixx.ru/reference/tlsf - краткий перевод на русский
+= Description =
+
+Memory allocation algorithms used to manage chunks of memory allocated for
+objects during program execution.
+
+These algorithms are used to allocate memory for objects of various types.
+
+= Physical and virtual memory =
+
+= Memory allocation =
+
+== Object Manager ==
+
+== Slab Manager ==
+
+[http://www.ibm.com/developerworks/linux/library/l-linux-slab-allocator/index.html slab allocator].
+
+== Boundary Markers ==
+=== Structure ===
+=== Allocation ===
+=== Deallocation ===
+=== Properties ===
+==== Merits ====             
+==== Demerits ====
+
+== Bitmap ==
+=== Properties ===
+==== Merits ====
+==== Demerits ====
+
+== Buddy system ==
+
+See http://en.wikipedia.org/wiki/Buddy_memory_allocation
+
+==== Merits ====
+==== Demerits ====
+
+== Proof links ==
+
+http://rtportal.upv.es/rtmalloc/ allocator for real-time systems
+
+http://web.archive.org/web/20070728155440/http://dixx.ru/reference/tlsf - translate
+
 http://wkaras.webs.com/heapmm/heapmm.html
+
 http://www.iolanguage.com/Library/Papers/MemoryManagement/fragsolved.pdf
+
