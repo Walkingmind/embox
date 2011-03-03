@@ -2,3 +2,12 @@
 
 <wiki:toc max_depth="2" />
 
+= Description =
+
+Trap - a type of synchronous interrupt typically caused by an exceptional condition.
+
+= Types of exception =
+== Traps ==
+== Hardware exception ==
+== Software exception ==
+

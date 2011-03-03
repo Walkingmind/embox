@@ -1,3 +1,8 @@
 #summary This page describes interface available in system for traps testing
 
 <wiki:toc max_depth="2" />
+
+= Description =
+= Work with trap table =
+= Testing =
+
