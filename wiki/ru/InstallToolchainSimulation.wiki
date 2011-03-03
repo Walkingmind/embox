@@ -1,4 +1,4 @@
-#summary Описание некоторых симуляторов, на которых можно запустить  embox
+#summary Описание некоторых симуляторов, на которых можно запустить Embox
 
 <wiki:toc max_depth="3" />
 
@@ -57,7 +57,7 @@ sudo mount /dev/loop0 /mnt/flash
 sudo mkdir -p /mnt/flash/boot/grub
 sudo cp grub-0.97/stage1/stage1 grub-0.97/stage2/stage2 /mnt/flash/boot/grub
 }}}
- # Put embox image
+ # Put Embox image
 {{{
 cp path/embox /mnt/flash
 }}}
@@ -87,16 +87,16 @@ qemu -hda hd0.img -m 256
 {{{
 qemu -kernel path/embox -m 256
 }}}
- # Запустите embox из GRUB     
+ # Запустите Embox из GRUB     
   # во время загрузки нажмите 'c' для входа в консоль grub'а, если необходимо
-  # найдите, где находиться ваш образ embox, можно с помощью команды "ls"
+  # найдите, где находиться ваш образ Embox, можно с помощью команды "ls"
   # загрузите образ командой
    * {{{"kernel <path>"}}} для grub (0.9x)
    * {{{"multiboot <path>"}}} для grub2 (1.98)
 {{{
     grub> kernel /boot/embox
 }}}
-  # запустите embox командой "boot"
+  # запустите Embox командой "boot"
 {{{
     grub> boot
 }}}
@@ -172,7 +172,7 @@ clock: sync=realtime
 }}}
  # bochs -f bochs.cfg
 
-NOTE: на данный момент в bochs имеет место проблема запуска embox из grub.
+NOTE: на данный момент в bochs имеет место проблема запуска Embox из grub.
 
 = ARM =
 
@@ -201,7 +201,7 @@ uart:mod=term
 {{{
 skyeye -d -c [path-to-embox]/third-party/conf/skyeye.conf
 }}}
- # Загружаем embox в skyeye
+ # Загружаем Embox в skyeye
 {{{
 arm-elf-gdb [path-to-embox-elf]
     (gdb) tar extended-remote :12345

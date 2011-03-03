@@ -1,4 +1,4 @@
-#summary Where and how embox is used?
+#summary Where and how Embox is used?
 #labels Featured,Phase-Requirements
 
 <wiki:toc max_depth="2" />
@@ -9,15 +9,18 @@ Add your content here.
 
 = Commercial =
 
-*embox* originates from a commercial project of [http://lanit-tercom.com Lanit-Tercom, Inc.]. *TODO*
+Embox originates from a commercial project of [http://lanit-tercom.com Lanit-Tercom, Inc.]. *TODO*
 
 == Hardware development ==
+
 Helps in hardware testing at very early stages of development.
 
 == Product certification ==
+
 As far as the complete source tree is hardly ever used for the final release, there are special tools provided for those who need to pass the code certification. A fine-grained modular structure allows you to extract only those sources which are used in the final build.
 
 = Educational =
+
 The core development team consists of students and graduates of [http://www.math.spbu.ru/en/index.html Saint-Petersburg State University]. *TODO*
 
 == Student projects ==
@@ -26,7 +29,7 @@ The core development team consists of students and graduates of [http://www.math
 
 [http://se.math.spbu.ru/SE/YearlyProjects/2010/445/Batyukov_report.pdf/view Разработка системы тестирования программно-аппаратных комплексов (Батюков А.М.)]
 
-[http://se.math.spbu.ru/SE/YearlyProjects/2010/445/Fomin_report.doc/view Особенности open-source разработки на основе проекта “embox” (Фомин А.Д.)]
+[http://se.math.spbu.ru/SE/YearlyProjects/2010/445/Fomin_report.doc/view Особенности open-source разработки на основе проекта “Embox” (Фомин А.Д.)]
 
 = Just for fun =
 Enjoy the kernel hacking!

@@ -1,4 +1,4 @@
-#summary Describes some simulators where embox can be run
+#summary Describes some simulators where Embox can be run
 
 <wiki:toc max_depth="3" />
 
@@ -60,7 +60,7 @@ sudo mount /dev/loop0 /mnt/flash
 sudo mkdir -p /mnt/flash/boot/grub
 sudo cp grub-0.97/stage1/stage1 grub-0.97/stage2/stage2 /mnt/flash/boot/grub
 }}}
- # Put embox image
+ # Put Embox image
 {{{
 cp path/embox /mnt/flash
 }}}
@@ -90,16 +90,16 @@ qemu -hda hd0.img -m 256
 {{{
 qemu -kernel path/embox -m 256
 }}}
- # Boot embox using GRUB
+ # Boot Embox using GRUB
   # during loading process press 'c' to enter grub console, if necessary
-  # discover path where was embox image placed with command "ls"
+  # discover path where was Embox image placed with command "ls"
   # load the image by the command
    * {{{"kernel <path>"}}} for grub (0.9x)
    * {{{"multiboot <path>"}}} for grub2 (1.98)
 {{{
     grub> kernel /boot/embox
 }}}
-  # start embox by the command "boot"
+  # start Embox by the command "boot"
 {{{
     grub> boot
 }}}
@@ -133,7 +133,7 @@ qemu -m 256 -hda hd0.img -net nic,model=ne2k_pci -net tap,ifname=tap0,script=no
 {{{
 qemu -hda linux-0.2.img -net nic,model=ne2k_pci,macaddr=AA:BB:CC:DD:EE:01 -net socket,listen=:1234
 }}}
- # Run embox with
+ # Run Embox with
 {{{
 qemu -kernel build/base/bin/embox -net nic,model=ne2k_pci,macaddr=AA:BB:CC:DD:EE:02 -net socket,connect=127.0.0.1:1234
 }}}
@@ -176,7 +176,7 @@ clock: sync=realtime
 }}}
  # bochs -f bochs.cfg
 
-NOTE: there is a problem with booting embox from grub, need for fix.
+NOTE: there is a problem with booting Embox from grub, need for fix.
 
 = ARM =
 
@@ -205,7 +205,7 @@ uart:mod=term
 {{{
 skyeye -d -c [path-to-embox]/third-party/conf/skyeye.conf
 }}}
- # Load embox into skyeye
+ # Load Embox into skyeye
 {{{
 arm-elf-gdb [path-to-embox-elf]
     (gdb) tar extended-remote :12345

@@ -13,12 +13,12 @@
  # _xmd -hw system.xml_
  # Далее цепляемся _mb-gdb -nw path/embox_
 {{{
->target remote localhost:1234
->load
->define ss
->si
->x/2i $pc
->end
+> target remote localhost:1234
+> load
+> define ss
+> si
+> x/2i $pc
+> end
 }}}
 
 Скачать готовый скрипт можно [http://embox.googlecode.com/files/xilinx-spartan-dev-kit.xz тут].

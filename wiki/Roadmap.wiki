@@ -1,4 +1,4 @@
-#summary embox development roadmap
+#summary Embox development roadmap
 #labels Phase-Requirements,Featured
 
 = 2011/02/28 v0.2.0 =
@@ -80,7 +80,7 @@ The presentation of results of the student project.
 
 == User applications ==
  * Written application in C, which parses the ELF header file and displays its contents to the console. The result of processing coincides with the objdump.
- * That application is integrated into embox as a module.
+ * That application is integrated into Embox as a module.
  * readelf: displays information about ELF format object files.
 
 == Network ==

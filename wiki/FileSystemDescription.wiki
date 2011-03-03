@@ -31,3 +31,6 @@ To use ramfs image:
  * find . -depth -print | cpio -H newc -ov > ../ramfs.cpio
  * fix path in the option(RAMFS_CPIO, "path/ramfs.cpio")
  * mount cpio /ramfs
+
+= Roadmap =
+

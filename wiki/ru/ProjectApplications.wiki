@@ -1,4 +1,4 @@
-#summary Где и как используется embox?
+#summary Где и как используется Embox?
 #labels Featured,Phase-Requirements
 
 <wiki:toc max_depth="2" />
@@ -9,7 +9,7 @@
 
 = Коммерческое применение =
 
-*embox* берёт начало из коммерческого проекта [http://lanit-tercom.com Lanit-Tercom, Inc.]. *TODO*
+Embox берёт начало из коммерческого проекта [http://lanit-tercom.com Lanit-Tercom, Inc.]. *TODO*
 
 == Разработка аппаратных средств ==
 Помощь в тестировании железа на очень ранних стадиях разработки.

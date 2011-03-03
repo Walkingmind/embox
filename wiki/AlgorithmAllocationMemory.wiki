@@ -17,7 +17,7 @@ These algorithms are used to allocate memory for objects of various types.
 
 == Slab Manager ==
 
-[http://www.ibm.com/developerworks/linux/library/l-linux-slab-allocator/index.html slab allocator].
+[http://www.ibm.com/developerworks/linux/library/l-linux-slab-allocator/index.html slab allocator]
 
 == Boundary Markers ==
 === Structure ===

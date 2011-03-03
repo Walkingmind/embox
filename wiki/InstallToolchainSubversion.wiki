@@ -4,7 +4,7 @@
 
 = Introduction =
 
-*embox* source codes are managed by *[http://en.wikipedia.org/wiki/Apache_Subversion Subversion]* [http://en.wikipedia.org/wiki/Revision_control revision control] system (a.k.a *SVN*). To get an access to the source repository you will need an [http://en.wikipedia.org/wiki/Comparison_of_Subversion_clients SVN client].
+Embox source codes are managed by *[http://en.wikipedia.org/wiki/Apache_Subversion Subversion]* [http://en.wikipedia.org/wiki/Revision_control revision control] system (a.k.a *SVN*). To get an access to the source repository you will need an [http://en.wikipedia.org/wiki/Comparison_of_Subversion_clients SVN client].
 
 If you have just [InstallToolchainEclipse installed Eclipse IDE] you'll probably wish to manage sources being under version control directly from your IDE. In this article we'll take a look at how to install the most popular SVN client plugin for Eclipse called *Subclipse*.
 

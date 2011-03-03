@@ -5,7 +5,7 @@
 <wiki:toc max_depth="4" />
 
 = Introduction =
-EMBOX is a multi-platform operationg system, it means this project was ported to several types of processor’s architecture including some open platform: [http://ru.wikipedia.org/wiki/SPARC SPARC], [http://ru.wikipedia.org/wiki/MicroBlaze micriblaze], and so on. These architectures often are used in [http://en.wikipedia.org/wiki/System-on-a-chip System-on-chip (SOC)]. You can learn more details about supported architecture on [ProjetDescription the project description page] in the section *supported architectures*.
+Embox is a multi-platform operationg system, it means this project was ported to several types of processor’s architecture including some open platform: [http://ru.wikipedia.org/wiki/SPARC SPARC], [http://ru.wikipedia.org/wiki/MicroBlaze micriblaze], and so on. These architectures often are used in [http://en.wikipedia.org/wiki/System-on-a-chip System-on-chip (SOC)]. You can learn more details about supported architecture on [ProjetDescription the project description page] in the section *supported architectures*.
 
 Most of project’s code was written in C languages and independent on cpu’s platform. There are some architecture specific code it places in folder named *arch*. This folder contains HAL interface implementation, constant and macroses for the architecture, base linker script for this architecture.
 

@@ -4,7 +4,7 @@
 
 = Введение =
 
-Исходники *embox* находяться под управлением системы [http://ru.wikipedia.org/wiki/%D0%A1%D0%B8%D1%81%D1%82%D0%B5%D0%BC%D0%B0_%D1%83%D0%BF%D1%80%D0%B0%D0%B2%D0%BB%D0%B5%D0%BD%D0%B8%D1%8F_%D0%B2%D0%B5%D1%80%D1%81%D0%B8%D1%8F%D0%BC%D0%B8 контроля версий] *[http://ru.wikipedia.org/wiki/Subversion Subversion]* (ака *SVN*). Для получения доступа к репозиторию вам необходим [http://en.wikipedia.org/wiki/Comparison_of_Subversion_clients SVN клиент].
+Исходники Embox находяться под управлением системы [http://ru.wikipedia.org/wiki/%D0%A1%D0%B8%D1%81%D1%82%D0%B5%D0%BC%D0%B0_%D1%83%D0%BF%D1%80%D0%B0%D0%B2%D0%BB%D0%B5%D0%BD%D0%B8%D1%8F_%D0%B2%D0%B5%D1%80%D1%81%D0%B8%D1%8F%D0%BC%D0%B8 контроля версий] *[http://ru.wikipedia.org/wiki/Subversion Subversion]* (ака *SVN*). Для получения доступа к репозиторию вам необходим [http://en.wikipedia.org/wiki/Comparison_of_Subversion_clients SVN клиент].
 
 Если вы хмуро [InstallToolchainEclipse установили Eclipse IDE] вам cкорее всего захочется управлять исходниками, подконтрольными svn'у, прямо из вашей IDE не отходя от кассы. В этом случае, эта статья покажет как установить наиболее популярный SVN плагин *Subclipse*.
 

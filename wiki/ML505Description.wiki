@@ -1,4 +1,4 @@
-#summary Describes project embox's usage on Virtex-5 LXT FPGA ML505 Evaluation Platform
+#summary Describes project Embox's usage on Virtex-5 LXT FPGA ML505 Evaluation Platform
 
 = HOW-TO =
 
@@ -7,8 +7,8 @@
 {{{
 grlib> flash unlock all
 grlib> flash erase 0 0x8000
-grlib> verify path/embox
 grlib> flash load path/embox
+grlib> verify path/embox
 grlib> quit
 }}}
 

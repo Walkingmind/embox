@@ -4,9 +4,9 @@
 
 = Introduction =
 
-embox is "[http://en.wikipedia.org/wiki/Integrated_development_environment IDE]-independent" project, so you can edit sources in your favorite editor, compiling them and invoking debugger directly from console. But those who prefer all-in-one solutions will probably look for some kind of integrated development environment.
+Embox is "[http://en.wikipedia.org/wiki/Integrated_development_environment IDE]-independent" project, so you can edit sources in your favorite editor, compiling them and invoking debugger directly from console. But those who prefer all-in-one solutions will probably look for some kind of integrated development environment.
 
-We recommend you to use *[http://en.wikipedia.org/wiki/Eclipse_(software) Eclipse IDE]*, especially since embox already contains the necessary project files.
+We recommend you to use *[http://en.wikipedia.org/wiki/Eclipse_(software) Eclipse IDE]*, especially since Embox already contains the necessary project files.
 
 Eclipse is cross-platform IDE, and its installation procedure is similar for both Windows and Linux systems.
 

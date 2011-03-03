@@ -8,7 +8,7 @@ Modern computer systems are used for a variety of problems, starting from engine
 
 All these facts affect the process of coding for embedded systems. In these systems test system design first of all, then develop some drivers for system loader and finally port a main operating system. As seen above the code of platform part of systems tripled and it leads to the errors.
 
-*EMBOX* is a configurable operating system. Instead of providing a monolithic kernel, all code is placed into libraries, each of which implements different interfaces, for example memory manager interface. Only required parts of the system are included into final image. The required parts are defined during configuration of system or in run time.
+*Embox* is a configurable operating system. Instead of providing a monolithic kernel, all code is placed into libraries, each of which implements different interfaces, for example memory manager interface. Only required parts of the system are included into final image. The required parts are defined during configuration of system or in run time.
 
 = Architecture description =
 

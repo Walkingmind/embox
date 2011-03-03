@@ -1,4 +1,4 @@
-#summary How to work with threads in embox.
+#summary How to work with threads in Embox.
 
 = Что наши потоки могут =
 

@@ -1,4 +1,4 @@
-#summary Описание файлового интерфейса
+#summary File operation interface description
 
 <wiki:toc max_depth="1" />
 
@@ -12,3 +12,4 @@
  * read
  * write
  * iocntrl
+

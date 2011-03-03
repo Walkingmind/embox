@@ -7,8 +7,8 @@
 {{{
 grlib> flash unlock all
 grlib> flash erase 0 0x8000
-grlib> verify path/embox
 grlib> flash load path/embox
+grlib> verify path/embox
 grlib> quit
 }}}
 

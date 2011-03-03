@@ -1,4 +1,4 @@
-#summary Describes cross-compiler toolchain for embox project
+#summary Describes cross-compiler toolchain for Embox project
 
 You can build gcc-4.4.4 cross-compiler for ARM architecture in the follow way:
 

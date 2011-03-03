@@ -3,7 +3,7 @@
 <wiki:toc max_depth="2" />
 
 = Introduction =
-As far as embox uses GNU toolchain, you'll need to setup a Unix-like environment on you Windows machine.
+As far as Embox uses GNU toolchain, you'll need to setup a Unix-like environment on you Windows machine.
 We recommend you to use *[http://en.wikipedia.org/wiki/Cygwin Cygwin]* for that purpose.
 
 = Brief =
