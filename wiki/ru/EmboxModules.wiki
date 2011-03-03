@@ -1,6 +1,9 @@
-#summary list and description of embox modules
+#summary Список и описание модулей Embox
 
-=Список модулей ОС "Embox"=
+<wiki:toc max_depth="2" />
+
+= Список модулей ОС Embox =
+
 *TO-DO: добавить модули, добавить краткое описание*
 
   * *core.kernel.drv_subsys*
@@ -13,20 +16,26 @@
   * *embox.driver.fi_uart*
 
 ==*core.kernel.printk*==
+
 Вывод для ядра, напрямую на какое-то устройство.
 
 ==*core.kernel.drv_subsys*==
+
 Модуль добавляющий поддержку подсистемы регистрации драйверов с файловым интерфейсом: (open,close,read,write,ioctl,devctl).
 *WARINING!!!* Ни в коем случае нельзя внутри драйверов пользоваться printf, взамен ее, если совсем нужно (для дебага например) пользуемся printk.
 
 ==*embox.hal.mm.opallocator, embox.hal.mm.mpallocator, embox.hal.mm.kmalloc*==
+
 Одностраничный, многостранничный, и побайтовый аллокаторы.
 
 ==*embox.libc.a*==
+
 Стандартная библиотека.
 
 ==*embox.driver.zero*==
+
 Драйвер устройства, со строковым индентификатором "dev_zero" (для device_select). Этот драйвер является примером, для написания драйверов под новую подсистему (drv_subsys)
 
 ==*embox.driver.fi_uart*==
+
 Порт драйвера gaisler/uart под drv_subsys.
