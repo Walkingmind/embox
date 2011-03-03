@@ -149,7 +149,6 @@ _distclean: _clean
 	@$(RM) -r $(BACKUP_DIR)
 	@$(RM) -r $(CONF_DIR)
 
-
 config: _clean
 ifndef PROFILE
 	@echo 'Error: PROFILE undefined'
@@ -265,7 +264,7 @@ menuconfig m: EDIT = $(shell dialog \
                 --radiolist "Select editor:" 20 40 2 "emacs -nw -Q" "" on vim "" off)
 menuconfig m:
 	@$(MAKE) PROJECT=$(PROJECT) PROFILE=$(PROFILE) config
-	@$(EDIT) $(CONF_DIR)/*.conf
+#	@$(EDIT) $(CONF_DIR)/*.conf
 	@$(RM) .tmp
 
 xconfig x: PROJECT = $(shell Xdialog \
@@ -283,6 +282,6 @@ xconfig x: EDIT = $(shell Xdialog \
                 --radiolist "Select editor:" 20 40 2 emacs "" on gvim "" off)
 xconfig x:
 	@$(MAKE) PROFILE=$(PROFILE) PROJECT=$(PROJECT) config
-	@$(EDIT) $(CONF_DIR)/*.conf
+#	@$(EDIT) $(CONF_DIR)/*.conf
 	@$(RM) .tmp
 
