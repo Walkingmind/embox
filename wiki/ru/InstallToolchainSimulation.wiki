@@ -78,14 +78,9 @@ grub-0.97/grub/grub --device-map=/dev/null
     > setup (hd0)
     > quit
 }}}
- # Загрузиться с помощью Qemu
-  # используя GRUB
+ # Загрузиться с помощью Qemu используя GRUB
 {{{
-qemu -hda hd0.img -m 256
-}}}
-  # или внутренний загрузчик qemu
-{{{
-qemu -kernel path/embox -m 256
+qemu -hda hd0.img
 }}}
  # Запустите Embox из GRUB     
   # во время загрузки нажмите 'c' для входа в консоль grub'а, если необходимо
@@ -141,13 +136,12 @@ qemu -kernel build/base/bin/embox -net nic,model=ne2k_pci,macaddr=AA:BB:CC:DD:EE
 {{{
 qemu -s -S -kernel path/embox
 }}}
- # Запускаем GDB
+ # Запускаем GDB (команды file и target уже есть в .gdbinit, поэтому достаточно просто gdb)
 {{{
 gdb path/embox
 .
 .
 (gdb) target remote :1234
-(gdb) br foo
 (gdb) c
 }}}
 
