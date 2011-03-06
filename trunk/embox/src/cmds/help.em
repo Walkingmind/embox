@@ -10,7 +10,7 @@ define $_DETAILS-help
 	NAME
 		help - displays all possible commands
 	SYNOPSIS
-		help [-h] 
+		help [-h]
 	AUTHORS
 		Alexandr Batyukov
 endef
