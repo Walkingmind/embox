@@ -1,0 +1,6 @@
+#summary Google Summer of Code 2011 Ideas list.
+#labels Featured
+
+= Introduction =
+
+This year Embox participates GSoC for the first time.
