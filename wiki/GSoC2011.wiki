@@ -18,7 +18,6 @@ If you are going to take part in this project you should have some skill in C la
 
 Mentor: anton.bondarev2310@gmail.com
 
-
 == Porting one of the standard library ==
 
 Currently programmers build their user application with kernel into a monolitic image. It decrease code size, but difficult development and debuging. This project aims to the porting one of the C standart library, we think that it will be one for embedded system, newlib for example. This allows to load user application without the kernel, and make easier development and debuging. This also allow porting user application from other operating system.
@@ -27,7 +26,7 @@ You should have expereance in C and assembler languages.
 
 Mentor: anton.bondarev2310@gmail.com
 
-== Planning strategy ==
+== Scheduling strategy ==
 
 There are several principles of multitasking (cooperative, preemptive). Different strategies suit different targets, for example canonical implementation is not very effective for some of task but state machine is strong effective. Right choice of strategy saves a lot of resources (processor time or memory). 
 First of all this project arms to design system allowing switch planning strategy. And then  implementation a few of them.
@@ -52,4 +51,3 @@ Modern embedded system often use not hard disk but flash memory (NOR or NAND). T
 You should have experience in flash driver development and knowledge file system stucture.
 
 mentor: batsun@gmail.com
-
