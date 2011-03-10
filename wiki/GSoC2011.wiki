@@ -3,4 +3,53 @@
 
 = Introduction =
 
-This year Embox participates GSoC for the first time.
+This year Embox try to become a mentoring organization [http://code.google.com/soc/ GSoC] for the first time. In oder to improve our code base and add some new features.
+
+Embox is open source and uses the BSD license. By applying, you agree that we can distribute your code under this license. However, you also retain your right to reuse it as you wish.
+
+= Ideas =
+Here are some ideas, but we are open to suggestions for other projects.
+
+== Porting a virtual java machine ==
+
+This project  aims to porting some of virtual java machine for embedded system (for example KVM http://java.sun.com/products/cldc/wp/ or LeJOS http://lejos.sourceforge.net/). The project’s result allows us to make easier the developing process of user application. And if LeJOS jvm would be porting we can use a couple of existing application for Lego Mindstorms.
+
+If you are going to take part in this project you should have some skill in C language and Java platform as well as have some knowledge about processors architecture.
+
+Mentor: anton.bondarev2310@gmail.com
+
+
+== Porting one of the standard library ==
+
+Currently programmers build their user application with kernel into a monolitic image. It decrease code size, but difficult development and debuging. This project aims to the porting one of the C standart library, we think that it will be one for embedded system, newlib for example. This allows to load user application without the kernel, and make easier development and debuging. This also allow porting user application from other operating system.
+
+You should have expereance in C and assembler languages.
+
+Mentor: anton.bondarev2310@gmail.com
+
+== Planning strategy ==
+
+There are several principles of multitasking (cooperative, preemptive). Different strategies suit different targets, for example canonical implementation is not very effective for some of task but state machine is strong effective. Right choice of strategy saves a lot of resources (processor time or memory). 
+First of all this project arms to design system allowing switch planning strategy. And then  implementation a few of them.
+We hope that possible result of the project will become new algorithm of planning which can be faster  or require less memory in some of types task than existing.
+
+You will be required strong knowledge of kernel organisation and good C and assembler languages. 
+
+mentor: eldar.abusalimov@gmail.com
+
+== TCP/IP stack ==
+
+We already have implemented some part of TCP/IP stack (several protocols IP, ARP, UDP,  and network utilities ifconfig, route, ping, etc). We’d like to extend current implementation a few features such as IP fragmentation, routing and bridging frames, realize a couple of network protocols (TCP for example) and etc. We also want to add several network servises such as: ftpd, httpd, telnetd, sshd etc. If it will be fulfiled we'll be able manage our device simplier.
+
+If we want to participate in this part you shoud have some network skill, and good knowledge of C language.
+
+mentor: sikmir@gmail.com
+
+== Flash file system ==
+
+Modern embedded system often use not hard disk but flash memory (NOR or NAND). This type of memory has own particular qualities, for example an quantity of erase circles  or impossibility setup random bit in block. Therefore we want to have file system which allows to distribute data in different blocks of chip, collect blocks statistic, logging and etc. This task arms to desing similar system in our project. May be good idea will be porting jffs.
+
+You should have experience in flash driver development and knowledge file system stucture.
+
+mentor: batsun@gmail.com
+
