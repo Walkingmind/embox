@@ -1,16 +1,20 @@
 #summary Embox development roadmap
 #labels Phase-Requirements,Featured
 
-= 2011/02/28 v0.2.0 =
+= 2011/05/01 v0.2.0 [http://code.google.com/p/embox/issues/list?can=1&q=milestone=v0.2.0 [issues]] [http://code.google.com/p/embox/issues/list?q=milestone=v0.2.0 [open issues]] =
+ == Lego NXT ==
+  * Desing user manual for Lego NXT
+ == 0x86 ==
+  * Support ne2000 board on PCI bus  
+  
+= 2011/03/11 v0.1.11 [http://code.google.com/p/embox/issues/list?can=1&q=milestone=v0.1.11 [issues]] [http://code.google.com/p/embox/issues/list?q=milestone=v0.1.11 [open issues]] =
  == Lego NXT ==
   * Support bluetooth comunication
   * Support color sensor
   * Desing some examples
-  * Desing user manual for Lego NXT
  == 0x86 ==
   * Support QEMU platform
   * Support PCI bus
-  * Support ne2000 board on PCI bus  
   
 = 2010/12/31 v0.1.10 [http://code.google.com/p/embox/issues/list?can=1&q=milestone=v0.1.10 [issues]] [http://code.google.com/p/embox/issues/list?q=milestone=v0.1.10 [open issues]] =
  * Work at porting on x86 (VGA console, keyboard)
