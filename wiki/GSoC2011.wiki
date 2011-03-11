@@ -9,6 +9,11 @@ This year Embox is applying to participate in the [http://code.google.com/soc/ G
 
 Embox is open source and uses the BSD license. By applying, you agree that we can distribute your code under this license. However, you also retain your right to reuse it as you wish.
 
+There are several pages available with helpful information. These include:
+ * [http://socghop.appspot.com/ Google Summer of Code main page]
+ * [http://code.google.com/p/google-summer-of-code/wiki/AdviceforStudents Advice for Students]
+ * [http://socghop.appspot.com/document/show/gsoc_program/google/gsoc2011/faqs GSoC FAQ]
+ * [http://socghop.appspot.com/document/show/gsoc_program/google/gsoc2011/timeline Timeline]
 = Ideas =
 Here are some ideas, but we are open to suggestions for other projects.
 
