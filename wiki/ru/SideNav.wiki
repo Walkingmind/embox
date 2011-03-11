@@ -1,9 +1,9 @@
   * [ProjectDescription Описание проекта]
+  * [GSoC2011 Google Summer of Code]
   * [ProjectApplications Применения проекта]
   * Разработка
     * [Roadmap Roadmap]
     * [CodeStyle Code Style]
-    * [ProjectManagement Управление проектом]
   * [InstallToolchain Установка окружения]
     * [InstallToolchainWindowsCygwin Особенности установки в Windows]
     * [InstallToolchainPath Переменная окружения PATH]

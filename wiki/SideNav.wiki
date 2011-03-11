@@ -1,9 +1,9 @@
   * [ProjectDescription Project Description]
+  * [GSoC2011 Google Summer of Code]
   * [ProjectApplications Project Applications]
   * Development
     * [Roadmap Roadmap]
     * [CodeStyle Code Style]
-    * [ProjectManagement Project Management]
   * [InstallToolchain Setting up the toolchain]
     * [InstallToolchainWindowsCygwin Windows-specific setup]
     * [InstallToolchainPath PATH environment variable]
