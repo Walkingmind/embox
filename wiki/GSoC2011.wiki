@@ -29,45 +29,65 @@ Here are some ideas, but we are open to suggestions for other projects.
 
 This project aims at porting some of the virtual java machine to embedded systems (for example KVM http://java.sun.com/products/cldc/wp/ or LeJOS http://lejos.sourceforge.net/). The project’s result allows us to ease the development process of user applications. And if LeJOS jvm would be ported we can use a couple of existing application for Lego Mindstorms.
 
+=== Requirements ===
 If you are going to take part in this project you should have some skills in C language and Java platforms as well as have some knowledge about processor architecture.
 
 === Possible mentor ===
 Anton Bondarev (anton.bondarev2310@gmail.com)
 
+
 == Porting one of the standard library ==
 
 Currently programmers build their user applications with kernel into a monolithic image. It decreases code size, but leads to difficult development and debugging. This project aims to port one of the C standard library, we think that it will be one for embedded systems, newlib for example. This allows to load a user application without the kernel, and allow easier development and debugging. This also allows porting user applications from other operating systems.
 
+=== Requirements ===
 You should have experience in C and assembler languages.
 
 === Possible mentor ===
 Anton Bondarev (anton.bondarev2310@gmail.com)
 
-== Scheduling strategies ==
+
+== Scheduling algorithms ==
 
 There are several principles of multitasking (cooperative, preemptive). Different strategies suit different targets, for example canonical implementation is not very effective for some tasks but state machine is strong effective. Right choice of strategy saves a lot of resources (processor time or memory). 
 First of all this project aims to design a system allowing one to switch planning strategy. And then  implementation a few of them.
 We hope that one possible outcome of the project will be new scheduling algorithms which can be faster or require less memory in some of types task than existing.
 
-You will require good knowledge of kernel organisation and good C and assembler language skills.
+=== Requirements ===
+You will require good knowledge of kernel organization and good C programming language skills.
 
 === Possible mentor ===
 Eldar Abusalimov (eldar.abusalimov@gmail.com)
+
 
 == TCP/IP stack ==
 
 We already have implemented some parts of the TCP/IP stack (several protocols IP, ARP, UDP,  and network utilities ifconfig, route, ping, etc). We’d like to extend the current implementation with a few features such as IP fragmentation, routing and bridging frames, realize a couple of network protocols (TCP for example) and etc. We also want to add several network servises such as: ftpd, httpd, telnetd, sshd etc. If it will be fulfilled we'll be able manage our device simpler.
 
+=== Requirements ===
 If we want to participate in this part you should have some network skill, and good knowledge of the C language.
 
 === Possible mentor ===
 Nikolay Korotky (sikmir@gmail.com)
 
+
 == Flash file system ==
 
 Modern embedded system often use not hard disks but flash memory (NOR or NAND). This type of memory has its own particular qualities, for example a quantity of erase cycles or the impossibility of setting random bits in a block. Therefore we want to have a file system which allows to distribute data in different blocks of chip, collect blocks statistic, logging and etc. This task aims to design a similar system in our project. May be good idea will be porting jffs.
 
+=== Requirements ===
 You should have experience in flash driver development and knowledge file system stucture.
 
 === Possible mentor ===
 Alexander Batyukov (batsun@gmail.com)
+
+
+== Supporting multicore processors ==
+Today a lot of system are designed with multi-core processors either symmetric or non-symmetric. We need to have special loader and scheduler in order to effective manage which allow to distribute resources for such systems. For example some of threads should be execute on the graphical co-processor or DSP module. It will be very helpful if programmers could not care about application execution details, but system-loader and scheduler choose the resources themselves, possibly take into account the  programmer recommendations. In order to do this possible, the structures which scheduler use, must include some additional information.
+This task contains research and implementation of special structure of threads and its description.
+
+=== Requirements ===
+This task is very hard. You must be very strong in processor’s architectures, have a lot of experience in assembler language. Have good knowledge in scheduling algorithms.
+
+=== Possible mentor ===
+Anton Bondarev (anton.bondarev2310@gmail.com)
