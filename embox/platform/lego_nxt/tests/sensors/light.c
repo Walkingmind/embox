@@ -27,7 +27,7 @@ void sensor_handler(sensor_t *sensor, sensor_val_t val) {
 
 static int sensor_test(void) {
 	nxt_sensor_conf_pass(TOUCH_PORT, (sensor_hnd_t) sensor_handler);
-	
+
 	uint8_t power_val = 0x01;
 	data_to_avr.input_power = power_val;
 
