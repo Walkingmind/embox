@@ -15,10 +15,24 @@ All these facts affect the process of coding for embedded systems. In these syst
 At this point, the project identified a number of interfaces for various subsystems (they may change in future). These include an interface package HAL, dynamic memory management, virtual memory management, networking subsystem, the file subsystem.
 
 == HAL Architecture ==
+HAL(Hardware abstraction layer) — There is platform specific code in this packet. It conteins following parts:
+  * Processor initializing code
+  * Interrupt vector table
+  * Primary interrupt and exception handlers
+  * System device management interface (interrupt controller, system tymer and etc)
+  * Platform specific part of memory management unit (virtual memory)
 
-== Memory Management ==
+== Dynamic memory management ==
+[http://en.wikipedia.org/wiki/Dynamic_memory_allocation Dynamically allocated memory] - is the memory allocated during the runtime of the program, instead of statically allocated memory, which allocate during application building.
 
-== Virtual Memory ==
+The project has several allocation algorithms implementation such as: Buddy system, Boundary markers, SLAB allocators  
+
+== Virtual memory management ==
+[http://en.wikipedia.org/wiki/Virtual_memory Virtual memory] is a technique which allow to isolate address spaces different processes and get flat address space for each process, therefore it allow to extend address space of the whole system.
+
+More information about our implementation you can receive on the [VirtualMemory wiki page].
+== Multithreading ==
+This packet contains resources allowed to ensure pseudo parallel execution of application. Such as: schedulers, synchronization mechanithms, (inter-process communication and so on) 
 
 == Network ==
 
