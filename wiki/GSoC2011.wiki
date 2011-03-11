@@ -4,8 +4,9 @@
 <wiki:toc max_depth="2" />
 
 = Introduction =
+Every summer, Google sponsors a [http://code.google.com/soc/ Summer of Code] global program in which students are paid to work on open source projects.
 
-This year Embox is applying to participate in the [http://code.google.com/soc/ Google Summer of Code] for the first time. In order to expand the developers community, improve the existing code base and add some new features.
+This year Embox is applying to participate in the GSoC for the first time. Our primary goal is to expand the developers community, improve the existing code base and add some new features.
 
 Embox is open source and uses the BSD license. By applying, you agree that we can distribute your code under this license. However, you also retain your right to reuse it as you wish.
 
@@ -14,6 +15,8 @@ There are several pages available with helpful information. These include:
  * [http://code.google.com/p/google-summer-of-code/wiki/AdviceforStudents Advice for Students]
  * [http://socghop.appspot.com/document/show/gsoc_program/google/gsoc2011/faqs GSoC FAQ]
  * [http://socghop.appspot.com/document/show/gsoc_program/google/gsoc2011/timeline Timeline]
+Please keep in mind that the deadline for applications is *April 8 19:00 UTC*.
+
 = Ideas =
 Here are some ideas, but we are open to suggestions for other projects.
 
