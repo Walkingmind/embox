@@ -91,3 +91,14 @@ This task is very hard. You must be very strong in processor’s architectures, 
 
 === Possible mentor ===
 Anton Bondarev (anton.bondarev2310@gmail.com)
+
+
+== Embedded RTSP server ==
+Today Embox allow to manage Lego Mindstorms robots through Bluetooth. If our robot would have Wi-Fi we could get real-time video from camera. Existing implementations of RTSP protocol don’t suit for embedded system, they have long delay.
+Implementing RTSP for embedded system allows us to apply Embox in robotics system more widely (e.g., in UAVs).
+
+=== Requirements ===
+You should have an experience in video codecs and embedded systems. Also you should have knowledge in the socket communication.
+
+=== Possible mentor ===
+Anton Bondarev (anton.bondarev2310@gmail.com)
