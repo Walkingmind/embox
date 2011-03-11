@@ -294,7 +294,7 @@ static int __init unit_init(void) {
 	pci_read_config16(0, 0x18, PCI_COMMAND, &pci_command);
 	new_command = pci_command | PCI_COMMAND_MASTER | PCI_COMMAND_IO;
 	pci_write_config16(0, 0x18, PCI_COMMAND, new_command);
-	
+
 	/* Set latency */
 	pci_read_config8(0, 0x18, PCI_LATENCY_TIMER, &pci_latency);
 	if (pci_latency < 32) {
