@@ -8,8 +8,13 @@ Every summer, Google sponsors a [http://code.google.com/soc/ Summer of Code] glo
 
 This year Embox is applying to participate in the GSoC for the first time. Our primary goal is to expand the developers community, improve the existing code base and add some new features.
 
+== About us ==
+Why would you like to work for Embox?
+ * Embox offers you the opportunity to learn how "this black box" does work inside on a simple example with a relatively small code base.
+
 Embox is open source and uses the BSD license. By applying, you agree that we can distribute your code under this license. However, you also retain your right to reuse it as you wish.
 
+== About You ==
 There are several pages available with helpful information. These include:
  * [http://socghop.appspot.com/ Google Summer of Code main page]
  * [http://code.google.com/p/google-summer-of-code/wiki/AdviceforStudents Advice for Students]
