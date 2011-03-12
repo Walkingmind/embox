@@ -102,3 +102,31 @@ You should have experience in video codecs and embedded systems. Also you should
 
 === Possible mentor ===
 Anton Bondarev (anton.bondarev2310@gmail.com)
+
+
+= TBD =
+== Some ideas from Biff ==
+
+1) <optional>  Complete the r6040 NIC Qemu emulation that I've
+started.  It works without interrupts, is very messy, but will be a
+useful start for someone.  It will make the port to the Bifferboard
+easier if this is finished off and correctly runs Linux/OpenWrt.
+Apart from this and OHCI, my port of Qemu emulates this platform
+fairly well.
+
+2) Support console on serial port and no display hardware, i.e.
+prevent Embox attempting to talk to the display controller or
+keyboard.
+
+3) Support r6040 NIC, DHCP and a telnet server is going to be really
+usefull, since the Bifferboard has no display.
+
+4) Support NOR flash filing system.  I have some code to read and
+write flash memory on my website, but it should be enhanced to add
+some wear-levelling.  I'm sure we can have a much simpler strategy
+than JFFS.  It doesn't need to be too intelligent.  NOR gives 100,000
++ erase cycles, so much better than Nand.
+
+5) Support OHCI/EHCI.  Although this is difficult, there is quite a
+lot of code to copy from with compatible license, i.e. LibPayload,
+PrettyOS, possibly even FreeBSD itself.
