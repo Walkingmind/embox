@@ -83,7 +83,7 @@ Alexander Batyukov (batsun@gmail.com)
 
 
 == Multicore processor support ==
-Nowadays a lot of systems are designed to support multi-core processors, which can be either symmetric or non-symmetric. We need to design a special loader and scheduler to effectively manage which resource distribution for such systems. For example, some of the threads should be executed on the graphical co-processor or DSP module. It would greatly benefit the programmers, if they did not have to care about their application’s execution details, and system loader and scheduler could manage the resources, possibly taking into account programmer’s recommendations. In order to make this possible, the structures which scheduler uses must include some additional information.
+Nowadays a lot of systems are designed to support multi-core processors, which can be either symmetric or non-symmetric. We need to design a special loader and scheduler to effectively manage resource distribution for such systems. For example, some of the threads should be executed on the graphical co-processor or DSP module. It would greatly benefit the programmers, if they did not have to care about their application’s execution details, and system loader and scheduler could manage the resources, possibly taking into account programmer’s recommendations. In order to make this possible, the structures which scheduler uses must include some additional information.
 This project includes research and implementation of special structure of threads and their documentation.
 
 === Requirements ===
