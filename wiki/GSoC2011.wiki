@@ -83,18 +83,18 @@ Alexander Batyukov (batsun@gmail.com)
 
 
 == Multicore processor support ==
-Today a lot of system are designed with multi-core processors either symmetric or non-symmetric. We need to have special loader and scheduler in order to effective manage which allow to distribute resources for such systems. For example some of threads should be execute on the graphical co-processor or DSP module. It will be very helpful if programmers could not care about application execution details, but system-loader and scheduler choose the resources themselves, possibly take into account the  programmer recommendations. In order to do this possible, the structures which scheduler use, must include some additional information.
-This task contains research and implementation of special structure of threads and its description.
+Nowadays a lot of systems are designed to support multi-core processors, which can be either symmetric or non-symmetric. We need to design a special loader and scheduler to effectively manage which resource distribution for such systems. For example, some of the threads should be executed on the graphical co-processor or DSP module. It would greatly benefit the programmers, if they did not have to care about their application’s execution details, and system loader and scheduler could manage the resources, possibly taking into account programmer’s recommendations. In order to make this possible, the structures which scheduler uses must include some additional information.
+This project includes research and implementation of special structure of threads and their documentation.
 
 === Requirements ===
-This task is very hard. You must be very strong in processor’s architectures, have a lot of experience in assembler language. Have good knowledge in scheduling algorithms.
+This project is very hard. You must be very strong in processor architecture, have a lot of experience in assembly language, and have a good knowledge in algorithm scheduling.
 
 === Possible mentor ===
 Anton Bondarev (anton.bondarev2310@gmail.com)
 
 
 == Embedded RTSP server ==
-Today Embox allow to manage Lego Mindstorms robots through Bluetooth. If our robot would have Wi-Fi we could get real-time video from camera. Existing implementations of RTSP protocol don’t suit for embedded system, they have long delay.
+Currently Embox is capable managing Lego Mindstorms robots through Bluetooth. If our robot had Wi-Fi, it would be possible to stream real-time video from the camera. All the existing implementations of RTSP protocol don’t suit for embedded system, because they have a very long delay.
 Implementing RTSP for embedded system allows us to apply Embox in robotics system more widely (e.g., in UAVs).
 
 === Requirements ===
