@@ -27,7 +27,7 @@ Here are some ideas, but we are open to suggestions for other projects.
 
 == Porting a virtual java machine ==
 
-This project aims at porting some of the virtual java machine to embedded systems (for example [http://java.sun.com/products/cldc/wp/ KVM] or [http://lejos.sourceforge.net/ LeJOS). The project’s result allows us to ease the development process of user applications. And if LeJOS jvm would be ported we can use a couple of existing application for Lego Mindstorms.
+This project aims at porting some of the virtual java machine to embedded systems (for example [http://java.sun.com/products/cldc/wp/ KVM] or [http://lejos.sourceforge.net/ LeJOS]. The project’s result allows us to ease the development process of user applications. And if LeJOS jvm would be ported we can use a couple of existing application for Lego Mindstorms.
 
 === Requirements ===
 If you are going to take part in this project you should have some skills in C language and Java platforms as well as have some knowledge about processor architecture.
