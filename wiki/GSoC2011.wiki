@@ -82,7 +82,7 @@ You should have experience in flash driver development and knowledge file system
 Alexander Batyukov (batsun@gmail.com)
 
 
-== Supporting multicore processors ==
+== Multicore processor support ==
 Today a lot of system are designed with multi-core processors either symmetric or non-symmetric. We need to have special loader and scheduler in order to effective manage which allow to distribute resources for such systems. For example some of threads should be execute on the graphical co-processor or DSP module. It will be very helpful if programmers could not care about application execution details, but system-loader and scheduler choose the resources themselves, possibly take into account the  programmer recommendations. In order to do this possible, the structures which scheduler use, must include some additional information.
 This task contains research and implementation of special structure of threads and its description.
 
