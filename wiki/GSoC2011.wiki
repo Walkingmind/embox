@@ -106,8 +106,9 @@ Anton Bondarev (anton.bondarev2310@gmail.com)
 
 = TBD =
 == Some ideas from Biff ==
+what Embox needs to be the perfect OS for [http://bifferos.bizhat.com/ Bifferboard]:
 
-1) <optional>  Complete the r6040 NIC Qemu emulation that I've
+1) (optional)  Complete the r6040 NIC Qemu emulation that I've
 started.  It works without interrupts, is very messy, but will be a
 useful start for someone.  It will make the port to the Bifferboard
 easier if this is finished off and correctly runs Linux/OpenWrt.
