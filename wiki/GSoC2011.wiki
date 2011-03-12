@@ -101,7 +101,7 @@ Anton Bondarev (anton.bondarev2310@gmail.com)
 
 
 == Embedded RTSP server ==
-Currently Embox is capable of managing Lego Mindstorms robots through Bluetooth. If our robot had Wi-Fi, it would be possible to stream real-time video from the camera. All the existing implementations of RTSP protocol don’t suit for embedded system, because they have a very long algorithms.
+Currently Embox is capable of managing Lego Mindstorms robots through Bluetooth. If our robot had Wi-Fi, it would be possible to stream real-time video from the camera. All the existing implementations of [http://tools.ietf.org/html/rfc2326 RTSP] protocol don’t suit for embedded system, because they have a very long algorithms.
 Implementing RTSP algorithm for embedded system will allow us to employ Embox in robotics system (e.g., in UAVs).
 
 === Requirements ===
