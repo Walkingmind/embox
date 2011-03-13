@@ -110,6 +110,11 @@ You should have experience in video codecs and embedded systems. Also you should
 === Possible mentor ===
 Anton Bondarev (anton.bondarev2310@gmail.com)
 
+== Profiling and debugging resource development ==
+
+GDB server could allow to start and debug user application remotely through the network, for instance a running Linux kernel, because all existing simulators for different architectures do not have a good enough support of protected mode debugging. 
+It would also be beneficial to develop methods for effective profiling at the execution stage, high resolution timer interfaces, execution path specification for specific threads as well as for the whole system.
+
 
 = TBD =
 == Some ideas from Biff ==
