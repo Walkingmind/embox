@@ -1,3 +1,6 @@
+# -*- Makefile-gmake -*-
+# $Id$
+
 $_MODS += man
 $_SRCS-man += man.c
 $_USES-man += libframework.a

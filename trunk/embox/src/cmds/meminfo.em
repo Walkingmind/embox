@@ -1,3 +1,6 @@
+# -*- Makefile-gmake -*-
+# $Id$
+
 $_MODS += meminfo
 $_SRCS-meminfo += meminfo.c
 $_DEPS-meminfo += embox.hal.mm.slab

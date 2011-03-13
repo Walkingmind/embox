@@ -1,3 +1,6 @@
+# -*- Makefile-gmake -*-
+# $Id$
+
 $_MODS += route
 $_SRCS-route += route.c
 $_DEPS-route += embox.net.ipv4

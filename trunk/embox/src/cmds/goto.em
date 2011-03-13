@@ -1,3 +1,6 @@
+# -*- Makefile-gmake -*-
+# $Id$
+
 $_MODS += goto
 $_SRCS-goto += goto.c
 $_USES-goto += libframework.a

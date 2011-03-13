@@ -1,3 +1,6 @@
+# -*- Makefile-gmake -*-
+# $Id$
+
 $_MODS += testreadline
 $_SRCS-testreadline += testreadline.c
 

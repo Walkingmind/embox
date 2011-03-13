@@ -1,3 +1,6 @@
+# -*- Makefile-gmake -*-
+# $Id$
+
 $_MODS += store
 $_SRCS-store += store.c
 $_DEPS-store += embox.driver.flash

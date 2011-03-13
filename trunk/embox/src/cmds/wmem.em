@@ -1,3 +1,6 @@
+# -*- Makefile-gmake -*-
+# $Id$
+
 $_MODS += wmem
 $_SRCS-wmem += wmem.c
 $_USES-wmem += libframework.a

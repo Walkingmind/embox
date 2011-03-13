@@ -1,3 +1,6 @@
+# -*- Makefile-gmake -*-
+# $Id$
+
 ifdef CONFIG_AMBAPP
 $_MODS += lspnp
 $_SRCS-lspnp += lspnp.c

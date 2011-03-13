@@ -1,3 +1,6 @@
+# -*- Makefile-gmake -*-
+# $Id$
+
 $_MODS += mkdir
 $_SRCS-mkdir += mkdir.c
 $_DEPS-mkdir += embox.fs.core

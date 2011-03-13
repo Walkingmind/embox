@@ -1,3 +1,6 @@
+# -*- Makefile-gmake -*-
+# $Id$
+
 $_MODS += ifconfig
 $_SRCS-ifconfig += ifconfig.c
 $_DEPS-ifconfig += embox.net.core

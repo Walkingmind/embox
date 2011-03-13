@@ -1,3 +1,6 @@
+# -*- Makefile-gmake -*-
+# $Id$
+
 $_MODS += lspart
 $_SRCS-lspart += lspart.c
 $_DEPS-lspart += embox.fs.partition

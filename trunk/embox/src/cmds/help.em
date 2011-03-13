@@ -1,3 +1,6 @@
+# -*- Makefile-gmake -*-
+# $Id$
+
 $_MODS += help
 $_SRCS-help += help.c
 $_USES-help += libframework.a
