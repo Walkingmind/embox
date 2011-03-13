@@ -1,3 +1,6 @@
+# -*- Makefile-gmake -*-
+# $Id$
+
 $_MODS += lsmod
 $_SRCS-lsmod += lsmod.c
 

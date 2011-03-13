@@ -1,3 +1,6 @@
+# -*- Makefile-gmake -*-
+# $Id$
+
 $_MODS += version
 $_SRCS-version += version.c
 $_BRIEF-version = Displays info associated with compilation

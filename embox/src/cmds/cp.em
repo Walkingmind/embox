@@ -1,3 +1,6 @@
+# -*- Makefile-gmake -*-
+# $Id$
+
 $_MODS += cp
 $_SRCS-cp += cp.c
 $_DEPS-cp += embox.fs.core

@@ -1,3 +1,6 @@
+# -*- Makefile-gmake -*-
+# $Id$
+
 $_MODS += ping
 $_SRCS-ping += ping.c
 $_DEPS-ping += embox.net.icmp embox.net.socket

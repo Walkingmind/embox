@@ -1,3 +1,6 @@
+# -*- Makefile-gmake -*-
+# $Id$
+
 $_MODS += md5sum
 $_SRCS-md5sum += md5sum.c
 

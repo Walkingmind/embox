@@ -1,3 +1,6 @@
+# -*- Makefile-gmake -*-
+# $Id$
+
 $_MODS += mount
 $_SRCS-mount += mount.c
 $_DEPS-mount += embox.fs.ramfs

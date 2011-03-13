@@ -1,3 +1,6 @@
+# -*- Makefile-gmake -*-
+# $Id$
+
 $_MODS += readelf
 $_SRCS-readelf += readelf.c
 $_DEPS-readelf += embox.fs.core
