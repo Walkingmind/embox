@@ -1,4 +1,3 @@
-
 $_MODS += tcpdump
 $_SRCS-tcpdump += tcpdump.c
 $_DEPS-tcpdump += embox.net.core
