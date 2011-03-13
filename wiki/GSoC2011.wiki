@@ -115,6 +115,56 @@ Anton Bondarev (anton.bondarev2310@gmail.com)
 GDB server could allow to start and debug user application remotely through the network, for instance a running Linux kernel, because all existing simulators for different architectures do not have a good enough support of protected mode debugging. 
 It would also be beneficial to develop methods for effective profiling at the execution stage, high resolution timer interfaces, execution path specification for specific threads as well as for the whole system.
 
+== Graphical User Interface (GUI) Library Development ==
+
+Currently Embox is capable of working only in a command line mode, with exception of Lego Mindstorm platform. Many modern embedded systems implement some sort of GUI, which allows users to make better looking applications. We would like to develop a library that will have a support for drawing lines and polygons, as well as a library of user interfaces. A good alternative to developing it from scratch would be porting an existing library for embedded systems (e.g. Qtopia).  
+
+== Input/output (I/O) subsystem and device drivers ==
+
+Embox already contains a few device drivers for different platforms, but we would like to expand that list. For instance we do not have any drivers that support Wi-Fi interface. It is also necessary to add support for graphic devices, USB devices, networking, storage devices, and I/O devices (e.g. gyroscopes, touch screens, non-standard keyboards).
+
+== Inter-process communications ==
+
+There exists a number of inter-process communication methods, such as mutex algorithms, monitors, semaphores, mailboxes, message queues, global memory and so on. Currently Embox contains only the simplest mutex algorithms. This project includes implementation, profiling, and optimization of IPC. 
+=== Requirements ===
+In order to complete this task you should have a solid knowledge of C and experience in multithread programming. 
+
+== Console and Command Interpreter ==
+
+Our current realization of command interpreter relies heavily on the serial port (UART), which makes its use through Ethernet and USB very hard.
+The primary goal of this project is to implement a console that will allow both canonical and non-canonical modes. The console should be independent of the I/O method used. Command interpreter should use the console specified in the configuration file and allow switching of consoles. It is desired that the final design complies with POSIX standards. 
+=== Requirements ===
+Experience with UNIX shell, understanding of I/O mechanisms.
+
+== LUA Virtual Machine Porting ==
+
+LUA is a high-level programming language, that is easy to learn. It is often used for automation purposes. There are open-source and easy-to-implement virtual machines for it. 
+For this project, we would like to port LUA virtual machine on Embox. When this task is accomplished, it would be possible to use LUA scripts for user action automation, as well as for further OS development. 
+Requirements: You need to have a fundamental knowledge in translator development and C language. 
+=== Possible mentor === 
+sikmir@gmail.com
+=== Links ===
+http://www.lua.org/
+http://www.eluaproject.net/en_overview.html
+
+== Testing System == 
+
+Historically providing a convenient testing interface for embedded system developers has been an important part of the project. Up to date Embox has a pretty sophisticated testing system, which requires expansion. It is proposed to add a support for scripting languages, such as TCL, which can be employed in writing different testing scenarios. Another proposition is to develop a system of code assembly patterns, which will improve automatic testing possibilities. 
+
+http://tcl.tk/
+=== Requirements ===
+A good knowledge of C language is preferred, as well as familiarity with script languages and general understanding of assembly principles. 
+
+=== Possible mentor ===
+batsun@gmail.com 
+
+== Assembly System ==
+Embox uses relatively effective assembly system. Some of the specifics include dependency tracking, configuration definition separately from source code and etc. The system is written using standard make language, and therefore does not need additional instrument installation. 
+We would like to improve its abilities, adding a possibility of adding interfaces and realization, module inheritance, limitations and etc.
+You need good make skills. Bash and python knowledge is an advantage.
+=== Possible mentor === 
+eldar.abusalimov@gmail.com
+
 
 = TBD =
 == Some ideas from Biff ==
