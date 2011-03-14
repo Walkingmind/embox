@@ -1,7 +1,7 @@
 #summary Google Summer of Code 2011 Ideas list.
 #labels Featured
 
-<wiki:toc max_depth="2" />
+<wiki:toc max_depth="3" />
 
 = Introduction =
 Every summer, Google sponsors a [http://code.google.com/soc/ Summer of Code] global program in which students are paid to work on open source projects.
