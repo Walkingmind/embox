@@ -153,7 +153,7 @@ http://www.eluaproject.net/en_overview.html
 
 == Testing System == 
 
-Historically providing a convenient testing interface for embedded system developers has been an important part of the project. Up to date Embox has a pretty sophisticated testing system, which requires expansion. It is proposed to add a support for scripting languages, such as TCL, which can be employed in writing different testing scenarios. Another proposition is to develop a system of code assembly patterns, which will improve automatic testing possibilities. 
+Historically providing a convenient testing interface for embedded system developers has been an important part of the project. Up to date Embox has a pretty sophisticated testing system, which requires expansion. It is proposed to add a support for scripting languages, such as TCL, which can be employed in writing different testing scenarios. Another proposition is to develop a system of code building patterns, which will improve automatic testing possibilities. 
 
 === Requirements ===
 A good knowledge of C language is preferred, as well as familiarity with script languages and general understanding of assembly principles. 
