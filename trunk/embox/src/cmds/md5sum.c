@@ -9,6 +9,7 @@
 #include <embox/cmd.h>
 #include <getopt.h>
 #include <stdio.h>
+#include <fs/file.h>
 #include <lib/md5.h>
 
 EMBOX_CMD(exec);
@@ -26,7 +27,7 @@ static int exec(int argc, char **argv) {
 	md5_byte_t digest[16];
 	char hex_output[16*2 + 1];
 	int di;
-	
+
 	getopt_init();
 	while (-1 != (opt = getopt(argc, argv, "h"))) {
 		switch (opt) {
@@ -38,7 +39,7 @@ static int exec(int argc, char **argv) {
 			return 0;
 		}
 	}
-	
+
 	/* Get size and file's base addr */
 	fd = fopen(argv[argc - 1], "r");
 	fioctl(fd, 0, &addr);
