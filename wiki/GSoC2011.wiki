@@ -23,10 +23,10 @@ There are several pages available with helpful information. These include:
 Please keep in mind that the deadline for applications is *April 8 19:00 UTC*.
 
 = Ideas =
-Here are some ideas, but we are open to suggestions for other projects. We differ three idea types:
- * BlueSky - Big problem which requere scientific research.
- * Task - Medium problem (or set of problems in the same area). It requere knoledge of this area.
- * Issue - Small concret problem which have detail description and criteria.
+Here are some ideas, but we are open to suggestions for other projects. We differ three idea's types:
+ * BlueSky - Big problems which require scientific research.
+ * Tasks - Medium problem (or set of problems in the same area). It require knowledges in this area.
+ * Issues - Small concrete problems which have detailed description.
 
 == Blue sky ==
 
@@ -125,13 +125,12 @@ Here are some ideas, but we are open to suggestions for other projects. We diffe
  Anton Bondarev (anton.bondarev2310@gmail.com)
 
 
-
 === Graphical User Interface (GUI) Library Development ===
 
  Currently Embox is capable of working only in a command line mode, with exception of Lego Mindstorm platform. Many modern embedded systems implement some sort of GUI, which allows users to make better looking applications. We would like to develop a library that will have a support for drawing lines and polygons, as well as a library of user interfaces. A good alternative to developing it from scratch would be porting an existing library for embedded systems (e.g. Qtopia).
 
 ==== Possible mentor ====
- Alexey Fomin  
+ Alexey Fomin (fomin.alexey@gmail.com)
 
 === Input/output (I/O) subsystem and device drivers ===
 
@@ -169,12 +168,12 @@ Here are some ideas, but we are open to suggestions for other projects. We diffe
 ==== Requirements ====
  You need to have a fundamental knowledge in translator development and C language. 
 
-==== Possible mentor ==== 
- Nikolay Korotky (sikmir@gmail.com)
-
-=== Links ===
+==== Links ====
  http://www.lua.org/
  http://www.eluaproject.net/en_overview.html
+
+==== Possible mentor ==== 
+ Nikolay Korotky (sikmir@gmail.com)
 
 === Testing System ===
 
@@ -183,11 +182,11 @@ Here are some ideas, but we are open to suggestions for other projects. We diffe
 ==== Requirements ====
  A good knowledge of C language is preferred, as well as familiarity with script languages and general understanding of assembly principles. 
 
-==== Possible mentor ====
- Alexander Batyukov (batsun@gmail.com)
-
 ==== Links ====
  http://tcl.tk/
+
+==== Possible mentor ====
+ Alexander Batyukov (batsun@gmail.com)
 
 === Build System ===
 
