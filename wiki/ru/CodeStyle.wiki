@@ -165,7 +165,7 @@ struct list_head *tmp;
  * Each line must be less then 80 symbols length. Each phrase ends with point.
  * Different paragraphs should be separated with empty line.
  * <empty line after description> 
- * @date <creation date> 
+ * @date <creation date: dd.mm.yy> 
  * @author <Name Surname of the first author> 
  * @author <Name Surname>
  *         - <Changes description> 
@@ -191,7 +191,7 @@ struct list_head *tmp;
  * <tr><td>IRQ</td>         <td>@c --</td></tr>
  * </table>
  *
- * @date Dec 18, 2008
+ * @date 18.12.08
  * @author Anton Bondarev
  *         - Initial implementation
  * @author Eldar Abusalimov

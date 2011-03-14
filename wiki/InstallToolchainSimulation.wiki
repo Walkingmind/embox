@@ -7,7 +7,7 @@
 == TSIM ==
 
  # Install [ftp://ftp.gaisler.com/gaisler.com/tsim/tsim-eval-2.0.18.tar.gz tsim-eval]
- # tsim-leon3 -gdb
+ # tsim-leon3 -fast_uart -gdb
  # Connect to gdb server
 
 = x86 =
