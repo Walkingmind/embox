@@ -1,6 +1,7 @@
 #summary Steps to flash Embox to NXT brick
 #labels Phase-Deploy,Phase-Implementation
 
+= Linux =
 == Using libnxt ==
 
  # [http://code.google.com/p/libnxt/downloads/detail?name=libnxt-0.3.tar.gz&can=2&q= Getting] and compiling libnxt
@@ -21,3 +22,12 @@ For those who don't like scons: http://pastebin.com/wjJHAxQY.
 
  * You must have write access for usb device! (Notice fwflash running with root priveleges)
  * Even with root you probably cannot flash nxt. Check if existing Linux driver gets device (e.g. cdc_acm for me)
+
+= Windows =
+ # [http://bricxcc.sourceforge.net/utilities.html Getting] and installing NeXTTool
+ # Configure Embox with 'arm' platform 'nxt' template
+ # Put NXT brick into flashing mode. This can be done via power_mng nxt platform test or via long (6s) pressing of reset button. In flashing mode brick clicks every ~1 sec.
+ # Flashing Embox from NeXTTool directory
+{{{
+# nexttool -firmware=<path>/embox.bin
+}}}
