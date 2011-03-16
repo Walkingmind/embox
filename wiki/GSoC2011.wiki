@@ -215,8 +215,10 @@ fairly well.
 prevent Embox attempting to talk to the display controller or
 keyboard.
 
-3) Support r6040 NIC, DHCP and a telnet server is going to be really
-usefull, since the Bifferboard has no display.
+3) Support R6040 NIC, DHCP and a telnet server is going to be really
+usefull, since the Bifferboard has no display.  There is some example
+code 
+[http://sites.google.com/site/bifferboard/attic/alternative-oses/ethernet here]
 
 4) Support NOR flash filing system.  I have some code to read and
 write flash memory on my website, but it should be enhanced to add
