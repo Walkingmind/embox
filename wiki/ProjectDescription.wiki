@@ -1,4 +1,5 @@
 #summary Embox project quick overview.
+#labels Featured
 
 <wiki:toc max_depth="2"/>
 
@@ -10,7 +11,7 @@ All these facts affect the process of coding for embedded systems. In these syst
 
 *Embox* is a configurable operating system. Instead of providing a monolithic kernel, all code is placed into libraries implementing different interfaces, for example memory manager interface. Only required parts of the system are included in the final image. The required parts are defined during the configuration of the system or at its run time.
 
-= Architecture description =
+= Architecture overview =
 
 At this point, the project identified a number of interfaces for various subsystems (they may change in future). They include an interface package HAL, dynamic memory management, virtual memory management, networking subsystem, the file subsystem.
 

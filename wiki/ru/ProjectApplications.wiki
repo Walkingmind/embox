@@ -1,5 +1,4 @@
 #summary Где и как используется Embox?
-#labels Featured,Phase-Requirements
 
 <wiki:toc max_depth="2" />
 
