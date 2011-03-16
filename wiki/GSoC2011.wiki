@@ -4,18 +4,18 @@
 <wiki:toc max_depth="3" />
 
 = Introduction =
-Every summer, Google sponsors a [http://code.google.com/soc/ Summer of Code] global program in which students are paid to work on open source projects.
+Every summer, Google sponsors a [http://code.google.com/soc/ Summer of Code] global program in which students are paid for work on open source projects.
 
-This year Embox is applying to participate in the GSoC for the first time. Our primary goal is to expand the developers community, improve the existing code base and add some new features.
+This year Embox attempts to participate in the GSoC for the first time. Our primary goal is to expand the developers community, improve the existing code base and add some new features.
 
 == About us ==
 Why would you like to work for Embox?
- * Embox offers you the opportunity to learn how "this black box" does work inside on a simple example with a relatively small code base.
+ * Embox offers you an opportunity to learn how "this black box" does work inside on a simple example with a relatively small code base.
 
-Embox is open source and uses the BSD license. By applying, you agree that we can distribute your code under this license. However, you also retain your right to reuse it as you wish.
+Embox is an open source and uses the BSD license. By applying, you agree that we can distribute your code under this license. However, you also retain your right to reuse it as you wish.
 
 == About You ==
-There are several pages available with helpful information. These include:
+There are several available pages with helpful information. They are:
  * [http://socghop.appspot.com/ Google Summer of Code main page]
  * [http://code.google.com/p/google-summer-of-code/wiki/AdviceforStudents Advice for Students]
  * [http://socghop.appspot.com/document/show/gsoc_program/google/gsoc2011/faqs GSoC FAQ]
@@ -23,9 +23,9 @@ There are several pages available with helpful information. These include:
 Please keep in mind that the deadline for applications is *April 8 19:00 UTC*.
 
 = Ideas =
-Here are some ideas, but we are open to suggestions for other projects. We differ three idea's types:
+Here are some ideas, but we are open to suggestions for other projects. We mark out three idea types:
  * BlueSky - Big problems which require scientific research.
- * Tasks - Medium problem (or set of problems in the same area). It require knowledges in this area.
+ * Tasks - Medium problem (or set of problems in the same area). It requires knowledges in this area.
  * Issues - Small concrete problems which have detailed description.
 
 ----
@@ -34,12 +34,12 @@ Here are some ideas, but we are open to suggestions for other projects. We diffe
 
 ----
 === Scheduling algorithms ===
- There are several principles of multitasking (cooperative, preemptive). Different strategies suit different targets, for example canonical implementation is not very effective for some tasks but state machine is strong effective. Right choice of strategy saves a lot of resources (processor time or memory). 
- First of all this project aims to design a system allowing one to switch planning strategy. And then  implementation a few of them.
- We hope that one possible outcome of the project will be new scheduling algorithms which can be faster or require less memory in some of types task than existing.
+ There are several principles of multitasking (cooperative, preemptive). Different strategies suit different targets, for example canonical implementation is not very effective for some tasks but a state machine is really effective. Right choice of strategy saves a lot of resources (processor time or memory). 
+ First of all this project aims to design a system allowing one to switch planning strategy. And then implementation a few of them.
+ We hope that one of possible outcomes of the project will be the development of new scheduling algorithms which can be faster or can use less memory in some of types task than existing ones.
 
 ==== Requirements ====
- You will require good knowledge of kernel organization and good C programming language skills.
+ You will require a good knowledge of kernel organization and good C programming language skills.
 
 ==== Links ====
  * [http://wiki.osdev.org/Scheduling_Algorithms OSdev Scheduling Algorithms]
@@ -49,7 +49,7 @@ Here are some ideas, but we are open to suggestions for other projects. We diffe
 
 ----
 === Multicore processor support ===
- Nowadays a lot of systems are designed to support multi-core processors, which can be either symmetric or non-symmetric. We need to design a special loader and scheduler to effectively manage resource distribution for such systems. For example, some of the threads should be executed on the graphical co-processor or DSP module. It would greatly benefit the programmers, if they did not have to care about their application’s execution details, and system loader and scheduler could manage the resources, possibly taking into account programmer’s recommendations. In order to make this possible, the structures which scheduler uses must include some additional information.
+ Nowadays a lot of systems are designed to support multi-core processors, which can be either symmetric or non-symmetric. We need to design a special loader and scheduler to effectively manage resource distribution for such systems. For example, some of the threads should be executed on the graphical co-processor or DSP module. It would greatly benefit the programmers, if they haven't cared about their application’s execution details, and system loader and scheduler could manage the resources, possibly taking into account programmer’s recommendations. In order to make this idea be possible, the structures which scheduler uses must include some additional information.
  This project includes research and implementation of special structure of threads and their documentation.
 
 ==== Requirements ====
@@ -74,14 +74,14 @@ Here are some ideas, but we are open to suggestions for other projects. We diffe
  This project aims at porting some of the virtual java machine to embedded systems (for example [http://java.sun.com/products/cldc/wp/ KVM] or [http://lejos.sourceforge.net/ LeJOS]. The project’s result allows us to ease the development process of user applications. And if LeJOS jvm would be ported we can use a couple of existing application for Lego Mindstorms.
 
 ==== Requirements ====
- If you are going to take part in this project you should have some skills in C language and Java platforms as well as have some knowledge about processor architecture.
+ If you are going to take part in this project you should have some skills in C language and Java platforms as well as to have some knowledge about processor architecture.
 
 ==== Possible mentor ====
  Anton Bondarev (anton.bondarev2310@gmail.com)
 
 ----
-=== Porting one of the standard library ===
- Currently programmers build their user applications with kernel into a monolithic image. It decreases code size, but leads to difficult development and debugging. This project aims to port one of the C standard library, we think that it will be one for embedded systems, [http://sourceware.org/newlib/ newlib] for example. This allows to load a user application without the kernel, and allow easier development and debugging. This also allows porting user applications from other operating systems.
+=== Porting one of the standard libraries ===
+ Currently programmers build their user applications with kernel into a monolithic image. It decreases code size, but leads to difficult development and debugging. This project aims at porting one of the C standard libraries, we think that it will be one for embedded systems, [http://sourceware.org/newlib/ newlib] for example. This allows to load a user application without the kernel, and allow easier development and debugging. This also allows porting user applications from other operating systems.
 
 ==== Requirements ====
  You should have experience in C and assembler languages.
@@ -91,10 +91,10 @@ Here are some ideas, but we are open to suggestions for other projects. We diffe
 
 ----
 === TCP/IP stack ===
- We already have implemented some parts of the TCP/IP stack (several protocols IP, ARP, UDP,  and network utilities ifconfig, route, ping, etc). We’d like to extend the current implementation with a few features such as IP fragmentation, routing and bridging frames, realize a couple of network protocols (TCP for example) and etc. We also want to add several network servises such as: ftpd, httpd, telnetd, sshd etc. If it will be fulfilled we'll be able manage our device simpler.
+ We already have implemented some parts of the TCP/IP stack (several protocols IP, ARP, UDP,  and network utilities ifconfig, route, ping, etc). We’d like to extend the current implementation with a few features such as IP fragmentation, routing and bridging frames, realize a couple of network protocols (TCP for example) and etc. We also want to add several network servises such as: ftpd, httpd, telnetd, sshd etc. If it will be fulfilled we'll be able to manage our device simpler.
 
 ==== Requirements ====
- If we want to participate in this part you should have some network skill, and good knowledge of the C language.
+ If you want to participate in this part you should have some network skill, and good knowledge of the C language.
 
 ==== Links ====
  [http://lwip.wikia.com/wiki/LwIP_Wiki LwIP description]
@@ -104,7 +104,7 @@ Here are some ideas, but we are open to suggestions for other projects. We diffe
 
 ----
 === Flash file system ===
- Modern embedded system often use not hard disks but flash memory (NOR or NAND). This type of memory has its own particular qualities, for example a quantity of erase cycles or the impossibility of setting random bits in a block. Therefore we want to have a file system which allows to distribute data in different blocks of chip, collect blocks statistic, logging and etc. This task aims to design a similar system in our project. May be good idea will be porting [http://sourceware.org/jffs2/jffs2-html/ jffs].
+ Modern embedded systems often use not hard disks but flash memory (NOR or NAND). This type of memory has its own particular qualities, for example a quantity of erase cycles or the impossibility of setting random bits in a block. Therefore we want to have a file system which allows to distribute data in different blocks of chip, collect blocks statistic, logging and etc. This task aims to design a similar system in our project. May be good idea will be porting [http://sourceware.org/jffs2/jffs2-html/ jffs].
 
 ==== Requirements ====
  You should have experience in flash driver development and knowledge file system stucture.
@@ -132,14 +132,14 @@ Here are some ideas, but we are open to suggestions for other projects. We diffe
 
 ----
 === Input/output (I/O) subsystem and device drivers ===
- Embox already contains a few device drivers for different platforms, but we would like to expand that list. For instance we do not have any drivers that support Wi-Fi interface. It is also necessary to add support for graphic devices, USB devices, networking, storage devices, and I/O devices (e.g. gyroscopes, touch screens, non-standard keyboards).
+ Embox has already contained a few device drivers for different platforms, but we would like to expand that list. For instance we do not have any drivers that support Wi-Fi interface. It is also necessary to add support for graphic devices, USB devices, networking, storage devices, and I/O devices (e.g. gyroscopes, touch screens, non-standard keyboards).
 
 ==== Possible mentor ====
  Alexander Batyukov (batsun@gmail.com)
 
 ----
 === Inter-process communications ===
- There exists a number of inter-process communication methods, such as mutex algorithms, monitors, semaphores, mailboxes, message queues, global memory and so on. Currently Embox contains only the simplest mutex algorithms. This project includes implementation, profiling, and optimization of IPC.
+ There exist a number of inter-process communication methods, such as mutex algorithms, monitors, semaphores, mailboxes, message queues, global memory and so on. Currently Embox contains only the simplest mutex algorithms. This project includes implementation, profiling, and optimization of IPC.
 
 ==== Requirements ====
  In order to complete this task you should have a solid knowledge of C and experience in multithread programming. 
@@ -205,7 +205,7 @@ Here are some ideas, but we are open to suggestions for other projects. We diffe
 What Embox needs to be the perfect OS for [http://bifferos.bizhat.com/ Bifferboard]:
 
 1) (optional) Complete the r6040 NIC Qemu emulation that I've
-started.  It works without interrupts, is very messy, but will be a
+started.  It works without interrupts, it is very messy, but will be a
 useful start for someone.  It will make the port to the Bifferboard
 easier if this is finished off and correctly runs Linux/OpenWrt.
 Apart from this and OHCI, my port of Qemu emulates this platform
