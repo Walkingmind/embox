@@ -1,6 +1,6 @@
 #summary Supported platforms
 
-<img src="http://embox.googlecode.com/svn/wiki/images/HW-SPAR3AN-SK-UNI-G.png" width="350" height="250"><img src="http://embox.googlecode.com/svn/wiki/images/SAM7-P256-1.png" width="350" height="250"><img src="http://embox.googlecode.com/svn/wiki/images/9841-0000-xx-12-1.png" width="350" height="250"><img src="http://embox.googlecode.com/svn/wiki/images/ml505.png" width="350" height="250">
+<img src="http://embox.googlecode.com/svn/wiki/images/HW-SPAR3AN-SK-UNI-G.png" width="350" height="250"><img src="http://embox.googlecode.com/svn/wiki/images/SAM7-P256-1.png" width="350" height="250"><img src="http://embox.googlecode.com/svn/wiki/images/9841-0000-xx-12-1.png" width="350" height="250"><img src="http://embox.googlecode.com/svn/wiki/images/ml505.png" width="350" height="250"><img src="http://embox.googlecode.com/svn/wiki/images/embox_asus.jpg" width="350" height="250"><img src="http://embox.googlecode.com/svn/wiki/images/embox_lego.jpg" width="350" height="250">
 
 [http://www.xilinx.com/products/devkits/HW-V5-ML505-UNI-G.htm Virtex-5 LXT FPGA ML505 Evaluation Platform]
 
