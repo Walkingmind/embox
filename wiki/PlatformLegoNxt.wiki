@@ -1,16 +1,63 @@
 #summary Describes project Embox's usage on platform Lego Mindstorms NXT Atmel AT91SAM7S256 ARM7TDMI
 
-= Introduction =
+= Description =
 
-Project Embox has been ported on platform [http://mindstorms.lego.com/en-us/Default.aspx lego-mindstorms]. We use this platform to show possibilities of Embox to manage realtime systems which include limited hardware resources.
+Project Embox has been ported on platform [http://mindstorms.lego.com/en-us/Default.aspx lego-mindstorms].
+We use this platform to show possibilities of Embox to manage realtime systems
+which include limited hardware resources.
+Platform [http://en.wikipedia.org/wiki/LEGO_Mindstorms Lego Mindstorms] can work
+with two types of controllers: RCX and NXT. LEGO Mindstorms NXT is a computational
+module based on Atmel AT91SAM7S256 ARM7TDMI microcontroller and attached to it
+AVR controller via I2C interface. AVR is used to collect data from most of the
+sensors and control motors. Explanations and the technical specifications below.
 
-= Subsystems implemantation =
+<img src="http://embox.googlecode.com/svn/wiki/images/NXT-Brick.jpg" width="350" height="250">
 
-== Microcontroller ==
+ * Atmel 32-bit ARM, AT91SAM7S256 microcontroller
+  * 256 Kb flash
+  * 64 Kb RAM
+  * 48 MHz
+ * Atmel 8-bit AVR, ATmega48 controller
+  * 4 Kb flash               
+  * 512 byte RAM             
+  * 8 MHz
+ * Bluetooth wireless CSR BlueCore 4 v2.0 +EDR System
+ * USB 2.0 full speed (12 Mbit/s)
+ * 4 input ports
+ * 3 output ports
+ * black and white display 100x64 pixel
+ * speaker 2-16 KHz
+ * 4 buttons
+ * 6 AA battery/ 1400 mAH accumilator
 
-== Sound ==
+<img src="http://embox.googlecode.com/svn/wiki/images/LEGO-NXT-Scheme.PNG" width="350" height="250">
+
+OS Embox working on the NXT controller.
+
+= Development =
+
+The code for the platform part of the Lego Nxt is located in the folder /platform/lego_nxt/.
+It contains code driver, description, interfaces, and usage examples.
+
+To develop under this platform, you must install the environment:
+ * cross-compiler ARM gcc
+ * Eclipse (CDT)
+ * Cygwin or MinGW (for Windows users)
+
+== Druvers ==
+
+Embox supports the following devices that are part of Lego Mindstorms.
+ * motor
+ * touch sensor
+ * sonar
+
+== API ==
+
+You can use these functions to work with Lego.
+
+=== Sound ===
 
 [PlatformLegoNxtSound sound]
 
-== Display ==
+=== Display ===
 
