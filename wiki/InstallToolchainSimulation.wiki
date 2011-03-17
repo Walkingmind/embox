@@ -149,6 +149,13 @@ gdb path/embox
 (gdb) c
 }}}
 
+=== Non VGA console ===
+
+Use serial console output with:
+{{{
+qemu -nographic -vga none ...
+}}}
+
 == Bochs ==
 
  # Create hd0.img (as stated above)
