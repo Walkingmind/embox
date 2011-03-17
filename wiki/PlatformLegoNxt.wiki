@@ -44,7 +44,7 @@ To develop under this platform, you must install the environment:
  * Eclipse (CDT)
  * Cygwin or MinGW (for Windows users)
 
-== Druvers ==
+== Drivers ==
 
 Embox supports the following devices that are part of Lego Mindstorms.
  * motor
