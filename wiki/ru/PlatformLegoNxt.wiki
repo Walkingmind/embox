@@ -9,7 +9,7 @@
 сбора данных с большинства датчиков и для управления моторами. Поясняющая схема
 и технические характеристики ниже.
 
-<img src="http://embox.googlecode.com/svn/wiki/images/NXT-Brick.jpg" width="350" height="250">
+<img src="http://embox.googlecode.com/svn/wiki/images/9841-0000-xx-12-1.png" width="320" height="240">
 
  * Микропроцессор Atmel 32-bit ARM, AT91SAM7S256
   * 256 Kb flash
