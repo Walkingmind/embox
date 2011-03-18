@@ -2,7 +2,7 @@
  * @file
  * @brief
  *
- * @date 20.09.2010
+ * @date 20.09.10
  * @author Batyukov Alexander
  */
 #include <embox/cmd.h>
