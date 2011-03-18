@@ -2,7 +2,7 @@
  * @file
  * @brief dump traffic on a network
  *
- * @date 23.03.2009
+ * @date 23.03.09
  * @author Alexandr Batyukov
  */
 #include <embox/cmd.h>

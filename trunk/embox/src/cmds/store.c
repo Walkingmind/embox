@@ -2,7 +2,7 @@
  * @file
  * @brief store memory area to flash
  *
- * @date 06.05.2010
+ * @date 06.05.10
  * @author Alexander Batyukov
  */
 #include <embox/cmd.h>

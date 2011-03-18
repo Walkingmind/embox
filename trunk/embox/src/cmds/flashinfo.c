@@ -2,7 +2,7 @@
  * @file
  * @brief Reads flash info.
  *
- * @date 14.07.2009
+ * @date 14.07.09
  * @author Alexandr Batyukov
  */
 #include <embox/cmd.h>
