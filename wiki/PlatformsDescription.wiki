@@ -1,6 +1,6 @@
 #summary Supported platforms
 
-Embox support several types of processor architecture this page contains examples of real hardware platforms (boards) which Embox is supported.
+Embox supports several types of processor architecture this page contains examples of real hardware platforms (boards) which Embox is supported.
 
 == SPARC =
  || <img src="http://embox.googlecode.com/svn/wiki/images/ml505.png" width="320" height="240"> || Embox supports [http://www.gaisler.com/cms/ Leon3] processor. Is is open source processor which compatible with SPARC v8 architecture. We run Embox on the [http://www.xilinx.com/products/devkits/HW-V5-ML505-UNI-G.htm Virtex-5 LXT FPGA ML505 Evaluation Platform]. More details you can get [ML505Description here] ||
@@ -16,21 +16,3 @@ Embox support several types of processor architecture this page contains example
 
 == x86 ==
  ||  <img src="http://embox.googlecode.com/svn/wiki/images/embox_asus.jpg" width="320" height="240"> || Embox supports PC platform the same, and it can be executed on [http://wiki.qemu.org/Main_Page QEMU].||
- 
- 
- 
- 
- 
- 
- 
- || <img src="http://embox.googlecode.com/svn/wiki/images/HW-SPAR3AN-SK-UNI-G.png" width="320" height="240"> || <img src="http://embox.googlecode.com/svn/wiki/images/SAM7-P256-1.png" width="320" height="240"> ||
- || <img src="http://embox.googlecode.com/svn/wiki/images/ml505.png" width="320" height="240"> || <img src="http://embox.googlecode.com/svn/wiki/images/embox_asus.jpg" width="320" height="240"> ||
- || <img src="http://embox.googlecode.com/svn/wiki/images/9841-0000-xx-12-1.png" width="320" height="240"> || <img src="http://embox.googlecode.com/svn/wiki/images/embox_lego.jpg" width="320" height="240"> ||
-
-[http://www.xilinx.com/products/devkits/HW-V5-ML505-UNI-G.htm Virtex-5 LXT FPGA ML505 Evaluation Platform]
-
-[http://www.terraelectronica.ru/catalog_info.php?ID=1038&CODE=282158&Name=HW-SPAR3AN-SK-UNI-G&Razdel=%CE%F2%EB%E0%E4%EE%F7%ED%FB%E5%20%E8%20%EE%F6%E5%ED%EE%F7%ED%FB%E5%20%EF%EB%E0%F2%FB%20%E8%20%ED%E0%E1%EE%F0%FB%20%E4%EB%FF%20%F1%E5%EC%E5%E9%F1%F2%E2%E0%20Spartan-3A%28N%29&TableName=class_19_4_6_6_3 HW-SPAR3AN-SK-UNI-G Starter Kit]
-
-[http://www.olimex.com/dev/index.html SAM7-P256 development board for AT91SAM7S256 ARM7TDMI-S]
-
-[http://mindstorms.lego.com/en-us/Default.aspx Lego Mindstorms NXT Atmel AT91SAM7S256 ARM7TDMI]
