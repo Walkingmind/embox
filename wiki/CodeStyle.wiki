@@ -1,10 +1,12 @@
 #summary Main rules of Embox codestyle are described here.
 
-<wiki:toc max_depth="3" />
+<wiki:toc max_depth="2" />
 
 = Introduction =
 
- TODO this part hasn't described yet
+ Now this document is not complete, if you have some unclear part you should contact us, may be in our google group. We explain the details and refine this document.
+ 
+ Moreover you can meet some parts which don't correspond this codestyle you may correct it yourself or inform us.
  
 == Embox codestyle ==
 
@@ -97,11 +99,11 @@ struct list_head *tmp;
 
 === Macroses ===
 
- * Все "задефайненные" константы пишутся большими буквами через подчеркивания.
+ * Every defined constant name should contain only upper case symbols.
  * Macros are also written in large letters with the underscore.
- * Допускается (но не требуется) писать макрос маленькими буквами через подчеркивания, если при вызове он ни чем не отличается от обычной функции, то есть не имеет никаких побочных эффектов (не содержит инструкции *return* и т.п.)
- * Если макрос многострочный - пишите его в несколько строк=) Для этого используется обратный слеш. Он должен ставиться через 1 пробел, но лучше через несколько пробелов, как в примере
- * Все аргументы макроса внутри него должны быть в скобках. Исключением является склеивание строк *##*
+ * Allow (not require) use lower case symbols (as in usual function name), if it isn't differ from usual functions during its calling, that meens it have no side effect at all (there is no *return* in it and etc.)
+ * If macrose is multiline you should use '\' and place it at the end of each line (except last) separating it space symbols
+ * Each macrose's arguments must be in brackets, except string concatenation *##*
  * Macros consisted of several expressions must be in *do { ... } while(0)*
 
 Examples of good macros:
@@ -142,7 +144,7 @@ All except the macro is written in small letters, through emphasis.
   ... unused_code ...
 #endif
 }}}
- * Многострочные комментарии начинаются со звездочки. В конце предложений ставится точка, Параграфы отделяются пустой строкой:
+ * Multiline comments starting an asterisk. Each sentence finish a point. Sections are separeted blank line:
 {{{
 /* This code is necessary.
  *
@@ -150,9 +152,13 @@ All except the macro is written in small letters, through emphasis.
  */
 ... Some code
 }}}
- * В начале файлов и к каждой функции пишутся [http://www.stack.nl/~dimitri/doxygen/manual.html Doxygen] комментарии. Это относится в первую очередь к заголовочным файлам, содержащим API модуля.
-
-   How to start each file:
+ * Every file have to start with a header. The header must format as [http://www.stack.nl/~dimitri/doxygen/manual.html Doxygen] comments. The header shoul conteins a following information:
+     * Autors
+     * Date of creation
+     * Short and detail description of the module
+     * Changes list
+ * The doxygen comments must be placed under each public funtion
+    How to start each file:
 {{{
 /** 
  * @file
@@ -195,7 +201,7 @@ All except the macro is written in small letters, through emphasis.
  */
 }}}
 
- * Все макросы, объявления типов, прототипы функций, перечисления, объединения, структуры, а также их поля, являющиеся частью общедоступного API, обязаны быть подробно прокомментированы.
+ * Each macros, type definition, function prototype, enumeration, union, structure, and its fields, must be particularly described in comments.
 
 {{{
 /**
