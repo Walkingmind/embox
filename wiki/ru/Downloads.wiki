@@ -59,6 +59,11 @@ ARM кросс-компилятор под Linux:
 
  * [http://embox.googlecode.com/files/arm-elf-gcc-4.3.3.txz arm-elf-gcc-4.3.3.txz] ARM 7
 
+ARM кросс-компилятор под Windows:
+
+ * [http://www.gnuarm.com/files.html gnuarm]
+ * [http://www.gnuarm.com/bu-2.17_gcc-4.1.1-c-c++_nl-1.14.0_gi-6.5.exe bu-2.17_gcc-4.1.1-c-c++_nl-1.14.0_g
+
 Разное:
 
  * [http://embox.googlecode.com/files/cross-arm-elf-gdb-7.1-1-i686.pkg.tar.xz cross-arm-elf-gdb-7.1-1-i686.pkg.tar.xz]
