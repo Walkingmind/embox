@@ -23,6 +23,8 @@ As far as the complete source tree is hardly ever used for the final release, th
 The core development team consists of students and graduates of [http://www.math.spbu.ru/en/index.html Saint-Petersburg State University]. *TODO*
 
 == Student projects ==
+[http://www.math.spbu.ru/en/chairs/dep21.html Theoretical Cybernetics department] intrested in the project results. As a result of the partnership between departments was robotics OS.
+Now the project works on [PlatformLegoNxt Lego Mindstorms NXT] and has some commercial advantage.
 
 == Coursework ==
 
