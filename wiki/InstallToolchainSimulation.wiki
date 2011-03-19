@@ -155,6 +155,7 @@ Use serial console output with:
 {{{
 qemu -nographic -vga none ...
 }}}
+Ctrl-A+x for exit.
 
 == Bochs ==
 
