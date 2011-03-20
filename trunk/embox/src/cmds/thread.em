@@ -3,6 +3,7 @@
 
 $_MODS += thread
 $_SRCS-thread += thread.c
+$_DEPS-thread += core.kernel.thread.core
 
 $_BRIEF-thread = Works with threading subsystem
 
