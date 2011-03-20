@@ -2,7 +2,8 @@ $_PACKAGE := embox.driver
 
 $_MODS += tty
 $_SRCS-tty += tty.c
-$_DEPS-tty += embox.fs.devfs tty_action
+$_DEPS-tty += embox.fs.devfs tty_action 
+$_USES-tty += libc.a
 
 #it isn't good idea
 #$_DEPS-tty += embox.driver.serial.apbuart
