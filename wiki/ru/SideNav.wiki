@@ -52,6 +52,7 @@
   * [PlatformsDescription Поддерживаемые платформы]
     * [PlatformLegoNxt Lego Mindstorms NXT]
       * [PlatformLegoNxtFlashing Прошивание]
+      * [PlatformLegoNxtExamples Примеры]
       * [PlatformLegoNxtSound Звук]
     * [SpartanDescription HW-SPAR3AN-SK-UNI-G Starter Kit]
     * [ML505Description Virtex-5 LXT FPGA ML505 Evaluation Platform]
