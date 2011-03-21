@@ -1,1 +1,9 @@
-#summary Lego NXT Examples description
+#summary Lego NXT Examples list
+
+* Paint Logo
+* Play Sound
+* Until Touch
+* Scared Robot
+* Box Around
+* Snake Game
+* Bluetooth Control
