@@ -1,9 +1,9 @@
 #summary Список существующих примеров работы Embox на платформе Lego Mindstorms NXT
 
-* [PlatformLegoNxtPaintLogo Рисование логотипа]
-* [PlatformLegoNxtPlaySound Работа со звуком]
-* [PlatformLegoNxtMoveUntilTouch Движение до столкновения]
-* [PlatformLegoNxtScaredRobot Пугающийся робот]
-* [PlatformLegoNxtBoxAround Движение вокруг коробки]
-* [PlatformLegoNxtSnakeGame Змейка]
-* [PlatformLegoNxtBluetoothControl Управление по bluetooth]
+ * [PlatformLegoNxtPaintLogo Рисование логотипа]
+ * [PlatformLegoNxtPlaySound Работа со звуком]
+ * [PlatformLegoNxtMoveUntilTouch Движение до столкновения]
+ * [PlatformLegoNxtScaredRobot Пугающийся робот]
+ * [PlatformLegoNxtBoxAround Движение вокруг коробки]
+ * [PlatformLegoNxtSnakeGame Змейка]
+ * [PlatformLegoNxtBluetoothControl Управление по bluetooth]
