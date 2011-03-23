@@ -1,0 +1,28 @@
+#summary Описание работы с Bifferboard
+
+= HOW-TO =
+
+ # скачать утилиты для работы с Bifferboard
+{{{
+svn co https://bifferboard.svn.sourceforge.net/svnroot/bifferboard/utils
+}}}
+ # подключить ethernet и usb кабели к Bifferboard
+ # запустить minicom
+ # конфигурирование Bifferboard
+{{{
+./run bb_eth_setconfig.py
+}}}
+  # установить "Terget MAC"
+  # установить "Flash Size" в "8 MB"
+  # установить "Boot image type" в "flat binary"
+  # установить "Load address" в "0x400000"
+  # нажать "Connect" (статус Polling)
+  # включить питание платы
+  # нажать "Write" (если статус Connected)
+ # собрать Embox с x86/bifferboard конфигом
+ # прошить во flash Bifferboard (вставьте MAC вашей платы)
+{{{
+./bb_eth_upload8.py eth0 00:b3:f6:00:6e:6f path/embox.bin
+}}}
+ # перезагрузить Bifferboard
+

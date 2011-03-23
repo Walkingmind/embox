@@ -1,0 +1,28 @@
+#summary Describes project Embox's usage on Bifferboard
+
+= HOW-TO =
+
+ # checkout Bifferboard's utils
+{{{
+svn co https://bifferboard.svn.sourceforge.net/svnroot/bifferboard/utils
+}}}
+ # plug-in ethernet and usb cables to Bifferboard
+ # run minicom
+ # configure Bifferboard
+{{{
+./run bb_eth_setconfig.py
+}}}
+  # set "Terget MAC"
+  # set "Flash Size" to "8 MB"
+  # set "Boot image type" to "flat binary"
+  # set "Load address" to "0x400000"
+  # push "Connect" (status Polling)
+  # switch power on
+  # push "Write" (if status is Connected)
+ # build Embox with x86/bifferboard template
+ # flash Bifferboard (set your board's MAC)
+{{{
+./bb_eth_upload8.py eth0 00:b3:f6:00:6e:6f path/embox.bin
+}}}
+ # reset Bifferboard
+
