@@ -31,3 +31,6 @@ For those who don't like scons: http://pastebin.com/wjJHAxQY.
 {{{
 # nexttool -firmware=<path>/embox.bin
 }}}
+
+=== Troubleshooting ===
+ * Windows 7 by default recognizes Lego Mindstorms NXT Brick as GPS Camera. Uninstall GPS Camera's driver from system and install drivers from Lego's software CD.
