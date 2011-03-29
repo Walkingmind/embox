@@ -54,4 +54,3 @@ Embox supports the following devices that are part of Lego Mindstorms.
 == API [under construction] ==
 You can use these functions to work with Lego.
 
-

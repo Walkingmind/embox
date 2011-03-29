@@ -38,7 +38,7 @@ OC Embox работает на контроллере NXT.
 В ней находятся код драйверов, описание интерфейсов, а также примеры использования.
  
 Для того что бы начать разработку под данную платформу необходимо установить окружение, а именно:
- * кросс-компилятор gcc для ARM (рекомендуется взять [http://www.gnuarm.com/bu-2.17_gcc-4.1.1-c-c++_nl-1.14.0_gi-6.5.exe для  Windows] [ http://embox.googlecode.com/files/arm-elf-gcc-4.3.3.txz для Линукс])
+ * кросс-компилятор gcc для ARM (рекомендуется взять [http://www.gnuarm.com/bu-2.17_gcc-4.1.1-c-c++_nl-1.14.0_gi-6.5.exe для  Windows] [http://embox.googlecode.com/files/arm-elf-gcc-4.3.3.txz для Линукс])
  * Eclipse (CDT) для упрощения разработки
  * Cygwin или MinGW если вы работаете под ОС Windows
 
