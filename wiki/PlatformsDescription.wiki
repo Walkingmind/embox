@@ -15,4 +15,4 @@ Embox supports several types of processor architecture this page contains exampl
 == x86 ==
  || <img src="http://embox.googlecode.com/svn/wiki/images/embox_asus.jpg" width="320" height="240"> || Embox supports PC platform the same, and it can be executed on [http://wiki.qemu.org/Main_Page QEMU].||
  || <img src="http://embox.googlecode.com/svn/wiki/images/bifferboard.png" width="320" height="240"> || Embox supports [http://sites.google.com/site/bifferboard Bifferboard]. More Details [PlatformBifferboard here] ||
- 
+
