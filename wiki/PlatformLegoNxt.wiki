@@ -45,19 +45,13 @@ To develop under this platform, you must install the environment:
  * Cygwin or MinGW (for Windows users)
 
 == Drivers ==
-
 Embox supports the following devices that are part of Lego Mindstorms.
  * motor
  * touch sensor
  * sonar
+ * light sensor
 
-== API ==
-
+== API [under construction] ==
 You can use these functions to work with Lego.
 
-=== Sound ===
-
-[PlatformLegoNxtSound sound]
-
-=== Display ===
 
