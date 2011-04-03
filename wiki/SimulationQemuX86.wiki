@@ -1,0 +1,25 @@
+= Description =
+Embox can be run on the QEMU. 
+
+= Starting =
+== Graphical mode ==
+{{{
+qemu -kernel <path>/embox
+}}}
+
+== Console mode ==
+{{{
+qemu -nographic -vga none -kernel <path>/embox
+}}}
+
+== Start with debugging ==
+{{{
+qemu -s -S -kernel <path>/embox
+}}}
+{{{
+qemu -nographic -vga none -s -S -kernel <path>/embox
+}}}
+=== Starting GDB ===
+
+== Network support ==
+*-net nic,model=ne2k_pci,macaddr=AA:BB:CC:DD:EE:02 -net socket,connect=127.0.0.1:1234*
