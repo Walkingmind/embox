@@ -50,6 +50,7 @@
     * Porting
       * [PortingProcess Porting Process]
   * [PlatformsDescription Supported platforms]
+    * [SimulationQemuX86 QEMU]
     * [PlatformLegoNxt Lego Mindstorms NXT]
       * [PlatformLegoNxtFlashing Flashing]
       * [PlatformLegoNxtExamples Examples]

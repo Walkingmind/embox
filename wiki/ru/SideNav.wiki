@@ -50,6 +50,7 @@
     * Портирование
       * [PortingProcess Процесс портирования]
   * [PlatformsDescription Поддерживаемые платформы]
+    * [SimulationQemuX86 QEMU]
     * [PlatformLegoNxt Lego Mindstorms NXT]
       * [PlatformLegoNxtFlashing Прошивание]
       * [PlatformLegoNxtExamples Примеры]
