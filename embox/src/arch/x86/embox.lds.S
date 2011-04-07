@@ -21,6 +21,7 @@ SECTIONS {
 		*(.text)
 		*(.init.text)
 		ALIGNMENT();
+		. = ALIGN(0x100);
 	} SECTION_REGION(text)
 	SECTION_SYMBOLS(text)
 
