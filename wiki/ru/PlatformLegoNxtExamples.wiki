@@ -48,3 +48,8 @@
  * Название профайла *nxt_bluetooth_control*
  * [PlatformLegoNxtBluetoothControl Управление по bluetooth]
  
+ == Приметивное текстовое меню тестов ==
+ * Пример демонстрирует реализацию простого текстововго меню на платформе Lego.
+ * Название профайла *nxt_menu_and_graphic*
+ * [PlatformLegoNxtMenu Страница примера: Текстовое меню]
+ 
