@@ -39,7 +39,7 @@ static int power_mng_test(void) {
 			nxt_flash();
 		}
 		if (buts & BT_DOWN) {
-		    break;	
+		    break;
 		}
 		usleep(200);
 	}
