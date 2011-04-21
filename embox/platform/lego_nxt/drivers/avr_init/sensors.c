@@ -36,7 +36,7 @@ sensor_val_t nxt_sensor_get_value(sensor_t *sensor) {
 	if (sensor->type == PASSIVE) {
 		return data_from_avr.adc_value[sensor->id];
 	}
-	return SENSOR_NOT_CONF; 
+	return SENSOR_NOT_CONF;
 	/*FIXME to handle active sensors */
 }
 

@@ -1,10 +1,10 @@
 /*
  * @file
  *
- * @brief Lego NXT direct command manager  
+ * @brief Lego NXT direct command manager
  *
  * @date 13.03.2011
- * @author Anton Kozlov 
+ * @author Anton Kozlov
  */
 #include <types.h>
 #include <embox/unit.h>
@@ -146,14 +146,14 @@ int direct_comm_handle(uint8_t *buff) {
 			handle_type(cbuf);
 			cbuf += 1;
 			handle_comm(cbuf);
-			cbuf += 1; 
+			cbuf += 1;
 			status = handle_body(cbuf);
 			if (reply_need) {
 				reply_handle(status);
 			}
 			command = 0;
 			reader_state = COMM_SIZE;
-			ret_val = MSG_SIZE_BYTE_CNT; 
+			ret_val = MSG_SIZE_BYTE_CNT;
 			break;
 
 		default:

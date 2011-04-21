@@ -278,7 +278,7 @@ static int get_block_size(taddr addr) {
 }
 
 /**
- * find all free and busy blocks 
+ * find all free and busy blocks
  */
 static void dfs_stat(taddr addr, struct list_head* list) {
 	if (!get_bits(addr)) {

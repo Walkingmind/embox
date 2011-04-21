@@ -12,9 +12,9 @@
 
 extern void twi_init(void);
 
-enum twi_state_t { 
+enum twi_state_t {
 	TWI_IDLE,
-	TWI_READ, 
+	TWI_READ,
 	TWI_READ_BUT_LAST,
 	TWI_WRITE,
 	TWI_COMP

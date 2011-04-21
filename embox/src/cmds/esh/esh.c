@@ -7,7 +7,7 @@
  */
 
 /*
- * Now shell works in canonical mode. 
+ * Now shell works in canonical mode.
  */
 
 #include <embox/cmd.h>

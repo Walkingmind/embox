@@ -97,7 +97,7 @@ static void bt_us_read_handle(void) {
 		case COMM_READ:
 			bt_us_state = SIZE_READ;
 
-#ifdef DEBUG 
+#ifdef DEBUG
 			TRACE("$");
 			for (int i = 0; i <= msg_len; i++) {
 				TRACE("%x:", *(bt_buff + bt_buff_pos + i));
@@ -111,7 +111,7 @@ static void bt_us_read_handle(void) {
 				bt_buff_pos = 0;
 			}
 			nxt_bluetooth_read(bt_buff + bt_buff_pos, 1);
-			break;			
+			break;
 		case UART_MODE:
 			next_len = 0;
 #ifdef DEBUG
@@ -128,7 +128,7 @@ static void bt_us_read_handle(void) {
 
 static volatile void bt_us_receive_init(void) {
 	int delay = 3000;
-	REG_STORE(AT91C_US1_IDR, AT91C_US_ENDTX);	
+	REG_STORE(AT91C_US1_IDR, AT91C_US_ENDTX);
 	bt_uart_inited = 1;
 	while (delay--);
 	bt_set_arm7_cmd();
@@ -137,7 +137,7 @@ static volatile void bt_us_receive_init(void) {
 
 	/*doing last steps for init*/
 	bt_buff_pos = 0;
-	
+
 	nxt_bluetooth_read(bt_buff, direct_comm_init_read());
 
 }
@@ -186,7 +186,7 @@ static int nxt_bluetooth_init(void) {
 			| AT91C_US_CLKS_CLOCK | AT91C_US_CHRL_8_BITS | AT91C_US_PAR_NONE
 			| AT91C_US_NBSTOP_1_BIT | AT91C_US_OVER);
 	REG_STORE(AT91C_US1_IDR, ~0);
-	REG_STORE(AT91C_US1_IER, AT91C_US_ENDRX);	
+	REG_STORE(AT91C_US1_IER, AT91C_US_ENDRX);
 	REG_STORE(AT91C_US1_BRGR, CONFIG_SYS_CLOCK / (8 * NXT_BT_BAUD_RATE));
 	REG_STORE(AT91C_US1_RCR, 0);
 	REG_STORE(AT91C_US1_TCR, 0);
@@ -207,12 +207,12 @@ static int nxt_bluetooth_init(void) {
 	/* Configure the ADC */
 	REG_STORE(AT91C_PMC_PCER, (1 << AT91C_ID_ADC));
 	REG_STORE(AT91C_ADC_MR, 0);
-	REG_ORIN(AT91C_ADC_MR, AT91C_ADC_TRGEN_DIS); 
+	REG_ORIN(AT91C_ADC_MR, AT91C_ADC_TRGEN_DIS);
 	REG_ORIN(AT91C_ADC_MR, 0x00000500); // 4MHz
 	REG_ORIN(AT91C_ADC_MR, 0x001f0000); // 64uS
 	REG_ORIN(AT91C_ADC_MR, 0x03000000); // 750nS
 	REG_STORE(AT91C_ADC_CHER, AT91C_ADC_CH6 | AT91C_ADC_CH4);
-	REG_STORE(AT91C_ADC_CR, AT91C_ADC_START); 
+	REG_STORE(AT91C_ADC_CR, AT91C_ADC_START);
 
 	bt_clear_arm7_cmd();
 
@@ -224,7 +224,7 @@ static int nxt_bluetooth_init(void) {
 
 	irq_attach((irq_nr_t) AT91C_ID_US1,
 		(irq_handler_t) &nxt_bt_us_handler, 0, NULL, "nxt bt reader");
-	
+
 	set_timer(3, 200, (TIMER_FUNC) &nxt_bt_timer_handler);
 	bt_receive_init();
 	return 0;

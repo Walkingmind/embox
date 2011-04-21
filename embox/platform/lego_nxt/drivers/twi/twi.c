@@ -63,7 +63,7 @@ static irq_return_t twi_handler(int irq_num, void *dev_id) {
 			};
 			break;
 		case TWI_COMP:
-			twi_state = TWI_IDLE; 
+			twi_state = TWI_IDLE;
 			REG_STORE(AT91C_TWI_IDR, AT91C_TWI_TXCOMP);
 			break;
 		case TWI_IDLE:
@@ -155,7 +155,5 @@ int twi_receive(uint32_t dev_addr, uint8_t *data, uint32_t count) {
 	REG_STORE(AT91C_TWI_IER, AT91C_TWI_RXRDY);
 	return 0;
 }
-
-
 
 

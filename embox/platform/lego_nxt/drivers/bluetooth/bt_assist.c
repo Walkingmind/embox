@@ -4,7 +4,7 @@
  * @brief Lego NXT Bluetooth helpers, layers for user level
  *
  * @date 11.03.2011
- * @author Anton Kozlov 
+ * @author Anton Kozlov
  */
 #include <types.h>
 #include <embox/unit.h>
@@ -108,7 +108,7 @@ static void process_msg(bt_message_t *msg) {
 				out_msg.type = MSG_OPEN_STREAM;
 				out_msg.length = 1;
 				out_msg.content[0] = bt_bc_handle;
-				REG_STORE(AT91C_US1_IER, AT91C_US_ENDTX);	
+				REG_STORE(AT91C_US1_IER, AT91C_US_ENDTX);
 			} else {
 				return;
 			}
