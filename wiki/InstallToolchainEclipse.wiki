@@ -16,6 +16,7 @@ If you have used Eclipse before, you can skip this guide. All you need is *Eclip
 The one thing to mention is the use of older versions of Eclipse or CDT (for example, if you already have one installed). CDT is a relatively young project, and therefore it is growing rapidly. So it is desirable to use the version at least not older than one year.
 
 = Step-by-step =
+
 == Download ==
 Go to *[http://eclipse.org/downloads]* and select *Eclipse IDE for C/C++ Developers*.
  http://embox.googlecode.com/svn/wiki/images/InstallToolchainEclipse/eclipse-download.png
@@ -37,7 +38,7 @@ If you get *VM*-related errors when launching Eclipse, then you have to install 
 
 === Install on Windows ===
 Go to *[http://www.oracle.com/technetwork/java/javase/downloads/]* and click _Download JRE_.
- http://embox.googlecode.com/svn/wiki/images/java-download.png
+ http://embox.googlecode.com/svn/wiki/images/InstallToolchainEclipse/java-download.png
 
 Then select you platform (*Windows* or *Windows x64*), agree with the license and click *Continue*. Download and run *Windows Offline Installation* executable. Proceed through installation steps.
 

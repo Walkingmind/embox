@@ -151,7 +151,7 @@ endif
 
 == Классические правила make ==
 Теперь как быть с правилами make? Тут видится два подхода:
- * Описывать их как раньше в каком-нибудь Makefile'е, который будет интерпретироваться при каждой сборке. Если пойти по этому пути, то надо решить, что это будет за файл: 
+ * Описывать их как раньше в каком-нибудь Makefile'е, который будет интерпретироваться при каждой сборке. Если пойти по этому пути, то надо решить, что это будет за файл:
   * Можно оставить старое *Makefile*. Но это скорее пережиток прошлого, от которого хочется избавиться. К тому же наличие файла Makefile подразумевает возможность запустить make из папки, в которой он находится, чего делать нельзя
   * *rules.mk* - более наглядно и по теме
  Чем плохо такое решение:
@@ -289,7 +289,7 @@ endef
 В двух словах - система позволяет задавать межмодульные зависимости, но сейчас они жестко прописаны в Makefile'ах, и у пользователя нет возможности повлиять на итоговый граф зависимостей.
 
  Например, модуль *Х* может зависеть от *Y*, тогда при включении в сборку *Х* тот потянет за собой *Y*. Это отношение *depends on*.
-  http://embox.googlecode.com/svn/wiki/images/mods-old-simple.png
+  http://embox.googlecode.com/svn/wiki/images/EMBuildFeatureProposals/mods-old-simple.png
    _Module *X* *depends on* module *Y*._
 <wiki:comment>
 digraph mods_old_simple {
@@ -301,7 +301,7 @@ digraph mods_old_simple {
 }
 </wiki:comment>
  Проблемы начинаются, когда появляется необходимость менять реализации модулей. Пусть появился модуль *Z*, который выполняет схожие с *Y* функции (например, оба они реализуют алгоритмы выделения памяти). Тогда отношение *depends on* становится узким местом. Еще один неочевидный, но существенный недостаток в том, что факт "схожести" *Y* и *Z* нигде не отражен.
-  http://embox.googlecode.com/svn/wiki/images/mods-old.png
+  http://embox.googlecode.com/svn/wiki/images/EMBuildFeatureProposals/mods-old.png
 <wiki:comment>
 digraph mods_old {
 	rankdir="LR";
@@ -317,7 +317,7 @@ digraph mods_old {
 == Текущее положение дел ==
 Были попытки решить эту проблему используя опции `CONFIG_XXX`.
  Вместо указания явной зависимости для *X* в Makefile'e указывается значение `$(CONFIG_XXX)`, которое раскрывается в нужный модуль, заданный в файле конфигурации с помощью `option(XXX)`.
-  http://embox.googlecode.com/svn/wiki/images/mods-try.png
+  http://embox.googlecode.com/svn/wiki/images/EMBuildFeatureProposals/mods-try.png
 <wiki:comment>
 digraph mods_try {
 	rankdir="LR";
@@ -345,7 +345,7 @@ digraph mods_try {
 Одно из наиболее вероятных решений проблемы:
 предлагается ввести, помимо модулей, новую сущность, называемую *service*, а также два новых отношения: *requires* и *provides*.
  Тогда пример выше будет выглядеть примерно так:
-  http://embox.googlecode.com/svn/wiki/images/mods-new.png
+  http://embox.googlecode.com/svn/wiki/images/EMBuildFeatureProposals/mods-new.png
    _Module *X* *requires* service *A* which is *provided by* modules *Y* and *Z*_.
 <wiki:comment>
 digraph mods_new {
@@ -387,5 +387,5 @@ $_SUBDIRS := $(filter-out include,$($_SUBDIRS))
 || *service* || `brief`<br>`details` || `headers` ||
 || *interface* || `brief`<br>`details` || `headers` ||
 || *library* || `brief`<br>`details` || `sources`<br>`objects` || `rules` || `uses`<br>`overrides` ||
-|| *module* || `brief`<br>`details` || `sources`<br>`objects`<br>`headers` || `rules` || `uses` || `depends`<br>`conflicts` || `provides`<br>`requires` || `implements`<br>`manages` || 
+|| *module* || `brief`<br>`details` || `sources`<br>`objects`<br>`headers` || `rules` || `uses` || `depends`<br>`conflicts` || `provides`<br>`requires` || `implements`<br>`manages` ||
 || *↳* || *`<text>`* || *`<file>`* || *`<make>`* || *library* || *module* || *service* || *interface* ||

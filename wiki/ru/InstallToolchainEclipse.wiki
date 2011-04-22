@@ -45,7 +45,7 @@ Eclipse - кроссплатформенная IDE, и её установка �
 === Установка на Windows ===
 
 Зайдите на *[http://www.oracle.com/technetwork/java/javase/downloads/]* и выберите _Download JRE_.
- http://embox.googlecode.com/svn/wiki/images/java-download.png
+ http://embox.googlecode.com/svn/wiki/images/InstallToolchainEclipse/java-download.png
 
 Далее выберите вашу платформу (*Windows* или *Windows x64*), соглашаемся с лицензией и жмём *Continue*. Загружаем и запускаем *Windows Offline Installation*. Проходим все шаги установки.
 
