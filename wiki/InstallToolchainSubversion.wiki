@@ -20,7 +20,7 @@ From Eclipse main menu open *Help → Eclipse Marketplace...*
 
 == Select Subclipse for the installation ==
 Find Subclipse in the plugins list and press *Install*.
- http://embox.googlecode.com/svn/wiki/images/eclipse-marketplace.png
+ http://embox.googlecode.com/svn/wiki/images/InstallToolchainSubversion/eclipse-marketplace.png
   Under the _Search_ tab type `subclipse` into the _Find_ field.
 
 == Confirm Selected Features ==
@@ -32,15 +32,15 @@ You will have to _accept the terms of license agreements_ to be able to *Finish*
 *Note:* During the installation you will get _Security Warning_ message, which notifies about installing a software from uncertified sources. This is a normal case, so just continue the installation.
 
 After the Software will be installed you will be prompted to restart Eclipse for the changes to take effect.
- http://embox.googlecode.com/svn/wiki/images/eclipse-restart.png
+ http://embox.googlecode.com/svn/wiki/images/InstallToolchainSubversion/eclipse-restart.png
   Press *Restart Now*.
 
 = TODO =
-http://embox.googlecode.com/svn/wiki/images/eclipse-newproject.png
-http://embox.googlecode.com/svn/wiki/images/eclipse-reposelect.png
-http://embox.googlecode.com/svn/wiki/images/eclipse-repoprompt.png
-http://embox.googlecode.com/svn/wiki/images/eclipse-repobrowse.png
+http://embox.googlecode.com/svn/wiki/images/InstallToolchainSubversion/eclipse-newproject.png
+http://embox.googlecode.com/svn/wiki/images/InstallToolchainSubversion/eclipse-reposelect.png
+http://embox.googlecode.com/svn/wiki/images/InstallToolchainSubversion/eclipse-repoprompt.png
+http://embox.googlecode.com/svn/wiki/images/InstallToolchainSubversion/eclipse-repobrowse.png
 
-http://embox.googlecode.com/svn/wiki/images/eclipse-team.png
-http://embox.googlecode.com/svn/wiki/images/googlecode-password.png
-http://embox.googlecode.com/svn/wiki/images/eclipse-commit-password.png
+http://embox.googlecode.com/svn/wiki/images/InstallToolchainSubversion/eclipse-team.png
+http://embox.googlecode.com/svn/wiki/images/InstallToolchainSubversion/googlecode-password.png
+http://embox.googlecode.com/svn/wiki/images/InstallToolchainSubversion/eclipse-commit-password.png

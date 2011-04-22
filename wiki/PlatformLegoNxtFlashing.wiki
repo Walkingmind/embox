@@ -11,7 +11,7 @@ $ scons
 }}}
  # Configure Embox with 'arm' platform 'nxt' template
  # Put NXT brick into flashing mode. This can be done via power_mng nxt platform test or via long (6s) pressing of reset button. In flashing mode brick clicks every ~1 sec.
- # Flashing Embox 
+ # Flashing Embox
 {{{
 # fwflash embox.bin
 }}}

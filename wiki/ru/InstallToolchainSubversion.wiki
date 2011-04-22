@@ -22,7 +22,7 @@
 == Выберите Subclipse для установки ==
 
 Найдите Subclipse в списке плагинов и нажмите *Install*.
- http://embox.googlecode.com/svn/wiki/images/eclipse-marketplace.png
+ http://embox.googlecode.com/svn/wiki/images/InstallToolchainSubversion/eclipse-marketplace.png
   Во вкладке _Search_ наберите `subclipse` в поле _Find_.
 
 == Подтвердите сделанный выбор ==
@@ -36,16 +36,16 @@
 *Замечание:* Во время установки вы получите _Security Warning_ сообщение, которое предупреждает об установке ПО от непроверенного источника. Это нормальные ход вещей, просто проолжайте установку.
 
 После того, как всё установлено вам будет предложено перезапустить Eclipse для того, чтобы изменения вступили в силу.
- http://embox.googlecode.com/svn/wiki/images/eclipse-restart.png
+ http://embox.googlecode.com/svn/wiki/images/InstallToolchainSubversion/eclipse-restart.png
   Нажмите *Restart Now*.
 
 = TODO =
 
-http://embox.googlecode.com/svn/wiki/images/eclipse-newproject.png
-http://embox.googlecode.com/svn/wiki/images/eclipse-reposelect.png
-http://embox.googlecode.com/svn/wiki/images/eclipse-repoprompt.png
-http://embox.googlecode.com/svn/wiki/images/eclipse-repobrowse.png
+http://embox.googlecode.com/svn/wiki/images/InstallToolchainSubversion/eclipse-newproject.png
+http://embox.googlecode.com/svn/wiki/images/InstallToolchainSubversion/eclipse-reposelect.png
+http://embox.googlecode.com/svn/wiki/images/InstallToolchainSubversion/eclipse-repoprompt.png
+http://embox.googlecode.com/svn/wiki/images/InstallToolchainSubversion/eclipse-repobrowse.png
 
-http://embox.googlecode.com/svn/wiki/images/eclipse-team.png
-http://embox.googlecode.com/svn/wiki/images/googlecode-password.png
-http://embox.googlecode.com/svn/wiki/images/eclipse-commit-password.png
+http://embox.googlecode.com/svn/wiki/images/InstallToolchainSubversion/eclipse-team.png
+http://embox.googlecode.com/svn/wiki/images/InstallToolchainSubversion/googlecode-password.png
+http://embox.googlecode.com/svn/wiki/images/InstallToolchainSubversion/eclipse-commit-password.png

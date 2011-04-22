@@ -21,7 +21,7 @@ Eclipse - кроссплатформенная IDE, и её установка �
 == Загрузка ==
 
 Зайти на *[http://eclipse.org/downloads]* и выбрать *Eclipse IDE for C/C++ Developers*.
- http://embox.googlecode.com/svn/wiki/images/eclipse-download.png
+ http://embox.googlecode.com/svn/wiki/images/InstallToolchainEclipse/eclipse-download.png
   Убедитесь что выбрали нужную версию для вашей ОС.
 
 == Установка ==

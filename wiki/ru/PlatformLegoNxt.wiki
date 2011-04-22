@@ -9,7 +9,7 @@
 сбора данных с большинства датчиков и для управления моторами. Поясняющая схема
 и технические характеристики ниже.
 
-<img src="http://embox.googlecode.com/svn/wiki/images/9841-0000-xx-12-1.png" width="320" height="240">
+<img src="http://embox.googlecode.com/svn/wiki/images/PlatformLegoNxt/9841-0000-xx-12-1.png" width="320" height="240">
 
  * Микропроцессор Atmel 32-bit ARM, AT91SAM7S256
   * 256 Kb flash
@@ -28,7 +28,7 @@
  * 4 кнопки
  * 6 AA батареек/ 1400 mAH аккумулятор
 
-<img src="http://embox.googlecode.com/svn/wiki/images/LEGO-NXT-Scheme.PNG" width="350" height="250">
+<img src="http://embox.googlecode.com/svn/wiki/images/PlatformLegoNxt/LEGO-NXT-Scheme.PNG" width="350" height="250">
 
 OC Embox работает на контроллере NXT.
 
@@ -36,7 +36,7 @@ OC Embox работает на контроллере NXT.
 
 Код для платформенной части Lego Nxt расположен в папке /platform/lego_nxt/.
 В ней находятся код драйверов, описание интерфейсов, а также примеры использования.
- 
+
 Для того что бы начать разработку под данную платформу необходимо установить окружение, а именно:
  * кросс-компилятор gcc для ARM (рекомендуется взять [http://www.gnuarm.com/bu-2.17_gcc-4.1.1-c-c++_nl-1.14.0_gi-6.5.exe для  Windows] [http://embox.googlecode.com/files/arm-elf-gcc-4.3.3.txz для Линукс])
  * Eclipse (CDT) для упрощения разработки
@@ -54,7 +54,7 @@ OC Embox работает на контроллере NXT.
 
 Вы можете использовать следующие функции для работы с роботами Lego.
 
-== Примеры работы == 
+== Примеры работы ==
 В можете посмотреть реализованные примеры работы на [PlatformLegoNxtExamples этой странице]
- 
+
 

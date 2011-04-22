@@ -11,15 +11,15 @@ module based on Atmel AT91SAM7S256 ARM7TDMI microcontroller and attached to it
 AVR controller via I2C interface. AVR is used to collect data from most of the
 sensors and control motors. Explanations and the technical specifications below.
 
-<img src="http://embox.googlecode.com/svn/wiki/images/9841-0000-xx-12-1.png" width="320" height="240">
+<img src="http://embox.googlecode.com/svn/wiki/images/PlatformLegoNxt/9841-0000-xx-12-1.png" width="320" height="240">
 
  * Atmel 32-bit ARM, AT91SAM7S256 microcontroller
   * 256 Kb flash
   * 64 Kb RAM
   * 48 MHz
  * Atmel 8-bit AVR, ATmega48 controller
-  * 4 Kb flash               
-  * 512 byte RAM             
+  * 4 Kb flash
+  * 512 byte RAM
   * 8 MHz
  * Bluetooth wireless CSR BlueCore 4 v2.0 +EDR System
  * USB 2.0 full speed (12 Mbit/s)
@@ -30,7 +30,7 @@ sensors and control motors. Explanations and the technical specifications below.
  * 4 buttons
  * 6 AA battery/ 1400 mAH accumilator
 
-<img src="http://embox.googlecode.com/svn/wiki/images/LEGO-NXT-Scheme.PNG" width="350" height="250">
+<img src="http://embox.googlecode.com/svn/wiki/images/PlatformLegoNxt/LEGO-NXT-Scheme.PNG" width="350" height="250">
 
 OS Embox working on the NXT controller.
 

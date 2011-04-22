@@ -12,14 +12,14 @@
 Если вы уже знакомы с процедурой установки Cygwin, вы можете пропустить этот мануал. Вам необходимо установить следующие пакеты:
  * *make* 3.81 или новее
  * *gcc* или *gcc4* любой стабильной версии
-Не забудьте добавить *`bin`* директурию Cygwin'а в ваш *PATH*. 
+Не забудьте добавить *`bin`* директурию Cygwin'а в ваш *PATH*.
 
 = Пошаговая инструкция =
 
 == Загрузка ==
 
 Зайдите на *[http://cygwin.com]* и скачайте Cygwin инсталлятор.
- http://embox.googlecode.com/svn/wiki/images/cygwin-download.png
+ http://embox.googlecode.com/svn/wiki/images/InstallToolchainWindowsCygwin/cygwin-download.png
   Нажмите на _Install or update Cygwin now!_
 
 == Установка ==
@@ -36,7 +36,7 @@
 Когда спросят, выберите директорию установки Cygwin. По умолчанию это *`C:\cygwin`*, но вы можете изменить её. Оставьте *Install for* по умолчанию:
  * *All Users*
 *Заметьте* что путь к директории *не должен* содержать пробелов или не-латинских символов.
- http://embox.googlecode.com/svn/wiki/images/cygwin-setup-choosedirectory.png
+ http://embox.googlecode.com/svn/wiki/images/InstallToolchainWindowsCygwin/cygwin-setup-choosedirectory.png
 
 === Директория для локальных пакетов ===
 
@@ -59,13 +59,13 @@ Cygwin загрузит свои установочные файлы в зада
 ==== make ====
 
 Выберите пакет *make*, версия *3.81* или выше.
- http://embox.googlecode.com/svn/wiki/images/cygwin-setup-make.png
+ http://embox.googlecode.com/svn/wiki/images/InstallToolchainWindowsCygwin/cygwin-setup-make.png
   Наберите `make` в поле поиска и выберите _make_ в категории _Devel_.
 
 ==== gcc ====
 
 Вы можете выбрать *gcc* или *gcc4* пакет любой стабильной версии.
- http://embox.googlecode.com/svn/wiki/images/cygwin-setup-gcc4.png
+ http://embox.googlecode.com/svn/wiki/images/InstallToolchainWindowsCygwin/cygwin-setup-gcc4.png
   Найдите `gcc` и выберите _gcc_ или _gcc4_ в категории _Devel_.
 
 === Завершение установки ===

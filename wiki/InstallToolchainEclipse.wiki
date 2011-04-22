@@ -18,7 +18,7 @@ The one thing to mention is the use of older versions of Eclipse or CDT (for exa
 = Step-by-step =
 == Download ==
 Go to *[http://eclipse.org/downloads]* and select *Eclipse IDE for C/C++ Developers*.
- http://embox.googlecode.com/svn/wiki/images/eclipse-download.png
+ http://embox.googlecode.com/svn/wiki/images/InstallToolchainEclipse/eclipse-download.png
   Be sure to choose the right version accordingly to your operating system.
 
 == Install ==

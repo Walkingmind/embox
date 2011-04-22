@@ -45,7 +45,7 @@
 {{{
 %PATH%;C:\cygwin\bin
 }}}
- http://embox.googlecode.com/svn/wiki/images/environment-variables-path-cygwin.png
+ http://embox.googlecode.com/svn/wiki/images/InstallToolchainPath/environment-variables-path-cygwin.png
 
 = Linux =
 

@@ -10,12 +10,12 @@ We recommend you to use *[http://en.wikipedia.org/wiki/Cygwin Cygwin]* for that 
 If you are familiar with Cygwin installation procedure, you can skip the most of this guide. You should install the following packages:
  * *make* 3.81 or above
  * *gcc* or *gcc4* of any stable version
-Do not forget to add Cygwin's *`bin`* directory to your *PATH*. 
+Do not forget to add Cygwin's *`bin`* directory to your *PATH*.
 
 = Step-by-step =
 == Download ==
 Go to *[http://cygwin.com]* and download Cygwin setup executable.
- http://embox.googlecode.com/svn/wiki/images/cygwin-download.png
+ http://embox.googlecode.com/svn/wiki/images/InstallToolchainWindowsCygwin/cygwin-download.png
   Click on _Install or update Cygwin now!_
 
 == Install ==
@@ -29,10 +29,10 @@ Keep the default value:
 When prompted, choose the Cygwin installation directory. The default is *`C:\cygwin`*, but you can change it. Leave *Install for* as default:
  * *All Users*
 *Note* that the directory path *must not* contain any spaces or non-latin characters.
- http://embox.googlecode.com/svn/wiki/images/cygwin-setup-choosedirectory.png
+ http://embox.googlecode.com/svn/wiki/images/InstallToolchainWindowsCygwin/cygwin-setup-choosedirectory.png
 
 === Local Package directory ===
-Cygwin will download its installation files to the specified directory. The default is directory which was used to save the setup executable. You may leave the default value.  
+Cygwin will download its installation files to the specified directory. The default is directory which was used to save the setup executable. You may leave the default value.
 
 === Connection type ===
 Setup your Internet connection which will be used to download installation files. The right choice depends on your ISP and network settings.
@@ -47,12 +47,12 @@ We also need GNU *[http://en.wikipedia.org/wiki/Make_(software) make]* [http://e
 
 ==== make ====
 Select package *make*, version *3.81* or higher.
- http://embox.googlecode.com/svn/wiki/images/cygwin-setup-make.png
+ http://embox.googlecode.com/svn/wiki/images/InstallToolchainWindowsCygwin/cygwin-setup-make.png
   Type `make` into search field and select _make_ from category _Devel_.
 
 ==== gcc ====
 You are free to choose between *gcc* and *gcc4* packages of any stable version.
- http://embox.googlecode.com/svn/wiki/images/cygwin-setup-gcc4.png
+ http://embox.googlecode.com/svn/wiki/images/InstallToolchainWindowsCygwin/cygwin-setup-gcc4.png
   Search for `gcc` and select _gcc_ or _gcc4_ from category _Devel_.
 
 === Finish the Installation ===

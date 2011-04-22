@@ -41,7 +41,7 @@ Thus we create new user variable (or modify existing one, if any) and name it `P
 {{{
 %PATH%;C:\cygwin\bin
 }}}
- http://embox.googlecode.com/svn/wiki/images/environment-variables-path-cygwin.png
+ http://embox.googlecode.com/svn/wiki/images/InstallToolchainPath/environment-variables-path-cygwin.png
 
 = Linux =
 Some important rules concerning environment variables in Linux (and Unix in general):
