@@ -56,12 +56,12 @@ static int showdevinfo(void) {
 	return 0;
 }
 
-static int exec(int argsc, char **argsv) {
-	int nextOption;
+static int exec(int argc, char **argv) {
+	int opt;
 	getopt_init();
 	do {
-		nextOption = getopt(argsc, argsv, "hi");
-		switch(nextOption) {
+		opt = getopt(argc, argv, "hi");
+		switch(opt) {
 		case 'h':
 			print_usage();
 			return 0;
@@ -73,54 +73,54 @@ static int exec(int argsc, char **argsv) {
 		default:
 			return 0;
 		}
-	} while (-1 != nextOption);
+	} while (-1 != opt);
 
 	/*
-	if (!strcmp (argsv[0],"-f")) {
+	if (!strcmp (argv[0],"-f")) {
 		mbfs_format_flash();
 		return 0;
 	}
 
 	int bnum;
 
-	if (!strcmp (argsv[0],"-u")) {
-		if (argsc==1)
+	if (!strcmp (argv[0],"-u")) {
+		if (argc==1)
 			s_unlock_all_blocks();
 		else {
-			sscanf(argsv[1], "%d", &bnum);
+			sscanf(argv[1], "%d", &bnum);
 			s_unlock_block(bnum);
 		}
 		return 0;
 	}
 
-	if (argsc<2) {
+	if (argc<2) {
 		print_usage();
 		return -1;
 	}
 
-	if (!strcmp (argsv[0],"-a")) {
-		sscanf(argsv[1], "%d", &bnum);
+	if (!strcmp (argv[0],"-a")) {
+		sscanf(argv[1], "%d", &bnum);
 		uint32_t addr;
 		flash_get_block_address(bnum,&addr);
 		TRACE("addr: 0x%08x\n",addr);
 		return 0;
 	}
 
-	if (!strcmp (argsv[0],"-e")) {
-		sscanf(argsv[1], "%d", &bnum);
+	if (!strcmp (argv[0],"-e")) {
+		sscanf(argv[1], "%d", &bnum);
 		s_erase_block(bnum);
 		return 0;
 	}
 
-	if (!strcmp (argsv[0],"-l")) {
-		sscanf(argsv[1], "%d", &bnum);
+	if (!strcmp (argv[0],"-l")) {
+		sscanf(argv[1], "%d", &bnum);
 		s_lock_block(bnum);
 		return 0;
 	}
 
-	if (!strcmp (argsv[0],"-s")) {
+	if (!strcmp (argv[0],"-s")) {
 		uint32_t bstat;
-		sscanf(argsv[1], "%d", &bnum);
+		sscanf(argv[1], "%d", &bnum);
 		if (s_block_getstatus(bnum,&bstat)) {
 			TRACE("error getting block %d status!\n",bnum);
 			return -1;
@@ -132,21 +132,21 @@ static int exec(int argsc, char **argsv) {
 
 	int i, addr,nwords=1;
 	uint32_t buf[16];
-	if (!strcmp (argsv[0],"-r")) {
-		if (strncmp(argsv[1],"0x",2)) {
+	if (!strcmp (argv[0],"-r")) {
+		if (strncmp(argv[1],"0x",2)) {
 			TRACE("ERROR: hex address expected.\n");
 			return -1;
 		}
 
-		if (argsc>2) {
-			sscanf(argsv[2], "%d", &nwords);
+		if (argc>2) {
+			sscanf(argv[2], "%d", &nwords);
 			if (nwords>16) {
 				TRACE("max nwords is 16");
 				nwords = 16;
 			}
 		}
 
-		sscanf(argsv[1], "0x%x", &addr);
+		sscanf(argv[1], "0x%x", &addr);
 		if (s_read_flash(addr,buf,nwords*4)) {
 			TRACE("error reading from %08x address!\n",addr);
 			return -1;
@@ -160,28 +160,28 @@ static int exec(int argsc, char **argsv) {
 		return 0;
 	}
 
-	if (argsc<3) {
+	if (argc<3) {
 		print_usage();
 		return -1;
 	}
 
-	if (!strncmp (argsv[0],"-w",2)) {
+	if (!strncmp (argv[0],"-w",2)) {
 		uint32_t val;
-		if (strncmp(argsv[1],"0x",2)) {
+		if (strncmp(argv[1],"0x",2)) {
 			TRACE("ERROR: hex address expected.\n");
 			return -1;
 		}
 
-		if (strncmp(argsv[2],"0x",2)) {
+		if (strncmp(argv[2],"0x",2)) {
 			TRACE("ERROR: hex value expected.\n");
 			return -1;
 		}
 
-		sscanf(argsv[1], "0x%x", &addr);
-		sscanf(argsv[2], "0x%x", &val);
+		sscanf(argv[1], "0x%x", &addr);
+		sscanf(argv[2], "0x%x", &val);
 
-		if (argsc>3) {
-			sscanf(argsv[3], "%d", &nwords);
+		if (argc>3) {
+			sscanf(argv[3], "%d", &nwords);
 			if (nwords>16) {
 				TRACE("max nwords is 16");
 				nwords = 16;
@@ -190,7 +190,7 @@ static int exec(int argsc, char **argsv) {
 		for (i=0;i<nwords;i++)
 			buf[i] = val;
 
-		//if (!strncmp (argsv[0],"-wb",3))
+		//if (!strncmp (argv[0],"-wb",3))
 		//	s_program32_flash_buffered(addr,buf,nwords);
 		//else
 			s_program32_flash_unbuffered(addr,buf,nwords);

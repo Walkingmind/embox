@@ -69,9 +69,9 @@ static int store_area(uint32_t src_addr, uint32_t start_block_num, int numwords)
 }
 
 
-static int exec(int argsc, char **argsv) {
+static int exec(int argc, char **argv) {
 	int i;
-	int nextOption;
+	int opt;
 	uint32_t src_addr;
 	int start_block_num;
 	int numwords;
@@ -85,8 +85,8 @@ static int exec(int argsc, char **argsv) {
 
 	getopt_init();
 	do {
-		nextOption = getopt(argsc, argsv, "hf:t:n:");
-		switch(nextOption) {
+		opt = getopt(argc, argv, "hf:t:n:");
+		switch(opt) {
 		case 'h':
 			print_usage();
 			return 0;
@@ -110,7 +110,7 @@ static int exec(int argsc, char **argsv) {
 		default:
 			return 0;
 		}
-	} while (-1 != nextOption);
+	} while (-1 != opt);
 
 	store_area(src_addr, start_block_num, numwords);
 
