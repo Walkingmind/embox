@@ -6,7 +6,6 @@ $_MODS += boot
 $_REQUIRES-boot += embox.hal.interrupt
 
 $_DEPS-boot += embox.fs.core
-$_DEPS-boot += embox.hal.prom
 $_DEPS-boot += embox.hal.mm.mmu
 
 $_SRCS-boot += boot.c
