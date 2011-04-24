@@ -17,15 +17,15 @@ static void print_usage(void) {
 	printf("Usage: tcpdump [-i] [-c] [-h]\n");
 }
 
-static int exec(int argsc, char **argsv) {
-	int nextOption;
+static int exec(int argc, char **argv) {
+	int opt;
 	char *name;
 	int count;
 
 	getopt_init();
 	do {
-		nextOption = getopt(argsc, argsv, "i:c:h");
-		switch(nextOption) {
+		opt = getopt(argc, argv, "i:c:h");
+		switch(opt) {
 		case 'h':
 			print_usage();
 			return 0;
@@ -42,7 +42,7 @@ static int exec(int argsc, char **argsv) {
 		default:
 			return 0;
 		}
-	} while (-1 != nextOption);
+	} while (-1 != opt);
 
 	//eth_listen(eth_get_if (name), 0 /*??*/, NULL);
 	//printf("not realized\n");
