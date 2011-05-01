@@ -2,7 +2,7 @@
  * @file
  * @brief Sonar test
  *
- * @date 22.12.2010
+ * @date 22.12.10
  * @author Anton Kozlov
  */
 
@@ -23,10 +23,9 @@ static int sonar_test(void) {
 	nxt_sonar_init(PORT);
 
 	while (!(( buts = nxt_buttons_was_pressed()) & BT_DOWN)) {
-		TRACE("%d\n", nxt_sensor_get_val(PORT)); 
+		TRACE("%d\n", nxt_sensor_get_val(PORT));
 
 		usleep(1000);
 	}
 	return 0;
 }
-
