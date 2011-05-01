@@ -3,7 +3,7 @@
  * @brief Sonar sensor interface of nxt
  *
  * @date 27.12.2010
- * @author Anton Kozlov 
+ * @author Anton Kozlov
  */
 
 
@@ -14,7 +14,7 @@
 
 #define NXT_SONAR_DISTANCE_COMM 0x42
 
-extern void nxt_sonar_init(sensor_t *sensor); 
+extern void nxt_sonar_init(sensor_t *sensor);
 
 #endif /*NXT_SONAR_H_*/
 
