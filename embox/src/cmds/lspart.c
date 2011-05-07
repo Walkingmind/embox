@@ -5,6 +5,7 @@
  * @date 20.09.10
  * @author Batyukov Alexander
  */
+
 #include <embox/cmd.h>
 #include <getopt.h>
 #include <fs/partition.h>

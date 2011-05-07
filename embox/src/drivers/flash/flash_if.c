@@ -1,9 +1,10 @@
 /**
  * @file
  *
- * @date 16.10.2009
+ * @date 16.10.09
  * @author Alexander Batyukov
  */
+
 #include <drivers/flash_if.h>
 #include <drivers/flash_template.h>
 #include <embox/kernel.h>

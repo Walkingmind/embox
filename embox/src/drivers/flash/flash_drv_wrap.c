@@ -1,9 +1,10 @@
 /**
  * @file
  *
- * @date 28.08.2009
+ * @date 28.08.09
  * @author Roman Evstifeev
  */
+
 #include <drivers/flash_template.h>
 //#include <flash_intel_p30.h>
 #include <embox/kernel.h>

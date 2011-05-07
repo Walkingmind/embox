@@ -1,10 +1,11 @@
 /**
  * @file
  *
- * @date 29.06.2009
+ * @date 29.06.09
  * @author Anton Bondarev
  * @author Alexander Batyukov
  */
+
 #include <string.h>
 #include <fs/rootfs.h>
 #include <fs/romfs.h>

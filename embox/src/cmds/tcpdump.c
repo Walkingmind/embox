@@ -5,6 +5,7 @@
  * @date 23.03.09
  * @author Alexandr Batyukov
  */
+
 #include <embox/cmd.h>
 #include <getopt.h>
 #include <net/etherdevice.h>
