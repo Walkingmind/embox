@@ -24,4 +24,3 @@ image.rom:
 
 clean:
 	$(RM) remove_predefs.h *.o
-

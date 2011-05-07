@@ -18,4 +18,3 @@ endif
 
 KERNEL_SRC     = linux-$(KERNEL_VERSION).tar.bz2
 KERNEL_URL     = http://www.kernel.org/pub/linux/kernel/v2.6/$(KERNEL_SRC)
-

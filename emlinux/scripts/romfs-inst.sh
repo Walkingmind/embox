@@ -13,4 +13,3 @@ for i in `cat $DEVICES_LIST`; do
     min=${i%%,*}
     echo "nod /dev/$name 0600 0 0 $type $maj $min" >> $INITRAMFS_SOURCE
 done
-

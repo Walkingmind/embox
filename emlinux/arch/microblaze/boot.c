@@ -14,18 +14,18 @@
 //#define XILINX_UARTLITE_IRQ_NUM   2
 #define STATUS_TX_FIFO_FULL      (1<<(31-28))
 
-unsigned int *uart_tx_data = (unsigned int *)XILINX_UARTLITE_TX_DATA;
-unsigned int *uart_status = (unsigned int *)XILINX_UARTLITE_STATUS;
+unsigned int *uart_tx_data = (unsigned int *) XILINX_UARTLITE_TX_DATA;
+unsigned int *uart_status = (unsigned int *) XILINX_UARTLITE_STATUS;
 
 static int xlnx_nbputchar(char c) {
-	while(*uart_status & STATUS_TX_FIFO_FULL);
+	while (*uart_status & STATUS_TX_FIFO_FULL);
 	*uart_tx_data = (unsigned int)c;
 	return 0;
 }
 
 static int xlnx_nbputstr(const char *str) {
-	char *ptr = (char *)str;
-	while(*ptr) {
+	char *ptr = (char *) str;
+	while (*ptr) {
 		xlnx_nbputchar(*ptr++);
 	}
 	return xlnx_nbputchar('\n');
@@ -59,4 +59,3 @@ int __attribute__ ((__section__ (".img.main.text"))) __main(void) {
 	kernel(commandline, 0, NULL);
 	return 0;
 }
-

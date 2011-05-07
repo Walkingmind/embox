@@ -24,14 +24,14 @@ SECTIONS {
 	input_data_end = .;
 
 	_got_start = .;
-	*(.got) 
+	*(.got)
 	_got_end = .;
 	*(.got.plt)
 
 	. = ALIGN(4);
     }
     _etext = .;
-  
+
     . = 0x40000000 + DATA_START;
     .data : {
 	*(.data)
@@ -71,4 +71,3 @@ SECTIONS {
 	*(.comment)
     }
 }
-

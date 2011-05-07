@@ -37,4 +37,3 @@ clean:
 	for mk in $(MAKEFILES); do \
 	    $(MAKE) -f $$mk clean; \
 	done
-
