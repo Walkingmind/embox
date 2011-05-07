@@ -1,9 +1,10 @@
 /**
  * @file
  *
- * @date 13.10.2009
+ * @date 13.10.09
  * @author Alexander Batyukov
  */
+
 #ifndef FLASH_IF_H_
 #define FLASH_IF_H_
 

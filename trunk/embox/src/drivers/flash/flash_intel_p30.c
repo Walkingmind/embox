@@ -23,11 +23,10 @@
  *    the template application programmers interface are implemented
  *    by the template.c source module.
  *
- * @date 09.07.2009
+ * @date 09.07.09
  * @author Garotg
  * @author Alexander Batyukov
  */
-
 
 /*
 *****************************************************************

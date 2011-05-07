@@ -31,7 +31,7 @@
  *    must contain implementations for these particular functions
  *    when the function is in fact supported for that device.
  *
- * @date 09.07.2009
+ * @date 09.07.09
  * @author Garotg
  * @author Alexander Batyukov
  */
@@ -51,7 +51,6 @@
 * FROM INTEL LICENSING ANY SUCH USE.
 *****************************************************************
 */
-
 
 /* Include Files */
 #include <drivers/flash_template.h>

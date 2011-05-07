@@ -5,6 +5,7 @@
  * @date 14.07.09
  * @author Alexandr Batyukov
  */
+
 #include <embox/cmd.h>
 #include <getopt.h>
 #include <drivers/flash_template.h>
