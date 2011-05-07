@@ -42,7 +42,7 @@ SECTIONS {
 		LINUXIMAGE (__param)
 		__end_rodata = .;
 		LINUXIMAGE (__ex_table)
-		. = ALIGN(4096);		
+		. = ALIGN(4096);
 		LINUXIMAGE (.data)
 		LINUXIMAGE (.data.init)
 		LINUXIMAGE (.data1)
@@ -89,7 +89,7 @@ SECTIONS {
 		LINUXIMAGE (.data.cacheline_aligned)
         }
 	__bss_start = .;
-	bss_start = .; 
+	bss_start = .;
         .bss : {
                 *(.bss)
         }

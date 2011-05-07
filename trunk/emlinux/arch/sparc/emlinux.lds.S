@@ -36,7 +36,7 @@ SECTIONS {
 		LINUXIMAGE (__ksymtab_strings)
 		LINUXIMAGE (__param)
 		__end_rodata = .;
-		. = ALIGN(4096);		
+		. = ALIGN(4096);
 		LINUXIMAGE (.data)
 		LINUXIMAGE (.data.init)
 		__start_builtin_fw = .;
@@ -83,11 +83,11 @@ SECTIONS {
 		LINUXIMAGE (.data.cacheline_aligned)
         }
 	__bss_start = .;
-	bss_start = .; 
+	bss_start = .;
         .bss : {
                 *(.bss)
         }
-	bss_end = .; 
+	bss_end = .;
 
         /DISCARD/ : {
                 *(.exit.text)

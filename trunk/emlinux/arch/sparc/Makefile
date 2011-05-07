@@ -38,4 +38,3 @@ image.rom: flash.lds.o
 
 clean:
 	$(RM) remove_predefs.h *.o
-

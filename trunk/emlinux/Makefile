@@ -154,4 +154,3 @@ xconfig x: KERNEL_VERSION := `Xdialog \
 xconfig x:
 	@perl -i -ne "s/^ARCH(\s+)=(\s\w+)/ARCH\1= $(ARCH)/;print" config.mk
 	@perl -i -ne "s/^KERNEL_VERSION(\s+)=(\s\w.+)/KERNEL_VERSION\1= $(KERNEL_VERSION)/;print" config.mk
-
