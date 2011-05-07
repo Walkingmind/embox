@@ -43,4 +43,5 @@ extern int fs_delete_partition(PARTITION_DESCRIPTOR *desc);
 
 /* for debug only */
 extern int fs_print_all_partitions(void);
+
 #endif /* PARTITION_H_ */

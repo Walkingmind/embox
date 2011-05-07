@@ -355,4 +355,3 @@ extern uint8_t flash_wait_until_ready (FLASH_DEV *flash_dev, uint32_t timeout);
 extern void flash_writef (FLASH_DEV *flash_dev, uint32_t offset, FLASH_FDATA value);
 
 #endif  /* __FLASH_TEMPLATE_H */
-

@@ -701,4 +701,3 @@ void flash_writef(FLASH_DEV *flash_dev, uint32_t offset,
 	*ptr = value;
 	FLASH_WRITE_DISABLE;
 }
-

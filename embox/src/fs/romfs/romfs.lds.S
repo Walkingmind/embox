@@ -18,4 +18,3 @@ SECTIONS {
 	} SECTION_REGION(reloc)
 	SECTION_SYMBOLS(reloc)
 }
-

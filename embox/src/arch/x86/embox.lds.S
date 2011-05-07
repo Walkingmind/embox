@@ -11,7 +11,6 @@ MEMORY {
 	MEMORY_REGION(flash)
 }
 
-
 _text_start = _text_vma;
 _text_end = _text_vma + _text_len;
 SECTIONS {
@@ -102,4 +101,3 @@ SECTIONS {
 	}
 	*/
 }
-
