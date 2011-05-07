@@ -16,4 +16,3 @@ define $_DETAILS-md5sum
 	AUTHORS
 		Nikolay Korotky
 endef
-

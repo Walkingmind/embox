@@ -1,4 +1,3 @@
-
 $_MODS = romfs partition
 
 $_SRCS-romfs += romfs.c
@@ -22,4 +21,3 @@ $($_lds): $($_SELFDIR)/romfs.lds.S $(AUTOCONF_DIR)/config.lds.h
 
 -include $($_lds).d
 endif
-

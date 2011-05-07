@@ -14,8 +14,8 @@ typedef int pin_mask_t;
 #include <hal/pins.h>
 
 /**
- * @param ch_mask Monitored pins state 
- * @param mon_mask Monitored pins 
+ * @param ch_mask Monitored pins state
+ * @param mon_mask Monitored pins
  */
 typedef void (*pin_handler_t)(pin_mask_t ch_mask, pin_mask_t mon_mask);
 
@@ -40,4 +40,3 @@ extern void pin_set_output(pin_mask_t mask);
 extern void pin_clear_output(pin_mask_t mask);
 
 #endif /* PINS_H_ */
-
