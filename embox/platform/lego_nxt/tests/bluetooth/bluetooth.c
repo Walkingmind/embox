@@ -2,10 +2,9 @@
  * @file
  * @brief BTinit test
  *
- * @date 26.02.2010
+ * @date 26.02.10
  * @author Anton Kozlov
  */
-
 #include <types.h>
 #include <embox/test.h>
 #include <unistd.h>
@@ -27,7 +26,7 @@ static int hello_len = 12;
 EMBOX_TEST(bluetooth_test);
 
 extern int bt_wrap(bt_message_t *header, uint8_t *buffer);
-	 
+
 static int bluetooth_test(void) {
 	int len;
 	msg.length = 0;
@@ -37,7 +36,7 @@ static int bluetooth_test(void) {
 
 	while (1) {
 		int buttons = 0;
-		while(!(buttons = nxt_buttons_was_pressed())) {
+		while (!(buttons = nxt_buttons_was_pressed())) {
 			usleep(250);
 		}
 		if (buttons & BT_ENTER) {
