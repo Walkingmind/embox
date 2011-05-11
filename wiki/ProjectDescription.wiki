@@ -5,18 +5,39 @@
 
 = Introduction =
 
-Modern computer systems are used for a variety of problems, starting from engine management to huge data centers serving the queries of many users in real time. Different tasks require different resources and the system requirements are different. Therefore the software that manages this hardware must be different. This is particularly evident in embedded systems.  OS soft and hard real-time often are used in these systems. Users expect predictability from such systems in their reaction to an event it means the system can’t refuse in any situation. Usually those failures occur due to errors in system driver code. Because the drivers are developed by hardware manufacturers, and their code is known to be of lower quality. Besides the drivers code is hard to debug.
+Modern computer systems are used for a variety of problems, starting from engine
+management to huge data centers serving the queries of many users in real time.
+Different tasks require different resources and the system requirements are
+different. Therefore the software that manages this hardware must be different.
+This is particularly evident in embedded systems.  OS soft and hard real-time
+often are used in these systems. Users expect predictability from such systems
+in their reaction to an event it means the system can’t refuse in any situation.
+Usually those failures occur due to errors in system driver code. Because the 
+drivers are developed by hardware manufacturers, and their code is known to be
+of lower quality. Besides the drivers code is hard to debug.
 
-All these facts affect the process of coding for embedded systems. In these systems test system design - first of all, then development of some drivers for the system loader and finally porting the main operating system. Аs stated above the code of systems platform part tripled and it leads to errors.
+All these facts affect the process of coding for embedded systems. In these
+systems test system design - first of all, then development of some drivers for
+the system loader and finally porting the main operating system. Аs stated above
+the code of systems platform part tripled and it leads to errors.
 
-*Embox* is a configurable operating system. Instead of providing a monolithic kernel, all code is placed into libraries implementing different interfaces, for example memory manager interface. Only required parts of the system are included in the final image. The required parts are defined during the configuration of the system or at its run time.
+*Embox* is a configurable operating system. Instead of providing a monolithic
+kernel, all code is placed into libraries implementing different interfaces, for
+example memory manager interface. Only required parts of the system are included
+in the final image. The required parts are defined during the configuration of
+the system or at its run time.
 
 = Architecture overview =
 
-At this point, the project identified a number of interfaces for various subsystems (they may change in future). They include an interface package HAL, dynamic memory management, virtual memory management, networking subsystem, the file subsystem.
+At this point, the project identified a number of interfaces for various
+subsystems (they may change in future). They include an interface package HAL,
+dynamic memory management, virtual memory management, networking subsystem, the
+file subsystem.
 
 == HAL Architecture ==
-HAL(Hardware abstraction layer) — This is a platform specific code in this packet. It contains following parts:
+
+HAL(Hardware abstraction layer) — This is a platform specific code in this
+packet. It contains following parts:
   * Processor initializing code
   * Interrupt vector table
   * Primary interrupt and exception handlers
@@ -24,24 +45,43 @@ HAL(Hardware abstraction layer) — This is a platform specific code in this pac
   * Platform specific part of a memory management unit (virtual memory)
 
 == Dynamic memory management ==
-[http://en.wikipedia.org/wiki/Dynamic_memory_allocation Dynamically allocated memory] - is the memory allocated during the runtime of the program, instead of statically allocated memory, which allocates during application building.
 
-The project has several allocation algorithm implementation such as: Buddy system, Boundary markers, SLAB allocators  
+[http://en.wikipedia.org/wiki/Dynamic_memory_allocation Dynamically allocated memory] -
+is the memory allocated during the runtime of the program, instead of statically
+allocated memory, which allocates during application building.
+
+The project has several allocation algorithm implementation such as:
+Buddy system, Boundary markers, SLAB allocators
 
 == Virtual memory management ==
-[http://en.wikipedia.org/wiki/Virtual_memory Virtual memory] is a technique which allows of isolating address spaces different processes and getting flat address space for each process, therefore it allows to extend address space of the whole system.
 
-More information about our implementation you can receive on the [VirtualMemory wiki page].
+[http://en.wikipedia.org/wiki/Virtual_memory Virtual memory] is a technique
+which allows of isolating address spaces different processes and getting flat
+address space for each process, therefore it allows to extend address space of
+the whole system.
+
+More information about our implementation you can receive on the
+[VirtualMemory wiki page].
 
 == Multitasking ==
-This packet contains resources that allow ensure pseudo parallel execution of application. Such as: schedulers, synchronization mechanism, interprocess communication and so on.
+
+This packet contains resources that allow ensure pseudo parallel execution of
+application. Such as: schedulers, synchronization mechanism, interprocess
+communication and so on.
 
 == Network ==
-This is an implementation (not yet completed) of stack TCP/IP. It includes several protocols such as: IP, ICMP, ARP, UDP, TFTP and etc.
 
-The main feature of our implementation is a possibility of including only required protocols to the image. It can save a lot of system resources.
+This is an implementation (not yet completed) of stack TCP/IP. It includes
+several protocols such as: IP, ICMP, ARP, UDP, TFTP and etc.
+
+The main feature of our implementation is a possibility of including only
+required protocols to the image. It can save a lot of system resources.
 
 == File System ==
-File system - is a technique which provides unify interface to data access. It is very comfortable either to access data kept on a storage or to work with different devices for example (IO devices).
 
-There is an implementation of a virtual file system in the project. It allows to insert different file system drivers.
+File system - is a technique which provides unify interface to data access.
+It is very comfortable either to access data kept on a storage or to work with
+different devices for example (IO devices).
+
+There is an implementation of a virtual file system in the project.
+It allows to insert different file system drivers.
