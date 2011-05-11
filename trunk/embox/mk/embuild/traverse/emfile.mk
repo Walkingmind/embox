@@ -10,7 +10,7 @@ ifndef __embuild_traverse_emfile_mk
 __embuild_traverse_emfile_mk := 1
 
 include core/common.mk
-include util/var/filter.mk
+include util/var/list.mk
 include util/var/assign.mk
 include util/log.mk
 include util/list.mk
@@ -87,10 +87,9 @@ emfile_handle_chain_results = \
 ######### Filtering
 
 emfile_chain_handle_filter_sandbox_variables = \
-  $(call var_filter_out, \
+  $(call var_list_filter_out,emfile_filter_handle, \
           $(__emfile_sandbox_variables_before), \
-          $(__emfile_sandbox_variables_after), \
-              emfile_filter_handle)
+          $(__emfile_sandbox_variables_after))
 
 # Called for each user defined variable. Detects double word variable names
 # and tries to interpret them as entities.
