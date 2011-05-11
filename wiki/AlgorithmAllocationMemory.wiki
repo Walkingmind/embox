@@ -1,4 +1,4 @@
-#summary Describes memory allocation algorithms
+#summary Description of the memory allocation algorithms
 
 <wiki:toc max_depth="4" />
 
@@ -8,8 +8,31 @@ Memory allocation algorithms used to manage chunks of memory allocated for
 objects during program execution.
 
 These algorithms are used to allocate memory for objects of various types.
+For example, the dynamic objects with unknown size, the virtual mode table,
+a set of objects of the same nature and size (e.g. network packet descriptor) and etc.
+
+Memory can be allocated not only for data objects, but for the instructions
+of a process. In this case it is expedient to use [VirtualMemory virtual memory mode],
+that allows you to isolate the process address space from each other.
+To work with the [VirtualMemory virtual memory] allocation is used through the pages.
+
+For different types of objects characterized by different requirements for memory,
+so using different management strategies. This allows us to improve the efficiency
+of the overall program.
 
 = Physical and virtual memory =
+
+As mentioned above, the operating system can operate using [VirtualMemory virtual mode],
+and can run processes in real mode. Virtual mode is used in most modern operating systems
+and is supported at the hardware level, all modern processors, since greatly simplifies
+the allocation mechanisms and memory isolation.
+
+But there are a number of computing systems in which this mechanism may be redundant.
+These systems include real-time system, which at the compile-time is already known 
+address map for all processes (threads) that will work in the system. In such systems
+often don't need to have a mechanism for allocation memory for the code, and objects
+often can be allocated by a static way. But even in such systems is useful to have
+a mechanism for dynamic memory allocation.
 
 = Memory allocation =
 
@@ -24,7 +47,7 @@ These algorithms are used to allocate memory for objects of various types.
 === Allocation ===
 === Deallocation ===
 === Properties ===
-==== Merits ====             
+==== Merits ====
 ==== Demerits ====
 
 == Bitmap ==
@@ -48,4 +71,3 @@ http://web.archive.org/web/20070728155440/http://dixx.ru/reference/tlsf - transl
 http://wkaras.webs.com/heapmm/heapmm.html
 
 http://www.iolanguage.com/Library/Papers/MemoryManagement/fragsolved.pdf
-
