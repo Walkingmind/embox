@@ -2,15 +2,16 @@
 
 We use [http://en.wikipedia.org/wiki/Apache_Subversion Subversion] repository for the development. You can [http://code.google.com/p/embox/source/checkout checkout] the latest source snapshot from `/trunk` or examine the repository using [http://code.google.com/p/embox/source/browse web-based viewer].
 
-= Latest stable release - embox-0.1.11 =
+= Latest stable release - embox-0.2.0 =
 
-Released on Mar 11 2011.
+Released on May 16 2011.
 
- * [http://embox.googlecode.com/files/embox-0.1.11.txz embox-0.1.11.txz] (size: 379 KB; SHA1 Checksum: 1e405fa344d39b2af505339207025ea8651e608e)
- * [http://embox.googlecode.com/files/embox-0.1.11.tar.gz embox-0.1.11.tar.gz] (size: 499 KB; SHA1 Checksum: ede85a0c831538dfc82d894c15249506946c6c47)
+ * [http://embox.googlecode.com/files/embox-0.2.0.txz embox-0.2.0.txz] (размер: 392 KB; SHA1 Checksum: 03ec42339855bba93436f09fdb20bd4653b9357a)
+ * [http://embox.googlecode.com/files/embox-0.2.0.tar.gz embox-0.2.0.tar.gz] (size: 521 KB; SHA1 Checksum: 8ed32a53ab532372f4468fec7b9da5bab0f941b6)
 
 = Previous stable releases =
 
+ * [http://embox.googlecode.com/files/embox-0.1.11.txz embox-0.1.11.txz] (size: 379 KB; SHA1 Checksum: 1e405fa344d39b2af505339207025ea8651e608e)
  * [http://embox.googlecode.com/files/embox-0.1.10.txz embox-0.1.10.txz] (size: 356 KB; SHA1 Checksum: ea5194728818042b9a630fc9ab5ddba2f2298a33)
  * [http://embox.googlecode.com/files/embox-0.1.9.txz embox-0.1.9.txz] (size: 335 KB; SHA1 Checksum: 675302e81ecdf71e44f24b3de72002525b3da732)
  * [http://embox.googlecode.com/files/embox-0.1.8.txz embox-0.1.8.txz] (size: 327 KB; SHA1 Checksum: 859f6874cb2aba03d5dd3aa1da28348ad61acabc)
@@ -68,6 +69,6 @@ ARM Cross-compiler for Windows:
 Others:
 
  * [http://embox.googlecode.com/files/cross-arm-elf-gdb-7.1-1-i686.pkg.tar.xz cross-arm-elf-gdb-7.1-1-i686.pkg.tar.xz]
- * [http://embox.googlecode.com/files/openocd.cfg openocd.cfg] openocd config for jtag debuging on at91sam7x256 
+ * [http://embox.googlecode.com/files/openocd.cfg openocd.cfg] openocd config for jtag debuging on at91sam7x256
 
 = [http://code.google.com/p/embox/downloads/list View all] =
