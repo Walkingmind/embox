@@ -1,6 +1,10 @@
 #summary Downloads
 
-We use [http://en.wikipedia.org/wiki/Apache_Subversion Subversion] repository for the development. You can [http://code.google.com/p/embox/source/checkout checkout] the latest source snapshot from `/trunk` or examine the repository using [http://code.google.com/p/embox/source/browse web-based viewer].
+We use [http://en.wikipedia.org/wiki/Apache_Subversion Subversion] repository
+for the development.
+You can [http://code.google.com/p/embox/source/checkout checkout] the latest
+source snapshot from `/trunk` or examine the repository using
+[http://code.google.com/p/embox/source/browse web-based viewer].
 
 = Latest stable release - embox-0.2.0 =
 

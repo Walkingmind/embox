@@ -6,4 +6,3 @@
 
 Filesystem devfs abstracts the hardware and communicate with any device using a
 [FileInterfaceDescription file interface].
-

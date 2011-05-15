@@ -1,22 +1,28 @@
 #summary Main rules of Embox codestyle are described here.
 
-<wiki:toc max_depth="2" />
+<wiki:toc max_depth="3" />
 
 = Introduction =
 
- Now this document is not complete, if you have some unclear part you should contact us, may be in our google group. We explain the details and refine this document.
- 
- Moreover you can meet some parts which don't correspond this codestyle you may correct it yourself or inform us.
- 
+Now this document is not complete, if you have some unclear part you should
+contact us, may be in our google group. We explain the details and refine this
+document.
+
+Moreover you can meet some parts which don't correspond this codestyle you may
+correct it yourself or inform us.
+
 == Embox codestyle ==
 
-As a basis for coding style adopted in the Embox project, take the style Kernighan and Ritchie (K & R). The following are the basic rules of structure and design code.
+As a basis for coding style adopted in the Embox project, take the style
+Kernighan and Ritchie (K & R). The following are the basic rules of structure
+and design code.
 
 === Text placement ===
 
 The length of the rows should not exceed 80 characters.
 
-The size of the function must be of the order of one screen (learn to write in a good manner).
+The size of the function must be of the order of one screen (learn to write in
+a good manner).
 
 === Tabs and Brackets ===
 
@@ -64,7 +70,7 @@ int bar(void) {
 Spaces are arranged as standard.
 
 *One space is placed*:
- * between operators: 
+ * between operators:
 {{{
 int a = x + y * (1 + b) / foo(11);
 }}}
@@ -126,7 +132,8 @@ Examples of good macros:
 
 === Naming conventions ===
 
-All exported (externally accessible) functions and variables must be prefixed, specific for the current module.
+All exported (externally accessible) functions and variables must be prefixed,
+specific for the current module.
 
 All except the macro is written in small letters, through emphasis.
 
@@ -160,17 +167,17 @@ All except the macro is written in small letters, through emphasis.
  * The doxygen comments must be placed under each public funtion
     How to start each file:
 {{{
-/** 
+/**
  * @file
- * @brief Short brief: starts with capital letter, point on the end. 
+ * @brief Short brief: starts with capital letter, point on the end.
  * @details Complete description. Possible to be written not on one line
  * Each line must be less then 80 symbols length. Each phrase ends with point.
  * Different paragraphs should be separated with empty line.
- * <empty line after description> 
- * @date <creation date: dd.mm.yy> 
- * @author <Name Surname of the first author> 
+ * <empty line after description>
+ * @date <creation date: dd.mm.yy>
+ * @author <Name Surname of the first author>
  * @author <Name Surname>
- *         - <Changes description> 
+ *         - <Changes description>
  *         - Doxygen understands any visual enhancement commands in this
  *           section, e.g. you may use hyphens to create a list of items.
  */

@@ -1,6 +1,10 @@
 #summary Downloads
 
-Мы используем [http://en.wikipedia.org/wiki/Apache_Subversion Subversion] репозиторий для разработки. Вы можете [http://code.google.com/p/embox/source/checkout взять] свежий snapshot из `/trunk` или просмотреть репозиторий используя [http://code.google.com/p/embox/source/browse web-based viewer].
+Мы используем [http://en.wikipedia.org/wiki/Apache_Subversion Subversion]
+репозиторий для разработки.
+Вы можете [http://code.google.com/p/embox/source/checkout взять] свежий
+snapshot из `/trunk` или просмотреть репозиторий используя
+[http://code.google.com/p/embox/source/browse web-based viewer].
 
 = Крайний стабильный релиз - embox-0.2.0 =
 

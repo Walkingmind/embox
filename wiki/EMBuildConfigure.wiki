@@ -23,7 +23,8 @@ To populate ./conf from one of the pre-defined templates use the following comma
 {{{
 make config PROJECT=<project> PROFILE=<profile>
 }}}
-where `<project>` is the name of a subdirectory of `./templates`, and `<profile>` is in turn a subdirectory of `./templates/<project>`.
+where `<project>` is the name of a subdirectory of `./templates`,
+and `<profile>` is in turn a subdirectory of `./templates/<project>`.
 For example:
 {{{
 make config PROJECT=sparc PROFILE=debug
@@ -105,4 +106,3 @@ test(timer, 1)
 }}}
 
 == Implemetation ==
- 
