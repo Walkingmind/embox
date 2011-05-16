@@ -10,7 +10,7 @@ snapshot из `/trunk` или просмотреть репозиторий ис
 
 Вышел 16 Май 2011.
 
- * [http://embox.googlecode.com/files/embox-0.2.0.txz embox-0.2.0.txz] (размер: 392 KB; SHA1 Checksum: 03ec42339855bba93436f09fdb20bd4653b9357a)
+ * [http://embox.googlecode.com/files/embox-0.2.0.txz embox-0.2.0.txz] (размер: 392 KB; SHA1 Checksum: c019bafa6d5d4a21fa3bdb2867a498d9d4ff530a)
  * [http://embox.googlecode.com/files/embox-0.2.0.tar.gz embox-0.2.0.tar.gz] (size: 521 KB; SHA1 Checksum: 8ed32a53ab532372f4468fec7b9da5bab0f941b6)
 
 = Предыдущие стабильные релизы =
