@@ -3,34 +3,61 @@
 <wiki:toc max_depth="2" />
 
 = Introduction =
-*TODO*
-Add your content here.
+
+Embox source code was originally developed as part of commercial projects
+[http://lanit-tercom.com Lanit-Tercom Inc]. The main direction of the project
+was an embedded systems. Project's code has been opened. There is an opportunity
+to apply the project for training purposes. The project is now supported and
+actively develops not only by [http://lanit-tercom.com Lanit-Terom Inc.], but
+by the Department of System Programming of St. Petersburg State University,
+as well as students from other faculties and universities.
 
 = Commercial =
 
-Embox originates from a commercial project of [http://lanit-tercom.com Lanit-Tercom, Inc.]. *TODO*
+Embox currently used for 3 commercial projects.
+
+== Bootloader ==
+
+The project supports a network, command interpretator and other parts suitable
+for your bootloader, also allows you to fine-tune the interfaces also has
+compatibility with a Linux driver interface. It was used as a boot loader.
+And to debug various memory device drivers.
 
 == Hardware development ==
 
-Helps in hardware testing at very early stages of development.
+With flexible and customizable testing system developed by the project
+developers have the equipment, including VHDL design, it is possible to create
+a system of tests, (unit tests for sismulation, regression tests and integration
+tests). Helps in hardware testing at very early stages of development.
 
 == Product certification ==
 
-As far as the complete source tree is hardly ever used for the final release, there are special tools provided for those who need to pass the code certification. A fine-grained modular structure allows you to extract only those sources which are used in the final build.
+As far as the complete source tree is hardly ever used for the final release,
+there are special tools provided for those who need to pass the code
+certification. A fine-grained modular structure allows you to extract only those
+sources which are used in the final build.
 
 = Educational =
 
-The core development team consists of students and graduates of [http://www.math.spbu.ru/en/index.html Saint-Petersburg State University]. *TODO*
+The core development team consists of students and graduates of
+[http://www.math.spbu.ru/en/index.html Saint-Petersburg State University].
 
 == Student projects ==
-[http://www.math.spbu.ru/en/chairs/dep21.html Theoretical Cybernetics department] intrested in the project results. As a result of the partnership between departments was robotics OS.
-Now the project works on [PlatformLegoNxt Lego Mindstorms NXT] and has some commercial advantage.
+
+[http://www.math.spbu.ru/en/chairs/dep21.html Theoretical Cybernetics department]
+intrested in the project results. As a result of the partnership between
+departments was robotics OS.
+Now the project works on [PlatformLegoNxt Lego Mindstorms NXT] and has some
+commercial advantage.
 
 == Coursework ==
 
-[http://se.math.spbu.ru/SE/YearlyProjects/2010/445/Batyukov_report.pdf/view Разработка системы тестирования программно-аппаратных комплексов (Батюков А.М.)]
+[http://se.math.spbu.ru/SE/YearlyProjects/2010/445/Batyukov_report.pdf/view
+Разработка системы тестирования программно-аппаратных комплексов (Batyukov A.M.)]
 
-[http://se.math.spbu.ru/SE/YearlyProjects/2010/445/Fomin_report.doc/view Особенности open-source разработки на основе проекта “Embox” (Фомин А.Д.)]
+[http://se.math.spbu.ru/SE/YearlyProjects/2010/445/Fomin_report.doc/view
+Особенности open-source разработки на основе проекта “Embox” (Fomin A.D.)]
 
 = Just for fun =
+
 Enjoy the kernel hacking!
