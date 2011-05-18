@@ -1,66 +1,96 @@
 #summary Cygwin installation HOWTO.
 
-<wiki:toc max_depth="2" />
+<wiki:toc max_depth="3" />
 
 = Introduction =
-As far as Embox uses GNU toolchain, you'll need to setup a Unix-like environment on you Windows machine.
-We recommend you to use *[http://en.wikipedia.org/wiki/Cygwin Cygwin]* for that purpose.
+
+As far as Embox uses GNU toolchain, you'll need to setup a Unix-like environment
+on you Windows machine.
+We recommend you to use *[http://en.wikipedia.org/wiki/Cygwin Cygwin]* for that
+purpose.
 
 = Brief =
-If you are familiar with Cygwin installation procedure, you can skip the most of this guide. You should install the following packages:
+
+If you are familiar with Cygwin installation procedure, you can skip the most of
+this guide. You should install the following packages:
  * *make* 3.81 or above
  * *gcc* or *gcc4* of any stable version
 Do not forget to add Cygwin's *`bin`* directory to your *PATH*.
 
 = Step-by-step =
 == Download ==
+
 Go to *[http://cygwin.com]* and download Cygwin setup executable.
  http://embox.googlecode.com/svn/wiki/images/InstallToolchainWindowsCygwin/cygwin-download.png
   Click on _Install or update Cygwin now!_
 
 == Install ==
+
 Run the setup executable and proceed through installation steps.
 
 === Installation type ===
+
 Keep the default value:
  * *Install from Internet*
 
 === Installation directory ===
-When prompted, choose the Cygwin installation directory. The default is *`C:\cygwin`*, but you can change it. Leave *Install for* as default:
+
+When prompted, choose the Cygwin installation directory. The default is
+*`C:\cygwin`*, but you can change it. Leave *Install for* as default:
  * *All Users*
 *Note* that the directory path *must not* contain any spaces or non-latin characters.
  http://embox.googlecode.com/svn/wiki/images/InstallToolchainWindowsCygwin/cygwin-setup-choosedirectory.png
 
 === Local Package directory ===
-Cygwin will download its installation files to the specified directory. The default is directory which was used to save the setup executable. You may leave the default value.
+
+Cygwin will download its installation files to the specified directory. The
+default is directory which was used to save the setup executable. You may leave
+the default value.
 
 === Connection type ===
-Setup your Internet connection which will be used to download installation files. The right choice depends on your ISP and network settings.
+
+Setup your Internet connection which will be used to download installation
+files. The right choice depends on your ISP and network settings.
 
 === Download sites ===
+
 Choose any available mirror.
 
 === Select Packages ===
-Default Cygwin installation includes only minimal subset of all available packages.
 
-We also need GNU *[http://en.wikipedia.org/wiki/Make_(software) make]* [http://en.wikipedia.org/wiki/Build_automation build automation] tool and *[http://en.wikipedia.org/wiki/GNU_Compiler_Collection gcc]* for the host platform.
+Default Cygwin installation includes only minimal subset of all available
+packages.
+
+We also need GNU *[http://en.wikipedia.org/wiki/Make_(software) make]*
+[http://en.wikipedia.org/wiki/Build_automation build automation] tool and
+*[http://en.wikipedia.org/wiki/GNU_Compiler_Collection gcc]* for the host
+platform.
 
 ==== make ====
+
 Select package *make*, version *3.81* or higher.
  http://embox.googlecode.com/svn/wiki/images/InstallToolchainWindowsCygwin/cygwin-setup-make.png
   Type `make` into search field and select _make_ from category _Devel_.
 
 ==== gcc ====
+
 You are free to choose between *gcc* and *gcc4* packages of any stable version.
  http://embox.googlecode.com/svn/wiki/images/InstallToolchainWindowsCygwin/cygwin-setup-gcc4.png
   Search for `gcc` and select _gcc_ or _gcc4_ from category _Devel_.
 
 === Finish the Installation ===
-You'll be notified about the packages to be installed and prompted whether to create desktop icons after the installation is complete.
+
+You'll be notified about the packages to be installed and prompted whether to
+create desktop icons after the installation is complete.
 
 == Setup the PATH ==
-To invoke Cygwin applications outside Cygwin Bash Console (e.g. from [InstallToolchainEclipse Eclipse]) you should also add *_[#Installation_directory <Cygwin root>]_\bin* to the [InstallToolchainPath#Windows PATH environment variable].
 
-For example, you can create new user variable `PATH` (or modify existing, if any) with value `%PATH%;C:\cygwin\bin`.
+To invoke Cygwin applications outside Cygwin Bash Console (e.g. from
+[InstallToolchainEclipse Eclipse]) you should also add
+*_[#Installation_directory <Cygwin root>]_\bin* to the
+[InstallToolchainPath#Windows PATH environment variable].
+
+For example, you can create new user variable `PATH` (or modify existing, if
+any) with value `%PATH%;C:\cygwin\bin`.
 
 [InstallToolchainPath Read more] about `PATH` variable.

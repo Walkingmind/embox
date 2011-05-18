@@ -4,75 +4,121 @@
 
 = Introduction =
 
-Embox is "[http://en.wikipedia.org/wiki/Integrated_development_environment IDE]-independent" project, so you can edit sources in your favorite editor, compiling them and invoking debugger directly from console. But those who prefer all-in-one solutions will probably look for some kind of integrated development environment.
+Embox is "[http://en.wikipedia.org/wiki/Integrated_development_environment IDE]-independent" project,
+so you can edit sources in your favorite editor, compiling them and invoking
+debugger directly from console. But those who prefer all-in-one solutions will
+probably look for some kind of integrated development environment.
 
-We recommend you to use *[http://en.wikipedia.org/wiki/Eclipse_(software) Eclipse IDE]*, especially since Embox already contains the necessary project files.
+We recommend you to use *[http://en.wikipedia.org/wiki/Eclipse_(software) Eclipse IDE]*,
+especially since Embox already contains the necessary project files.
 
-Eclipse is cross-platform IDE, and its installation procedure is similar for both Windows and Linux systems.
+Eclipse is cross-platform IDE, and its installation procedure is similar for
+both Windows and Linux systems.
 
 = Brief =
-If you have used Eclipse before, you can skip this guide. All you need is *Eclipse IDE* with *CDT* plugin and one of SVN client plugins (*Subversion* or *Subversive*).
 
-The one thing to mention is the use of older versions of Eclipse or CDT (for example, if you already have one installed). CDT is a relatively young project, and therefore it is growing rapidly. So it is desirable to use the version at least not older than one year.
+If you have used Eclipse before, you can skip this guide. All you need is
+*Eclipse IDE* with *CDT* plugin and one of SVN client plugins
+(*Subversion* or *Subversive*).
+
+The one thing to mention is the use of older versions of Eclipse or CDT (for
+example, if you already have one installed). CDT is a relatively young project,
+and therefore it is growing rapidly. So it is desirable to use the version at
+least not older than one year.
 
 = Step-by-step =
 
 == Download ==
+
 Go to *[http://eclipse.org/downloads]* and select *Eclipse IDE for C/C++ Developers*.
  http://embox.googlecode.com/svn/wiki/images/InstallToolchainEclipse/eclipse-download.png
   Be sure to choose the right version accordingly to your operating system.
 
 == Install ==
-All you do is unpack the downloaded file in the desired directory. The zip file contains single directory called `eclipse`, with multiple subdirectories under that. So you could unpack the zip file in the root directory (e.g., *`C:\`* for Windows) and Eclipse would be installed in *C:\eclipse*.
 
-*Note* for Linux users: the way of installation described above is preferred over using a Package Manager. Firstly, you probably will not find the latest Eclipse and CDT packages, and, secondly, Eclipse has its own update manager.
+All you do is unpack the downloaded file in the desired directory. The zip file
+contains single directory called `eclipse`, with multiple subdirectories under
+that. So you could unpack the zip file in the root directory 
+(e.g., *`C:\`* for Windows) and Eclipse would be installed in *C:\eclipse*.
+
+*Note* for Linux users: the way of installation described above is preferred
+over using a Package Manager. Firstly, you probably will not find the latest
+Eclipse and CDT packages, and, secondly, Eclipse has its own update manager.
 
 == Run ==
+
 Run the *eclipse* executable from the installation directory.
 
 = Known issues =
-These steps will likely not be required. But if you have some problems running Eclipse, read below.
+
+These steps will likely not be required. But if you have some problems running
+Eclipse, read below.
 
 == Missing JRE ==
-If you get *VM*-related errors when launching Eclipse, then you have to install the latest [http://en.wikipedia.org/wiki/Java_Runtime_Environment JRE].
+
+If you get *VM*-related errors when launching Eclipse, then you have to install
+the latest [http://en.wikipedia.org/wiki/Java_Runtime_Environment JRE].
 
 === Install on Windows ===
-Go to *[http://www.oracle.com/technetwork/java/javase/downloads/]* and click _Download JRE_.
+
+Go to *[http://www.oracle.com/technetwork/java/javase/downloads/]* and click
+_Download JRE_.
  http://embox.googlecode.com/svn/wiki/images/InstallToolchainEclipse/java-download.png
 
-Then select you platform (*Windows* or *Windows x64*), agree with the license and click *Continue*. Download and run *Windows Offline Installation* executable. Proceed through installation steps.
+Then select you platform (*Windows* or *Windows x64*), agree with the license
+and click *Continue*. Download and run *Windows Offline Installation* executable.
+Proceed through installation steps.
 
 === Install on Linux ===
-Linux users can follow the same installation steps as for Windows, but it is likely to be easier to use a Package Manager of your distribution.
+
+Linux users can follow the same installation steps as for Windows, but it is
+likely to be easier to use a Package Manager of your distribution.
 
 For example, Ubuntu users (particularly 10.04 LTS) should perform the following:
 {{{
 sudo apt-get install openjdk-6-jre
 }}}
 
-Please note, that Eclipse will not work with GCJ. Read [http://wiki.eclipse.org/IRC_FAQ#I_just_installed_Eclipse_on_Linux.2C_but_it_does_not_start._What_is_the_problem.3F more]...
+Please note, that Eclipse will not work with GCJ. Read
+[http://wiki.eclipse.org/IRC_FAQ#I_just_installed_Eclipse_on_Linux.2C_but_it_does_not_start._What_is_the_problem.3F more]...
 
 == Plugins installation problems ==
-There is a common problem that occurs when Eclipse is installed in a directory with too restrictive permissions (directory is not writeable to the user account; so called "shared installation"), for example, in a `root` only directory (in Linux).
 
-In such case Eclipse reports that a plugin is successfully installed, but it is not loaded during startup and thus is not visible. For example, you might install [InstallToolchainSubversion Subclipse] plugin, but _Checkout Projects from SVN_ entry never appears in _New Project_ wizard.
+There is a common problem that occurs when Eclipse is installed in a directory
+with too restrictive permissions (directory is not writeable to the user account;
+so called "shared installation"), for example, in a `root` only directory (in Linux).
 
-The only known solution guaranteed to work is to move Eclipse into "your" directory, making it writable for your user account, and then reinstall missing plugins. In Linux it could be achieved like so:
+In such case Eclipse reports that a plugin is successfully installed, but it is
+not loaded during startup and thus is not visible. For example, you might install
+[InstallToolchainSubversion Subclipse] plugin, but _Checkout Projects from SVN_
+entry never appears in _New Project_ wizard.
+
+The only known solution guaranteed to work is to move Eclipse into "your"
+directory, making it writable for your user account, and then reinstall missing
+plugins. In Linux it could be achieved like so:
 {{{
 sudo chmod -R a+rw /path/to/your/eclipse
 }}}
 
-More info [https://bugs.eclipse.org/bugs/show_bug.cgi?id=287246 here] and [http://stackoverflow.com/questions/1357321/problem-with-eclipse-plugin-in-ubuntu here].
+More info [https://bugs.eclipse.org/bugs/show_bug.cgi?id=287246 here] and
+[http://stackoverflow.com/questions/1357321/problem-with-eclipse-plugin-in-ubuntu here].
 
 = Eclipse Tweaks =
+
 Instructions of this section are not necessary to perform.
 
 == User name ==
+
 Open *_<Eclipse root>_\eclipse.ini* and add the following line after *`-vmargs`* line:
 {{{
 -Duser.name=<You full name>
 }}}
-Now your full name will be used instead of your login when generating code from templates (for example, when you create a new file).
+Now your full name will be used instead of your login when generating code from
+templates (for example, when you create a new file).
 
 == Memory ==
-If your computer have plenty of RAM you can play with *`-Xms`*, *`-Xmx`* and *`-XX:MaxPermSize`* arguments. But this is not recommended if you do not have a clear understanding of what you are doing. More info can be found [http://wiki.eclipse.org/FAQ_How_do_I_increase_the_heap_size_available_to_Eclipse%3F here].
+
+If your computer have plenty of RAM you can play with *`-Xms`*, *`-Xmx`* and
+*`-XX:MaxPermSize`* arguments. But this is not recommended if you do not have a
+clear understanding of what you are doing. More info can be found
+[http://wiki.eclipse.org/FAQ_How_do_I_increase_the_heap_size_available_to_Eclipse%3F here].

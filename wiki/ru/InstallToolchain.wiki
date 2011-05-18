@@ -1,19 +1,28 @@
 #summary Обзор установки окружения для разработки.
 
 = Введение =
-Этот раздел описывает процесс установки необходимых средств разработки, которые вам понадобятся для разработки Embox.
-Данный раздел ни коим образом не пытается навязать вам данные средства разработки, вы вправе пользоваться более удобными и привычными (напр. *Emacs*, *Vim*).
+
+Этот раздел описывает процесс установки необходимых средств разработки,
+которые вам понадобятся для разработки Embox.
+Данный раздел ни коим образом не пытается навязать вам данные средства
+разработки, вы вправе пользоваться более удобными и привычными
+(напр. *Emacs*, *Vim*).
 
 = Содержание =
+
 == <img align="left" src="http://embox.googlecode.com/svn/wiki/images/cygwin_small.png" /> [InstallToolchainWindowsCygwin Установка под Windows] ==
-Пользователям Windows необходимо проделать несколько допонительных шагов. Эта статья описывает установку *Cygwin* Unix-совместимого окружения.
+
+Пользователям Windows необходимо проделать несколько допонительных шагов.
+Эта статья описывает установку *Cygwin* Unix-совместимого окружения.
 
 == <img align="left" src="http://embox.googlecode.com/svn/wiki/images/console_small.png" /> [InstallToolchainPath Переменная окружения PATH] ==
+
 Описание как установить *`PATH`* переменную окружение в Windows и Linux системах.
 
 == <img align="left" src="http://embox.googlecode.com/svn/wiki/images/eclipse_small.png" /> [InstallToolchainEclipse Eclipse] ==
+
 Установка и настройка *Eclipse IDE* с *CDT* плагином.
 
 == <img align="left" src="http://embox.googlecode.com/svn/wiki/images/svn_small.png" /> [InstallToolchainSubversion Subversion] ==
-Установка *Subclipse* SVN плагина для Eclipse и взятие Embox из репозитория.
 
+Установка *Subclipse* SVN плагина для Eclipse и взятие Embox из репозитория.

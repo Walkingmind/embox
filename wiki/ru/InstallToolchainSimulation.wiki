@@ -82,7 +82,7 @@ grub-0.97/grub/grub --device-map=/dev/null
 {{{
 qemu -hda hd0.img
 }}}
- # Запустите Embox из GRUB     
+ # Запустите Embox из GRUB
   # во время загрузки нажмите 'c' для входа в консоль grub'а, если необходимо
   # найдите, где находиться ваш образ Embox, можно с помощью команды "ls"
   # загрузите образ командой
@@ -99,11 +99,11 @@ qemu -hda hd0.img
 === Эмуляция сети в QEMU через TAP интерфейс ===
 
 {{{
-/sbin/ifconfig eth0 down    
+/sbin/ifconfig eth0 down
 /sbin/ifconfig eth0 0.0.0.0 promisc up
 /usr/sbin/openvpn --mktun --dev tap0 --user `id -un`
 /sbin/ifconfig tap0 0.0.0.0 promisc up
-/usr/sbin/brctl addbr br0   
+/usr/sbin/brctl addbr br0
 /usr/sbin/brctl addif br0 eth0
 /usr/sbin/brctl addif br0 tap0
 /usr/sbin/brctl stp br0 off
@@ -122,7 +122,7 @@ qemu -m 256 -hda hd0.img -net nic,model=ne2k_pci -net tap,ifname=tap0,script=no
 
  # Загрузите [http://wiki.qemu.org/download/linux-0.2.img.bz2 образ linux диска]
  # Запустите эмуляцию linux
-{{{                              
+{{{
 qemu -hda linux-0.2.img -net nic,model=ne2k_pci,macaddr=AA:BB:CC:DD:EE:01 -net socket,listen=:1234
 }}}
  # Запустите эмуляцию Embox
@@ -153,8 +153,8 @@ qemu -nographic -vga none ...
 }}}
 Ctrl-A+x для выхода.
 
-== Bochs ==                 
-                            
+== Bochs ==
+
  # Создать hd0.img (как описано выше)
  # пример bochs.cfg
 {{{
@@ -165,7 +165,7 @@ vgaromimage: /usr/share/bochs/VGABIOS-elpin-2.40
 vga: extension=vbe
 ata0: enabled=1, ioaddr1=0x1f0, ioaddr2=0x3f0, irq=14
 ata0-master: type=disk, path=hd0.img, mode=flat, cylinders=40, heads=16, spt=63, translation=none
-boot: disk                  
+boot: disk
 log: bochsout.txt
 mouse: enabled=0
 clock: sync=realtime
@@ -180,7 +180,8 @@ NOTE: на данный момент в bochs имеет место пробле
 
 == SKYEYE ==
 
-Из интересующих платформ можем использовать для симуляции под ARM (Atmel AT91) (вообще говоря возможно для LEON2). Имеется поддержка UART.
+Из интересующих платформ можем использовать для симуляции под ARM (Atmel AT91)
+(вообще говоря возможно для LEON2). Имеется поддержка UART.
 
 Установить Skyeye:
 
@@ -213,4 +214,3 @@ arm-elf-gdb [path-to-embox-elf]
 {{{
     (gdb) c
 }}}
-

@@ -54,4 +54,3 @@ tar cvf - arm-elf-gcc-4.4.4 | bzip2 -f > arm-elf-gcc-4.4.4.tar.bz2
 rm -fr arm-elf
 popd > /dev/null
 }}}
-
