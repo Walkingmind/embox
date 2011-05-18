@@ -53,14 +53,14 @@
 совместное сотрудничество привело к появлению целого направления в проекте,
 а именно создание операционной системы для роботов.
 
-Сейчас проект прекрасно работает и применяется на платформе [PlatformLegoNxt
-Lego Mindstorms NXT]. При этом имеет ряд лучших характеристик перед стандартной ОС.
+Сейчас проект прекрасно работает и применяется на платформе
+[PlatformLegoNxt Lego Mindstorms NXT]. При этом имеет ряд лучших характеристик
+перед стандартной ОС.
 
 == Курсовые работы ==
 
-[http://se.math.spbu.ru/SE/YearlyProjects/2010/445/Batyukov_report.pdf/view Разработка системы тестирования программно-аппаратных комплексов (Батюков А.М.)]
-
-[http://se.math.spbu.ru/SE/YearlyProjects/2010/445/Fomin_report.doc/view Особенности open-source разработки на основе проекта “embox” (Фомин А.Д.)]
+ * [http://se.math.spbu.ru/SE/YearlyProjects/2010/445/Batyukov_report.pdf/view Разработка системы тестирования программно-аппаратных комплексов (Батюков А.М.)]
+ * [http://se.math.spbu.ru/SE/YearlyProjects/2010/445/Fomin_report.doc/view Особенности open-source разработки на основе проекта “embox” (Фомин А.Д.)]
 
 = Just for fun =
 
