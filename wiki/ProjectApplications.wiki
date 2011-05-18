@@ -52,11 +52,9 @@ commercial advantage.
 
 == Coursework ==
 
-[http://se.math.spbu.ru/SE/YearlyProjects/2010/445/Batyukov_report.pdf/view
-Разработка системы тестирования программно-аппаратных комплексов (Batyukov A.M.)]
+[http://se.math.spbu.ru/SE/YearlyProjects/2010/445/Batyukov_report.pdf/view Разработка системы тестирования программно-аппаратных комплексов (Batyukov A.M.)]
 
-[http://se.math.spbu.ru/SE/YearlyProjects/2010/445/Fomin_report.doc/view
-Особенности open-source разработки на основе проекта “Embox” (Fomin A.D.)]
+[http://se.math.spbu.ru/SE/YearlyProjects/2010/445/Fomin_report.doc/view Особенности open-source разработки на основе проекта “Embox” (Fomin A.D.)]
 
 = Just for fun =
 
