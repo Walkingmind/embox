@@ -12,6 +12,7 @@
 #include <fs/fs.h>
 #include <drivers/flash_template.h>
 #include <drivers/flash_if.h>
+#include <util/array.h>
 
 typedef struct _FILE_DESC {
 	int id;
