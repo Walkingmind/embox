@@ -40,8 +40,11 @@ $(\space)\n$(\space) := $(\n)
 
 \colon := :
 
-\brace_open = (
-\brace_close = )
+\brace_open = {
+\brace_close = }
+
+\paren_open = (
+\paren_close = )
 
 \equal := =
 
