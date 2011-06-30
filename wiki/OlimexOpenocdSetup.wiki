@@ -4,7 +4,7 @@
 Assuming you have Olimex SAM7 series board with JTAG interface adapter. You can run and test Embox after few quite simple steps. Please, read it all before doing anything.
 
  * Get OpenOCD, free suite for On-Chip debuging. Source can be grabbed [http://developer.berlios.de/project/showfiles.php?group_id=4148&release_id=17280 here], compiled version can be downloaded from 
-  * [http://www.freddiechopin.info/index.php/en/download/category/10-openocd-dev?download=53%3Aopenocd-0.5.0-dev-110607155841 here], if you are on Windows 
+  * [http://www.freddiechopin.info/index.php/en/download/category/10-openocd-dev?download=49%3Aopenocd-0.5.0-dev-101028090816 here], if you are on Windows 
   * or preferably from your repositary, if you are on Linux box
  * Install OpenOCD in your preferable path, it can be added into the $PATH or %PATH% for convenience
  * On Windows download and install [http://sourceforge.net/projects/libusb-win32/files/ libusb]
