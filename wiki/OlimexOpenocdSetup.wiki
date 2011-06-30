@@ -1,5 +1,4 @@
-#summary olimex flash & debug description
-
+#summary Olimex flashing & debuging with JTAG
 = Setup =
 
 Assuming you have Olimex SAM7 series board with JTAG interface adapter. You can run and test Embox after few quite simple steps. Please, read it all before doing anything.
