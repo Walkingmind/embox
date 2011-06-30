@@ -9,11 +9,12 @@
  # Установить [ftp://ftp.gaisler.com/gaisler.com/tsim/tsim-eval-2.0.18.tar.gz tsim-eval]
  # tsim-leon3 -fast_uart -gdb embox
  # Присоединиться к gdb серверу
-    * если вы используете eclipse то посмотреть детали натройки можно [тут InstallToolchainEclipseDebug]  
-      {{{   > sparc-elf-gdb embox
+    * если вы используете eclipse то посмотреть детали натройки можно [InstallToolchainEclipseDebug тут]  
+      {{{
+            > sparc-elf-gdb embox
             (gdb) target remote :1234
+            (gdb) c
       }}} 
-
 = x86 =
 
 == QEMU ==

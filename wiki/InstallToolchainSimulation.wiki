@@ -9,11 +9,13 @@
  # Install [ftp://ftp.gaisler.com/gaisler.com/tsim/tsim-eval-2.0.18.tar.gz tsim-eval]
  # tsim-leon3 -fast_uart -gdb embox
  # Connect to gdb server
-   * if use eclipse see details [here InstallToolchainEclipseDebug]
+   * if use eclipse see details [InstallToolchainEclipseDebug here]
    * for console debugging you should use command 
-      {{{   > sparc-elf-gdb embox
+      {{{
+            > sparc-elf-gdb embox
             (gdb) target remote :1234
-      }}} 
+            (gdb) c
+      }}}
 
 = x86 =
 
