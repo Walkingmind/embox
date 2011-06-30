@@ -9,14 +9,7 @@ Assuming you have Olimex SAM7 series board with JTAG interface adapter. You can 
  * Install OpenOCD in your preferable path, it can be added into the $PATH or %PATH% for convenience
  * On Windows download and install [http://sourceforge.net/projects/libusb-win32/files/ libusb]
  * Only now you should connect JTAG and board, plug JTAG in PC, then drain power to board
- * OpenOCD have predefined configs for boards and interfaces. You should combine boards/olimex_sam7_ex256 with one in interfaces, that suite your JTAG adapter, in openocd.conf. Example openocd.conf, that works for me 
-{{{
-# Olimex SAM7-EX256 has a single Atmel at91sam7ex256 on it.
-
-source [find target/sam7x256.cfg]
-source [find interface/olimex-jtag-tiny.cfg]
-}}}
-Only last line I added myself.
+ * OpenOCD have predefined configs for boards and interfaces. You should combine boards/olimex_sam7_ex256 with one in interfaces, that suite your JTAG adapter, in openocd.conf. Or you can use predefined [http://embox.googlecode.com/files/openocd.cfg one]
  * In command line run 
 {{{
 openocd openocd.conf
