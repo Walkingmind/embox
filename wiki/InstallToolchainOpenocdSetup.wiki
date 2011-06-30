@@ -1,0 +1,24 @@
+#summary Olimex flashing & debuging with JTAG
+= Setup =
+
+Assuming you have Olimex SAM7 series board with JTAG interface adapter. You can run and test Embox after few quite simple steps. Please, read it all before doing anything.
+
+ * Get OpenOCD, free suite for On-Chip debuging. Source can be grabbed [http://developer.berlios.de/project/showfiles.php?group_id=4148&release_id=17280 here], compiled version can be downloaded from 
+  * [http://www.freddiechopin.info/index.php/en/download/category/10-openocd-dev?download=49%3Aopenocd-0.5.0-dev-101028090816 here], if you are on Windows 
+  * or preferably from your repositary, if you are on Linux box
+ * Install OpenOCD in your preferable path, it can be added into the $PATH or %PATH% for convenience
+ * On Windows download and install [http://sourceforge.net/projects/libusb-win32/files/ libusb]
+ * Only now you should connect JTAG and board, plug JTAG in PC, then drain power to board
+ * OpenOCD have predefined configs for boards and interfaces. You should combine boards/olimex_sam7_ex256 with one in interfaces, that suite your JTAG adapter, in openocd.conf. Or you can use predefined [http://embox.googlecode.com/files/openocd.cfg one]
+ * In command line run 
+{{{
+openocd openocd.conf
+}}}
+ * Now you have gdb-server compatible environment on your local machine on tcp port 3333. You can simply load firmware like
+{{{
+gdb build/base/bin/embox # provide elf file
+(gdb) target remote-extended :3333
+(gdb) load
+(gdb) continue
+}}}
+or use Eclipse for doing that
