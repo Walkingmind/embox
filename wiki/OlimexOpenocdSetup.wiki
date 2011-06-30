@@ -29,3 +29,4 @@ gdb build/base/bin/embox # provide elf file
 (gdb) load
 (gdb) continue
 }}}
+or use Eclipse for doing that
