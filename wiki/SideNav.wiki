@@ -11,7 +11,7 @@
     * [InstallToolchainSubversion Subversion]
     * [InstallToolchainCrossCompiler Cross-Compiler]
     * [InstallToolchainSimulation Simulation]
-    * [OlimexOpenocdSetup Olimex JTAG]
+    * [InstallToolchainOpenocdSetup Olimex JTAG]
     * [InstallToolchainEclipseDebug Debugging from Eclipse]
   * [EMBuild Building the project]
     * [EMBuildInfrastructure Infrastructure overview]
