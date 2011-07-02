@@ -154,11 +154,7 @@ static int start_xmit(struct sk_buff *skb, struct net_device *dev) {
 	while (in8(NE_CMD) & 0x04);
 
 	TRACE("Done transmit\n");
-	uint8_t mac_adr;
-		for (uint8_t i=0; i<6; i++){
-			pci_read_config8(0,0x18,EN1_PHYS_SHIFT(i),&mac_adr);
-			printf("%X:",mac_adr);
-		}
+
 	return skb->len;
 }
 
