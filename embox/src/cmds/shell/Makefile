@@ -26,6 +26,8 @@ else # new
        embox.hal.context \
        core.kernel.drv_subsys \
        core.kernel.scheduler \
-       core.kernel.thread
+       core.kernel.thread 
 
 endif
+
+$_DEPS-shell += embox.driver.terminal
