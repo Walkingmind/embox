@@ -2,41 +2,37 @@
  * @file
  * @brief
  *
- * @date 01.07.11
+ * @date 04.07.11
  * @author Dmitry Zubarevich
  */
 
 #include <string.h>
 
-#include <framework/net/api.h>
-#include <net/netdevice.h>
+#include <framework/net_proto/api.h>
+#include <net/protocol.h>
+#if 0
+ARRAY_SPREAD_DEF(const struct net_proto, __net_proto_registry);
 
-ARRAY_SPREAD_DEF(const struct net, __net_registry);
+static int net_proto_mod_enable(struct mod *mod);
 
-static int net_mod_enable(struct mod *mod);
-
-const struct mod_ops __net_mod_ops = {
-	.enable  = &net_mod_enable,
+const struct mod_ops __net_proto_mod_ops = {
+	.enable  = &net_proto_mod_enable,
 };
 
-static int net_mod_enable(struct mod *mod) {
+static int net_proto_mod_enable(struct mod *mod) {
 	int ret = 0;
-	struct net *net = (struct net *) mod_data(mod);
-
-	if (NULL == net->netpack || NULL == net->netpack->init) {
-		TRACE ("\nWrong packet descriptor\n");
-		return 0;
-	}
+	struct net_proto *net_proto = (struct net_proto *) mod_data(mod);
 
 	TRACE("NET: initializing %s.%s: ", mod->package->name, mod->name);
 
-	if (0 == (ret = net->netpack->init())) {
-		dev_add_pack(net->netpack);
-		TRACE("done\n");
-	} else {
-		TRACE("error: %s\n", strerror(-ret));
-	}
+//	if (inet_add_protocol((*p_netproto), (*p_netproto)->type) < 0) {
+//				LOG_ERROR("inet_protocols_init: Cannot add 0x%X protocol - %s\n",
+//						(*p_netproto)->type, trace_proto_info((*p_netproto)->type));
+//			}
+//	TRACE("Added 0x%X protocol - %s\n", (*p_netproto)->type,
+//			trace_proto_info((*p_netproto)->type));
 
 	return ret;
 }
 
+#endif
