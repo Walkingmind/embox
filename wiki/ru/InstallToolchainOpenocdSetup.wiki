@@ -1,0 +1,32 @@
+#summary Olimex flashing & debuging with JTAG
+
+= Введение =
+Данная страница описывает прочесс прошивки и отладки платы Olimex SAM7 с помощью OpenOCD и gdb.
+
+= Установка OpenOCD =
+== Linux ==
+ * Вы можете получить исходный код [http://www.freddiechopin.info/index.php/en/download/category/10-openocd-dev?download=49%3Aopenocd-0.5.0-dev-101028090816 здесь].
+ * Соберите OpenOCD установите его
+ * Пропишите соотвествующие пути для окружения.
+ 
+== Windows ==
+ * Скачайте и установите [http://www.freddiechopin.info/index.php/en/download/category/10-openocd-dev?download=49%3Aopenocd-0.5.0-dev-101028090816 OpenOCD] 
+ * скачайте и установите [http://sourceforge.net/projects/libusb-win32/files/ libusb]
+ * Установите переменные окружения соотвествующи образом
+
+= Конфигурация и запуск openOCD =
+ * настройки OpenOCD задаются в конфигурационном файле openocd.conf. Вы можете его найти в корне платформенной части проекта. Или скачать [http://embox.googlecode.com/files/openocd.cfg one]
+ * Запустите openOCD следующей коммандой
+{{{
+openocd openocd.conf
+}}}
+
+= Конфигурация и запуск GDB =
+ * Запустите gdb и приконектитись к запущенному в качестве сервера openOCD по tcp порту 3333. С помощью команд
+{{{
+gdb build/base/bin/embox # provide elf file
+(gdb) target remote-extended :3333
+(gdb) load
+(gdb) continue
+}}}
+ * Вы также можете отлаживаться с помощью Eclipse настройки смотри [InstallToolchainEclipseDebug здесь].
