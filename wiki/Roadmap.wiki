@@ -1,12 +1,16 @@
 #summary Embox development roadmap
 #labels Phase-Requirements,Featured
 
-= 2011/06/30 v0.2.1 [http://code.google.com/p/embox/issues/list?can=1&q=milestone=v0.2.0 [issues]] [http://code.google.com/p/embox/issues/list?q=milestone=v0.2.1 [open issues]] = 
+= 2011/09/01 v0.2.2 [http://code.google.com/p/embox/issues/list?can=1&q=milestone=v0.2.2 [issues]] [http://code.google.com/p/embox/issues/list?q=milestone=v0.2.2 [open issues]] =
+
+= 2011/07/04 v0.2.1 [http://code.google.com/p/embox/issues/list?can=1&q=milestone=v0.2.1 [issues]] [http://code.google.com/p/embox/issues/list?q=milestone=v0.2.1 [open issues]] = 
  == Lego NXT ==
   * Desing user manual for Lego NXT
  == x86 ==
-  * Support ne2000 board on PCI bus  
-  
+  * Support ne2000 board on PCI bus
+ == Network ==
+  * Loopback support
+
 = 2011/05/15 v0.2.0 [http://code.google.com/p/embox/issues/list?can=1&q=milestone=v0.2.0 [issues]] [http://code.google.com/p/embox/issues/list?q=milestone=v0.2.0 [open issues]] =
  == Build System ==
   * Added opportunity to specify system interfaces and their implementation
@@ -25,7 +29,7 @@
  == x86 ==
   * Support QEMU platform
   * Support PCI bus
-  
+
 = 2010/12/31 v0.1.10 [http://code.google.com/p/embox/issues/list?can=1&q=milestone=v0.1.10 [issues]] [http://code.google.com/p/embox/issues/list?q=milestone=v0.1.10 [open issues]] =
  * Work at porting on x86 (VGA console, keyboard)
  * Improved graphics on Lego
@@ -33,7 +37,7 @@
  * Realized function for Lego touch sensor
  * Realized soft I2C channel(Lego sonar)
  * Added memory allocation algorithm SLAB
- 
+
 = 2010/11/30 v0.1.9 [http://code.google.com/p/embox/issues/list?can=1&q=milestone=v0.1.9 [issues]] [http://code.google.com/p/embox/issues/list?q=milestone=v0.1.9 [open issues]] =
  * Refactoring ARM and Lego NXT code
  * Build system development ([EMBuildFeatureProposals details, RU only])
@@ -55,7 +59,7 @@
  * ~~Build system improvements~~
 
 = 2010/07/23 v0.1.6 [http://code.google.com/p/embox/issues/list?can=1&q=milestone=v0.1.6 [issues]] [http://code.google.com/p/embox/downloads/detail?name=embox-0.1.6.txz [download]] =
-Tercom Summer of Code's results presentation. 
+Tercom Summer of Code's results presentation.
 
 = 2010/06/28 v0.1.5 [http://code.google.com/p/embox/issues/list?can=1&q=milestone=v0.1.5 [issues]] [http://code.google.com/p/embox/downloads/detail?name=embox-0.1.5.txz [download]] =
 Start Tercom Summer of Code.

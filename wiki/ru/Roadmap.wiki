@@ -1,12 +1,17 @@
 #summary Embox development roadmap
 #labels Phase-Requirements,Featured
 
-= 2011/06/30 v0.2.1 [http://code.google.com/p/embox/issues/list?can=1&q=milestone=v0.2.0 [issues]] [http://code.google.com/p/embox/issues/list?q=milestone=v0.2.1 [open issues]] = 
+= 2011/09/01 v0.2.2 [http://code.google.com/p/embox/issues/list?can=1&q=milestone=v0.2.2 [issues]] [http://code.google.com/p/embox/issues/list?q=milestone=v0.2.2 [open issues]] =
+
+= 2011/07/04 v0.2.1 [http://code.google.com/p/embox/issues/list?can=1&q=milestone=v0.2.1 [issues]] [http://code.google.com/p/embox/issues/list?q=milestone=v0.2.1 [open issues]] = 
  == Lego NXT ==
   * Документация (добавление описания для пользователей)
   
  == x86 ==
   * Поддержка сетевой карты ne2000 на шине PCI
+
+ == Сеть ==
+  * Поддержка loopback интерфейса
 
 = 2011/05/15 v0.2.0 [http://code.google.com/p/embox/issues/list?can=1&q=milestone=v0.2.0 [issues]] [http://code.google.com/p/embox/issues/list?q=milestone=v0.2.0 [open issues]] =
  == Система сборки ==

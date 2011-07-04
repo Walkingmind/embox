@@ -6,15 +6,16 @@ You can [http://code.google.com/p/embox/source/checkout checkout] the latest
 source snapshot from `/trunk` or examine the repository using
 [http://code.google.com/p/embox/source/browse web-based viewer].
 
-= Latest stable release - embox-0.2.0 =
+= Latest stable release - embox-0.2.1 =
 
-Released on May 16 2011.
+Released on July 4 2011.
 
- * [http://embox.googlecode.com/files/embox-0.2.0.txz embox-0.2.0.txz] (размер: 392 KB; SHA1 Checksum: c019bafa6d5d4a21fa3bdb2867a498d9d4ff530a)
- * [http://embox.googlecode.com/files/embox-0.2.0.tar.gz embox-0.2.0.tar.gz] (size: 521 KB; SHA1 Checksum: 8ed32a53ab532372f4468fec7b9da5bab0f941b6)
+ * [http://embox.googlecode.com/files/embox-0.2.1.txz embox-0.2.1.txz] (size: 400 KB; SHA1 Checksum: c4ca71a0fd9e2b6d68d51ed8c50ee9e9d32976f4)
+ * [http://embox.googlecode.com/files/embox-0.2.1.tar.gz embox-0.2.1.tar.gz] (size: 527 KB; SHA1 Checksum: b28332b7437e7e9f5b3df6eeaf9058cef1b9644a)
 
 = Previous stable releases =
 
+ * [http://embox.googlecode.com/files/embox-0.2.0.txz embox-0.2.0.txz] (size: 392 KB; SHA1 Checksum: c019bafa6d5d4a21fa3bdb2867a498d9d4ff530a)
  * [http://embox.googlecode.com/files/embox-0.1.11.txz embox-0.1.11.txz] (size: 379 KB; SHA1 Checksum: 1e405fa344d39b2af505339207025ea8651e608e)
  * [http://embox.googlecode.com/files/embox-0.1.10.txz embox-0.1.10.txz] (size: 356 KB; SHA1 Checksum: ea5194728818042b9a630fc9ab5ddba2f2298a33)
  * [http://embox.googlecode.com/files/embox-0.1.9.txz embox-0.1.9.txz] (size: 335 KB; SHA1 Checksum: 675302e81ecdf71e44f24b3de72002525b3da732)
@@ -30,7 +31,7 @@ Released on May 16 2011.
 
 = EmLinux =
 
-Latest stable release - emlinux-0.2.
+Latest stable release - [http://embox.googlecode.com/files/emlinux-0.2.txz emlinux-0.2].
 
 Released on Nov 30rd 2010.
 
