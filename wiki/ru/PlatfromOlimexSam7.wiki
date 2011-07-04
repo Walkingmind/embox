@@ -1,0 +1,9 @@
+#summary Olimex SAM7 description
+
+= Introduction =
+Платформа Olimex SAM7 основана на контроллере at91sam7. Больше информации можно получить [http://www.olimex.com/dev/sam7-p256.html здесь]
+
+= Development =
+Для работы с платой используйте темплейт *arm/olimex*.
+Платформенно специфичный код располагается в папке *platform/olimex*.
+Процесс загрузки и отладки описан [InstallToolchainOpenocdSetup тут].

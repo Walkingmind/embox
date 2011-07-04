@@ -7,7 +7,7 @@
  || <img src="http://embox.googlecode.com/svn/wiki/images/PlatformsDescription/HW-SPAR3AN-SK-UNI-G.png" width="320" height="240"> || Embox поддерживает процессор [http://en.wikipedia.org/wiki/MicroBlaze Microblaze]. Это процессор от фирмы [http://www.xilinx.com/tools/microblaze.htm Xilinx]. Мы запустили Embox на [http://www.terraelectronica.ru/catalog_info.php?ID=1038&CODE=282158&Name=HW-SPAR3AN-SK-UNI-G&Razdel=%CE%F2%EB%E0%E4%EE%F7%ED%FB%E5%20%E8%20%EE%F6%E5%ED%EE%F7%ED%FB%E5%20%EF%EB%E0%F2%FB%20%E8%20%ED%E0%E1%EE%F0%FB%20%E4%EB%FF%20%F1%E5%EC%E5%E9%F1%F2%E2%E0%20Spartan-3A%28N%29&TableName=class_19_4_6_6_3 HW-SPAR3AN-SK-UNI-G Starter Kit]. Более подробно можно посмотреть [SpartanDescription здесь]  ||
 
 == ARM ==
- || <img src="http://embox.googlecode.com/svn/wiki/images/PlatformsDescription/SAM7-P256-1.png" width="320" height="240"> || эта отладочная плата содержит контроллер at91sam7 с простой периферией. Это очень дешевое и простое для ознакомление решение. Более подробно [http://www.olimex.com/dev/sam7-p256.html здесь] ||
+ || <img src="http://embox.googlecode.com/svn/wiki/images/PlatformsDescription/SAM7-P256-1.png" width="320" height="240"> || эта отладочная плата содержит контроллер at91sam7 с простой периферией. Это очень дешевое и простое для ознакомление решение. Более подробно [PlatformOlimexSam7 здесь] ||
  || <img src="http://embox.googlecode.com/svn/wiki/images/PlatformsDescription/embox_lego.jpg" width="320" height="240">  ||  Embox supports [http://en.wikipedia.org/wiki/Lego_Mindstorms Lego Mindstorms NXT]. Более подробно [PlatformLegoNxt здесь] ||
 
 == x86 ==

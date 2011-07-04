@@ -1,0 +1,9 @@
+#summary Olimex SAM7 description
+
+= Introduction =
+Platform Olimex SAM7 base on at91sam7 controller. More details [http://www.olimex.com/dev/sam7-p256.html here]
+
+= Development =
+You can use template *arm/olimex* for working on this platform.
+Most platform specific code you can find in the folder *platform/olimex*.
+Debugging process describes [InstallToolchainOpenocdSetup here].
