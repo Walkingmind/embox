@@ -11,17 +11,17 @@
 #include <types.h>
 #include <embox/test.h>
 #include <unistd.h>
-#include <drivers/nxt_buttons.h>
-#include <drivers/nxt_touch_sensor.h>
+#include <drivers/nxt/buttons.h>
+#include <drivers/nxt/touch_sensor.h>
 
-#include <drivers/nxt_motor.h>
+#include <drivers/nxt/motor.h>
 
 #define MOTOR_POWER -100
 #define BREAK_TIME 150
 
-#define TOUCH_PORT SENSOR_1
-#define MOTOR0 MOTOR_A
-#define MOTOR1 MOTOR_B
+#define TOUCH_PORT NXT_SENSOR_1
+#define MOTOR0 NXT_MOTOR_A
+#define MOTOR1 NXT_MOTOR_B
 
 EMBOX_TEST(nxt_test_sensor_touch);
 
@@ -41,7 +41,7 @@ static int nxt_test_sensor_touch(void) {
 	motor_start(MOTOR0, MOTOR_POWER, 360, NULL);
 	motor_start(MOTOR1, MOTOR_POWER, 360, NULL);
 
-	while (flag && (!nxt_buttons_was_pressed())) {
+	while (flag && (!nxt_buttons_pressed())) {
 		usleep(BREAK_TIME);
 	}
 	usleep(BREAK_TIME);

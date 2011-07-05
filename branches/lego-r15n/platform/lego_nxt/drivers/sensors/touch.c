@@ -9,8 +9,8 @@
 #include <types.h>
 #include <embox/test.h>
 #include <unistd.h>
-#include <drivers/nxt_avr.h>
-#include <drivers/nxt_touch_sensor.h>
+#include <drivers/nxt/avr.h>
+#include <drivers/nxt/touch_sensor.h>
 
 #define TOUCH_ADC_EDGE 500
 

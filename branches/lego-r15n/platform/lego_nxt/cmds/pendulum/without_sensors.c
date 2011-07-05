@@ -8,11 +8,11 @@
 
 #include <embox/cmd.h>
 #include <unistd.h>
-#include <drivers/nxt_motor.h>
+#include <drivers/nxt/motor.h>
 
 #define MOTOR_POWER 100
-#define MOTOR0 MOTOR_A
-#define MOTOR1 MOTOR_B
+#define MOTOR0 NXT_MOTOR_A
+#define MOTOR1 NXT_MOTOR_B
 
 EMBOX_CMD(without_sensors);
 

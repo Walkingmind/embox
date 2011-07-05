@@ -9,8 +9,7 @@
 #ifndef NXT_SENSOR_H_
 #define NXT_SENSOR_H_
 
-#include <drivers/nxt_avr.h>
-#include <drivers/nxt_sensor.h>
+#include <drivers/nxt/avr.h>
 #include <drivers/soft_i2c.h>
 
 #define SENSOR_NOT_CONF 42
@@ -30,10 +29,10 @@ typedef struct {
 
 extern sensor_t sensors[NXT_AVR_N_INPUTS];
 
-#define SENSOR_0 (&sensors[0])
-#define SENSOR_1 (&sensors[1])
-#define SENSOR_2 (&sensors[2])
-#define SENSOR_3 (&sensors[3])
+#define NXT_SENSOR_1 (&sensors[0])
+#define NXT_SENSOR_2 (&sensors[1])
+#define NXT_SENSOR_3 (&sensors[2])
+#define NXT_SENSOR_4 (&sensors[3])
 
 typedef uint16_t sensor_val_t;
 

@@ -1,3 +1,3 @@
-$_MODS += nxt_power_mng_cmd
-$_SRCS-nxt_power_mng_cmd += power.c
-$_DEPS-nxt_power_mng_cmd += $(PLATFORM).driver.nxt_avr_init
+$_MODS += power_mng
+$_SRCS-power_mng += power.c
+$_DEPS-power_mng += $(PLATFORM).driver.nxt_avr_init

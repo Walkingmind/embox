@@ -10,17 +10,17 @@
 #include <types.h>
 #include <embox/cmd.h>
 #include <unistd.h>
-#include <drivers/nxt_buttons.h>
-#include <drivers/nxt_sonar_sensor.h>
+#include <drivers/nxt/buttons.h>
+#include <drivers/nxt/sonar_sensor.h>
 #include <util/math.h>
 
-#include <drivers/nxt_motor.h>
+#include <drivers/nxt/motor.h>
 
 EMBOX_CMD(box_around_cmd);
 
-#define SONAR_PORT SENSOR_1
-#define MOTOR0 MOTOR_A
-#define MOTOR1 MOTOR_B
+#define SONAR_PORT NXT_SENSOR_1
+#define MOTOR0 NXT_MOTOR_A
+#define MOTOR1 NXT_MOTOR_B
 
 #define ROBOT_WIDTH 15
 
@@ -61,7 +61,7 @@ static int box_around_cmd(int argc, char **argv) {
 	mp0 = MOTOR_POWER * sonar_treshold / (sonar_treshold + ROBOT_WIDTH);
 	mp1 = MOTOR_POWER;
 
-	while (!nxt_buttons_was_pressed()) {
+	while (!nxt_buttons_pressed()) {
 		while (abs(nxt_sensor_get_val(SONAR_PORT) - sonar_treshold) < 3) {
 			move_start();
 		}

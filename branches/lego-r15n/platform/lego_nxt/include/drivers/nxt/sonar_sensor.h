@@ -9,7 +9,7 @@
 #ifndef NXT_SONAR_H_
 #define NXT_SONAR_H_
 
-#include <drivers/nxt_sensor.h>
+#include <drivers/nxt/sensor.h>
 
 #define NXT_SONAR_DISTANCE_COMM 0x42
 

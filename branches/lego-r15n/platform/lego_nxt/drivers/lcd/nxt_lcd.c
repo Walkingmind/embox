@@ -11,7 +11,7 @@
 #include <hal/reg.h>
 #include <string.h>
 #include <drivers/at91sam7s256.h>
-#include <drivers/lcd.h>
+#include <drivers/nxt/lcd.h>
 
 EMBOX_UNIT_INIT(unit_lcd_init);
 

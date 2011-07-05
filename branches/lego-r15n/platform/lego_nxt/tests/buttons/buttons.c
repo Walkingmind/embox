@@ -9,13 +9,13 @@
 #include <types.h>
 #include <embox/test.h>
 #include <unistd.h>
-#include <drivers/nxt_buttons.h>
+#include <drivers/nxt/buttons.h>
 
 EMBOX_TEST(nxt_buttons_test);
 
 static int nxt_buttons_test(void) {
 	while (true) {
-		if (nxt_buttons_was_pressed()) {
+		if (nxt_buttons_pressed()) {
 			break;
 		}
 		usleep(200);

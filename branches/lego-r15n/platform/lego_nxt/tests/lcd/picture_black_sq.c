@@ -6,7 +6,7 @@
  */
 
 #include <embox/test.h>
-#include <drivers/lcd.h>
+#include <drivers/nxt/lcd.h>
 
 /* wont to see some picture, for example black sq*/
 

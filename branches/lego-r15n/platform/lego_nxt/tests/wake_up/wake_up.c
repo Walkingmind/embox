@@ -9,16 +9,16 @@
 #include <types.h>
 #include <embox/test.h>
 #include <unistd.h>
-#include <drivers/nxt_buttons.h>
-#include <drivers/nxt_sonar_sensor.h>
+#include <drivers/nxt/buttons.h>
+#include <drivers/nxt/sonar_sensor.h>
 
-#include <drivers/nxt_motor.h>
+#include <drivers/nxt/motor.h>
 
 EMBOX_TEST(wake_up_test);
 
-#define TOUCH_PORT SENSOR_1
-#define MOTOR0 MOTOR_A
-#define MOTOR1 MOTOR_B
+#define TOUCH_PORT NXT_SENSOR_1
+#define MOTOR0 NXT_MOTOR_A
+#define MOTOR1 NXT_MOTOR_B
 
 #define MOTOR_POWER -100
 #define STOP_TIME 100

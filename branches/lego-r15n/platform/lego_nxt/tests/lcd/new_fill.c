@@ -9,7 +9,7 @@
 #include <unistd.h>
 
 #include <embox/test.h>
-#include <drivers/lcd.h>
+#include <drivers/nxt/lcd.h>
 
 EMBOX_TEST(run_new_fill);
 

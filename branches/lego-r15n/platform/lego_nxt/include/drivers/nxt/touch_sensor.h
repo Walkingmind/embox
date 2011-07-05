@@ -9,7 +9,7 @@
 #ifndef NXT_TOUCH_SENSOR_H_
 #define NXT_TOUCH_SENSOR_H_
 
-#include <drivers/nxt_sensor.h>
+#include <drivers/nxt/sensor.h>
 
 typedef void (*touch_hnd_t)(sensor_t *sensor);
 

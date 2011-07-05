@@ -26,7 +26,6 @@ static int nxt_bluetooth_test(void) {
 	msg.length = 0;
 	msg.type = 0x2f;
 	len = bt_wrap(&msg, tx_buff);
-	TRACE("bt_write start\n");
 
 	bluetooth_write(tx_buff,len);
 	usleep(250);

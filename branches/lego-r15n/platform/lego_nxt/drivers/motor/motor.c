@@ -8,10 +8,10 @@
 
 #include <types.h>
 #include <assert.h>
-#include <drivers/nxt_avr.h>
+#include <drivers/nxt/avr.h>
 #include <drivers/pins.h>
 #include <embox/unit.h>
-#include <drivers/nxt_motor.h>
+#include <drivers/nxt/motor.h>
 
 #define PWM_FREQ 8 /* KHz */
 

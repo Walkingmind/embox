@@ -7,7 +7,7 @@
  */
 
 #include <embox/test.h>
-#include <drivers/nxt_motor.h>
+#include <drivers/nxt/motor.h>
 
 EMBOX_TEST(motor_run);
 

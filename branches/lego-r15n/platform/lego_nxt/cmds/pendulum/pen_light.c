@@ -7,17 +7,17 @@
  */
 
 #include <embox/cmd.h>
-#include <drivers/nxt_sensor.h>
-#include <drivers/nxt_motor.h>
+#include <drivers/nxt/sensor.h>
+#include <drivers/nxt/motor.h>
 
 #define MOTOR_POWER 100
-#define MOTOR0 MOTOR_A
-#define MOTOR1 MOTOR_B
+#define MOTOR0 NXT_MOTOR_A
+#define MOTOR1 NXT_MOTOR_B
 #define BLACK_ZONE 500
 
 EMBOX_CMD(pen_light);
 
-#define LIGHT_PORT SENSOR_1
+#define LIGHT_PORT NXT_SENSOR_1
 
 static sensor_val_t sval = 10;
 

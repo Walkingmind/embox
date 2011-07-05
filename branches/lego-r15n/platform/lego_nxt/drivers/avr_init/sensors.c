@@ -7,8 +7,8 @@
  */
 
 #include <types.h>
-#include <drivers/nxt_avr.h>
-#include <drivers/nxt_sensor.h>
+#include <drivers/nxt/avr.h>
+#include <drivers/nxt/sensor.h>
 #include <drivers/soft_i2c.h>
 
 #define DIGIA0 23

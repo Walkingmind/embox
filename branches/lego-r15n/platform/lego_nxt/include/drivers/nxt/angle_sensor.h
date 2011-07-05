@@ -9,7 +9,7 @@
 #ifndef NXT_ANGLE_H_
 #define NXT_ANGLE_H_
 
-#include <drivers/nxt_sensor.h>
+#include <drivers/nxt/sensor.h>
 
 #define NXT_ANGLE_2X_ANGLE_COMM 0x42
 #define NXT_ANGLE_1_ANGLE_ADD_COMM 0x43

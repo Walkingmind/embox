@@ -9,10 +9,10 @@
 #include <types.h>
 #include <embox/unit.h>
 #include <hal/reg.h>
-#include <drivers/nxt_direct_comm.h>
-#include <drivers/nxt_motor.h>
+#include <drivers/nxt/direct_comm.h>
+#include <drivers/nxt/motor.h>
 #include <drivers/bluetooth.h>
-#include <drivers/nxt_sensor.h>
+#include <drivers/nxt/sensor.h>
 #include <unistd.h>
 #include <string.h>
 #include <kernel/panic.h>

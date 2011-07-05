@@ -6,7 +6,7 @@
  */
 
 #include <embox/test.h>
-#include <drivers/lcd.h>
+#include <drivers/nxt/lcd.h>
 #include <unistd.h>
 #include <types.h>
 

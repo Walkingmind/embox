@@ -8,8 +8,8 @@
 #include <embox/cmd.h>
 #include <unistd.h>
 #include <kernel/timer.h>
-#include <drivers/nxt_buttons.h>
-#include <drivers/lcd.h>
+#include <drivers/nxt/buttons.h>
+#include <drivers/nxt/lcd.h>
 extern __u8 display_buffer[NXT_LCD_DEPTH+1][NXT_LCD_WIDTH];
 
 #define SPEED_INC 5
@@ -176,19 +176,19 @@ static char dir_char(point p) {
 }
 
 static char button_dispatch(uint32_t btns) {
-	if ((btns & BT_DOWN) && (btns & BT_ENTER)) {
+	if ((btns & NXT_BT_DOWN) && (btns & NXT_BT_ENTER)) {
 		return 'q';
 	}
-	if (btns & BT_DOWN) {
+	if (btns & NXT_BT_DOWN) {
 		return 'j';
 	}
-	if (btns & BT_LEFT) {
+	if (btns & NXT_BT_LEFT) {
 		return 'h';
 	}
-	if (btns & BT_RIGHT) {
+	if (btns & NXT_BT_RIGHT) {
 		return 'l';
 	}
-	if (btns & BT_ENTER) {
+	if (btns & NXT_BT_ENTER) {
 		return 'k';
 	}
 	return ' ';
@@ -269,7 +269,7 @@ static int valid(point p) {
 static int begin_splash(void) {
 	display_clear_screen();
 	display_string("\nnxtSnake\n\nUp + Down = exit\nEat't up!");
-	while (!nxt_buttons_was_pressed()) {
+	while (!nxt_buttons_pressed()) {
 		usleep(100);
 	}
 	return 1;
@@ -278,7 +278,7 @@ static int begin_splash(void) {
 static void end_splash(void) {
 	display_clear_screen();
 	display_string("Game over =(");
-	while (!nxt_buttons_was_pressed()) {
+	while (!nxt_buttons_pressed()) {
 		usleep(100);
 	}
 }
@@ -297,7 +297,7 @@ static int exec(int argc, char **argv) {
 		point d2 = nil;
 
 		usleep(sleep_time);
-		ch = button_dispatch(nxt_buttons_was_pressed());
+		ch = button_dispatch(nxt_buttons_pressed());
 		if (ch == 'q') {
 			break;
 		}

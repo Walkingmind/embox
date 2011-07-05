@@ -10,17 +10,17 @@
 
 #include <types.h>
 
-#define BT_ENTER 1
-#define BT_LEFT 2
-#define BT_RIGHT 4
-#define BT_DOWN 8
+#define NXT_BT_ENTER 1
+#define NXT_BT_LEFT 2
+#define NXT_BT_RIGHT 4
+#define NXT_BT_DOWN 8
 
-typedef uint16_t buttons_t;
+typedef uint16_t nxt_buttons_mask_t;
 
 /* Buttons pressed at now */
-extern uint32_t nxt_buttons_are_pressed(void);
+extern nxt_buttons_mask_t nxt_buttons_pushed(void);
 
 /* Buttons was pressed since last call */
-extern uint32_t nxt_buttons_was_pressed(void);
+extern nxt_buttons_mask_t nxt_buttons_pressed(void);
 
 #endif /* NXT_BUTTONS_H_ */

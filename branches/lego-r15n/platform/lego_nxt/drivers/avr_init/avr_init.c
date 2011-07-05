@@ -13,13 +13,13 @@
 #include <kernel/timer.h>
 #include <drivers/at91sam7s256.h>
 #include <drivers/twi.h>
-#include <drivers/nxt_buttons.h>
-#include <drivers/nxt_avr.h>
-#include <drivers/nxt_sensor.h>
+#include <drivers/nxt/buttons.h>
+#include <drivers/nxt/avr.h>
+#include <drivers/nxt/sensor.h>
 #include <kernel/measure.h>
 
 /* Notify driver of possible buttons change */
-extern void buttons_updated(buttons_t state);
+extern void buttons_updated(nxt_buttons_mask_t state);
 extern void sensors_updated(sensor_val_t sensor_vals[]);
 extern void sensors_init(void);
 
@@ -74,7 +74,7 @@ static uint32_t avr_handler(void) {
 		avr_send_data(&data_to_avr);
 	} else {
 		avr_get_data(&data_from_avr);
-		buttons_updated((buttons_t) data_from_avr.buttons_val);
+		buttons_updated((nxt_buttons_mask_t) data_from_avr.buttons_val);
 		sensors_updated(data_from_avr.adc_value);
 	}
 

@@ -7,8 +7,8 @@
  */
 
 #include <unistd.h>
-#include <drivers/lcd.h>
-#include <drivers/nxt_buttons.h>
+#include <drivers/nxt/lcd.h>
+#include <drivers/nxt/buttons.h>
 #include <embox/cmd.h>
 #include <framework/test/api.h>
 
@@ -51,9 +51,9 @@ static int menu_start(int argc, char **argv) {
 	display_draw(0, 0, 1, 1, &pointer_buff[0]);
 
 	while (i > 0) {
-		buts = nxt_buttons_was_pressed();
+		buts = nxt_buttons_pressed();
 		usleep(600);
-		if (buts & BT_RIGHT) {
+		if (buts & NXT_BT_RIGHT) {
 			if (current_test == max_cur_test) {
 				if (max_cur_test < (number-1)) {
 					min_cur_test++;
@@ -69,7 +69,7 @@ static int menu_start(int argc, char **argv) {
 				display_draw(0, current_test - 1 - min_cur_test, 1, 8, &space_buff[0]);
 			}
 		}
-		if (buts & BT_LEFT) {
+		if (buts & NXT_BT_LEFT) {
 			if (current_test == min_cur_test) {
 				if ( min_cur_test > 0 ) {
 					min_cur_test--;
@@ -85,10 +85,10 @@ static int menu_start(int argc, char **argv) {
 				display_draw(0, current_test + 1 - min_cur_test, 1, 8, &space_buff[0]);
 			}
 		}
-		if ( buts & BT_ENTER) {
+		if ( buts & NXT_BT_ENTER) {
 			j = test_suite_run(&__test_registry[current_test]);
 		}
-		if (buts & BT_DOWN) {
+		if (buts & NXT_BT_DOWN) {
 			i = 0;
 		}
 		buts = 0;

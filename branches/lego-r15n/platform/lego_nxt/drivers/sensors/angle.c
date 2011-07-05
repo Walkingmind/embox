@@ -7,8 +7,8 @@
  */
 
 #include <types.h>
-#include <drivers/nxt_angle_sensor.h>
-#include <drivers/nxt_sensor.h>
+#include <drivers/nxt/angle_sensor.h>
+#include <drivers/nxt/sensor.h>
 
 void nxt_angle_sensor_init (sensor_t *sensor) {
 	sensor->def_comm = NXT_ANGLE_2X_ANGLE_COMM;

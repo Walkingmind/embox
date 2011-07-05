@@ -7,18 +7,18 @@
  */
 
 #include <drivers/soft_i2c.h>
-#include <drivers/nxt_angle_sensor.h>
+#include <drivers/nxt/angle_sensor.h>
 #include <embox/cmd.h>
 #include <unistd.h>
-#include <drivers/nxt_motor.h>
+#include <drivers/nxt/motor.h>
 
 EMBOX_CMD(pen_angle);
 
 #define MOTOR_POWER 100
 
-#define PORT SENSOR_1
-#define MOTOR0 MOTOR_A
-#define MOTOR1 MOTOR_B
+#define PORT NXT_SENSOR_1
+#define MOTOR0 NXT_MOTOR_A
+#define MOTOR1 NXT_MOTOR_B
 
 
 static sensor_val_t sval = 0;
