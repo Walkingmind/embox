@@ -65,7 +65,7 @@ static void reply_handle(uint8_t status) {
 	reply[1] = command;
 	reply[2] = status;
 	reply_need = 0;
-	nxt_bluetooth_write(reply, 3);
+	bluetooth_write(reply, 3);
 }
 
 static int handle_comm(uint8_t *buff) {
@@ -89,7 +89,7 @@ static int sensor_send(uint8_t sensor_id) {
 	out[9] = tmp & 0xff;
 	out[14] = (tmp > EDGE ? 0 : 1);
 	reply_need = 0;
-	nxt_bluetooth_write(out, 16);
+	bluetooth_write(out, 16);
 	return 0;
 }
 
