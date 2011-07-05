@@ -1,13 +1,13 @@
 /**
  * @file
- * @brief Implementation of net protos framework iterators.
+ * @brief Implementation of net framework getters and iterators.
  *
- * @date 04.07.11
+ * @date 01.07.11
  * @author Dmitry Zubarevich
  */
 
-#ifndef FRAMEWORK_NET_PROTO_API_IMPL_H_
-#define FRAMEWORK_NET_PROTO_API_IMPL_H_
+#ifndef FRAMEWORK_NET_API_IMPL_H_
+#define FRAMEWORK_NET_API_IMPL_H_
 
 #include <stddef.h>
 
@@ -16,9 +16,9 @@
 
 #include "types.h"
 
-extern const struct net_proto __net_proto_registry[];
+extern const struct net __net_registry[];
 
-#define __net_proto_foreach(net_proto_ptr) \
-	array_spread_foreach_ptr(net_proto_ptr, __net_proto_registry)
+#define __net_foreach(net_ptr) \
+	array_spread_foreach_ptr(net_ptr, __net_registry)
 
-#endif /* FRAMEWORK_NET_PROTO_API_IMPL_H_ */
+#endif /* FRAMEWORK_NET_API_IMPL_H_ */

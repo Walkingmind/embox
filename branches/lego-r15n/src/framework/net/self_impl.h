@@ -1,13 +1,13 @@
 /**
  * @file
- * @brief Internal implementation of net proto self definition macros.
+ * @brief Internal implementation of net self definition macros.
  *
- * @date 04.07.11
+ * @date 01.07.11
  * @author Dmitry Zubarevich
  */
 
-#ifndef FRAMEWORK_NET_PROTO_SELF_IMPL_H_
-#define FRAMEWORK_NET_PROTO_SELF_IMPL_H_
+#ifndef FRAMEWORK_NET_SELF_IMPL_H_
+#define FRAMEWORK_NET_SELF_IMPL_H_
 
 #include <stddef.h>
 
@@ -16,12 +16,12 @@
 
 #include "types.h"
 
-#define __EMBOX_NET_PROTO(_proto) \
-	extern const struct mod_ops __net_proto_mod_ops;         \
-	const struct net_proto __net##_proto =   {  \
-			.netproto = &_proto,                     \
+#define __EMBOX_NET(_packet) \
+	extern const struct mod_ops __net_mod_ops;         \
+	const struct net __net##_packet =   {  \
+			.netpack = &_packet,                     \
 			.mod = &mod_self                   \
 		};                                        \
-	MOD_SELF_BIND(&__net##_proto, &__net_proto_mod_ops)
+	MOD_SELF_BIND(&__net##_packet, &__net_mod_ops)
 
-#endif /* FRAMEWORK_NET_PROTO_SELF_IMPL_H_ */
+#endif /* FRAMEWORK_NET_SELF_IMPL_H_ */

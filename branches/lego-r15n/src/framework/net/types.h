@@ -1,25 +1,25 @@
 /**
  * @file
- * @brief Type declarations shared between net protos framework and each net proto suite.
+ * @brief Type declarations shared between net framework and each net packet suite.
  *
- * @date 04.07.11
+ * @date 01.07.11
  * @author Dmitry Zubarevich
  */
 
-#ifndef FRAMEWORK_NET_PROTO_TYPES_H_
-#define FRAMEWORK_NET_PROTO_TYPES_H_
+#ifndef FRAMEWORK_NET_TYPES_H_
+#define FRAMEWORK_NET_TYPES_H_
 
 #include <util/location.h>
-#include <net/protocol.h>
+#include <net/netdevice.h>
 
 /**
- * Each netproto implements this interface.
+ * Each netpack implements this interface.
  */
 
-struct net_proto {
-	net_protocol_t *netproto;
+struct net {
+	packet_type_t *netpack;
 	/** The corresponding mod. */
 	const struct mod *mod;
 };
 
-#endif /* FRAMEWORK_NET_PROTO_TYPES_H_ */
+#endif /* FRAMEWORK_NET_TYPES_H_ */
