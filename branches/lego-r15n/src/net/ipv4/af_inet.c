@@ -108,10 +108,6 @@ static int inet_init(void) {
 	/* Init skb pool */
 	sock_init();
 
-	/* Add all the base protocols. */
-
-	inet_protocols_init();
-
 	/* Set the IP module up */
 	ip_init();
 

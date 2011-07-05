@@ -43,11 +43,6 @@
 	__ipstack_sockets_end = .;     \
 	                               \
 	ALIGNMENT();                   \
-	__ipstack_protos_start = .;    \
-		*(.ipstack.protos)         \
-	__ipstack_protos_end = .;      \
-	                               \
-	ALIGNMENT();                   \
 	*(.checksum)                   \
 
 #define LDS_INPUT_RESERVE \

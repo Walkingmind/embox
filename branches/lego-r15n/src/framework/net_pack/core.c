@@ -21,16 +21,16 @@ const struct mod_ops __net_pack_mod_ops = {
 
 static int net_pack_mod_enable(struct mod *mod) {
 	int ret = 0;
-	struct net_pack *net_pack = (struct net_pack *) mod_data(mod);
+	packet_type_t *net_pack = ((struct net_pack *) mod_data(mod))->netpack;
 
-	if (NULL == net_pack->netpack || NULL == net_pack->netpack->init) {
+	if (NULL == net_pack || NULL == net_pack->init) {
 		TRACE ("\nWrong packet descriptor\n");
 		return 0;
 	}
-	TRACE("NET: initializing %s.%s: ", mod->package->name, mod->name);
+	TRACE("NET: initializing packet %s.%s: ", mod->package->name, mod->name);
 
-	if (0 == (ret = net_pack->netpack->init())) {
-		dev_add_pack(net_pack->netpack);
+	if (0 == (ret = net_pack->init())) {
+		dev_add_pack(net_pack);
 		TRACE("done\n");
 	} else {
 		TRACE("error: %s\n", strerror(-ret));

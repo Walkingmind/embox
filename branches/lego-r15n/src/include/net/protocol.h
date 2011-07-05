@@ -29,11 +29,6 @@ typedef struct net_protocol {
 extern net_protocol_t *inet_protos[MAX_INET_PROTOS];
 #endif
 
-#define DECLARE_INET_PROTO(inet_proto) \
-	static const net_protocol_t *p##inet_proto \
-		__attribute__ ((used, section(".ipstack.protos"))) \
-		= &inet_proto
-
 extern int inet_protocols_init (void);
 
 /**

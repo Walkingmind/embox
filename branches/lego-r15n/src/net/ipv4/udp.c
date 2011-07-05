@@ -16,6 +16,7 @@
 #include <net/checksum.h>
 #include <net/protocol.h>
 #include <net/inet_common.h>
+#include <embox/net_proto.h>
 
 static udp_sock_t *udp_hash[CONFIG_MAX_KERNEL_SOCKETS];
 
@@ -138,13 +139,7 @@ static void udp_lib_close(struct sock *sk, long timeout) {
 	sk_common_release(sk);
 }
 
-static const net_protocol_t udp_protocol = {
-	.handler = udp_rcv,
-	.err_handler = udp_err,
-	.type = IPPROTO_UDP
-};
-
-DECLARE_INET_PROTO(udp_protocol);
+EMBOX_NET_PROTO(IPPROTO_UDP, udp_rcv, udp_err);
 
 struct proto udp_prot = {
 	.name              = "UDP",

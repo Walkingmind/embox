@@ -15,18 +15,15 @@
 #include <net/checksum.h>
 #include <net/protocol.h>
 #include <net/inet_common.h>
+#include <embox/net_proto.h>
+//#include <embox/net_sock.h>
 
 int tcp_v4_rcv(sk_buff_t *skb) {
 	printf("stub: receive tcp packet\n");
 	return 0;
 }
 
-static const net_protocol_t tcp_protocol = {
-	.handler = tcp_v4_rcv,
-	.type = IPPROTO_TCP
-};
-
-DECLARE_INET_PROTO(tcp_protocol);
+EMBOX_NET_PROTO(IPPROTO_TCP, tcp_v4_rcv, NULL);
 
 struct proto tcp_prot = {
 	.name                   = "TCP",
@@ -96,4 +93,5 @@ static struct inet_protosw tcp_socket = {
 	.no_check = 0,
 };
 
+//EMBOX_NET_SOCK(SOCK_STREAM, IPPROTO_TCP, tcp_prot, inet_stream_ops, 0);
 DECLARE_INET_SOCK(tcp_socket);

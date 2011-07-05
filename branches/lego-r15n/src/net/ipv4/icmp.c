@@ -18,6 +18,7 @@
 #include <net/protocol.h>
 #include <net/kernel_socket.h>
 #include <linux/init.h>
+#include <embox/net_proto.h>
 
 /**
  * Build xmit assembly blocks
@@ -367,9 +368,4 @@ int icmp_rcv(sk_buff_t *pack) {
 	return -1;
 }
 
-net_protocol_t icmp_protocol = {
-	.handler = icmp_rcv,
-	.type = IPPROTO_ICMP
-};
-
-DECLARE_INET_PROTO(icmp_protocol);
+EMBOX_NET_PROTO(IPPROTO_ICMP, icmp_rcv, NULL);
