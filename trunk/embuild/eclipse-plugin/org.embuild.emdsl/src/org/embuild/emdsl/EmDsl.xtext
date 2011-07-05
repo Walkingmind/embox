@@ -1,0 +1,42 @@
+grammar org.embuild.emdsl.EmDsl with org.eclipse.xtext.common.Terminals
+
+generate emDsl "http://www.embuild.org/emdsl/EmDsl"
+
+Model:
+	elements += Entity*
+;
+
+Entity:
+	Module
+;
+
+Modifier:
+	abstract?='abstract'
+;
+
+Module:
+	(Modifier)? 'module' name = ID ('extends' superType = [Module | QualifiedName])?
+	'{'
+		features += Feature*
+	'}'
+;
+
+Feature:
+	SourceFeature | DependFeature
+;
+
+SourceFeature:
+	'source' (filenames += Filename)+
+;
+
+Filename:
+	STRING
+;
+
+DependFeature:
+	'depend' (modules += [Module])+
+;
+
+QualifiedName:
+	ID ('.' ID)*
+;
