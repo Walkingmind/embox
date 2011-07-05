@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<site>
+   <description name="Embuild Update site" url="http://embox.dyndns.org/embuild/update">
+      Embuild support for Eclipse
+   </description>
+   <feature url="features/org.embuild.emdsl.feature_1.0.0.201107051843.jar" id="org.embuild.emdsl.feature" version="1.0.0.201107051843">
+      <category name="Embuild"/>
+   </feature>
+   <category-def name="Embuild" label="Embuild"/>
+</site>
