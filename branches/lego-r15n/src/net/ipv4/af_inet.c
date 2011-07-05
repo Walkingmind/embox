@@ -13,7 +13,7 @@
 #include <net/icmp.h>
 #include <net/ip.h>
 #include <net/netdevice.h>
-#include <embox/net.h>
+#include <embox/net_pack.h>
 
 /*inet socket function*/
 
@@ -120,4 +120,4 @@ static int inet_init(void) {
 	return 0;
 }
 
-EMBOX_NET(ETH_P_IP, ip_rcv, inet_init);
+EMBOX_NET_PACK(ETH_P_IP, ip_rcv, inet_init);
