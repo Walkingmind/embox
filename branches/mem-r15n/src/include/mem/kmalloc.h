@@ -1,20 +1,16 @@
 /**
  * @file
  * @brief Dynamic memory allocator arbitrary size. Terehov style.
- * @details TODO
+ * @details XXX kmalloc docs
  *
  * @date 02.05.10
  * @author Michail Skorginskii
- *
- * TODO
- * 2) Calloc && realloc.
  */
 
-#ifndef KMALLOC_H
-#define KMALLOC_H
+#ifndef MEM_KMALLOC_H_
+#define MEM_KMALLOC_H_
 
-#include <sys/types.h>
-#include <lib/list.h>
+#include <stddef.h>
 
 /**
  * Dynamic memory allocator arbitrary size.
@@ -33,5 +29,5 @@ extern void *kmalloc(size_t size);
  */
 extern void kfree(void *ptr);
 
-#endif /* KMALLOC_H */
+#endif /* MEM_KMALLOC_H_ */
 
