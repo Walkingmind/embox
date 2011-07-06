@@ -18,8 +18,6 @@
 #include <mem/kmalloc.h>
 #include <mem/misc/slab_statistic.h>
 #include <mem/pagealloc/mpallocator.h>
-#include <assert.h>
-#include <errno.h>
 
 /**
  * slab descriptor
@@ -44,8 +42,8 @@ typedef struct page_info {
 
 extern char _heap_start;
 extern char _heap_end;
-# define HEAP_START_PTR         (&_heap_start)
-# define HEAP_END_PTR           (&_heap_end)
+# define HEAP_START_PTR 	(&_heap_start)
+# define HEAP_END_PTR		(&_heap_end)
 
 static page_info_t pages[CONFIG_HEAP_SIZE / CONFIG_PAGE_SIZE];
 
@@ -87,8 +85,12 @@ static page_info_t* virt_to_page(void *objp) {
 	return &(pages[index]);
 }
 
+/*static void makecache(cache_t *c) {
+	objalloc(c);
+}*/
+
 /* main cache which will contain another descriptors of caches */
-cache_t cache_chain = { .name = "__cache_chain", .num =
+static cache_t cache_chain = { .name = "__cache_chain", .num =
 		(CONFIG_PAGE_SIZE * CACHE_CHAIN_SIZE
 				- binalign_bound(sizeof(slab_t), 4))
 				/ binalign_bound(sizeof(cache_t), 4), .obj_size =
@@ -182,11 +184,17 @@ static void cache_estimate(unsigned int gfporder, size_t size,
 	*left_over = wastage;
 }
 
-int cache_init(cache_t *cachep, size_t obj_size, size_t obj_num) {
+cache_t *cache_create(char *name, size_t obj_size, size_t obj_num) {
 	size_t left_over;
+	cache_t *cachep;
 
-	assert(cachep != NULL);
+	if (!name || strlen(name) >= __CACHE_NAMELEN - 1 || obj_size <= 0
+			|| obj_size >= CONFIG_PAGE_SIZE << MAX_OBJ_ORDER)
+		return NULL;
 
+	cachep = (cache_t*) cache_alloc(&cache_chain);
+
+	strcpy(cachep->name, name);
 	cachep->obj_size = binalign_bound(obj_size, sizeof(struct list_head));
 	cachep->slab_order = 0;
 
@@ -209,9 +217,8 @@ int cache_init(cache_t *cachep, size_t obj_size, size_t obj_num) {
 		cachep->slab_order++;
 	} while (1);
 
-	if (!cachep->num) {
-		return -ENOMEM;
-	}
+	if (!cachep->num)
+		return NULL;
 
 	cachep->growing = false;
 	cachep->slabs_full.next = &(cachep->slabs_full);
@@ -230,34 +237,10 @@ int cache_init(cache_t *cachep, size_t obj_size, size_t obj_num) {
 	printf("Wastage: %d\n\n", left_over);
 #endif
 
-	return 0;
-}
-
-
-cache_t *cache_create(char *name, size_t obj_size, size_t obj_num) {
-	cache_t *cachep;
-
-	if (!name || strlen(name) >= __CACHE_NAMELEN - 1 || obj_size <= 0
-			|| obj_size >= CONFIG_PAGE_SIZE << MAX_OBJ_ORDER)
-		return NULL;
-
-	strcpy(cachep->name, name);
-
-	if (!(cachep = (cache_t *) cache_alloc(&cache_chain))) {
-		return NULL;
-	}
-
-	if (0 != cache_init(cachep, obj_size, obj_num)) {
-		cache_free(&cache_chain, cachep);
-		return NULL;
-	}
-
 	return cachep;
 }
 
-
-int cache_destroy(cache_t *cachep) {
-
+void cache_destroy(cache_t *cachep) {
 	struct list_head *ptr;
 	slab_t * slabp;
 
@@ -296,7 +279,6 @@ int cache_destroy(cache_t *cachep) {
 	list_del(&cachep->next);
 	cache_free(&cache_chain, cachep);
 
-    return 0;
 }
 
 void *cache_alloc(cache_t *cachep) {
@@ -379,6 +361,57 @@ int cache_shrink(cache_t *cachep) {
 	}
 
 	return ret;
+}
+
+/**
+ * Search fit to this obj_size cache
+ * @param obj_size is size for which is searching cache
+ * @return pointer to this cache
+ */
+static cache_t *find_fit_cache(size_t obj_size) {
+	struct list_head *tmp;
+	cache_t *cachep;
+	/* pointer to main cache */
+	cache_t *cache_chainp;
+
+	cache_chainp = &cache_chain;
+	tmp = &cache_chainp->next;
+	do {
+		cachep = list_entry(tmp, cache_t, next);
+		if (obj_size <= cachep->obj_size + MAX_OBJECT_ALIGN) {
+			return cachep;
+		}
+		tmp = cachep->next.next;
+	} while (tmp != &cache_chainp->next);
+
+	return NULL;
+}
+
+void *kmalloc(size_t size) {
+	cache_t *cachep;
+	void *obj_ptr;
+	char name[__CACHE_NAMELEN ];
+
+	/* different caches must be initialized with different names "__size" */
+	sprintf(name, "%s\n", "__");
+	sprintf(name + 2, "%d\n", size);
+	cachep = find_fit_cache(size);
+	if (cachep != NULL) {
+		obj_ptr = cache_alloc(cachep);
+		return obj_ptr;
+	}
+	/* if needed cache is not exist */
+	cachep = cache_create(name, size, 0);
+	obj_ptr = cache_alloc(cachep);
+
+	return obj_ptr;
+}
+
+void slab_kfree(void *obj) {
+	page_info_t *page = virt_to_page(obj);
+	cache_t *cachep = GET_PAGE_CACHE(page);
+	cache_free(cachep, obj);
+	cache_shrink(cachep);
 }
 
 void sget_blocks_info(struct list_head* list, struct list_head *slabp) {

@@ -6,8 +6,8 @@
  * @author Eldar Abusalimov
  */
 
-#ifndef MEM_MISC_UTIL_POOL_H_
-#define MEM_MISC_UTIL_POOL_H_
+#ifndef UTIL_POOL_H_
+#define UTIL_POOL_H_
 
 #include __impl_x(mem/misc/pool_impl.h)
 
@@ -20,9 +20,7 @@ struct pool;
  * @param count of objects in cache
  */
 #define POOL_DEF(pool_nm, object_t, objects_nr) \
-          __POOL_DEF(pool_nm, object_t, objects_nr)
-
-//extern int pool_init(struct pool *pool, size_t obj_size, size_t obj_num);
+	__POOL_DEF(pool_nm, object_t, objects_nr)
 
 /**
  * allocate single object from the cache and return it to the caller
@@ -38,4 +36,4 @@ extern void *pool_alloc(struct pool *pool);
  */
 extern void pool_free(struct pool *pool, void *object);
 
-#endif /* MEM_MISC_UTIL_POOL_H_ */
+#endif /* UTIL_POOL_H_ */
