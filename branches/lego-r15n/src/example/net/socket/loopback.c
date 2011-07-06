@@ -7,13 +7,13 @@
  */
 
 #include <stdio.h>
-#include <embox/test.h>
 #include <net/ip.h>
 #include <net/socket.h>
+#include <embox/example.h>
 
-EMBOX_TEST(run);
+EMBOX_EXAMPLE(run);
 
-static int run(void) {
+static int run(int argc, char **argv) {
 	char msg_send[] = "Test_message\n";
 	int sock;
 	ssize_t msg_size = sizeof(msg_send);
@@ -40,12 +40,15 @@ static int run(void) {
 	}
 
 	/* receiving of test message */
-	if (0 > (recvfrom(sock, &msg_recv ,msg_size, 0,
-			(struct sokaddr *) &addr, addr_size))) {
-		TRACE("Can't recive message");
+	if (0 > (recvfrom(sock,
+			&msg_recv,
+			msg_size, 0,
+			(struct sockaddr *) &addr,
+			&addr_size))) {
+		TRACE("Can't receive message");
 		return 0;
 	} else {
-		TRACE("It was recived message: %s", msg_recv);
+		TRACE("It was received message: %s", msg_recv);
 	}
 
 	/* close of socket */

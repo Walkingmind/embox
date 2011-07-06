@@ -1,1 +1,1 @@
-$_PACKAGE := cmd
+$_PACKAGE := embox.cmd
