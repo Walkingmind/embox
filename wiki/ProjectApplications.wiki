@@ -56,8 +56,8 @@ commercial advantage.
  * [http://se.math.spbu.ru/SE/YearlyProjects/2010/445/Fomin_report.doc/view Особенности open-source разработки на основе проекта “Embox” (Fomin A.D.)]
 
 == Graduate paper ==
- * [http://se.math.spbu.ru/SE/diploma/2011/Batjukov%20Aleksandr%20-%20text.pdf Flash filesystem for Embox RTOS (Russian) (Батюков А. М.) 
- * [http://se.math.spbu.ru/SE/diploma/2011/Abusalimov%20Jeldar%20-%20text.doc Build system, code analysis and verification tool for Embox RTOS (Russian) (Абусалимов Э. Ш.)
+ * [http://se.math.spbu.ru/SE/diploma/2011/Batjukov%20Aleksandr%20-%20text.pdf Flash filesystem for Embox RTOS (Russian) (Батюков А. М.)]
+ * [http://se.math.spbu.ru/SE/diploma/2011/Abusalimov%20Jeldar%20-%20text.doc Build system, code analysis and verification tool for Embox RTOS (Russian) (Абусалимов Э. Ш.)]
  
 = Just for fun =
 
