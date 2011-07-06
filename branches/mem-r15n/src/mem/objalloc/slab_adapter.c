@@ -6,26 +6,17 @@
  * @author Alexandr Kalmuk
  */
 
-#include <mem/misc/slab.h>
+#include <mem/slab.h>
 #include <mem/objalloc.h>
-#include <framework/mod/api.h>
 
-void *objalloc(objalloc_t *allocator) {
-	return cache_alloc(allocator);
+void *objalloc(struct objalloc *adapter) {
+	return cache_alloc(&adapter->cache);
 }
 
-void objfree(objalloc_t *allocator, void *object) {
-	cache_free(allocator, object);
+void objfree(struct objalloc *adapter, void* objp) {
+	cache_free(&adapter->cache, objp);
 }
 
-/** Inizialize cache according to storage data in info structure */
-static int __cache_members_init(struct mod_members_info * info);
-
-const struct mod_members_ops __cache_member_init = {
-		.init = &__cache_members_init,
-};
-
-static int __cache_members_init(struct mod_members_info * info) {
-	struct data *member_data = (struct data*)info->data;
-	return cache_init(member_data->cache, member_data->obj_sz, member_data->obj_nr);
+void objcache_destroy(struct objalloc *adapter) {
+	cache_destroy(&adapter->cache);
 }

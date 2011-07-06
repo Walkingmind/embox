@@ -7,8 +7,8 @@
  * @author Fedor Burdun
  */
 
-#ifndef MEM_PAGEALLOC_OPALLOCATOR_H_
-#define MEM_PAGEALLOC_OPALLOCATOR_H_
+#ifndef OPALLOCATOR_H_
+#define OPALLOCATOR_H_
 
 #include <types.h>
 
@@ -33,5 +33,5 @@ extern void *opalloc(void);
  */
 extern void opfree(void* paddr);
 
-#endif /* MEM_PAGELLOC_OPALLOCATOR_H_ */
+#endif /* OPALLOCATOR_H_ */
 

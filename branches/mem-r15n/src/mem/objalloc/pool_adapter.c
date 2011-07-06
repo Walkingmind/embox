@@ -6,14 +6,17 @@
  * @author Alexandr Kalmuk
  */
 
-#include <mem/objalloc.h>
 #include <mem/misc/pool.h>
+#include <mem/objalloc.h>
 
-void *objalloc(objalloc_t *allocator) {
-	return pool_alloc(allocator);
+void *objalloc(struct objalloc *adapter) {
+	return pool_alloc(&adapter->pool);
 }
 
-void objfree(objalloc_t *allocator, void *object) {
-	pool_free(allocator, object);
+void objfree(struct objalloc *adapter, void* objp) {
+	pool_free(&adapter->pool, objp);
 }
 
+void objcache_destroy(struct objalloc *adapter) {
+
+}

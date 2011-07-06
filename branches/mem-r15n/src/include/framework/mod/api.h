@@ -44,9 +44,6 @@ struct mod_package;
  */
 typedef int (*mod_op_t)(struct mod *self);
 
-/** TODO docs */
-typedef int (*mod_members_op_t)(struct mod_members_info *info);
-
 /**
  * Module operations.
  * TODO more docs. -- Eldar
@@ -56,14 +53,6 @@ typedef int (*mod_members_op_t)(struct mod_members_info *info);
 struct mod_ops {
 	/** (optional) Module state change operation. */
 	mod_op_t enable, disable;
-};
-
-/**
- * Module operations to inizialize and finilize essence
- * TODO docs.
- */
-struct mod_members_ops {
-	mod_members_op_t init, fini;
 };
 
 /**
