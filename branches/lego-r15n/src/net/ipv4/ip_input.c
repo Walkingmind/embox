@@ -26,6 +26,7 @@ int ip_rcv(sk_buff_t *skb, net_device_t *dev,
 
 	net_device_stats_t *stats = dev->netdev_ops->ndo_get_stats(skb->dev);
 	const struct net_proto *net_proto_ptr;
+	net_protocol_t *p_netproto;
 	iphdr_t *iph = ip_hdr(skb);
 	unsigned short tmp;
 	unsigned int len;
@@ -97,7 +98,7 @@ int ip_rcv(sk_buff_t *skb, net_device_t *dev,
 	raw_rcv(skb);
 
 	net_proto_foreach(net_proto_ptr) {
-		net_protocol_t *p_netproto = net_proto_ptr->netproto;
+		p_netproto = net_proto_ptr->netproto;
 		if (p_netproto->type == iph->proto) {
 			p_netproto->handler(skb);
 		}
