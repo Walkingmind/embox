@@ -62,6 +62,11 @@
  * [http://se.math.spbu.ru/SE/YearlyProjects/2010/445/Batyukov_report.pdf/view Разработка системы тестирования программно-аппаратных комплексов (Батюков А.М.)]
  * [http://se.math.spbu.ru/SE/YearlyProjects/2010/445/Fomin_report.doc/view Особенности open-source разработки на основе проекта “embox” (Фомин А.Д.)]
 
+== Дипломные работы ==
+ * [http://se.math.spbu.ru/SE/diploma/2011/Batjukov%20Aleksandr%20-%20text.pdf Flash файловая система ОСРВ Embox (Батюков А. М.) 
+ * [http://se.math.spbu.ru/SE/diploma/2011/Abusalimov%20Jeldar%20-%20text.doc Система сборки, анализа и верификации кода ОСРВ Embox (Абусалимов Э. Ш.)
+ 
+
 = Just for fun =
 
 Enjoy the kernel hacking!
