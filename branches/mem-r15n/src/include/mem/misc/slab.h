@@ -29,8 +29,8 @@
  * 	block that size and hand it over.
  */
 
-#ifndef INCLUDE_MEM_MISC_SLAB_H_
-#define INCLUDE_MEM_MISC_SLAB_H_
+#ifndef MEM_MISC_SLAB_H_
+#define MEM_MISC_SLAB_H_
 
 #include __impl_x(mem/misc/slab_impl.h)
 
@@ -40,6 +40,8 @@ typedef struct cache cache_t;
 /**
  * TODO
  */
+#define CACHE_DEF(cache_nm, object_t, objects_nr) \
+	  __CACHE_DEF(cache_nm, object_t, objects_nr)
 
 /**
  * Create of cache
@@ -51,13 +53,11 @@ extern cache_t *cache_create(char *name, size_t obj_size, size_t obj_num);
 
 extern int cache_init(cache_t *cache, size_t obj_size, size_t obj_num);
 
-#define CACHE_DEF(cache_nm, object_t, objects_nr) \
-	      __CACHE_DEF(cache_nm, object_t, objects_nr)
 /**
  * Destroy of cache
  * @param cache_ptr is pointer to cache which must be deleted
  */
-extern int cache_destroy(cache_t *cache_ptr);
+extern void cache_destroy(cache_t *cache_ptr);
 
 /**
  * Return pointer to object for which allocate memory
@@ -80,4 +80,4 @@ extern void cache_free(cache_t *cachep, void* objp);
  */
 extern int cache_shrink(cache_t *cachep);
 
-#endif /* INCLUDE_MEM_MISC_SLAB_H_ */
+#endif /* MEM_MISC_SLAB_H_ */
