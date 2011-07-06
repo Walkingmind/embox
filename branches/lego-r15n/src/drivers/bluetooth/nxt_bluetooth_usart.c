@@ -53,7 +53,7 @@ volatile enum {SIZE_READ, COMM_READ, UART_MODE} bt_us_state;
 
 void bt_set_uart_state(void) {
 	bt_us_state = UART_MODE;
-	us_dev_regs->US_IER = AT91C_US_ENDTX;
+	REG_STORE(&(us_dev_regs->US_IER), AT91C_US_ENDTX);
 }
 
 #define BUFF_SIZE 256
@@ -135,7 +135,7 @@ static void bt_us_read_handle(void) {
 
 static void bt_us_receive_init(void) {
 	int delay = 3000;
-	us_dev_regs->US_IDR = AT91C_US_ENDTX;	
+	REG_STORE(&(us_dev_regs->US_IDR), AT91C_US_ENDTX);
 	bt_uart_inited = 1;
 	while (delay--);
 	bt_set_arm7_cmd();
@@ -163,7 +163,7 @@ static void  nxt_bt_timer_handler(int id) {
 }
 
 static irq_return_t nxt_bt_us_handler(int irq_num, void *dev_id) {
-	uint32_t us_state = us_dev_regs->US_CSR; 
+	uint32_t us_state = REG_LOAD(&(us_dev_regs->US_CSR)); 
 	if (us_state & AT91C_US_ENDRX) {
 		bt_us_read_handle();
 	}
@@ -183,25 +183,25 @@ static void init_usart(void) {
 	REG_STORE(AT91C_PIOA_ASR, NXT_BT_RX_PIN | NXT_BT_TX_PIN |
 			NXT_BT_SCK_PIN | NXT_BT_RTS_PIN | NXT_BT_CTS_PIN);
 
-	us_dev_regs->US_PTCR = (AT91C_PDC_RXTDIS | AT91C_PDC_TXTDIS);
-	us_dev_regs->US_CR = AT91C_US_RSTSTA | AT91C_US_RSTRX | AT91C_US_RSTTX;
-	us_dev_regs->US_CR = AT91C_US_STTTO;
-	us_dev_regs->US_RTOR = 10000;
-	us_dev_regs->US_MR = (AT91C_US_USMODE_HWHSH & ~AT91C_US_SYNC)
+	REG_STORE(&(us_dev_regs->US_PTCR), (AT91C_PDC_RXTDIS | AT91C_PDC_TXTDIS));
+	REG_STORE(&(us_dev_regs->US_CR),  AT91C_US_RSTSTA | AT91C_US_RSTRX | AT91C_US_RSTTX);
+	REG_STORE(&(us_dev_regs->US_CR), AT91C_US_STTTO);
+	REG_STORE(&(us_dev_regs->US_RTOR), 10000);
+	REG_STORE(&(us_dev_regs->US_MR), (AT91C_US_USMODE_HWHSH & ~AT91C_US_SYNC)
 			| AT91C_US_CLKS_CLOCK | AT91C_US_CHRL_8_BITS | AT91C_US_PAR_NONE
-			| AT91C_US_NBSTOP_1_BIT | AT91C_US_OVER;
-	us_dev_regs->US_IDR = ~0;
-	us_dev_regs->US_IER = AT91C_US_ENDRX | AT91C_US_ENDTX;
-	us_dev_regs->US_BRGR = CONFIG_SYS_CLOCK / (8 * NXT_BT_BAUD_RATE);
-	us_dev_regs->US_RCR = 0;
-	us_dev_regs->US_TCR = 0;
-	us_dev_regs->US_RNPR = 0;
-	us_dev_regs->US_TNPR = 0;
-	tmp = us_dev_regs->US_RHR;
-	tmp = us_dev_regs->US_CSR;
+			| AT91C_US_NBSTOP_1_BIT | AT91C_US_OVER);
+	REG_STORE(&(us_dev_regs->US_IDR), ~0);
+	REG_STORE(&(us_dev_regs->US_IER), AT91C_US_ENDRX);
+	REG_STORE(&(us_dev_regs->US_BRGR), CONFIG_SYS_CLOCK / (8 * NXT_BT_BAUD_RATE));
+	REG_STORE(&(us_dev_regs->US_RCR), 0);
+	REG_STORE(&(us_dev_regs->US_TCR), 0);
+	REG_STORE(&(us_dev_regs->US_RNPR), 0);
+	REG_STORE(&(us_dev_regs->US_TNPR), 0);
+	tmp = REG_LOAD(&(us_dev_regs->US_RHR));
+	tmp = REG_LOAD(&(us_dev_regs->US_CSR));
 
-	us_dev_regs->US_CR = AT91C_US_RXEN | AT91C_US_TXEN;
-	us_dev_regs->US_PTCR = AT91C_PDC_RXTEN | AT91C_PDC_TXTEN;
+	REG_STORE(&(us_dev_regs->US_CR), AT91C_US_RXEN | AT91C_US_TXEN);
+	REG_STORE(&(us_dev_regs->US_PTCR), AT91C_PDC_RXTEN | AT91C_PDC_TXTEN);
 }
 
 static void init_control_pins(void) {
@@ -250,16 +250,16 @@ static int nxt_bluetooth_init(void) {
 }
 
 size_t bluetooth_write(uint8_t *buff, size_t len) {
-	while (!((us_dev_regs->US_CSR) & AT91C_US_ENDTX)) {
+	while (!(REG_LOAD(&(us_dev_regs->US_CSR)) & AT91C_US_ENDTX)) {
 	}
-	us_dev_regs->US_TPR = (uint32_t) buff;
-	us_dev_regs->US_TCR = len;
+	REG_STORE(&(us_dev_regs->US_TPR), (uint32_t) buff);
+	REG_STORE(&(us_dev_regs->US_TCR), len);
 	return len;
 }
 
 size_t bluetooth_read(uint8_t *buff, size_t len) {
-	us_dev_regs->US_RPR = (uint32_t) buff;
-	us_dev_regs->US_RCR = len;
+	REG_STORE(&(us_dev_regs->US_RPR), (uint32_t) buff);
+	REG_STORE(&(us_dev_regs->US_RCR), len);
 
 	return 0;
 }
