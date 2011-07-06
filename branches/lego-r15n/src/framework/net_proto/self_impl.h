@@ -16,13 +16,13 @@
 
 #include "types.h"
 
-#define __EMBOX_NET_PROTO(_proto) \
-	extern const struct mod_ops __net_proto_mod_ops;         \
-	extern const struct net_proto __net_proto_registry[];    \
-	ARRAY_SPREAD_ADD_NAMED(__net_proto_registry, __net##_proto,   {  \
-			.netproto = &_proto,                     \
-			.mod = &mod_self                   \
-		});                                        \
+#define __EMBOX_NET_PROTO(_proto) 									\
+	extern const struct mod_ops __net_proto_mod_ops;                \
+	extern const struct net_proto __net_proto_registry[];    	    \
+	ARRAY_SPREAD_ADD_NAMED(__net_proto_registry, __net##_proto,   { \
+			.netproto = &_proto,                     				\
+			.mod = &mod_self                   						\
+		});                                        					\
 	MOD_SELF_BIND(&__net##_proto, &__net_proto_mod_ops)
 
 #endif /* FRAMEWORK_NET_PROTO_SELF_IMPL_H_ */

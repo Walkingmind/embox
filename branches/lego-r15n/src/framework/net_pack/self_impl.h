@@ -16,12 +16,12 @@
 
 #include "types.h"
 
-#define __EMBOX_NET_PACK(_packet) \
-	extern const struct mod_ops __net_pack_mod_ops;         \
-	const struct net_pack __net##_packet =   {  \
-			.netpack = &_packet,                     \
-			.mod = &mod_self                   \
-		};                                        \
+#define __EMBOX_NET_PACK(_packet) 						\
+	extern const struct mod_ops __net_pack_mod_ops; 	\
+	const struct net_pack __net##_packet =   {      	\
+			.netpack = &_packet,                    	\
+			.mod = &mod_self                        	\
+		};                                          	\
 	MOD_SELF_BIND(&__net##_packet, &__net_pack_mod_ops)
 
 #endif /* FRAMEWORK_NET_PACK_SELF_IMPL_H_ */

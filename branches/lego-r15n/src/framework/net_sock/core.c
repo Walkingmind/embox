@@ -27,5 +27,3 @@ static int net_sock_mod_enable(struct mod *mod) {
 
 	return ret;
 }
-
-
