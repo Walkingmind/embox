@@ -65,7 +65,7 @@ void bt_unwrap(bt_message_t *header, uint8_t *buffer) {
 
 static void process_msg(bt_message_t *msg) {
 	int len;
-#if 0
+#if 1
 	TRACE("P%x:", msg->type);
 	for (int i = 0; i < msg->length; i++) {
 		TRACE("%x:", msg->content[i]);
