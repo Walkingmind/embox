@@ -196,13 +196,3 @@ const struct proto_ops inet_dgram_ops = {
 	.sendpage          = inet_sendpage,
 #endif
 };
-
-static struct inet_protosw udp_socket = {
-	.type = SOCK_DGRAM,
-	.protocol = IPPROTO_UDP,
-	.prot = &udp_prot,
-	.ops = &inet_dgram_ops,
-	.no_check = 0 /*UDP_CSUM_DEFAULT*/
-};
-
-DECLARE_INET_SOCK(udp_socket);

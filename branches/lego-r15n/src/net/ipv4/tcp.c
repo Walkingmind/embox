@@ -16,7 +16,6 @@
 #include <net/protocol.h>
 #include <net/inet_common.h>
 #include <embox/net_proto.h>
-//#include <embox/net_sock.h>
 
 int tcp_v4_rcv(sk_buff_t *skb) {
 	printf("stub: receive tcp packet\n");
@@ -84,14 +83,3 @@ const struct proto_ops inet_stream_ops = {
 	.splice_read       = tcp_splice_read,
 #endif
 };
-
-static struct inet_protosw tcp_socket = {
-	.type = SOCK_STREAM,
-	.protocol = IPPROTO_TCP,
-	.prot = &tcp_prot,
-	.ops = &inet_stream_ops,
-	.no_check = 0,
-};
-
-//EMBOX_NET_SOCK(SOCK_STREAM, IPPROTO_TCP, tcp_prot, inet_stream_ops, 0);
-DECLARE_INET_SOCK(tcp_socket);

@@ -38,11 +38,6 @@
 	*(SORT(.array_spread.*.rodata)) \
 	                               \
 	ALIGNMENT();                   \
-	__ipstack_sockets_start = .;   \
-		*(.ipstack.sockets)        \
-	__ipstack_sockets_end = .;     \
-	                               \
-	ALIGNMENT();                   \
 	*(.checksum)                   \
 
 #define LDS_INPUT_RESERVE \

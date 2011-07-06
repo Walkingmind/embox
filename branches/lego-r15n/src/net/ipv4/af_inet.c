@@ -14,6 +14,7 @@
 #include <net/ip.h>
 #include <net/netdevice.h>
 #include <embox/net_pack.h>
+#include <framework/net_sock/api.h>
 
 /*inet socket function*/
 
@@ -22,29 +23,29 @@ static int inet_create(struct socket *sock, int protocol) {
 	struct sock *sk;
 	struct inet_sock *inet;
 	int err = 0;
-	extern inet_protosw_t *__ipstack_sockets_start, *__ipstack_sockets_end;
-	inet_protosw_t ** p_netsock = &__ipstack_sockets_start;
+	const struct net_sock *net_sock_ptr;
+	inet_protosw_t *p_netsock;
 
-	for (; p_netsock < &__ipstack_sockets_end; p_netsock++) {
-		if ((* p_netsock)->type != sock->type) {
+	net_sock_foreach(net_sock_ptr) {
+		p_netsock = net_sock_ptr->netsock;
+		if (p_netsock->type != sock->type) {
 			continue;
 		}
-		if ((* p_netsock)->protocol == protocol) {
+		if (p_netsock->protocol == protocol) {
 			if (protocol != IPPROTO_IP) {
 				break;
 			}
 		} else {
 			if (IPPROTO_IP == protocol) {
-				protocol = (* p_netsock)->protocol;
+				protocol = p_netsock->protocol;
 				break;
 			}
-			if (IPPROTO_IP == (* p_netsock)->protocol) {
+			if (IPPROTO_IP == p_netsock->protocol) {
 				break;
 			}
 		}
 	}
-	sock->ops = (* p_netsock)->ops;
-	sock->sk = sk_alloc(PF_INET, 0, (struct proto*)(* p_netsock)->prot);
+	sock->ops = p_netsock->ops;
 	sk = sock->sk;
 	if (sk == NULL) {
 		return -1;

@@ -14,6 +14,7 @@
 #include <net/raw.h>
 #include <net/inet_common.h>
 #include <string.h>
+#include <embox/net_sock.h>
 
 static raw_sock_t *raw_hash[CONFIG_MAX_KERNEL_SOCKETS];
 
@@ -192,12 +193,4 @@ static const struct proto_ops inet_sockraw_ops = {
 #endif
 };
 
-static struct inet_protosw raw_socket = {
-	.type = SOCK_RAW,
-	.protocol = IPPROTO_IP, /* wild card */
-	.prot = &raw_prot,
-	.ops = &inet_sockraw_ops,
-	.no_check = 0 /*UDP_CSUM_DEFAULT*/
-};
-
-DECLARE_INET_SOCK(raw_socket);
+EMBOX_NET_SOCK(SOCK_RAW, IPPROTO_IP, raw_prot, inet_sockraw_ops, 0);
