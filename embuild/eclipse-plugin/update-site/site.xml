@@ -3,9 +3,8 @@
    <description name="Embuild Update site" url="http://embox.dyndns.org/embuild/update">
       Embuild support for Eclipse
    </description>
-   <feature url="features/org.embuild.emdsl.feature_1.0.0.201107061339.jar" id="org.embuild.emdsl.feature" version="1.0.0.201107061339">
-      <category name="Embuild"/>
+   <feature url="features/org.embuild.emdsl.feature_1.0.0.201107071923.jar" id="org.embuild.emdsl.feature" version="1.0.0.201107071923">
+      <category name="embuild"/>
    </feature>
-   <category-def name="Embuild" label="Embuild"/>
-   <category-def name="new_category_1" label="New Category 1"/>
+   <category-def name="embuild" label="Embuild"/>
 </site>
