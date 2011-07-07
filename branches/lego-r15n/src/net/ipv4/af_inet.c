@@ -15,6 +15,7 @@
 #include <net/netdevice.h>
 #include <embox/net_pack.h>
 #include <framework/net_sock/api.h>
+#include <net/sock.h>
 
 /*inet socket function*/
 
@@ -46,7 +47,13 @@ static int inet_create(struct socket *sock, int protocol) {
 		}
 	}
 	sock->ops = p_netsock->ops;
-	sk = sock->sk;
+
+//	if (NULL == sock->sk) {
+		sk = sk_alloc(PF_INET, 0, (proto_t *) p_netsock->prot);
+	//} else {
+	//	sk = sock->sk;
+	//}
+	sock->sk = sk;
 	if (sk == NULL) {
 		return -1;
 	}
