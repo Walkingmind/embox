@@ -11,7 +11,24 @@ Require-Bundle: org.eclipse.xtext;bundle-version="2.0.0";visibility:=reexport,
  org.eclipse.xtext.generator;resolution:=optional,
  org.eclipse.emf.codegen.ecore;resolution:=optional,
  org.eclipse.emf.mwe.utils;resolution:=optional,
- org.eclipse.emf.mwe2.launch;resolution:=optional
+ org.eclipse.emf.mwe2.launch;resolution:=optional,
+ org.eclipse.xtext.util,
+ org.eclipse.emf.ecore,
+ org.eclipse.emf.common,
+ org.antlr.runtime,
+ org.eclipse.xtext.common.types
 Import-Package: org.apache.log4j,
- org.apache.commons.logging
+ org.apache.commons.logging,
+ org.eclipse.xtext.xbase.lib,
+ org.eclipse.xtext.xtend2.lib
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
+Export-Package: org.embuild.emdsl; uses:="org.eclipse.xtext,  org.eclipse.xtext.service,  org.eclipse.xtext.common.types,  com.google.inject",
+ org.embuild.emdsl.emDsl;uses:="org.eclipse.emf.ecore,org.eclipse.emf.common.util",
+ org.embuild.emdsl.emDsl.impl; uses:="org.eclipse.emf.ecore,  org.embuild.emdsl.emDsl,  org.eclipse.emf.common.util,  org.eclipse.emf.common.notify,  org.eclipse.emf.ecore.impl",
+ org.embuild.emdsl.emDsl.util; uses:="org.eclipse.emf.ecore,  org.embuild.emdsl.emDsl,  org.eclipse.emf.common.notify.impl,  org.eclipse.emf.common.notify",
+ org.embuild.emdsl.parser.antlr;uses:="org.embuild.emdsl.services,org.embuild.emdsl.parser.antlr.internal,org.eclipse.xtext.parser.antlr",
+ org.embuild.emdsl.parser.antlr.internal; uses:="org.eclipse.emf.ecore,  org.embuild.emdsl.services,  org.antlr.runtime,  org.eclipse.xtext.parser.antlr",
+ org.embuild.emdsl.serializer; uses:="org.eclipse.xtext,  org.eclipse.emf.ecore,  org.eclipse.xtext.serializer.acceptor,  org.embuild.emdsl.emDsl,  org.eclipse.xtext.serializer.sequencer,  org.eclipse.xtext.serializer.analysis,  org.embuild.emdsl.services,  org.eclipse.xtext.serializer.diagnostic,  org.eclipse.xtext.nodemodel,  com.google.inject",
+ org.embuild.emdsl.services;uses:="org.eclipse.xtext,org.eclipse.xtext.common.services,org.eclipse.xtext.service",
+ org.embuild.emdsl.validation;uses:="org.eclipse.xtext.validation"
+
