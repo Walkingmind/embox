@@ -29,5 +29,7 @@ static int nxt_bluetooth_test(void) {
 
 	bluetooth_write(tx_buff,len);
 	usleep(250);
-	return (bt_mod_version != 0xffff ? 0 : -1);
+
+	return 0;
+//	return (bt_mod_version != 0xffff ? 0 : -1);
 }

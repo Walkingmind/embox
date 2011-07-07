@@ -32,6 +32,8 @@ static volatile AT91PS_USART us_dev_regs = ((AT91PS_USART) CONFIG_NXT_BT_SERIAL_
 
 EMBOX_UNIT_INIT(nxt_bluetooth_init);
 
+static uint8_t *nxt_bt_read_buff;
+
 void bt_clear_arm7_cmd(void) {
 	REG_STORE(AT91C_PIOA_CODR, CONFIG_NXT_BT_CMD_PIN);
 }
@@ -71,27 +73,18 @@ static void bt_receive_init(void) {
 	bt_buff_pos = 0;
 	bluetooth_read(bt_buff, 1);
 }
+
 static bt_comm_handler_t comm_handler = NULL;
 
 void bluetooth_set_handler(bt_comm_handler_t handler) {
 	comm_handler = handler;
 }
-static int init_read_len;
-
-void bluetooth_set_init_read(int bytes_num) {
-	init_read_len = bytes_num;
-
-}
 
 static void bt_us_read_handle(void) {
 	int msg_len = bt_buff[bt_buff_pos];
-	int next_len;
 
 	switch (bt_us_state) {
 	case SIZE_READ:
-#ifdef DEBUG
-		TRACE("R%x", msg_len);
-#endif
 		if (msg_len != 0) {
 			bt_us_state = COMM_READ;
 			if (bt_buff_pos + 1 + msg_len >= BUFF_SIZE) {
@@ -103,13 +96,6 @@ static void bt_us_read_handle(void) {
 		break;
 	case COMM_READ:
 		bt_us_state = SIZE_READ;
-#ifdef DEBUG
-		TRACE("$");
-		for (int i = 0; i <= msg_len; i++) {
-			TRACE("%x:", *(bt_buff + bt_buff_pos + i));
-		}
-		TRACE("$");
-#endif
 		bt_handle(bt_buff + bt_buff_pos);
 
 		bt_buff_pos += 1 + msg_len;
@@ -119,14 +105,7 @@ static void bt_us_read_handle(void) {
 		bluetooth_read(bt_buff + bt_buff_pos, 1);
 		break;
 	case UART_MODE:
-		next_len = 0;
-#ifdef DEBUG
-		TRACE("%x:", bt_buff[0]);
-		next_len = 1;
-#endif
-		//next_len = direct_comm_handle(bt_buff);
-		next_len = comm_handler(bt_buff);
-		bluetooth_read(bt_buff, next_len);
+		comm_handler(BT_DRV_MSG_READ, nxt_bt_read_buff);
 		break;
 	default:
 		break;
@@ -145,7 +124,8 @@ static void bt_us_receive_init(void) {
 	/*doing last steps for init*/
 	bt_buff_pos = 0;
 
-	bluetooth_read(bt_buff, init_read_len);
+	comm_handler(BT_DRV_MSG_CONNECTED, NULL);
+
 }
 
 int bt_last_state;
@@ -155,6 +135,7 @@ static void  nxt_bt_timer_handler(int id) {
 	int bt_state = REG_LOAD(AT91C_ADC_CDR6) > 0x200 ? 1 : 0;
 	if (bt_last_state != bt_state) {
 		if (!bt_state) {
+			comm_handler(BT_DRV_MSG_DISCONNECTED, NULL);
 			bt_receive_init();
 		}
 	}
@@ -258,6 +239,7 @@ size_t bluetooth_write(uint8_t *buff, size_t len) {
 }
 
 size_t bluetooth_read(uint8_t *buff, size_t len) {
+	nxt_bt_read_buff = buff;
 	REG_STORE(&(us_dev_regs->US_RPR), (uint32_t) buff);
 	REG_STORE(&(us_dev_regs->US_RCR), len);
 

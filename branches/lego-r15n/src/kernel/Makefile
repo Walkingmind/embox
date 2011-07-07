@@ -11,7 +11,7 @@ $(IMAGE): $($_SELFDIR)/nosys.lds
 $_MODS_CORE += main
 # TODO too more mods fro core.kernel
 $_MODS += irq timer softirq drv_subsys #printk
-$_MODS += printk
+#$_MODS += printk
 
 #$_SRCS-main += main.c
 $_SRCS-main += init.c
@@ -21,7 +21,7 @@ $_DEPS-main += irq
 $_DEPS-main += timer
 #$_DEPS-main += printk
 $_DEPS-main += softirq
-$_REQUIRES-main += embox.hal.diag
+#$_REQUIRES-main += embox.hal.diag
 
 ifdef CONFIG_THREAD
 $_DEPS-main += core.kernel.thread.core
