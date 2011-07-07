@@ -34,7 +34,11 @@ int type = 0;
 
 EMBOX_UNIT_INIT(nxt_direct_comm_init);
 
-static int direct_comm_handle(uint8_t *buff);
+#define DC_BUFF_SIZE 40
+
+static uint8_t direct_comm_buff[DC_BUFF_SIZE];
+
+static int direct_comm_handle(int msg, uint8_t *buff);
 
 static int nxt_direct_comm_init(void) {
 	reader_state = COMM_SIZE;
@@ -43,7 +47,7 @@ static int nxt_direct_comm_init(void) {
 	motor_start(&motors[2], 0, 360, NULL);
 	nxt_sensor_conf_pass(&sensors[0], NULL);
 	bluetooth_set_handler(direct_comm_handle);
-	bluetooth_set_init_read(MSG_SIZE_BYTE_CNT);
+//	bluetooth_set_init_read(MSG_SIZE_BYTE_CNT);
 	return 0;
 }
 
@@ -132,31 +136,36 @@ static int handle_size(uint8_t *buff) {
 	return size;
 }
 
-static int direct_comm_handle(uint8_t *buff) {
+static int direct_comm_handle(int msg, uint8_t *buff) {
 	int ret_val = 0;
 	uint8_t *cbuf;
 	uint8_t status;
-	switch (reader_state) {
-	case COMM_SIZE:
-		reader_state = COMM_TELEGRAM;
-		ret_val = handle_size(buff);
-		break;
-	case COMM_TELEGRAM:
-		cbuf = buff;
-		handle_type(cbuf);
-		cbuf += 1;
-		handle_comm(cbuf);
-		cbuf += 1;
-		status = handle_body(cbuf);
-		if (reply_need) {
-			reply_handle(status);
-		}
-		command = 0;
-		reader_state = COMM_SIZE;
-		ret_val = MSG_SIZE_BYTE_CNT;
-		break;
-	default:
-		break;
+	if (msg == BT_DRV_MSG_CONNECTED) {
+	    bluetooth_read(direct_comm_buff, MSG_SIZE_BYTE_CNT);
+	} else if (msg == BT_DRV_MSG_READ) {
+	    switch (reader_state) {
+	    case COMM_SIZE:
+		    reader_state = COMM_TELEGRAM;
+		    ret_val = handle_size(buff);
+		    break;
+	    case COMM_TELEGRAM:
+		    cbuf = buff;
+		    handle_type(cbuf);
+		    cbuf += 1;
+		    handle_comm(cbuf);
+		    cbuf += 1;
+		    status = handle_body(cbuf);
+		    if (reply_need) {
+			    reply_handle(status);
+		    }
+		    command = 0;
+		    reader_state = COMM_SIZE;
+		    ret_val = MSG_SIZE_BYTE_CNT;
+		    break;
+	    default:
+		    break;
+	    }
+	    bluetooth_read(direct_comm_buff, ret_val);
 	}
-	return ret_val;
+	return 0;
 }
