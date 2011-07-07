@@ -49,7 +49,6 @@ void bt_set_reset_high(void) {
 void bt_set_reset_low(void) {
 	REG_STORE(AT91C_PIOA_CODR, CONFIG_NXT_BT_RST_PIN);
 }
-///////////////////////////////////////////////////////////////////////
 
 volatile enum {SIZE_READ, COMM_READ, UART_MODE} bt_us_state;
 
@@ -74,12 +73,11 @@ static void bt_receive_init(void) {
 	bluetooth_read(bt_buff, 1);
 }
 
-static bt_comm_handler_t comm_handler = NULL;
+CALLBACK_INIT(bluetooth_uart);
 
-void bluetooth_set_handler(bt_comm_handler_t handler) {
-	comm_handler = handler;
+static void comm_handler(int msg, uint8_t *data) {
+	CALLBACK_DO(bluetooth_uart, msg, data);
 }
-
 static void bt_us_read_handle(void) {
 	int msg_len = bt_buff[bt_buff_pos];
 

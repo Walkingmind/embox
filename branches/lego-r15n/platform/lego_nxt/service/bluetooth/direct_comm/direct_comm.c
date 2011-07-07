@@ -46,8 +46,7 @@ static int nxt_direct_comm_init(void) {
 	motor_start(&motors[1], 0, 360, NULL);
 	motor_start(&motors[2], 0, 360, NULL);
 	nxt_sensor_conf_pass(&sensors[0], NULL);
-	bluetooth_set_handler(direct_comm_handle);
-//	bluetooth_set_init_read(MSG_SIZE_BYTE_CNT);
+	CALLBACK_REG(bluetooth_uart, (callback_t) direct_comm_handle);	
 	return 0;
 }
 
