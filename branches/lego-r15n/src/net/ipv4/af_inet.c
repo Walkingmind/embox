@@ -48,11 +48,7 @@ static int inet_create(struct socket *sock, int protocol) {
 	}
 	sock->ops = p_netsock->ops;
 
-//	if (NULL == sock->sk) {
-		sk = sk_alloc(PF_INET, 0, (proto_t *) p_netsock->prot);
-	//} else {
-	//	sk = sock->sk;
-	//}
+	sk = sk_alloc(PF_INET, 0, (proto_t *) p_netsock->prot);
 	sock->sk = sk;
 	if (sk == NULL) {
 		return -1;
