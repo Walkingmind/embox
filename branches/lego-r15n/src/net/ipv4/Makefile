@@ -16,6 +16,7 @@ $_SRCS-tcp_sock += tcp_sock.c
 $_SRCS-udp_sock += udp_sock.c
 
 $_DEPS-af_inet  += embox.net.socket
+$_DEPS-af_inet  += embox.net.raw_sock
 $_DEPS-udp      += embox.net.socket
 $_DEPS-tcp      += embox.net.socket
 $_DEPS-raw_sock += embox.net.socket
