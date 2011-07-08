@@ -12,6 +12,11 @@
 #include __impl_x(framework/net_pack/self_impl.h)
 
 #define EMBOX_NET_PACK(_type, _func, _init)  	\
+	int _func(sk_buff_t *skb, 					\
+			  net_device_t *dev, 				\
+			  packet_type_t *pt,				\
+			  net_device_t *orig_dev);			\
+	static int _init(void); 					\
 	static packet_type_t _##_type = { 			\
 			.type = _type,						\
 			.func = _func,						\

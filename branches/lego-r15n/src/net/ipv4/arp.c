@@ -35,6 +35,9 @@
 #endif
  */
 
+
+EMBOX_NET_PACK(ETH_P_ARP, arp_rcv, arp_init);
+
 arp_entity_t arp_tables[ARP_CACHE_SIZE];
 
 #define arp_tables_SIZE ARP_CACHE_SIZE
@@ -340,5 +343,3 @@ int arp_rcv(sk_buff_t *skb, net_device_t *dev, packet_type_t *pt,
 static int arp_xmit(sk_buff_t *skb) {
 	return dev_queue_xmit(skb);
 }
-
-EMBOX_NET_PACK(ETH_P_ARP, arp_rcv, arp_init);

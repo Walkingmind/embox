@@ -17,6 +17,8 @@
 #include <framework/net_sock/api.h>
 #include <net/sock.h>
 
+EMBOX_NET_PACK(ETH_P_IP, ip_rcv, inet_init);
+
 /*inet socket function*/
 
 /*create inet socket*/
@@ -119,5 +121,3 @@ static int inet_init(void) {
 
 	return 0;
 }
-
-EMBOX_NET_PACK(ETH_P_IP, ip_rcv, inet_init);
