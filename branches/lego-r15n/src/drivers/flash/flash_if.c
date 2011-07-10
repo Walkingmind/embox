@@ -7,7 +7,6 @@
 
 #include <drivers/flash_if.h>
 #include <drivers/flash_template.h>
-#include <embox/kernel.h>
 #include <string.h>
 #include <embox/unit.h>
 

@@ -9,7 +9,6 @@
 #define FLASH_IF_H_
 
 #include <types.h>
-#include <embox/kernel.h>
 
 
 /* status return values */

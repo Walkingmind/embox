@@ -13,7 +13,6 @@
 #define EMBOX_UNIT_H_
 
 #include <stddef.h>
-#include <embox/kernel.h>
 #include <framework/mod/self.h>
 
 #define __EMBOX_UNIT(_init, _fini) \

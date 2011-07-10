@@ -10,7 +10,6 @@
 #define IN_H_
 
 #include <types.h>
-//#include <embox/kernel.h>
 #include <lib/bits/byteswap.h>
 
 /**< Standard well-defined IP protocols.  */
