@@ -9,7 +9,7 @@
 #include <stdio.h>
 #include <net/ip.h>
 #include <net/socket.h>
-#include <embox/example.h>
+#include <framework/example/self.h>
 
 EMBOX_EXAMPLE(run);
 

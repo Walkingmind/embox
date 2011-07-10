@@ -9,7 +9,7 @@
 
 #ifndef SELF_IMPL_H_
 #define SELF_IMPL_H_
-
-#include "types.h"
+/* TODO this file not use now */
+//#include "types.h"
 
 #endif /* SELF_IMPL_H_ */

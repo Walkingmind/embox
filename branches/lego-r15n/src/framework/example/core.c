@@ -16,7 +16,7 @@
 
 ARRAY_SPREAD_DEF(const struct example, __example_registry);
 
-int cmd_exec(const struct example *example, int argc, char **argv) {
+int examples_exec(const struct example *example, int argc, char **argv) {
 	if (NULL == example) {
 		return -EINVAL;
 	}

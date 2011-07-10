@@ -1,1 +1,1 @@
-$_PACKAGE:=embox.cmd.net
+$_PACKAGE:= embox.example.net
