@@ -16,10 +16,11 @@
  * Each netproto implements this interface.
  */
 
-struct net_proto {
+typedef struct net_proto {
+	void (*init)(void);
 	net_protocol_t *netproto;
 	/** The corresponding mod. */
 	const struct mod *mod;
-};
+} net_proto_t;
 
 #endif /* FRAMEWORK_NET_PROTO_TYPES_H_ */

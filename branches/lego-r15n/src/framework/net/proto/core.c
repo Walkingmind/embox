@@ -23,13 +23,17 @@ const struct mod_ops __net_proto_mod_ops = {
 
 static int net_proto_mod_enable(struct mod *mod) {
 	int ret = 0;
-	net_protocol_t *net_proto = ((struct net_proto *) mod_data(mod))->netproto;
+	net_proto_t *net_proto_ptr = ((struct net_proto *) mod_data(mod));
+	net_protocol_t *net_proto = net_proto_ptr->netproto;
 
 	TRACE("NET: initializing protocol %s.%s: ", mod->package->name, mod->name);
 
 	if (inet_add_protocol(net_proto, net_proto->type) < 0) {
 		TRACE("error: %s\n", strerror(-ret));
 	} else {
+		if (net_proto_ptr->init != NULL) {
+			net_proto_ptr->init();
+		}
 		TRACE("done\n");
 	}
 
