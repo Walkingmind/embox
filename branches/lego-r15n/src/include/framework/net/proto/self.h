@@ -9,9 +9,10 @@
 #ifndef FRAMEWORK_NET_PROTO_SELF_H_
 #define FRAMEWORK_NET_PROTO_SELF_H_
 
-#include __impl_x(framework/net_proto/self_impl.h)
+#include __impl_x(framework/net/proto/self_impl.h)
 
 #define EMBOX_NET_PROTO(_type, _handler, _err_handler)  \
+	static int _handler(sk_buff_t *pack); 				\
 	static net_protocol_t _##_type = { 					\
 			.type = _type,								\
 			.handler = _handler,						\

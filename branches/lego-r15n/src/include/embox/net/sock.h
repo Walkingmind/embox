@@ -6,9 +6,9 @@
  * @author Dmitry Zubarevich
  */
 
-#ifndef NET_SOCK_H_
-#define NET_SOCK_H_
+#ifndef EMBOX_NET_SOCK_H_
+#define EMBOX_NET_SOCK_H_
 
-#include <framework/net_sock/self.h>
+#include <framework/net/sock/self.h>
 
-#endif /* NET_SOCK_H_ */
+#endif /* EMBOX_NET_SOCK_H_ */

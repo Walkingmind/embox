@@ -6,9 +6,9 @@
  * @author Dmitry Zubarevich
  */
 
-#ifndef NET_PACK_H_
-#define NET_PACK_H_
+#ifndef EMBOX_NET_PACK_H_
+#define EMBOX_NET_PACK_H_
 
-#include <framework/net_pack/self.h>
+#include <framework/net/pack/self.h>
 
-#endif /* NET_H__ */
+#endif /* EMBOX_NET_H__ */

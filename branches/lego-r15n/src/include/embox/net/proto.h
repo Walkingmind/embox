@@ -6,9 +6,9 @@
  * @author Dmitry Zubarevich
  */
 
-#ifndef NET_PROTO_H_
-#define NET_PROTO_H_
+#ifndef EMBOX_NET_PROTO_H_
+#define EMBOX_NET_PROTO_H_
 
-#include <framework/net_proto/self.h>
+#include <framework/net/proto/self.h>
 
-#endif /* NET_PROTO_H_ */
+#endif /* EMBOX_NET_PROTO_H_ */

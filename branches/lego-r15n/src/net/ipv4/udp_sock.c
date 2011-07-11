@@ -8,10 +8,7 @@
 
 #include <net/net.h>
 #include <net/in.h>
-#include <embox/net_sock.h>
+#include <embox/net/sock.h>
+#include <net/udp.h>
 
-extern struct proto udp_prot;
-
-extern const struct proto_ops inet_dgram_ops;
-
-EMBOX_NET_SOCK(SOCK_DGRAM, IPPROTO_UDP, udp_prot, inet_dgram_ops, 0);
+EMBOX_NET_SOCK(SOCK_DGRAM, IPPROTO_UDP, udp_prot, inet_dgram_ops, 0, NULL);

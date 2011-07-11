@@ -16,7 +16,9 @@
 #include <net/checksum.h>
 #include <net/protocol.h>
 #include <net/inet_common.h>
-#include <embox/net_proto.h>
+#include <embox/net/proto.h>
+
+EMBOX_NET_PROTO(IPPROTO_UDP, udp_rcv, udp_err);
 
 static udp_sock_t *udp_hash[CONFIG_MAX_KERNEL_SOCKETS];
 
@@ -105,7 +107,7 @@ static int udp_queue_rcv_skb(struct sock *sk, struct sk_buff *skb) {
 	return 0;
 }
 
-int udp_rcv(sk_buff_t *skb) {
+static int udp_rcv(sk_buff_t *skb) {
 	struct sock *sk;
 	struct inet_sock *inet;
 	iphdr_t *iph = ip_hdr(skb);
@@ -138,8 +140,6 @@ int udp_disconnect(struct sock *sk, int flags) {
 static void udp_lib_close(struct sock *sk, long timeout) {
 	sk_common_release(sk);
 }
-
-EMBOX_NET_PROTO(IPPROTO_UDP, udp_rcv, udp_err);
 
 struct proto udp_prot = {
 	.name              = "UDP",

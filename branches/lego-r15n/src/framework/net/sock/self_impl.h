@@ -16,7 +16,7 @@
 
 #include "types.h"
 
-#define __EMBOX_NET_SOCK(_sock) 								   \
+#define __EMBOX_NET_SOCK(_sock, _net_proto_family)				   \
 	extern const struct mod_ops __net_sock_mod_ops;         	   \
 	extern const struct net_sock __net_sock_registry[];            \
 	ARRAY_SPREAD_ADD_NAMED(__net_sock_registry, __net##_sock,   {  \

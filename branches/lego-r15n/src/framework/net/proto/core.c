@@ -8,7 +8,7 @@
 
 #include <string.h>
 
-#include <framework/net_proto/api.h>
+#include <framework/net/proto/api.h>
 #include <net/protocol.h>
 
 ARRAY_SPREAD_DEF(const struct net_proto, __net_proto_registry);

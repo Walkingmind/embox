@@ -238,11 +238,8 @@ int sock_get_fd(struct socket *sock) {
 int sock_register(const struct net_proto_family *ops) {
 	int err;
 	if (ops->family >= NPROTO) {
-		LOG_ERROR("protocol %d >= NPROTO(%d)\n", ops->family,
-				NPROTO);
 		return -ENOBUFS;
 	}
-
 	if (net_families[ops->family]) {
 		err = -EEXIST;
 	} else {

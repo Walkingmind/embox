@@ -13,8 +13,8 @@
 #include <net/icmp.h>
 #include <net/ip.h>
 #include <net/netdevice.h>
-#include <embox/net_pack.h>
-#include <framework/net_sock/api.h>
+#include <embox/net/pack.h>
+#include <framework/net/sock/api.h>
 #include <net/sock.h>
 
 EMBOX_NET_PACK(ETH_P_IP, ip_rcv, inet_init);
@@ -102,7 +102,7 @@ int inet_sendmsg(struct kiocb *iocb, struct socket *sock,
 }
 
 /* uses for create socket */
-static struct net_proto_family inet_family_ops = {
+struct net_proto_family inet_family_ops = {
 	.family = PF_INET,
 	.create = inet_create,
 #if 0
@@ -116,8 +116,6 @@ static int inet_init(void) {
 
 	/* Set the IP module up */
 	ip_init();
-
-	sock_register(&inet_family_ops);
 
 	return 0;
 }

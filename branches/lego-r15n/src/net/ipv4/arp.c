@@ -15,7 +15,7 @@
 #include <net/inetdevice.h>
 #include <net/arp.h>
 #include <net/ip.h>
-#include <embox/net_pack.h>
+#include <embox/net/pack.h>
 
 /*
  * FIXME:

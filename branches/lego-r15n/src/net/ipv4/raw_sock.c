@@ -14,7 +14,9 @@
 #include <net/raw.h>
 #include <net/inet_common.h>
 #include <string.h>
-#include <embox/net_sock.h>
+#include <embox/net/sock.h>
+
+EMBOX_NET_SOCK(SOCK_RAW, IPPROTO_IP, raw_prot, inet_sockraw_ops, 0, NULL);
 
 static raw_sock_t *raw_hash[CONFIG_MAX_KERNEL_SOCKETS];
 
@@ -192,5 +194,3 @@ static const struct proto_ops inet_sockraw_ops = {
 	.sendpage = inet_sendpage,
 #endif
 };
-
-EMBOX_NET_SOCK(SOCK_RAW, IPPROTO_IP, raw_prot, inet_sockraw_ops, 0);

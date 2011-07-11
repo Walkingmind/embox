@@ -9,7 +9,7 @@
 #ifndef FRAMEWORK_NET_PACK_API_H_
 #define FRAMEWORK_NET_PACK_API_H_
 
-#include __impl_x(framework/net_pack/api_impl.h)
+#include __impl_x(framework/net/pack/api_impl.h)
 
 #define net_pack_foreach(net_pack_ptr) \
 		__net_pack_foreach(net_pack_ptr)

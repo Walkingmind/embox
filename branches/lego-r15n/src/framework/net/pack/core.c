@@ -8,7 +8,7 @@
 
 #include <string.h>
 
-#include <framework/net_pack/api.h>
+#include <framework/net/pack/api.h>
 #include <net/netdevice.h>
 
 ARRAY_SPREAD_DEF(const struct net_pack, __net_pack_registry);

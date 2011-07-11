@@ -18,7 +18,9 @@
 #include <net/protocol.h>
 #include <net/kernel_socket.h>
 #include <linux/init.h>
-#include <embox/net_proto.h>
+#include <embox/net/proto.h>
+
+EMBOX_NET_PROTO(IPPROTO_ICMP, icmp_rcv, NULL);
 
 /**
  * Build xmit assembly blocks
@@ -320,7 +322,12 @@ void __init icmp_init(void) {
 	}
 }
 
-int icmp_rcv(sk_buff_t *pack) {
+/**
+ * Receive packet.
+ *
+ * @param skb received packet
+ */
+static int icmp_rcv(sk_buff_t *pack) {
 	icmphdr_t *icmph = pack->h.icmph;
 	net_device_stats_t *stats = pack->dev->netdev_ops->ndo_get_stats(pack->dev);
 	uint16_t tmp;
@@ -367,5 +374,3 @@ int icmp_rcv(sk_buff_t *pack) {
 	}
 	return -1;
 }
-
-EMBOX_NET_PROTO(IPPROTO_ICMP, icmp_rcv, NULL);

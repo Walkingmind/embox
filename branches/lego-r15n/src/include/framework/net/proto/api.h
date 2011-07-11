@@ -9,7 +9,7 @@
 #ifndef FRAMEWORK_NET_PROTO_API_H_
 #define FRAMEWORK_NET_PROTO_API_H_
 
-#include __impl_x(framework/net_proto/api_impl.h)
+#include __impl_x(framework/net/proto/api_impl.h)
 
 #define net_proto_foreach(net_proto_ptr) \
 		__net_proto_foreach(net_proto_ptr)

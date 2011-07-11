@@ -18,7 +18,7 @@
 #include <net/route.h>
 #include <net/checksum.h>
 #include <net/protocol.h>
-#include <framework/net_proto/api.h>
+#include <framework/net/proto/api.h>
 
 
 int ip_rcv(sk_buff_t *skb, net_device_t *dev,

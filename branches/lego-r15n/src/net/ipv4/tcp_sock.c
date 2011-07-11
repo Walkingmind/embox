@@ -7,11 +7,7 @@
  */
 
 #include <net/net.h>
-#include <net/in.h>
-#include <embox/net_sock.h>
+#include <net/ip.h>
+#include <embox/net/sock.h>
 
-extern struct proto tcp_prot;
-
-extern const struct proto_ops inet_stream_ops;
-
-EMBOX_NET_SOCK(SOCK_STREAM, IPPROTO_TCP, tcp_prot, inet_stream_ops, 0);
+EMBOX_NET_SOCK(SOCK_STREAM, IPPROTO_TCP, tcp_prot, inet_stream_ops, 0, &inet_family_ops);
