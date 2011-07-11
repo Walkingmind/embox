@@ -29,12 +29,7 @@ static int net_sock_mod_enable(struct mod *mod) {
 	TRACE("done\n");
 
 	if (net_proto_family != NULL) {
-		TRACE("NET: initializing protocol family %s.%s: ", mod->package->name, mod->name);
-		if(!sock_register(net_proto_family)) {
-			TRACE("done\n");
-		} else {
-			TRACE("error: %s\n", strerror(-ret));
-		}
+		sock_register(net_proto_family);
 	}
 
 	return ret;
@@ -46,9 +41,7 @@ static int net_sock_mod_disable(struct mod *mod) {
 	net_proto_family_t *net_proto_family = ((net_sock_t *) mod_data(mod))->net_proto_family;
 
 	if (net_proto_family != NULL) {
-		TRACE("NET: finalizing protocol family %s: ", mod->name);
 		sock_unregister(net_proto_family->family);
-			TRACE("done\n");
 	}
 
 	return ret;

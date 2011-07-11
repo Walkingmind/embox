@@ -90,11 +90,6 @@ static inline iphdr_t *ip_hdr(const sk_buff_t *skb) {
  */
 
 /**
- * Init.
- */
-extern void ip_init(void);
-
-/**
  * Main IP Receive routine.
  */
 extern int ip_rcv(sk_buff_t *pack, net_device_t *dev,

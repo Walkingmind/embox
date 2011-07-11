@@ -114,8 +114,5 @@ static int inet_init(void) {
 	/* Init skb pool */
 	sock_init();
 
-	/* Set the IP module up */
-	ip_init();
-
 	return 0;
 }
