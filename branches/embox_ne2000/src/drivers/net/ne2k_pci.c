@@ -32,6 +32,23 @@
 
 EMBOX_UNIT_INIT(unit_init);
 
+#define E8390_CMD    0x00 /* The command register (for all pages) */
+#define E8390_STOP   0x01 /* Stop and reset the chip */
+#define E8390_START  0x02 /* Start the chip, clear reset */
+#define E8390_RREAD  0x08 /* Remote read */
+#define E8390_RWRITE 0x10 /* Remote write  */
+#define E8390_NODMA  0x20 /* Remote DMA */
+#define E8390_PAGE0  0x00 /* Select page chip registers */
+#define E8390_PAGE1  0x40 /* using the two high-order bits */
+#define E8390_PAGE2  0x80
+#define E8390_PAGE3  0xC0 /* Page 3 is invalid on the real 8390. */
+#define E8390_RXOFF  0x20 /* EN0_RXCR: Accept no packets */
+#define E8390_TXOFF  0x02 /* EN0_TXCR: Transmitter off */
+
+/* Page 0 register offsets. */
+#define EN0_CRDALO  0x08  /* low byte of current remote dma address RD */
+#define EN0_CRDAHI  0x09  /* high byte, current remote dma address RD */
+
 static inline void rx_enable(void) {
 	out8(NE_PAGE0_STOP,   NE_CMD);
 	out8(RX_BUFFER_START, EN0_BOUNDARY);
@@ -45,26 +62,26 @@ static inline void rx_disable(void) {
 	out8(NE_STOP, NE_CMD);
 }
 
-static inline void set_tx_count(uint32_t val) {
+static inline void set_tx_count(uint16_t val) {
 	/* Set how many bytes we're going to send. */
 	out8(val & 0xff, EN0_TBCR_LO);
-	out8((val & 0xff00) >> 8, EN0_TBCR_HI);
+	out8(val >> 8, EN0_TBCR_HI);
 }
 
-static inline void set_rem_address(uint32_t val) {
+static inline void set_rem_address(uint16_t val) {
 	/* Set how many bytes we're going to send. */
 	out8(val & 0xff, EN0_RSARLO);
-	out8((val & 0xff00) >> 8, EN0_RSARHI);
+	out8(val >> 8, EN0_RSARHI);
 }
 
-static inline void set_rem_byte_count(uint32_t val) {
+static inline void set_rem_byte_count(uint16_t val) {
 	/* Set how many bytes we're going to send. */
 	out8(val & 0xff, EN0_RCNTLO);
-	out8((val & 0xff00) >> 8, EN0_RCNTHI);
+	out8(val >> 8, EN0_RCNTHI);
 }
-
-static void copy_data_to_card(uint32_t dest, uint8_t* src, uint32_t length) {
-	uint32_t i;
+#if 0
+static void copy_data_to_card(uint16_t dest, uint8_t* src, uint16_t length) {
+	uint16_t i;
 	set_rem_address(dest);
 	set_rem_byte_count(length);
 	for (i = 0; i < length; i++) {
@@ -72,9 +89,7 @@ static void copy_data_to_card(uint32_t dest, uint8_t* src, uint32_t length) {
 		src++;
 	}
 }
-
 // XXX defined but not used
-#if 0
 static void copy_data_from_card(uint32_t src, uint8_t *dest, uint32_t length) {
 	uint32_t i;
 	set_rem_address(src);
@@ -138,6 +153,7 @@ static size_t pkt_receive(struct sk_buff *skb) {
  * queue packet for transmission
  */
 static int start_xmit(struct sk_buff *skb, struct net_device *dev) {
+#if 0
 	/* Set TPSR, start of tx buffer memory to zero
 	 * (this value is count of pages) */
 	out8(TX_BUFFER_START, EN0_TPSR);
@@ -156,14 +172,39 @@ static int start_xmit(struct sk_buff *skb, struct net_device *dev) {
 	TRACE("Done transmit\n");
 
 	return skb->len;
+#endif
+
+	unsigned long nic_base = dev->base_addr;
+    unsigned int i, count = skb->len;
+    unsigned char *buf = skb->data;
+    int start_page = 16 * 1024;
+
+    /* We should already be in page 0, but to be safe... */
+    out8(E8390_PAGE0 + E8390_START + E8390_NODMA, nic_base + NE_CMD);
+
+    /* Now the normal output. */
+    out8(count & 0xff, nic_base + EN0_RCNTLO);
+    out8(count >> 8,   nic_base + EN0_RCNTHI);
+    out8(0x00, nic_base + EN0_RSARLO);
+    out8(start_page, nic_base + EN0_RSARHI);
+
+    out8(E8390_RWRITE+E8390_START, nic_base + NE_CMD);
+	for (i = 0; i < count; i++) {
+		out8(*buf, nic_base + NE_DATAPORT);
+		buf++;
+	}
+
+    return count;
 }
 
 static int open(net_device_t *dev) {
+	unsigned long nic_base;
 	if (NULL == dev) {
 		return -1;
 	}
+	nic_base = dev->base_addr;
 	/* 8-bit access only, makes the maths simpler. */
-	out8(0, NE_BASE + 0x0e);
+	out8(0, nic_base + 0x0e);
 
 	/* setup receive buffer location */
 	out8(RX_BUFFER_START, EN0_STARTPG);
@@ -259,4 +300,3 @@ static int __init unit_init(void) {
 
 	return 0;
 }
-

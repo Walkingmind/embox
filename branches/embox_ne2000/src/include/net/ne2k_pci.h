@@ -12,27 +12,28 @@
 #define NE2K_PCI_H_
 
 /* Port addresses */
-#define NE_BASE	        0x300
-#define NE_CMD          (NE_BASE + 0x00) /* The command register (for all pages) */
+// XXX
+//#define NE_BASE	        0x300
+#define NE_CMD          0x00 /* The command register (for all pages) */
 /* Page 0 register offsets */
-#define EN0_STARTPG     (NE_BASE + 0x01) /* Starting page of ring buffer */
-#define EN0_STOPPG      (NE_BASE + 0x02) /* Ending page +1 of ring buffer */
-#define EN0_BOUNDARY    (NE_BASE + 0x03) /* Boundary page of ring buffer */
-#define EN0_TPSR        (NE_BASE + 0x04) /* Transmit status reg */
-#define EN0_TBCR_LO     (NE_BASE + 0x05) /* Low  byte of tx byte count */
-#define EN0_TBCR_HI     (NE_BASE + 0x06) /* High byte of tx byte count */
-#define EN0_ISR         (NE_BASE + 0x07) /* Interrupt status reg */
+#define EN0_STARTPG     0x01 /* Starting page of ring buffer */
+#define EN0_STOPPG      0x02 /* Ending page +1 of ring buffer */
+#define EN0_BOUNDARY    0x03 /* Boundary page of ring buffer */
+#define EN0_TPSR        0x04 /* Transmit status reg */
+#define EN0_TBCR_LO     0x05 /* Low  byte of tx byte count */
+#define EN0_TBCR_HI     0x06 /* High byte of tx byte count */
+#define EN0_ISR         0x07 /* Interrupt status reg */
 /* Where to DMA data to/from */
-#define EN0_RSARLO      (NE_BASE + 0x08) /* Remote start address reg 0 */
-#define EN0_RSARHI      (NE_BASE + 0x09) /* Remote start address reg 1 */
+#define EN0_RSARLO      0x08 /* Remote start address reg 0 */
+#define EN0_RSARHI      0x09 /* Remote start address reg 1 */
 /* How much data to DMA */
-#define EN0_RCNTLO      (NE_BASE + 0x0a) /* Remote byte count reg */
-#define EN0_RCNTHI      (NE_BASE + 0x0b) /* Remote byte count reg */
+#define EN0_RCNTLO      0x0a /* Remote byte count reg */
+#define EN0_RCNTHI      0x0b /* Remote byte count reg */
 
-#define EN0_RXCR        (NE_BASE + 0x0c) /* RX configuration reg */
-#define EN0_TXCR        (NE_BASE + 0x0d) /* TX configuration reg */
-#define EN0_DCFG        (NE_BASE + 0x0e) /* Data configuration reg */
-#define EN0_IMR         (NE_BASE + 0x0f) /* Interrupt mask reg */
+#define EN0_RXCR        0x0c /* RX configuration reg */
+#define EN0_TXCR        0x0d /* TX configuration reg */
+#define EN0_DCFG        0x0e /* Data configuration reg */
+#define EN0_IMR         0x0f /* Interrupt mask reg */
 
 /* Bits in EN0_ISR - Interrupt status register */
 #define ENISR_RX        0x01    /* Receiver, no error */
@@ -46,11 +47,11 @@
 #define ENISR_ALL       0x3f    /* Interrupts we will enable */
 
 /* Page 1 register offsets */
-#define EN1_PHYS          (NE_BASE + 0x01)  /* This board's physical eth addr */
-#define EN1_PHYS_SHIFT(i) (NE_BASE + i + 1) /* Get and set mac address */
-#define EN1_CURPAG        (NE_BASE + 0x07)  /* Current memory page RD WR */
-#define EN1_MULT          (NE_BASE + 0x08)  /* Multicast filter mask array (8 bytes) */
-#define EN1_MULT_SHIFT(i) (NE_BASE + 8 + i) /* Get and set multicast filter */
+#define EN1_PHYS          0x01  /* This board's physical eth addr */
+#define EN1_PHYS_SHIFT(i) 1 + i /* Get and set mac address */
+#define EN1_CURPAG        0x07  /* Current memory page RD WR */
+#define EN1_MULT          0x08  /* Multicast filter mask array (8 bytes) */
+#define EN1_MULT_SHIFT(i) 8 + i /* Get and set multicast filter */
 
 #define NE_DATAPORT       0x10 /* NatSemi-defined port window offset*/
 #define NE_RESET          0x1f

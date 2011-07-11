@@ -13,33 +13,33 @@
 #include <embox/cmd.h>
 #include <asm/io.h>
 
-#define NE_DATAPORT		0x10	/* NatSemi-defined port window offset. */
-#define NS_RESET		0x1f	/* Issue a read to reset, a write to clear. */
+#define NE_DATAPORT  0x10	/* NatSemi-defined port window offset. */
+#define NS_RESET     0x1f	/* Issue a read to reset, a write to clear. */
 
-#define E8390_CMD		0x00	/* The command register (for all pages) */
-#define E8390_STOP		0x01	/* Stop and reset the chip */
-#define E8390_START		0x02	/* Start the chip, clear reset */
-#define E8390_RREAD		0x08	/* Remote read */
-#define E8390_NODMA		0x20	/* Remote DMA */
-#define E8390_PAGE0		0x00	/* Select page chip registers */
-#define E8390_PAGE1		0x40	/* using the two high-order bits */
-#define E8390_PAGE2		0x80
-#define E8390_PAGE3		0xC0	/* Page 3 is invalid on the real 8390. */
-#define E8390_RXOFF 0x20		/* EN0_RXCR: Accept no packets */
-#define E8390_TXOFF 0x02		/* EN0_TXCR: Transmitter off */
+#define E8390_CMD    0x00	/* The command register (for all pages) */
+#define E8390_STOP   0x01	/* Stop and reset the chip */
+#define E8390_START  0x02	/* Start the chip, clear reset */
+#define E8390_RREAD  0x08	/* Remote read */
+#define E8390_NODMA  0x20	/* Remote DMA */
+#define E8390_PAGE0  0x00	/* Select page chip registers */
+#define E8390_PAGE1  0x40	/* using the two high-order bits */
+#define E8390_PAGE2  0x80
+#define E8390_PAGE3  0xC0	/* Page 3 is invalid on the real 8390. */
+#define E8390_RXOFF  0x20		/* EN0_RXCR: Accept no packets */
+#define E8390_TXOFF  0x02		/* EN0_TXCR: Transmitter off */
 
 /* Page 0 register offsets. */
-#define EN0_ISR			0x07	/* Interrupt status reg RD WR */
-#define EN0_CRDALO		0x08	/* low byte of current remote dma address RD */
-#define EN0_RSARLO		0x08	/* Remote start address reg 0 */
-#define EN0_CRDAHI		0x09	/* high byte, current remote dma address RD */
-#define EN0_RSARHI		0x09	/* Remote start address reg 1 */
-#define EN0_RCNTLO		0x0a	/* Remote byte count reg WR */
-#define EN0_RCNTHI		0x0b	/* Remote byte count reg WR */
-#define EN0_RXCR		0x0c	/* RX configuration reg WR */
-#define EN0_TXCR		0x0d	/* TX configuration reg WR */
-#define EN0_DCFG		0x0e	/* Data configuration reg WR */
-#define EN0_IMR			0x0f	/* Interrupt mask reg WR */
+#define EN0_ISR     0x07	/* Interrupt status reg RD WR */
+#define EN0_CRDALO  0x08	/* low byte of current remote dma address RD */
+#define EN0_RSARLO  0x08	/* Remote start address reg 0 */
+#define EN0_CRDAHI  0x09	/* high byte, current remote dma address RD */
+#define EN0_RSARHI  0x09	/* Remote start address reg 1 */
+#define EN0_RCNTLO  0x0a	/* Remote byte count reg WR */
+#define EN0_RCNTHI  0x0b	/* Remote byte count reg WR */
+#define EN0_RXCR    0x0c	/* RX configuration reg WR */
+#define EN0_TXCR    0x0d	/* TX configuration reg WR */
+#define EN0_DCFG    0x0e	/* Data configuration reg WR */
+#define EN0_IMR     0x0f	/* Interrupt mask reg WR */
 
 EMBOX_CMD(exec);
 
@@ -106,15 +106,14 @@ static int exec(int argv, char **argc) {
 	}
 #endif
 
-#if 0
-	for (i = 1; i < 6; i++) {
-		out8(i, ioaddr + i);
-	}
-	out8(i, ioaddr + i);
-#endif
-
 	/* Get MAC-Address */
 	out8(E8390_NODMA + E8390_PAGE1, base_addr + E8390_CMD);
+#if 0
+	for (i = 1; i < 6; i++) {
+		out8(i, base_addr + i);
+	}
+	out8(i, base_addr + i);
+#endif
 	printf("The current MAC stations address is ");
 	for (i = 1; i < 6; i++) {
 		printf("%2X:", in8(base_addr + i));
