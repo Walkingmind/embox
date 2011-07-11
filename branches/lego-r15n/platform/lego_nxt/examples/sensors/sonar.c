@@ -15,15 +15,13 @@
 
 EMBOX_TEST(sonar_test);
 
-#define PORT ((sensor_t *) (&sensors[1]))
-
 
 static int sonar_test(void) {
 	int buts;
-	nxt_sonar_init(PORT);
+	nxt_sonar_init(NXT_SENSOR_1);
 
 	while (!(( buts = nxt_buttons_pressed()) & NXT_BT_DOWN)) {
-		TRACE("%d\n", nxt_sensor_get_val(PORT));
+		printf("%d\n", nxt_sensor_get_val(NXT_SENSOR_1));
 
 		usleep(1000);
 	}

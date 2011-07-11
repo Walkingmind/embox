@@ -23,6 +23,8 @@
 static int digiS0[] = { DIGIA0, DIGIB0, DIGIC0, DIGID0};
 static int digiS1[] = { DIGIA1, DIGIB1, DIGIC1, DIGID1};
 
+extern from_avr_t data_from_avr;
+
 sensor_t sensors[NXT_AVR_N_INPUTS];
 
 static sensor_hnd_t handlers[NXT_AVR_N_INPUTS];

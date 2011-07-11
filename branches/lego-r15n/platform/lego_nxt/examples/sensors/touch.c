@@ -9,7 +9,7 @@
  */
 
 #include <types.h>
-#include <embox/test.h>
+#include <embox/example.h>
 #include <unistd.h>
 #include <drivers/nxt/buttons.h>
 #include <drivers/nxt/touch_sensor.h>
@@ -20,10 +20,8 @@
 #define BREAK_TIME 150
 
 #define TOUCH_PORT NXT_SENSOR_1
-#define MOTOR0 NXT_MOTOR_A
-#define MOTOR1 NXT_MOTOR_B
 
-EMBOX_TEST(nxt_test_sensor_touch);
+EMBOX_EXAMPLE(touch_example);
 
 int flag = 1;
 
@@ -31,22 +29,27 @@ static void touch_handler(sensor_t *sensor) {
 	if (!flag) {
 		return;
 	}
-	motor_set_power(MOTOR0, -MOTOR_POWER);
-	motor_set_power(MOTOR1, -MOTOR_POWER);
+	nxt_motor_set_power(NXT_MOTOR_A, -MOTOR_POWER);
+	nxt_motor_set_power(NXT_MOTOR_B, -MOTOR_POWER);
 	flag = 0;
 }
 
-static int nxt_test_sensor_touch(void) {
+static int touch_example(void) {
 	touch_sensor_init(TOUCH_PORT, (touch_hnd_t) touch_handler);
-	motor_start(MOTOR0, MOTOR_POWER, 360, NULL);
-	motor_start(MOTOR1, MOTOR_POWER, 360, NULL);
+	nxt_motor_set_power(NXT_MOTOR_A, MOTOR_POWER);
+	nxt_motor_set_power(NXT_MOTOR_B, MOTOR_POWER);
 
-	while (flag && (!nxt_buttons_pressed())) {
+	while (flag) {
 		usleep(BREAK_TIME);
+		if (nxt_buttons_pressed()) {
+			nxt_motor_set_power(NXT_MOTOR_A, 0);
+			nxt_motor_set_power(NXT_MOTOR_B, 0);
+			return 1;
+		}
 	}
 	usleep(BREAK_TIME);
-	motor_set_power(MOTOR0, 0);
-	motor_set_power(MOTOR1, 0);
+	nxt_motor_set_power(NXT_MOTOR_A, 0);
+	nxt_motor_set_power(NXT_MOTOR_B, 0);
 
 	return 0;
 }

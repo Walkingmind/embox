@@ -90,7 +90,7 @@ static int init(void) {
 	data_to_avr.power = 0;
 	data_to_avr.pwm_frequency = 0;
 	data_to_avr.output_mode = 0;
-	data_to_avr.input_power = 0;
+	data_to_avr.input_power = 0x1;
 
 	sensors_init();
 

@@ -23,33 +23,33 @@ static int without_sensors(int argc, char **argv) {
 	motor_pov *= (-1);
 
 	for (int i = 1; i < 8; i++) {
-		motor_set_power(MOTOR0, motor_pov);
-		motor_set_power(MOTOR1, -motor_pov);
+		nxt_motor_set_power(MOTOR0, motor_pov);
+		nxt_motor_set_power(MOTOR1, -motor_pov);
 		usleep(420);
 		motor_pov *= (-1);
 	}
 	for (int i = 1; i < 7; i++) {
-		motor_set_power(MOTOR0, motor_pov);
-		motor_set_power(MOTOR1, -motor_pov);
+		nxt_motor_set_power(MOTOR0, motor_pov);
+		nxt_motor_set_power(MOTOR1, -motor_pov);
 		usleep(600);
 		motor_pov *= (-1);
 	}
-	motor_set_power(MOTOR0, motor_pov);
-	motor_set_power(MOTOR1, -motor_pov);
+	nxt_motor_set_power(MOTOR0, motor_pov);
+	nxt_motor_set_power(MOTOR1, -motor_pov);
 	usleep(100);
 	motor_pov *= (-1);
 
-	motor_set_power(MOTOR0, 0);
-	motor_set_power(MOTOR1, 0);
+	nxt_motor_set_power(MOTOR0, 0);
+	nxt_motor_set_power(MOTOR1, 0);
 
 	usleep(400);
 	motor_pov *= (-1);
-	motor_set_power(MOTOR0, motor_pov);
-	motor_set_power(MOTOR1, -motor_pov);
+	nxt_motor_set_power(MOTOR0, motor_pov);
+	nxt_motor_set_power(MOTOR1, -motor_pov);
 	usleep(600);
 	for (int i = 1; i < 7; i++) {
-		motor_set_power(MOTOR0, motor_pov);
-		motor_set_power(MOTOR1, -motor_pov);
+		nxt_motor_set_power(MOTOR0, motor_pov);
+		nxt_motor_set_power(MOTOR1, -motor_pov);
 		usleep(150);
 		motor_pov *= (-1);
 	}

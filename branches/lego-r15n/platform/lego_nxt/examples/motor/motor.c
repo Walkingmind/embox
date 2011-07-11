@@ -6,23 +6,22 @@
  * @author Anton Kozlov
  */
 
-#include <embox/test.h>
+#include <embox/example.h>
 #include <drivers/nxt/motor.h>
 
-EMBOX_TEST(motor_run);
+EMBOX_EXAMPLE(motor_run);
 
 static int flag = 1;
 
 static void motor1_stop(void) {
-	if (motors[0].state == RUN) {
-		motor_set_power(&motors[0], 0);
-		flag = 0;
-	}
+	nxt_motor_set_power(NXT_MOTOR_A, 0);
+	flag = 0;
 }
 
 static int motor_run(void) {
 
-	motor_start(&motors[0], 100, 360, motor1_stop);
+	nxt_motor_set_tacho(NXT_MOTOR_A, 360, motor1_stop);
+	nxt_motor_set_power(NXT_MOTOR_A, 100);
 
 	while (flag)
 		;

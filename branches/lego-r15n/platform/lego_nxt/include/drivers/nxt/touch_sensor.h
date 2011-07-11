@@ -11,8 +11,18 @@
 
 #include <drivers/nxt/sensor.h>
 
+/**
+ * Touch handler type. Called when touch sensor changes measuring
+ * from 'touched' to 'not touched' and vice versa
+ * @param sensor
+ */
 typedef void (*touch_hnd_t)(sensor_t *sensor);
 
+/**
+ * Dynamically defines @link sensor @link as touch sensor
+ * @param sensor Sensor to be defined
+ * @param handler Handler to be used as @link touch_hnd_t @link
+ */
 extern void touch_sensor_init(sensor_t *sensor, touch_hnd_t handler);
 
 #endif /* NXT_TOUCH_SENSOR_H_ */

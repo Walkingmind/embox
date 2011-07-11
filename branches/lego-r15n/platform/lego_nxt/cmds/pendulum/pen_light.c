@@ -30,18 +30,15 @@ static int pen_light(int argc, char **argv) {
 	int cnt = 0;
 
 	nxt_sensor_conf_pass(LIGHT_PORT, (sensor_hnd_t) sensor_handler);
-	data_to_avr.input_power = 128;
 
-	motor_start(MOTOR0, MOTOR_POWER, 360, NULL);
-	motor_start(MOTOR1, MOTOR_POWER, 360, NULL);
-	motor_set_power(MOTOR0, motor_pov);
-	motor_set_power(MOTOR1, -motor_pov);
+	nxt_motor_set_power(MOTOR0, motor_pov);
+	nxt_motor_set_power(MOTOR1, -motor_pov);
 
 	while (true) {
 		if (sval > BLACK_ZONE) {
 			motor_pov *= (-1);
-			motor_set_power(MOTOR0, motor_pov);
-			motor_set_power(MOTOR1, -motor_pov);
+			nxt_motor_set_power(MOTOR0, motor_pov);
+			nxt_motor_set_power(MOTOR1, -motor_pov);
 			while (sval > BLACK_ZONE) {
 			}
 			cnt++;
@@ -55,15 +52,15 @@ static int pen_light(int argc, char **argv) {
 	while (true) {
 		if (sval < BLACK_ZONE) {
 			motor_pov *= (-1);
-			motor_set_power(MOTOR0, motor_pov);
-			motor_set_power(MOTOR1, -motor_pov);
+			nxt_motor_set_power(MOTOR0, motor_pov);
+			nxt_motor_set_power(MOTOR1, -motor_pov);
 			while (sval < BLACK_ZONE) {
 			}
 		}
 	}
 
-	motor_set_power(MOTOR0, 0);
-	motor_set_power(MOTOR1, 0);
+	nxt_motor_set_power(MOTOR0, 0);
+	nxt_motor_set_power(MOTOR1, 0);
 
 	return 0;
 }

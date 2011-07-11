@@ -1,6 +1,6 @@
 /**
- * @file
- * @brief nxt angle sensor driver
+ * @file angle.c
+ * @brief NXT angle sensor driver
  *
  * @date 30.04.11
  * @author Anton Kozlov

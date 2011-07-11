@@ -42,10 +42,7 @@ static int direct_comm_handle(int msg, uint8_t *buff);
 
 static int nxt_direct_comm_init(void) {
 	reader_state = COMM_SIZE;
-	motor_start(&motors[0], 0, 360, NULL);
-	motor_start(&motors[1], 0, 360, NULL);
-	motor_start(&motors[2], 0, 360, NULL);
-	nxt_sensor_conf_pass(&sensors[0], NULL);
+	nxt_sensor_conf_pass(NXT_SENSOR_1, NULL);
 	CALLBACK_REG(bluetooth_uart, (callback_t) direct_comm_handle);	
 	return 0;
 }
@@ -103,11 +100,11 @@ static int handle_body(uint8_t *buff) {
 	case DC_SET_OUTPUT_STATE:
 		power = buff[1];
 		if (buff[0] != 0xff) {
-			motor_set_power(&motors[buff[0]], power);
+			nxt_motor_set_power(&nxt_motors[buff[0]], power);
 		} else {
-			motor_set_power(&motors[0], power);
-			motor_set_power(&motors[1], power);
-			motor_set_power(&motors[2], power);
+			nxt_motor_set_power(NXT_MOTOR_A, power);
+			nxt_motor_set_power(NXT_MOTOR_B, power);
+			nxt_motor_set_power(NXT_MOTOR_C, power);
 		}
 		return 0;
 		break;
@@ -116,9 +113,9 @@ static int handle_body(uint8_t *buff) {
 		return 0;
 		break;
 	case DC_EX_SET_M_OUTPUT_STATE:
-		motor_set_power(&motors[0], buff[0]);
-		motor_set_power(&motors[1], buff[1]);
-		motor_set_power(&motors[2], buff[2]);
+		nxt_motor_set_power(NXT_MOTOR_A, buff[0]);
+		nxt_motor_set_power(NXT_MOTOR_B, buff[1]);
+		nxt_motor_set_power(NXT_MOTOR_C, buff[2]);
 		return 0;
 		break;
 	case DC_QREAL_HELLO:

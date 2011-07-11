@@ -10,16 +10,20 @@
 #define NXT_MOTOR_H_
 
 #include <types.h>
+#include <drivers/nxt/avr.h>
 #include <drivers/pins.h>
 
-#define NXT_N_MOTORS 3
+/**
+ * Total number of motors avaible in system
+ */
+#define NXT_N_MOTORS NXT_AVR_N_OUTPUTS
 
+/**
+ * Tacholimit handler function type. Tacholimit handler of motor
+ * (@link motor_t.tacho_hnd) is called after
+ * @link motor_t.tacho_limit @link went to zero
+ */
 typedef void (*tacholimit_hnd_t)(void);
-
-typedef enum {
-	STOP,
-	RUN
-} motor_state_t;
 
 typedef struct {
 	uint8_t          id;
@@ -28,32 +32,40 @@ typedef struct {
 	tacholimit_hnd_t limit_hnd;
 	uint32_t         tacho_count;
 	pin_handler_t    pin_handler;
-	motor_state_t    state;
-} motor_t;
+} nxt_motor_t;
 
-extern motor_t motors[];
 
-#define NXT_MOTOR_A (&motors[0])
-#define NXT_MOTOR_B (&motors[1])
-#define NXT_MOTOR_C (&motors[2])
+extern nxt_motor_t nxt_motors[NXT_N_MOTORS];
+
+#define NXT_MOTOR_A (&nxt_motors[0])
+#define NXT_MOTOR_B (&nxt_motors[1])
+#define NXT_MOTOR_C (&nxt_motors[2])
+
 
 /**
- * Start motor
+ * Inits all motor preferences
  * @param motor Motor
- * @param power Power for motor:
- *		0    means stop
- *		-100 means full conterclockwise
- *		100	 measn full clockwise
  * @param limit Count of tacho ticks before handler call
  * @param lim_handler Handler called when @link limit @endlink ticks passed
  */
-extern void motor_start(motor_t *motor, int8_t power, uint32_t limit,
+extern void nxt_motor_set_tacho(nxt_motor_t *motor, uint32_t limit,
 			tacholimit_hnd_t lim_handler);
 /**
- * Set power of running motor
+ * Set power motor
  * @param motor Motor
- * @param power Power
+ * @param power for motor:
+ *		0    means stop
+ *		-100 means full conterclockwise
+ *		100	 measn full clockwise
+ * */
+extern void nxt_motor_set_power(nxt_motor_t *motor, int8_t power);
+
+/**
+ * Gets motor tacho count i.e. number of motor tacho ticks since last
+ * tacho limit cycle (since last tacho handler call)
+ * @param motor
+ * @return
  */
-extern void motor_set_power(motor_t *motor, int8_t power);
+extern uint32_t nxt_motor_get_tacho_count(nxt_motor_t *motor);
 
 #endif /* NXT_MOTOR_H_ */

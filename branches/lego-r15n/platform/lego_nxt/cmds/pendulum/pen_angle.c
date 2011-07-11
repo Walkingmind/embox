@@ -28,17 +28,15 @@ static int pen_angle(int argc, char **argv) {
 
 	nxt_angle_sensor_init(PORT);
 
-	motor_start(MOTOR0, MOTOR_POWER, 360, NULL);
-	motor_start(MOTOR1, MOTOR_POWER, 360, NULL);
-	motor_set_power(MOTOR0, motor_pov);
-	motor_set_power(MOTOR1, -motor_pov);
+	nxt_motor_set_power(MOTOR0, motor_pov);
+	nxt_motor_set_power(MOTOR1, -motor_pov);
 
 	while (true) {
 		sval = nxt_sensor_active_get_val(PORT, NXT_ANGLE_2X_ANGLE_COMM);
 		if (sval >= 9 && sval <= 11) {
 			motor_pov *= (-1);
-			motor_set_power(MOTOR0, motor_pov);
-			motor_set_power(MOTOR1, -motor_pov);
+			nxt_motor_set_power(MOTOR0, motor_pov);
+			nxt_motor_set_power(MOTOR1, -motor_pov);
 			while (sval >= 9 && sval <= 11) {
 				sval = nxt_sensor_active_get_val(PORT, NXT_ANGLE_2X_ANGLE_COMM);
 			}

@@ -8,13 +8,13 @@
 #include <types.h>
 #include <unistd.h>
 
-#include <embox/test.h>
+#include <embox/example.h>
 #include <drivers/nxt/lcd.h>
 #include <drivers/nxt/buttons.h>
 
 /* picture "embox"*/
 
-EMBOX_TEST(run_picture);
+EMBOX_EXAMPLE(run_picture);
 
 /* WARNING: function too long */
 static int run_picture(void) {

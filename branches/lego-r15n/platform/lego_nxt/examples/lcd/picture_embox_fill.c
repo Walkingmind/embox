@@ -8,11 +8,11 @@
 #include <types.h>
 #include <unistd.h>
 
-#include <embox/test.h>
+#include <embox/example.h>
 #include <drivers/nxt/lcd.h>
 #include <drivers/nxt/buttons.h>
 
-EMBOX_TEST(run_picture_embox_fill);
+EMBOX_EXAMPLE(run_picture_embox_fill);
 
 static int run_picture_embox_fill(void) {
 	uint32_t b;

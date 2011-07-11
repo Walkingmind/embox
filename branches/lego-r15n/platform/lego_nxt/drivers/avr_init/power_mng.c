@@ -9,6 +9,8 @@
 #include <drivers/nxt/avr.h>
 #include <drivers/nxt/power_mng.h>
 
+extern to_avr_t data_to_avr;
+
 void nxt_halt(void) {
 	data_to_avr.input_power = 0;
 	data_to_avr.power = 0x5A;

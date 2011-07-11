@@ -32,27 +32,24 @@ static int sonar_treshold = 50;
 
 
 static void rotate_start(int motor_power0, int motor_power1) {
-	motor_set_power(MOTOR0, motor_power0);
-	motor_set_power(MOTOR1, motor_power1);
+	nxt_motor_set_power(MOTOR0, motor_power0);
+	nxt_motor_set_power(MOTOR1, motor_power1);
 }
 
 static void move_start(void) {
-	motor_set_power(MOTOR0, MOTOR_POWER);
-	motor_set_power(MOTOR1, MOTOR_POWER);
+	nxt_motor_set_power(MOTOR0, MOTOR_POWER);
+	nxt_motor_set_power(MOTOR1, MOTOR_POWER);
 }
 
 static void move_stop(void) {
-	motor_set_power(MOTOR0, 0);
-	motor_set_power(MOTOR1, 0);
+	nxt_motor_set_power(MOTOR0, 0);
+	nxt_motor_set_power(MOTOR1, 0);
 }
 
 static int box_around_cmd(int argc, char **argv) {
 	int mp0, mp1;
 
 	nxt_sonar_init(SONAR_PORT);
-
-	motor_start(MOTOR0, 0, 360, NULL);
-	motor_start(MOTOR1, 0, 360, NULL);
 
 	sonar_treshold = nxt_sensor_get_val(SONAR_PORT);
 
