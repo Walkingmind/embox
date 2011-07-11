@@ -14,7 +14,6 @@ typedef int (*example_exec_t)(int argc, char **argv);
 
 struct example {
 	example_exec_t exec;
-	const struct mod *mod;
 };
 
 

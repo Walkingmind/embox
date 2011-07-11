@@ -21,9 +21,7 @@ extern const struct example __example_registry[];
 	static int _exec(int argc, char **argv);                   \
 	ARRAY_SPREAD_ADD_NAMED(__example_registry, __example,   {  \
 			.exec = _exec,                                     \
-			.mod = &mod_self                                   \
-		});                                                    \
-	MOD_SELF_BIND(__example, NULL) /* TODO Why does it need? */
+		})
 
 
 #endif /* FRAMEWORK_EXAMPLE_SELF_H_ */
