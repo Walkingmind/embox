@@ -13,13 +13,13 @@
 
 /* commands to be given as 'commands'
  * to nxt_sensor_active_get_val */
-#define NXT_ANGLE_2X_ANGLE_COMM 0x42
-#define NXT_ANGLE_1_ANGLE_ADD_COMM 0x43
-#define NXT_ANGLE_RPM_HIGH_COMM 0x48
-#define NXT_ANGLE_RPM_LOW_COMM 0x49
+#define NXT_ANGLE_COMMAND_2DIV_ANGLE    0x42 /**< angle div by 2 */
+#define NXT_ANGLE_COMMAND_1_ANGLE_ADD 0x43 /**< angle mod by 2 */
+#define NXT_ANGLE_COMMAND_RPM_HIGH    0x48 /**< high byte of Rotates Per Minutes */
+#define NXT_ANGLE_COMMAND_RPM_LOW     0x49 /**< low byte of Rotates Per Minute */
 
 /**
- * Dynamically defines @link sensor @link as angle sensor
+ * Dynamically defines sensor as angle sensor
  * @param sensor Sensor to be defined
  */
 extern void nxt_angle_sensor_init(sensor_t *sensor);

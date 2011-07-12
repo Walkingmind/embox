@@ -55,7 +55,7 @@ extern void nxt_motor_set_tacho(nxt_motor_t *motor, uint32_t limit,
  * @param motor Motor
  * @param power for motor:
  *		0    means stop
- *		-100 means full conterclockwise
+ *		-100 means full counterclockwise
  *		100	 measn full clockwise
  * */
 extern void nxt_motor_set_power(nxt_motor_t *motor, int8_t power);

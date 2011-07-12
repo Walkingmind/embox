@@ -16,12 +16,15 @@
 
 static touch_hnd_t touch_sens_hnds[NXT_AVR_N_INPUTS];
 
-typedef enum { UP, DOWN } touch_state_t;
+typedef enum { 
+	NXT_TOUCH_STATE_UP,
+	NXT_TOUCH_STATE_DOWN
+} touch_state_t;
 
-static touch_state_t state = UP;
+static touch_state_t state = NXT_TOUCH_STATE_UP;
 
 static void touch_handler(sensor_t *sensor, sensor_val_t val) {
-	touch_state_t new_state = (val <= TOUCH_ADC_EDGE ? DOWN : UP);
+	touch_state_t new_state = (val <= TOUCH_ADC_EDGE ? NXT_TOUCH_STATE_DOWN : NXT_TOUCH_STATE_UP);
 	if (new_state != state) {
 		state = new_state;
 		touch_sens_hnds[sensor->id](sensor);

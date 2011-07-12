@@ -18,9 +18,9 @@
  * Sensor class type. Describes general interface for sensor
  */
 typedef enum {
-	NONE,   //!< Not used
-	PASSIVE,//!< Passive (touch, light,...)
-	ACTIVE, //!< Active (sonar, angle,...)
+	NXT_SENSOR_NONE,   //!< Not used
+	NXT_SENSOR_PASSIVE,//!< Passive (touch, light,...)
+	NXT_SENSOR_ACTIVE, //!< Active (sonar, angle,...)
 } sensor_type_t;
 
 /**
