@@ -19,6 +19,7 @@
 extern const struct net_proto __net_proto_registry[];
 
 #define __net_proto_foreach(net_proto_ptr) \
-	array_spread_foreach_ptr(net_proto_ptr, __net_proto_registry)
+	array_foreach_ptr(net_proto_ptr, __net_proto_registry, \
+			ARRAY_SPREAD_SIZE(__net_proto_registry))
 
 #endif /* FRAMEWORK_NET_PROTO_API_IMPL_H_ */

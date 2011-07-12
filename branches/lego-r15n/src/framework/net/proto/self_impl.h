@@ -24,6 +24,6 @@
 			.netproto = &_proto,                     				\
 			.mod = &mod_self                   						\
 		});                                        					\
-	MOD_SELF_BIND(&__net##_proto, &__net_proto_mod_ops)
+	MOD_INFO_BIND(&__net_proto_mod_ops, &__net##_proto)
 
 #endif /* FRAMEWORK_NET_PROTO_SELF_IMPL_H_ */

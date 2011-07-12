@@ -24,6 +24,6 @@
 			.netsock = &_sock,                     				   \
 			.mod = &mod_self                   					   \
 		});                                        				   \
-	MOD_SELF_BIND(&__net##_sock, &__net_sock_mod_ops)
+	MOD_INFO_BIND(&__net_sock_mod_ops, &__net##_sock )
 
 #endif /* FRAMEWORK_NET_SOCK_SELF_IMPL_H_ */

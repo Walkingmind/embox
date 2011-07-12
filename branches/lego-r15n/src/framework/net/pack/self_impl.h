@@ -22,6 +22,6 @@
 			.netpack = &_packet,                    	\
 			.mod = &mod_self                        	\
 		};                                          	\
-	MOD_SELF_BIND(&__net##_packet, &__net_pack_mod_ops)
+	MOD_INFO_BIND(&__net_pack_mod_ops, &__net##_packet)
 
 #endif /* FRAMEWORK_NET_PACK_SELF_IMPL_H_ */
