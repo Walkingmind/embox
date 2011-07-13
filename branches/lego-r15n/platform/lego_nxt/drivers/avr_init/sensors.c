@@ -32,7 +32,7 @@ struct nxt_sensor *nxt_get_sensor(int num) {
 	if (0 > num || NXT_AVR_N_INPUTS > num) {
 		return NULL;
 	}
-	return sensors[num];
+	return &sensors[num];
 }
 
 void nxt_sensor_conf_pass(nxt_sensor_t *sensor, sensor_handler_t handler) {

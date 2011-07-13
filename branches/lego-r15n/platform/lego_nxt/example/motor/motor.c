@@ -6,7 +6,7 @@
  * @author Anton Kozlov
  */
 
-#include <embox/example.h>
+#include <framework/example/self.h>
 #include <drivers/nxt/motor.h>
 
 EMBOX_EXAMPLE(motor_run);
@@ -18,7 +18,7 @@ static void motor1_stop(void) {
 	flag = 0;
 }
 
-static int motor_run(void) {
+static int motor_run(int argc, char **argv) {
 
 	nxt_motor_tacho_set_counter(NXT_MOTOR_A, 360, motor1_stop);
 	nxt_motor_set_power(NXT_MOTOR_A, 100);

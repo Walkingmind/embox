@@ -41,7 +41,11 @@ extern to_avr_t data_to_avr;
 
 static nxt_motor_t nxt_motors[NXT_N_MOTORS];
 
-struct nxt_motor *nxt_get_motor(int) {
+struct nxt_motor *nxt_get_motor(int num) {
+	if (3 > num) {
+		return NULL;
+	}
+	return &nxt_motors[num];
 
 }
 
