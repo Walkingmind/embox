@@ -25,22 +25,28 @@ static int digiS1[] = { DIGIA1, DIGIB1, DIGIC1, DIGID1};
 
 extern from_avr_t data_from_avr;
 
-sensor_t sensors[NXT_AVR_N_INPUTS];
+static nxt_sensor_t sensors[NXT_AVR_N_INPUTS];
 
-static sensor_hnd_t handlers[NXT_AVR_N_INPUTS];
+static sensor_handler_t handlers[NXT_AVR_N_INPUTS];
+struct nxt_sensor *nxt_get_sensor(int num) {
+	if (0 > num || NXT_AVR_N_INPUTS > num) {
+		return NULL;
+	}
+	return sensors[num];
+}
 
-void nxt_sensor_conf_pass(sensor_t *sensor, sensor_hnd_t handler) {
+void nxt_sensor_conf_pass(nxt_sensor_t *sensor, sensor_handler_t handler) {
 	handlers[sensor->id] = handler;
 	sensor->type = NXT_SENSOR_PASSIVE;
 }
 
-void nxt_sensor_conf_active(sensor_t *sensor) {
+void nxt_sensor_conf_active(nxt_sensor_t *sensor) {
 	i2c_port_t *port = &(sensor->i2c_port);
 	i2c_init(port);
 	sensor->type = NXT_SENSOR_ACTIVE;
 }
 
-sensor_val_t nxt_sensor_active_get_val(sensor_t *sensor, uint8_t command) {
+sensor_val_t nxt_sensor_active_get_val(nxt_sensor_t *sensor, uint8_t command) {
 	i2c_port_t *port = &(sensor->i2c_port);
 	uint8_t active_val;
 
@@ -54,14 +60,14 @@ sensor_val_t nxt_sensor_active_get_val(sensor_t *sensor, uint8_t command) {
 }
 
 
-sensor_val_t nxt_sensor_get_val(sensor_t *sensor) {
+sensor_val_t nxt_sensor_get_val(nxt_sensor_t *sensor) {
 	if (sensor->type == NXT_SENSOR_PASSIVE) {
 		return data_from_avr.adc_value[sensor->id];
 	}
 	if (sensor->type == NXT_SENSOR_ACTIVE) {
 		return nxt_sensor_active_get_val(sensor, sensor->def_comm);
 	}
-	return SENSOR_NOT_CONF;
+	return NXT_SENSOR_ERR_NOT_CONFIG;
 }
 
 void sensors_updated(sensor_val_t sensor_vals[]) {

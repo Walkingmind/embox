@@ -22,13 +22,13 @@
  * Dynamically defines sensor as angle sensor
  * @param sensor Sensor to be defined
  */
-extern void nxt_angle_sensor_init(sensor_t *sensor);
+extern void nxt_angle_sensor_init(nxt_sensor_t *sensor);
 
 /**
  * Gets Rotates Per Minute from angle sensor
  * @param sensor Sensor to be accessed
  * @return Rotates Per Minute value
  */
-extern uint16_t nxt_angle_get_rpm(sensor_t *sensor);
+extern uint16_t nxt_angle_get_rpm(nxt_sensor_t *sensor);
 
 #endif /* NXT_SONAR_H_ */

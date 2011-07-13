@@ -1,6 +1,7 @@
 /**
- * @file buttons.h
- * @brief interface for on-brick buttons of nxt
+ * @file
+ * @brief Interface for on-brick buttons of NXT brick
+ *
  * @date 24.10.10
  * @author Anton Kozlov
  */
@@ -10,14 +11,14 @@
 
 #include <types.h>
 
-#define NXT_BT_ENTER 1
-#define NXT_BT_LEFT 2
-#define NXT_BT_RIGHT 4
-#define NXT_BT_DOWN 8
+#define NXT_BOTTON_ENTER  1
+#define NXT_BUTTON_LEFT   2
+#define NXT_BOTTON_RIGHT  4
+#define NXT_BOTTON_DOWN   8
 
 /**
  * Buttons mask. Represents several buttons in time. E.g.
- * simultanious pressing BT_ENTER and BT_DOWN gives '9' value
+ * simultaneous pressing NXT_BOTTON_ENTER and NXT_BOTTON_DOWN gives '9' value
  * (equals '1 | 8')
  */
 typedef uint16_t nxt_buttons_mask_t;
@@ -30,7 +31,7 @@ extern nxt_buttons_mask_t nxt_buttons_pushed(void);
 
 /**
  * Gives buttons mask of pressed buttons since last call of
- * @link nxt_buttons_pressed @link
+ * #nxt_buttons_pressed
  * @return mask of pressed buttons since last call
  */
 extern nxt_buttons_mask_t nxt_buttons_pressed(void);

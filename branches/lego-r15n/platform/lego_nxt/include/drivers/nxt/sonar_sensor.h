@@ -19,6 +19,6 @@
  * Dynamically defines @link sensor @link as sonar
  * @param sensor Sensor to be defined
  */
-extern void nxt_sonar_init(sensor_t *sensor);
+extern void nxt_sonar_init(nxt_sensor_t *sensor);
 
 #endif /* NXT_SONAR_H_ */

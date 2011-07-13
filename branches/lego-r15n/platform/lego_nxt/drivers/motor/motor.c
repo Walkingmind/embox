@@ -23,13 +23,13 @@
 #define NXT_PIN_MOTOR_C0 0
 #define NXT_PIN_MOTOR_C1 8
 
-int pin_motor_S0[] = {
+static int pin_motor_S0[] = {
 	NXT_PIN_MOTOR_A0,
 	NXT_PIN_MOTOR_B0,
 	NXT_PIN_MOTOR_C0
 };
 
-int pin_motor_S1[] = {
+static int pin_motor_S1[] = {
 	NXT_PIN_MOTOR_A1,
 	NXT_PIN_MOTOR_B1,
 	NXT_PIN_MOTOR_C1
@@ -39,9 +39,13 @@ EMBOX_UNIT_INIT(nxt_motor_unit_init);
 
 extern to_avr_t data_to_avr;
 
-nxt_motor_t nxt_motors[NXT_N_MOTORS];
+static nxt_motor_t nxt_motors[NXT_N_MOTORS];
 
-void nxt_motor_set_tacho(nxt_motor_t *motor, uint32_t limit, tacholimit_hnd_t lim_handler) {
+struct nxt_motor *nxt_get_motor(int) {
+
+}
+
+void nxt_motor_tacho_set_counter(nxt_motor_t *motor, uint32_t limit, tacho_handler_t lim_handler) {
 	motor->limit_hnd = lim_handler;
 	motor->tacho_limit = limit;
 	motor->tacho_count = limit;
@@ -50,9 +54,9 @@ void nxt_motor_set_tacho(nxt_motor_t *motor, uint32_t limit, tacholimit_hnd_t li
 
 
 static void nxt_motor_init(nxt_motor_t *motor, int8_t power, uint32_t limit,
-			tacholimit_hnd_t lim_handler) {
+			tacho_handler_t lim_handler) {
 
-	nxt_motor_set_tacho(motor, limit, lim_handler);
+	nxt_motor_tacho_set_counter(motor, limit, lim_handler);
 
 	pin_set_input_monitor((1 << motor->m_0) | (1 << motor->m_1),
 			(pin_handler_t) motor->pin_handler);
@@ -65,7 +69,7 @@ void nxt_motor_set_power(nxt_motor_t *motor, int8_t power) {
 	data_to_avr.output_percent[motor->id] = power;
 }
 
-uint32_t nxt_motor_get_tacho_count(nxt_motor_t *motor) {
+uint32_t nxt_motor_tacho_get_counter(nxt_motor_t *motor) {
 	return motor->tacho_limit - motor->tacho_count;
 }
 

@@ -77,7 +77,7 @@ static int handle_comm(uint8_t *buff) {
 #define EDGE 200
 
 static int sensor_send(uint8_t sensor_id) {
-	sensor_t *sens = &sensors[sensor_id];
+	nxt_sensor_t *sens = &sensors[sensor_id];
 	sensor_val_t tmp = 0;
 	uint8_t out[16];
 	memset(out, 0, 16);

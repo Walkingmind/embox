@@ -25,7 +25,7 @@ EMBOX_EXAMPLE(touch_example);
 
 int flag = 1;
 
-static void touch_handler(sensor_t *sensor) {
+static void touch_handler(nxt_sensor_t *sensor) {
 	if (!flag) {
 		return;
 	}

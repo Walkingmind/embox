@@ -24,16 +24,16 @@ int volatile percent = 0;
 /* this handler is primarily for immediate reaction on
 /* environment change */
 
-void sensor_handler(sensor_t *sensor, sensor_val_t val) {
+void sensor_handler(nxt_sensor_t *sensor, sensor_val_t val) {
 	percent = (val * (100.0 / 1024.0));
 }
 
 static int sensor_example(void) {
 	nxt_buttons_mask_t buts = 0;
 	/* configuring sensor just as passive */
-	nxt_sensor_conf_pass(LIGHT_PORT, (sensor_hnd_t) sensor_handler);
+	nxt_sensor_conf_pass(LIGHT_PORT, (sensor_handler_t) sensor_handler);
 
-	while (!(( buts = nxt_buttons_pressed()) & NXT_BT_DOWN)) {
+	while (!(( buts = nxt_buttons_pressed()) & NXT_BOTTON_DOWN)) {
 		printf("Lightness is %d%%\n", percent);
 
 		usleep(1000);

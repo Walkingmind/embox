@@ -19,13 +19,13 @@ static int power_mng_cmd(int argc, char **argv) {
 	TRACE("L:HALT R:FLASH D:SKIP\n");
 	while (true) {
 		int buts = nxt_buttons_pressed();
-		if (buts & NXT_BT_LEFT) {
+		if (buts & NXT_BUTTON_LEFT) {
 			nxt_halt();
 		}
-		if (buts & NXT_BT_RIGHT) {
+		if (buts & NXT_BOTTON_RIGHT) {
 			nxt_flash();
 		}
-		if (buts & NXT_BT_DOWN) {
+		if (buts & NXT_BOTTON_DOWN) {
 		    break;
 		}
 		usleep(200);

@@ -24,7 +24,7 @@ sensor_val_t volatile sval = 0;
 /* and slow print operation will slow down all system,
 /* late sensor_handler calls will be kept by print */
 
-void sensor_handler(sensor_t *sensor, sensor_val_t val) {
+void sensor_handler(nxt_sensor_t *sensor, sensor_val_t val) {
 	sval = val;
 }
 
@@ -33,11 +33,11 @@ static int sensor_example(void) {
 
 	/* Configure sensor as passive, i.e. has only one value in range 0-1023	 */
 	/* sensor_handler will be called each time sensor measure environment */
-	nxt_sensor_conf_pass(NXT_SENSOR_1, (sensor_hnd_t) sensor_handler);
+	nxt_sensor_conf_pass(NXT_SENSOR_1, (sensor_handler_t) sensor_handler);
 
 	/* read buttons that was pressed when we slept */
 	/* exit if DOWN buttons was pressed */
-	while (!(( buts = nxt_buttons_pressed()) & NXT_BT_DOWN)) {
+	while (!(( buts = nxt_buttons_pressed()) & NXT_BOTTON_DOWN)) {
 		/* print sensor value */
 		/* sensor_get_val() == sval (that was set in sensor_handler) */
 		/* there is no difference with */

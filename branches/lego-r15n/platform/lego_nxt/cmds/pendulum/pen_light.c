@@ -21,7 +21,7 @@ EMBOX_CMD(pen_light);
 
 static sensor_val_t sval = 10;
 
-void sensor_handler(sensor_t *sensor, sensor_val_t val) {
+void sensor_handler(nxt_sensor_t *sensor, sensor_val_t val) {
 	sval = val;
 }
 
@@ -29,7 +29,7 @@ static int pen_light(int argc, char **argv) {
 	int motor_pov = 100;
 	int cnt = 0;
 
-	nxt_sensor_conf_pass(LIGHT_PORT, (sensor_hnd_t) sensor_handler);
+	nxt_sensor_conf_pass(LIGHT_PORT, (sensor_handler_t) sensor_handler);
 
 	nxt_motor_set_power(MOTOR0, motor_pov);
 	nxt_motor_set_power(MOTOR1, -motor_pov);

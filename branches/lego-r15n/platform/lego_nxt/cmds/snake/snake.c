@@ -176,19 +176,19 @@ static char dir_char(point p) {
 }
 
 static char button_dispatch(uint32_t btns) {
-	if ((btns & NXT_BT_DOWN) && (btns & NXT_BT_ENTER)) {
+	if ((btns & NXT_BOTTON_DOWN) && (btns & NXT_BOTTON_ENTER)) {
 		return 'q';
 	}
-	if (btns & NXT_BT_DOWN) {
+	if (btns & NXT_BOTTON_DOWN) {
 		return 'j';
 	}
-	if (btns & NXT_BT_LEFT) {
+	if (btns & NXT_BUTTON_LEFT) {
 		return 'h';
 	}
-	if (btns & NXT_BT_RIGHT) {
+	if (btns & NXT_BOTTON_RIGHT) {
 		return 'l';
 	}
-	if (btns & NXT_BT_ENTER) {
+	if (btns & NXT_BOTTON_ENTER) {
 		return 'k';
 	}
 	return ' ';

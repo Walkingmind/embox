@@ -20,7 +20,7 @@ static void motor1_stop(void) {
 
 static int motor_run(void) {
 
-	nxt_motor_set_tacho(NXT_MOTOR_A, 360, motor1_stop);
+	nxt_motor_tacho_set_counter(NXT_MOTOR_A, 360, motor1_stop);
 	nxt_motor_set_power(NXT_MOTOR_A, 100);
 
 	while (flag)

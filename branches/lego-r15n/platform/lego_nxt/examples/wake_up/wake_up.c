@@ -53,7 +53,7 @@ static void move_stop(void) {
 	moving = false;
 }
 
-void sensor_handler(sensor_t *sensor, sensor_val_t val) {
+void sensor_handler(nxt_sensor_t *sensor, sensor_val_t val) {
 	if (!is_read) {
 		treashold = val;
 		is_read = true;
@@ -69,7 +69,7 @@ void sensor_handler(sensor_t *sensor, sensor_val_t val) {
 
 static int wake_up_example(void) {
 
-	nxt_sensor_conf_pass(NXT_SENSOR_1, (sensor_hnd_t) sensor_handler);
+	nxt_sensor_conf_pass(NXT_SENSOR_1, (sensor_handler_t) sensor_handler);
 
 	while (true);
 
