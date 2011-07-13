@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature
       id="org.embuild.emdsl.feature"
-      label="Embuild EmDSL editor xxx"
+      label="Embuild EmDSL editor"
       version="1.0.0.qualifier">
 
    <description url="http://www.example.com/description">
@@ -9,7 +9,8 @@
    </description>
 
    <copyright url="http://www.example.com/copyright">
-      [Enter Copyright Description here.]
+      Copyright 2008-2011, Mathematics and Mechanics faculty of Saint-Petersburg State University. All rights reserved.
+Copyright 2008-2011, Lanit-Tercom Inc. All rights reserved.
    </copyright>
 
    <license url="http://www.example.com/license">
@@ -17,16 +18,29 @@
    </license>
 
    <url>
-      <discovery label="TMF Xtext Update Site (Releases)" url="http://download.eclipse.org/modeling/tmf/updates/releases/"/>
+      <discovery label="Embox project site" url="http://code.google.com/p/embox/"/>
    </url>
 
    <requires>
       <import plugin="org.eclipse.xtext" version="2.0.0" match="greaterOrEqual"/>
       <import plugin="org.apache.log4j" version="1.2.15" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.xtext.util"/>
+      <import plugin="org.eclipse.emf.ecore"/>
+      <import plugin="org.eclipse.emf.common"/>
+      <import plugin="org.antlr.runtime"/>
+      <import plugin="org.eclipse.xtext.common.types"/>
       <import plugin="org.apache.commons.logging"/>
+      <import plugin="org.eclipse.xtext.xbase.lib"/>
+      <import plugin="org.eclipse.xtext.xtend2.lib"/>
       <import plugin="org.eclipse.xtext.ui"/>
       <import plugin="org.eclipse.ui.editors" version="3.5.0" match="greaterOrEqual"/>
       <import plugin="org.eclipse.ui.ide" version="3.5.0" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.xtext.ui.shared"/>
+      <import plugin="org.eclipse.ui"/>
+      <import plugin="org.eclipse.xtext.builder"/>
+      <import plugin="org.eclipse.xtext.common.types.ui"/>
+      <import plugin="org.eclipse.xtext.ui.codetemplates.ui"/>
+      <import plugin="org.eclipse.compare"/>
    </requires>
 
    <plugin
