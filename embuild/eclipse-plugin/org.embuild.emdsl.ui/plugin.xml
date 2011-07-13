@@ -10,6 +10,7 @@
             contributorClass="org.eclipse.ui.editors.text.TextEditorActionContributor"
             default="true"
             extensions="em"
+            filenames="Embuild"
             id="org.embuild.emdsl.EmDsl"
             name="EmDsl Editor">
         </editor>
