@@ -49,6 +49,11 @@ EMBOX_UNIT_INIT(unit_init);
 #define EN0_CRDALO  0x08  /* low byte of current remote dma address RD */
 #define EN0_CRDAHI  0x09  /* high byte, current remote dma address RD */
 
+#define NE1SM_START_PG  0x20 /* First page of TX buffer */
+#define NE1SM_STOP_PG   0x40 /* Last page +1 of RX ring */
+#define NESM_START_PG   0x40 /* First page of TX buffer */
+#define NESM_STOP_PG    0x80 /* Last page +1 of RX ring */
+
 static inline void rx_enable(void) {
 	out8(NE_PAGE0_STOP,   NE_CMD);
 	out8(RX_BUFFER_START, EN0_BOUNDARY);
@@ -99,7 +104,6 @@ static void copy_data_from_card(uint32_t src, uint8_t *dest, uint32_t length) {
 		dest++;
 	}
 }
-
 /**
  * Copy data out of the receive buffer.
  */
@@ -153,27 +157,6 @@ static size_t pkt_receive(struct sk_buff *skb) {
  * queue packet for transmission
  */
 static int start_xmit(struct sk_buff *skb, struct net_device *dev) {
-#if 0
-	/* Set TPSR, start of tx buffer memory to zero
-	 * (this value is count of pages) */
-	out8(TX_BUFFER_START, EN0_TPSR);
-
-	copy_data_to_card(16 * 1024, skb->data, skb->len);
-
-	/* Set how many bytes to transmit */
-	set_tx_count(skb->len);
-
-	/* issue command to actually transmit a frame */
-	out8(0x04, NE_CMD);
-
-	/* Wait for transmission to complete. */
-	while (in8(NE_CMD) & 0x04);
-
-	TRACE("Done transmit\n");
-
-	return skb->len;
-#endif
-
 	unsigned long nic_base = dev->base_addr;
     unsigned int i, count = skb->len;
     unsigned char *buf = skb->data;
@@ -203,14 +186,140 @@ static int open(net_device_t *dev) {
 		return -1;
 	}
 	nic_base = dev->base_addr;
+#if 0
 	/* 8-bit access only, makes the maths simpler. */
 	out8(0, nic_base + 0x0e);
 
 	/* setup receive buffer location */
 	out8(RX_BUFFER_START, EN0_STARTPG);
 	out8(RX_BUFFER_END, EN0_STOPPG);
-
+#endif
 	return 0;
+}
+
+static int probe(net_device_t *dev) {
+    unsigned char SA_prom[32];
+    char *name;
+    int i, wordlength;
+    int start_page, stop_page;
+    int neX000, ctron, dlink, dfi;
+	unsigned long nic_base;
+    int reg0;
+
+	if (NULL == dev) {
+		return -1;
+	}
+	nic_base = dev->base_addr;
+	reg0 = inb(nic_base);
+    if (reg0 == 0xFF) {
+    	return -1;
+    }
+
+    wordlength = 2;
+    /* Do a quick preliminary check that we have a 8390. */
+    {	int regd;
+	outb_p(E8390_NODMA + E8390_PAGE1 + E8390_STOP, nic_base + E8390_CMD);
+	regd = inb_p(nic_base + 0x0d);
+	outb_p(0xff, nic_base + 0x0d);
+	outb_p(E8390_NODMA + E8390_PAGE0, nic_base + E8390_CMD);
+	inb_p(nic_base + EN0_COUNTER0); /* Clear the counter by reading. */
+	if (inb_p(nic_base + EN0_COUNTER0) != 0) {
+	    outb_p(reg0, nic_base);
+	    outb(regd, nic_base + 0x0d);	/* Restore the old values. */
+	    return 0;
+	}
+    }
+
+    printf("NE*000 ethercard probe at %3lx:", nic_base);
+
+    /* Read the 16 bytes of station address prom, returning 1 for
+       an eight-bit interface and 2 for a 16-bit interface.
+       We must first initialize registers, similar to NS8390_init(eifdev, 0).
+       We can't reliably read the SAPROM address without this.
+       (I learned the hard way!). */
+	{
+	struct {unsigned char value, offset; } program_seq[] = {
+	    {E8390_NODMA + E8390_PAGE0 + E8390_STOP, E8390_CMD}, /* Select page 0*/
+	    {0x48,	EN0_DCFG},	/* Set byte-wide (0x48) access. */
+	    {0x00,	EN0_RCNTLO},	/* Clear the count regs. */
+	    {0x00,	EN0_RCNTHI},
+	    {0x00,	EN0_IMR},	/* Mask completion irq. */
+	    {0xFF,	EN0_ISR},
+	    {E8390_RXOFF, EN0_RXCR},	/* 0x20  Set to monitor */
+	    {E8390_TXOFF, EN0_TXCR},	/* 0x02  and loopback mode. */
+	    {32,	EN0_RCNTLO},
+	    {0x00,	EN0_RCNTHI},
+	    {0x00,	EN0_RSARLO},	/* DMA starting at 0x0000. */
+	    {0x00,	EN0_RSARHI},
+	    {E8390_RREAD + E8390_START, E8390_CMD},
+	};
+	for (i = 0; i < sizeof(program_seq)/sizeof(program_seq[0]); i++) {
+	    outb_p(program_seq[i].value, nic_base + program_seq[i].offset);
+	}
+    }
+    for(i = 0; i < 32 /*sizeof(SA_prom)*/; i+=2) {
+		SA_prom[i] = inb(nic_base + NE_DATAPORT);
+		SA_prom[i+1] = inb(nic_base + NE_DATAPORT);
+		if (SA_prom[i] != SA_prom[i+1])
+			wordlength = 1;
+    }
+
+	/* PAGE0[READ]:07 (ISR) */
+    if (wordlength == 2) {
+		/* We must set the 8390 for word mode. */
+		outb_p(0x49, nic_base + EN0_DCFG);
+		/* We used to reset the ethercard here, but it doesn't seem
+		   to be necessary. */
+		/* Un-double the SA_prom values. */
+		for (i = 0; i < 16; i++) {
+			SA_prom[i] = SA_prom[i+i];
+		}
+    }
+
+    for(i = 0; i < ETHER_ADDR_LEN; i++) {
+		dev->dev_addr[i] = SA_prom[i];
+    }
+    dev->addr_len = ETHER_ADDR_LEN;
+
+    neX000 = (SA_prom[14] == 0x57  &&  SA_prom[15] == 0x57);
+    ctron =  (SA_prom[0] == 0x00 && SA_prom[1] == 0x00 && SA_prom[2] == 0x1d);
+    dlink =  (SA_prom[0] == 0x00 && SA_prom[1] == 0xDE && SA_prom[2] == 0x01);
+    dfi   =  (SA_prom[0] == 'D' && SA_prom[1] == 'F' && SA_prom[2] == 'I');
+
+    /* Set up the rest of the parameters. */
+    if (neX000 || dlink || dfi) {
+		if (wordlength == 2) {
+			name = dlink ? "DE200" : "NE2000";
+			start_page = NESM_START_PG;
+			stop_page = NESM_STOP_PG;
+		}
+		else {
+			name = dlink ? "DE100" : "NE1000";
+			start_page = NE1SM_START_PG;
+			stop_page = NE1SM_STOP_PG;
+		}
+    }
+    else if (ctron) {
+		name = "Cabletron";
+		start_page = 0x01;
+		stop_page = (wordlength == 2) ? 0x40 : 0x20;
+    }
+    else {
+		printf(" not found.\n");
+		return 0;
+    }
+
+/*    ei_status.name = name;
+    ei_status.tx_start_page = start_page;
+    ei_status.stop_page = stop_page;
+    ei_status.word16 = (wordlength == 2);
+
+    ei_status.rx_start_page = start_page + TX_PAGES;
+
+    ei_status.reset_8390 = &ne_reset_8390;
+    ei_status.block_input = &ne_block_input;
+    ei_status.block_output = &ne_block_output;
+*/	return 0;
 }
 
 static int stop(net_device_t *dev) {
@@ -288,15 +397,22 @@ static int __init unit_init(void) {
 		return -1;
 	}
 
+	probe(nic);
 
 	/* Back to page 0 */
-	out8(NE_PAGE0_STOP, NE_CMD);
+	out8(NE_PAGE0_STOP, nic->base_addr + NE_CMD);
 
 	/* That's for the card area, however we must also set the mac
 	 * in the card ram as well, because that's what the
 	 * qemu emulation actually uses to determine if the packet's
 	 * bound for this NIC.
 	 */
+	//	mac = (uint8_t*) ETHER_MAC;
+	//	for (uint32_t i = 0; i < 6; i++) {
+	//		copy_data_to_card(i * 2, mac, 1);
+	//		mac++;
+	//	}
 
+	//	rx_disable();
 	return 0;
 }

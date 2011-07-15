@@ -31,8 +31,10 @@
 #define EN0_RCNTHI      0x0b /* Remote byte count reg */
 
 #define EN0_RXCR        0x0c /* RX configuration reg */
-#define EN0_TXCR        0x0d /* TX configuration reg */
-#define EN0_DCFG        0x0e /* Data configuration reg */
+#define EN0_TXCR        0x0d /* TX configuration reg WR */
+#define EN0_COUNTER0	0x0d /* Rcv alignment error counter RD */
+#define EN0_DCFG        0x0e /* Data configuration reg WR */
+#define EN0_COUNTER1    0x0e /* Rcv CRC error counter RD */
 #define EN0_IMR         0x0f /* Interrupt mask reg */
 
 /* Bits in EN0_ISR - Interrupt status register */
