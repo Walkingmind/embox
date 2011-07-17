@@ -30,52 +30,33 @@ public class EmDslJavaValidator extends AbstractEmDslJavaValidator {
 
 	@Check
 	public void checkSourseFileExistsInSameDir(Source s) {
-		String filename = s.getFilename();
-		// * ? [|||] dl*fk.[c|h]
+		String fileName = s.getFilename();
+
+		if (checkFileNameContainsGlob(fileName)) {
+			return;
+		}
 
 		Resource r = s.eResource();
 		ResourceSet rSet = r.getResourceSet();
 		URIConverter uriConverter = rSet.getURIConverter();
 
 		URI uri = r.getURI();
-		uri = uri.appendSegments(new String[] { "..", filename });
+		uri = uri.appendSegments(new String[] { "..", fileName });
 		if (!uriConverter.exists(uri, singletonMap(ATTRIBUTE_DIRECTORY, false))) {
-			warning("File " + filename + " does not exist",
+			warning("File " + fileName + " does not exist",
 					EmDslPackage.Literals.SOURCE__FILENAME);
 		}
 
 	}
 
-	private boolean find(String name, String directory) {
-		File dir = new File(directory);
-		assert dir.exists() : "directory " + directory + " is assumed to exist";
-		if (dir.isDirectory()) {
-			File[] l = dir.listFiles();
-			for (int i = 0; i < l.length; i++) {
-				if (name.equals(l[i].getName())) {
-					return true;
-				}
-			}
-		}
-		return false;
-
-	}
-
-	private boolean search(String name, File dir) {
-		if (!dir.isDirectory()) {
-			return false;
-		}
-		File[] l = dir.listFiles();
-		for (int i = 0; i < l.length; i++) {
-			File cur = l[i];
-			if (cur.getName().equals(name)) {
+	private boolean checkFileNameContainsGlob(String fileName) {
+		char[] name = fileName.toCharArray();
+		for (int i = 0; i < name.length; i++) {
+			char c = name[i];
+			if (c == '*' || c == '?' || c == '[' || c == ']') {
 				return true;
 			}
-			if (cur.isDirectory()) {
-				return search(name, l[i]);
-			}
 		}
 		return false;
 	}
-
 }
