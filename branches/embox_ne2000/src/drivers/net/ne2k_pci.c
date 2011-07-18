@@ -54,6 +54,11 @@ EMBOX_UNIT_INIT(unit_init);
 #define NESM_START_PG   0x40 /* First page of TX buffer */
 #define NESM_STOP_PG    0x80 /* Last page +1 of RX ring */
 
+char *name;
+int word16;
+unsigned char tx_start_page, rx_start_page, tx_stop_page;
+unsigned long ba;
+
 static inline void rx_enable(void) {
 	out8(NE_PAGE0_STOP,   NE_CMD);
 	out8(RX_BUFFER_START, EN0_BOUNDARY);
@@ -158,9 +163,9 @@ static size_t pkt_receive(struct sk_buff *skb) {
  */
 static int start_xmit(struct sk_buff *skb, struct net_device *dev) {
 	unsigned long nic_base = dev->base_addr;
-    unsigned int i, count = skb->len;
+    int start_page = tx_start_page;
     unsigned char *buf = skb->data;
-    int start_page = 16 * 1024;
+    unsigned int i, count = skb->len;
 
     /* We should already be in page 0, but to be safe... */
     out8(E8390_PAGE0 + E8390_START + E8390_NODMA, nic_base + NE_CMD);
@@ -173,8 +178,7 @@ static int start_xmit(struct sk_buff *skb, struct net_device *dev) {
 
     out8(E8390_RWRITE+E8390_START, nic_base + NE_CMD);
 	for (i = 0; i < count; i++) {
-		out8(*buf, nic_base + NE_DATAPORT);
-		buf++;
+		out8(buf[i], nic_base + NE_DATAPORT);
 	}
 
     return count;
@@ -199,7 +203,7 @@ static int open(net_device_t *dev) {
 
 static int probe(net_device_t *dev) {
     unsigned char SA_prom[32];
-    char *name;
+    char *card_name;
     int i, wordlength;
     int start_page, stop_page;
     int neX000, ctron, dlink, dfi;
@@ -230,7 +234,7 @@ static int probe(net_device_t *dev) {
 	}
     }
 
-    printf("NE*000 ethercard probe at %3lx:", nic_base);
+    printf("\nNE*000 ethercard probe at %3lx:", nic_base);
 
     /* Read the 16 bytes of station address prom, returning 1 for
        an eight-bit interface and 2 for a 16-bit interface.
@@ -289,18 +293,18 @@ static int probe(net_device_t *dev) {
     /* Set up the rest of the parameters. */
     if (neX000 || dlink || dfi) {
 		if (wordlength == 2) {
-			name = dlink ? "DE200" : "NE2000";
+			card_name = dlink ? "DE200" : "NE2000";
 			start_page = NESM_START_PG;
 			stop_page = NESM_STOP_PG;
 		}
 		else {
-			name = dlink ? "DE100" : "NE1000";
+			card_name = dlink ? "DE100" : "NE1000";
 			start_page = NE1SM_START_PG;
 			stop_page = NE1SM_STOP_PG;
 		}
     }
     else if (ctron) {
-		name = "Cabletron";
+    	card_name = "Cabletron";
 		start_page = 0x01;
 		stop_page = (wordlength == 2) ? 0x40 : 0x20;
     }
@@ -308,18 +312,16 @@ static int probe(net_device_t *dev) {
 		printf(" not found.\n");
 		return 0;
     }
+    printf("(%s)", card_name);
 
-/*    ei_status.name = name;
-    ei_status.tx_start_page = start_page;
-    ei_status.stop_page = stop_page;
-    ei_status.word16 = (wordlength == 2);
+    name = name;
+    tx_start_page = start_page;
+    tx_stop_page = stop_page;
+    word16 = (wordlength == 2);
 
-    ei_status.rx_start_page = start_page + TX_PAGES;
+    rx_start_page = start_page + 12;
 
-    ei_status.reset_8390 = &ne_reset_8390;
-    ei_status.block_input = &ne_block_input;
-    ei_status.block_output = &ne_block_output;
-*/	return 0;
+	return 0;
 }
 
 static int stop(net_device_t *dev) {
@@ -374,6 +376,7 @@ static int __init unit_init(void) {
 		nic->netdev_ops = &_netdev_ops;
 		//TODO: get devfn=0x18 from pci_find_dev
 		pci_read_config32(0, 0x18, PCI_BASE_ADDR_REG_0, (uint32_t *) &nic->base_addr);
+		ba = nic->base_addr;
 		pci_read_config8(0, 0x18, PCI_INTERRUPT_LINE, (uint8_t *) &nic->irq);
 		nic->base_addr &= PCI_BASE_ADDR_IO_MASK;
 	}
