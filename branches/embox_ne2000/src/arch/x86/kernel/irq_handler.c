@@ -22,16 +22,14 @@ void irq_handler(pt_regs_t regs) {
 	if (regs.trapno >= 40) {
 		/* Send reset signal to slave. */
 		out8(PIC2_COMMAND, NON_SPEC_EOI);
-		printk("big irq\n");
+//		printf("\nirq_handler(>=40)\n");
 	}
-	if ((32 + 2) == regs.trapno) {
-		printk("irq = 2\n");
+	if (regs.trapno == 34) {
+//		printf("\nirq_handler(34)\n");
 	}
 	/* Send reset signal to master. (As well as slave, if necessary). */
 	out8(PIC1_COMMAND, NON_SPEC_EOI);
 #ifdef CONFIG_IRQ
-	if (irq != 2) {
-		irq_dispatch(regs.trapno - 32);
-	}
+	irq_dispatch(regs.trapno - 32);
 #endif
 }
