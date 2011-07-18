@@ -22,13 +22,22 @@ WILDCARD returns ecore::EString:
 		| '[' FILENAME
 		 ('|' FILENAME)* ']'
 	)+;
-
-Entity:
-	Module | Depend | Source | Require;
+terminal FLAGNAME:
+	'-' ('_' | 'A'..'Z')+
+;
 
 Package:
 	'$_PACKAGE' Assignment name=QualifiedName
 	(entities+=Entity*);
+
+Entity:
+	Module | Depend | Source | Require | CppFlag;
+
+
+CppFlag:
+	'$_CPPFLAGS' Assignment flagname=FLAGNAME
+;
+
 
 Assignment:
 	':=' | '+=' | '=';
