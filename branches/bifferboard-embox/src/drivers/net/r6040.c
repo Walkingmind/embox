@@ -100,36 +100,36 @@ static eth_desc_t *rxd_init(size_t pkt_size) {
 
 static void r6040_tx_enable(void) {
 	unsigned short tmp = in16(MCR0);
-	out8(tmp | (1 << 12), MCR0);  
+	out16(tmp | (1 << 12), MCR0);  
 }
 
 static void r6040_tx_disable(void) {
 	unsigned short tmp = in16(MCR0);
-	out8(tmp & ~(1 << 12), MCR0);    
+	out16(tmp & ~(1 << 12), MCR0);    
 }
 
 void r6040_rx_enable(void) {
 	unsigned short tmp = in16(MCR0);
-	out8(tmp | (1 << 1), MCR0);  
-//	out8(2, MCR0);
+	out16(tmp | (1 << 1), MCR0);  
+//	out16(2, MCR0);
 }
 
 static void r6040_rx_disable(void) {
-	out8(0, MCR0);  
+	out16(0, MCR0);  
 }
 
 static void r6040_set_tx_start(eth_desc_t* desc) {
 	unsigned long tmp = (unsigned long) desc;
-	out8((tmp & 0xffff), TX_START_LOW);
+	out16((tmp & 0xffff), TX_START_LOW);
 	tmp >>= 16;
-	out8((tmp & 0xffff), TX_START_HIGH);
+	out16((tmp & 0xffff), TX_START_HIGH);
 }
 
 static void r6040_set_rx_start(eth_desc_t* desc) {
 	unsigned long tmp = (unsigned long) desc;
-	out8((tmp & 0xffff), RX_START_LOW);
+	out16((tmp & 0xffff), RX_START_LOW);
 	tmp >>= 16;
-	out8((tmp & 0xffff), RX_START_HIGH);
+	out16((tmp & 0xffff), RX_START_HIGH);
 }
 #if 0
 /* The RDC interrupt handler */
@@ -182,7 +182,7 @@ void r6040_init(void) {
 
 /* Disable packet reception */
 void r6040_done(void) {
-	out8(0, MCR0);
+	out16(0, MCR0);
 }
 
 static void discard_descriptor(void) {
@@ -252,7 +252,7 @@ void r6040_tx(unsigned char* pkt, size_t length) {
 }
 
 unsigned short r6040_mdio_read(int reg, int phy) {
-	out8(MDIO_READ + reg + (phy << 8), MMDIO);
+	out16(MDIO_READ + reg + (phy << 8), MMDIO);
 	/* Wait for the read bit to be cleared */
 	while (in16(MMDIO) & MDIO_READ);
 	return in16(MMRD);
