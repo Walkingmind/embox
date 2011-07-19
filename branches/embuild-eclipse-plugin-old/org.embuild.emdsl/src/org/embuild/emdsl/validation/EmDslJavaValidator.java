@@ -12,7 +12,7 @@ import org.eclipse.xtext.resource.IResourceDescription;
 import org.eclipse.xtext.resource.IResourceDescriptions;
 import org.eclipse.xtext.validation.Check;
 import org.embuild.emdsl.emDsl.EmDslPackage;
-import org.embuild.emdsl.emDsl.Source;
+//import org.embuild.emdsl.emDsl.Source;
 
 import com.google.inject.Inject;
 
@@ -48,27 +48,27 @@ public class EmDslJavaValidator extends AbstractEmDslJavaValidator {
 		}
 	}
 
-	@Check
-	public void checkSourseFileExistsInSameDir(Source s) {
-		String fileName = s.getFilename();
-
-		if (checkFileNameContainsGlob(fileName)) {
-			return;
-		}
-		
-		Resource r = s.eResource();
-		listVisibleResources(r);
-		
-		ResourceSet rSet = r.getResourceSet();
-		URIConverter uriConverter = rSet.getURIConverter();
-
-		URI uri = r.getURI();
-		uri = uri.appendSegments(new String[] { "..", fileName });
-		if (!uriConverter.exists(uri, singletonMap(ATTRIBUTE_DIRECTORY, false))) {
-			warning("File " + fileName + " does not exist",
-					EmDslPackage.Literals.SOURCE__FILENAME);
-		}
-	}
+//	@Check
+//	public void checkSourseFileExistsInSameDir(Source s) {
+//		String fileName = s.getFilename();
+//
+//		if (checkFileNameContainsGlob(fileName)) {
+//			return;
+//		}
+//		
+//		Resource r = s.eResource();
+//		listVisibleResources(r);
+//		
+//		ResourceSet rSet = r.getResourceSet();
+//		URIConverter uriConverter = rSet.getURIConverter();
+//
+//		URI uri = r.getURI();
+//		uri = uri.appendSegments(new String[] { "..", fileName });
+//		if (!uriConverter.exists(uri, singletonMap(ATTRIBUTE_DIRECTORY, false))) {
+//			warning("File " + fileName + " does not exist",
+//					EmDslPackage.Literals.SOURCE__FILENAME);
+//		}
+//	}
 
 	private boolean checkFileNameContainsGlob(String fileName) {
 		char[] name = fileName.toCharArray();

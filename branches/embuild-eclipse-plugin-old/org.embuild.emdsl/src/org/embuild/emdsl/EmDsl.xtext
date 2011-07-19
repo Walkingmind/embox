@@ -1,58 +1,72 @@
 grammar org.embuild.emdsl.EmDsl with org.eclipse.xtext.common.Terminals
 
 import "http://www.eclipse.org/emf/2002/Ecore" as ecore
-
 generate emDsl "http://www.embuild.org/emdsl/EmDsl"
 
 Model:
-	Package;
+	Package?
+	(entities+=Entity)*;
+
+terminal ML_COMMENT:
+	'#/##'->'##/#';
 
 terminal SL_COMMENT:
 	'#' !('\n' | '\r')* ('\r'? '\n')?;
 
-terminal ML_COMMENT:
-	(SL_COMMENT)+;
-
 FILENAME:
-	 ID | '-' | '.'
-;
+	ID | '-' | '.';
+
 WILDCARD returns ecore::EString:
 	(FILENAME
-		| '?' | '*'
-		| '[' FILENAME
-		 ('|' FILENAME)* ']'
-	)+;
-terminal FLAGNAME:
-	'-' ('_' | 'A'..'Z')+
-;
+	| '?' | '*'
+	| '[' FILENAME
+	('|' FILENAME)* ']')+;
 
-Package:
-	'$_PACKAGE' Assignment name=QualifiedName
-	(entities+=Entity*);
+OTHER:
+	('_' | '$' | '/' | ',' | '\\' | '(' | ')' | WILDCARD)+;
 
 Entity:
-	Module | Depend | Source | Require | CppFlag;
+	Subdir | Module | Flag | Api;
 
+Package:
+	'$_PACKAGE' Assignment name=QualifiedName;
 
-CppFlag:
-	'$_CPPFLAGS' Assignment flagname=FLAGNAME
-;
+Subdir:
+	'SUBDIRS' Assignment OTHER;
 
+FlagModifier:
+	'$_LDFLAGS' | '$_CPPFLAGS';
 
-Assignment:
-	':=' | '+=' | '=';
+Flag:
+	FlagModifier Assignment flagname=OTHER;
 
-Require:
-	'$_REQUIRES-' (superType=[Module|QualifiedName]) Assignment name=[Module|QualifiedName];
+Api:
+	'$_APIS' Assignment name=QualifiedName;
+
+ModuleModifier:
+	'$_MODS' | '$MODS_CORE';
 
 Module:
-	'$_MODS' Assignment name=ID;
+	ModuleModifier Assignment name=ID
+	(properties+=Property)*;
 
-Depend:
-	'$_DEPS-' (subject=[Module|QualifiedName]) Assignment module=[Module|QualifiedName];
+Property:
+	ModsProperty | SrcProperty | ApiProperty;
 
-Source:
+PropertyModifier:
+	'$_REQUIRES-' | '$_DEPS-';
+
+ModsProperty:
+	PropertyModifier (subject=[Module|QualifiedName]) Assignment module=[Module|QualifiedName];
+
+SrcProperty:
 	'$_SRCS-' (subject=[Module|QualifiedName]) Assignment filename=WILDCARD;
+
+ApiProperty:
+	'$_PROVIDES-' (subject=[Module|QualifiedName]) Assignment api=[Api|QualifiedName];
 
 QualifiedName:
 	ID ('.' ID)*;
+
+Assignment:
+	':=' | '+=' | '=';
