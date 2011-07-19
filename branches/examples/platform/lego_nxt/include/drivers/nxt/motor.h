@@ -5,7 +5,7 @@
  * @details NXT motor's interface includes functions for work  both with motor
  *          power and tachometer sensors. NXT brick has three motor's port A, B
  *          and C. First of all you should get motor's descriptor for required
- *          port (#NXT_PORT_A, #NXT_PORT_B and #NXT_PORT_C). Then you can use
+ *          port (NXT_PORT_A, NXT_PORT_B and NXT_PORT_C). Then you can use
  *          function #nxt_motor_set_power for start motor or functions
  *          #nxt_motor_tacho_set_counter and #nxt_motor_tacho_get_counter
  *
