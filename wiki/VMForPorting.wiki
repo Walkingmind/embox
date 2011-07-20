@@ -1,0 +1,35 @@
+#summary Names Virtual Machines or script language interpreter for porting
+= KVM =
+Google, register for a link (because of license)
+
+Kilobyte Virtual Machine (Java CLDC 1.1). First candidate for porting. 
+ * + Clean code.
+ * + Porting seems simple.
+ * - License forbid publication (can't submit in svn rep)
+
+= PhoneMe (Monty VM) =
+http://java.net/projects/phoneme
+
+ * +- full feature Java CLDC implementation
+ * - too big 
+
+= eLua = 
+http://www.eluaproject.net/
+Lua interpreter for embedded system. http://www.eluaproject.net/
+ * - intended for no OS purpose (Lack of general functions such as print)
+
+= Python on chip = 
+http://code.google.com/p/python-on-a-chip/
+Little python
+ * - intended for no OS purpose (Lack of general functions such as print)
+
+= TinyPython =
+http://code.google.com/p/tinypy/downloads/list
+ * + small (~80 kb)
+ * - depends on filesystem alot IMHO
+
+= TinyScheme = 
+http://tinyscheme.sourceforge.net/home.html
+
+ * + small
+ * + simple! (one C-file)
