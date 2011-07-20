@@ -71,6 +71,10 @@ ARM Cross-compiler for Windows:
  * [http://www.gnuarm.com/files.html gnuarm]
  * [http://www.gnuarm.com/bu-2.17_gcc-4.1.1-c-c++_nl-1.14.0_gi-6.5.exe bu-2.17_gcc-4.1.1-c-c++_nl-1.14.0_gi-6.5.exe]
 
+i486 ELF Compiler for Windows:
+
+ * [http://embox.googlecode.com/files/i486-elf-gcc-4.4.3-cygwin.rar i486-elf-gcc-4.4.3-cygwin.rar]
+
 Others:
 
  * [http://embox.googlecode.com/files/cross-arm-elf-gdb-7.1-1-i686.pkg.tar.xz cross-arm-elf-gdb-7.1-1-i686.pkg.tar.xz]
