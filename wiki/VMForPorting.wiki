@@ -33,3 +33,10 @@ http://tinyscheme.sourceforge.net/home.html
 
  * + small
  * + simple! (one C-file)
+
+= Lisp5000 = 
+http://code.google.com/p/lisp5000/
+Clean version of lisp500.
+
+* + small (30 kb C-file)
+* + simple (there is no need even in files) 
