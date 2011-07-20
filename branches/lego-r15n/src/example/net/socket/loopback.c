@@ -68,7 +68,7 @@ static int run(int argc, char **argv) {
 	 * addr - address of receiver
 	 * addr_size - size of address
 	 *
-	 * function returns 0 if creation is success
+	 * function returns 0 if sending is success
 	 * */
 	if (0 > (sendto(sock, msg_send, msg_size, 0, (struct sockaddr *) &addr, addr_size))) {
 		/* if transmission was failed report about it and exit from test */
@@ -104,7 +104,7 @@ static int run(int argc, char **argv) {
 	/** close of socket
 	 * sock - identifier of socket
 	 *
-	 * function returns 0 if creation is success
+	 * function returns 0 if receiving is success
 	 * */
 	if (0 > close(sock)) {
 		/* if close was failed report about it and exit from test */
