@@ -165,6 +165,13 @@ qemu -nographic -vga none ...
 }}}
 Ctrl-A+x for exit.
 
+=== Kernel modus ===
+
+# Start qemu without GRUB
+{{{
+qemu -kernel path/embox
+}}}
+
 == Bochs ==
 
  # Create hd0.img (as stated above)
