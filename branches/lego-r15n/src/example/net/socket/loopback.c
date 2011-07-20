@@ -86,7 +86,7 @@ static int run(int argc, char **argv) {
 	 * addr - address of sender
 	 * addr_size - size of address
 	 *
-	 * function returns 0 if creation is success
+	 * function returns 0 if receiving is success
 	 * */
 	if (0 > (recvfrom(sock,
 			&msg_recv,
@@ -104,7 +104,7 @@ static int run(int argc, char **argv) {
 	/** close of socket
 	 * sock - identifier of socket
 	 *
-	 * function returns 0 if receiving is success
+	 * function returns 0 if closing is success
 	 * */
 	if (0 > close(sock)) {
 		/* if close was failed report about it and exit from test */
