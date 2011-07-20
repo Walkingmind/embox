@@ -1,6 +1,6 @@
 /**
  * @file
- * @brief Example demonstrate the work of sockets and loopback interface
+ * @brief Example demonstrates the work of sockets and loopback interface
  *
  * @date 29.03.11
  * @author Dmitry Zubarevich
@@ -44,8 +44,8 @@ static int run(int argc, char **argv) {
 		TRACE("Can't create socket");
 		return 0;
 	} else {
-		/* if sending was success print sent message */
-		TRACE("It was sent message: %s", msg_send);
+		/* if creation was success print message about it */
+		TRACE("Socket was created");
 	}
 
 	/* define of address to send and receive of message */
@@ -74,6 +74,9 @@ static int run(int argc, char **argv) {
 		/* if transmission was failed report about it and exit from test */
 		TRACE("Can't send message");
 		return 0;
+	} else {
+		/* if sending was success print sent message */
+		TRACE("It was sent message: %s", msg_send);
 	}
 
 	/** receiving of test message
