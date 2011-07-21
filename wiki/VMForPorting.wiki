@@ -39,4 +39,9 @@ http://code.google.com/p/lisp5000/
 Clean version of lisp500.
 
  * + small (30 kb C-file)
- * + simple (there is no need even in files) 
+ * ~~+ simple (there is no need even in files)~~
+
+= LYSP = 
+http://piumarta.com/software/lysp/
+small lisp easy for extending forward own implementaion
+ * - lack of general function (seems like just only parser and integer operations)
