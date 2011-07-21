@@ -135,7 +135,7 @@ static int scan_int(char **in, int base, int widht) {
 		dst = -dst;
 	return dst;
 }
-#if 1
+#if 0
 static double scan_double(char **in, int base, int width) {
 	int neg = 0;
 	double dst = 0;
@@ -223,7 +223,7 @@ static int scan(char **in, const char *fmt, va_list args) {
 				++converted;
 			}
 				continue;
-#if 1
+#if 0
 			case 'D': {
 					double dst;
 					dst = scan_double(in,10,widht);
