@@ -29,6 +29,7 @@
 #include <stdio.h>
 #include <stdarg.h>
 #include <types.h>
+#include <fs/file.h>
 
 int __print(void (*printchar_handler)(char **str, int c),
 		char **out, const char *format, va_list args);
@@ -72,3 +73,20 @@ int sprintf(char *out, const char *format, ...) {
 
 	return ret;
 }
+
+
+int fprintf(FILE *stream, const char *format, ...) {
+	int ret;
+	char buff[16];
+	va_list args;
+
+	va_start(args, format);
+	ret = sprintf(buff, format, args);
+	va_end(args);
+
+	if (ret != fwrite(buff, 1, ret, stream)) {
+		return -1;
+	}
+	return ret;
+}
+
