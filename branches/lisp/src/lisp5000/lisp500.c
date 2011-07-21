@@ -989,7 +989,7 @@ lval limakunbound(lval * f)
 }
 lval liref(lval * f) {
         if (o2u(f[2]) >= o2a(f[1])[0] / 256 + 2)
-                //write(1, "out of bounds in iref\n", 22);
+                write(1, "out of bounds in iref\n", 22);
         return ((lval *) (f[1] & ~3))[o2u(f[2])] & ~4;
 }
 lval setfiref(lval * f) {
@@ -1459,7 +1459,7 @@ lval lread(lval * g) {
                 fscanf(ins, "%lf", &d);
 #else 
 		int i;
-		scanf(ins, "%d", &i);
+		scanf("%d", &i);
 		d = (double) i;
 #endif
                 return d2o(g, d);
@@ -1610,7 +1610,7 @@ struct symbol_init symi[] = {{"NIL"}, {"T"}, {"&REST"}, {"&BODY"},
 {"CAR", lcar, 1, setfcar, 2}, {"CDR", lcdr, 1, setfcdr, 2}, {"=", lequ, -2},
 {"<", lless, -2}, {"+", lplus, -1}, {"-", lminus, -2}, {"*", ltimes, -1},
 {"/", ldivi, -2}, {"MAKE-FILE-STREAM", lmake_fs, 2}, {"HASH", lhash, 1},
-{"IERROR"}, {"GENSYM", lgensym, 0}, {"STRING", lstring, -1},
+{"IERROR"}, {"GENSYM", lgensym, 0}, {"STRING", lstring, -1}, {"FASL", NULL, 1},
 {"MAKEJ", lmakej, 2}, {"MAKEF", lmakef, 0}, {"FREF", lfref, 1},
 {"PRINT", lprint, 1}, {"GC", gc, 0}, {"CLOSE-FILE-STREAM", lclose_fs, 1},
 {"IVAL", lival, 1}, {"FLOOR", lfloor, -2}, {"READ-FILE-STREAM", lread_fs, 3},
@@ -1619,5 +1619,5 @@ struct symbol_init symi[] = {{"NIL"}, {"T"}, {"&REST"}, {"&BODY"},
 {"CHAR-CODE", lchar_code, 1}, {"*STANDARD-INPUT*"}, {"*STANDARD-OUTPUT*"},
 {"*ERROR-OUTPUT*"}, {"*PACKAGES*"}, {"STRING=", lstring_equal, 2},
 {"IMAKUNBOUND", limakunbound, 2}, {"EVAL", leval, -2}, {"JREF", ljref, 2, setfjref, 3},
-/*{"UNAME", luname, 0}*/};
+{"RUN-PROGRAM", NULL, -2}, {"UNAME", NULL, 0}};
 
