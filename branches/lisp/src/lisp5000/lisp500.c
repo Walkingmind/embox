@@ -4,31 +4,29 @@
 
 #include <ctype.h>
 #include <errno.h>
-//#include <fcntl.h>
 #include <util/math.h>
 #include <setjmp.h>
 #include <stdarg.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+
+#include <embox/cmd.h>
+
 #ifdef __MACH__
 #define setjmp(e) sigsetjmp(e, 0)
 #define longjmp siglongjmp
 #endif
-#ifdef _WIN32
-#include <windows.h>
-#define X __declspec(dllexport)
-#else
 #define X
-#endif
+
+
+EMBOX_CMD(main);
 
 static const int errno = -1;
-#ifndef _WIN32
 //#include <sys/time.h>
 #include <unistd.h>
 //#include <dlfcn.h>
 //#include <sys/utsname.h>
-#endif
 
 typedef int lval;
 lval *o2c(lval o) {
@@ -1543,18 +1541,23 @@ X lval fasr(lval * f, lval * p, int pz, lval * s, lval * sp, int sz, lval * c,
 }
 #endif
 
+#define POOL_SIZE (8 * 1024 * 1024)
+#define STACK_SIZE (256 * 1024)
+static uint8_t lisp_pool[POOL_SIZE];
+static uint8_t lisp_stack[STACK_SIZE];
+
 int main(int argc, char *argv[])
 {
         lval *g;
         int i;
         lval sym;
         memory_size = 4 * 2048 * 1024;
-        memory = malloc(memory_size);
+        memory = &lisp_pool; 
         memf = memory;
         memset(memory, 0, memory_size);
         memf[0] = 0;
         memf[1] = memory_size / 4;
-        stack = malloc(256 * 1024);
+        stack = &lisp_stack; 
         memset(stack, 0, 256 * 1024);
         g = stack + 5;
         pkg = mkp(g, "CL", "COMMON-LISP");
@@ -1570,7 +1573,7 @@ int main(int argc, char *argv[])
                         o2a(sym)[6] = ma(g, 5, 212, ms(g, 3, 212, symi[i].setfun, 0, -1), 8, 0, 0, sym);
                 o2a(sym)[7] = i << 3;
         }
-        kwp = mkp(g, "", "KEYWORD");
+        kwp = mkpmalloc(256 * 1024);(g, "", "KEYWORD");
         o2a(symi[81].sym)[4] = pkgs = l2(g, kwp, pkg);
 #ifdef _WIN32
         o2a(symi[78].sym)[4] = ms(g, 3, 116, 1, GetStdHandle(STD_INPUT_HANDLE), 0, 0);
