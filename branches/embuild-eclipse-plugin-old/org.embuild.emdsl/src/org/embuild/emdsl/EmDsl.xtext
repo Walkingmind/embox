@@ -16,10 +16,10 @@ terminal SL_COMMENT:
 terminal ML_COMMENT:
 	SL_COMMENT+;
 
-Filename returns ecore::EString:
+Filename:
 	(ID | '-' | '.')+;
 
-FilenameWithWildcards returns ecore::EString:
+FilenameWithWildcards:
 	(Filename
 	| '?' | '*'
 	| '[' Filename ('|' Filename)* ']')+;
