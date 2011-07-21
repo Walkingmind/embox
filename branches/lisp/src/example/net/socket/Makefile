@@ -1,6 +1,0 @@
-$_MODS          += loopback
-
-$_SRCS-loopback += loopback.c
-$_DEPS-loopback += embox.net.socket
-$_DEPS-loopback += embox.net.eth
-$_DEPS-loopback += embox.net.arp
