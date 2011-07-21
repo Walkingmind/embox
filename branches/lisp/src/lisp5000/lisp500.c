@@ -22,9 +22,9 @@
 #define X
 #endif
 
-int errno = -1;
+static const int errno = -1;
 #ifndef _WIN32
-#include <sys/time.h>
+//#include <sys/time.h>
 #include <unistd.h>
 //#include <dlfcn.h>
 //#include <sys/utsname.h>
@@ -918,7 +918,7 @@ lval lldb(lval * f) {
 lval lfloor(lval * f, lval * h) {
         double n = o2d(f[1]);
         double d = h - f > 2 ? o2d(f[2]) : 1;
-        double q = floor(n / d);
+        double q = n / d;
 
         return mvalues(l2(f, d2o(f, q), d2o(f, n - q * d)));
 }
@@ -1451,8 +1451,17 @@ lval lread(lval * g) {
                 return list2(g, 39);
         } ungetc(c, ins);
         if (isdigit(c)) {
+/* XXX not handling double!
+ * XXX not handling read from file
+ * XXX more XXX =) */
                 double d;
+#if 0
                 fscanf(ins, "%lf", &d);
+#else 
+		int i;
+		scanf(ins, "%d", &i);
+		d = (double) i;
+#endif
                 return d2o(g, d);
         } if (c == ':')
                 getnws();
