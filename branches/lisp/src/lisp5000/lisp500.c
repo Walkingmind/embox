@@ -1457,7 +1457,7 @@ lval lread(lval * g) {
                 fscanf(ins, "%lf", &d);
 #else 
 		int i;
-		scanf("%d", &i);
+		fscanf(ins, "%d", &i);
 		d = (double) i;
 #endif
                 return d2o(g, d);
@@ -1573,7 +1573,7 @@ int main(int argc, char *argv[])
                         o2a(sym)[6] = ma(g, 5, 212, ms(g, 3, 212, symi[i].setfun, 0, -1), 8, 0, 0, sym);
                 o2a(sym)[7] = i << 3;
         }
-        kwp = mkpmalloc(256 * 1024);(g, "", "KEYWORD");
+        kwp = mkp(g, "", "KEYWORD");
         o2a(symi[81].sym)[4] = pkgs = l2(g, kwp, pkg);
 #ifdef _WIN32
         o2a(symi[78].sym)[4] = ms(g, 3, 116, 1, GetStdHandle(STD_INPUT_HANDLE), 0, 0);

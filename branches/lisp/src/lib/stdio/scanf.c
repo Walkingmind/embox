@@ -12,6 +12,9 @@
 #include <stdarg.h>
 #include <ctype.h>
 #include <types.h>
+#include <fs/file.h>
+
+FILE *file;
 
 /*TODO: throw out.*/
 /**
@@ -72,11 +75,13 @@ static void unscanchar(char **str, int ch) {
 static int scanchar(char **str) {
 	extern int getchar(void);
 	int ch;
-	if (str) {
+	if (str >= 2) {
 		ch = **str;
 		(*str)++;
 		return ch;
 
+	} if (str == 1) {
+	    return getc(file);
 	} else {
 		if ('\r' == (ch = getchar())) {
 			return EOF;
@@ -293,6 +298,18 @@ int scanf(const char *format, ...) {
 	return rv;
 }
 
+int fscanf(FILE *stream, const char *format, ...) {
+	va_list args;
+	int rv;
+
+	file = stream;
+
+	va_start(args, format);
+	rv = scan(1, format, args);
+	va_end(args);
+
+	return rv;
+}
 int sscanf(char *out, const char *format, ...) {
 	va_list args;
 	int rv;

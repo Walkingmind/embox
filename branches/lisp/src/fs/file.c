@@ -30,25 +30,34 @@ static LIST_HEAD(fd_cache);
 
 #define fd_to_head(file) (uint32_t)(file - offsetof(lsof_map_t, fd))
 
-void lsof_map_init(void) {
-	size_t i;
-	for (i = 0; i < ARRAY_SIZE(lsof_pool); i++) {
-		list_add((struct list_head *) &lsof_pool[i], &free_list);
-	}
-}
-static int file_id = 10;
-static int cache_fd(const char *path, FILE *file) {
+static int __cache_fd(const char *path, FILE *file, int fid) {
 	lsof_map_t *head;
-	int fid = file_id++;
 	if (list_empty(&free_list)) {
 		return -1;
 	}
 	head = (lsof_map_t *) free_list.next;
 	head->fd = file;
 	head->id = fid;
+	head->unchar = EOF;
 	strcpy((void*) head->path, path);
 	list_move((struct list_head*) head, &fd_cache);
 	return fid;
+}
+
+void lsof_map_init(void) {
+	size_t i;
+	for (i = 0; i < ARRAY_SIZE(lsof_pool); i++) {
+		list_add((struct list_head *) &lsof_pool[i], &free_list);
+	}
+	__cache_fd(NULL, 0, 0);
+	__cache_fd(NULL, 1, 1);
+	__cache_fd(NULL, 2, 2);
+}
+
+static int file_id = 10;
+
+static int cache_fd(const char *path, FILE *file) {
+	return __cache_fd(path, file, file_id++);
 }
 
 static void uncache_fd(FILE *file) {
@@ -63,7 +72,7 @@ static lsof_map_t *find_fd(FILE *file) {
 			return (lsof_map_t *) p;
 		}
 	}
-	TRACE("File maybe not opened\n");
+//	TRACE("File maybe not opened\n");
 	return NULL;
 }
 int fileno(FILE *stream) {
@@ -82,17 +91,20 @@ FILE *file_struct(int fd) {
 int getc(FILE *stream) {
 	char buf;
 	lsof_map_t *map = find_fd(stream);
-	if (((int) (buf = map->unchar) )!= EOF) {
+	if (map != NULL && ((int) (buf = map->unchar) )!= EOF) {
 		map->unchar = EOF;
 		return buf;
 	}
 	fread(&buf, 1, 1, stream);
+	putchar(buf);
 	return (int) buf;
 }
 
 int ungetc(int c, FILE *stream) {
 	lsof_map_t *map = find_fd(stream);
-	map->unchar = (char) c;
+	if (map != NULL) {
+	    map->unchar = (char) c;
+	}
 	return c;
 }
 
@@ -148,8 +160,16 @@ size_t fwrite(const void *buf, size_t size, size_t count, FILE *file) {
 	node_t *nod;
 	file_system_driver_t *drv;
 	nod = (node_t *) file;
-	if (NULL == nod) {
-		return -EBADF;
+	if ((int) file == 1 || (int) file == 2)  {
+	    char *cbuf = (char *) buf;
+	    int i, j;
+	    for (i = 0; i < count; i++) {
+		for (j = 0; j < size; j++) {
+		    putchar(*cbuf);
+		    cbuf++;
+		}
+	    }
+	    return count;
 	}
 	drv = nod->fs_type;
 	if (NULL == drv->file_op->fwrite) {
@@ -173,6 +193,20 @@ size_t read(int fd, void *buf, size_t count) {
 
 /* FIXME doesn't handle ungetch */
 size_t fread(void *buf, size_t size, size_t count, FILE *file) {
+	if (file == 0)  {
+	    char *cbuf = (char *) buf;
+	    int i, j;
+	    for (i = 0; i < count; i++) {
+		for (j = 0; j < size; j++) {
+		    *cbuf = getchar();
+		    if (*cbuf == EOF) {
+			return ((int) (cbuf - (char *) buf)) / size;
+		    }
+		    cbuf++;
+		}
+	    }
+	    return count;
+	}
 	node_t *nod;
 	file_system_driver_t *drv;
 	nod = (node_t *) file;
