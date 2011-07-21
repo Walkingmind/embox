@@ -1,0 +1,18 @@
+/**
+ * @file
+ *
+ * @date 15.03.10
+ * @author Anton Bondarev
+ * @author Alexander Batyukov
+ */
+
+#include <types.h>
+#include <hal/test/irq_core.h>
+
+void testirq_save_status(uint32_t *status) {
+
+}
+
+void testirq_restore_status(uint32_t *status) {
+
+}
