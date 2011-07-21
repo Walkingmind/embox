@@ -5,65 +5,160 @@ generate emDsl "http://www.embuild.org/emdsl/EmDsl"
 
 Model:
 	Package?
-	(entities+=Entity)*;
+	(units+=Unit)*;
 
-terminal ML_COMMENT:
+terminal IGNORE:
 	'#/##'->'##/#';
 
 terminal SL_COMMENT:
 	'#' !('\n' | '\r')* ('\r'? '\n')?;
 
-FILENAME:
-	ID | '-' | '.';
+terminal ML_COMMENT:
+	SL_COMMENT+;
 
-WILDCARD returns ecore::EString:
-	(FILENAME
+Filename returns ecore::EString:
+	(ID | '-' | '.')+;
+
+FilenameWithWildcards returns ecore::EString:
+	(Filename
 	| '?' | '*'
-	| '[' FILENAME
-	('|' FILENAME)* ']')+;
+	| '[' Filename ('|' Filename)* ']')+;
 
-OTHER:
-	('_' | '$' | '/' | ',' | '\\' | '(' | ')' | WILDCARD)+;
+TextWithoutParens:
+	(ID | INT
+	| '+' | '-' | '*' | '/' | '='
+	| '.' | '|' | '%' | ':' | ';' | '@' | ','
+	| '"' | "'" | '`' | '&' | '\\' | '!' | '?' | '$'
+	| '(' | ')'
+	| '<' | '>'
+	| '[' | ']'
+	| '{' | '}' | 'SUBDIRS' | STRING)+;
 
-Entity:
-	Subdir | Module | Flag | Api;
+Text:
+	(TextWithoutParens)+;
+
+ContLine:
+	'\\\n' | '\\\r\n';
+
+MakeText:
+	Text;
+
+Unit:
+	Ifdef | IGNORE | Subdir | EntityDef | PropAssign | Flags;
+
+Ifdef:
+	('ifdef' | 'ifndef') condition=ID
+	(units+=Unit)*
+	'endif';
+
+EntityDef:
+	ModsDef | ApisDef | LibsDef;
 
 Package:
 	'$_PACKAGE' Assignment name=QualifiedName;
 
-Subdir:
-	'SUBDIRS' Assignment OTHER;
-
-FlagModifier:
-	'$_LDFLAGS' | '$_CPPFLAGS';
-
-Flag:
-	FlagModifier Assignment flagname=OTHER;
+ApiQN:
+	QualifiedName;
 
 Api:
-	'$_APIS' Assignment name=QualifiedName;
+	name=ApiQN;
 
-ModuleModifier:
-	'$_MODS' | '$MODS_CORE';
+ApisDef:
+	'$_APIS' Assignment (apis+=Api)+;
 
-Module:
-	ModuleModifier Assignment name=ID
-	(properties+=Property)*;
+LibQN:
+	Filename;
 
-Property:
-	ModsProperty | SrcProperty | ApiProperty;
+Lib:
+	name=LibQN;
 
-PropertyModifier:
-	'$_REQUIRES-' | '$_DEPS-';
+LibsDef:
+	'$_LIBS' Assignment (libs+=Lib)+;
 
-ModsProperty:
-	PropertyModifier (subject=[Module|QualifiedName]) Assignment module=[Module|QualifiedName];
+ModQN:
+	QualifiedName;
 
-SrcProperty:
-	'$_SRCS-' (subject=[Module|QualifiedName]) Assignment filename=WILDCARD;
+Mod:
+	name=ModQN;
 
-ApiProperty:
-	'$_PROVIDES-' (subject=[Module|QualifiedName]) Assignment api=[Api|QualifiedName];
+ModsDef:
+	('$_MODS' | '$_MODS_CORE') Assignment (mods+=Mod)+;
+
+Prop:
+	DepsProp | SrcsProp | ProvidesProp | RequiresProp | DetailsProp | SubsProp | UsesProp | FlagsProp | BriefProp;
+
+PropAssign:
+	DepsPropAssign | SrcsPropAssign | ProvidesPropAssign | RequiresPropAssign | SubsPropAssign | UsesPropAssign |
+	FlagsPropAssign | BriefPropAssign | DetailsPropAssign;
+
+DepsProp:
+	'$_DEPS-' subject=[Mod|ModQN];
+
+DepsPropAssign:
+	prop=DepsProp Assignment (ContLine? mods+=[Mod|ModQN])+;
+
+SrcsProp:
+	'$_SRCS-' subject=[Lib|LibQN] |
+	'$_SRCS-' subject=[Mod|ModQN];
+
+SrcsPropAssign:
+	prop=SrcsProp Assignment (ContLine? filenames+=FilenameWithWildcards)+;
+
+UsesProp:
+	'$_USES-' subject=[Lib|LibQN] |
+	'$_USES-' subject=[Mod|ModQN];
+
+UsesPropAssign:
+	prop=UsesProp Assignment (ContLine? libs+=[Lib|LibQN])+;
+
+SubsProp:
+	'$_SUBS-' subject=[Lib|LibQN];
+
+SubsPropAssign:
+	prop=SubsProp Assignment (ContLine? libs+=[Lib|LibQN])+;
+
+ProvidesProp:
+	'$_PROVIDES-' subject=[Mod|ModQN];
+
+ProvidesPropAssign:
+	prop=ProvidesProp Assignment (ContLine? apis+=[Api|ApiQN])+;
+
+RequiresProp:
+	'$_REQUIRES-' subject=[Mod|ModQN];
+
+RequiresPropAssign:
+	prop=RequiresProp Assignment (ContLine? apis+=[Api|ApiQN])+;
+
+BriefProp:
+	'$_BRIEF-' subject=[Mod|ModQN];
+
+BriefPropAssign:
+	prop=BriefProp Assignment Text |
+	'define' prop=BriefProp
+	Text
+	'endef';
+
+DetailsProp:
+	'$_DETAILS-' subject=[Mod|ModQN];
+
+DetailsPropAssign:
+	prop=DetailsProp Assignment Text |
+	'define' prop=DetailsProp
+	Text
+	'endef';
+
+Subdir:
+	'SUBDIRS' Assignment (MakeText)*;
+
+Flags:
+	('$_LDFLAGS' | '$_CPPFLAGS' | '$_CFLAGS') Assignment MakeText?;
+
+FlagsProp:
+	('$_CPPFLAGS-' | '$_CFLAGS-') subject=[Lib|LibQN] |
+	('$_CPPFLAGS-' | '$_CFLAGS-') subject=[Mod|ModQN];
+
+FlagsPropAssign:
+	prop=FlagsProp Assignment MakeText?;
 
 QualifiedName:
 	ID ('.' ID)*;
