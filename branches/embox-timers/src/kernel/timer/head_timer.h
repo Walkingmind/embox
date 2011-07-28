@@ -1,8 +1,8 @@
 /**
  * @file
  *
- * @date 02.09.09
- * @author Andrey Baboshin
+ * @date 15.07.10
+ * @author Fedor Burdun
  */
 
 #ifndef TIMER_IMPL_H_
@@ -14,7 +14,7 @@
 #ifndef __ASSEMBLER__
 
 struct sys_tmr {
-	struct list_head *next, *prev;
+	struct list_head *next, *prev; 
 	uint32_t   load;
 	uint32_t   cnt;
 	TIMER_FUNC handler;
