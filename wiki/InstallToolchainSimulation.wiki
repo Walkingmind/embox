@@ -160,7 +160,7 @@ gdb path/embox
 === Remote Debugging with Cygwin ===
 
  # Start qemu with GDB support
-   QEMU_BUG, QEMU uses under Win7 per default ipv6, but GDB uses ipv4.
+ QEMU_BUG, QEMU uses under Win7 per default ipv6, but GDB uses ipv4.
 {{{
 qemu -s -S -kernel path/embox -gdb tcp::1234,ipv4 
 }}}
