@@ -15,8 +15,16 @@
       * X start on startup: kernel_start
         * Advanced: Variables,Registers
       * GDB command set: standard
-      * GDB command file: <empty>
+      * GDB command file: 
       * Protocol: mi1
+
+http://embox.googlecode.com/svn/wiki/images/InstallToolchainEclipseDebugCygwin/eclipse_debug_config1.JPG
+
+http://embox.googlecode.com/svn/wiki/images/InstallToolchainEclipseDebugCygwin/eclipse_debug_config2.JPG
+
+http://embox.googlecode.com/svn/wiki/images/InstallToolchainEclipseDebugCygwin/eclipse_debug_config3.JPG
+
+http://embox.googlecode.com/svn/wiki/images/InstallToolchainEclipseDebugCygwin/eclipse_debug_config4.JPG
 
 = Start QEMU =
 
@@ -25,3 +33,5 @@
 }}}
 
 = click Debug =
+
+http://embox.googlecode.com/svn/wiki/images/InstallToolchainEclipseDebugCygwin/eclipse_debug_config_finished.JPG
