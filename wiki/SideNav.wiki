@@ -13,6 +13,7 @@
     * [InstallToolchainSimulation Simulation]
     * [InstallToolchainOpenocdSetup Olimex JTAG]
     * [InstallToolchainEclipseDebug Debugging from Eclipse]
+      * [InstallToolchainEclipseDebugCygwin Cygwin]
   * [EMBuild Building the project]
     * [EMBuildInfrastructure Infrastructure overview]
     * [EMBuildCLI Command-line interface]
