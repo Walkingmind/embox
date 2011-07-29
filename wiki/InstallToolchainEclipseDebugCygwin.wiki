@@ -1,5 +1,5 @@
 #summary How to configure a debug session in Eclipse with QEMU.
-#labels Phase-Implementation,Phase-Deploy,Featured
+#labels Phase-Support
 
 = create Debug Config =
   * RB-click on  'C/C++ Application' ->New
