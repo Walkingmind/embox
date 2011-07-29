@@ -1,0 +1,27 @@
+#summary How to configure a debug session in Eclipse with QEMU.
+#labels Phase-Implementation,Phase-Deploy,Featured
+
+= create Debug Config =
+  * RB-click on  'C/C++ Application' ->New
+    * Project: embox
+    * Name: Qemu Embox
+    * Tab Main:
+      * Disable auto build
+      * Using GDB...Select other: 
+        * use configuration specific settings
+        * Standard GDB Process Launcher
+    * Tab Debugger:
+      * Debugger: gdbserver
+      * X start on startup: kernel_start
+        * Advanced: Variables,Registers
+      * GDB command set: standard
+      * GDB command file: <empty>
+      * Protocol: mi1
+
+= Start QEMU =
+
+{{{
+  qemu -kernel embox -s -S -gdb tcp::1234,ipv4
+}}}
+
+= click Debug =
