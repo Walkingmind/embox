@@ -31,7 +31,7 @@
       * [RuNewIOShell New IO Shell]
       * [RuShellTalking Shell Talking]
       * [RuShell_iTerminal Shell iTerminal]
-      * [Posix TTY design approach]
+      * [PosixTTyDesignApproach Posix TTY design approach]
     * Memory
       * [AlgorithmAllocationMemory Algorithm Allocation Memory]
       * [MultiPageAllocator Multi Page Allocator]
