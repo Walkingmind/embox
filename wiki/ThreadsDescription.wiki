@@ -1,137 +1,145 @@
 #summary How to work with threads in Embox.
 
-= Что наши потоки могут =
+= That our Thread can =
 
-В системе могут работать несколько потоков (не более 256, включая idle_thread), которые могут поочередно получать доступ к процессорному времени. Они обладают приоритетами и могут находиться в разных состояниях. Для них реализованы следующие механизмы: очередь сообщений, ожидание события и мьютексы.
+The system can run multiple threads (no more than 256, including idle_thread), which may in turn have access to CPU time.
+They have priorities, and may be in different states. 
+For them, provides the following mechanisms: message queues, waiting for events and mutexes. 
+[http://code.google.com/p/embox/wiki/RuSchedulers]
 
-См. также: [http://code.google.com/p/embox/wiki/RuSchedulers]
+= What is the Thread =
 
-= Что есть поток =
-
-Интерфейс потоков описан в kernel/thread.h, реализован он в thread.c. В thread.h описана сама структура потока, содержащая следующие поля 
-(исключены поля, имеющие непосредственное отношение к планировщику и совершенно ненужные пользователю):
+The interface is described in the thread kernel / thread.h, he realized in thread.c. In thread.h described the structure of 
+the stream, which contains the following fields (fields are excluded, directly related to the scheduler and absolutely 
+unnecessary to the user): 
 {{{
-struct context context; /* Контекст, соответствующий потоку. Собственно, определяет состояние и действия внутри потока */
-
-void (*run)(void); /* Функция, с которой начинается выполнение потока. */
-
-thread_id_t id; /* Идентификатор потока. Уникален для каждого существующего */
-	
-thread_priority_t priority; /* Приоритет потока. Чем он выше, тем больше/раньше/чаще поток будет работать. */
-
-thread_state_t state; /* Состояние потока. Возможные значения: 
-    THREAD_STATE_RUN    (поток выполняется или готов к выполнению), 
-    THREAD_STATE_STOP   (поток либо не запускался, либо удален),  
-    THREAD_STATE_WAIT   (поток ожидает какого-либо события), 
-    THREAD_STATE_ZOMBIE (поток остановлен, но пока не удален). */
-
-bool need_message; /* Если true, то поток ждет сообщение (state == THREAD_STATE_WAIT). */
-
-queue_t messages; /* Очередь сообщений для данного потока. */
-
-struct event msg_event; /* Это событие происходит, когда поток получает сообщение. Про события см. ниже. */
+struct context context; /* The context of the appropriate stream. In fact, determines the state and actions within a thread */
+void (*run)(void);      /* Function that starts the thread. */
+thread_id_t id;         /* ID of the stream. Unique to each of the existing */        
+thread_priority_t priority; /* The priority of the stream. The higher it is, the more / sooner / more often the thread of work. */ 
+thread_state_t state;  /* The state of thread. Possible values are:     
+  THREAD_STATE_RUN  (thread is running or ready to run),     
+  THREAD_STATE_STOP (stream or not run, or removed),      
+  THREAD_STATE_WAIT (thread waits for some event),     
+  THREAD_STATE_ZOMBIE (thread stopped, but not yet removed). */
+bool need_message;      /* If true, then the thread waits for a message (state == THREAD_STATE_WAIT). */ 
+queue_t messages;       /* The message queue for this stream. */ 
+struct event msg_event; /* This event occurs when a thread receives the message. About events, see below. */
 }}}
 
-= Необходимые функции для работы с потоками =
+= Necessary functions for threads =
 
-На примере любого из тестов для потоков можно понять, что работа с потоками сводится к следующему:
+On an example of any of the tests for the thread can be seen that threading is the following:
 
-== Создание и инициализация ==
+== Creating and initializing ==
 
-Создается указатель на поток: 
+Creates a pointer to the stream: 
 {{{
 struct thread * thread;
 }}}
-Выделяется место для стека потока (размер стека выбираете сами, на глаз, чтобы переполнения не было): 
+Allocated space for the thread's stack (stack size pick and choose by eye, so the overthread was not): 
 {{{
 #define THREAD_STACK_SIZE 0x10000
 char stack[THREAD_STACK_SIZE];
 }}}
-Описывается функция, с которой поток начнет свою работу:
+Describes the function, with which the Thread will begin its work:
 {{{
 void run() {
     printf("Hello, World!");
 }
 }}}
-Выделение нового потока и его инициализация делаются следующим образом:
+Isolation of a new thread and initializes it done as follows: 
 {{{
 thread = thread_create(run, stack + THREAD_STACK_SIZE);
 }}}
-Второй аргумент thread_create - указатель на вершину стека, выделенного под поток.
+The second argument thread_create - a pointer to the top of the stack allocated for the stream. 
 
-Добавить в планировщик поток можно, выполнив процедуру
+Add to scheduler thread by running the procedure 
 {{{
 thread_start(thread);
 }}}
-Только после этого планировщик начнет замечать этот поток и давать ему процессорное время.
+Only then will begin to notice that the scheduler thread and give it the CPU time. 
 
-(Подробнее про планировщик: [http://code.google.com/p/embox/wiki/RuSchedulers])
+(For more details about the scheduler: [http://code.google.com/p/embox/wiki/RuSchedulers]) 
 
-== Приоритеты ==
+== Priorities ==
 
-По велению сердца приоритет - неотрицательное целое число, не превосходящее 256 (вроде, более, чем достаточно). Можно поменять по заявкам.
-Приоритет только что созданного потока будет равен единице. Приоритет особого потока idle_thread (бездействие системы, в данный момент совпадает с потоком системы) равен нулю, и менять это значение не рекомендуется. Задавать другому потоку нулевой приоритет не запрещается.
+By order of priority of the heart - a non-negative integer not greater than 256 (like, more than enough). 
+Can be changed on request. Priority of the newly created stream will be equal to one. 
+Priority particular stream idle_thread (omission of at the moment coincides with the thread of the system) is zero, 
+and the change it is not recommended. 
+Asking another thread priority of zero is not prohibited. 
 
-В любой момент перед добавлением в планировщик можно изменить приоритет потока, просто написав 
-{{{thread->priority = value;}}}
-НО ВАЖНО: нельзя менять приоритет потока, добавленного в планировщик (state == THREAD_STATE_RUN). Это может привести к краху системы или гибели некоторых потоков. Чтобы изменить приоритет такого потока, безопаснее всего сделать следующее:
+At any time prior to the addition to the scheduler can change the priority of the thread, just writing 
+thread->priority = value; BUT NOTE: you can not change the thread priority that is added to the scheduler 
+(state == THREAD_STATE_RUN). This can lead to system crashes or loss of some streams. To change the priority 
+of the stream, it's safer just to do the following: 
+
+Most likely, this will work if the stream is not added to the scheduler (this limitation should be provided to scheduler_remove); 
 {{{
 thread_change_priority(thread, new_priority);
 }}}
-Скорее всего, эта функция будет работать, если поток не добавлен в планировщик (это должно обеспечиваться ограничением на _scheduler_remove);
+Most likely, this will work if the stream is not added to the scheduler (this limitation should be provided to scheduler_remove);
 
-== Удаление потоков ==
+== Removing Threads ==
 
-Потоки умирают сами, выполнив свою функцию. Также можно остановить (удалить) поток, применив к нему 
+Threads themselves are dying, having fullfilled their function. You can also stop (remove) the thread by applying to it 
 {{{
 thread_stop(thread);
 }}}
-Собственно, в конце работы потока вызывается именно эта функция. Она удаляет поток из планировщика и (рано или поздно) освобождает из под него память.
+Actually, at the end of the thread is called, this function precisely. It removes the thread from the scheduler, and 
+(eventually) release out of his memory. 
+= Additional functionality =
 
-= Дополнительная функциональность =
+== Developments ==
 
-== События ==
-
-Иногда _текущий_ поток нужно усыпить до наступления какого-то события. Например, в мьютексах и очередях сообщений используется эта возможность. Структура события описана в kernel/thread.h (была необходимость указывать в качестве поля потоку событие, происходящее при получении сообщения). Необходимые для этого функции описаны в kernel/scheduler.h (как непосредственно относящиеся к работе с планировщиком):
+Sometimes, the current thread to lull before the onset of some event. For example, a mutex and message queues used in this way. 
+The structure of the events described in the kernel / thread.h (there was a need to specify the thread field as an event 
+that occurs when a message is received).  Necessary for this function are described in the kernel / scheduler.h 
+(both directly related to work with the scheduler): 
 {{{
-int scheduler_sleep(struct event *event); /* Усыпляет текущий поток и привязывает его к событию event. */
+int scheduler_sleep (struct event * event); /* lulls the current thread and binds it to the event event. */
 
-int scheduler_wakeup(struct event *event); /* Пробуждает все потоки, привязанные к событию event. */
-// Возвращяют ноль в случае успешного выполнения операции.
+int scheduler_wakeup(struct event *event); /* Wakes up all threads that are tied to the event event. */ 
+// zero if the operation is completed.
 
-void event_init(struct event *event); /* Необходимая инициализация события. */
+void event_init(struct event *event); /* initialize the required event. */
 }}}
 
-== Сообщения ==
+== Messages ==
 
-Иногда потоку нужно выполнить некоторые действия, но необходимую информацию он может получить лишь от другого потока. Эту информацию он может получить в виде сообщения, у которого есть:
+Sometimes the stream to do some work, but the information can be obtained only from a different thread. 
+This information it can get as a message that has: 
 {{{
-int type; /* Тип сообщения */
+int type;   /* message type */
 
-void *data; /* Информация в сообщении. */
+void *data; /* Information in the message. */
 }}}
-Для того, чтобы хранить приходящие сообщения, у него есть очередь, в которую они кладутся при получении. Если потоку нужно сообщение, то он берет первое сообщение из очереди и обрабатывает его. Если же очередь пуста, то он засыпает и ждет прихода сообщения. При приходе такового он проснется и обработает его.
-Методы:
+In order to store incoming messages, it has a place in which they are placed upon receipt. If the stream to a message, it takes the first message from the queue and processes it. If the queue is empty, then he goes to sleep and waits for the arrival of the message. When he wakes up the parish itself and processes it. Methods: 
 {{{
-struct message *msg_new(void); /* Выделить память под сообщение. ВОзвращает указатель на выделенное сообщение. */
+struct message *msg_new(void); /* Allocate memory for the message. Returns a pointer to the selected message.*/
 
-int msg_erase(struct message *message); /* Освобождение памяти из-под сообщения. */
+int msg_erase(struct message *message); /* Freeing from under the posts.*/
 
-void msg_send(struct message *message, struct thread *thread); /* Послать потоку thread сообщение message. */
+void msg_send(struct message *message, struct thread *thread); /* Send a message thread thread message. */
 
-struct message *msg_receive(void); /* Попытка текущим потоком прочитать сообщение. В случае фэйла засыпает. */
+struct message *msg_receive(void); /* Attempt to read the message the current thread. In the case of feyla sleep. */
 }}}
 
-== Мьютексы ==
+== Mutexes ==
 
-Иногда к некоторому ресурсу не могут получать одновременно доступ несколько потоков. В этом случае используются мьютексы. К каждому такому ресурсу привязывается один мьютекс. Когда поток пытается получить доступ, он узнает у мьютекса, заблокирован ли он. Если нет, то поток блокирует мьютекс и продолжает свою работу. В противном случае поток засыпает и встает в очередь внутри мьютекса. Когда мьютекс будет разблокирован занявшим его потоком, если очередь не пуста, мьютекс сразу же занимается неким потоком из этой очереди, который, в свою очередь, пробуждается.
+Sometimes, to some resources can not receive simultaneously access multiple threads. In this case, using mutexes. For each such resource is tied a mutex. When a thread attempts to access, he learns a mutex is locked if it is. 
+If not, the thread blocks the mutex and continues. Otherwise, the thread goes to sleep and gets up in the queue inside the mutex. 
+When the mutex is unlocked took his thread, if the queue is not empty, mutex immediately engaged in a kind of stream of this release, which, 
+in turn, awakens. 
 
-Структура мьютекса и необходимые функции описаны в kernel/mutex.h:
+Mutex structure and essential features described in the kernel / mutex.h: 
+
 {{{
-void mutex_init(struct mutex *mutex); /* Инициализирует мьютекс. Делает очередь пустой. */
+void mutex_init(struct mutex *mutex); /* Initializes mutex. Makes all empty. */
 
-void mutex_lock(struct mutex *mutex); /* Блокирует мьютекс текущим потоком. Если мьютекс уже был занят, то усыпляет текущий поток. */
+void mutex_lock(struct mutex *mutex); /* Locks the mutex the current thread. If the mutex was already occupied, then lulls the current thread.*/
 
-void mutex_unlock(struct mutex *mutex); /* Освобождает мьютекс от текущего потока.
-    Возможно, мьютекс сразу же становится занятым некоторым потоком из своей очереди. */
+void mutex_unlock(struct mutex *mutex); /* Frees a mutex from the current thread.    
+Perhaps, the mutex is immediately engaged by some of the thread in the queue. */
 }}}
