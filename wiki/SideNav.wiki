@@ -1,4 +1,3 @@
-  * [ProjectDescription Project Description]
   * [ProjDescription Project Description]
   * [GSoC2011 Google Summer of Code]
   * [ProjectApplications Project Applications]
