@@ -4,13 +4,31 @@
 
 = Summary =
 
- There are different modes of data transfers via usb: 
+Endpoints are as already said buffer memory in the USB device that serve the data transfer 
+between USB bus and the device controller.  
+However, since a USB keyboard, USB hard drive or USB speakers are quite different demands 
+on data rate and real-time response, there are 4 different modes. 
+Each endpoint supports just one mode.
 
   * *control*
+{{{
+Is used primarily for control purposes. Has highest priority and error protection 
+(lost data can be repeated until they were received). 
+Is primarily used for initialization, but can also be used generally to transfer small amounts of data. 
+Alle USB-Geräte müssen diesen Mode beherrschen. All USB devices must dominate this fashion.  
+}}}
   * *isochronous*
+{{{
+Is used especially when large amounts of data continuously at a constant rate data must be transmitted. 
+There is no protection for data loss. A typical application would be as USB speakers. 
+}}}
   * *bulk* 
   * *endpoint*
   * *interrupt*
+{{{
+Is primarily for equipment used with small amounts of data (eg Tatatur), the limited data 
+must be quickly and regularly transferred to the PC. 
+}}}
   
  To begin with we will be interested to Control transfer. 
 
