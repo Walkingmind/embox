@@ -4,62 +4,66 @@
 
 = Summary =
 
-Существуют различные режимы передачи данных по каналу usb: control, isochronous,
-bulk и interrupt. Для начала нас будут интересовать толлько Control транзакции.
+There are different modes of data transactions via usb: 
 
-= Control транзакции =
+  * control
+  * isochronous
+  * bulk 
+  * interrupt
+  
+To begin with we will be interested to Control transactions. 
 
-Control транзакция состоит из трёх этапов
+= Control =
+
+Control transaction consists of three stages 
 
 == Setup ==
 
-На этом этапе хост посылает запрос в котором сообщает направление передачи, тип
-запроса, количество байт, которые будут переданы и.т.д. 
+At this stage, the host sends a request which tells the direction of the transfer, 
+the request type, number of bytes to be transferred, etc. 
 
 == Data ==
 
-Опциональный этап, на котором передаются 1 или несколько пакетов с какой-то
-полезной информацией.
+Optional stage in which one or more transmitted packets with some useful information. 
 
 == Status ==
 
-Передаётся пакет в сторону, обратную той. куда отправлялись пакеты во время data этапа.
+Transmitted packet in the direction opposite of that, where to send packets during the data phase. 
 
-= Подробнее о Control транзакциях =
+= More information about Control Transactions  =
 
 == Setup ==
 
-О том, что к нам пришёл пакет типа setup  сигнализирует установленный бит RXSETUP
-в регистре UDP_CSRx (x - номер endpoint'а). В таком случае надо считать пакет из
-FIFO и очистить RXSETUP(установленный RXSETUP предохранит данные от "затирания"
-следующим пришедшим пакетом).
+The fact that we were visited by package type setup signaling bits set in register RXSETUP UDP_CSRx (x - number endpoint'a). 
+In such a case must be regarded as a package from the FIFO and clear the RXSETUP (set RXSETUP fuses data from the "mash" who 
+came to read the package).
 
 == Data ==
 
-Пакеты этого типа бывают двух видов и различаются направлением передачи.
+Packets of this type are of two kinds and different direction of transmission. 
 
-=== Data IN(от девайса к хосту) ===
+=== Data IN(from devices to host) ===
 
- # Проверяем, можно ли писать в FIFO по состоянию бита TXPKTRDY регистра UDP_CSRx. Затем пишем в FIFO пакет данных, которые нужно передать, и устанавливаем TXPKTRDY. 
- # О том, что пакет был отослан можно выяснить по установленному биту TXCOMP регистра UDP_CSRx. 
- # Очищаем TXCOMP, затем пишем следующий пакет данных согласно пункту 1) до тех пор, пока не перешлём всё, что хотим.
- # В конце TXCOMP должен быть очищен.
+ # Check whether you can write to the FIFO as TXPKTRDY bit register UDP_CSRx. Then write to the FIFO data packet to be passed, and set TXPKTRDY. 
+ # The fact that the packet was sent can be explained by the established bit register TXCOMP UDP_CSRx. 
+ # Clear TXCOMP, then write the next data packet in accordance with point 1) until such time has not yet gone beyond all that we want. 
+ # At the end of TXCOMP must be cleared. 
 
-=== Data OUT(от хоста к девайсу) ===
+=== Data OUT(from host to device) ===
 
- # Когда в FIFO приходит пакет, устанавливается бит RX_DATA_BK0 регистра UDP_ CSRx и случается прерывание.
- # Количество байт, записанных в FIFO, можно выяснить, считав биты RXBYTECNT регистра UDP_ CSRx.
- # Данные из FIFO можно считать через регистр UDP_FDRx.
- # После завершения чтения необходимо очистить бит RX_DATA_BK0, чтобы можно было принять следующий пакет.
- # Повторить с пункта один, пока не закончатся пакеты.
+ # When a packet arrives in the FIFO, the register bit is set RX_DATA_BK0 UDP CSRx and terminations. 
+ # The number of bytes written to the FIFO, you can find out by reading the bits of the register RXBYTECNT UDP CSRx. 
+ # The data from the FIFO can be considered through the register UDP_FDRx. 
+ # After completing the reading should be clean bit RX_DATA_BK0, so you can take the next packet. 
+ # Repeat from step one until you run out of bags. 
 
 == Status ==
 
 === Status IN ===
 
-Если хост посылал пакеты на этапе Data, то он будет ожидать пакета Data, не содержащего данных(нулевой длины).
+If the host sends a packet to the stage Data, then it will wait for the package Data, which does not contain data (zero length). 
 
 === Status OUT ===
 
-Если хост принимал пакеты, то он посылает пакет Data, не содержащий данных.
+If the host receives a packet it sends a packet Data, which does not contain data. 
 
