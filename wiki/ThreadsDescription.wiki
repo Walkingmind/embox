@@ -14,16 +14,23 @@ the stream, which contains the following fields (fields are excluded, directly r
 unnecessary to the user): 
 {{{
 struct context context; /* The context of the appropriate stream. In fact, determines the state and actions within a thread */
+
 void (*run)(void);      /* Function that starts the thread. */
+
 thread_id_t id;         /* ID of the stream. Unique to each of the existing */        
+
 thread_priority_t priority; /* The priority of the stream. The higher it is, the more / sooner / more often the thread of work. */ 
+
 thread_state_t state;  /* The state of thread. Possible values are:     
   THREAD_STATE_RUN  (thread is running or ready to run),     
   THREAD_STATE_STOP (stream or not run, or removed),      
   THREAD_STATE_WAIT (thread waits for some event),     
   THREAD_STATE_ZOMBIE (thread stopped, but not yet removed). */
+
 bool need_message;      /* If true, then the thread waits for a message (state == THREAD_STATE_WAIT). */ 
+
 queue_t messages;       /* The message queue for this stream. */ 
+
 struct event msg_event; /* This event occurs when a thread receives the message. About events, see below. */
 }}}
 
