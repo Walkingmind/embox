@@ -49,7 +49,7 @@
       * [ElfRunning Elf Running]
       * [Schedulers Schedulers]
     * USB
-      * [RuUSBDescription USB]
+      * [USBDescription USB]
     * Porting
       * [PortingProcess Porting Process]
   * [PlatformsDescription Supported platforms]
