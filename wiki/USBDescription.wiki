@@ -23,7 +23,10 @@ Is used especially when large amounts of data continuously at a constant rate da
 There is no protection for data loss. A typical application would be as USB speakers. 
 }}}
   * *bulk* 
-  * *endpoint*
+{{{
+A suitable especially for mass storage mode. It allows a high volume of data, and error-free transmission 
+is guaranteed. However, it may take some time to reach the data. 
+}}}
   * *interrupt*
 {{{
 Is primarily for equipment used with small amounts of data (eg Tatatur), the limited data 
