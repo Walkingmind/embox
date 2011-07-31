@@ -43,20 +43,20 @@ came to read the package).
 Packets of this type are of two kinds and different direction of transmission. 
 
 === Data IN(from devices to host) ===
-
+{{{
  # Check whether you can write to the FIFO as TXPKTRDY bit register UDP_CSRx. Then write to the FIFO data packet to be passed, and set TXPKTRDY. 
  # The fact that the packet was sent can be explained by the established bit register TXCOMP UDP_CSRx. 
  # Clear TXCOMP, then write the next data packet in accordance with point 1) until such time has not yet gone beyond all that we want. 
  # At the end of TXCOMP must be cleared. 
-
+}}}
 === Data OUT(from host to device) ===
-
+{{{
  # When a packet arrives in the FIFO, the register bit is set RX_DATA_BK0 UDP CSRx and terminations. 
  # The number of bytes written to the FIFO, you can find out by reading the bits of the register RXBYTECNT UDP CSRx. 
  # The data from the FIFO can be considered through the register UDP_FDRx. 
  # After completing the reading should be clean bit RX_DATA_BK0, so you can take the next packet. 
  # Repeat from step one until you run out of bags. 
-
+}}}
 == Status ==
 
 === Status IN ===
