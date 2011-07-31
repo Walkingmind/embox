@@ -4,66 +4,65 @@
 
 = Summary =
 
-There are different modes of data transactions via usb: 
+ There are different modes of data transfers via usb: 
 
-  * control
-  * isochronous
-  * bulk 
-  * interrupt
+  * *control*
+  * *isochronous*
+  * *bulk* 
+  * *endpoint*
+  * *interrupt*
   
-To begin with we will be interested to Control transactions. 
+ To begin with we will be interested to Control transfer. 
 
-= Control =
+= Control-Transfer =
 
-Control transaction consists of three stages 
+  Control transaction consists of three stages 
 
 == Setup ==
 
-At this stage, the host sends a request which tells the direction of the transfer, 
-the request type, number of bytes to be transferred, etc. 
+ At this stage, the host sends a request which tells the direction of  the transfer, 
+ the request type, number of bytes to be transferred, etc. 
 
 == Data ==
 
-Optional stage in which one or more transmitted packets with some useful information. 
+ Optional stage in which one or more transmitted packets with some useful information. 
 
 == Status ==
 
-Transmitted packet in the direction opposite of that, where to send packets during the data phase. 
+ Transmitted packet in the direction opposite of that, where to send packets during the data phase. 
 
 = More information about Control Transactions  =
 
 == Setup ==
 
-The fact that we were visited by package type setup signaling bits set in register RXSETUP UDP_CSRx (x - number endpoint'a). 
-In such a case must be regarded as a package from the FIFO and clear the RXSETUP (set RXSETUP fuses data from the "mash" who 
-came to read the package).
+ The fact that we were visited by package type setup signaling bits set in register RXSETUP UDP_CSRx (x - number endpoint'a). 
+ In such a case must be regarded as a package from the FIFO and clear the RXSETUP (set RXSETUP fuses data from the "mash" who came to read the package).
 
 == Data ==
 
-Packets of this type are of two kinds and different direction of transmission. 
+ Packets of this type are of two kinds and different direction of transmission. 
 
 === Data IN(from devices to host) ===
-{{{
- # Check whether you can write to the FIFO as TXPKTRDY bit register UDP_CSRx. Then write to the FIFO data packet to be passed, and set TXPKTRDY. 
- # The fact that the packet was sent can be explained by the established bit register TXCOMP UDP_CSRx. 
- # Clear TXCOMP, then write the next data packet in accordance with point 1) until such time has not yet gone beyond all that we want. 
- # At the end of TXCOMP must be cleared. 
-}}}
+
+  # Check whether you can write to the FIFO as TXPKTRDY bit register UDP_CSRx. Then write to the FIFO data packet to be passed, and set TXPKTRDY. 
+  # The fact that the packet was sent can be explained by the established bit register TXCOMP UDP_CSRx. 
+  # Clear TXCOMP, then write the next data packet in accordance with point 1) until such time has not yet gone beyond all that we want. 
+  # At the end of TXCOMP must be cleared. 
+
 === Data OUT(from host to device) ===
-{{{
- # When a packet arrives in the FIFO, the register bit is set RX_DATA_BK0 UDP CSRx and terminations. 
- # The number of bytes written to the FIFO, you can find out by reading the bits of the register RXBYTECNT UDP CSRx. 
- # The data from the FIFO can be considered through the register UDP_FDRx. 
- # After completing the reading should be clean bit RX_DATA_BK0, so you can take the next packet. 
- # Repeat from step one until you run out of bags. 
-}}}
+
+  # When a packet arrives in the FIFO, the register bit is set RX_DATA_BK0 UDP CSRx and terminations. 
+  # The number of bytes written to the FIFO, you can find out by reading the bits of the register RXBYTECNT UDP CSRx. 
+  # The data from the FIFO can be considered through the register UDP_FDRx. 
+  # After completing the reading should be clean bit RX_DATA_BK0, so you can take the next packet. 
+  # Repeat from step one until you run out of bags. 
+
 == Status ==
 
 === Status IN ===
 
-If the host sends a packet to the stage Data, then it will wait for the package Data, which does not contain data (zero length). 
+ If the host sends a packet to the stage Data, then it will wait for the package Data, which does not contain data (zero length). 
 
 === Status OUT ===
 
-If the host receives a packet it sends a packet Data, which does not contain data. 
-
+ If the host receives a packet it sends a packet Data, which does not contain data. 
