@@ -1,4 +1,8 @@
-#mod(lego_nxt.example.xxx)
+
+# Auto-generated package declaration inherited from parent directory.
+# TODO Suggested renaming package to ..platform.lego_nxt.example.sensors.Makefile
+$_PACKAGE := lego_nxt.example
+
 $_MODS += touch sensor sonar light angle
 
 $_SRCS-touch += touch.c 
