@@ -974,8 +974,8 @@ with = $(warning with: illegal invocation)
 define builtin_func_expand
 	$${eval \
 		__def_tmp__ := \
-			$$$$(\0) # Preserve leading whitespace.
-			$$(subst $$(\n),$$$$(\n), # Escape newlines.
+			$$$$(\0)# Preserve leading whitespace.
+			$$(subst $$(\n),$$$$(\n),# Escape newlines.
 				$$(subst $$(\h),$$$$(\h),# Do not treat hashes as comments.
 					$(subst $(\h),$$$$(\h),$(builtin_args))
 				)
@@ -1094,8 +1094,8 @@ define builtin_to_function_inline
 					Can not inline undefined function '$(builtin_name)'
 				)
 			),
-			$(__builtin_to_function_inline),
-		)
+			$(__builtin_to_function_inline)
+		),
 		$(builtin_to_function_call)
 	)
 endef
