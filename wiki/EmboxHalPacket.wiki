@@ -1,0 +1,14 @@
+#summary Describe packet 'hal' of Embox RTOS.
+
+== Packet description ==
+This packet includes some interfaces (APIs) for correct work of the system.
+
+== Structure ==
+=== hw_trap ===
+=== interrupt ==
+=== sotf_trap ===
+=== diag ===
+=== clock ===
+=== ipl ===
+=== cache ===
+==== mmu ===
