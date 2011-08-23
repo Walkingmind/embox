@@ -8,7 +8,7 @@ This packet often requires appropriate part of [EmboxHalPacket hal]
 
 == Structure ==
 === kernel.irq ===
-irq (Interrupt ReQuest) - is a module for work with hardware interrupts.
+irq (!Interrupt !ReQuest) - is a module for work with hardware interrupts.
 It conteins routine for working with hwirq (attach and free interrupt and also treat irq handler)
 
 Requires: irq_ctrl, ivt (interrupt's vector table), first level treat handler
