@@ -1,0 +1,40 @@
+#summary Describe packet 'kernel' of Embox RTOS.
+
+== Packet description ==
+The packet 'kernel' contains packets APIs and modules ralating to system core. Usually these modules couldn't be moved to user space.
+It includes, for example, ISR (interrupt service routine), traps(exceptions) routine, scheduling and boot code.
+
+This packet often requires appropriate part of [EmboxHalPacket hal]
+
+== Structure ==
+=== kernel.irq ===
+irq (Interrupt ReQuest) - is a module for work with hardware interrupts.
+It conteins routine for working with hwirq (attach and free interrupt and also treat irq handler)
+
+Requires: irq_ctrl, ivt (interrupt's vector table), first level treat handler
+
+=== kernel.softirq ===
+One of the method for implementation of deferred interrupts.
+It have to do in order not to do long treatment in hardware interrupt's context. There are massage queue in Minix or different microkernel OS for this deal.
+
+This interface (API) look likes hardware interrupts API. You must also attach interrupt's number routine, but you also must initiate required event with function softirq_raise.
+
+This interface can be implement both message queue and simple flags method.
+
+=== kernel.task ===
+Multitasting's implementation. Singletask system is multitasking too only with one thread.
+
+Managing CPU time distribution in the system, Scheduling threads with specified policy, initiates cpu context switch and etc.
+Content:
+ * task.thread - thread context service
+ * task.sched - scheduler
+ * task.sched_policy - policies scheduling
+
+=== Kernel.time ===
+It contains time and timers services
+Content:
+ * time.time - services of absolute (is not realized yet) and relative time.
+ * time.clock - service of different clock sources (hardware timers and counters, software timers).
+ * time.timer - services of software timers
+ * time.watchdog - watchdog's service
+ * time.interval - interval's service, for measuring period in the system

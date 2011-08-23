@@ -24,6 +24,7 @@
       * [EMBuildInternalsImplementation Implementation]
     * [EMBuildFeatureProposals Feature proposals]
   * [EmboxModules Modules]
+    * [EmboxKernelPacket Embox Kernel packet]
     * [EmboxDevInterface Embox Dev]
     * [EmboxTrapsDescription Traps Description]
     * [ModuleTerminalDescription Terminal]

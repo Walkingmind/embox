@@ -23,6 +23,7 @@
       * [EMBuildInternalsImplementation Реализация]
     * [EMBuildFeatureProposals Предложения по развитию]
   * [EmboxModules Модули]
+    * [EmboxKernelPacket пакет kernel]
     * [EmboxDevInterface Embox Dev]
     * [EmboxTrapsDescription Traps Description]
     * [ModuleTerminalDescription Терминал]
