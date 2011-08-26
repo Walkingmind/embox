@@ -26,12 +26,20 @@ http://embox.googlecode.com/svn/wiki/images/InstallToolchainEclipseDebugCygwin/e
 
 http://embox.googlecode.com/svn/wiki/images/InstallToolchainEclipseDebugCygwin/eclipse_debug_config4.JPG
 
-= Start QEMU =
-
+= Start QEMU for debugging=
+Embox root directory
 {{{
-  qemu -kernel embox -s -S -gdb tcp::1234,ipv4
+
+  qemu -kernel .\build\base\bin\embox -s -S -gdb tcp::1234,ipv4
 }}}
 
-= click Debug =
+== click Debug ==
 
 http://embox.googlecode.com/svn/wiki/images/InstallToolchainEclipseDebugCygwin/eclipse_debug_config_finished.JPG
+
+= Start QEMU release =
+Embox root directory
+{{{
+
+  qemu -kernel .\build\base\bin\embox
+}}}
