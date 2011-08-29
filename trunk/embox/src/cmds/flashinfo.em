@@ -3,7 +3,7 @@
 
 $_MODS += flashinfo
 $_SRCS-flashinfo += flashinfo.c
-$_DEPS-flashinfo += embox.driver.flash
+$_DEPS-flashinfo += embox.driver.storage.flash
 
 $_BRIEF-flashinfo = Reads flash info
 
