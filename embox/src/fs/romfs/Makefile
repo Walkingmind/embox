@@ -10,7 +10,7 @@ $_DEPS-romfs += core
 
 $_SRCS-partition += partition.c
 $_DEPS-partition += core
-$_DEPS-partition += embox.driver.flash
+$_DEPS-partition += embox.driver.storage.flash
 
 #describe special section
 ifdef CONFIG_ROMFS_CPIO

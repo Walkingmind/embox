@@ -3,7 +3,7 @@
 
 $_MODS += store
 $_SRCS-store += store.c
-$_DEPS-store += embox.driver.flash
+$_DEPS-store += embox.driver.storage.flash
 
 $_BRIEF-store = Store memory area to flash
 
