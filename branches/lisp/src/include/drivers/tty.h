@@ -29,7 +29,7 @@ struct vconsole;
 
 #define CONFIG_TTY_QUEUE 32
 
-#if 0
+#if 1
 #ifndef CONFIG_TTY_CONSOLE_COUNT
 #define	CONFIG_TTY_CONSOLE_COUNT 1
 #endif
@@ -68,7 +68,10 @@ typedef struct tty_device {
 	struct 	 vtparse vtp[1];
 	#ifdef CONFIG_TTY_CONSOLE_COUNT
 	struct vconsole *consoles[CONFIG_TTY_CONSOLE_COUNT];
+	#else
+	struct vconsole *consoles[1];
 	#endif
+
 	uint32_t console_cur;
 	file_operations_t *file_op;
 } tty_device_t;

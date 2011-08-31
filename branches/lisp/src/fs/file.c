@@ -49,9 +49,9 @@ void lsof_map_init(void) {
 	for (i = 0; i < ARRAY_SIZE(lsof_pool); i++) {
 		list_add((struct list_head *) &lsof_pool[i], &free_list);
 	}
-	__cache_fd(NULL, 0, 0);
-	__cache_fd(NULL, 1, 1);
-	__cache_fd(NULL, 2, 2);
+	__cache_fd(NULL, NULL, 0);
+	__cache_fd(NULL, NULL, 1);
+	__cache_fd(NULL, NULL, 2);
 }
 
 static int file_id = 10;
@@ -96,7 +96,6 @@ int getc(FILE *stream) {
 		return buf;
 	}
 	fread(&buf, 1, 1, stream);
-	putchar(buf);
 	return (int) buf;
 }
 
@@ -198,7 +197,7 @@ size_t fread(void *buf, size_t size, size_t count, FILE *file) {
 	    int i, j;
 	    for (i = 0; i < count; i++) {
 		for (j = 0; j < size; j++) {
-		    *cbuf = getchar();
+		    *cbuf = readline_getchar();
 		    if (*cbuf == EOF) {
 			return ((int) (cbuf - (char *) buf)) / size;
 		    }
@@ -243,6 +242,11 @@ int fclose(FILE *fp) {
 	return drv->file_op->fclose(fp);
 }
 
+int close(int fd) {
+
+	FILE *file = file_struct(fd);
+	return fclose(file);
+}
 int fseek(FILE *stream, long int offset, int origin) {
 	node_t *nod;
 	file_system_driver_t *drv;

@@ -12,7 +12,6 @@
 #include <kernel/thread/sync/mutex.h>
 
 EMBOX_TEST_SUITE("Priority inheritance for mutex");
-TEST_EMIT_BUFFER_DEF(buff, 22);
 
 static void *low_run(void *);
 static void *mid_run(void *);
@@ -33,8 +32,6 @@ TEST_CASE("without inheritance") {
 	test_assert_not_null(low);
 	test_assert_zero(thread_set_priority(low, l));
 
-	test_emit_buffer_reset(&buff);
-
 	test_assert_zero(
 			thread_create(&mid, THREAD_FLAG_SUSPENDED, mid_run, NULL));
 	test_assert_not_null(mid);
@@ -51,35 +48,35 @@ TEST_CASE("without inheritance") {
 	test_assert_zero(thread_join(mid, NULL));
 	test_assert_zero(thread_join(high, NULL));
 
-	test_assert_str_equal(test_emit_buffer_str(&buff), "abcdefghijk");
-//	TRACE("%s", test_emit_buffer_str(&buff));
+	test_assert_emitted("abcdefghijk");
+//	TRACE("%s", test_get_emitted_into(&buff));
 }
 
 static void *low_run(void *arg) {
 	struct mutex *m = (struct mutex *) arg;
 
-	test_emit(&buff, 'a');
+	test_emit('a');
 
 	mutex_lock(m);
 
-	test_emit(&buff, 'b');
+	test_emit('b');
 
 	thread_resume(high);
-	test_emit(&buff, 'd');
+	test_emit('d');
 	thread_resume(mid);
 
-	test_emit(&buff, 'e');
+	test_emit('e');
 
 	mutex_unlock(m);
 
-	test_emit(&buff, 'k');
+	test_emit('k');
 
 	return NULL;
 }
 
 static void *mid_run(void *arg) {
-	test_emit(&buff, 'i');
-	test_emit(&buff, 'j');
+	test_emit('i');
+	test_emit('j');
 
 	return NULL;
 }
@@ -87,16 +84,16 @@ static void *mid_run(void *arg) {
 static void *high_run(void *arg) {
 	struct mutex *m = (struct mutex *) arg;
 
-	test_emit(&buff, 'c');
+	test_emit('c');
 
 	mutex_lock(m);
 
-	test_emit(&buff, 'f');
-	test_emit(&buff, 'g');
+	test_emit('f');
+	test_emit('g');
 
 	mutex_unlock(m);
 
-	test_emit(&buff, 'h');
+	test_emit('h');
 
 	return NULL;
 }

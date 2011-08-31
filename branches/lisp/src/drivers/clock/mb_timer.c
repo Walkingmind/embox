@@ -11,10 +11,10 @@
 #include <bitops.h>
 #include <kernel/irq.h>
 #include <kernel/panic.h>
-#include <asm/cpu_conf.h>
+#include <kernel/clock_source.h>
 #include <hal/clock.h>
 
-#define CONFIG_SYS_TIMER_PRELOAD     (CPU_CLOCK_FREQ/1000)
+#define CONFIG_SYS_TIMER_PRELOAD     (CONFIG_CORE_FREQ/1000)
 
 /*bits definition of cntl/status (tcsr) register*/
 #define TIMER_ENALL_BIT  21      /**< ENALL */
@@ -45,6 +45,8 @@
 /** set down count mode*/
 #define TIMER_DOWN_COUNT    REVERSE_MASK(TIMER_UDT_BIT)
 
+static struct clock_source mb_timer_clock_source;
+
 /**
  * Structure one of two timers. Both timers need only for pwm mode
  */
@@ -63,7 +65,7 @@ typedef volatile struct mb_timers {
 	timer_regs_t tmr1;
 } mb_timers_t;
 
-static mb_timers_t *timers = (mb_timers_t *) XILINX_TIMER_BASEADDR;
+static mb_timers_t *timers = (mb_timers_t *) CONFIG_XILINX_TIMER_BASEADDR;
 #define timer0 (&timers->tmr0)
 
 /*we must use proxy for interrupt handler because we must clean bit in register
@@ -85,9 +87,15 @@ void clock_init(void) {
 	timer0->tcsr = TIMER_ENABLE | TIMER_INT_ENABLE | TIMER_RELOAD
 			| TIMER_DOWN_COUNT;
 
-	if (0 != irq_attach(XILINX_TIMER_IRQ, clock_handler, 0, NULL, "mbtimer")) {
+	if (0 != irq_attach(CONFIG_XILINX_TIMER_IRQ, clock_handler, 0, NULL, "mbtimer")) {
 		panic("mbtimer irq_attach failed");
 	}
+
+	mb_timer_clock_source.flags = 1;
+	mb_timer_clock_source.precision = 1000;
+	mb_timer_clock_source.timers_list.next = &mb_timer_clock_source.timers_list;
+	mb_timer_clock_source.timers_list.prev = &mb_timer_clock_source.timers_list;
+	clock_source_register(&mb_timer_clock_source);
 }
 
 void clock_setup(useconds_t useconds) {

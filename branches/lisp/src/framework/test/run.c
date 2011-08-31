@@ -21,15 +21,21 @@
 
 #include <framework/test/api.h>
 #include "assert_impl.h"
+#include "emit_impl.h"
 
 /**
  * Runtime context for a test case.
  */
 struct test_run_context {
 	jmp_buf before_run;
+	struct test_emit_buffer emitting;
 };
 
 static struct test_run_context *current;
+
+#define EMIT_BUFFER_SZ 64
+
+static char emit_buffer[EMIT_BUFFER_SZ];
 
 static int test_case_run(const struct test_case *test_case,
 		const struct __test_fixture_ops *fixtures);
@@ -58,7 +64,7 @@ int test_suite_run(const struct test_suite *test) {
 
 	fixture_ops = &test->suite_fixture_ops;
 
-	TRACE("test: running %s ", test_name(test));
+	TRACE("\ttest: running %s ", test_name(test));
 
 	if ((fx_op = *fixture_ops->p_setup) && (ret = fx_op()) != 0) {
 		handle_suite_fixture_failure(test, ret, 1);
@@ -114,12 +120,18 @@ static const struct __test_assertion_point *test_run(test_case_run_t run) {
 	int caught;
 
 	current = &ctx;
+	test_emit_buffer_init(&current->emitting, emit_buffer, EMIT_BUFFER_SZ);
 	if (!(caught = setjmp(ctx.before_run))) {
 		run();
 	}
 	current = NULL;
 
 	return (const struct __test_assertion_point *) caught;
+}
+
+struct test_emit_buffer *__test_emit_buffer_current(void) {
+	assert(current != NULL);
+	return &current->emitting;
 }
 
 void __test_assertion_handle(int pass,

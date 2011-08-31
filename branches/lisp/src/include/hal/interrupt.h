@@ -9,7 +9,7 @@
 #ifndef HAL_INTERRUPT_H_
 #define HAL_INTERRUPT_H_
 
-#include <asm/hal/interrupt.h>
+#include __module_headers(embox/hal/interrupt)
 
 /**
  * Total amount of interrupt lines available on the controller.
@@ -49,14 +49,6 @@ typedef __interrupt_nr_t interrupt_nr_t;
  * (1 << #INTERRUPT_NRS_TOTAL)  values.
  */
 typedef __interrupt_mask_t interrupt_mask_t;
-
-/**
- * Initializes interrupt controller.
- *
- * @note Implementation have to perform basic controller initialization,
- * disabling all interrupts and clearing any pending IRQs (if needed).
- */
-void interrupt_init(void);
 
 /**
  * Enables the specified IRQ.

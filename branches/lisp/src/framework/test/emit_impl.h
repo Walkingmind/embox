@@ -53,7 +53,7 @@ static inline struct test_emit_buffer *test_emit_buffer_init(
 	return test_emit_buffer_reset(b);
 }
 
-static inline char *test_emit_buffer_str(struct test_emit_buffer *b) {
+static inline char *test_get_emitted_into(struct test_emit_buffer *b) {
 	assert(b);
 	return b->buff;
 }
@@ -70,7 +70,7 @@ static inline bool test_emit_buffer_full(struct test_emit_buffer *b) {
 	return b->ptr == b->buff + b->buff_sz;
 }
 
-static inline void test_emit(struct test_emit_buffer *b, char ch) {
+static inline void test_emit_into(struct test_emit_buffer *b, char ch) {
 	if (test_emit_buffer_overflown(b)) {
 		return;
 	}
@@ -84,13 +84,14 @@ static inline void test_emit(struct test_emit_buffer *b, char ch) {
 	}
 }
 
-static inline void test_emit_unique(struct test_emit_buffer *b, char ch) {
-	assert(b);
-	assert(b->ptr);
+static inline void test_emit(char ch) {
+	extern struct test_emit_buffer *__test_emit_buffer_current(void);
+	test_emit_into(__test_emit_buffer_current(), ch);
+}
 
-	if (b->ptr == b->buff || *(b->ptr - 1) != ch) {
-		test_emit(b, ch);
-	}
+static inline char *test_get_emitted(void) {
+	extern struct test_emit_buffer *__test_emit_buffer_current(void);
+	return test_get_emitted_into(__test_emit_buffer_current());
 }
 
 #ifdef __CDT_PARSER__

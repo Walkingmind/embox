@@ -9,15 +9,17 @@
  *         - Documenting some parts of API
  */
 
-#ifndef SOFTIRQ_H_
-#define SOFTIRQ_H_
+#ifndef KERNEL_SOFTIRQ_H_
+#define KERNEL_SOFTIRQ_H_
 
-#include <kernel/critical/api.h>
+#include <kernel/softirq_lock.h>
 
 /**
  * Total amount of possible soft IRQs.
  */
 #define SOFTIRQ_NRS_TOTAL 32
+
+#define SOFTIRQ_NR_TEST 31
 
 /**
  * Checks if the specified softirq_nr represents valid soft IRQ number.
@@ -36,11 +38,6 @@ typedef unsigned int softirq_nr_t;
  * @param data the device tag specified at #softirq_install() time
  */
 typedef void (*softirq_handler_t)(softirq_nr_t softirq_nr, void *data);
-
-/**
- * Initializes soft IRQ subsystem.
- */
-extern void softirq_init(void);
 
 /**
  * Installs the handler on the specified soft IRQ number replacing an old one
@@ -71,30 +68,4 @@ extern int softirq_install(softirq_nr_t nr, softirq_handler_t handler,
  */
 extern int softirq_raise(softirq_nr_t nr);
 
-/**
- * Called by IRQ-related kernel code when leaving the interrupt context with
- * max IPL (all IRQ disabled).
- * TODO
- */
-extern void softirq_dispatch(void);
-
-static inline void softirq_disable(void) {
-	critical_enter(CRITICAL_SOFTIRQ);
-}
-
-static inline void softirq_enable_silent(void) {
-	critical_leave(CRITICAL_SOFTIRQ);
-}
-
-static inline void softirq_check_invoke(void) {
-	if (critical_allows(CRITICAL_SOFTIRQ)) {
-		softirq_dispatch();
-	}
-}
-
-static inline void softirq_enable(void) {
-	softirq_enable_silent();
-	softirq_check_invoke();
-}
-
-#endif /* SOFTIRQ_H_ */
+#endif /* KERNEL_SOFTIRQ_H_ */

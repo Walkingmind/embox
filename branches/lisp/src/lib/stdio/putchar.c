@@ -13,7 +13,7 @@
 #include <drivers/vconsole.h>
 #include <drivers/tty_action.h>
 
-#ifdef CONFIG_TTY_CONSOLE_COUNT
+#if 0 
 int putchar(int c) {
 	static char prev = 0;
 

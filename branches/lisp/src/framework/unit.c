@@ -27,13 +27,13 @@ const struct mod_ops __unit_mod_ops = {
 static int unit_mod_enable(struct mod_info *mod_info) {
 	int ret = 0;
 	struct unit *unit = (struct unit *) mod_info->data;
-	const struct mod *mod = mod_info->mod;
+	const struct mod *mod = mod_info->mod; /* used only for trace => warning when TRACE equeal nothing => broken compilation */
 
 	if (NULL == unit->init) {
 		return 0;
 	}
 
-	TRACE("unit: initializing %s.%s: ", mod->package->name, mod->name);
+	TRACE("\tunit: initializing %s.%s: ", mod->package->name, mod->name);
 	if (0 == (ret = unit->init())) {
 		TRACE("done\n");
 	} else {

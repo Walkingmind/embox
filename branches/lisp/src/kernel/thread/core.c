@@ -26,7 +26,7 @@
 #include <mem/misc/pool.h>
 #include <util/math.h>
 #include <util/structof.h>
-#include <kernel/critical/api.h>
+#include <kernel/critical.h>
 #include <kernel/thread/api.h>
 #include <kernel/thread/sched.h>
 #include <kernel/thread/state.h>
@@ -56,20 +56,18 @@ static void thread_free(struct thread *t);
 
 /**
  * Wrapper for thread start routine.
- *
- * @param thread_pointer pointer at thread.
  */
 static void __attribute__((noreturn)) thread_trampoline(void) {
 	struct thread *current;
 
-	assert(!critical_allows(CRITICAL_PREEMPT));
+	assert(!critical_allows(CRITICAL_SCHED_LOCK));
 
 	current = thread_self();
 
 	sched_unlock_noswitch();
 	ipl_enable();
 
-	assert(!critical_inside(CRITICAL_PREEMPT));
+	assert(!critical_inside(CRITICAL_SCHED_LOCK));
 
 	thread_exit(current->run(current->run_arg));
 }
@@ -184,7 +182,7 @@ void __attribute__((noreturn)) thread_exit(void *ret) {
 	struct thread *current = thread_self();
 	struct thread *joining;
 
-	assert(critical_allows(CRITICAL_PREEMPT));
+	assert(critical_allows(CRITICAL_SCHED_LOCK));
 
 	sched_lock();
 

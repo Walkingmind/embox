@@ -1,3 +1,8 @@
+
+# Auto-generated package declaration inherited from parent directory.
+# TODO Suggested renaming package to fs.romfs
+$_PACKAGE := embox.fs
+
 $_MODS = romfs partition
 
 $_SRCS-romfs += romfs.c
@@ -5,7 +10,7 @@ $_DEPS-romfs += core
 
 $_SRCS-partition += partition.c
 $_DEPS-partition += core
-$_DEPS-partition += embox.driver.flash
+$_DEPS-partition += embox.driver.storage.flash
 
 #describe special section
 ifdef CONFIG_ROMFS_CPIO

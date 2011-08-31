@@ -1,9 +1,17 @@
-$_MODS += core dev
 
-$_SRCS-core  += devinet.c
-$_SRCS-core  += sock.c
-$_SRCS-core  += skbuff.c
+# Auto-generated package declaration inherited from parent directory.
+# TODO Suggested renaming package to net.core
+$_PACKAGE := embox.net
 
-$_SRCS-dev  += dev.c network_layer.c
+$_MODS      += core
+$_SRCS-core += devinet.c
+$_SRCS-core += sock.c
+$_SRCS-core += skbuff.c
+$_DEPS-core += embox.net.dev
 
-$_DEPS-core += dev
+$_MODS     += dev
+$_SRCS-dev += dev.c
+$_SRCS-dev += network_layer.c
+
+$_MODS           += neighbour
+$_SRCS-neighbour += neighbour.c

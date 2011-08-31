@@ -28,6 +28,38 @@ static const int errno = -1;
 //#include <dlfcn.h>
 //#include <sys/utsname.h>
 
+#define BUFF_SIZE 80
+static char string_buf[BUFF_SIZE];
+static int pos = 0;
+char ungetc_char = EOF;
+
+int lisp_getc(FILE *stream) {
+    char c;
+    if (ungetc_char != EOF) {
+	c = ungetc_char;
+	ungetc_char = EOF;
+	return (int) c;
+    }
+    if (string_buf[pos] == 0) {
+	pos = 0;
+	do {
+	    c = (string_buf[pos++] = getc(stream));
+	} while (c != '\r');
+	string_buf[pos] = 0;
+	pos = 0;
+    }
+    return (int) string_buf[pos++];
+}
+
+int lisp_ungetc(char c, FILE *stream) {
+    ungetc_char = c;
+    return (int) c;   
+}
+
+
+#define getc lisp_getc
+#define ungetc lisp_ungetc
+
 typedef int lval;
 lval *o2c(lval o) {
         return (lval *) (o - 1);

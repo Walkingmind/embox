@@ -13,7 +13,7 @@
 
 #include <embox/unit.h>
 #include <lib/list.h>
-#include <kernel/critical/api.h>
+#include <kernel/critical.h>
 #include <kernel/thread/event.h>
 #include <kernel/thread/sched.h>
 #include <kernel/thread/sched_policy.h>
@@ -24,15 +24,27 @@
 
 #include "types.h"
 
-/** Timer, which calls scheduler_tick. */
-#define SCHED_TICK_TIMER_ID 17
-
 /** Interval, what scheduler_tick is called in. */
 #define SCHED_TICK_INTERVAL 100
 
 EMBOX_UNIT(unit_init, unit_fini);
 
-static int resched;
+static void sched_switch(void);
+
+CRITICAL_DISPATCHER_DEF(sched_critical, sched_switch, CRITICAL_SCHED_LOCK);
+
+/** Timer, which calls scheduler_tick. */
+static sys_timer_t *tick_timer;
+
+static void request_switch(void) {
+	critical_request_dispatch(&sched_critical);
+}
+
+static void request_switch_if(int cond) {
+	if (cond) {
+		request_switch();
+	}
+}
 
 int sched_init(struct thread* current, struct thread *idle) {
 	int error;
@@ -46,8 +58,6 @@ int sched_init(struct thread* current, struct thread *idle) {
 		return error;
 	}
 
-	sched_unlock();
-
 	return 0;
 }
 
@@ -55,8 +65,8 @@ int sched_init(struct thread* current, struct thread *idle) {
  * Is regularly called to show that current thread to be changed.
  * @param id nothing significant
  */
-static void sched_tick(uint32_t id) {
-	resched = true;
+static void sched_tick(sys_timer_t *timer, void *param) {
+	request_switch();
 }
 
 /**
@@ -64,31 +74,25 @@ static void sched_tick(uint32_t id) {
  */
 static void sched_switch(void) {
 	struct thread *current, *next;
-	ipl_t ipl;
-
-	current = sched_current();
-	next = sched_policy_switch(current);
-
-	if (next == current) {
-		return;
-	}
-
-	ipl = ipl_save();
-	context_switch(&current->context, &next->context);
-	ipl_restore(ipl);
-
-}
-
-void __sched_dispatch(void) {
-	assert(critical_allows(CRITICAL_PREEMPT));
 
 	sched_lock();
+	{
+		ipl_enable();
 
-	while (resched) {
-		resched = false;
-		sched_switch();
+		// XXX
+		//assert(critical_allows(CRITICAL_SCHED_LOCK));
+
+		current = sched_current();
+		next = sched_policy_switch(current);
+
+		assert(thread_state_running(next->state));
+
+		ipl_disable();
+
+		if (next != current) {
+			context_switch(&current->context, &next->context);
+		}
 	}
-
 	sched_unlock();
 }
 
@@ -101,7 +105,7 @@ void sched_start(struct thread *t) {
 	t->state = THREAD_STATE_RUNNING;
 #endif
 
-	resched |= sched_policy_start(t);
+	request_switch_if(sched_policy_start(t));
 
 	sched_unlock();
 }
@@ -111,7 +115,7 @@ void sched_stop(struct thread *t) {
 
 	sched_lock();
 
-	resched |= sched_policy_stop(t);
+	request_switch_if(sched_policy_stop(t));
 
 #if 0
 	t->state = 0;
@@ -124,19 +128,24 @@ int sched_sleep_locked(struct event *e) {
 	struct thread *current;
 
 	assert(e);
-	assert(critical_inside(CRITICAL_PREEMPT));
+	assert(critical_inside(CRITICAL_SCHED_LOCK));
 
 	current = sched_current();
 
-	resched |= sched_policy_stop(current);
+	request_switch_if(sched_policy_stop(current));
 
 	current->state = thread_state_do_sleep(current->state);
 
 	list_add(&current->sched_list, &e->sleep_queue);
 
-	sched_unlock();
 	/* Switch from the current thread. */
-	assert(critical_allows(CRITICAL_PREEMPT));
+	sched_unlock();
+
+	/* At this point we have been awakened and are ready to go. */
+	assert(critical_allows(CRITICAL_SCHED_LOCK));
+	assert(thread_state_running(current->state));
+
+	/* Restore the locked state and return. */
 	sched_lock();
 
 	return 0;
@@ -146,7 +155,7 @@ int sched_sleep(struct event *e) {
 	int ret;
 
 	assert(e);
-	assert(critical_allows(CRITICAL_PREEMPT));
+	assert(critical_allows(CRITICAL_SCHED_LOCK));
 
 	sched_lock();
 
@@ -158,14 +167,14 @@ int sched_sleep(struct event *e) {
 }
 
 static void sched_wakeup_thread(struct thread *t) {
-	assert(critical_inside(CRITICAL_PREEMPT));
+	assert(critical_inside(CRITICAL_SCHED_LOCK));
 
 	list_del_init(&t->sched_list);
 
 	t->state = thread_state_do_wake(t->state);
 
 	if (thread_state_running(t->state)) {
-		resched |= sched_policy_start(t);
+		request_switch_if(sched_policy_start(t));
 	}
 }
 
@@ -200,18 +209,14 @@ int sched_wake_one(struct event *e) {
 }
 
 void sched_yield(void) {
-	sched_lock();
-
-	resched = true;
-
-	sched_unlock();
+	request_switch();
 }
 
 void sched_suspend(struct thread *t) {
 	sched_lock();
 
 	if (thread_state_running(t->state)) {
-		resched |= sched_policy_stop(t);
+		request_switch_if(sched_policy_stop(t));
 	}
 
 	t->state = thread_state_do_suspend(t->state);
@@ -225,7 +230,7 @@ void sched_resume(struct thread *t) {
 	t->state = thread_state_do_resume(t->state);
 
 	if (thread_state_running(t->state)) {
-		resched |= sched_policy_start(t);
+		request_switch_if(sched_policy_start(t));
 	}
 
 	sched_unlock();
@@ -242,15 +247,11 @@ int sched_change_scheduling_priority(struct thread *t, __thread_priority_t new) 
 
 	need_restart = thread_state_running(t->state);
 
-	if (need_restart) {
-		resched |= sched_policy_stop(t);
-	}
+	request_switch_if(need_restart && sched_policy_stop(t));
 
 	t->priority = new;
 
-	if (need_restart) {
-		resched |= sched_policy_start(t);
-	}
+	request_switch_if(need_restart && sched_policy_start(t));
 
 	sched_unlock();
 
@@ -266,22 +267,8 @@ void sched_set_priority(struct thread *t, __thread_priority_t new) {
 	sched_unlock();
 }
 
-// TODO make it inline. -- Eldar
-void sched_check_switch(void) {
-	extern void __sched_dispatch(void);
-	if (critical_allows(CRITICAL_PREEMPT) && resched) {
-		__sched_dispatch();
-	}
-}
-
-void sched_unlock(void) {
-	sched_unlock_noswitch();
-	sched_check_switch();
-}
-
 static int unit_init(void) {
-	if (set_timer(SCHED_TICK_TIMER_ID, SCHED_TICK_INTERVAL, sched_tick)
-			!= SCHED_TICK_TIMER_ID) {
+	if (timer_set(&tick_timer, SCHED_TICK_INTERVAL, sched_tick, NULL)) {
 		return -EBUSY;
 	}
 
@@ -289,7 +276,8 @@ static int unit_init(void) {
 }
 
 static int unit_fini(void) {
-	close_timer(SCHED_TICK_TIMER_ID);
+	timer_close(tick_timer);
 
 	return 0;
 }
+
