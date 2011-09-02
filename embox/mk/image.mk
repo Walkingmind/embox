@@ -44,14 +44,14 @@ OBJCOPY = $(CROSS_COMPILE)objcopy
 SIZE    = $(CROSS_COMPILE)size
 
 
-CC_VERSION = $(shell $(HOSTCC) -v 2>&1 | grep "gcc version" | cut -d' ' -f3 )
+CC_VERSION = $(shell $(CC) -v 2>&1 | grep "gcc version" | cut -d' ' -f3 )
 
 ifeq ($(strip $(CC_VERSION)),)
 $(error Unable to get GCC version: $(shell $(CC) -v 2>&1 | cat))
 endif
 CC_VERSION_MAJOR := $(shell echo $(CC_VERSION) | cut -d'.' -f 1)
 CC_VERSION_MINOR := $(shell echo $(CC_VERSION) | cut -d'.' -f 2)
-
+ 
 ifneq ($(or $(call >,$(CC_VERSION_MAJOR),4), \
        $(and $(call  ==,$(CC_VERSION_MAJOR),4), \
              $(call >=,$(CC_VERSION_MINOR),2))),)
