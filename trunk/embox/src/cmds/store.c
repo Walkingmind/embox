@@ -36,25 +36,25 @@ static int store_area(uint32_t src_addr, uint32_t start_block_num, int numwords)
 	while (numwords > 0) {
 		curr_block_size = flash_if_get_block_size(&flash_devices_table[0], curr_block_num);
 
-		TRACE("unlock\n");
+		printf("unlock\n");
 		flash_status = UNLOCK_BLOCK(flash_devices_table[0], curr_block_num);
 
-		TRACE("erase\n");
+		printf("erase\n");
 		flash_status = ERASE_BLOCK(flash_devices_table[0], curr_block_num);
 
 		GET_BLOCK_OFFSET(flash_devices_table[0], curr_block_num, &block_addr);
 
-		TRACE("program\n");
+		printf("program\n");
 		for (i = 0; i < curr_block_size / sizeof(uint32_t); i++) {
 			flash_status = PROGRAM_FLASH(flash_devices_table[0],
 				block_addr + sizeof(uint32_t) * i, *((uint32_t *) curr_addr + i));
 			if (--numwords <= 0) {
 				break;
 			}
-			TRACE(".");
+			printf(".");
 		}
 
-		TRACE("lock\n");
+		printf("lock\n");
 		flash_status = LOCK_BLOCK(flash_devices_table[0], curr_block_num);
 
 		curr_addr += curr_block_size;
@@ -65,7 +65,7 @@ static int store_area(uint32_t src_addr, uint32_t start_block_num, int numwords)
 	flash_status = LOCK_ALL_BLOCKS(flash_devices_table[0]);
 */
 
-	TRACE("\nok!\n");
+	printf("\nok!\n");
 	return 0;
 }
 
