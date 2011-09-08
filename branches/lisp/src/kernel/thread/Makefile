@@ -1,13 +1,14 @@
 $_PACKAGE := embox.kernel.thread
 
-$_APIS += sched_api
+$_APIS += sched_api tasks_api
 
-$_MODS      += core sched sched_critical
-
+$_MODS      += core sched sched_critical 
+ 
 $_SRCS-core += core.c
 $_DEPS-core += sched
 $_DEPS-core += sync
 $_DEPS-core += embox.hal.context
+$_REQUIRES-core += embox.kernel.tasks_api
 
 $_SRCS-sched += sched.c
 $_REQUIRES-sched += embox.kernel.timer.timer_api

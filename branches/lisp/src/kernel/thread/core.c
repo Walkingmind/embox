@@ -28,6 +28,7 @@
 #include <util/structof.h>
 #include <kernel/critical.h>
 #include <kernel/thread/api.h>
+#include <kernel/task.h>
 #include <kernel/thread/sched.h>
 #include <kernel/thread/state.h>
 #include <kernel/panic.h>
@@ -46,7 +47,7 @@ static int id_counter;
 static void thread_init(struct thread *t, unsigned int flags,
 		void *(*run)(void *), void *arg);
 static void thread_context_init(struct thread *t);
-static void thread_ugly_init(struct thread *t);
+//static void thread_ugly_init(struct thread *t);
 
 static struct thread *thread_new(void);
 static void thread_delete(struct thread *t);
@@ -72,52 +73,62 @@ static void __attribute__((noreturn)) thread_trampoline(void) {
 	thread_exit(current->run(current->run_arg));
 }
 
+int thread_create_task(struct thread **p_thread, unsigned int flags,
+		void *(*run)(void *), void *arg, struct task *tsk) {
+	struct thread *t;
+		int save_ptr = (flags & THREAD_FLAG_SUSPENDED) || !(flags
+				& THREAD_FLAG_DETACHED);
+
+		if ((flags & THREAD_FLAG_PRIORITY_LOWER) && (flags
+				& THREAD_FLAG_PRIORITY_HIGHER)) {
+			return -EINVAL;
+		}
+
+		if (save_ptr && !p_thread) {
+			return -EINVAL;
+		}
+
+		if (!run) {
+			return -EINVAL;
+		}
+
+		sched_lock();
+
+		if (!(t = thread_new())) {
+			sched_unlock();
+			return -ENOMEM;
+		}
+
+		thread_init(t, flags, run, arg);
+		thread_context_init(t);
+
+		t->task = tsk;
+		list_add(&t->task_link, &tsk->threads);
+
+		sched_start(t);
+
+		if (flags & THREAD_FLAG_SUSPENDED) {
+			thread_suspend(t);
+		}
+
+		if (flags & THREAD_FLAG_DETACHED) {
+			thread_detach(t);
+		}
+
+		if (save_ptr) {
+			*p_thread = t;
+		}
+
+		sched_unlock();
+
+		return 0;
+}
+
 int thread_create(struct thread **p_thread, unsigned int flags,
 		void *(*run)(void *), void *arg) {
-	struct thread *t;
-	int save_ptr = (flags & THREAD_FLAG_SUSPENDED) || !(flags
-			& THREAD_FLAG_DETACHED);
+	struct task *tsk = task_self();
 
-	if ((flags & THREAD_FLAG_PRIORITY_LOWER) && (flags
-			& THREAD_FLAG_PRIORITY_HIGHER)) {
-		return -EINVAL;
-	}
-
-	if (save_ptr && !p_thread) {
-		return -EINVAL;
-	}
-
-	if (!run) {
-		return -EINVAL;
-	}
-
-	sched_lock();
-
-	if (!(t = thread_new())) {
-		sched_unlock();
-		return -ENOMEM;
-	}
-
-	thread_init(t, flags, run, arg);
-	thread_context_init(t);
-
-	sched_start(t);
-
-	if (flags & THREAD_FLAG_SUSPENDED) {
-		thread_suspend(t);
-	}
-
-	if (flags & THREAD_FLAG_DETACHED) {
-		thread_detach(t);
-	}
-
-	if (save_ptr) {
-		*p_thread = t;
-	}
-
-	sched_unlock();
-
-	return 0;
+	return thread_create_task(p_thread, flags, run, arg, tsk);
 }
 
 static void thread_init(struct thread *t, unsigned int flags,
@@ -156,7 +167,9 @@ static void thread_init(struct thread *t, unsigned int flags,
 	event_init(&t->exit_event, "thread_exit");
 	t->need_message = false;
 
-	thread_ugly_init(t);
+	INIT_LIST_HEAD(&t->task_link);
+
+	//thread_ugly_init(t);
 }
 
 static void thread_context_init(struct thread *t) {
@@ -169,6 +182,7 @@ static void thread_context_init(struct thread *t) {
 	context_set_stack(&t->context, (char *) t->stack + t->stack_sz);
 }
 
+#if 0
 static void thread_ugly_init(struct thread *t) {
 	struct thread *current;
 
@@ -177,6 +191,7 @@ static void thread_ugly_init(struct thread *t) {
 		memcpy(&(t->task), &(current->task), sizeof(struct task));
 	}
 }
+#endif
 
 void __attribute__((noreturn)) thread_exit(void *ret) {
 	struct thread *current = thread_self();
@@ -359,7 +374,7 @@ static void *idle_run(void *arg) {
 static int unit_init(void) {
 	static struct thread bootstrap;
 	struct thread *idle;
-
+	struct task *default_task;
 	id_counter = 0;
 
 	bootstrap.id = id_counter++;
@@ -374,6 +389,12 @@ static int unit_init(void) {
 	}
 	thread_init(idle, 0, idle_run, NULL);
 	thread_context_init(idle);
+
+	default_task = task_default_get();
+
+	bootstrap.task = default_task;
+	idle->task = default_task;
+
 	idle->priority = THREAD_PRIORITY_MIN;
 
 	return sched_init(&bootstrap, idle);

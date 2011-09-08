@@ -9,12 +9,13 @@
 #include <string.h>
 #include <errno.h>
 
-#include <netutils.h>
+#include <net/util.h>
 #include <net/netdevice.h>
 #include <net/arp.h>
 #include <net/ip.h>
 #include <net/inetdevice.h>
 #include <net/sock.h>
+#include <err.h>
 
 int eth_header(sk_buff_t *pack, net_device_t *dev, unsigned short type,
 			void *daddr, void *saddr, unsigned len) {

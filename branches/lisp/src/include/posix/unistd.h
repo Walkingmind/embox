@@ -11,7 +11,7 @@
 #ifndef UNISTD_H_
 #define UNISTD_H_
 
-#include <sys/types.h>
+#include <posix/sys/types.h>
 
 /* Standard file descriptors. */
 #define STDIN_FILENO    0   /* Standard input. */
@@ -36,5 +36,7 @@ extern int sleep(unsigned int seconds);
  * @return 0 if time has elapsed if was error then return -1
  */
 extern int usleep(useconds_t useconds);
+
+extern ssize_t write(int fd, const void *buf, size_t nbyte);
 
 #endif /* UNISTD_H_ */

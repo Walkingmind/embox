@@ -34,11 +34,5 @@ static int exec(int argc, char **argv) {
 
 	fs_print_all_partitions();
 
-	/* for debugging */
-/*
-	TRACE("\n\n");
-	fs_add_new_partition("user_partition_1", 0x40000, 0x20000, 1);
-	fs_print_all_partitions();
-*/
 	return 0;
 }

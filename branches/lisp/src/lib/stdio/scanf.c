@@ -71,7 +71,7 @@ static void unscanchar(char **str, int ch) {
 		ungetchar(ch);
 	}
 }
-
+#define getc(file) 0
 static int scanchar(char **str) {
 	extern int getchar(void);
 	int ch;

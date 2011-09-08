@@ -13,8 +13,6 @@
 #include <hal/context.h>
 #include <kernel/thread/event.h>
 
-#include "task.h"
-
 typedef int __thread_id_t;
 typedef short __thread_priority_t;
 typedef unsigned short __thread_state_t;
@@ -48,7 +46,8 @@ struct thread {
 	struct list_head  messages;      /**< Messages sent to the thread. */
 	struct event      msg_event;     /**< Thread receives a message. */
 
-	struct task task;
+	struct task	  *task;             /**< Task belong to. */
+	struct list_head task_link;      /**< Link in list holding task threads. */
 };
 
 #endif /* KERNEL_THREAD_TYPES_H_ */

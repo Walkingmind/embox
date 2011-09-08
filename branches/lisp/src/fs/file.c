@@ -14,15 +14,7 @@
 #include <fs/ramfs.h>
 #include <fs/vfs.h>
 #include <util/array.h>
-
-typedef struct lsof_map {
-	struct list_head *next;
-	struct list_head *prev;
-	const char        path[CONFIG_MAX_LENGTH_FILE_NAME];
-	FILE             *fd;
-	int 			  id;
-	char 			  unchar;
-} lsof_map_t;
+#include <err.h>
 
 static lsof_map_t lsof_pool[CONFIG_QUANTITY_NODE];
 static LIST_HEAD(free_list);
@@ -30,41 +22,29 @@ static LIST_HEAD(fd_cache);
 
 #define fd_to_head(file) (uint32_t)(file - offsetof(lsof_map_t, fd))
 
-static int __cache_fd(const char *path, FILE *file, int fid) {
-	lsof_map_t *head;
-	if (list_empty(&free_list)) {
-		return -1;
-	}
-	head = (lsof_map_t *) free_list.next;
-	head->fd = file;
-	head->id = fid;
-	head->unchar = EOF;
-	strcpy((void*) head->path, path);
-	list_move((struct list_head*) head, &fd_cache);
-	return fid;
-}
-
 void lsof_map_init(void) {
 	size_t i;
 	for (i = 0; i < ARRAY_SIZE(lsof_pool); i++) {
 		list_add((struct list_head *) &lsof_pool[i], &free_list);
 	}
-	__cache_fd(NULL, NULL, 0);
-	__cache_fd(NULL, NULL, 1);
-	__cache_fd(NULL, NULL, 2);
 }
 
-static int file_id = 10;
-
-static int cache_fd(const char *path, FILE *file) {
-	return __cache_fd(path, file, file_id++);
+#if 0
+static void cache_fd(const char *path, FILE *file) {
+	lsof_map_t *head;
+	if (list_empty(&free_list)) {
+		return;
+	}
+	head = (lsof_map_t *) free_list.next;
+	head->fd = file;
+	strcpy((void*) head->path, path);
+	list_move((struct list_head*) head, &fd_cache);
 }
 
 static void uncache_fd(FILE *file) {
 	list_move((struct list_head*) fd_to_head(file), &free_list);
 }
 
-#if 1
 static lsof_map_t *find_fd(FILE *file) {
 	struct list_head *p;
 	list_for_each(p, &fd_cache) {
@@ -72,41 +52,9 @@ static lsof_map_t *find_fd(FILE *file) {
 			return (lsof_map_t *) p;
 		}
 	}
-//	TRACE("File maybe not opened\n");
+	printk("File maybe not opened\n");
 	return NULL;
 }
-int fileno(FILE *stream) {
-	return find_fd(stream)->id;
-}
-
-FILE *file_struct(int fd) {
-	struct list_head *p;
-	list_for_each(p, &fd_cache) {
-		if (((lsof_map_t *) p)->id == fd) {
-			return ((lsof_map_t *) p)->fd;
-		}
-	}
-	return NULL;
-}
-int getc(FILE *stream) {
-	char buf;
-	lsof_map_t *map = find_fd(stream);
-	if (map != NULL && ((int) (buf = map->unchar) )!= EOF) {
-		map->unchar = EOF;
-		return buf;
-	}
-	fread(&buf, 1, 1, stream);
-	return (int) buf;
-}
-
-int ungetc(int c, FILE *stream) {
-	lsof_map_t *map = find_fd(stream);
-	if (map != NULL) {
-	    map->unchar = (char) c;
-	}
-	return c;
-}
-
 #endif
 
 FILE *fopen(const char *path, const char *mode) {
@@ -143,32 +91,16 @@ FILE *fopen(const char *path, const char *mode) {
 		return NULL;
 	}
 	file = drv->file_op->fopen(path, mode);
-	cache_fd(path, file);
+	//cache_fd(path, file);
 	return file;
-}
-int open(const char *path, const char *mode) {
-	FILE *file = fopen(path, mode);
-	return fileno(file);
-}
-size_t write(int fd, void *buf, size_t count) {
-	FILE *file = file_struct(fd);
-	return fwrite(buf, 1, count, file);
 }
 
 size_t fwrite(const void *buf, size_t size, size_t count, FILE *file) {
 	node_t *nod;
 	file_system_driver_t *drv;
 	nod = (node_t *) file;
-	if ((int) file == 1 || (int) file == 2)  {
-	    char *cbuf = (char *) buf;
-	    int i, j;
-	    for (i = 0; i < count; i++) {
-		for (j = 0; j < size; j++) {
-		    putchar(*cbuf);
-		    cbuf++;
-		}
-	    }
-	    return count;
+	if (NULL == nod) {
+		return -EBADF;
 	}
 	drv = nod->fs_type;
 	if (NULL == drv->file_op->fwrite) {
@@ -178,34 +110,7 @@ size_t fwrite(const void *buf, size_t size, size_t count, FILE *file) {
 	return drv->file_op->fwrite(buf, size, count, file);
 }
 
-size_t read(int fd, void *buf, size_t count) {
-	FILE *file = file_struct(fd);
-	lsof_map_t *map = find_fd(file);
-	char ch;
-	if ((ch = map->unchar) != EOF) {
-		map->unchar = EOF;
-		*((char *) buf) = ch;
-		return 1 + fread((char *) buf + 1, 1, count - 1, file);
-	}
-	return fread(buf, 1, count, file);
-}
-
-/* FIXME doesn't handle ungetch */
 size_t fread(void *buf, size_t size, size_t count, FILE *file) {
-	if (file == 0)  {
-	    char *cbuf = (char *) buf;
-	    int i, j;
-	    for (i = 0; i < count; i++) {
-		for (j = 0; j < size; j++) {
-		    *cbuf = readline_getchar();
-		    if (*cbuf == EOF) {
-			return ((int) (cbuf - (char *) buf)) / size;
-		    }
-		    cbuf++;
-		}
-	    }
-	    return count;
-	}
 	node_t *nod;
 	file_system_driver_t *drv;
 	nod = (node_t *) file;
@@ -238,15 +143,10 @@ int fclose(FILE *fp) {
 	if (NULL == drv->file_op->fclose) {
 		return -EOF;
 	}
-	uncache_fd(fp);
+	//uncache_fd(fp);
 	return drv->file_op->fclose(fp);
 }
 
-int close(int fd) {
-
-	FILE *file = file_struct(fd);
-	return fclose(file);
-}
 int fseek(FILE *stream, long int offset, int origin) {
 	node_t *nod;
 	file_system_driver_t *drv;
