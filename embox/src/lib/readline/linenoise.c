@@ -294,8 +294,10 @@ static int linenoisePrompt(int fd, char *buf, size_t buflen, const char *prompt,
         if (c == 9 && cb != NULL) {
 	    if (compl_cnt == 0) {
 		compl_cnt = cb(buf, compl);
-	    } 
-	    if (compl_cnt == 1) {	
+	    }
+	    if (compl_cnt == 0) {
+		continue;
+	    } else if (compl_cnt == 1) {	
 		strcpy(buf, compl);
 		len = strlen(buf);
 		pos = len;
