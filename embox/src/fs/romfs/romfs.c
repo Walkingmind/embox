@@ -583,7 +583,7 @@ static int init(void) {
 	free_blocks_quantity();
 	print_filetables();
 
-	return register_filesystem(&romfs_fs_type);
+	return filesystem_register_drv(&romfs_fs_type);
 }
 
 static void *open_file(const char *file_name, char *mode) {
