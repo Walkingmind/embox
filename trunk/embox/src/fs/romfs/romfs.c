@@ -545,7 +545,7 @@ int format_all_flash_devs(void) {
 static int create_file(void *params);
 static int delete_file(const char *file_name);
 
-static file_system_driver_t ramfs_fs_type = {
+static fs_drv_t ramfs_fs_type = {
 	.name           = "romfs",
 };
 
