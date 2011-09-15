@@ -65,35 +65,36 @@
 	    (apply #'append (cdr lists))))
       (car lists)))
 (defun backquote-expand (list level)
-  (if (consp list)
-      (if (eq 'backquote (car list))
-	  (list 'list ''backquote
-		(backquote-expand (car (cdr list)) (+ level 1)))
-	  (if (eq 'unquote (car list))
-	      (if (= level 0)
-		  (car (cdr list))
-		  (list 'list ''unquote
-			(backquote-expand (car (cdr list)) (- level 1))))
-	      (if (eq 'unquote-splicing (car list))
-		  (if (= level 0)
-		      (values (car (cdr list)) t)
-		      (list 'list ''unquote-splicing
-			    (backquote-expand (car (cdr list)) (- level 1))))
-		  (labels ((collect (list)
-			     (if (consp list)
-				 (cons (multiple-value-call
-					   #'(lambda (value
-						      &optional splicingp)
-					       (if splicingp
-						   value
-						   (list 'list value)))
-				       (backquote-expand (car list) level))
-				     (collect (cdr list)))
-				 (list (list 'quote list)))))
-		    (cons 'append (collect list))))))
-      (list 'quote list)))
+  (if (consp list) 
+      (if (eq 'backquote (car list)) 
+	  (list 'list ''backquote 
+		(backquote-expand (car (cdr list)) (+ level 1))) 
+	  (if (eq 'unquote (car list)) 
+	      (if (= level 0) 
+		  (car (cdr list)) 
+		  (list 'list ''unquote 
+			(backquote-expand (car (cdr list)) (- level 1)))) 
+	      (if (eq 'unquote-splicing (car list)) 
+		  (if (= level 0) 
+		      (values (car (cdr list)) t) 
+		      (list 'list ''unquote-splicing 
+			    (backquote-expand (car (cdr list)) (- level 1)))) 
+		  (labels ((collect (list) 
+			     (if (consp list) 
+				 (cons (multiple-value-call 
+					   #'(lambda (value 
+						      &optional splicingp) 
+					       (if splicingp 
+						   value 
+						   (list 'list value))) 
+				       (backquote-expand (car list) level)) 
+				     (collect (cdr list))) 
+				 (list (list 'quote list))))) 
+		    (cons 'append (collect list)))))) 
+      (list 'quote list))) 
 (defmacro backquote (form)
   (backquote-expand form 0))
+
 (defun macro-function (symbol &optional environment)
   "(dolist (binding environment)
     (when (and (consp (car binding))
