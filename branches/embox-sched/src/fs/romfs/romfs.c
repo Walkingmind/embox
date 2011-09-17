@@ -545,7 +545,7 @@ int format_all_flash_devs(void) {
 static int create_file(void *params);
 static int delete_file(const char *file_name);
 
-static file_system_driver_t ramfs_fs_type = {
+static fs_drv_t ramfs_fs_type = {
 	.name           = "romfs",
 };
 
@@ -583,7 +583,7 @@ static int init(void) {
 	free_blocks_quantity();
 	print_filetables();
 
-	return register_filesystem(&romfs_fs_type);
+	return filesystem_register_drv(&romfs_fs_type);
 }
 
 static void *open_file(const char *file_name, char *mode) {
@@ -820,7 +820,6 @@ fsop_desc_t romfsop = {
 };
 
 static void *romfs_fopen(const char *file_name, const char *mode) {
-	TRACE("romfs file %s was opened\n", file_name);
 	return NULL;
 }
 
@@ -828,7 +827,6 @@ static int romfs_fclose(void * file) {
 	FILE_HANDLER *fh = (FILE_HANDLER *) file;
 	fh->fileop = NULL;
 	fh->fdesc->is_busy = 0;
-	TRACE("file %s was closed\n", fh->fdesc->name);
 	return 0;
 }
 
@@ -863,7 +861,6 @@ static size_t romfs_fread(void *buf, size_t size, size_t count, void *file) {
 	printf("romfs in fread()\n\n");
 
 	if (fh->cur_pointer >= fh->fdesc->size_in_bytes) {
-		TRACE("end read\n");
 		return 0;
 	}
 
@@ -904,9 +901,7 @@ static size_t romfs_fread(void *buf, size_t size, size_t count, void *file) {
 	}
 
 	fh->cur_pointer += (uint32_t) cur_ptr - (uint32_t) buf;
-//	if (NULL == (fh->cur_pointer % 0x10000)) {
-//		TRACE("cur = 0x%X\t size = 0x%X\n",fh->cur_pointer,fh->fdesc->size_in_bytes);
-//	}
+
 	printf("successful %d\n\n", (uint32_t) cur_ptr - (uint32_t) buf);
 	return (uint32_t) cur_ptr - (uint32_t) buf;
 
@@ -930,7 +925,6 @@ static size_t romfs_fwrite(const void *buf, size_t size, size_t count, void *fil
 	printf("romfs in fwrite(), size = %d, count = %d\t", size, count);
 
 	if (fh->cur_pointer >= fh->fdesc->size_in_bytes) {  //fixed
-		TRACE("end write\n\n");
 		return 0;
 	}
 
@@ -939,10 +933,8 @@ static size_t romfs_fwrite(const void *buf, size_t size, size_t count, void *fil
 			maxnblocks += flash_devices_table[i].total_numblocks;
 		}
 	}
-//	printf("maxnblocks %d\n\n", maxnblocks);
 
 	block_info_array_filling(nblocks, file_blocks, fh);
-//	printf("nblocks %d\n\n", nblocks);
 
 	cur_address = fh->cur_pointer;
 	cur_nblock = cur_address / 0x40000;
