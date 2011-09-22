@@ -98,7 +98,7 @@ int x = foo(1);
 {{{
 i++;
 }}}
- * At a pointer between a name and *:
+ * At a pointer between a name and {{{*}}}:
 {{{
 struct list_head *tmp;
 }}}
