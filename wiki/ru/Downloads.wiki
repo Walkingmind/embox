@@ -6,15 +6,16 @@
 snapshot из `/trunk` или просмотреть репозиторий используя
 [http://code.google.com/p/embox/source/browse web-based viewer].
 
-= Крайний стабильный релиз - embox-0.2.1 =
+= Крайний стабильный релиз - embox-0.2.2 =
 
-Вышел 4 Июля 2011.
+Вышел 25 Сентября 2011.
 
- * [http://embox.googlecode.com/files/embox-0.2.1.txz embox-0.2.1.txz] (размер: 399 KB; SHA1 Checksum: e66f971ee16071863ec4be3ff2056d5abd05c8f3)
- * [http://embox.googlecode.com/files/embox-0.2.1.tar.gz embox-0.2.1.tar.gz] (размер: 525 KB; SHA1 Checksum: d0bdd42182828ffb01db0f98ae015aa4944bbef6)
+ * [http://embox.googlecode.com/files/embox-0.2.2.txz embox-0.2.2.txz] (size: 533 KB; SHA1 Checksum: 69560803363542460f58d3c211d62416d72781d7)
+ * [http://embox.googlecode.com/files/embox-0.2.2.tar.gz embox-0.2.2.tar.gz] (size: 717 KB; SHA1 Checksum: fe8fb15cf090327784f935e9d35714a12d392f23)
 
 = Предыдущие стабильные релизы =
 
+ * [http://embox.googlecode.com/files/embox-0.2.1.txz embox-0.2.1.txz] (размер: 399 KB; SHA1 Checksum: e66f971ee16071863ec4be3ff2056d5abd05c8f3)
  * [http://embox.googlecode.com/files/embox-0.2.0.txz embox-0.2.0.txz] (размер: 392 KB; SHA1 Checksum: c019bafa6d5d4a21fa3bdb2867a498d9d4ff530a)
  * [http://embox.googlecode.com/files/embox-0.1.11.txz embox-0.1.11.txz] (размер: 379 KB; SHA1 Checksum: 1e405fa344d39b2af505339207025ea8651e608e)
  * [http://embox.googlecode.com/files/embox-0.1.10.txz embox-0.1.10.txz] (размер: 356 KB; SHA1 Checksum: ea5194728818042b9a630fc9ab5ddba2f2298a33)
