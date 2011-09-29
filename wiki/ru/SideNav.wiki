@@ -1,4 +1,4 @@
-  *[OldWiki Old Wiki]
+  *[Old Wiki]
     * [ProjectDescription Описание проекта]
     * [GSoC2011 Google Summer of Code]
     * [ProjectApplications Применения проекта]
