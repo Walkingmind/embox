@@ -1,0 +1,6 @@
+#summary Полезные ссылки.
+
+<wiki:toc max_depth="2"/>
+
+  =useful links=
+[http://habrahabr.ru/blogs/programming/128991/ Организация памяти в x86]
