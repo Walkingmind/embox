@@ -1,0 +1,7 @@
+#summary Полезные ссылки.
+#labels Featured
+
+<wiki:toc max_depth="2"/>
+
+  =Выкладываем сюда ссылки на интересные разработчику вещи=
+[http://habrahabr.ru/blogs/programming/128991/ Организация памяти в x86]
