@@ -1,0 +1,47 @@
+#summary How to get envolved to Embox
+
+= Introduction =
+
+To run Embox You must compile it first. You need simple development environment.
+If You're on Linux, docs lies [here] and skip next section to [compiling].
+
+Follows running with [cygwin] on Windows(r).
+
+= Cygwin =
+
+Install [cygwin]. During normal installation you'll be asked for additional pacakages. Necessary packages are: make, gcc. It's recommended to use [our] build of gcc as one known to work. So, check make (gcc is optionally, if you haven't preffer our build). 
+
+Read more in detail [here].
+
+= Compiling Embox =
+
+So, You've installed build environment, now it's time to make you first Embox build. As Embox is highly configureable, i.e. consits of a set of modules which are configured with options, compiling is not just typing "make" on console, first You need describe configuration. Embox is bundled with a set of common config templates for various architectures and purposes. Configuring is much more easy by modifying from some start point.
+
+Go for embox root dir (i.e. which consists of conf/, src/, ...)
+
+$ cd embox
+
+You can copy template to freely modify config by
+
+$ make config PROJECT=arch PROFILE=purpose
+
+or
+
+$ make menuconfig
+
+This will copy templates/arch/purpose/ content to conf/. As You see, templates a stored in templates/ with appropriate subdirs. Only content of templates/ defines avaible templates.
+
+For example, if You want play with Embox just as on real machine, configure with 
+arch=x86 and purpose=debug (this means a large subset of options and modules on), e.g.:
+
+$ make config PROJECT=x86 PROFILE=debug
+
+Next, you can optionally change config as described [here]
+
+At now You can build Embox just typing 
+
+$ make
+
+It's smart build-system resolves all dependecies and automatically includes those to image.
+
+Now, You have Embox image ready to run. 
