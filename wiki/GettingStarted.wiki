@@ -19,7 +19,7 @@ $ sudo apt-get install build-essential
 
 = Compiling Embox =
 
-So, You've installed build environment, now it's time to make you first Embox build. As Embox is highly configureable, i.e. consits of a set of modules which are configured with options, compiling is not just typing "make" on console, first You need describe configuration. Embox is bundled with a set of common config templates for various architectures and purposes. Configuring is much more easy by modifying from some start point.
+So, You've installed build environment, now it's time to make you first Embox build. As Embox is highly configureable, i.e. consits of a set of modules which are configured with options, compiling is not just typing <pre>make</pre> on console, first You need describe configuration. Embox is bundled with a set of common config templates for various architectures and purposes. Configuring is much more easy by modifying from some start point.
 
 Go for embox root dir (i.e. which consists of conf/, src/, ...)
 {{{
@@ -55,3 +55,40 @@ Now, You have Embox image ready to run. You can place image on disk and boot it 
 $ qemu -kernel build/base/bin/embox
 }}}
 New window opens with Embox to play with.
+
+= Going deeper =
+== Understanding modules ==
+
+Embox consists of modules. Module is a building unit, generalization of object in terms of compilation. Module is a set of objects with dependencies. Each subsystem is a module, which can be included or not to resulting image. Module can be included by automatic dependences resolving or by explicit inclusion. Inclusion is controlled by conf/mods.conf which is preprocessed.
+
+Config syntax is pretty simple. To include general module with kernel domain, add to mods-kernel.conf 
+{{{
+mod(embox.kernel.irq)
+}}}
+
+As there are several runlevels, module can be explicitly loaded on chosed one. For example, this loads irq on 2'nd runlevel
+{{{
+mod(embox.kernel.irq, 2)
+}}}
+
+There are some specail module types, which are included with special directive. Such types are: test, cmd (command), example
+{{{
+test(kernel.irq_test)
+}}}
+Domain is not specified when including special modules.
+
+== Options ==
+
+Options are placed in conf/ too. Build.conf points compilator and describes compilator's options such as optimization, debug info,..
+
+System configuring options are placed in options.conf. These are controll buffers' size,..
+
+lds.conf describes target's memory layout and section loading. 
+
+== Platforms ==
+
+There are several supported platforms, some of them have simulator.
+
+List of simulators with starting parameters can be found [InstallToolchainSimulation here].
+
+Building for a specified platform is accomplished by selecting appropriate template.
