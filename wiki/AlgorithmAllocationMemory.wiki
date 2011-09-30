@@ -42,8 +42,8 @@ number of objects with fixed size. The high border of the number of
 holding objects is limited by fixed value before compiling.
  
 Objects will be stored in the array with size equal to high border.
-Then free elements of array link into list of free objects. So, allocation 
-of object - returning a link to free space, deleting of object - returning of the 
+Then free elements of array link into list of free objects. So, *allocation* 
+of object - returning a link to free space, *deallocation* of object - returning of the 
 link in the list of free object. 
 
 Object manager belong to O(1) complexity class, where n is an array size.
@@ -56,15 +56,17 @@ Shortly, it is an algorithm with the main goal to minimize time for operations b
 allocating and inizialization some parts of dynamic memory for objects with the same size.
 But how many objects will be allocated by user? Because Algorithm don't know answer
 for this question ,it try to allocate memory for some part of obeject and inizialize
-this part (called slab). Each slab initialize as object manager. Slabs may be free,
+this part (called slab). Each slab will initialize as object manager. Slabs may be free,
 partically full and full and only that. Collection of all slabs for objects with fixed 
 size named cache. Cache contains three list in it's structure: list of free slabs, list 
 of particial full slabs and list of full slabs. 
-So, allocating object: we search cache that contains objects having appropriated size
+
+So, *allocation* of object: we search cache that contains objects having appropriated size
 (it's requires number of operations equal to number of different sizes). Then we get first
 of particial full slabs and allocate object for O(1) operation. If slab is full, we delete
 it from list of particial full slabs and add to list of full slabs. It's O(1) operations.
-Deleting object - obviously it's O(1)
+
+*Deallocation* of object - obviously it's O(1)
 So, the main costs consist of time for inizializing of each slab. It is O(n), where n is
 number of objects stored on slab.
 Obviosly optimizations based on statistic to define optimal init size of each slab.
@@ -75,14 +77,12 @@ has such property, that previous block has lower addresses.
 Each block has to pointers(on previos and next block) and two descriptors at beginning and end
 of block. Each descriptor contains flag indicated free it or busy and number(int) equal to
 it own size. It's method allows to allocate objects of any size. Note, we will keep an
-invarint: each free block has previous busy block and next busy block. This is not exist two
-free blocks, that point by one another.
+invarint: each free block has previous busy block and next busy block. This is not exist two free blocks, that point by one another.
 
-Allocating. We go throgh list and searh "appropriated" block. There are several strategies:
+*Allocation*.We go through list and search "appropriate" block. There are several strategies:
  * first free
- * "the best". In this case we search block with minimum difference between it size and size 
-of our object.
- * "the worst". As in previous case, but differnce must be maximum. 
+ * "the best". In this case we search block with minimum difference between it size and size of our object.
+ * "the worst". As in previous case, but difference must be maximum. 
 All algorithms belong to O(n) complexity class. But efficiency depends on practice.
 Let's consider first algorithm.
 So, we iterate through the list and look at descriptor of each 
@@ -91,7 +91,7 @@ pointer to next block. If current block is required we move dacriptor and change
 current block into to blocks - busy and free(O(1) operations). And new free block has no free nearby
 block.
 
-Deallocation. We delete object by pointer(it's O(1) obviously). But then we get new free block.
+*Deallocation*. We delete object by pointer(it's O(1) obviously). But then we get new free block.
 Then we combine it with nearby free blocks. It's O(1) operations.
 
 == Buddy system ==
@@ -99,13 +99,16 @@ Then we combine it with nearby free blocks. It's O(1) operations.
 See http://en.wikipedia.org/wiki/Buddy_memory_allocation
 
 Shortly, this algorithm represent pool of memory as binary tree. Element of tree is block of memory.
-Size of parent of each node is equal to double size of child. E.g. root has has 2^n size. Its
+Size of parent of each node is equal to double size of child. E.g. root has 2^n size. Its
 two children have 2^(n-1) size and etc. 
 
-Allocation. We go through the tree from leafs to root and search free block with appropriate size.
+*Allocation*. We go through the tree from leafs to root and search free block with appropriate size.
 Then mark it block as busy and go to its child to mark it, then go to its children and so on.
 
-Deallocation. 
+*Deallocation*. 
+We search appropriate block by pointer to it. Then mark it as free. Then go to leafs and by the way mark 
+other nodes if need. Let's look at buddy of our block(this is its brother). If it is free, then 
+combine them and mark their parent as free. Recursively make such merge for parent and so on. 
   
 == Proof links ==
 
