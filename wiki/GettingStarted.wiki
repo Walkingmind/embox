@@ -8,7 +8,7 @@ This wiki describes simple way get first Embox image running x86 simulator (QEMU
 
 Install [http://cygwin.com/ cygwin]. During normal installation you'll be asked for additional pacakages. Necessary packages are: make, gcc. It's recommended to use [http://code.google.com/p/embox/wiki/Downloads?tm=2#Tools our] build of gcc as one known to work. So, check make (gcc is optional, if you haven't preffer our build). 
 
-Read more in detail [InstallToolchainWindows here].
+Read more in detail [InstallToolchainWindowsCygwin here].
 
 == Linux ==
 
