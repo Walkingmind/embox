@@ -1,0 +1,28 @@
+#summary Embox's architecture.
+#labels Featured
+
+<wiki:toc max_depth="2"/>
+*Embox* has base level architecture.
+The lowest level as a hardware abstraction layer (HAL). The next is kernel level, usualy It supports resources allocation and internal communication. The next is driver and services level, And the highest is applications level.
+ * Application
+ * Services
+ * Drivers 
+ * Kernel
+ * HAL
+ 
+= HAL =
+This interface supports following operations and services
+ * I/O Access Limitation
+ * Timing Control
+ * Instruction Traps
+ * Memory Management Unit (MMU)
+ * Privileged mode of operation.
+ * Atomicity
+ 
+= Kernel =
+
+= Drivers =
+
+= Services =
+
+= Applications = 

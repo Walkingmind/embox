@@ -1,0 +1,32 @@
+#summary Описание архитектуры проекта Embox.
+#labels Featured
+
+<wiki:toc max_depth="2"/>
+
+Имеет уровневую архитектуру.
+На нижнем уровне находится уровень абстракции от оборудования (HAL). Далее идет уровень ядра, обычно он обеспечиает распределение системного времени и изоляцию ресурсов. Затем идет уровень драйверов и сервисов. И последним уровнем является уровень прикладных приложений.
+ * Application
+ * Services
+ * Drivers 
+ * Kernel
+ * HAL
+ 
+= HAL =
+Данный интерфейс Обеспечивает следующие платформенно зависимые операции и службы
+ * I/O Access Limitation
+ * Timing Control
+ * Instruction Traps
+ * Memory Management Unit (MMU)
+ * Privileged mode of operation.
+ * Atomicity
+ 
+= Kernel =
+
+= Drivers =
+
+= Services =
+
+= Applications = 
+
+
+ 

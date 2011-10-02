@@ -63,6 +63,8 @@
     * [ML505Description Virtex-5 LXT FPGA ML505 Evaluation Platform]
   * [EmboxArt Art]
   * New Wiki
+    * [QuickOverview About project]
+    * [EmboxArchitecture Embox's architecture]
     * Embox kernel
       * Memory
         * Dynamic memory allocation

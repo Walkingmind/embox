@@ -63,6 +63,7 @@
     * [EmboxArt Art]
   * New Wiki
     * [QuickOverview О проекте]
+    * [EmboxArchitecture Архитектура проекта]
     * Сборка проекта
     * Разработчику
       * [Roadmap Roadmap]
