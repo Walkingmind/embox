@@ -14,6 +14,16 @@ The lowest level as a hardware abstraction layer (HAL). The next is kernel level
  * [EmboxKernelHal HAL]
  
 = Kernel =
+The type of Embox kernel architecture - exokernel. Kernel includes the following parts:
+ * Threads
+ * Tasks
+ * Timers and clock source management
+ * Hardware and software interrupts handling
+
+Kernel properties:
+ * Data Separation
+ * Damage Limitation
+ * Timesharing the processor between the partitions(threads, tasks or event handlers)
 
 = Drivers =
 
