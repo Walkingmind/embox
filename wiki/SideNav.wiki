@@ -1,7 +1,7 @@
   * [QuickOverview Quick Overview]
   * [GettingStarted Getting Started]
   * [EmboxArchitecture Architecture]
-    * [EmboxKernelHal Hardware Abstraction Layer]
+    * [Hal Hardware Abstraction Layer]
     * [Kernel]
     * [Memory]
       * Memory allocation
