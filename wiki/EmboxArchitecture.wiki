@@ -11,7 +11,7 @@ The lowest level as a hardware abstraction layer (HAL). The next is kernel level
  * Services
  * Drivers 
  * Kernel
- * [EmboxKernelHal HAL]
+ * [Hal HAL]
  
 = Kernel =
 The type of Embox kernel architecture - exokernel. Kernel includes the following parts:
