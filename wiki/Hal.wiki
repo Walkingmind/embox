@@ -12,7 +12,7 @@ It provides general arch-dependent features:
 
 = Details =
 
-== Instruction Traps ==
+== [EmboxTrapsDescription Instruction Traps] ==
 
 Support for traps caused by priveleged instructions. It's done by HAL itself by setting appropriate handlers for HW traps. Traps can be optionally be passed to a higher levels.
 
