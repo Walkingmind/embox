@@ -1,0 +1,21 @@
+#summary HAL description, interface
+
+= Introduction =
+ 
+In order to have hardware abstraction, HAL (Hardware Abstract Layer) was introduced.
+It provides general arch-dependent features: 
+
+ * I/O Access Limitation
+ * Timing Control
+ * Instruction Traps
+ * Memory Management Unit (MMU)
+ * Privileged mode of operation.
+ * Atomicity
+
+
+= Details =
+
+Add your content here.  Format your content with:
+  * Text in *bold* or _italic_
+  * Headings, paragraphs, and lists
+  * Automatic links to other wiki pages
