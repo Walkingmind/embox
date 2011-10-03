@@ -64,13 +64,20 @@
   * [EmboxArt Art]
   * New Wiki
     * [QuickOverview About project]
-    * [EmboxArchitecture Embox's architecture]
-    * Embox kernel
-      * Memory
-        * Dynamic memory allocation
-          * [AlgorithmAllocationMemory Algorithm Allocation Memory]
-          * [MultiPageAllocator Multi Page Allocator]
-          * [PageAlloc Page Alloc]
-        * [VirtualMemory Virtual Memory]
+    * [GettingStarted Getting Started]
+    * [EmboxArchitecture Architecture]
+      * [Hardware Abstraction Layer (HAL)]
+      * [Kernel]
+        * [Memory]
+          * [Dynamic memory allocation]
+             * [AlgorithmAllocationMemory Algorithm Allocation Memory]
+             * [MultiPageAllocator Multi Page Allocator]
+             * [PageAlloc Page Alloc]
+          * [VirtualMemory Virtual Memory]
+        * [Drivers]
+        * [Services]
+        * [Applications]
+
+
   
   
