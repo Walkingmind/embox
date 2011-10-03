@@ -1,6 +1,17 @@
 #summary Drivers description
 
-Drivers are common modules formally.
+Drivers are common modules formally. There are some features developed for drivers but can be used by anoter modules (this demonstrates `virtual_device` approach)
+
+= Drivers features =
+
+== EMBOX_DEVICE macro ==
+
+This macro used if You want access device via file abstraction. Using is simple
+{{{
+EMBOX_DEVICE("name", &file_op);
+}}}
+
+This defines /dev/name file with specified file_operations_t (see documentation [?])
 
 = Drivers list =
 
@@ -27,4 +38,3 @@ Drivers for network devices
 
 == video ==
 Drivers for accessing Frame Buffer on video devices 
-
