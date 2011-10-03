@@ -1,0 +1,5 @@
+#summary Embox kernel overview
+
+As like the whole system, Embox kernel is also modular.
+
+http://embox.googlecode.com/svn/wiki/images/Kernel/kernel-architecture.png
