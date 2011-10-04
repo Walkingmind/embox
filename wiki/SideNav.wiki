@@ -1,5 +1,8 @@
   * [QuickOverview Quick Overview]
   * [GettingStarted Getting Started]
+    * [GettingStartedLego Lego Mindstorms]
+    * [GettingStartedTsim Tsim симулятор SPARC v8]
+    * [GettingStartedQemuX86 QEMU x86]
   * [EmboxArchitecture Architecture]
     * [Hal Hardware Abstraction Layer]
     * [Kernel]
@@ -77,4 +80,4 @@
       * [SpartanDescription HW-SPAR3AN-SK-UNI-G Starter Kit]
       * [ML505Description Virtex-5 LXT FPGA ML505 Evaluation Platform]
     * [EmboxArt Art]
-  
+ 
