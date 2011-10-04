@@ -6,26 +6,18 @@
 
 http://embox.googlecode.com/svn/wiki/images/EmboxArchitecture/arch.png
 
-The lowest level as a hardware abstraction layer (HAL). The next is kernel level, usualy It supports resources allocation and internal communication. The next is driver and services level, And the highest is applications level.
- * Application
- * Services
- * Drivers 
- * Kernel
- * [Hal HAL]
- 
-= Kernel =
-The type of Embox kernel architecture - exokernel. Kernel includes the following parts:
- * Threads
- * Tasks
- * Timers and clock source management
- * Hardware and software interrupts handling
+The lowest level as a hardware abstraction layer ([Hal HAL]). The next is [Kernel kernel] level, usually It supports resources allocation and internal communication. The next is driver and [Services services] level, And the highest is [Applications applications] level.
 
-Kernel properties:
- * Data Separation
- * Damage Limitation
- * Timesharing the processor between the partitions(threads, tasks or event handlers)
+= HAL =
+[Hal this intesface] supports following platform specific operations and utilities as virtual memory primitives, atomic operations
+clock sources and etc.
+It is this interface implementation that need to porting Embox to a new architecture.
+
+= Kernel =
+[Kernel Kernel] provides time scheduling, protection address space, IPC and so on.
 
 = Drivers =
+[Drivers Drivers] provide unify program interface to hardware devices and program pseudo-devices. In this point of view this interface is simular as [Hal HAL] but HAL supports internal CPU features instead of drivers do external device.
 
 = Services =
 
