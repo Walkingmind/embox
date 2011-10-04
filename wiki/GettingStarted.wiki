@@ -1,55 +1,58 @@
 #summary How to get envolved to Embox
 
-= Introduction =
-
 This wiki describes simple way get first Embox image running x86 simulator (QEMU).
-= Environment = 
-== Windows(R) (Cygwin) ==
 
-Install [http://cygwin.com/ cygwin]. During normal installation you'll be asked for additional pacakages. Necessary packages are: make, gcc. It's recommended to use [http://code.google.com/p/embox/wiki/Downloads?tm=2#Tools our] build of gcc as one known to work. So, check make (gcc is optional, if you haven't preffer our build). 
-
-Read more in detail [InstallToolchainWindowsCygwin here].
-
+= Preparing environment = 
+Depending on your operating system perform the following steps. If it is unclear for you what is happening below please refer to the [InstallToolchain complete manual].
+<table cellspacing="10"><tr valign="top"><td width="50%">
+== Windows ==
+First you have to install [http://cygwin.com/ Cygwin] Unix compatibility layer. During normal installation you'll be asked for additional pacakages, choose *make* and *gcc*. In the most case that will be enough.
+ There are possible issues with using default gcc from Cygwin. If you are experiencing some problems with building Embox, try to use [http://code.google.com/p/embox/wiki/Downloads?tm=2#Tools our build] of gcc as one known to work.
+</td><td>
 == Linux ==
-
-Linux boxes usually already have working compilation environment. If You have no, simply install gcc and make with Your packet manager. For example, there is metapacket on Ubuntu for those things, installing is quite simple
+Linux boxes usually already have working compilation environment. If not, simply install *make* and *gcc* with your packet manager.
+ For example, there is metapackage on Ubuntu for those things, installing is quite simple:
 {{{
 $ sudo apt-get install build-essential
 }}}
+</td></tr></table>
 
-= Compiling Embox =
+= Building =
+Well, you've installed build environment, now it's time to perform you first Embox build. Embox is highly configurable, it consists of a set of modules that can be configured with custom options, and compiling is not just typing `make`.
 
-So, You've installed build environment, now it's time to make you first Embox build. As Embox is highly configureable, i.e. consits of a set of modules which are configured with options, compiling is not just typing <pre>make</pre> on console, first You need describe configuration. Embox is bundled with a set of common config templates for various architectures and purposes. Configuring is much more easy by modifying from some start point.
-
-Go for embox root dir (i.e. which consists of conf/, src/, ...)
+But first of all, into `embox` directory (which contains `src/`, `mk/`, etc.):
 {{{
 $ cd embox
 }}}
-You can copy template to freely modify config by
+
+== Configuring ==
+Before actually compiling the system, you have to describe build configuration. Embox is bundled with a set of common configuration templates for various architectures and purposes. It is much more easy to modify one of them instead of writing your own from scratch.
+
+There are two ways to load a configuration template.
+<table cellspacing="10"><tr valign="top"><td width="50%">
+If you know the exact name of the template, the simplest way to load it is to type the following line with *`<project>`* and *`<profile>`* substituted by the desired values.
 {{{
-$ make config PROJECT=arch PROFILE=purpose
+$ make config TEMPLATE=<project>/<profile>
 }}}
-or
+</td><td>
+For example, if you want to play with Embox just as on real machine, configure it using *`x86/debug`* template:
+{{{
+$ make config TEMPLATE=x86/debug
+}}}
+</td></tr></table>
+If you want to look at list of all available templates you may use interactive menu:
 {{{
 $ make menuconfig
 }}}
-This will copy templates/arch/purpose/ content to conf/. As You see, templates a stored in templates/ with appropriate subdirs. Only content of templates/ defines avaible templates.
 
-For example, if You want play with Embox just as on real machine, configure with 
-arch=x86 and purpose=debug (this means a large subset of options and modules on), e.g.:
-{{{
-$ make config PROJECT=x86 PROFILE=debug
-}}}
-Next, you can optionally change config as described [here]
-
-At now You can build Embox just typing 
+== Compiling ==
+Now you can build Embox just typing
 {{{
 $ make
 }}}
 It's smart build-system resolves all dependecies and automatically includes those to image.
 
-= Run =
-
+= Running Embox =
 Now, You have Embox image ready to run. You can place image on disk and boot it with grub as described [here], or run it on simulator. We usually use second choise for easear debug. As You've build x86 version, run it on qemu (various parameters for qemu can be found [http://code.google.com/p/embox/wiki/InstallToolchainSimulation#QEMU here]). Very simple is 
 {{{
 $ qemu -kernel build/base/bin/embox
