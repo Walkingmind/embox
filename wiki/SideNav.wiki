@@ -14,7 +14,7 @@
       * [VirtualMemory Virtual Memory]
     * [Drivers Drivers]
     * Services
-    * Applications
+    * [Applications]
   * Old Wiki
     * [ProjDescription Project Description]
     * [GSoC2011 Google Summer of Code]

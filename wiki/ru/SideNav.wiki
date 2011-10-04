@@ -14,7 +14,7 @@
     * [VirtualMemory Virtual Memory]
     * [Drivers Драйвера]
     * [Services Службы и библиотеки] 
-    * Applications
+    * [Applications Приложения]
   * [PlatformsDescription Поддерживаемые платформы]
     * [SimulationQemuX86 QEMU]
     * [PlatformLegoNxt Lego Mindstorms NXT]
