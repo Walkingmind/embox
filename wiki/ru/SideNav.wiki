@@ -25,7 +25,6 @@
       * [PlatformLegoNxtSound Звук]
     * [SpartanDescription HW-SPAR3AN-SK-UNI-G Starter Kit]
     * [ML505Description Virtex-5 LXT FPGA ML505 Evaluation Platform]
-  * [ForFun For Fun или "полет мысли"]
   * [Theory Теория операционных систем]
     * [TheoryMemoryAllocation Memory allocation]
     * [TheoryContexSwitch Context Switch]
