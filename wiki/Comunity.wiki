@@ -1,0 +1,5 @@
+We have several discussion group
+ * http://groups.google.com/group/embox-devel
+ * http://groups.google.com/group/embox-users
+ * http://groups.google.com/group/embox
+ * http://groups.google.com/group/embox-sp

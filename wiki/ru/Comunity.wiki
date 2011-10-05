@@ -1,0 +1,5 @@
+Мы имеем несколько открытых групп для общения, туда можно задавать интерисующие вопросы по проекту: 
+ * http://groups.google.com/group/embox-devel
+ * http://groups.google.com/group/embox-users
+ * http://groups.google.com/group/embox
+ * http://groups.google.com/group/embox-sp
