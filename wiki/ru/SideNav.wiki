@@ -9,7 +9,7 @@
   * [EmboxArchitecture Архитектура проекта]
     * [Hal Hardware Abstraction Layer]
     * [Kernel]
-    * [Memory Memory allocation]
+    * [MemoryAllocation Memory allocation]
       * [AlgorithmAllocationMemory Allocation algorithms]
       * [MultiPageAllocator Multi Page Allocator]
       * [PageAlloc Page Alloc]
