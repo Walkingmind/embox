@@ -1,11 +1,11 @@
 #summary About Kernel Critical API.
 
-*Critical API* is a special mechanism for tracking the current execution context
+*Critical API* is a special mechanism for tracking the current execution context.
 
-|| || *Thread switch* || *Handling Soft IRQ* || *Handling IRQ* ||
-|| *Outside critical context* || <font color="green">Permitted</font> || <font color="green">Permitted</font> || <font color="green">Permitted</font> ||
-|| *Inside `sched_lock` block* || <font color="maroon">Forbidden</font> || <font color="green">Permitted</font> || <font color="green">Permitted</font> ||
-|| *Inside Soft IRQ handler* || <font color="maroon">Forbidden</font> || <font color="olive">Depends on Priority</font> || <font color="green">Permitted</font> ||
-|| *Inside `softirq_lock` block* || <font color="maroon">Forbidden</font> || <font color="maroon">Forbidden</font> || <font color="green">Permitted</font> ||
-|| *Inside IRQ handler* || <font color="maroon">Forbidden</font> || <font color="maroon">Forbidden</font> || <font color="olive">Depends on Priority</font> ||
-|| *Inside `irq_lock` block* || <font color="maroon">Forbidden</font> || <font color="maroon">Forbidden</font> || <font color="maroon">Forbidden</font> ||
+|| || Thread switch || Handling Soft IRQ || Handling IRQ ||
+|| Outside critical context || <font color="green">*Permitted*</font> || <font color="green">*Permitted*</font> || <font color="green">*Permitted*</font> ||
+|| Inside `sched_lock` block || <font color="maroon">*Forbidden*</font> || <font color="green">*Permitted*</font> || <font color="green">*Permitted*</font> ||
+|| Inside Soft IRQ handler || <font color="maroon">*Forbidden*</font> || <font color="olive">*Depends on Priority*</font> || <font color="green">*Permitted*</font> ||
+|| Inside `softirq_lock` block || <font color="maroon">*Forbidden*</font> || <font color="maroon">*Forbidden*</font> || <font color="green">*Permitted*</font> ||
+|| Inside IRQ handler || <font color="maroon">*Forbidden*</font> || <font color="maroon">*Forbidden*</font> || <font color="olive">*Depends on Priority*</font> ||
+|| Inside `irq_lock` block || <font color="maroon">*Forbidden*</font> || <font color="maroon">*Forbidden*</font> || <font color="maroon">*Forbidden*</font> ||
