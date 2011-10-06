@@ -1,21 +1,21 @@
-#summary Short description of Embox.
+#summary Embox is ...
+#labels Featured,Phase-Design
 
-= Description =
+= Five facts about Embox =
+ == Embox is modular and configurable ==
+  Instead of using monolithic architecture, Embox is organized into a set of fine-grained modules, each of which can implement some interface. Typical example is a scheduling strategy or a memory allocation algorithm. Therefore the final image of Embox can be finely tuned for a specific usage.
 
-*Embox* is modular configurable RTOS for embedded applications
- Instead monolitic architecture all part of Embox separate to different packets (modules), which implemented some interfaces, scheduling strategy for example. Therefore final image of Embox can be finely tuned for a specific system.
+ == Embox is cross-platform ==
+  Currently Embox is ported on four processor architectures: x86, SPARC v8, ARM7 and Microblaze. The complete list of supported platform can be found [PlatformsDescription here]. Porting Embox to a new platform is relatively simple: all you need is to implement a well-defined [Hal HAL] interface.
 
-*Embox* is testing system
- Embox can be used for debugging and checking both hardware and all sotfware modules in the system
+ == Embox is a testing framework ==
+  Embox includes an embedded unit testing framework which can be used for developing, debugging and self-checking both hardware and software modules of the system.
 
-*Embox* helps during design and debugging hardware part of the system
- During a design phase of the project you can estimate required hardware resources. And on the debugging stage you can setup a set of tests with required covering.
+ == Embox helps to design a new hardware ==
+  As a highly configurable system, Embox can run in a very constrained environment such as hardware simulators. Thus it can be used at early stages of hardware development. At the design phase you can estimate required hardware resources and during the debugging you prepare a set of tests with the required coverage.
 
-*Embox* help in the certification process
- The project's build system allows to include the only required modules to the final distributive, it reduces the full amount of code and make certification process more cheaper. in addition the build system allows to get full files list and modules graph. 
-
-*Embox* is cross-platform system
- Now Embox support follow processor architectures (x86, SPARC v8, ARM, Microblaze). List of supported platform can be found [PlatformsDescription here]. The interface [Hal HAL] is defined in the project. It is the interface that must be implemented for porting Embox on a new processor architecture.
+ == Embox simplifies certification process ==
+  A build system used in Embox allows you to get a source distribution with only required modules included. It reduces the total amount of code needed for certification making that process more cheaper. In addition the build system allows to get full files list and modules graph. 
  
 = Goals of the project =
 
