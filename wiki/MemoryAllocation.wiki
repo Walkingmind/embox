@@ -1,0 +1,1 @@
+#summary Memory allocation in Embox
