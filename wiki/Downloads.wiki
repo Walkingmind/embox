@@ -1,7 +1,7 @@
 #summary Downloads
 
 = Stable releases of Embox =
- Latest stable release of Embox is *embox-0.2.2* (released on Sep 25 2011).
+ The latest stable release of Embox is *embox-0.2.2* (released on Sep 25 2011).
 || Version || Size || SHA1 Checksum ||
 || *[http://embox.googlecode.com/files/embox-0.2.2.txz embox-0.2.2.txz]* || 533 KB || `69560803363542460f58d3c211d62416d72781d7` ||
 || *[http://embox.googlecode.com/files/embox-0.2.2.tar.gz embox-0.2.2.tar.gz]* || 717 KB || `fe8fb15cf090327784f935e9d35714a12d392f23` ||
@@ -19,21 +19,6 @@
 || [http://embox.googlecode.com/files/embox-0.1.2.txz embox-0.1.2.txz] || 213 KB || `aeb0c65f8371aaa930b7195b7b41515520d0f5b0` ||
 || [http://embox.googlecode.com/files/embox-0.1.1.txz embox-0.1.1.txz] || 203 KB || `c2ea3f5c63b16aa13c03560066e80c590c45d416` ||
 || [http://embox.googlecode.com/files/embox-0.1.txz embox-0.1.txz] || 201 KB || `7c9b327d87ac992b477ff6a1b3c2572895b306a0` ||
-
-= EmLinux =
-
-Latest stable release - [http://embox.googlecode.com/files/emlinux-0.2.txz emlinux-0.2].
-
-Released on Nov 30rd 2010.
-
-EmLinux is part of the Embox project.
-
-EmLinux is a tool which can be used to generate a tiny Linux image.
-It was written with embedded systems in mind.
-
-
- * [http://embox.googlecode.com/files/emlinux-0.2.txz emlinux-0.2.txz]
- * [http://embox.googlecode.com/files/emlinux-0.1.txz emlinux-0.1.txz]
 
 = Tools =
 
