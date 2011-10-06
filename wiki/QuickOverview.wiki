@@ -1,64 +1,28 @@
-#summary Краткое описание проекта Embox.
+#summary Short description of Embox.
 
-<wiki:toc max_depth="2"/>
+= Description =
 
-= Введение =
+*Embox* is modular configurable RTOS for embedded applications
+ Instead monolitic architecture all part of Embox separate to different packets (modules), which implemented some interfaces, scheduling strategy for example. Therefore final image of Embox can be finely tuned for a specific system.
 
-Современные вычислительные системы применяются в очень большом спектре задач,
-начиная от управления двигателями и до огромных дата центров, которые обслуживают
-множество пользователей в реальном времени. Для различных задач требуется и
-различное количество ресурсов, и требования к таким системам также различные.
-Соответственно, программное обеспечение, которое им управляет тоже имеет свои
-особенности. Особенно ярко это заметно в сегменте встроенных систем, в них часто
-применяют ОС мягкого либо жесткого реального времени. От таких ОС ожидают
-предсказуемости реакции в любой ситуации, то есть отсутствия отказов системы.
-Такие отказы возникают, как правило, при ошибке в ядре системы. Наибольшее же
-количество таких ошибок, например в Линуксе, находится в драйверах. Поскольку,
-как известно, драйвера разрабатываются производителями оборудования, и уровень
-кода, в этих частях ниже чем в кусках созданных, разработчиками ядра ОС. К тому
-же драйвера в монолитном ядре, к которым относится Линукс трудно отлаживать.
+*Embox* is testing system
+ Embox can be used for debugging and checking both hardware and all sotfware modules in the system
 
+*Embox* helps during design and debugging hardware part of the system
+ During a design phase of the project you can estimate required hardware resources. And on the debugging stage you can setup a set of tests with required covering.
 
-Все это накладывает отпечаток на процесс проектирования встроенных систем. В
-подобных системах, при создании нового оборудования, сначала создаются
-низкоуровневые тесты, затем разрабатывается код драйверов системного загрузчика,
-и только потом разрабатывается драйвер в составе основной операционной системы.
-Происходит дублирование кода, следовательно, увеличение количества ошибок.
+*Embox* help in the certification process
+ The project's build system allows to include the only required modules to the final distributive, it reduces the full amount of code and make certification process more cheaper. in addition the build system allows to get full files list and modules graph. 
 
-*Embox* представляет из себя конфигурируемую модульную ОС. В отличие от
-монолитных ядер, весь код ядра Embox располагается в различных пакетах
-(библиотеках), которые реализуют различные интерфейсы, например интерфейс
-диспетчера памяти. Только требуемые части системы включаются в конечный образ.
-Таким образом, достигается создание образа ОС нацеленного на конкретную задачу,
-будь то система для тестирования аппаратного обеспечения, либо полноценная
-операционная система, включающая сетевую и файловую подсистемы, а так же
-управление виртуальной памятью.
+*Embox* is cross-platform system
+ Now Embox support follow processor architectures (x86, SPARC v8, ARM, Microblaze). List of supported platform can be found [PlatformsDescription here]. The interface [Hal HAL] is defined in the project. It is the interface that must be implemented for porting Embox on a new processor architecture.
+ 
+= Goals of the project =
 
-Каждая подсистема также может конфигурироваться в зависимости от назначения
-конечного продукта. Например, код данного проекта был портирован на платформу
-[http://mindstorms.lego.com/en-us/Default.aspx lego-mindstorms], которая
-содержит очень ограниченное количество ресурсов. Для разработки пользовательских
-программ на подобных системах не целесообразно портировать стандартную
-библиотеку. С другой стороны хотелось бы иметь специализированную библиотеку
-нацеленную на работу с двигателями и датчиками. Таким образом удобно было бы
-задать несколько стандартных интерфейсов, для управления теми либо иными
-подсистемами, и реализовывать те или иные их подмножества в зависимости от
-конечной цели проекта.
+*Embox* is used in embedded system, including network systems
 
-Поскольку областью применения Embox является прежде всего встраиваемые системы,
-а в данном сегменте часто применяются архитекторы процессоров отличные от x86
-(например ARM), то Embox задумывался как портируемая ОС, то  есть предназначенная
-для [PortingProcess переноса на различные архитектуры]. Для этого основной код
-ядра разрабатывался на платформо независимом языке Си, а код привязанный к
-конкретной платформе вынесен в отдельную папку.
+*Embox* is used in robots. The project was ported to the [http://mindstorms.lego.com/en-us/Default.aspx lego-mindstorms] platform.
 
-К тому же поскольку для встроенных систем характерно наличие множество различных
-конфигураций конкретных архитектур обычно такие конфигурации называются
-[PlatformsDescription платформами], в проекте предусмотрена возможность для
-удобного добавления новой платформы.
+*Embox* is used for teaching students for practice in the programming and design of embedded system, robotics, architecture of operating system, telecommunication system. It's also used in the research in pointed directions.  
 
-== Wiki в помощь ==
-Чтобы более подробно изучить структуру проекта Вы можете читать наше Wiki. Мы постараемся рассказать про каждую часть системы. Цель страниц вики состоит не просто в том, чтобы донести до Вас сведения как устроен *Embox*, но и рассказать про сами алгоритмы и идеи,которыми мы руководствуемся при разработке. Читать вики можно в любом порядке, на каждой странице есть ссылки на необходимую информацию. 
-
-== Краткий экскурс ==
-
+*Embox* is used just for fun. We like kernel hacking.
