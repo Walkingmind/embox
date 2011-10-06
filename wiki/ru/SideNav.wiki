@@ -25,9 +25,9 @@
     * [SpartanDescription HW-SPAR3AN-SK-UNI-G Starter Kit]
     * [ML505Description Virtex-5 LXT FPGA ML505 Evaluation Platform]
   * [Theory Теория операционных систем]
-    * [TheoryMemoryAllocation Memory allocation]
-    * [TheoryContexSwitch Context Switch]
-    * [TheoryVirtualMemory VirtualMemory]
+    * [TheoryMemoryAllocation Выделение памяти]
+    * [TheoryContexSwitch Многозадачность]
+    * [TheoryVirtualMemory Виртуальная память]
   * [Community Community]
   * Old Wiki
     * [ProjectDescription Описание проекта]
@@ -64,8 +64,6 @@
         * [RuShellTalking Обсуждение Shell'a]
        * [RuShell_iTerminal Shell iTerminal]
       * Память
-        * [AlgorithmAllocationMemory Алгоритмы выделения памяти]
-        * [MultiPageAllocator Многостраничное выделение]
         * [PageAlloc Выделение страниц]
         * [VirtualMemory Виртуальная память]
       * Network
@@ -83,12 +81,4 @@
         * [USBDescription USB]
       * Портирование
         * [PortingProcess Процесс портирования]
-    * [PlatformsDescription Поддерживаемые платформы]
-      * [SimulationQemuX86 QEMU]
-      * [PlatformLegoNxt Lego Mindstorms NXT]
-        * [PlatformLegoNxtFlashing Прошивание]
-        * [PlatformLegoNxtExamples Примеры]
-        * [PlatformLegoNxtSound Звук]
-      * [SpartanDescription HW-SPAR3AN-SK-UNI-G Starter Kit]
-      * [ML505Description Virtex-5 LXT FPGA ML505 Evaluation Platform]
     * [EmboxArt Art]

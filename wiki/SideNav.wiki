@@ -68,8 +68,6 @@
         * [RuShell_iTerminal Shell iTerminal]
         * [PosixTTyDesignApproach Posix TTY design approach]
       * Memory
-        * [AlgorithmAllocationMemory Algorithm Allocation Memory]
-        * [MultiPageAllocator Multi Page Allocator]
         * [PageAlloc Page Alloc]
         * [VirtualMemory Virtual Memory]
       * Network
@@ -87,13 +85,5 @@
         * [USBDescription USB]
       * Porting
         * [PortingProcess Porting Process]
-    * [PlatformsDescription Supported platforms]
-      * [SimulationQemuX86 QEMU]
-      * [PlatformLegoNxt Lego Mindstorms NXT]
-        * [PlatformLegoNxtFlashing Flashing]
-        * [PlatformLegoNxtExamples Examples]
-        * [PlatformLegoNxtSound Sound]
-      * [SpartanDescription HW-SPAR3AN-SK-UNI-G Starter Kit]
-      * [ML505Description Virtex-5 LXT FPGA ML505 Evaluation Platform]
     * [EmboxArt Art]
  
