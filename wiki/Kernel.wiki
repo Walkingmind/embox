@@ -6,6 +6,7 @@ http://embox.googlecode.com/svn/wiki/images/Kernel/kernel-architecture.png
 
 
 
+
 The type of Embox kernel architecture - exokernel. Kernel includes the following parts:
  * Threads
  * Tasks
