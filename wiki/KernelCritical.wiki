@@ -1,4 +1,4 @@
-#summary About Kernel Critical API.
+#summary About Kernel Critical API
 
 *Critical API* is a special mechanism for tracking the current execution context. An execution context is primarily defined by _conditions_ under which the context may be entered and _capabilities_ of the code running inside it.
 
