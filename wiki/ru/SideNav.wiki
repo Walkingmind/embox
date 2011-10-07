@@ -63,9 +63,6 @@
         * [RuNewIOShell New IO Shell]
         * [RuShellTalking Обсуждение Shell'a]
        * [RuShell_iTerminal Shell iTerminal]
-      * Память
-        * [PageAlloc Выделение страниц]
-        * [VirtualMemory Виртуальная память]
       * Network
         * [EmboxNetworkDescription Описание сетевой подсистемы]
       * Тестирование

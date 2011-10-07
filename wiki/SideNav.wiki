@@ -67,9 +67,6 @@
         * [RuShellTalking Shell Talking]
         * [RuShell_iTerminal Shell iTerminal]
         * [PosixTTyDesignApproach Posix TTY design approach]
-      * Memory
-        * [PageAlloc Page Alloc]
-        * [VirtualMemory Virtual Memory]
       * Network
         * [EmboxNetworkDescription Network Description]
       * Testing
