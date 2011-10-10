@@ -7,7 +7,7 @@
 Таким образом, функциональность ОС, отличная от функциональности [Kernel ядра],
 является сервисом.
 
-<wiki:toc max_depth="3" />
+http://embox.googlecode.com/svn/wiki/images/EmboxArchitecture/Services/services.png
 
 = Сервисы = 
 == Система сборки ==
