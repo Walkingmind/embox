@@ -9,6 +9,7 @@
   * [EmboxArchitecture Архитектура проекта]
     * [Kernel Ядро]
       * [KernelCritical Critical API]
+      * [KernelTimeSystem Подсистема времени]
     * [Hal Слой аппаратных абстракций]
     * [MemoryAllocation Динамическая память]
       * [PageAlloc Страничное выделение]
