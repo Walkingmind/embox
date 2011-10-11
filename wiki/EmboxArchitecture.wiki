@@ -1,24 +1,25 @@
 #summary Embox's architecture.
 #labels Featured
 
-<wiki:toc max_depth="2"/>
-*Embox* has base level architecture.
+*Embox* has base level and module architecture. We can imaging level structure as follow:
 
 http://embox.googlecode.com/svn/wiki/images/EmboxArchitecture/arch.png
 
-The lowest level as a hardware abstraction layer ([Hal HAL]). The next is [Kernel kernel] level, usually It supports resources allocation and internal communication. The next is driver and [Services services] level, And the highest is [Applications applications] level.
+The lowest level as a hardware abstraction layer ([Hal HAL]). The next is [Kernel kernel] level, usually It supports resources allocation and internal communication. The next is driver and [Services services] level, And the highest is [Applications applications] level. Each level consist of several modules. We can also say that level is compound module. 
 
-= HAL =
+= [Hal HAL] =
 [Hal this intesface] supports following platform specific operations and utilities as virtual memory primitives, atomic operations
 clock sources and etc.
 It is this interface implementation that need to porting Embox to a new architecture.
 
-= Kernel =
+= [Kernel Kernel] =
 [Kernel Kernel] provides time scheduling, protection address space, IPC and so on.
 
-= Drivers =
+= [Drivers Drivers] =
 [Drivers Drivers] provide unify program interface to hardware devices and program pseudo-devices. In this point of view this interface is simular as [Hal HAL] but HAL supports internal CPU features instead of drivers do external device.
 
-= Services =
+= [Services Services] =
+Service (library) -- is a module which provides services for different parts of the system and user applications through determined interface (API) 
 
-= Applications = 
+= [Applications Application] =
+Application  
