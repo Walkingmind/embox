@@ -22,6 +22,11 @@ For those who don't like scons: http://pastebin.com/wjJHAxQY.
 
  * You must have write access for usb device! (Notice fwflash running with root priveleges)
  * Even with root you probably cannot flash nxt. Check if existing Linux driver gets device (e.g. cdc_acm for me)
+{{{
+# modprobe -r cdc_acm
+# modprobe -r sam_be
+}}}
+This will remove linux modules, confilicting with `fwflash`. Some modules may not be presented in your system, so errors on running commands above are normal
 
 = Windows =
  # [http://bricxcc.sourceforge.net/utilities.html Getting] and installing NeXTTool
