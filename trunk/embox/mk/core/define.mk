@@ -73,18 +73,37 @@ include mk/util/var/info.mk
 # defined with a given name.
 #
 # Params:
-#   1. Name of the function being defined.
+#   1. Name of the function(s) being defined.
 # Return:
 #   Nothing.
-def = $(strip \
-	$(foreach __def_var,$1, \
-		$(if $(call var_defined,$(__def_var)), \
-			$(call var_assign_recursive_sl,$(__def_var),$ \
-					$(call __def,$(value $(__def_var)))), \
-			$(error '$(__def_var)' is not defined) \
-		) \
-	) \
-)
+def = \
+	$(strip \
+		$(foreach __def_var,$1, \
+			$(if $(call var_defined,$(__def_var)), \
+				$(call var_assign_recursive_sl,$(__def_var),$ \
+						$(call __def,$(value $(__def_var)))), \
+				$(error '$(__def_var)' is not defined) \
+			) \
+		)$(call var+=,__def_already_done,$1) \
+	)
+
+##
+# Translates all functions defined since the last call.
+#
+# Return:
+#   Nothing.
+# Note:
+#   The order of translation may differ from the order of definition.
+# Note:
+#   This does not affects functions defined with 'builtin_aux_def'.
+# Note:
+#   No need to 'call' it, just expand: $(def_all).
+def_all = \
+	$(call def,$(foreach v,$(filter-out $(__def_already_done),$(.VARIABLES)), \
+		$(if $(call var_recursive,$v),$v) \
+	))
+
+__def_already_done := $(.VARIABLES)
 
 # Params:
 #   1. Code of a function being defined.
@@ -175,8 +194,9 @@ __def_builtin = \
 	$1
 
 #
-# Now we can use $(call def,...).
+# Now we can use $(call def,...) and $(def_all).
 #
+$(def_all)
 
 # Expands value of the argument treating it as a code. The code is a single
 # line string with no leading whitespaces.
@@ -248,7 +268,6 @@ define __def_expand
 	}
 	$(__def_tmp__)
 endef
-$(call def,__def_expand)
 
 # Substitutes all unescaped occurrences of ${...} expansion to $(...).
 # This does not affect pure {...} groups or escaped $${...}.
@@ -280,13 +299,15 @@ define __def_brace_real
 		)
 	)
 endef
-$(call def,__def_brace_real)
 
 # Surrounds the argument with '$(' and ')'.
 __def_brace_hook = \
 	$$($1)
 
 # Brace-to-paren substitution logic is now ready.
+# Flush before replacing '__def_brace' and diving deeper.
+$(def_all)
+
 __def_brace = \
 	$(call __def_brace_real,$1)
 
@@ -327,7 +348,6 @@ define __def_builtin_real
 		))
 	))
 endef
-$(call def,__def_builtin_real)
 
 define __def_inner_install_hooks
 	$(subst $$$$$$$$$(\p[),
@@ -343,7 +363,6 @@ define __def_inner_install_hooks
 		)
 	)
 endef
-$(call def,__def_inner_install_hooks)
 
 define __def_inner_escape
 	$(subst $(\p[),_$$[,$(subst $(\p]),_$$],
@@ -354,7 +373,6 @@ define __def_inner_escape
 		))
 	))
 endef
-$(call def,__def_inner_escape)
 
 define __def_inner_unescape
 	$(subst _$$[,$(\p[),$(subst _$$],$(\p]),
@@ -365,7 +383,6 @@ define __def_inner_unescape
 		))
 	))
 endef
-$(call def,__def_inner_unescape)
 
 define __def_inner_hook
 	$(call __def_inner_escape,
@@ -382,7 +399,6 @@ define __def_inner_hook
 		)
 	)
 endef
-$(call def,__def_inner_hook)
 
 #
 # Params:
@@ -448,7 +464,6 @@ define __def_inner_handle
 		$(__def_inner_handle_function)
 	)
 endef
-$(call def,__def_inner_handle)
 
 # Params:
 #   The same as to '__def_inner_handle'.
@@ -469,7 +484,6 @@ define __def_inner_handle_substitution_reference
 		$$$$($1)
 	)
 endef
-$(call def,__def_inner_handle_substitution_reference)
 
 # Params:
 #   The same as to '__def_inner_handle'.
@@ -518,7 +532,6 @@ define __def_inner_handle_function
 	$$(call __def_outer_hook_pop,$(first))
 
 endef
-$(call def,__def_inner_handle_function)
 
 #
 # The main structure used by the outer expansion phase is an expansion stack.
@@ -558,10 +571,9 @@ endif # DEF_DEBUG
 define __def_outer_hook_push
 	$(call __def_debug,push [$1])
 	${eval \
-		$(value __def_outer_hook_push_mk)
+		$(__def_outer_hook_push_mk)
 	}
 endef
-$(call def,__def_outer_hook_push)
 
 define __def_outer_hook_push_mk
   # Save the current value of the top into the stack.
@@ -571,17 +583,17 @@ define __def_outer_hook_push_mk
   # Put new function name onto the top.
   __def_stack_top := $1
 endef
+__def_outer_hook_push_mk := $(value __def_outer_hook_push_mk)
 
 # Removes an element from the top and restores the previous element.
 # Return:
 #   Nothing.
 define __def_outer_hook_pop
 	${eval \
-		$(value __def_outer_hook_pop_mk)
+		$(__def_outer_hook_pop_mk)
 	}
 	$(call __def_debug,pop [$1])
 endef
-$(call def,__def_outer_hook_pop)
 
 define __def_outer_hook_pop_mk
   # Restore the top from the stack.
@@ -591,6 +603,7 @@ define __def_outer_hook_pop_mk
   __def_stack := \
     $(call nofirstword,$(__def_stack))
 endef
+__def_outer_hook_pop_mk := $(value __def_outer_hook_pop_mk)
 
 # Increments the number of arguments of the function call being handled now.
 # Return:
@@ -598,16 +611,16 @@ endef
 define __def_outer_hook_arg
 	$(call __def_debug,arg$(words $(__def_stack_top)))
 	${eval \
-		$(value __def_outer_hook_arg_mk)
+		$(__def_outer_hook_arg_mk)
 	}
 endef
-$(call def,__def_outer_hook_arg)
 
 define __def_outer_hook_arg_mk
   # Append the next argument number to the stack top.
   __def_stack_top += \
     $(words $(__def_stack_top))
 endef
+__def_outer_hook_arg_mk := $(value __def_outer_hook_arg_mk)
 
 # Handles a function expansion. Performs generic checks (arity, ...) and
 # a special translation in case of user-defined builtin.
@@ -637,7 +650,6 @@ define __def_outer_hook_func
 		)
 	)
 endef
-$(call def,__def_outer_hook_func)
 
 # Issues a warning with the specified message including the expansion stack.
 # Params:
@@ -650,11 +662,11 @@ define __def_outer_hook_warning
 	$(warning $2$(if $1,: '$1'))
 	$(builtin_print_stack)
 endef
-$(call def,__def_outer_hook_warning)
 
 # Special builtin which echoes its arguments.
-builtin_func___def_root__ = \
+define builtin_func___def_root__
 	$(builtin_args)
+endef
 
 # List of GNU Make 3.81 native builtin functions with their arities.
 __builtin_native_functions := \
@@ -769,7 +781,6 @@ define __builtin_args_expand
 	}
 	$(__def_tmp__)
 endef
-$(call def,__builtin_args_expand)
 
 #
 # Arity checks: exact, min, max, range.
@@ -819,7 +830,6 @@ define builtin_check_arity_range
 		)
 	)
 endef
-$(call def,builtin_check_arity_range)
 
 # Params:
 #   1. List of args: min .. max
@@ -831,7 +841,6 @@ define __builtin_check_arity_range
 		)
 	)
 endef
-$(call def,__builtin_check_arity_range)
 
 #
 # Inspecting the expansion stack of your builtin.
@@ -849,13 +858,13 @@ define builtin_callers
 		$(filter-out __paren__% __def_root__%,$(__def_stack))
 	))
 endef
-$(call def,builtin_callers)
 
 # A shorthand for $(firstword $(builtin_callers)).
 # Return:
 #   Name of the direct caller of the current function (if any).
-builtin_caller = \
+define builtin_caller
 	$(firstword $(builtin_callers))
+endef
 
 # A shorthand for $(word depth,$(builtin_callers)).
 # Gets the name of a function which is upper in the expansion stack than the
@@ -867,8 +876,9 @@ builtin_caller = \
 # Example:
 #   In case of handling the innermost function of $(foo $(bar $(baz ...))),
 #   namely 'baz', its direct caller is 'bar' and a caller at depth 2 is 'foo'.
-builtin_caller_at = \
+define builtin_caller_at
 	$(word $1,$(builtin_callers))
+endef
 
 #
 # Helper functions for error/warning reporting.
@@ -887,7 +897,6 @@ define builtin_print_stack
 		)
 	))
 endef
-$(call def,builtin_print_stack)
 
 # Produces a warning with the specified message and contents of the expansion
 # stack.
@@ -899,7 +908,6 @@ define builtin_warning
 	$(warning $1)
 	$(builtin_print_stack)
 endef
-$(call def,builtin_warning)
 
 # Fatal version of 'builtin_warning'.
 # Params:
@@ -910,7 +918,6 @@ define builtin_error
 	$(builtin_warning)
 	$(error Error in definition of '$(__def_var)' function)
 endef
-$(call def,builtin_error)
 
 #
 # Misc.
@@ -926,7 +933,6 @@ define builtin_aux_alloc
 	}
 	$(builtin_aux_last)
 endef
-$(call def,builtin_aux_alloc)
 __builtin_aux_cnt :=# Initially empty.
 
 # Allocates a new auxiliary function and assigns a value to it.
@@ -937,19 +943,27 @@ __builtin_aux_cnt :=# Initially empty.
 define builtin_aux_def
 	$(foreach aux,$(builtin_aux_alloc),
 		$(call var_assign_recursive_sl,$(aux),$1)
+		$(call var+=,__def_already_done,$(aux))
 		$(aux)# Return.
 	)
 endef
-$(call def,builtin_aux_def)
 
 # Gets the last allocated name.
 # Return:
 #   Result of the last call to 'builtin_aux_alloc' or to 'builtin_aux_def'.
-builtin_aux_last = $(__def_var)_aux$(words $(__builtin_aux_cnt))
+builtin_aux_last = \
+	$(__def_var)_aux$(words $(__builtin_aux_cnt))
 
-# Builtins definition framework is mostly up. Enable it here.
+# Ufff, builtins definition framework is mostly up.
+# Flush functions we have just defined and activate '__def_builtin_real'.
+$(def_all)
+
 __def_builtin = \
 	$(call __def_builtin_real,$1)
+
+#
+# Define some simple builtins that will help us with defining the rest ones.
+#
 
 #
 # Extension: 'assert' builtin function.
@@ -960,13 +974,24 @@ __def_builtin = \
 #
 define builtin_func_assert
 	$$(if $1,,
-		$$(error \
-			ASSERTION FAILED: '$(subst $$,$$$$,$1)'
-			$(if $(value 2),: $(builtin_nofirstarg))
+		$$(call __assert_handle_failure,$(__def_var),$(subst $$,$$$$,$1)
+			$(if $(filter 2,$(builtin_args_list)),
+				$(\comma)$(subst $(\comma),$$(\comma),$(builtin_nofirstarg))
+			)
 		)
 	)
 endef
-$(call def,builtin_func_assert)
+
+# Params:
+#   1. Function name.
+#   2. Expression.
+#   3. Optional message.
+# No return.
+define __assert_handle_failure
+	$(error \
+		ASSERTION FAILED in function '$1': '$2'$(if $(value 3),: $3)
+	)
+endef
 
 #
 # Extension: 'lambda' builtin function.
@@ -975,11 +1000,13 @@ $(call def,builtin_func_assert)
 #
 # '$(lambda body)'
 #
-builtin_func_lambda = \
+define builtin_func_lambda
 	$(call builtin_aux_def,$(builtin_args))
+endef
 
 # Stub for case of $(lambda) or $(call lambda,...).
-lambda = $(warning lambda: illegal invocation)
+lambda = \
+	$(warning lambda: illegal invocation)
 
 #
 # Extension: 'with' builtin function.
@@ -995,10 +1022,10 @@ define builtin_func_with
 		)
 	)
 endef
-$(call def,builtin_func_with)
 
-# Stub for case of $(lambda) or $(call lambda,...).
-with = $(warning with: illegal invocation)
+# Stub for case of plain $(with) or $(call with,...).
+with = \
+	$(warning with: illegal invocation)
 
 #
 # Extension: 'expand' builtin function.
@@ -1019,7 +1046,9 @@ define builtin_func_expand
 	}
 	$$(__def_tmp__)
 endef
-$(call def,builtin_func_expand)
+
+# Flush: assert, lambda, with and expand.
+$(def_all)
 
 expand = $(expand $1)
 $(call def,expand)
@@ -1060,7 +1089,6 @@ define builtin_func_fx
 		)
 	)
 endef
-$(call def,builtin_func_fx)
 
 __builtin_func_fx_cnt :=# Initially empty.
 
@@ -1093,7 +1121,6 @@ define builtin_to_function_call
 		$(builtin_args)
 	)
 endef
-$(call def,builtin_to_function_call)
 
 # Tries to substitute the builtin by an inlined call to a user-defined
 # function.
@@ -1175,7 +1202,6 @@ define builtin_to_function_inline
 		$(builtin_to_function_call)
 	)
 endef
-$(call def,builtin_to_function_inline)
 
 # Actual inlining is performed here.
 # Return:
@@ -1272,7 +1298,9 @@ define __builtin_to_function_inline
 		)
 	)
 endef
-$(call def,__builtin_to_function_inline)
+
+# Finally, flush the rest and say Goodbye!
+$(def_all)
 
 ifeq (0,1)
 $(foreach __def_var, \
