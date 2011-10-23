@@ -11,6 +11,7 @@
       * [KernelCritical Critical API]
       * [KernelMultitasking Multitasking]
         * [KernelThreads Threads]
+        * [Scheduler Scheduler]
     * [Hal Hardware Abstraction Layer]
     * [MemoryAllocation Memory allocation]
       * [AlgorithmAllocationMemory Allocation algorithms]
