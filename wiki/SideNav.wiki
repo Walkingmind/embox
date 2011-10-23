@@ -9,6 +9,7 @@
   * [EmboxArchitecture Architecture]
     * [Kernel Kernel]
       * [KernelCritical Critical API]
+      * [KernelMultitasking Multitasking]
     * [Hal Hardware Abstraction Layer]
     * [MemoryAllocation Memory allocation]
       * [AlgorithmAllocationMemory Allocation algorithms]
