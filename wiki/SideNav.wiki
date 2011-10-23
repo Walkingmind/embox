@@ -10,6 +10,7 @@
     * [Kernel Kernel]
       * [KernelCritical Critical API]
       * [KernelMultitasking Multitasking]
+        * [KernelThreads Threads]
     * [Hal Hardware Abstraction Layer]
     * [MemoryAllocation Memory allocation]
       * [AlgorithmAllocationMemory Allocation algorithms]
