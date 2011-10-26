@@ -1,5 +1,4 @@
 #summary Embox project quick overview.
-#labels Featured
 
 <wiki:toc max_depth="2"/>
 
