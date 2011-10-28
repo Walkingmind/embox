@@ -138,6 +138,21 @@ qemu -kernel build/base/bin/embox -net nic,model=ne2k_pci,macaddr=AA:BB:CC:DD:EE
 }}}
  # Каждый фрейм отправленный из Linux будет получен в Embox, и наоборот
 
+=== Эмуляция сети в QEMU через multicast сокеты ===
+
+Этот способ используется в том случае, если необходимо несколько машин в виртуальной сети.
+Так же в этом случае не важет порядок запуска машин.
+
+ # Загрузите образ диска с linux как описано выше
+ # Запустите эмуляцию linux
+{{{
+qemu -hda linux-0.2.img -net nic,model=ne2k_pci,macaddr=AA:BB:CC:DD:EE:01 -net socket,mcast=230.0.0.1:12345
+}}}
+ # Запустите эмуляцию Embox
+{{{
+qemu -kernel build/base/bin/embox -net nic,model=ne2k_pci,macaddr=AA:BB:CC:DD:EE:02 -net socket,mcast=230.0.0.1:12345
+}}}
+
 === Отладка с помощью GDB ===
  # Запускаем qemu с ключями -s -S
 {{{
