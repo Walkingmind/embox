@@ -8,10 +8,11 @@
 #include <stdio.h>
 #include <pnet/core.h>
 #include <pnet/node.h>
+#include <pnet/repo.h>
 
 static int stamp = 1;
 static void print_pack(net_packet_t pack) {
-	printf("%d: ", stamp++); 
+	printf("%d: ", stamp++);
 	switch(pack->dir) {
 		case NET_PACKET_RX:
 			printf("RX");
@@ -20,12 +21,9 @@ static void print_pack(net_packet_t pack) {
 			printf("TX");
 			break;
 	};
-	
+
 	printf(": %d bytes\n", pack->skbuf->len);
 }
-
-
-
 
 static int net_info_tx_hnd(net_packet_t pack) {
 	print_pack(pack);
@@ -37,11 +35,24 @@ static int net_info_rx_hnd(net_packet_t pack) {
 	return NET_HND_DFAULT;
 }
 
+#if 0
 static struct pnet_proto info_proto = {
 	.tx_hnd = net_info_tx_hnd,
 	.rx_hnd = net_info_rx_hnd
 };
 
 net_node_t pnet_get_node_info(void) {
-	return (net_node_t) pnet_node_alloc(0, &info_proto);
+	net_node_t info_printer;
+
+	info_printer = (net_node_t) pnet_node_alloc(0, &info_proto);
+	pnet_node_add_name(info_printer, "info_printer");
+
+	return info_printer;
 }
+#endif
+
+PNET_NODE_DEF("info printer", {
+	.name = "info printer",
+	.rx_hnd = net_info_rx_hnd,
+	.tx_hnd = net_info_tx_hnd
+});
