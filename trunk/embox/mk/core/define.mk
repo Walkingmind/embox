@@ -350,8 +350,8 @@ define __def_builtin_real
 endef
 
 define __def_inner_install_hooks
-	$(subst $$$$$$$$$(\p[),
-			$$$(\p[)call __def_inner_hook$(\comma),
+	$(subst $$$$$$$$$[,
+			$$$[call __def_inner_hook$(\comma),
 		# Doubly escaped double dollars. I am a rich man. $)
 		$(subst $$$$$$$$$$$$$$$$,
 			# The hell below is '$($$)$($$)' with dollars and parens escaped.
@@ -365,7 +365,7 @@ define __def_inner_install_hooks
 endef
 
 define __def_inner_escape
-	$(subst $(\p[),_$$[,$(subst $(\p]),_$$],
+	$(subst $[,_$$[,$(subst $],_$$],
 		$(subst :,_$$l,$(subst _$$q,=,
 			$(subst $(\s),_$$s,$(subst $(\t),_$$t,
 				$1
@@ -375,7 +375,7 @@ define __def_inner_escape
 endef
 
 define __def_inner_unescape
-	$(subst _$$[,$(\p[),$(subst _$$],$(\p]),
+	$(subst _$$[,$[,$(subst _$$],$],
 		$(subst _$$l,:,$(subst _$$q,=,
 			$(subst _$$s,$(\s),$(subst _$$t,$(\t),
 				$1
@@ -532,10 +532,10 @@ define __def_inner_handle_function_pushed
 				# function name and the first argument is not meaningful and
 				# thus it is not preserved. Any trailing whitespaces are
 				# guarded with $(\0) from being stripped out.
-				$(subst $(\p[),
+				$(subst $[,
 					_$$[
 					$$_$$[call __def_outer_hook_push$(\comma)__paren___$$],
-					$(subst $(\p]),
+					$(subst $],
 						$$_$$[__def_outer_hook_pop_$$]
 						_$$],
 						$(call nofirstword,$1$$_$$[\0_$$])
@@ -1126,7 +1126,7 @@ define builtin_func_fx
 						$(call list_fold,
 							$(lambda $$$$(subst $$$$($2),$$$$$$$${$2},$1)),
 							$$$$(subst $$$$$$$$,$$$$$$$$$$$$$$$$,$$($(arg))),
-							\comma \p[ \p]
+							\comma [ ]
 						),
 						$(subst $$,$$$$$$$$,$($(arg)))
 					)
