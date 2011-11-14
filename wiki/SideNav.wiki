@@ -12,6 +12,7 @@
       * [KernelMultitasking Multitasking]
         * [KernelThreads Threads]
         * [Scheduler Scheduler]
+        * [SchedulerStrategy SchedulerStrategy]
     * [Hal Hardware Abstraction Layer]
     * [MemoryAllocation Memory allocation]
       * [AlgorithmAllocationMemory Allocation algorithms]
