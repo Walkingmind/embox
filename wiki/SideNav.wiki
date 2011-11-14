@@ -11,6 +11,7 @@
       * [KernelCritical Critical API]
       * [KernelMultitasking Multitasking]
         * [KernelThreads Threads]
+        * [KernelTasks Tasks]
         * [Scheduler Scheduler]
         * [SchedulerStrategy SchedulerStrategy]
     * [Hal Hardware Abstraction Layer]
