@@ -491,7 +491,7 @@ endef
 #   Resulting value with necessary outer hooks installed in case that it is
 #   a valid function call, or empty otherwise.
 define __def_inner_handle_function
-	$(if $(findstring undefined,$(flavor builtin_tag_$(first))),
+	$(if $(findstring undefined,$(flavor builtin_tag-$(first))),
 
 		# Plain push and handle.
 		$$(call __def_outer_hook_push,$(first))
@@ -625,7 +625,7 @@ endef
 define __def_outer_hook_push_tag
 	$(__def_outer_hook_push)
 	$(or \
-		$(call __def_outer_tag_check,$(call builtin_tag_$1)),
+		$(call __def_outer_tag_check,$(call builtin_tag-$1)),
 		$(__def_outer_hook_pop)
 	)
 endef
@@ -668,9 +668,9 @@ endef
 define __def_outer_hook_func
 	$(if $(value __def_debug),$(call __def_debug,func [$(builtin_reconstruct)]))
 	$(foreach 0,$(builtin_name),
-		$(if $(call var_defined,builtin_func_$0),
+		$(if $(call var_defined,builtin_func-$0),
 			# There is a special builtin function handler, invoke it.
-			$(builtin_func_$0),
+			$(builtin_func-$0),
 
 			# If it is a native function check its arity.
 			$(foreach minimum_args,
@@ -704,7 +704,7 @@ define __def_outer_hook_warning
 endef
 
 # Special builtin which echoes its arguments.
-define builtin_func___def_root__
+define builtin_func-__def_root__
 	$(builtin_args)
 endef
 
@@ -928,7 +928,7 @@ endef
 #   The tag of the nearest expansion of the specified builtin (if any).
 # Example:
 #   In case of handling 'baz' builtin in expression $(foo $(bar $(baz ...))),
-#   and assuming that 'builtin_tag_bar' returned 'moo', the result of calling
+#   and assuming that 'builtin_tag-bar' returned 'moo', the result of calling
 #   '$(call builtin_tag,bar)' will be 'moo'.
 define builtin_tag
 	$(value __def_outer_tag_$1)
@@ -1029,7 +1029,7 @@ __def_builtin = \
 #
 # '$(assert condition[,message...])'
 #
-define builtin_func_assert
+define builtin_func-assert
 	$$(if $1,,
 		$$(call __assert_handle_failure,$(__def_var),$(subst $$,$$$$,$1)
 			$(if $(filter 2,$(builtin_args_list)),
@@ -1057,7 +1057,7 @@ endef
 #
 # '$(lambda body)'
 #
-define builtin_func_lambda
+define builtin_func-lambda
 	$(call builtin_aux_def,$(builtin_args))
 endef
 
@@ -1072,7 +1072,7 @@ lambda = \
 #
 # '$(with args...,body)'
 #
-define builtin_func_with
+define builtin_func-with
 	$$(call $(call builtin_aux_def,$(builtin_lastarg))
 		$(if $(call nolastword,$(builtin_args_list)),
 			$(\comma)$(builtin_nolastarg)
@@ -1091,7 +1091,7 @@ with = \
 #
 # '$(expand code...)'
 #
-define builtin_func_expand
+define builtin_func-expand
 	$${eval \
 		__def_tmp__ := \
 			$$$$(\0)# Preserve leading whitespace.
@@ -1117,7 +1117,7 @@ $(call def,expand)
 #
 # '$(fx func,args...)'
 #
-define builtin_func_fx
+define builtin_func-fx
 	$(with \
 		$(expand \
 			$(subst $(\comma)$(\s),$(\comma),
@@ -1135,9 +1135,9 @@ define builtin_func_fx
 			)
 		),
 		$(if $(findstring $$,$(subst $$$$$$$$,,$1)),
-			$$(foreach fn,__fx$$(words $$(__builtin_func_fx_cnt)),
+			$$(foreach fn,__fx$$(words $$(__builtin_func-fx_cnt)),
 				$$(eval \
-					__builtin_func_fx_cnt += x$$(\n)
+					__builtin_func-fx_cnt += x$$(\n)
 					define $$(fn)$$(\n)$$$$(call $1$$$$1)$$(\n)endef
 				)
 				$$(fn)
@@ -1147,7 +1147,7 @@ define builtin_func_fx
 	)
 endef
 
-__builtin_func_fx_cnt :=# Initially empty.
+__builtin_func-fx_cnt :=# Initially empty.
 
 #
 # Builtin to user-defined function call converters.
