@@ -61,7 +61,7 @@ static void *devfs_open(struct file_desc *desc) {
 }
 
 static int devfs_close(struct file_desc *desc) {
-	return 0; 
+	return 0;
 }
 
 static size_t devfs_read(void *buf, size_t size, size_t count, void *file) {
@@ -81,18 +81,18 @@ static fsop_desc_t devfs_fsop = { devfs_init, devfs_create, devfs_delete,
 		devfs_mount };
 
 static file_operations_t devfs_fop = {
-       .fopen = devfs_open, 
-       .fclose = devfs_close, 
+       .fopen = devfs_open,
+       .fclose = devfs_close,
        .fread = devfs_read,
-       .fwrite = devfs_write, 
-       .fseek =  NULL, 
-       .ioctl = devfs_ioctl 
+       .fwrite = devfs_write,
+       .fseek =  NULL,
+       .ioctl = devfs_ioctl
 };
 
-static const fs_drv_t devfs_drv = { 
-	.name = "devfs", 
+static const fs_drv_t devfs_drv = {
+	.name = "devfs",
 	.file_op = &devfs_fop,
-	.fsop = &devfs_fsop 
+	.fsop = &devfs_fsop
 };
 
 DECLARE_FILE_SYSTEM_DRIVER(devfs_drv);
