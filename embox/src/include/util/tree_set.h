@@ -1,8 +1,9 @@
 /**
  * @file
- * @brief Binary not-balanced tree data structure. There can be not more than one equal element in structure.
+ * @brief Binary not-balanced tree data structure.
+ * There can be not more than one equal element in structure.
  *
- * @date Oct 1, 2011
+ * @date 01.10.11
  * @author Avdyukhin Dmitry
  */
 
@@ -91,7 +92,7 @@ extern struct tree_set_link *tree_set_link_init(struct tree_set_link *link);
 
 /**
  * Check whether the tree_set is empty.
- * @param tree_set 
+ * @param tree_set
  * @return true iff tree_set is empty.
  */
 extern int tree_set_empty(struct tree_set *tree_set);
@@ -109,7 +110,7 @@ extern int tree_set_empty(struct tree_set *tree_set);
 extern struct tree_set_link *tree_set_find_link(struct tree_set *tree_set,
 		struct tree_set_link *link, tree_set_comparator_t compare);
 
-/** 
+/**
  * Add element to tree_set.
  * If there was an element equaled to added, it would be replaced.
  * @param tree_set Tree, element is inserted into
@@ -121,7 +122,7 @@ extern struct tree_set_link *tree_set_find_link(struct tree_set *tree_set,
 extern int tree_set_add_link(struct tree_set *tree_set,
 		struct tree_set_link *link, tree_set_comparator_t compare);
 
-/** 
+/**
  * Delete element from tree_set, which compare result with given element is zero.
  * @param tree_set Tree, element is deleted from
  * @param link Deleted element
@@ -198,17 +199,17 @@ extern struct tree_set_link *tree_set_prev_link(struct tree_set_link *link);
 /** Forward iteration with casting. */
 #define tree_set_foreach(link, element, tree_set, link_member) \
 	for (link = tree_set_begin(tree_set), \
-			element = tree_set_element(link, typeof(*(element)), link_member); \
+		element = tree_set_element(link, typeof(*(element)), link_member); \
 		link != tree_set_end(tree_set); \
 		link = tree_set_next_link(link), \
-			element = tree_set_element(link, typeof(*(element)), link_member)) \
+		element = tree_set_element(link, typeof(*(element)), link_member)) \
 
 /** Backward iteration with casting. */
 #define tree_set_foreach_back(link, element, tree_set, link_member) \
 	for (link = tree_set_rbegin(tree_set), \
-			element = tree_set_element(link, typeof(*element), link_member); \
+		element = tree_set_element(link, typeof(*element), link_member); \
 		link != tree_set_end(tree_set); \
 		link = tree_set_prev_link(link), \
-			element = tree_set_element(link, typeof(*element), link_member)) \
+		element = tree_set_element(link, typeof(*element), link_member)) \
 
-#endif /* UTIL_TREE_SET_H_ */ 
+#endif /* UTIL_TREE_SET_H_ */

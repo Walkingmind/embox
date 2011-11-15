@@ -1,9 +1,10 @@
 /**
+ * @file
  * @brief Defenitions for priority queue data structure
  *
- * @date October 25, 2011
+ * @date 25.10.11
  * @author Malkovsky Nikolay
- */                                                          
+ */
 
 #ifndef PRIORITY_Q_
 #define PRIORITY_Q_
@@ -16,7 +17,7 @@ struct priority_q {
 	int a[32];
 	int size;
 };
-                                          
+
 /**
  * @brief Inserts specific value in queue priority_q
  *
@@ -44,4 +45,4 @@ extern void pop(struct priority_q *pq);
  */
 #define empty(pq) (pq->size == 0)
 
-#endif      
+#endif /* PRIORITY_Q_ */
