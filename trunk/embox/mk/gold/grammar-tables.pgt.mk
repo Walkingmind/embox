@@ -41,7 +41,7 @@ define __gold_$(gold_grammar)_parser
 		# 		<Function name>
 		# 	),
 ##SYMBOLS
-			$(gold-symbol %Index%,%Kind%,# %Description%
+			$(gold-symbol %Index%,%Kind%,# %Description% 
 				%ID%),
 ##END-SYMBOLS
 		),# Total %Count% symbol(s).
@@ -55,7 +55,7 @@ define __gold_$(gold_grammar)_parser
 		# 		<Function name>
 		# 	),
 ##RULES
-			$(gold-rule %Index%,%NonterminalIndex%,%SymbolCount%,# %Description%
+			$(gold-rule %Index%,%NonterminalIndex%,%SymbolCount%,# %Description% 
 				%ID%),
 ##END-RULES
 		),# Total %Count% rule(s).
