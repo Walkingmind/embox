@@ -108,7 +108,15 @@ qemu -hda hd0.img
 }}}
 
 === Networking with QEMU via TAP interface ===
+Easy:
+{{{
+sudo ip tuntap add mode tap 
+sudo qemu -net nic,model=ne2k_pci -net tap,ifname=tap0,script=no
+sudo ifconfig tap0 10.0.2.15 up
+}}}
+Now you have virtual iface connected to qemu. It's behaviour as dedicated ethernet network with your host and qemu.
 
+Hard way:
 {{{
 /sbin/ifconfig eth0 down
 /sbin/ifconfig eth0 0.0.0.0 promisc up
