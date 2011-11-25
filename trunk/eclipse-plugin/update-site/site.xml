@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<site>
+   <description name="MyBuild update site">
+      Update site for MyBuild plug-in
+   </description>
+   <feature url="features/org.mybuild.feature_0.1.0.jar" id="org.mybuild.feature" version="0.1.0">
+      <category name="mybuild"/>
+   </feature>
+   <category-def name="mybuild" label="MyBuild">
+      <description>
+         Plug-in for MyBuild build system
+      </description>
+   </category-def>
+</site>
