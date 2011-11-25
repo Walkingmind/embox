@@ -1,6 +1,3 @@
-/**
- * 
- */
 package org.mybuild.myfile.resource;
 
 import org.eclipse.emf.common.util.URI;
