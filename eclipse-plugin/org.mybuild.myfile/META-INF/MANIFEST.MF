@@ -36,4 +36,5 @@ Export-Package: org.mybuild.myfile,
  org.mybuild.myfile.scoping,
  org.mybuild.myfile.generator,
  org.mybuild.myfile.formatting,
+ org.mybuild.myfile.naming,
  org.mybuild.myfile.resource
