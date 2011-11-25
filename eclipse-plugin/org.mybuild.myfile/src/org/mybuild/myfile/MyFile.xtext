@@ -1,0 +1,45 @@
+grammar org.mybuild.myfile.MyFile with org.eclipse.xtext.common.Terminals
+
+generate myFile "http://www.mybuild.org/myfile/MyFile"
+
+Model:
+	package=Package? imports+=Import* modules+=Module*;
+
+Package:
+	'package' name=ID ';';
+
+Import:
+	'import' importedNamespace=QualifiedNameWithWildcard ';';
+
+Module:
+	(static?='static'? & abstract?='abstract'?) 'module' name=ID
+	('extends' superModules+=[Module|QualifiedName] (',' superModules+=[Module|QualifiedName])*)?
+	'{' features+=Feature* '}';
+
+Feature:
+	Sources | Objects | Dependencies;
+
+Sources:
+	'source' files+=File (',' files+=File)*;
+
+Objects:
+	'object' files+=File (',' files+=File)*;
+
+File:
+	Filename (
+		(':' prerequisites+=Filename (',' prerequisites+=Filename)*)?
+		'{' recipe=STRING '}'
+	)?;
+
+Filename:
+	name=STRING;
+
+Dependencies:
+	'depends' modules+=[Module|QualifiedName] (',' modules+=[Module|QualifiedName])*';';
+
+QualifiedName:
+	ID ('.' ID)*;
+
+QualifiedNameWithWildcard:
+	QualifiedName '.*'?;
+
