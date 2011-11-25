@@ -5,7 +5,7 @@
       version="0.1.0">
 
    <description>
-      Plugin for MyBuild build system.
+      Plugin for MyBuild build system. Includes editor for so-called my-files.
    </description>
 
    <copyright>
@@ -13,7 +13,7 @@
 Copyright 2008-2011, Lanit-Tercom Inc. All rights reserved.
    </copyright>
 
-   <license url="">
+   <license>
 Redistribution and use in source and binary forms, with or without
 modification, are permitted provided that the following conditions
 are met:
