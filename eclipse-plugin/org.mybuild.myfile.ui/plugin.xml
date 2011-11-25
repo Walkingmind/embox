@@ -9,9 +9,11 @@
             class="org.mybuild.myfile.ui.MyFileExecutableExtensionFactory:org.eclipse.xtext.ui.editor.XtextEditor"
             contributorClass="org.eclipse.ui.editors.text.TextEditorActionContributor"
             default="true"
-            extensions="my"
             id="org.mybuild.myfile.MyFile"
             name="MyFile Editor">
+           <contentTypeBinding
+                 contentTypeId="org.mybuild.myfile.contentType">
+           </contentTypeBinding>
         </editor>
     </extension>
     <extension
@@ -136,19 +138,6 @@
 
 <!-- adding resource factories -->
 
-	<extension
-		point="org.eclipse.emf.ecore.extension_parser">
-		<parser
-			class="org.mybuild.myfile.ui.MyFileExecutableExtensionFactory:org.eclipse.xtext.resource.IResourceFactory"
-			type="my">
-		</parser>
-	</extension>
-	<extension point="org.eclipse.xtext.extension_resourceServiceProvider">
-        <resourceServiceProvider
-            class="org.mybuild.myfile.ui.MyFileExecutableExtensionFactory:org.eclipse.xtext.ui.resource.IResourceUIServiceProvider"
-            uriExtension="my">
-        </resourceServiceProvider>
-    </extension>
 
 
 
@@ -260,22 +249,43 @@
 	</extension>
 
   <extension point="org.eclipse.compare.contentViewers">
-    <viewer id="org.mybuild.myfile.MyFile.compare.contentViewers"
-            class="org.mybuild.myfile.ui.MyFileExecutableExtensionFactory:org.eclipse.xtext.ui.compare.InjectableViewerCreator"
-            extensions="my">
+    <viewer
+          class="org.mybuild.myfile.ui.MyFileExecutableExtensionFactory:org.eclipse.xtext.ui.compare.InjectableViewerCreator"
+          id="org.mybuild.myfile.MyFile.compare.contentViewers">
     </viewer>
+    <contentTypeBinding
+          contentTypeId="org.mybuild.myfile.contentType"
+          contentViewerId="org.mybuild.myfile.MyFile.compare.contentViewers">
+    </contentTypeBinding>
   </extension>
   <extension point="org.eclipse.compare.contentMergeViewers">
     <viewer id="org.mybuild.myfile.MyFile.compare.contentMergeViewers"
-            class="org.mybuild.myfile.ui.MyFileExecutableExtensionFactory:org.eclipse.xtext.ui.compare.InjectableViewerCreator"
-            extensions="my" label="MyFile Compare">
+            class="org.mybuild.myfile.ui.MyFileExecutableExtensionFactory:org.eclipse.xtext.ui.compare.InjectableViewerCreator" label="MyFile Compare">
      </viewer>
+    <contentTypeBinding
+          contentMergeViewerId="org.mybuild.myfile.MyFile.compare.contentMergeViewers"
+          contentTypeId="org.mybuild.myfile.contentType">
+    </contentTypeBinding>
   </extension>
   <extension point="org.eclipse.ui.editors.documentProviders">
     <provider id="org.mybuild.myfile.MyFile.editors.documentProviders"
             class="org.mybuild.myfile.ui.MyFileExecutableExtensionFactory:org.eclipse.xtext.ui.editor.model.XtextDocumentProvider"
             extensions="my">
     </provider>
+  </extension>
+  <extension
+        point="org.eclipse.emf.ecore.content_parser">
+     <parser
+           class="org.mybuild.myfile.ui.MyFileExecutableExtensionFactory:org.eclipse.xtext.resource.IResourceFactory"
+           contentTypeIdentifier="org.mybuild.myfile.contentType">
+     </parser>
+  </extension>
+  <extension
+        point="org.eclipse.xtext.content_resourceServiceProvider">
+     <resourceServiceProvider
+           class="org.mybuild.myfile.ui.MyFileExecutableExtensionFactory:org.mybuild.myfile.resource.FileExensionUnawareResourceServiceProvider"
+           contentTypeIdentifier="org.mybuild.myfile.contentType">
+     </resourceServiceProvider>
   </extension>
 
 </plugin>
