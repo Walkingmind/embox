@@ -6,7 +6,7 @@ Model:
 	package=Package? imports+=Import* modules+=Module*;
 
 Package:
-	'package' name=ID ';';
+	'package' name=QualifiedName ';';
 
 Import:
 	'import' importedNamespace=QualifiedNameWithWildcard ';';
@@ -20,10 +20,10 @@ Feature:
 	Sources | Objects | Dependencies;
 
 Sources:
-	'source' files+=File (',' files+=File)*;
+	'source' files+=File (',' files+=File)* ';';
 
 Objects:
-	'object' files+=File (',' files+=File)*;
+	'object' files+=File (',' files+=File)* ';';
 
 File:
 	Filename (
