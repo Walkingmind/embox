@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: org.mybuild.myfile.ui
 Bundle-Vendor: My Company
-Bundle-Version: 1.0.0
+Bundle-Version: 0.1.1
 Bundle-SymbolicName: org.mybuild.myfile.ui; singleton:=true
 Bundle-ActivationPolicy: lazy
 Require-Bundle: org.mybuild.myfile;visibility:=reexport,
