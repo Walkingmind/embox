@@ -2,7 +2,7 @@
 <feature
       id="org.mybuild.feature"
       label="MyBuild Feature"
-      version="0.1.1">
+      version="0.1.2">
 
    <description>
       Plugin for MyBuild build system. Includes editor for so-called my-files.
