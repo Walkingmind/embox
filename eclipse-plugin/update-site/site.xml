@@ -3,7 +3,7 @@
    <description name="MyBuild update site">
       Update site for MyBuild plug-in
    </description>
-   <feature url="features/org.mybuild.feature_0.1.0.jar" id="org.mybuild.feature" version="0.1.0">
+   <feature url="features/org.mybuild.feature_0.1.1.jar" id="org.mybuild.feature" version="0.1.1">
       <category name="mybuild"/>
    </feature>
    <category-def name="mybuild" label="MyBuild">
