@@ -1,32 +1,32 @@
 package org.mybuild.myfile.naming;
 
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.xtext.naming.DefaultDeclarativeQualifiedNameProvider;
 import org.eclipse.xtext.naming.QualifiedName;
 import org.mybuild.myfile.myFile.Model;
 import org.mybuild.myfile.myFile.Package;
 
+/**
+ * @author Eldar Abusalimov
+ */
 public class MyQualifiedNameProvider extends
 		DefaultDeclarativeQualifiedNameProvider {
 
 	@Override
 	public QualifiedName getFullyQualifiedName(EObject obj) {
-		QualifiedName name = super.getFullyQualifiedName(obj);
-
-		if (name == null) {
-			return null;
+		if (obj instanceof Model) {
+			Model model = (Model) obj;
+			Package pkg = model.getPackage();
+			return pkg != null ? getConverter().toQualifiedName(pkg.getName())
+					: null;
 		}
 
-		Resource resource = obj.eResource();
-		EObject context = resource.getContents().get(0);
-		Package pkg = ((Model) context).getPackage();
-
-		if (pkg != null) {
-			name = getConverter().toQualifiedName(pkg.getName()).append(name);
+		if (obj instanceof Package) {
+			Package pkg = (Package) obj;
+			return getConverter().toQualifiedName(pkg.getName());
 		}
 
-		return name;
+		return super.getFullyQualifiedName(obj);
 	}
 
 }
