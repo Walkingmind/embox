@@ -20,16 +20,10 @@ Feature:
 	Sources | Objects | Dependencies;
 
 Sources:
-	'source' files+=File (',' files+=File)* ';';
+	'source' files+=Filename (',' files+=Filename)* ';';
 
 Objects:
-	'object' files+=File (',' files+=File)* ';';
-
-File:
-	Filename (
-		(':' prerequisites+=Filename (',' prerequisites+=Filename)*)?
-		'{' recipe=STRING '}'
-	)?;
+	'object' files+=Filename (',' files+=Filename)* ';';
 
 Filename:
 	name=STRING;
