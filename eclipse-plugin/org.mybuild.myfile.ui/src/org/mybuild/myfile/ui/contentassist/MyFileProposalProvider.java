@@ -1,5 +1,6 @@
 package org.mybuild.myfile.ui.contentassist;
 
+import static java.util.Collections.emptyList;
 import static org.eclipse.ui.ide.IDE.getContentType;
 import static org.mybuild.myfile.ui.util.FileUtils.fileOfEObject;
 import static org.mybuild.myfile.ui.util.FileUtils.getMybuildContentType;
@@ -29,7 +30,6 @@ public class MyFileProposalProvider extends AbstractMyFileProposalProvider {
 		boolean cursorAtEndOfString = isCursorAtEndOfString(context);
 
 		for (IFile localFile : listLocalFiles(model)) {
-			System.out.println(localFile);
 			String string = getValueConverter().toString(localFile.getName(),
 					"STRING");
 			ConfigurableCompletionProposal proposal = (ConfigurableCompletionProposal) createCompletionProposal(
@@ -61,6 +61,9 @@ public class MyFileProposalProvider extends AbstractMyFileProposalProvider {
 
 	private Iterable<IFile> listLocalFiles(EObject model) {
 		IFile file = fileOfEObject(model);
+		if (file == null) {
+			return emptyList();
+		}
 
 		final IContentType mybuildContentType = getMybuildContentType();
 		Iterable<IFile> localFiles = listFiles(file.getParent(),
