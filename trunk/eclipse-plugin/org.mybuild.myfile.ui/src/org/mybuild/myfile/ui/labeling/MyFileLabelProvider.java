@@ -14,6 +14,7 @@ import org.mybuild.myfile.myFile.Import;
 import org.mybuild.myfile.myFile.Module;
 import org.mybuild.myfile.myFile.Objects;
 import org.mybuild.myfile.myFile.Package;
+import org.mybuild.myfile.myFile.Sources;
 
 import com.google.inject.Inject;
 
@@ -57,22 +58,28 @@ public class MyFileLabelProvider extends DefaultEObjectLabelProvider {
 	public String image(Package pkg) {
 		return "package.png";
 	}
-	
+
 	public String image(Dependencies deps) {
 		return "dependency.png";
 	}
 
-	public Image image(Filename file) {
+	public String image(Sources sources) {
+		return "file.png";
+	}
+
+	public Image image(Objects objects) {
 		Image image = imageHelper.getImage("file.png");
 
-		if (file.eContainer() instanceof Objects) {
-			ImageDescriptor binaryAdornment = ImageDescriptor
-					.createFromImage(imageHelper.getImage("binary.png"));
-			image = new DecorationOverlayIcon(image, binaryAdornment,
-					IDecoration.BOTTOM_RIGHT).createImage();
-		}
+		ImageDescriptor binaryAdornment = ImageDescriptor
+				.createFromImage(imageHelper.getImage("binary.png"));
+		image = new DecorationOverlayIcon(image, binaryAdornment,
+				IDecoration.BOTTOM_RIGHT).createImage();
 
 		return image;
+	}
+
+	public Image image(Filename file) {
+		return getImage(file.eContainer());
 	}
 
 }
