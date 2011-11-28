@@ -2,7 +2,7 @@ package org.mybuild.myfile.validation;
 
 public interface IssueCodes {
 
-	String PREFIX = IssueCodes.class.getName() + ".";
+	String PREFIX = "org.mybuild.myfile.validation.IssueCodes.";
 
 	String INVALID_MODULE_NAME = PREFIX + "InvalidModuleName";
 
