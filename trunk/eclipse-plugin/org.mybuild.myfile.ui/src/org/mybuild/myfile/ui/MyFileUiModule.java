@@ -4,6 +4,8 @@
 package org.mybuild.myfile.ui;
 
 import org.eclipse.ui.plugin.AbstractUIPlugin;
+import org.eclipse.xtext.ui.editor.hyperlinking.IHyperlinkHelper;
+import org.mybuild.myfile.ui.navigation.MyFileHyperlinkHelper;
 
 /**
  * Use this class to register components to be used within the IDE.
@@ -12,4 +14,10 @@ public class MyFileUiModule extends org.mybuild.myfile.ui.AbstractMyFileUiModule
 	public MyFileUiModule(AbstractUIPlugin plugin) {
 		super(plugin);
 	}
+	
+	@Override
+	public Class<? extends IHyperlinkHelper> bindIHyperlinkHelper() {
+		return MyFileHyperlinkHelper.class;
+	}
+
 }
