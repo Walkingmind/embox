@@ -13,7 +13,6 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.Region;
 import org.eclipse.xtext.Assignment;
-import org.eclipse.xtext.conversion.IValueConverterService;
 import org.eclipse.xtext.ui.editor.contentassist.ConfigurableCompletionProposal;
 import org.eclipse.xtext.ui.editor.contentassist.ContentAssistContext;
 import org.eclipse.xtext.ui.editor.contentassist.ICompletionProposalAcceptor;
@@ -41,8 +40,6 @@ public class MyFileProposalProvider extends AbstractMyFileProposalProvider {
 			}
 		});
 
-		IValueConverterService converter = getValueConverter();
-
 		Region replaceRegion = context.getReplaceRegion();
 		int replacementLength = replaceRegion.getLength();
 		int replacementEnd = replaceRegion.getOffset() + replacementLength;
@@ -56,7 +53,8 @@ public class MyFileProposalProvider extends AbstractMyFileProposalProvider {
 		}
 
 		for (File file : files) {
-			String string = converter.toString(file.getName(), "STRING");
+			String string = getValueConverter().toString(file.getName(),
+					"STRING");
 			ConfigurableCompletionProposal proposal = (ConfigurableCompletionProposal) createCompletionProposal(
 					string, string, getLabelProvider().getImage(model), context);
 
