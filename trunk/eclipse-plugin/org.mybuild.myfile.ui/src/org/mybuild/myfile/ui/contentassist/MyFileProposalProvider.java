@@ -2,9 +2,9 @@ package org.mybuild.myfile.ui.contentassist;
 
 import static java.util.Collections.emptyList;
 import static org.eclipse.ui.ide.IDE.getContentType;
-import static org.mybuild.myfile.ui.util.FileUtils.fileOfEObject;
-import static org.mybuild.myfile.ui.util.FileUtils.getMybuildContentType;
-import static org.mybuild.myfile.ui.util.FileUtils.listFiles;
+import static org.mybuild.myfile.util.FileUtils.fileOfEObject;
+import static org.mybuild.myfile.util.FileUtils.getMybuildContentType;
+import static org.mybuild.myfile.util.FileUtils.listFiles;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.content.IContentType;

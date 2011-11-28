@@ -1,6 +1,6 @@
 package org.mybuild.myfile.ui.navigation;
 
-import static org.mybuild.myfile.ui.util.FileUtils.fileFromResource;
+import static org.mybuild.myfile.util.FileUtils.fileFromResource;
 
 import java.util.List;
 

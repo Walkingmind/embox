@@ -1,4 +1,4 @@
-package org.mybuild.myfile.ui.util;
+package org.mybuild.myfile.util;
 
 import static com.google.common.base.Predicates.and;
 import static com.google.common.base.Predicates.instanceOf;
