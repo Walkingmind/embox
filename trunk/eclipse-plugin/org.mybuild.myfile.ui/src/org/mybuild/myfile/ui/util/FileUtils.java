@@ -36,6 +36,9 @@ public class FileUtils {
 	}
 
 	public static IFile fileFromURI(URI uri) {
+		if (!uri.isPlatform()) {
+			return null;
+		}
 		return ResourcesPlugin.getWorkspace().getRoot()
 				.getFile(new Path(uri.toPlatformString(true)));
 	}
