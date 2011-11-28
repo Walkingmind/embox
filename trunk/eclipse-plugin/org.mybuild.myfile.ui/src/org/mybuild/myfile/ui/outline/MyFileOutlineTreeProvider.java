@@ -28,8 +28,10 @@ public class MyFileOutlineTreeProvider extends DefaultOutlineTreeProvider {
 	protected void _createChildren(DocumentRootNode parent, Model model) {
 		Package pkg = model.getPackage();
 
-		createEStructuralFeatureNode(parent, pkg, PACKAGE__NAME,
-				labelProvider.getImage(pkg), pkg.getName(), true);
+		if (pkg != null) {
+			createEStructuralFeatureNode(parent, pkg, PACKAGE__NAME,
+					labelProvider.getImage(pkg), pkg.getName(), true);
+		}
 
 		EList<Import> imports = model.getImports();
 		if (!imports.isEmpty()) {
