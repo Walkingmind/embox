@@ -10,8 +10,11 @@ import org.eclipse.emf.common.CommonPlugin;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.jface.text.BadLocationException;
+import org.eclipse.jface.text.Region;
 import org.eclipse.xtext.Assignment;
 import org.eclipse.xtext.conversion.IValueConverterService;
+import org.eclipse.xtext.ui.editor.contentassist.ConfigurableCompletionProposal;
 import org.eclipse.xtext.ui.editor.contentassist.ContentAssistContext;
 import org.eclipse.xtext.ui.editor.contentassist.ICompletionProposalAcceptor;
 
@@ -40,10 +43,31 @@ public class MyFileProposalProvider extends AbstractMyFileProposalProvider {
 
 		IValueConverterService converter = getValueConverter();
 
+		Region replaceRegion = context.getReplaceRegion();
+		int replacementLength = replaceRegion.getLength();
+		int replacementEnd = replaceRegion.getOffset() + replacementLength;
+
+		boolean isAtEndOfString = false;
+		try {
+			isAtEndOfString = context.getDocument().getChar(replacementEnd) == '"';
+
+		} catch (BadLocationException e) {
+			e.printStackTrace();
+		}
+
 		for (File file : files) {
 			String string = converter.toString(file.getName(), "STRING");
-			acceptor.accept(createCompletionProposal(
-					string, string, getLabelProvider().getImage(model), context));
+			ConfigurableCompletionProposal proposal = (ConfigurableCompletionProposal) createCompletionProposal(
+					string, string, getLabelProvider().getImage(model), context);
+
+			if (proposal != null) {
+				if (isAtEndOfString) {
+					proposal.setReplacementLength(replacementLength + 1);
+					proposal.setReplacementString(string.substring(0,
+							string.length() - 1));
+				}
+				acceptor.accept(proposal);
+			}
 		}
 	}
 }
