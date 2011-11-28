@@ -18,6 +18,14 @@ import org.mybuild.myfile.myFile.util.MyFileSwitch;
 public class MyFileJavaValidator extends AbstractMyFileJavaValidator {
 
 	@Check
+	public void checkModuleNameStartsWithCapital(Module module) {
+		if (!Character.isUpperCase(module.getName().charAt(0))) {
+			warning("Name should start with a capital",
+					Literals.MODULE__NAME, IssueCodes.INVALID_MODULE_NAME);
+		}
+	}
+
+	@Check
 	public void checkFileFeaturesSpecifyUniqueNames(Module module) {
 		final List<Filename> files = newArrayList();
 		final Set<String> names = newHashSet();
