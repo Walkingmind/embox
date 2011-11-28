@@ -1,11 +1,15 @@
 package org.mybuild.myfile.ui.labeling;
 
+import static org.eclipse.ui.ide.IDE.getEditorDescriptor;
+
+import org.eclipse.core.resources.IFile;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.edit.ui.provider.AdapterFactoryLabelProvider;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.viewers.DecorationOverlayIcon;
 import org.eclipse.jface.viewers.IDecoration;
 import org.eclipse.swt.graphics.Image;
+import org.eclipse.ui.PartInitException;
 import org.eclipse.xtext.ui.IImageHelper;
 import org.eclipse.xtext.ui.label.DefaultEObjectLabelProvider;
 import org.mybuild.myfile.myFile.Dependencies;
@@ -82,4 +86,19 @@ public class MyFileLabelProvider extends DefaultEObjectLabelProvider {
 		return getImage(file.eContainer());
 	}
 
+	public Image image(IFile file) {
+		Image image = null;
+
+		try {
+			ImageDescriptor imageDescriptor = getEditorDescriptor(file)
+					.getImageDescriptor();
+			if (imageDescriptor != null) {
+				image = imageDescriptor.createImage();
+			}
+
+		} catch (PartInitException e) {
+		}
+
+		return image;
+	}
 }
