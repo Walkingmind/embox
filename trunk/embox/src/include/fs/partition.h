@@ -6,8 +6,8 @@
  * @author Alexander Batyukov
  */
 
-#ifndef PARTITION_H_
-#define PARTITION_H_
+#ifndef FS_PARTITION_H_
+#define FS_PARTITION_H_
 
 #include <types.h>
 
@@ -44,4 +44,4 @@ extern int fs_delete_partition(PARTITION_DESCRIPTOR *desc);
 /* for debug only */
 extern int fs_print_all_partitions(void);
 
-#endif /* PARTITION_H_ */
+#endif /* FS_PARTITION_H_ */
