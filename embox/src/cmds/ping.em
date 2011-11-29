@@ -49,3 +49,4 @@ define $_DETAILS-ping
 		Anton Bondarev
 		Nikolay Korotky
 endef
+
