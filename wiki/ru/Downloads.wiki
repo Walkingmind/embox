@@ -1,34 +1,27 @@
 #summary Downloads
 
-Мы используем [http://en.wikipedia.org/wiki/Apache_Subversion Subversion]
-репозиторий для разработки.
-Вы можете [http://code.google.com/p/embox/source/checkout взять] свежий
-snapshot из `/trunk` или просмотреть репозиторий используя
-[http://code.google.com/p/embox/source/browse web-based viewer].
+= Стабильные версии Embox =
 
-= Крайний стабильный релиз - embox-0.2.2 =
+Крайняя стабильная версия *embox-0.2.3* (вышла 1 Декабря 2011)
 
-Вышел 25 Сентября 2011.
-
- * [http://embox.googlecode.com/files/embox-0.2.2.txz embox-0.2.2.txz] (size: 533 KB; SHA1 Checksum: 69560803363542460f58d3c211d62416d72781d7)
- * [http://embox.googlecode.com/files/embox-0.2.2.tar.gz embox-0.2.2.tar.gz] (size: 717 KB; SHA1 Checksum: fe8fb15cf090327784f935e9d35714a12d392f23)
-
-= Предыдущие стабильные релизы =
-
- * [http://embox.googlecode.com/files/embox-0.2.1.txz embox-0.2.1.txz] (размер: 399 KB; SHA1 Checksum: e66f971ee16071863ec4be3ff2056d5abd05c8f3)
- * [http://embox.googlecode.com/files/embox-0.2.0.txz embox-0.2.0.txz] (размер: 392 KB; SHA1 Checksum: c019bafa6d5d4a21fa3bdb2867a498d9d4ff530a)
- * [http://embox.googlecode.com/files/embox-0.1.11.txz embox-0.1.11.txz] (размер: 379 KB; SHA1 Checksum: 1e405fa344d39b2af505339207025ea8651e608e)
- * [http://embox.googlecode.com/files/embox-0.1.10.txz embox-0.1.10.txz] (размер: 356 KB; SHA1 Checksum: ea5194728818042b9a630fc9ab5ddba2f2298a33)
- * [http://embox.googlecode.com/files/embox-0.1.9.txz embox-0.1.9.txz] (размер: 335 KB; SHA1 Checksum: 675302e81ecdf71e44f24b3de72002525b3da732)
- * [http://embox.googlecode.com/files/embox-0.1.8.txz embox-0.1.8.txz] (размер: 327 KB; SHA1 Checksum: 859f6874cb2aba03d5dd3aa1da28348ad61acabc)
- * [http://embox.googlecode.com/files/embox-0.1.7.txz embox-0.1.7.txz] (размер: 323 KB; SHA1 Checksum: 4774e1b21769faf26e3df467b835b14eee814347)
- * [http://embox.googlecode.com/files/embox-0.1.6.txz embox-0.1.6.txz] (размер: 307 KB; SHA1 Checksum: 43a0bdbe9848996184d446b62335546ece74d00c)
- * [http://embox.googlecode.com/files/embox-0.1.5.txz embox-0.1.5.txz] (размер: 257 KB; SHA1 Checksum: dfcc08cd2b717998c74a8eda574776160080a8da)
- * [http://embox.googlecode.com/files/embox-0.1.4.txz embox-0.1.4.txz] (размер: 244 KB; SHA1 Checksum: 0810a3c0543beeb670094fab8ef9be566d1c689d)
- * [http://embox.googlecode.com/files/embox-0.1.3.txz embox-0.1.3.txz] (размер: 412 KB; SHA1 Checksum: 6694744f871d87af6238022d12fd6b0b83cea6ba)
- * [http://embox.googlecode.com/files/embox-0.1.2.txz embox-0.1.2.txz] (размер: 213 KB; SHA1 Checksum: aeb0c65f8371aaa930b7195b7b41515520d0f5b0)
- * [http://embox.googlecode.com/files/embox-0.1.1.txz embox-0.1.1.txz] (размер: 203 KB; SHA1 Checksum: c2ea3f5c63b16aa13c03560066e80c590c45d416)
- * [http://embox.googlecode.com/files/embox-0.1.txz embox-0.1.txz] (размер: 201 KB; SHA1 Checksum: 7c9b327d87ac992b477ff6a1b3c2572895b306a0)
+|| Версия || Размер || SHA1 ||
+|| *[http://embox.googlecode.com/files/embox-0.2.3.txz embox-0.2.3.txz]* || 650 KB || `7cb8153df423425931ab7fae7f93eb39881a81ed` ||
+|| *[http://embox.googlecode.com/files/embox-0.2.3.tar.gz embox-0.2.3.tar.gz]* || 871 KB || `03db20999ef3765ea112a71223917209f3ab4690` ||
+|| [http://embox.googlecode.com/files/embox-0.2.2.txz embox-0.2.2.txz] || 533 KB || `69560803363542460f58d3c211d62416d72781d7` ||
+|| [http://embox.googlecode.com/files/embox-0.2.1.txz embox-0.2.1.txz] || 399 KB || `e66f971ee16071863ec4be3ff2056d5abd05c8f3` ||
+|| [http://embox.googlecode.com/files/embox-0.2.0.txz embox-0.2.0.txz] || 392 KB || `c019bafa6d5d4a21fa3bdb2867a498d9d4ff530a` ||
+|| [http://embox.googlecode.com/files/embox-0.1.11.txz embox-0.1.11.txz] || 379 KB || `1e405fa344d39b2af505339207025ea8651e608e` ||
+|| [http://embox.googlecode.com/files/embox-0.1.10.txz embox-0.1.10.txz] || 356 KB || `ea5194728818042b9a630fc9ab5ddba2f2298a33` ||
+|| [http://embox.googlecode.com/files/embox-0.1.9.txz embox-0.1.9.txz] || 335 KB || `675302e81ecdf71e44f24b3de72002525b3da732` ||
+|| [http://embox.googlecode.com/files/embox-0.1.8.txz embox-0.1.8.txz] || 327 KB || `859f6874cb2aba03d5dd3aa1da28348ad61acabc` ||
+|| [http://embox.googlecode.com/files/embox-0.1.7.txz embox-0.1.7.txz] || 323 KB || `4774e1b21769faf26e3df467b835b14eee814347` ||
+|| [http://embox.googlecode.com/files/embox-0.1.6.txz embox-0.1.6.txz] || 307 KB || `43a0bdbe9848996184d446b62335546ece74d00c` ||
+|| [http://embox.googlecode.com/files/embox-0.1.5.txz embox-0.1.5.txz] || 257 KB || `dfcc08cd2b717998c74a8eda574776160080a8da` ||
+|| [http://embox.googlecode.com/files/embox-0.1.4.txz embox-0.1.4.txz] || 244 KB || `0810a3c0543beeb670094fab8ef9be566d1c689d` ||
+|| [http://embox.googlecode.com/files/embox-0.1.3.txz embox-0.1.3.txz] || 412 KB || `6694744f871d87af6238022d12fd6b0b83cea6ba` ||
+|| [http://embox.googlecode.com/files/embox-0.1.2.txz embox-0.1.2.txz] || 213 KB || `aeb0c65f8371aaa930b7195b7b41515520d0f5b0` ||
+|| [http://embox.googlecode.com/files/embox-0.1.1.txz embox-0.1.1.txz] || 203 KB || `c2ea3f5c63b16aa13c03560066e80c590c45d416` ||
+|| [http://embox.googlecode.com/files/embox-0.1.txz embox-0.1.txz] || 201 KB || `7c9b327d87ac992b477ff6a1b3c2572895b306a0` ||
 
 = EmLinux =
 

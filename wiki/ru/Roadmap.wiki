@@ -1,6 +1,9 @@
 #summary Embox development roadmap
 #labels Phase-Requirements,Featured
 
+= 2011/12/01 v0.2.3 [http://code.google.com/p/embox/issues/list?can=1&q=milestone=v0.2.3 [issues]] [http://code.google.com/p/embox/issues/list?q=milestone=v0.2.3 [open issues]] =
+
+
 = 2011/09/25 v0.2.2 [http://code.google.com/p/embox/issues/list?can=1&q=milestone=v0.2.2 [issues]] [http://code.google.com/p/embox/issues/list?q=milestone=v0.2.2 [open issues]] =
  == Система сборки ==
   * Возможность различных интерфейсов заголовочных файлов
