@@ -1,10 +1,14 @@
 #summary Embox development roadmap
 #labels Phase-Requirements,Featured
 
-= 2011/12/01 v0.2.3 [http://code.google.com/p/embox/issues/list?can=1&q=milestone=v0.2.3 [issues]] [http://code.google.com/p/embox/issues/list?q=milestone=v0.2.3 [open issues]] =
+= 2012/01/01 v0.2.4 [http://code.google.com/p/embox/issues/list?can=1&q=milestone=v0.2.4 [issues]] [http://code.google.com/p/embox/issues/list?q=milestone=v0.2.4 [open issues]] =
 
 
-= 2011/09/25 v0.2.2 [http://code.google.com/p/embox/issues/list?can=1&q=milestone=v0.2.2 [issues]] [http://code.google.com/p/embox/issues/list?q=milestone=v0.2.2 [open issues]] =
+= 2011/12/01 v0.2.3 [http://code.google.com/p/embox/issues/list?can=1&q=milestone=v0.2.3 [issues]] =
+
+
+= 2011/09/25 v0.2.2 [http://code.google.com/p/embox/issues/list?can=1&q=milestone=v0.2.2 [issues]] =
+
  == Система сборки ==
   * Возможность различных интерфейсов заголовочных файлов
   * Новые типы модулей (службы и примеры)
@@ -20,14 +24,16 @@
   * Почищен код для архитектур ARM, x86, Microblaze
   * Добавлены примеры и почищен код для платформы Lego
 
-= 2011/07/04 v0.2.1 [http://code.google.com/p/embox/issues/list?can=1&q=milestone=v0.2.1 [issues]] [http://code.google.com/p/embox/issues/list?q=milestone=v0.2.1 [open issues]] = 
+= 2011/07/04 v0.2.1 [http://code.google.com/p/embox/issues/list?can=1&q=milestone=v0.2.1 [issues]] = 
+
  == x86 ==
   * Поддержка сетевой карты ne2000 на шине PCI
 
  == Сеть ==
   * Поддержка loopback интерфейса
 
-= 2011/05/15 v0.2.0 [http://code.google.com/p/embox/issues/list?can=1&q=milestone=v0.2.0 [issues]] [http://code.google.com/p/embox/issues/list?q=milestone=v0.2.0 [open issues]] =
+= 2011/05/15 v0.2.0 [http://code.google.com/p/embox/issues/list?can=1&q=milestone=v0.2.0 [issues]] =
+
  == Система сборки ==
   * Добавлена возможность задавать интерфейсы в системе и их реализации
   * Новый интерфейс описания тестов
@@ -38,7 +44,8 @@
   * Веделение памяти для потоков через SLAB
   * Добавлена новая реализация консоли с возможностью переключаться между инстансами консоли 
   
-= 2011/03/11 v0.1.11 [http://code.google.com/p/embox/issues/list?can=1&q=milestone=v0.1.11 [issues]] [http://code.google.com/p/embox/issues/list?q=milestone=v0.1.11 [open issues]] =
+= 2011/03/11 v0.1.11 [http://code.google.com/p/embox/issues/list?can=1&q=milestone=v0.1.11 [issues]] =
+
  == Lego NXT ==
   * Добавление поддержки bluetooth
   * Добавление датчикастандартного цвета
@@ -48,7 +55,8 @@
   * запуск на виртуальной машине QEMU
   * поддержка шины PCI
   
-= 2010/12/31 v0.1.10 [http://code.google.com/p/embox/issues/list?can=1&q=milestone=v0.1.10 [issues]] [http://code.google.com/p/embox/issues/list?q=milestone=v0.1.10 [open issues]] =
+= 2010/12/31 v0.1.10 [http://code.google.com/p/embox/issues/list?can=1&q=milestone=v0.1.10 [issues]] =
+
  * Портирование под x86 (VGA консоль, клавиатура)
  * Улучшена работа с графикой на Lego
  * Реализована работа с моторами на Lego
@@ -56,13 +64,14 @@
  * Реализован программный канал I2C (сонар) для Lego
  * Добавлен алгоритм выделения мапяти SLAB
 
+= 2010/11/30 v0.1.9 [http://code.google.com/p/embox/issues/list?can=1&q=milestone=v0.1.9 [issues]] =
 
-= 2010/11/30 v0.1.9 [http://code.google.com/p/embox/issues/list?can=1&q=milestone=v0.1.9 [issues]] [http://code.google.com/p/embox/issues/list?q=milestone=v0.1.9 [open issues]] =
  * Рефакторинг кода ARM и Lego NXT
  * Развитие системы сборки ([EMBuildFeatureProposals подробнее])
  * Переработка оболочки и терминала
 
-= 2010/10/25 v0.1.8 [http://code.google.com/p/embox/issues/list?can=1&q=milestone=v0.1.8 [issues]] [http://code.google.com/p/embox/downloads/detail?name=embox-0.1.8.txz [download]] =
+= 2010/10/25 v0.1.8 [http://code.google.com/p/embox/issues/list?can=1&q=milestone=v0.1.8 [issues]] =
+
 == Lego Mindstorms NXT 2.0 ==
  * Раскрутка процессора ARM и инициализация контроллера AVR
  * Вывод изображения и звука
@@ -72,15 +81,18 @@
  * Логическая файловая система
  * initfs
 
-= 2010/10/01 v0.1.7 [http://code.google.com/p/embox/issues/list?can=1&q=milestone=v0.1.7 [issues]] [http://code.google.com/p/embox/downloads/detail?name=embox-0.1.7.txz [download]] =
+= 2010/10/01 v0.1.7 [http://code.google.com/p/embox/issues/list?can=1&q=milestone=v0.1.7 [issues]] =
+
  * Очистка кода
  * Проверка результатов
  * ~~Улучшение системы сборки~~
 
-= 2010/07/23 v0.1.6 [http://code.google.com/p/embox/issues/list?can=1&q=milestone=v0.1.6 [issues]] [http://code.google.com/p/embox/downloads/detail?name=embox-0.1.6.txz [download]] =
+= 2010/07/23 v0.1.6 [http://code.google.com/p/embox/issues/list?can=1&q=milestone=v0.1.6 [issues]] =
+
 Презентация результатов летней школы.
 
-= 2010/06/28 v0.1.5 [http://code.google.com/p/embox/issues/list?can=1&q=milestone=v0.1.5 [issues]] [http://code.google.com/p/embox/downloads/detail?name=embox-0.1.5.txz [download]] =
+= 2010/06/28 v0.1.5 [http://code.google.com/p/embox/issues/list?can=1&q=milestone=v0.1.5 [issues]] =
+
 Начало летней школы ЗАО "Ланит-Терком".
 
 == Threading ==
@@ -99,10 +111,12 @@
  * Написаны странички вики с обоснованием почему нужна виртуальная память и почему плохо использовать чистый метод граничных маркеров
  * Написаны тесты на виртуальную память
 
-= 2010/05/19 v0.1.4 [http://code.google.com/p/embox/issues/list?can=1&q=milestone=v0.1.4 [issues]] [http://code.google.com/p/embox/downloads/detail?name=embox-0.1.4.txz [download]] =
+= 2010/05/19 v0.1.4 [http://code.google.com/p/embox/issues/list?can=1&q=milestone=v0.1.4 [issues]] =
+
 Презентация результатов студенческого проекта.
 
-= 2010/05/01 v0.1.3 [http://code.google.com/p/embox/issues/list?can=1&q=milestone=v0.1.3 [issues]] [http://code.google.com/p/embox/downloads/detail?name=embox-0.1.3.txz [download]] =
+= 2010/05/01 v0.1.3 [http://code.google.com/p/embox/issues/list?can=1&q=milestone=v0.1.3 [issues]] =
+
 == Threading ==
  * Работает тривиальный планировщик
  * Тест (или команда), который запускает 2 потока, один из которых пишет на консоль "-", другой "+". На консоль выводится последовательность из как-то чередующихся + и -
@@ -125,11 +139,14 @@
  * поддержка протокола ICMP
  * ~~реализован интерфейс ioctl для сокетов~~
 
-= 2010/04/16 v0.1.2 [http://code.google.com/p/embox/issues/list?can=1&q=milestone=v0.1.2 [issues]] [http://code.google.com/p/embox/downloads/detail?name=embox-0.1.2.txz [download]] =
+= 2010/04/16 v0.1.2 [http://code.google.com/p/embox/issues/list?can=1&q=milestone=v0.1.2 [issues]] =
+
 Все задачи распределены по участникам весеннего студенческого проекта Ланит-Теркома.
 
-= 2010/04/02 v0.1.1 [http://code.google.com/p/embox/issues/list?can=1&q=milestone=v0.1.1 [issues]] [http://code.google.com/p/embox/downloads/detail?name=embox-0.1.1.txz [download]] =
+= 2010/04/02 v0.1.1 [http://code.google.com/p/embox/issues/list?can=1&q=milestone=v0.1.1 [issues]] =
+
 Проведена презентация средств для тестирования оборудования.
 
-= 2010/03/13 v0.1 [http://code.google.com/p/embox/issues/list?can=1&q=milestone=v0.1 [issues]] [http://code.google.com/p/embox/downloads/detail?name=embox-0.1.tar.bz2 [download]] =
+= 2010/03/13 v0.1 [http://code.google.com/p/embox/issues/list?can=1&q=milestone=v0.1 [issues]] =
+
 Начало времен.
