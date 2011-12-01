@@ -64,6 +64,18 @@ public class FileUtils {
 		}
 	}
 
+	public static String getFileBaseName(IFile file) {
+		return getFileBaseName(file.getName());
+	}
+
+	public static String getFileBaseName(String name) {
+		int index = name.lastIndexOf('.');
+		if (index == -1) {
+			return name;
+		}
+		return name.substring(0, index);
+	}
+
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public static Iterable<IFile> listFiles(IContainer folder,
 			Predicate<IFile> predicate) {
