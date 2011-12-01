@@ -135,7 +135,8 @@ public class MyFileProposalProvider extends AbstractMyFileProposalProvider {
 		int replacementEnd = replaceRegion.getOffset()
 				+ replaceRegion.getLength();
 		try {
-			return context.getDocument().getChar(replacementEnd) == '"';
+			char c = context.getDocument().getChar(replacementEnd);
+			return c == '"' || c == '\'';
 		} catch (BadLocationException e) {
 			return false;
 		}
