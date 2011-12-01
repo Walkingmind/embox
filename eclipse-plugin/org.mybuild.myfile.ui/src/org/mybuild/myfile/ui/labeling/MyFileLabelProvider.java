@@ -12,7 +12,7 @@ import org.eclipse.swt.graphics.Image;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.xtext.ui.IImageHelper;
 import org.eclipse.xtext.ui.label.DefaultEObjectLabelProvider;
-import org.mybuild.myfile.myFile.Dependencies;
+import org.mybuild.myfile.myFile.Depends;
 import org.mybuild.myfile.myFile.Filename;
 import org.mybuild.myfile.myFile.Import;
 import org.mybuild.myfile.myFile.Module;
@@ -63,7 +63,7 @@ public class MyFileLabelProvider extends DefaultEObjectLabelProvider {
 		return "package.png";
 	}
 
-	public String image(Dependencies deps) {
+	public String image(Depends deps) {
 		return "dependency.png";
 	}
 

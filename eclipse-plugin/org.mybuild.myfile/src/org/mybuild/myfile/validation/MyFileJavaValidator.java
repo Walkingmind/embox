@@ -1,72 +1,74 @@
 package org.mybuild.myfile.validation;
 
+import static com.google.common.collect.Iterators.filter;
 import static com.google.common.collect.Lists.newArrayList;
 import static com.google.common.collect.Sets.newHashSet;
+import static org.mybuild.myfile.util.FileUtils.fileOfEObject;
 
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
-import org.eclipse.emf.common.util.TreeIterator;
-import org.eclipse.emf.ecore.EObject;
+import org.eclipse.core.resources.IFile;
+import org.eclipse.core.runtime.Path;
 import org.eclipse.xtext.validation.Check;
-import org.mybuild.myfile.myFile.Dependencies;
+import org.mybuild.myfile.myFile.Entity;
 import org.mybuild.myfile.myFile.Filename;
 import org.mybuild.myfile.myFile.Module;
 import org.mybuild.myfile.myFile.MyFilePackage.Literals;
-import org.mybuild.myfile.myFile.util.MyFileSwitch;
 
 public class MyFileJavaValidator extends AbstractMyFileJavaValidator {
 
 	@Check
-	public void checkModuleNameStartsWithCapital(Module module) {
-		if (!Character.isUpperCase(module.getName().charAt(0))) {
-			warning("Name should start with a capital",
-					Literals.MODULE__NAME, IssueCodes.INVALID_MODULE_NAME);
+	public void checkEntityNameStartsWithCapital(Entity entity) {
+		if (!Character.isUpperCase(entity.getName().charAt(0))) {
+			warning("Name should start with a capital", Literals.ENTITY__NAME,
+					IssueCodes.INVALID_MODULE_NAME);
+		}
+	}
+
+	@Check
+	public void checkFileExists(Filename filename) {
+		IFile file = fileOfEObject(filename);
+
+		if (file == null) {
+			return;
+		}
+
+		if (!file.getParent().exists(new Path(filename.getName()))) {
+			error("File does not exist", filename, Literals.FILENAME__NAME,
+					IssueCodes.FILE_DOES_NOT_EXIST, filename.getName());
 		}
 	}
 
 	@Check
 	public void checkFileFeaturesSpecifyUniqueNames(Module module) {
-		final List<Filename> files = newArrayList();
+		final List<Filename> filenames = newArrayList();
 		final Set<String> names = newHashSet();
 		final Set<String> duplicates = newHashSet();
 
-		final TreeIterator<EObject> iterator = module.eAllContents();
-
-		MyFileSwitch<Void> visitor = new MyFileSwitch<Void>() {
-			
-			@Override
-			public Void caseFilename(Filename file) {
-				String name = file.getName().trim();
-				
-				files.add(file);
-				if (!names.add(name)) {
-					duplicates.add(name);
-				}
-				
-				return null;
-			}
-			
-			@Override
-			public Void caseDependencies(Dependencies object) {
-				iterator.prune();
-				
-				return null;
-			}
-		};
+		Iterator<Filename> iterator = filter(module.eAllContents(),
+				Filename.class);
 
 		while (iterator.hasNext()) {
-			visitor.doSwitch(iterator.next());
+			Filename filename = iterator.next();
+
+			String name = filename.getName().trim();
+
+			filenames.add(filename);
+			if (!names.add(name)) {
+				duplicates.add(name);
+			}
 		}
 
 		if (duplicates.isEmpty()) {
 			return;
 		}
 
-		for (Filename file : files) {
-			if (duplicates.contains(file.getName().trim())) {
-				error("Duplicate file name", file, Literals.FILENAME__NAME,
-						IssueCodes.DUPLICATE_FILE_NAME, file.getName());
+		for (Filename filename : filenames) {
+			if (duplicates.contains(filename.getName().trim())) {
+				error("Duplicate file name", filename, Literals.FILENAME__NAME,
+						IssueCodes.DUPLICATE_FILE_NAME, filename.getName());
 			}
 		}
 	}

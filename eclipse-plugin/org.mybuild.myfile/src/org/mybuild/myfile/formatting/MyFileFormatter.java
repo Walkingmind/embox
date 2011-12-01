@@ -37,10 +37,10 @@ public class MyFileFormatter extends AbstractDeclarativeFormatter {
 			c.setNoSpace().before(comma);
 		}
 
-		for (Keyword semicolon : f.findKeywords(";")) {
-			c.setNoSpace().before(semicolon);
-			c.setLinewrap().after(semicolon);
-		}
+//		for (Keyword semicolon : f.findKeywords(";")) {
+//			c.setNoSpace().before(semicolon);
+//			c.setLinewrap().after(semicolon);
+//		}
 
 		c.setLinewrap(0, 1, 2).before(f.getSL_COMMENTRule());
 		c.setLinewrap(0, 1, 2).before(f.getML_COMMENTRule());

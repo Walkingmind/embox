@@ -1,35 +1,99 @@
+/**
+ * MyBuild file grammar.
+ * Version: 0.2
+ * 
+ * Author: Eldar Abusalimov
+ */
 grammar org.mybuild.myfile.MyFile with org.eclipse.xtext.common.Terminals
 
 generate myFile "http://www.mybuild.org/myfile/MyFile"
 
 Model:
-	package=Package? imports+=Import* modules+=Module*;
+	package=Package? imports+=Import* entities+=Entity*;
 
 Package:
-	'package' name=QualifiedName ';';
+	'package' name=QualifiedName;
 
 Import:
-	'import' importedNamespace=QualifiedNameWithWildcard ';';
+	'import' importedNamespace=QualifiedNameWithWildcard;
 
-Module:
-	(static?='static'? & abstract?='abstract'?) 'module' name=ID
-	('extends' superModules+=[Module|QualifiedName] (',' superModules+=[Module|QualifiedName])*)?
-	'{' features+=Feature* '}';
+Entity:
+	Module | Interface;
+
+Interface:
+	'interface' name=ID ('extends' superType=[Interface|QualifiedName])?
+	'{' features+=InterfaceAttribute* '}';
+
+InterfaceAttribute:
+	Feature;
 
 Feature:
-	Sources | Objects | Dependencies;
+	'feature' name=ID ('extends' superType=[Feature|QualifiedNameWithWildcard])?;
+
+Module:
+	(static?='static'? & abstract?='abstract'?)
+	'module' name=ID ('extends' superType=[Module|QualifiedName])?
+	'{' features+=ModuleAttribute* '}';
+
+ModuleAttribute:
+	Sources | Objects | Depends | Provides | Requires | Make | Option;
+
+Depends:
+	'depends' modules+=[Module|QualifiedName] (',' modules+=[Module|QualifiedName])*;
+
+Provides:
+	'provides' FeatureList;
+
+Requires:
+	'requires' FeatureList;
+
+FeatureList:
+	features+=[Feature|QualifiedNameWithWildcard] (','
+	features+=[Feature|QualifiedNameWithWildcard])*;
 
 Sources:
-	'source' files+=Filename (',' files+=Filename)* ';';
+	'source' FilenameList;
 
 Objects:
-	'object' files+=Filename (',' files+=Filename)* ';';
+	'object' FilenameList;
+
+FilenameList:
+	files+=Filename (','
+	files+=Filename)*;
 
 Filename:
 	name=STRING;
 
-Dependencies:
-	'depends' modules+=[Module|QualifiedName] (',' modules+=[Module|QualifiedName])*';';
+Option:
+	'option' name=ID ':'
+	(string?=StringOption
+	| number?=NumberOption
+	| boolean?=BooleanOption);
+
+StringOption:
+	{Option} 'string' ('=' stringValue=STRING)?;
+
+NumberOption:
+	{Option} 'number' ('=' numberValue=INT)?;
+
+BooleanOption:
+	{Option} 'boolean' ('=' booleanValue=BooleanLiteral)?;
+
+Make:
+	'make' (MakeRule | MakeFlags);
+
+MakeFlags:
+	'flags' flags=StringList;
+
+MakeRule:
+	target=Filename (':' prerequisites=FilenameList)? ('{' recipes=StringList '}')?;
+
+StringList:
+	STRING (','
+	STRING)*;
+
+BooleanLiteral:
+	{BooleanLiteral} ('false' | isTrue?='true');
 
 QualifiedName:
 	ID ('.' ID)*;
