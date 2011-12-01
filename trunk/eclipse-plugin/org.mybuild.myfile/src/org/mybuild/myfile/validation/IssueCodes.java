@@ -10,4 +10,6 @@ public interface IssueCodes {
 
 	String WHITESPACE_IN_FILE_NAME = PREFIX + "WhitespaceInFileName";
 
+	String FILE_DOES_NOT_EXIST = PREFIX + "FileDoesNotExist";
+
 }
