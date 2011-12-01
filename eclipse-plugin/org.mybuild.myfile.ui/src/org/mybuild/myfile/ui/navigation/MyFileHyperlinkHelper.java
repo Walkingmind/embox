@@ -27,7 +27,7 @@ import com.google.inject.Inject;
 
 public class MyFileHyperlinkHelper extends TypeAwareHyperlinkHelper {
 
-	private final class FileHyperlink extends AbstractHyperlink {
+	private final static class FileHyperlink extends AbstractHyperlink {
 		private final IEditorDescriptor editor;
 		private final IFile file;
 
