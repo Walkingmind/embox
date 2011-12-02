@@ -516,6 +516,8 @@ define __gold_lex
 	)))
 endef
 
+__gold_state__ :=
+
 # No error.
 # Params:
 #   1. Char code.
@@ -545,7 +547,7 @@ define __gold_dfa_handle[/1/]
 	)
 endef
 
-# Current location in form 'Line:Column'.
+# Current location in form 'line:col'.
 define __gold_location
 	$(__gold_line_nr__):$(words $(__gold_column__))
 endef
@@ -573,6 +575,10 @@ define __gold_location_advance_mk
 
 	)
 endef
+
+__gold_line__    :=
+__gold_line_nr__ :=
+__gold_column__  :=
 
 #
 # LALR parser.
@@ -747,7 +753,7 @@ define __gold_lalr_handle[-]
 							$$(notdir $$(basename $$(__gold_tmp__)))
 						),# 1..N: Symbols.
 						$$(subst / ,.,
-								$$(dir $$(__gold_tmp__)) ),# N+2: Locations.
+								$$(dir $$(__gold_tmp__)) ),# N+1: Locations.
 						$r# N+2: Rule Id.
 					)
 					$$(__gold_state__)
@@ -828,6 +834,14 @@ define __gold_lalr_error
 	)
 endef
 
+__gold_state__ :=
+__gold_stack__ :=
+__gold_tmp__   :=
+
+#
+# Parse tree interpretation.
+#
+
 # Params:
 #   1. Parse tree.
 # Return:
@@ -856,7 +870,7 @@ endef
 # 3. Start position
 # 4. End position
 define __gold_hook_error_dfa
-	$(call gold_report,$4,
+	$(call gold_report_at,$4,
 		Lexical error: Unrecognized character$(if $(word 2,$2),s) \
 		$(subst $(\s),$(\comma)$(\s),$(foreach c,$2,
 			'$(if $(eq 0,$c),NULL,$(word $c,$(ascii_table)))'
@@ -870,7 +884,7 @@ endef
 # 4. End position
 # 5. LALR State
 define __gold_hook_error_lalr
-	$(call gold_report,$4,
+	$(call gold_report_at,$4,
 		Syntax error: Unexpected $(__gold_symbol_name) token$(\comma) \
 		expected $(with $(filter-out /%,$(subst /, /,$($g_lalr.$5))),
 			$(foreach s,$(nolastword $1),
@@ -907,14 +921,17 @@ __gold_default_symbol_name = \
 #   2. Chars.
 #   3. Location.
 define __gold_hook_token
-	$(__gold_invoke_create_fn)
+	$(foreach __gold_location__,$3,
+		$(__gold_invoke_create_fn)
+	)
 endef
 
 # Calls symbols creation function (if any, otherwise a default one is called).
 # Params:
 #   1. Symbol Id.
 #   2. Chars/Production.
-#   3. Location.
+# Context:
+#   '__gold_location__': One word location in form 'line:col'.
 define __gold_invoke_create_fn
 	$(foreach __gold_symbol_id,$1,
 		$(call \
@@ -923,7 +940,7 @@ define __gold_invoke_create_fn
 						$(gold_grammar)_create-$(__gold_symbol_fn)),
 				gold_default_create
 			),
-			$2,$3
+			$2,$(__gold_location__)
 		)
 	)
 endef
@@ -987,17 +1004,19 @@ __gold_ascii_table := \
 #   ... Symbols,
 #   N+1 Location vector.
 define __gold_hook_rule
-	$(call __gold_invoke_create_fn,$(call __gold_rule_nonterminal_id,$r),
-		$(foreach __gold_rule_id,$r,
-			$(# No call to preserve expansion context
-				$(or \
-					$(call var_defined,
+	$(foreach __gold_location__,
+		$(firstword $($(__gold_n$(call __gold_rule_symbols_nr,$r)+1))),
+		$(call __gold_invoke_create_fn,$(call __gold_rule_nonterminal_id,$r),
+			$(foreach __gold_rule_id,$r,
+				$(# No call to preserve expansion context
+					$(or \
+						$(call var_defined,
 							$(gold_grammar)_produce-$(call __gold_rule_fn,$r)),
-					gold_default_produce
+						gold_default_produce
+					)
 				)
 			)
-		),
-		$(firstword $($(__gold_n$(call __gold_rule_symbols_nr,$r)+1)))
+		)
 	)
 endef
 
@@ -1014,18 +1033,53 @@ define gold_default_produce
 	)
 endef
 
+#
+# Error/warning/info reporting.
+#
+
+# 1. Message.
+define gold_report
+	$(call gold_report_at,$(__gold_location__),$1)
+endef
+
 # 1. Location.
 # 2. Message.
-define gold_report
+define gold_report_at
 	$(info $(gold_file):$1: $2)
 endef
 
-# Just to denote them.
-__gold_state__  :=
-__gold_stack__  :=
-__gold_tmp__    :=
-__gold_line__   :=
-__gold_column__ :=
+# 1. Message.
+define gold_report_info
+	$(call gold_report,info: $1)
+endef
+
+# 1. Location.
+# 2. Message.
+define gold_report_info_at
+	$(call gold_report_at,$1,info: $2)
+endef
+
+# 1. Message.
+define gold_report_warning
+	$(call gold_report,warning: $1)
+endef
+
+# 1. Location.
+# 2. Message.
+define gold_report_warning_at
+	$(call gold_report_at,$1,warning: $2)
+endef
+
+# 1. Message.
+define gold_report_error
+	$(call gold_report,error: $1)
+endef
+
+# 1. Location.
+# 2. Message.
+define gold_report_error_at
+	$(call gold_report_at,$1,error: $2)
+endef
 
 $(def_all)
 
