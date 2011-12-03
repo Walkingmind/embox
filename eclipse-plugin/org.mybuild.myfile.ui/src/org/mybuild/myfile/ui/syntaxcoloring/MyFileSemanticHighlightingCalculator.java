@@ -7,7 +7,7 @@ import org.eclipse.xtext.nodemodel.INode;
 import org.eclipse.xtext.resource.XtextResource;
 import org.eclipse.xtext.ui.editor.syntaxcoloring.IHighlightedPositionAcceptor;
 import org.eclipse.xtext.ui.editor.syntaxcoloring.ISemanticHighlightingCalculator;
-import org.mybuild.myfile.myFile.FeatureList;
+import org.mybuild.myfile.myFile.FeatureAttribute;
 
 public class MyFileSemanticHighlightingCalculator implements
 		ISemanticHighlightingCalculator {
@@ -20,7 +20,7 @@ public class MyFileSemanticHighlightingCalculator implements
 		for (INode node : resource.getParseResult().getRootNode()
 				.getAsTreeIterable()) {
 			if (node.getGrammarElement() instanceof CrossReference
-					&& node.getSemanticElement() instanceof FeatureList) {
+					&& node.getSemanticElement() instanceof FeatureAttribute) {
 				highlightFeatureRef(node, acceptor);
 			}
 		}
