@@ -1,6 +1,8 @@
 package org.mybuild.myfile.ui.contentassist;
 
+import static com.google.common.collect.Iterables.filter;
 import static java.util.Collections.emptyList;
+import static java.util.Collections.emptySet;
 import static org.eclipse.ui.ide.IDE.getContentType;
 import static org.eclipse.xtext.EcoreUtil2.getContainerOfType;
 import static org.mybuild.myfile.util.FileUtils.fileOfEObject;
@@ -8,9 +10,12 @@ import static org.mybuild.myfile.util.FileUtils.getFileBaseName;
 import static org.mybuild.myfile.util.FileUtils.getMybuildContentType;
 import static org.mybuild.myfile.util.FileUtils.listFiles;
 
+import java.util.Set;
 import java.util.regex.Pattern;
 
+import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.content.IContentType;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.jface.text.BadLocationException;
@@ -20,9 +25,12 @@ import org.eclipse.xtext.RuleCall;
 import org.eclipse.xtext.ui.editor.contentassist.ConfigurableCompletionProposal;
 import org.eclipse.xtext.ui.editor.contentassist.ContentAssistContext;
 import org.eclipse.xtext.ui.editor.contentassist.ICompletionProposalAcceptor;
+import org.mybuild.myfile.myFile.Filename;
+import org.mybuild.myfile.myFile.FilenameAttribute;
 import org.mybuild.myfile.myFile.Module;
 
 import com.google.common.base.Predicate;
+import com.google.common.collect.Sets;
 
 /**
  * see
@@ -41,14 +49,13 @@ public class MyFileProposalProvider extends AbstractMyFileProposalProvider {
 		private String simplifiedName;
 
 		public FileProposalPriorityHelper(Module module) {
-			this(module == null ? null : module.getName());
-		}
+			if (module != null) {
+				if (module.getName() != null) {
+					name = module.getName();
+					lowerCaseName = name.toLowerCase();
+					simplifiedName = simplifyName(lowerCaseName);
+				}
 
-		public FileProposalPriorityHelper(String moduleName) {
-			if (moduleName != null) {
-				name = moduleName;
-				lowerCaseName = name.toLowerCase();
-				simplifiedName = simplifyName(lowerCaseName);
 			}
 		}
 
@@ -99,12 +106,20 @@ public class MyFileProposalProvider extends AbstractMyFileProposalProvider {
 
 	public void completeFilename_Name(EObject model, Assignment assignment,
 			ContentAssistContext context, ICompletionProposalAcceptor acceptor) {
+		Module module = getContainerOfType(model, Module.class);
+
 		FileProposalPriorityHelper priorityHelper = new FileProposalPriorityHelper(
-				getContainerOfType(model, Module.class));
+				module);
+
+		Set<IFile> moduleFiles = getModuleFiles(module);
 
 		boolean cursorAtEndOfString = isCursorAtEndOfString(context);
 
-		for (IFile localFile : listLocalFiles(model)) {
+		for (IFile localFile : listLocalFiles(module)) {
+			if (moduleFiles.contains(localFile)) {
+				continue;
+			}
+			
 			String string = getValueConverter().toString(localFile.getName(),
 					"STRING");
 			ConfigurableCompletionProposal proposal = (ConfigurableCompletionProposal) createCompletionProposal(
@@ -142,8 +157,32 @@ public class MyFileProposalProvider extends AbstractMyFileProposalProvider {
 		}
 	}
 
-	private Iterable<IFile> listLocalFiles(EObject model) {
-		IFile file = fileOfEObject(model);
+	private Set<IFile> getModuleFiles(Module module) {
+		IFile file = fileOfEObject(module);
+		if (file == null) {
+			return emptySet();
+		}
+
+		IContainer folder = file.getParent();
+		Set<IFile> moduleFiles = Sets.newHashSet();
+		for (FilenameAttribute attribute : filter(module.getAttributes(),
+				FilenameAttribute.class)) {
+			for (Filename filename : attribute.getFiles()) {
+				String name = filename.getName();
+				if (name != null) {
+					IResource moduleFile = folder.findMember(name);
+					if (moduleFile instanceof IFile) {
+						moduleFiles.add((IFile) moduleFile);
+					}
+				}
+			}
+		}
+
+		return moduleFiles;
+	}
+
+	private Iterable<IFile> listLocalFiles(Module module) {
+		IFile file = fileOfEObject(module);
 		if (file == null) {
 			return emptyList();
 		}
@@ -157,6 +196,7 @@ public class MyFileProposalProvider extends AbstractMyFileProposalProvider {
 								|| !contentType.isKindOf(mybuildContentType);
 					}
 				});
+
 		return localFiles;
 	}
 }
