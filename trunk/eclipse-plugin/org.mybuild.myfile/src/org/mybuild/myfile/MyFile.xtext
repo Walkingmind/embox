@@ -36,28 +36,18 @@ Module:
 	'{' attributes+=ModuleAttribute* '}';
 
 ModuleAttribute:
-	Sources | Objects | Depends | Provides | Requires | Make | Option;
+	FilenameAttribute | Depends | FeatureAttribute | Make | Option;
 
 Depends:
 	'depends' modules+=[Module|QualifiedName] (',' modules+=[Module|QualifiedName])*;
 
-Provides:
-	'provides' FeatureList;
-
-Requires:
-	'requires' FeatureList;
-
-FeatureList:
+FeatureAttribute:
+	('requires' {Requires} | 'provides' {Provides})
 	features+=[Feature|QualifiedNameWithWildcard] (','
 	features+=[Feature|QualifiedNameWithWildcard])*;
 
-Sources:
-	'source' FilenameList;
-
-Objects:
-	'object' FilenameList;
-
-FilenameList:
+FilenameAttribute:
+	('source' {Sources} | 'object' {Objects})
 	files+=Filename (','
 	files+=Filename)*;
 
@@ -86,7 +76,7 @@ MakeFlags:
 	'flags' flags=StringList;
 
 MakeRule:
-	target=Filename (':' prerequisites=FilenameList)? ('{' recipes=StringList '}')?;
+	target=Filename (':' prerequisites+=Filename (',' prerequisites+=Filename)*)? ('{' recipes=StringList '}')?;
 
 StringList:
 	STRING (','

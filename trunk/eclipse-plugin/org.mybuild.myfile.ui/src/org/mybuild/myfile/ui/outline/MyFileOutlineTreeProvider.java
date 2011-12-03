@@ -16,7 +16,7 @@ import org.eclipse.xtext.ui.editor.outline.impl.DocumentRootNode;
 import org.mybuild.myfile.myFile.Depends;
 import org.mybuild.myfile.myFile.Entity;
 import org.mybuild.myfile.myFile.Filename;
-import org.mybuild.myfile.myFile.FilenameList;
+import org.mybuild.myfile.myFile.FilenameAttribute;
 import org.mybuild.myfile.myFile.Import;
 import org.mybuild.myfile.myFile.Model;
 import org.mybuild.myfile.myFile.Module;
@@ -65,8 +65,9 @@ public class MyFileOutlineTreeProvider extends DefaultOutlineTreeProvider {
 		}
 	}
 
-	protected void _createNode(IOutlineNode parent, FilenameList filenameList) {
-		for (Filename filename : filenameList.getFiles()) {
+	protected void _createNode(IOutlineNode parent,
+			FilenameAttribute filenameAttribute) {
+		for (Filename filename : filenameAttribute.getFiles()) {
 			createNode(parent, filename);
 		}
 	}
