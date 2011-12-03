@@ -30,14 +30,15 @@ public class MyFileJavaValidator extends AbstractMyFileJavaValidator {
 	@Check
 	public void checkFileExists(Filename filename) {
 		IFile file = fileOfEObject(filename);
+		String name = filename.getName();
 
-		if (file == null) {
+		if (file == null || name == null) {
 			return;
 		}
 
-		if (!file.getParent().exists(new Path(filename.getName()))) {
+		if (!file.getParent().exists(new Path(name))) {
 			error("File does not exist", filename, Literals.FILENAME__NAME,
-					IssueCodes.FILE_DOES_NOT_EXIST, filename.getName());
+					IssueCodes.FILE_DOES_NOT_EXIST, name);
 		}
 	}
 
