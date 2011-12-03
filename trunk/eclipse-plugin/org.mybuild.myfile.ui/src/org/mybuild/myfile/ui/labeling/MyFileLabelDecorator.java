@@ -36,7 +36,6 @@ public class MyFileLabelDecorator implements ILightweightLabelDecorator {
 	@Inject
 	private IImageHelper imageHelper;
 
-	@Override
 	public void decorate(Object element, IDecoration decoration) {
 		if (!(element instanceof IFile)) {
 			return;
@@ -89,20 +88,16 @@ public class MyFileLabelDecorator implements ILightweightLabelDecorator {
 		return found;
 	}
 
-	@Override
 	public void addListener(ILabelProviderListener listener) {
 	}
 
-	@Override
 	public void dispose() {
 	}
 
-	@Override
 	public boolean isLabelProperty(Object element, String property) {
 		return false;
 	}
 
-	@Override
 	public void removeListener(ILabelProviderListener listener) {
 	}
 
