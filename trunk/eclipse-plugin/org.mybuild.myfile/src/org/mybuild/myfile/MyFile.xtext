@@ -22,7 +22,7 @@ Entity:
 
 Interface:
 	'interface' name=ID ('extends' superType=[Interface|QualifiedName])?
-	'{' features+=InterfaceAttribute* '}';
+	'{' attributes+=InterfaceAttribute* '}';
 
 InterfaceAttribute:
 	Feature;
@@ -33,7 +33,7 @@ Feature:
 Module:
 	(static?='static'? & abstract?='abstract'?)
 	'module' name=ID ('extends' superType=[Module|QualifiedName])?
-	'{' features+=ModuleAttribute* '}';
+	'{' attributes+=ModuleAttribute* '}';
 
 ModuleAttribute:
 	Sources | Objects | Depends | Provides | Requires | Make | Option;
