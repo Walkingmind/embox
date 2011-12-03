@@ -15,6 +15,7 @@ import org.eclipse.xtext.ui.label.DefaultEObjectLabelProvider;
 import org.mybuild.myfile.myFile.Depends;
 import org.mybuild.myfile.myFile.Filename;
 import org.mybuild.myfile.myFile.Import;
+import org.mybuild.myfile.myFile.Interface;
 import org.mybuild.myfile.myFile.Module;
 import org.mybuild.myfile.myFile.Objects;
 import org.mybuild.myfile.myFile.Package;
@@ -51,6 +52,10 @@ public class MyFileLabelProvider extends DefaultEObjectLabelProvider {
 		return image;
 	}
 
+	public String image(Interface iface) {
+		return "interface.png";
+	}
+	
 	public String image(EList<Import> imports) {
 		return "imports.png";
 	}
@@ -76,8 +81,8 @@ public class MyFileLabelProvider extends DefaultEObjectLabelProvider {
 
 		ImageDescriptor binaryAdornment = ImageDescriptor
 				.createFromImage(imageHelper.getImage("binary.png"));
-		image = new DecorationOverlayIcon(image, binaryAdornment,
-				IDecoration.BOTTOM_RIGHT).createImage();
+		image = imageHelper.getImage(new DecorationOverlayIcon(image, binaryAdornment,
+				IDecoration.BOTTOM_RIGHT));
 
 		return image;
 	}

@@ -6,11 +6,12 @@
     <extension
             point="org.eclipse.ui.editors">
         <editor
-            class="org.mybuild.myfile.ui.MyFileExecutableExtensionFactory:org.eclipse.xtext.ui.editor.XtextEditor"
-            contributorClass="org.eclipse.ui.editors.text.TextEditorActionContributor"
-            default="true"
-            id="org.mybuild.myfile.MyFile"
-            name="MyFile Editor">
+              class="org.mybuild.myfile.ui.MyFileExecutableExtensionFactory:org.eclipse.xtext.ui.editor.XtextEditor"
+              contributorClass="org.eclipse.ui.editors.text.TextEditorActionContributor"
+              default="true"
+              icon="icons/myfile.png"
+              id="org.mybuild.myfile.MyFile"
+              name="MyFile Editor">
            <contentTypeBinding
                  contentTypeId="org.mybuild.myfile.contentType">
            </contentTypeBinding>
@@ -286,6 +287,19 @@
            class="org.mybuild.myfile.ui.MyFileExecutableExtensionFactory:org.mybuild.myfile.resource.FileExensionUnawareResourceServiceProvider"
            contentTypeIdentifier="org.mybuild.myfile.contentType">
      </resourceServiceProvider>
+  </extension>
+  <extension
+        point="org.eclipse.ui.decorators">
+     <decorator
+           class="org.mybuild.myfile.ui.MyFileExecutableExtensionFactory:org.mybuild.myfile.ui.labeling.MyFileLabelDecorator"
+           id="org.mybuild.myfile.ui.decorator"
+           label="MyBuild Entity Indicator"
+           lightweight="true"
+           state="true">
+        <description>
+           Decorates my-files with a module or interface indicator.
+        </description>
+     </decorator>
   </extension>
 
 </plugin>
