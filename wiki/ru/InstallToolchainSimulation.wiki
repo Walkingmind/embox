@@ -171,7 +171,7 @@ gdb path/embox
 
 Используйте serial-консоль для вывода:
 {{{
-qemu -nographic -vga none ...
+qemu -nographic ...
 }}}
 Ctrl-A+x для выхода.
 

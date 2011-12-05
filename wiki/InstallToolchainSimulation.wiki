@@ -202,7 +202,7 @@ file path/embox
 
 Use serial console output with:
 {{{
-qemu -nographic -vga none ...
+qemu -nographic ...
 }}}
 Ctrl-A+x for exit.
 

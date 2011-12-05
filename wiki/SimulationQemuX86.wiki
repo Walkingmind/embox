@@ -9,7 +9,7 @@ qemu -kernel <path>/embox
 
 == Console mode ==
 {{{
-qemu -nographic -vga none -kernel <path>/embox
+qemu -nographic -kernel <path>/embox
 }}}
 
 == Start with debugging ==
@@ -17,7 +17,7 @@ qemu -nographic -vga none -kernel <path>/embox
 qemu -s -S -kernel <path>/embox
 }}}
 {{{
-qemu -nographic -vga none -s -S -kernel <path>/embox
+qemu -nographic -s -S -kernel <path>/embox
 }}}
 === Starting GDB ===
 
