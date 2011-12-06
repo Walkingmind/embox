@@ -91,7 +91,7 @@ grub-0.97/grub/grub --device-map=/dev/null
 }}}
  # Boot using Qemu with GRUB
 {{{
-qemu -hda hd0.img
+qemu-system-i386 -hda hd0.img
 }}}
  # Boot Embox using GRUB
   # during loading process press 'c' to enter grub console, if necessary
@@ -111,7 +111,7 @@ qemu -hda hd0.img
 Easy:
 {{{
 sudo ip tuntap add mode tap 
-sudo qemu -net nic,model=ne2k_pci -net tap,ifname=tap0,script=no
+sudo qemu-system-i386 -net nic,model=ne2k_pci -net tap,ifname=tap0,script=no
 sudo ifconfig tap0 10.0.2.15 up
 }}}
 Now you have virtual iface connected to qemu. It's behaviour as dedicated ethernet network with your host and qemu.
@@ -128,7 +128,7 @@ Hard way:
 /usr/sbin/brctl stp br0 off
 /sbin/ifconfig br0 10.0.2.3 netmask 255.0.0.0 broadcast 10.255.255.255
 /sbin/route add default gw 10.0.2.2
-qemu -m 256 -hda hd0.img -net nic,model=ne2k_pci -net tap,ifname=tap0,script=no
+qemu-system-i386 -m 256 -hda hd0.img -net nic,model=ne2k_pci -net tap,ifname=tap0,script=no
 /sbin/ifconfig eth0 down
 /sbin/ifconfig br0 down
 /usr/sbin/brctl delbr br0
@@ -142,11 +142,11 @@ qemu -m 256 -hda hd0.img -net nic,model=ne2k_pci -net tap,ifname=tap0,script=no
  # Download [http://wiki.qemu.org/download/linux-0.2.img.bz2 small linux disk image]
  # Run linux with
 {{{
-qemu -hda linux-0.2.img -net nic,model=ne2k_pci,macaddr=AA:BB:CC:DD:EE:01 -net socket,listen=:12345
+qemu-system-i386 -hda linux-0.2.img -net nic,model=ne2k_pci,macaddr=AA:BB:CC:DD:EE:01 -net socket,listen=:12345
 }}}
  # Run Embox with
 {{{
-qemu -kernel build/base/bin/embox -net nic,model=ne2k_pci,macaddr=AA:BB:CC:DD:EE:02 -net socket,connect=127.0.0.1:12345
+qemu-system-i386 -kernel build/base/bin/embox -net nic,model=ne2k_pci,macaddr=AA:BB:CC:DD:EE:02 -net socket,connect=127.0.0.1:12345
 }}}
  # Any frames transmitted by Linux is received by Embox, and vice versa
 
@@ -158,11 +158,11 @@ sense of running order
  # Download linux image like above
  # Run linux with
 {{{
-qemu -hda linux-0.2.img -net nic,model=ne2k_pci,macaddr=AA:BB:CC:DD:EE:01 -net socket,mcast=230.0.0.1:12345
+qemu-system-i386 -hda linux-0.2.img -net nic,model=ne2k_pci,macaddr=AA:BB:CC:DD:EE:01 -net socket,mcast=230.0.0.1:12345
 }}}
  # Run embox with
 {{{
-qemu -s -S -kernel build/base/bin/embox -net nic,model=ne2k_pci,macaddr=AA:BB:CC:DD:EE:02 -net socket,mcast=230.0.0.1:12345
+qemu-system-i386 -s -S -kernel build/base/bin/embox -net nic,model=ne2k_pci,macaddr=AA:BB:CC:DD:EE:02 -net socket,mcast=230.0.0.1:12345
 }}}
 
 
@@ -170,7 +170,7 @@ qemu -s -S -kernel build/base/bin/embox -net nic,model=ne2k_pci,macaddr=AA:BB:CC
 
  # Start qemu with the -s -S
 {{{
-qemu -s -S -kernel path/embox
+qemu-system-i386 -s -S -kernel path/embox
 }}}
  # Start GDB (.gdbinit is available in embox root dir, so just type gdb)
 {{{
@@ -186,7 +186,7 @@ gdb path/embox
  # Start qemu with GDB support
  QEMU_BUG, QEMU uses under Win7 per default ipv6, but GDB uses ipv4.
 {{{
-qemu -s -S -kernel path/embox -gdb tcp::1234,ipv4 
+qemu-system-i386 -s -S -kernel path/embox -gdb tcp::1234,ipv4 
 }}}
  # Start GDB 
 {{{
@@ -202,7 +202,7 @@ file path/embox
 
 Use serial console output with:
 {{{
-qemu -nographic ...
+qemu-system-i386 -nographic ...
 }}}
 Ctrl-A+x for exit.
 
@@ -210,7 +210,7 @@ Ctrl-A+x for exit.
 
 # Start qemu without GRUB
 {{{
-qemu -kernel path/embox
+qemu-system-i386 -kernel path/embox
 }}}
 
 == Bochs ==

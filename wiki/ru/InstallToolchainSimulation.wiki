@@ -87,7 +87,7 @@ grub-0.97/grub/grub --device-map=/dev/null
 }}}
  # Загрузиться с помощью Qemu используя GRUB
 {{{
-qemu -hda hd0.img
+qemu-system-i386 -hda hd0.img
 }}}
  # Запустите Embox из GRUB
   # во время загрузки нажмите 'c' для входа в консоль grub'а, если необходимо
@@ -116,7 +116,7 @@ qemu -hda hd0.img
 /usr/sbin/brctl stp br0 off
 /sbin/ifconfig br0 10.0.2.3 netmask 255.0.0.0 broadcast 10.255.255.255
 /sbin/route add default gw 10.0.2.2
-qemu -m 256 -hda hd0.img -net nic,model=ne2k_pci -net tap,ifname=tap0,script=no
+qemu-system-i386 -m 256 -hda hd0.img -net nic,model=ne2k_pci -net tap,ifname=tap0,script=no
 /sbin/ifconfig eth0 down
 /sbin/ifconfig br0 down
 /usr/sbin/brctl delbr br0
@@ -130,11 +130,11 @@ qemu -m 256 -hda hd0.img -net nic,model=ne2k_pci -net tap,ifname=tap0,script=no
  # Загрузите [http://wiki.qemu.org/download/linux-0.2.img.bz2 образ linux диска]
  # Запустите эмуляцию linux
 {{{
-qemu -hda linux-0.2.img -net nic,model=ne2k_pci,macaddr=AA:BB:CC:DD:EE:01 -net socket,listen=:1234
+qemu-system-i386 -hda linux-0.2.img -net nic,model=ne2k_pci,macaddr=AA:BB:CC:DD:EE:01 -net socket,listen=:1234
 }}}
  # Запустите эмуляцию Embox
 {{{
-qemu -kernel build/base/bin/embox -net nic,model=ne2k_pci,macaddr=AA:BB:CC:DD:EE:02 -net socket,connect=127.0.0.1:1234
+qemu-system-i386 -kernel build/base/bin/embox -net nic,model=ne2k_pci,macaddr=AA:BB:CC:DD:EE:02 -net socket,connect=127.0.0.1:1234
 }}}
  # Каждый фрейм отправленный из Linux будет получен в Embox, и наоборот
 
@@ -146,17 +146,17 @@ qemu -kernel build/base/bin/embox -net nic,model=ne2k_pci,macaddr=AA:BB:CC:DD:EE
  # Загрузите образ диска с linux как описано выше
  # Запустите эмуляцию linux
 {{{
-qemu -hda linux-0.2.img -net nic,model=ne2k_pci,macaddr=AA:BB:CC:DD:EE:01 -net socket,mcast=230.0.0.1:12345
+qemu-system-i386 -hda linux-0.2.img -net nic,model=ne2k_pci,macaddr=AA:BB:CC:DD:EE:01 -net socket,mcast=230.0.0.1:12345
 }}}
  # Запустите эмуляцию Embox
 {{{
-qemu -kernel build/base/bin/embox -net nic,model=ne2k_pci,macaddr=AA:BB:CC:DD:EE:02 -net socket,mcast=230.0.0.1:12345
+qemu-system-i386 -kernel build/base/bin/embox -net nic,model=ne2k_pci,macaddr=AA:BB:CC:DD:EE:02 -net socket,mcast=230.0.0.1:12345
 }}}
 
 === Отладка с помощью GDB ===
  # Запускаем qemu с ключями -s -S
 {{{
-qemu -s -S -kernel path/embox
+qemu-system-i386 -s -S -kernel path/embox
 }}}
  # Запускаем GDB (команды file и target уже есть в .gdbinit, поэтому достаточно просто gdb)
 {{{
@@ -171,7 +171,7 @@ gdb path/embox
 
 Используйте serial-консоль для вывода:
 {{{
-qemu -nographic ...
+qemu-system-i386 -nographic ...
 }}}
 Ctrl-A+x для выхода.
 

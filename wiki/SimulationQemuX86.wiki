@@ -4,20 +4,20 @@ Embox can be run on the QEMU.
 = Starting =
 == Graphical mode ==
 {{{
-qemu -kernel <path>/embox
+qemu-system-i386 -kernel <path>/embox
 }}}
 
 == Console mode ==
 {{{
-qemu -nographic -kernel <path>/embox
+qemu-system-i386 -nographic -kernel <path>/embox
 }}}
 
 == Start with debugging ==
 {{{
-qemu -s -S -kernel <path>/embox
+qemu-system-i386 -s -S -kernel <path>/embox
 }}}
 {{{
-qemu -nographic -s -S -kernel <path>/embox
+qemu-system-i386 -nographic -s -S -kernel <path>/embox
 }}}
 === Starting GDB ===
 

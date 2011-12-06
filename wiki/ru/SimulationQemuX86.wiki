@@ -7,26 +7,26 @@ QEMU может работать как в режиме с VGA дисплеем 
 == Графический режим ==
 Для запуска выполните команду 
 {{{
-qemu -kernel <path>/embox
+qemu-system-i386 -kernel <path>/embox
 }}}
 Вы получите окно виртуальной машины в графическом режиме.
 
 == Консольный режим ==
 Для того что бы указать что вы используете вывод через компорт и вам не нужен графический режим добавьте опции *-nographic* при вызове то есть
 {{{
-qemu -nographic -kernel <path>/embox
+qemu-system-i386 -nographic -kernel <path>/embox
 }}}
 
 == Запуск с возможностью отладки ==
 Для добавления возможности отладки с помощью GDB необходимо при вызове указать ключи *-s -S*
 то есть
 {{{
-qemu -s -S -kernel <path>/embox
+qemu-system-i386 -s -S -kernel <path>/embox
 }}}
 для графического режима
 и соотвественно
 {{{
-qemu -nographic -s -S -kernel <path>/embox
+qemu-system-i386 -nographic -s -S -kernel <path>/embox
 }}}
 для консольного режима
 После запуска QEMU можно запускать GDB и конектится к нему командой
