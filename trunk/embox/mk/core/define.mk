@@ -639,7 +639,7 @@ ifdef DEF_DEBUG
 # 1. Msg.
 __def_debug = \
 	$(warning def($(__def_var)): \
- 		$(if $(__def_stack_top),$(\t))$(__def_stack:%=>$(\t))$1)
+		$(if $(__def_stack_top),$(\t))$(__def_stack:%=>$(\t))$1)
 else
 __def_debug :=
 endif # DEF_DEBUG
@@ -1390,7 +1390,7 @@ define __builtin_to_function_inline
 
 				# Issue a debug message with the reason of ambiguity
 				# and emit the name of the bad argument.
-				$(if $(value __def_debug),
+				$(def-ifdef DEF_DEBUG,
 					$(call __def_debug,
 						Value of the argument $(arg) ('$($(arg))') is \
 						$(if $(filter $(arg),
@@ -1405,7 +1405,7 @@ define __builtin_to_function_inline
 		)),
 
 		$(if $2,
-			$(if $(value __def_debug),
+			$(def-ifdef DEF_DEBUG,
 				$(call __def_debug,
 					Inlining of function '$(builtin_name)' failed due to \
 					ambiguous usage of certain arguments
