@@ -1,0 +1,237 @@
+"Name"     = 'MyFile'
+"Author"   = 'Eldar Abusalimov'
+"Version"  = '0.2'
+"About"    = 'MyBuild file'
+
+"Case Sensitive" = True
+
+"Start Symbol" = <Model>
+
+! -------------------------------------------------
+! Character Sets
+! -------------------------------------------------
+
+!{Whitespace}   = {&09 .. &0D} + {Space}
+
+!{Printable}    = {&20 .. &7F}
+
+{ID Head}      = {Letter} + [_]
+{ID Tail}      = {Alphanumeric} + [_]
+
+{Hex Digit}    = {Digit} + [abcdef] + [ABCDEF]
+
+{String Chars} = {Printable} + {HT} - ["\]
+{String Esc}   = [rnt''"\]
+{Non Quote}    = {Printable} + {Whitespace} - [''\]
+{Quote Esc}    = [''\]
+
+{Non Slash}    = {Printable} + {Whitespace} - [/]
+{Non Asterisk} = {Printable} + {Whitespace} - [*]
+
+{Not New Line} = {Printable} + {Whitespace} - {CR} - {LF}
+
+! -------------------------------------------------
+! Terminals
+! -------------------------------------------------
+
+Whitespace     = {Whitespace}+
+               | '/*' ( {Non Asterisk} | '*' {Non Slash} )*  '*/'
+               | '//' {Not New Line}* ( {CR}? {LF} )?
+
+Identifier     = '^'? {ID Head}{ID Tail}*
+
+StringLiteral  = '"' ( {String Chars} | '\' {String Esc} )* '"'
+               | '''''' ( ( ''? '' )? ( {Non Quote} | '\' {Quote Esc} ) )* ''''''
+
+NumberLiteral  = {Digit}+ ( '.' {Digit}+ )?
+               | '0x' {Hex Digit}+ ( '.' {Hex Digit}+ )?
+
+BooleanLiteral = 'true' | 'false'
+
+! -------------------------------------------------
+! Rules
+! -------------------------------------------------
+
+<Model>
+        ::= <Package> <Imports> <Entities>
+
+! Package?
+<Package>
+        ::= 'package' <QualifiedName>
+         |  
+
+! Import*
+<Imports>
+        ::= <Import> <Imports>
+         |  
+<Import>
+        ::= 'import' <ImportFeature> <QualifiedNameWithWildcard>
+! feature?
+<ImportFeature>
+        ::= 'feature'
+         |
+
+! Entity*
+<Entities>
+        ::= <Entity> <Entities>
+         |  
+<Entity>
+        ::= <Module>
+         |  <Interface>
+
+! -------------------------------------------------
+! Interfaces and features.
+
+! interface Name (extends ...)? { ... }
+<Interface>
+        ::= 'interface' Identifier <SuperInterfaces> '{' <InterfaceAttributes> '}'
+
+! (extends ...)?
+<SuperInterfaces>
+        ::= 'extends' <InterfaceRefList>
+         |  
+
+! InterfaceAttribute*
+<InterfaceAttributes>
+        ::= <InterfaceAttribute> <InterfaceAttributes>
+         |  
+<InterfaceAttribute>
+        ::= <Feature>
+
+! feature Name (extends ...)?
+<Feature>
+        ::= 'feature' Identifier <SuperFeatures>
+
+! (extends ...)?
+<SuperFeatures>
+        ::= 'extends' <FeatureRefList>
+         |  
+
+! -------------------------------------------------
+! Modules.
+
+! (abstract)? module Name (extends ...)? { ... }
+<Module>
+        ::= <ModuleModifiers> 'module' Identifier <SuperModule> '{' <ModuleAttributes> '}'
+
+! ModuleModifier*
+<ModuleModifiers>
+        ::= <ModuleModifier> <ModuleModifiers>
+         |  
+<ModuleModifier>
+        ::= 'static'
+         |  'abstract'
+
+! (extends ...)?
+<SuperModule>
+        ::= 'extends' <ModuleRef>
+         |  
+
+! ModuleAttribute*
+<ModuleAttributes>
+        ::= <ModuleAttribute> <ModuleAttributes>
+         |  
+<ModuleAttribute>
+        ::= <Depends>
+         |  <FeatureAttribute>
+         |  <FilenameAttribute>
+         |  <MakeAttribute>
+         |  <Option>
+
+<Depends>
+        ::= 'depends' <ModuleRefList>
+
+<FeatureAttribute>
+        ::= <FeatureAttributeNature> <FeatureRefList>
+<FeatureAttributeNature>
+        ::= 'provides'
+         |  'requires'
+
+<FilenameAttribute>
+        ::= <FilenameAttributeNature> <FilenameList>
+<FilenameAttributeNature>
+        ::= 'source'
+         |  'object'
+
+! option Name : ( string | number | boolean ) ( = ...)?
+<Option>
+        ::= 'option' Identifier ':' <OptionTypeWithAssignment>
+<OptionTypeWithAssignment>
+        ::= 'string'  <StringOptionAssignment>
+         |  'number'  <NumberOptionAssignment>
+         |  'boolean' <BooleanOptionAssignment>
+
+<StringOptionAssignment>
+        ::= '=' StringLiteral
+         |  
+<NumberOptionAssignment>
+        ::= '=' NumberLiteral
+         |  
+<BooleanOptionAssignment>
+        ::= '=' BooleanLiteral
+         |  
+
+<MakeAttribute>
+        ::= 'make' <Make>
+<Make>
+        ::= <MakeFlags>
+         |  <MakeRule>
+
+<MakeFlags>
+        ::= 'flags' <StringList>
+
+! make "target" ( : "prerequisite"...)? ( "recipe"...)?
+<MakeRule>
+        ::= <Filename> <Prerequisites> <Recipes>
+<Prerequisites>
+        ::= ':' <FilenameList>
+         |  
+<Recipes>
+        ::= '{' <StringList> '}'
+         |  
+
+! -------------------------------------------------
+! Datatypes.
+
+<InterfaceRef>
+        ::= <QualifiedName>
+<FeatureRef>
+        ::= <QualifiedNameWithWildcard>
+<ModuleRef>
+        ::= <QualifiedName>
+<Filename>
+        ::= StringLiteral
+<String>
+        ::= StringLiteral
+
+! -------------------------------------------------
+! Comma separated lists.
+
+! Item ( , Item )*
+<InterfaceRefList>
+        ::= <InterfaceRef> ',' <InterfaceRefList>
+         |  <InterfaceRef>
+<FeatureRefList>
+        ::= <FeatureRef> ',' <FeatureRefList>
+         |  <FeatureRef>
+<ModuleRefList>
+        ::= <ModuleRef> ',' <ModuleRefList>
+         |  <ModuleRef>
+<FilenameList>
+        ::= <Filename> ',' <FilenameList>
+         |  <Filename>
+<StringList>
+        ::= <String> ',' <StringList>
+         |  <String>
+
+! -------------------------------------------------
+! Extended identifiers.
+
+<QualifiedName>
+        ::= Identifier '.' <QualifiedName>
+         |  Identifier
+
+<QualifiedNameWithWildcard>
+        ::= <QualifiedName> '.*'
+         |  <QualifiedName>
+
