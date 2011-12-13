@@ -143,7 +143,13 @@ define class-module
 	$(field modifiers)
 	$(field super_module_ref : module_ref)
 
+	$(method set_super_module_ref,
+		$(invoke replace_refs,super_module_ref,$1))
+
 	$(field depends_refs : module_ref)
+
+	$(method set_depends_refs,
+		$(invoke replace_refs,depends_refs,$1))
 
 	$(field requires_refs)
 	$(field provides_refs)
@@ -168,6 +174,8 @@ endef
 # Constructor args:
 #   1. (optional) value.
 define class-filename
+	$(super node)
+
 	$(field name)
 	$(setter name,
 		$(if $(findstring $(\s),$(subst $(\t),$(\s),$(subst $(\n),$(\s),$1))),
@@ -183,6 +191,8 @@ endef
 # Constructor args:
 #   1. Name representing the crosslink.
 define class-abstract_ref
+	$(super node)
+
 	$(field src : *)
 	$(field dst : *)
 
