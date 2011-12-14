@@ -309,7 +309,7 @@ define __def_expand
 			# Prevent interpreting hashes as comments.
 			$(subst $(\h),$$(\h),
 				# We don't care about any trailing backslash here because
-				# Make actually gets EOF at the end of line, not a newline. 
+				# Make actually gets EOF at the end of line, not a newline.
 				$1
 			)
 	}
@@ -949,7 +949,7 @@ define builtin_caller_at
 endef
 
 # Retrieves a tag if it has been defined.
-# 
+#
 # Params:
 #   1. Function name.
 # Return:

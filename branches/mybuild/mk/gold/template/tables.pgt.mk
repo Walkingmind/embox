@@ -88,7 +88,7 @@ define __gold_$(gold_grammar)_parser
 ##DFA-EDGES
 				$(gold-dfa-edge %CharSetIndex%,%Target%),
 ##END-DFA-EDGES
-##END-DFA-STATES 
+##END-DFA-STATES
 			)
 		),# Total %Count% DFA state(s).
 ##END-DFA-TABLE

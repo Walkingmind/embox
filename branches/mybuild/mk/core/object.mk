@@ -808,7 +808,7 @@ define graphviz_escape
 endef
 
 define obj_links
-	$(subst .,,$(basename $($($1).fields:%=.%))) 
+	$(subst .,,$(basename $($($1).fields:%=.%)))
 endef
 
 $(def_all)
@@ -822,7 +822,7 @@ define __object_dump_dot
 	$(foreach o,$(__object_instance_cnt:%=.obj%),
 		$(\n)	"$o" \
 			[label="<.> $o : $($o)\l $(foreach f,$(call field_name,$($($o).fields)),
-				| <$f> $f = $(call graphviz_escape,$($o.$f))\l 
+				| <$f> $f = $(call graphviz_escape,$($o.$f))\l
 			)"];
 		$(\n)
 		$(foreach f, $(call obj_links,$o),

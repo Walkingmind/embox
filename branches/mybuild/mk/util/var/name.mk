@@ -207,7 +207,7 @@ __var_name_escape_whitespace = \
 __var_name_unescape_whitespace = \
   $(subst _$$s,$(\s),$(subst _$$t,$(\t),$(subst _$$n,$(\n),$1)))
 
-# TODO a possible optimization: on each iteration filter out 
+# TODO a possible optimization: on each iteration filter out
 #      single-, double-, triple-, etc. -worded variables. -- Eldar
 
 endif # __util_var_name_mk

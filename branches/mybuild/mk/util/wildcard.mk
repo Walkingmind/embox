@@ -124,7 +124,7 @@ wildcard_first = \
 
 ##
 # Function: d-wildcard_first
-# 
+#
 # Directory-only version of wildcard_first.
 #
 # See: wildcard_first, d-wildcard
@@ -134,7 +134,7 @@ d-wildcard_first = \
 
 ##
 # Function: f-wildcard_first
-# 
+#
 # File-only version of wildcard_first.
 #
 # See: wildcard_first, f-wildcard
