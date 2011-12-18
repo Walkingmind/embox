@@ -168,6 +168,9 @@ __core_object_mk := 1
 #
 #   	define class-zuper
 #   		$(info Super constructor with argument '$1')
+#
+#   		$(field delegate : zuper)
+#
 #   	endef
 #
 #   	define class-clazz
@@ -295,16 +298,26 @@ __core_object_mk := 1
 #
 #   	define class-zuper
 #   		$(info Super constructor with argument '$1')
+#
+#   		$(field delegate : zuper)
+#
 #   	endef
 #
 #   After defining class 'zuper' variable 'class-zuper' becomes a part
-#   of its constructor. Also three special variables defined.
+#   of its constructor. Also an initializer function for 'delegate' field, a
+#   type checking setter method for it and three special variables are defined.
 #
-#   	# class-zuper = $(info Super constructor with argument '$1')
+#   	# class-zuper = \
+#   	# 	$(info Super constructor with argument '$1') \
+#   	# 	$(eval $(this).delegate := $(value zuper.delegate))
 #
 #   	# zuper.super := 
-#   	# zuper.fields := 
-#   	# zuper.methods := 
+#   	# zuper.fields := delegate.zuper
+#   	# zuper.methods := set.delegate
+#
+#   	# zuper.field.delegate = 
+#   	# zuper.method.set.delegate = \
+#   	# 	$(foreach 2,zuper,$(__field_setter_type_check))
 #
 #   Lets extend our class as follows:
 #
@@ -334,13 +347,15 @@ __core_object_mk := 1
 #   	# 	$(info End of constructor)
 #
 #   	# clazz.super := zuper
-#   	# clazz.fields := foo
-#   	# clazz.methods := bar
+#   	# clazz.fields := delegate.zuper foo
+#   	# clazz.methods := set.delegate bar
 #
-#   	# clazz.foo = \
+#   	# clazz.field.foo = \
 #   	# 	$(info Initializing field 'foo')initial value
-#   	# clazz.bar = \
+#   	# clazz.method.bar = \
 #   	# 	$(foreach this,$(__this),$(info Calling method 'bar')hello world)
+#   	# clazz.method.set.delegate = \
+#   	# 	$(foreach 2,zuper,$(__field_setter_type_check))
 #
 #   Finally, we will instantiate 'clazz':
 #
@@ -351,6 +366,7 @@ __core_object_mk := 1
 #   	# inztance := .obj1
 #
 #   	# .obj1 := clazz
+#   	# .obj1.delegate := 
 #   	# .obj1.foo := initial value
 #
 #
@@ -380,7 +396,7 @@ define builtin_func-new
 endef
 $(call def,builtin_func-new)
 
-# Creates a new inctance of the specified class.
+# Creates a new instance of the specified class.
 # Only a single argument is passed to the constructor.
 #   1. Class name.
 #   2. An (optional) argument to pass to the constructor.
@@ -415,9 +431,7 @@ define __new
 	# It is mandatory for object references to start with a period.
 	$(foreach this,.obj$(words $(__object_instance_cnt) x),
 		$(def-ifdef OBJ_DEBUG,
-			$(info \
-					$(this): new    $(__class__): $(__obj_debug_args))
-		)
+			$(info $(this):	new    $(__class__): $(__obj_debug_args)))
 		${eval \
 			__object_instance_cnt += $(this:.obj%=%)
 			$(\n)
@@ -547,7 +561,7 @@ define builtin_func-invoke
 						$(words $(builtin_args_list)),
 						$$(call __method_invoke,$3,$2)
 					),
-					$$(call $$($$(__this)).$2,$3)
+					$$(call $$($$(__this)).method.$2,$3)
 				)
 			)
 		),
@@ -564,10 +578,10 @@ ifdef OBJ_DEBUG
 define __method_invoke
 	$(foreach __obj_debug_args_nr,$(word $(__args_nr),0 1 2 3 4 5 6 7 8 9),
 		$(info \
-				$(__this): invoke $($(__this)).$($(__args_nr)): \
+				$(__this):	invoke $($(__this)).$($(__args_nr)): \
 				$(__obj_debug_args))
 	)
-	$(foreach 0,$(or $(call var_recursive,$($(__this)).$($(__args_nr))),
+	$(foreach 0,$(or $(call var_recursive,$($(__this)).method.$($(__args_nr))),
 			$(error \
 					No method '$($(__args_nr))', \
 					invoked on object '$(__this)' of type '$($(__this))')),
@@ -624,11 +638,11 @@ endef
 # Context:
 #   '__this'
 define __field_set
-	$(def-ifdef OBJ_DEBUG,$(info $(__this): set    $1.$2: '$3'))
+	$(def-ifdef OBJ_DEBUG,$(info $(__this):	set    $1.$2: '$3'))
 	${eval \
 		override $(__this).$(call __field_check,$2) := \
-			$(if $(value $1.set.$2),
-				$$(call $1.set.$2,$$3),
+			$(if $(value $1.method.set.$2),
+				$$(call $1.method.set.$2,$$3),
 				$$3
 			)
 	}
@@ -650,20 +664,20 @@ endef
 # Context:
 #   '__this'
 define __field_set+
-	$(def-ifdef OBJ_DEBUG,$(info $(__this): set+   $1.$2: '$3'))
+	$(def-ifdef OBJ_DEBUG,$(info $(__this):	set+   $1.$2: '$3'))
 	${eval \
 		$(if $($(__this).$(call __field_check,$2)),
-			$(if $(value $1.set.$2),
+			$(if $(value $1.method.set.$2),
 				override $(__this).$2 := \
-					$$(call $1.set.$2,$$($(__this).$2) $$3)
+					$$(call $1.method.set.$2,$$($(__this).$2) $$3)
 				,# else
 				override $(__this).$2 += \
 					$$3
 			)
 			,# else
 			override $(__this).$2 := \
-				$(if $(value $1.set.$2),
-					$$(call $1.set.$2,$$3),
+				$(if $(value $1.method.set.$2),
+					$$(call $1.method.set.$2,$$3),
 					$$3
 				)
 		)
@@ -686,7 +700,7 @@ endef
 # Context:
 #   '__this'
 define __field_set*
-	$(def-ifdef OBJ_DEBUG,$(info $(__this): set*   $1.$2: '$3'))
+	$(def-ifdef OBJ_DEBUG,$(info $(__this):	set*   $1.$2: '$3'))
 	$(if $(findstring $(\s)$3 , $($(__this).$(call __field_check,$2)) ),
 		,# else
 		$(call __field_set+,$1,$2,$3)
@@ -709,7 +723,7 @@ endef
 # Context:
 #   '__this'
 define __field_set-
-	$(def-ifdef OBJ_DEBUG,$(info $(__this): set-   $1.$2: '$3'))
+	$(def-ifdef OBJ_DEBUG,$(info $(__this):	set-   $1.$2: '$3'))
 	$(call __field_set,$1,$2,$(trim $(subst $(\s)$3 , , $($(__this).$2) )))
 endef
 
@@ -738,8 +752,8 @@ $(call def,builtin_func-get)
 # Context:
 #   '__this'
 define __field_get
-	$(if $(value $1.get.$(call __field_check,$2)),
-		$$(call $1.get.$2,$($(__this).$2)),
+	$(if $(value $1.method.get.$(call __field_check,$2)),
+		$$(call $1.method.get.$2,$($(__this).$2)),
 		$($(__this).$2)
 	)
 endef
@@ -881,11 +895,10 @@ define builtin_func-__class__
 	$(call builtin_check_max_arity,1)
 
 	$(foreach c,$(call builtin_tag,__class__),
-		$(and $(foreach a,fields methods super,
-			${eval \
-				$c.$a := $(strip $(value $c.$a))
-			}
-		),)
+		$(silent-foreach a,fields methods super,
+			$(call var_assign_simple,
+				$c.$a,$(strip $(value $c.$a)))
+		)
 	)
 
 	$1
@@ -898,6 +911,7 @@ endef
 define __class_name_check
 	$(if $(not \
 			$(or \
+				$(filter field method super class,$1),
 				$(findstring $(\\),$1),
 				$(findstring $(\h),$1),
 				$(findstring $$,$1),
@@ -935,25 +949,26 @@ define __class_def_attribute_no_check
 	$(assert $(eq __class__,$(builtin_caller)),
 		Function '$(builtin_name)' can be used only within a class definition)
 
-	${eval \
-		$(call builtin_tag,__class__).$1 += $2
-	}
+	$(call var_assign_simple_append,
+		$(call builtin_tag,__class__).$1,$2)
 endef
 
-# Defines a new member (method or field initializer) in a specified class.
+# Defines a new member (method or field initializer) in the current class.
 # Params:
-#   1. Class.
+#   1. A type of the member.
 #   2. Member name.
 #   3. Function body.
 define __member_def
-	${eval \
-		$1.$2 = \
-			$(if $(not $(findstring $3x,$(trim $3x))),
-					$$(\0))# Preserve leading whitespaces.
-			$(subst $(\h),$$(\h),$(subst $(\\),$$(\\),$3))
-		$(\n)
-		__def_ignore += $1.$2
-	}
+	$(foreach c,$(call builtin_tag,__class__),
+		${eval \
+			$c.$1.$2 = \
+				$(if $(not $(findstring $3x,$(trim $3x))),
+						$$(\0))# Preserve leading whitespaces.
+				$(subst $(\h),$$(\h),$(subst $(\\),$$(\\),$3))
+			$(\n)
+			__def_ignore += $1.$2
+		}
+	)
 endef
 
 # Params:
@@ -1005,13 +1020,12 @@ define builtin_func-field
 		# 3. Initializer...
 		$(lambda $(foreach c,$(call builtin_tag,__class__),
 			$(call __class_def_attribute,fields,$1$(if $2,.$2))
-			$(call __member_def,$c,$1,$3)
+			$(call __member_def,field,$1,$3)
 
-			$(and $2,# Define a setter if there is a type specified.
-				$(call var_undefined,$c.set.$1),
-
+			$(if $2,
+				# Define a type checking setter if there is a type specified.
 				$(call __class_def_attribute_no_check,methods,set.$1)
-				$(call __member_def,$c,set.$1,
+				$(call __member_def,method,set.$1,
 					$(if $(eq *,$2),
 						$$(__field_setter_object_check),
 						$$(foreach 2,$2,$$(__field_setter_type_check))
@@ -1020,7 +1034,7 @@ define builtin_func-field
 			)
 
 			# Field initializer.
-			$$(eval $$(this).$1 := $$(value $c.$1))
+			$$(eval override $$(this).$1 := $$(value $c.field.$1))
 		)),
 		$(builtin_nofirstarg)
 	)
@@ -1034,7 +1048,8 @@ define __field_setter_type_check
 			$(error \
 					Attemp to assign value '$1' ($(if $(is-object $1),
 							instance of class $(class $1),not an object)) \
-					to field '$(subst .set.,.,$0)' of incompatible type '$2')
+					to field '$(subst .method.set.,.,$0)' \
+					of incompatible type '$2')
 		)
 	)
 endef
@@ -1045,7 +1060,7 @@ define __field_setter_object_check
 		$(or $(is-object $1),
 			$(error \
 					Attemp to assign value '$1' which is not a valid object \
-					to field '$(subst .set.,.,$0)')
+					to field '$(subst .method.set.,.,$0)')
 		)
 	)
 endef
@@ -1062,7 +1077,7 @@ define builtin_func-setter
 	)
 
 	$(call __class_def_attribute_no_check,methods,set.$(trim $1))
-	$(call __member_def,$(call builtin_tag,__class__),set.$(trim $1),
+	$(call __member_def,method,set.$(trim $1),
 			$$(foreach this,$$(__this),$(builtin_nofirstarg)))
 endef
 
@@ -1072,7 +1087,7 @@ endef
 define builtin_func-method
 	$(call __class_def_attribute,methods,$1)
 
-	$(call __member_def,$(call builtin_tag,__class__),$(trim $1),
+	$(call __member_def,method,$(trim $1),
 		$(if $(multiword $(builtin_args_list)),
 			$$(foreach this,$$(__this),$(builtin_nofirstarg)),
 			$$(error Invoking unimplemented abstract method $0, \
@@ -1096,26 +1111,27 @@ define builtin_func-super
 		)
 	)
 
-	$(call __class_inherit,$(call builtin_tag,__class__),$1)
+	$(call __class_inherit,$1)
 
 	$(foreach m,$($1.methods),
-		$(call __member_def,$(call builtin_tag,__class__),$m,$(value $1.$m))
+		$(call __member_def,method,$m,$(value $1.method.$m))
 	)
 endef
 
 # Params:
-#   1. Child class.
-#   2. Ancestor.
+#   1. Ancestor.
 define __class_inherit
-	$(and $(foreach a,fields methods super,
-		${eval \
-			$1.$a += $($2.$a)
-		}
-	),)
+	$(foreach c,$(call builtin_tag,__class__),
 
-	$(if $(filter $1,$($1.super)),
-		$(call builtin_error,
-				Can't inherit class '$1' from '$2' because of a loop)
+		$(silent-foreach a,fields methods super,
+			$(call var_assign_simple_append,
+				$c.$a,$($1.$a))
+		)
+
+		$(if $(filter $c,$($c.super)),
+			$(call builtin_error,
+					Can't inherit class '$c' from '$1' because of a loop)
+		)
 	)
 endef
 
