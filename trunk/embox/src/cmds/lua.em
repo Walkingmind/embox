@@ -4,7 +4,7 @@
 $_MODS += lua
 $_SRCS-lua += lua.c
 $_CPPFLAGS-lua += -I$(THIRDPARTY_DIR)/lua
-$_DEPS-lua += org.lua.lua_core
+$_DEPS-lua += org.lua.lua_core org.lua.lua_lib
 
 $_BRIEF-lua = Lua interpreter
 
