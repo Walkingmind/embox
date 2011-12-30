@@ -39,6 +39,7 @@ LN     := ln -s
 
 include mk/util.mk
 include mk/util/wildcard.mk
+include mk/util/serialize.mk
 
 include mk/gmsl/gmsl.mk
 
@@ -80,7 +81,7 @@ $(build_patch_targets) build_base_target: export BUILD_TARGET=1
 $(build_patch_targets) build_base_target:
 	$(MAKE) build
 
-build: check_config prepare image
+build: check_config prepare image 
 	@echo '$(or $(PATCH_NAME),Base) build complete'
 
 prepare:
