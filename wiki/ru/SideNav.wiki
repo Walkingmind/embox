@@ -28,7 +28,7 @@
     * [ML505Description Virtex-5 LXT FPGA ML505 Evaluation Platform]
   * [Theory Теория операционных систем]
     * [TheoryMemoryAllocation Выделение памяти]
-    * [TheoryContexSwitch Многозадачность]
+    * [TheoryMultitasking Многозадачность]
     * [TheoryVirtualMemory Виртуальная память]
   * [Community Community]
   * Old Wiki

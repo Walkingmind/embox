@@ -34,7 +34,7 @@
     * [ML505Description Virtex-5 LXT FPGA ML505 Evaluation Platform]
   * [Theory Theoretical materials]
     * [TheoryMemoryAllocation Memory allocation]
-    * [TheoryContexSwitch Context Switch]
+    * [TheoryMultitasking Multitasking]
     * [TheoryVirtualMemory VirtualMemory]
   * [Community Community]
   * Old Wiki

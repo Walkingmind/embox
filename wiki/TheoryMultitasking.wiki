@@ -1,3 +1,4 @@
-#summary Description of the types and principles of multi-tasking systems
+#summary Description of the types and principles of multitasking systems
 
-= Please translate it = 
+= Please translate it =
+ 
