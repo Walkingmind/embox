@@ -114,7 +114,7 @@ sudo ip tuntap add mode tap
 sudo qemu-system-i386 -net nic,model=ne2k_pci -net tap,ifname=tap0,script=no
 sudo ifconfig tap0 10.0.2.15 up
 }}}
-Now you have virtual iface connected to qemu. It's behaviour as dedicated ethernet network with your host and qemu. Qemu scripts for configuration can be loaded from [http://embox.googlecode.com/files/qemu-scripts.zip here].
+Now you have virtual iface connected to qemu. It's behaviour as dedicated ethernet network with your host and qemu. Qemu scripts for configuration located in [http://code.google.com/p/embox/source/browse/#svn%2Ftrunk%2Fembox%2Fscripts embox/scripts].
 
 Hard way:
 {{{
