@@ -3,6 +3,8 @@
 
 = 2012/01/01 v0.2.4 [http://code.google.com/p/embox/issues/list?can=1&q=milestone=v0.2.4 [issues]] [http://code.google.com/p/embox/issues/list?q=milestone=v0.2.4 [open issues]] =
 
+ == Драйверы ==
+  * Добавлена поддержка RTL8139 устройств
 
 = 2011/12/01 v0.2.3 [http://code.google.com/p/embox/issues/list?can=1&q=milestone=v0.2.3 [issues]] =
 
