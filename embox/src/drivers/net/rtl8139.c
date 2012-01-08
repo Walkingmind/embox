@@ -223,8 +223,8 @@ static int __init unit_init(void) {
 
 	res = irq_attach(pci_dev->irq, rtl8139_interrupt, 0, nic, "rtl-8139");
 	if (res < 0) {
-		return res;                                                     
-	}                                                                       
+		return res;
+	}
 
 	return register_netdev(nic);
 }
