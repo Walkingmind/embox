@@ -38,6 +38,12 @@ endef
 \comma   := ,
 \period  := .
 \eq_sign := =
+\colon   := :
+
+$(\comma)   := $(\comma)
+$(\period)  := $(\period)
+$(\eq_sign) := $(\eq_sign)
+$(\colon)   := $(\colon)
 
 ## Single dollar ('$') which expands into itself.
 $$ := $$
