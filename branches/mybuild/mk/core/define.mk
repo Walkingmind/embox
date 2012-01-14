@@ -1204,13 +1204,36 @@ endef
 __builtin_func-fx_cnt :=# Initially empty.
 
 #
-# Def-time static conditionals.
+# Def-time static utils.
 #
+
+#
+# Extension: 'def-id' builtin function.
+#
+# Echoes the arguments (unexpanded).
+#
+# '$(def-id args...)'
+#
+define builtin_func-def-id
+	$(builtin_args)
+endef
+
+#
+# Extension: 'def-expand' builtin function.
+#
+# Def-time expansion.
+#
+# '$(def-expand args...)'
+#
+define builtin_func-def-expand
+	$(call __def_expand,$(builtin_args))
+endef
 
 #
 # Extension: 'def-if' builtin function.
 #
-# Basic static conditional.
+# Basic static conditional. Condition is expanded and the corresponding
+# branch is emitted as a result (unexpanded).
 #
 # '$(def-if condition,then[,else])'
 #
@@ -1218,7 +1241,7 @@ define builtin_func-def-if
 	$(call builtin_check_arity_range,2,3)
 
 	# Use explicit 'call' to shadow builtins context when expanding user code.
-	$(if $(call expand,$1),$2,$(value 3))
+	$(if $(call __def_expand,$1),$2,$(value 3))
 endef
 
 #
@@ -1233,7 +1256,7 @@ endef
 #   Particularly, a variable with empty value is considered undefined.
 define builtin_func-def-ifdef
 	$(call builtin_check_arity_range,2,3)
-	$(if $(value $(call expand,$1)),$2,$(value 3))
+	$(if $(value $(call __def_expand,$1)),$2,$(value 3))
 endef
 
 #
@@ -1247,7 +1270,7 @@ endef
 #   See notes to 'def-ifdef'
 define builtin_func-def-ifndef
 	$(call builtin_check_arity_range,2,3)
-	$(if $(value $(call expand,$1)),$(value 3),$2)
+	$(if $(value $(call __def_expand,$1)),$(value 3),$2)
 endef
 
 #
@@ -1271,13 +1294,10 @@ define builtin_to_function_call
 	$(if $(filter undefined,$(flavor $(builtin_name))),
 		$(call builtin_warning,
 			Converting builtin into a call to possibly undefined function \
-			'$(builtin_name)'
-		)
+			'$(builtin_name)')
 	)
-	$$(call \
-		$(builtin_name),
-		$(builtin_args)
-	)
+	$$(call $(builtin_name),
+			$(builtin_args))
 endef
 
 # Tries to substitute the builtin by an inlined call to a user-defined
@@ -1349,11 +1369,9 @@ define builtin_to_function_inline
 		$(if $(call not,$(call var_recursive,$(builtin_name))),
 			$(if $(call var_simple,$(builtin_name)),
 				$(call builtin_warning,
-					Can not inline non-recursive variable '$(builtin_name)'
-				),
+					Can not inline non-recursive variable '$(builtin_name)'),
 				$(warning \
-					Can not inline undefined function '$(builtin_name)'
-				)
+					Can not inline undefined function '$(builtin_name)')
 			),
 			$(__builtin_to_function_inline)
 		),
@@ -1449,8 +1467,7 @@ define __builtin_to_function_inline
 			$(def-ifdef DEF_DEBUG,
 				$(call __def_debug,
 					Inlining of function '$(builtin_name)' failed due to \
-					ambiguous usage of certain arguments
-				)
+					ambiguous usage of certain arguments)
 			),
 			$1
 		)
