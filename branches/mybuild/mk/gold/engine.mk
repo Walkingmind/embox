@@ -131,7 +131,7 @@ define builtin_macro-gold-parser
 
 		$(call def_exclude,$(__gold_ns)%)
 
-		$(and $(call __def_expand,$(for a <- $(builtin_args_list),$($a))),)
+		$(silent-expand $(for a <- $(builtin_args_list),$($a)))
 	)
 endef
 
