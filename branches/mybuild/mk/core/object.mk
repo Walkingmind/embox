@@ -1,9 +1,9 @@
 # $Id$
 
 #
-# Copyright 2010-2011, Mathematics and Mechanics faculty
+# Copyright 2010-2012, Mathematics and Mechanics faculty
 #                   of Saint-Petersburg State University. All rights reserved.
-# Copyright 2010-2011, Lanit-Tercom Inc. All rights reserved.
+# Copyright 2010-2012, Lanit-Tercom Inc. All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions
@@ -592,9 +592,14 @@ define builtin_func-invoke
 		# 3. Args...
 		$(call __object_member_access_wrap,$1,
 			$(def-ifdef OBJ_DEBUG,
-				$$(foreach __args_nr,
-					$(words $(builtin_args_list)),
-					$$(call __method_invoke_debug,$3,$2)
+				$(if $(nofirstword $(builtin_args_list)),
+					$$(foreach __args_nr,
+						$(words $(builtin_args_list)),
+						$$(call __method_invoke_debug,$3,$2)
+					),
+					$$(foreach __args_nr,1,
+						$$(call __method_invoke_debug,$2)
+					)
 				),
 				$$(call $$($$(__this)).$2,$3)
 			)
@@ -979,7 +984,9 @@ define __class_variable_value_provider
 		# Workaround for repeated def in case when the class has already been
 		# defined from 'super' builtin of another one.
 		$(value $1),
-		$$(__class__ $(value $1))
+		$$(__class__ \
+			$(value $1)$(\n)# \n protects us from a comment on the last line.
+		)
 	)
 endef
 $(call def,__class_variable_value_provider)
@@ -1253,6 +1260,7 @@ define __member_check_and_def_attr
 		$(foreach m_old,
 			$(with $1,$2,
 				$(notdir $(call __class_attr_query,$1,$2 $2[] $2.% $2[].%)),
+				# TODO check it. -- Eldar
 				$(assert $(not $(multiword $3)),
 					__class_attr_query returned too many for '$2' $1: '$3')
 				$3
