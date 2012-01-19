@@ -1,0 +1,35 @@
+ifndef __mk_ready
+MK_DIR := $(abspath mk)
+MAKEFLAGS += --no-builtin-rules
+MAKEFLAGS += --include-dir=$(MK_DIR)
+MAKEFLAGS += --no-builtin-variables
+MAKEFLAGS += --no-print-directory
+MAKEFLAGS += --warn-undefined-variables
+.DEFAULT_GOAL := all
+% :
+	@$(MAKE) __mk_ready=1 $@
+else
+
+PATCH_NAME := 
+include mk/dirs.mk
+
+PRINTF := printf
+
+MY_PATH := $(SRC_DIR)/** $(PLATFORM_DIR)/** $(THIRDPARTY_DIR)/**
+
+ARCH := x86
+
+PLATFORM := 
+
+include mk/gold/engine.mk
+include mk/mybuild/myfile.mk
+include mk/mybuild/read.mk
+include mk/util/escape.mk
+
+.PHONY : all 
+all :  mk_objects_dump mk_object_to_mk $(MK_LINK)
+
+
+
+endif
+
