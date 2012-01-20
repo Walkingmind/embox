@@ -25,11 +25,20 @@ include mk/gold/engine.mk
 include mk/mybuild/myfile.mk
 include mk/mybuild/read.mk
 include mk/util/escape.mk
+include mk/configure.mk
+include mk/util/serialize.mk
+include mk/mybuild/resource.mk
+
+mods_enable_obj_mk := mods_enable_obj.mk
 
 .PHONY : all 
-all :  mk_objects_dump mk_object_to_mk $(MK_LINK)
+all :  mk_objects_dump mk_object_to_mk $(MK_LINK) $(mods_enable_obj_mk)
 
+-include $(mods_mk)
 
+$(mods_enable_obj_mk) : $(mods_mk)
+	$(eval MODS_ENABLE_OBJ := $(call find_mods,$(MODS_ENABLE)))
+	@$(call write,$(call serialize_var,MODS_ENABLE_OBJ),$@) 
 
 endif
 
