@@ -38,12 +38,14 @@ all :  mk_object_to_mk $(MK_LINK) $(mods_enable_obj_mk)
 -include $(mods_mk)
 
 include mk/conf/roots.mk
+include mk/conf/runlevel.mk
 
 $(mods_enable_obj_mk) : $(mods_mk)
-	$(eval MODS_ENABLE_OBJ := $(call find_mods,$(MODS_ENABLE)))
+	$(eval MODS_ENABLE_OBJ := $(call find_mods,$(sort $(MODS_ENABLE))))
 	@$(call write,\
 		$(call escape_printf,$(call serialize_var,MODS_ENABLE_OBJ)),\
 		$@)
 	$(info configured modules with deps are $(call module_closure,$(MODS_ENABLE_OBJ)))
+	$(call runlevels_setup,$(sort $(MODS_ENABLE)))
 endif
 
