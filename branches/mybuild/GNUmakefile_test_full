@@ -46,6 +46,6 @@ $(mods_enable_obj_mk) : $(mods_mk)
 		$(call escape_printf,$(call serialize_var,MODS_ENABLE_OBJ)),\
 		$@)
 	$(info configured modules with deps are $(call module_closure,$(MODS_ENABLE_OBJ)))
-	$(call runlevels_setup,$(sort $(MODS_ENABLE)))
+	$(call runlevels_setup,$(MODS_ENABLE_OBJ))
 endif
 
