@@ -85,5 +85,7 @@ $(AUTOCONF_FILES) : $(MK_DIR)/configure.mk \
 
 -include $(AUTOCONF_FILES:%=%.d)
 
+CROSS_COMPILE ?=
+
 mkdir:
 	@test -d $(AUTOCONF_DIR) || mkdir -p $(AUTOCONF_DIR)
