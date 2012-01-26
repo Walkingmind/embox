@@ -438,7 +438,7 @@ define __new
 	# It is mandatory for object references to start with a period.
 	$(foreach this,.obj$(words $(__object_instance_cnt) x),
 		$(def-ifdef OBJ_DEBUG,
-			$(info $(this):  	new    $(__class__): $(__obj_debug_args)))
+			$(warning $(this):  	new    $(__class__): $(__obj_debug_args)))
 		${eval \
 			__object_instance_cnt += $(this:.obj%=%)
 			$(\n)
@@ -611,7 +611,7 @@ endef
 ifdef OBJ_DEBUG
 define __method_invoke_debug
 	$(foreach __obj_debug_args_nr,$(word $(__args_nr),0 1 2 3 4 5 6 7 8 9),
-		$(info $(__this):  	invoke $($(__this)).$(__method_name): \
+		$(warning $(__this):  	invoke $($(__this)).$(__method_name): \
 				$(__obj_debug_args))
 	)
 	$(foreach 0,$(or $(call var_recursive,$($(__this)).$(__method_name)),
@@ -651,7 +651,7 @@ endef
 #   '__this'
 ifdef OBJ_DEBUG
 define __property_get_debug
-	$(info $(__this):  	get    $($(__this)).$1)
+	$(warning $(__this):  	get    $($(__this)).$1)
 
 	$(with \
 		$1,
@@ -661,7 +661,7 @@ define __property_get_debug
 						on object '$(__this)' of type '$($(__this))'))
 		),
 
-		$(info $(__this):  	get    $($(__this)).$1 = '$2')
+		$(warning $(__this):  	get    $($(__this)).$1 = '$2')
 		$2
 	)
 
@@ -702,7 +702,7 @@ endef
 #   '__this'
 ifdef OBJ_DEBUG
 define __property_set_debug
-	$(info $(__this):  	set$(or $2,$(\s))   $($(__this)).$1: '$3')
+	$(warning $(__this):  	set$(or $2,$(\s))   $($(__this)).$1: '$3')
 
 	$(call $(or $(call var_recursive,$($(__this)).$1.setter$2),
 			$(error \
@@ -756,7 +756,7 @@ endef
 #   '__this'
 ifdef OBJ_DEBUG
 define __field_get_debug
-	$(info $(__this):  	f-get  $($(__this)).$1= \
+	$(warning $(__this):  	f-get  $($(__this)).$1= \
 		'$($(__this).$(call __field_check,$1))')
 	$($(__this).$(call __field_check,$1))
 endef
@@ -791,7 +791,7 @@ endef
 # Context:
 #   '__this'
 define __field_set
-	$(def-ifdef OBJ_DEBUG,$(info $(__this):  	f-set  $($(__this)).$1: '$2'))
+	$(def-ifdef OBJ_DEBUG,$(warning $(__this):  	f-set  $($(__this)).$1: '$2'))
 
 	${eval \
 		override $(__this).$(__field_check) := $$2
@@ -804,7 +804,7 @@ endef
 # Context:
 #   '__this'
 define __field_set+
-	$(def-ifdef OBJ_DEBUG,$(info $(__this):  	f-set+ $($(__this)).$1: '$2'))
+	$(def-ifdef OBJ_DEBUG,$(warning $(__this):  	f-set+ $($(__this)).$1: '$2'))
 
 	${eval \
 		override $(__this).$(__field_check) += $$2
@@ -817,7 +817,7 @@ endef
 # Context:
 #   '__this'
 define __field_set-
-	$(def-ifdef OBJ_DEBUG,$(info $(__this):  	f-set- $($(__this)).$1: '$2'))
+	$(def-ifdef OBJ_DEBUG,$(warning $(__this):  	f-set- $($(__this)).$1: '$2'))
 
 	${eval \
 		override $(__this).$(__field_check) := \
