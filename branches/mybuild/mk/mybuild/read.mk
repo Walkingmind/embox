@@ -48,14 +48,14 @@ $(filter %Makefile,$(MKFILES_CONVERTED)) : \
 		$(EM_DIR)%Makefile : $(ROOT_DIR)%Mybuild
 	@echo '$< -> $@'
 #	@$(eval $@ := $$(call create_from_model,$$(call gold_parse,myfile,$$<)))
-	$(eval $$@ := $$(call new,resource,$$<))		
+	$(eval $$@ := $$(call new,resource,$$<))
 	@mkdir -p $(@D); $(PRINTF) '%b' '$(call escape_printf, $(call objects_to_mk,$($@)))' > $@
 
 $(filter %.my.mk,$(MKFILES_CONVERTED)) : \
 		$(EM_DIR)%.my.mk : $(ROOT_DIR)%.my
 	@echo '$< -> $@'
 #	@$(eval $@ := $$(call create_from_model,$$(call gold_parse,myfile,$$<)))
-	$(eval $$@ := $$(call new,resource,$$<))		
+	$(eval $$@ := $$(call new,resource,$$<))
 	@mkdir -p $(@D); $(PRINTF) '%b' '$(call escape_printf, $(call objects_to_mk,$($@)))' > $@
 
 
