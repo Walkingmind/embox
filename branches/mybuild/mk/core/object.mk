@@ -393,6 +393,7 @@ __core_object_mk := 1
 #
 #
 
+include mk/core/alloc.mk
 include mk/core/common.mk
 include mk/core/string.mk
 include mk/core/define.mk
@@ -424,9 +425,8 @@ $(call def,builtin_func-new)
 #   2. An (optional) argument to pass to the constructor.
 # Return:
 #   Newly created object instance.
-define new
+new = \
 	$(new $1,$(value 2))
-endef
 
 # Params:
 #   1.. Args...
@@ -436,21 +436,17 @@ endef
 #   New object identifier.
 define __new
 	# It is mandatory for object references to start with a period.
-	$(foreach this,.obj$(words $(__object_instance_cnt) x),
+	$(foreach this,.obj$(call alloc,obj),
 		$(def-ifdef OBJ_DEBUG,
 			$(warning $(this):  	new    $(__class__): $(__obj_debug_args)))
 		${eval \
-			__object_instance_cnt += $(this:.obj%=%)
-			$(\n)
-			$(this) := $(__class__)
-			$(\n)
+			$(this) := $(__class__)$(\n)
+			# Call the constructor.
 			$$(and $(value class-$(__class__)),)
 		}
 		$(this)
 	)
 endef
-__object_instance_cnt :=# Initially empty.
-__cache_volatile += __object_instance_cnt
 
 # Return:
 #   Human-readable list of args from 1 up to '__obj_debug_args_nr',
@@ -1597,7 +1593,7 @@ define object_graph_print
 		$(for o <- $(object_graph_traverse),
 			s <- $($o.__serial_id__),
 			c <- $($o),
-	
+
 			$(__object_print)
 		)
 	)
