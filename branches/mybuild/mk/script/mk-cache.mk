@@ -148,6 +148,11 @@ __cache_print_uses_inclusions = \
 		$(info include $$(filter-out $$(MAKEFILE_LIST),$ \
 			$(CACHE_REQUIRES:%= \$(\n)$(\t)$(\t)$(\t)%))))
 
+__cache_print_uses_inclusions = \
+	$(foreach mk, \
+		mk/core/common.mk $(filter-out mk/core/common.mk,$(CACHE_REQUIRES)), \
+		$(info include $$(filter-out $$(MAKEFILE_LIST),$(mk))))
+
 __cache_print_list_comment = \
 	$(info $(\h) $1:) \
 	$(foreach mk,$(or $($1),<nothing>),$(info $(\h)   $(mk)))
@@ -162,7 +167,12 @@ $(call __cache_print_list_comment,CACHE_REQUIRES)
 $(call __cache_print_list_comment,CACHE_INCLUDES)
 $(call __cache_print_list_comment,MAKEFILE_LIST)
 $(info )
-$(info include mk/core/common.mk)
+ifdef CACHE_DEP_TARGET
+$(info ifneq ($$(word 2,$$(filter $(CACHE_DEP_TARGET),$$(MAKEFILE_LIST))),))
+$(info $$(error Multiple inclusion of '$(CACHE_DEP_TARGET)'))
+$(info endif)
+$(info )
+endif
 $(__cache_print_uses_inclusions)
 $(info )
 $(info # Transient variables.)
