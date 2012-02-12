@@ -33,6 +33,7 @@ $(MAKECMDGOALS) : $(cached_mybuild_model)
 
 export all_cached_myfiles
 
+.DELETE_ON_ERROR:
 $(cached_mybuild_model) : mk/load2.mk
 $(cached_mybuild_model) : mk/script/mk-persist.mk
 $(cached_mybuild_model) : $(all_cached_myfiles)
