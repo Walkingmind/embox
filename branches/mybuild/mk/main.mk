@@ -75,9 +75,6 @@ docsgen:
 	doxygen
 	@echo 'Docs generation complete'
 
-dot: $(GRAPH_PS)
-	@echo 'Dot complete'
-
 clean c: _clean
 	@echo 'Clean complete'
 

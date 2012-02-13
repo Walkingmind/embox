@@ -44,6 +44,9 @@ generate_dot = $(strip \ndigraph Embox { \
   ) \
 \n})\n
 
+dot: $(GRAPH_PS)
+	@echo 'Dot complete'
+
 $(GRAPH_DOT) : $(MK_DIR)/codegen-dot.mk
 	@$(PRINTF) '$(generate_dot)' > $@
 
