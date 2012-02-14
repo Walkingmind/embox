@@ -134,10 +134,9 @@ __var_name_escape3 = \
 # Params:
 #  1. Multiword-named variables (word-escaped)
 __var_name_escape4 = \
-  $(if $(strip $1),$(foreach combo,$(call __var_name_escape_combos,$ \
-                $1,$(call int_sequence,x,$(1:%=x)),$(words $1)),$ \
-    $(if $(call var_defined,$(call var_name_demangle,$(combo))),$(combo))$ \
-   ))
+  $(if $(strip $1),$(foreach combo,$(call __var_name_escape_combos \
+                ,$1,$(call int_sequence,x,$(1:%=x)),$(words $1)) \
+    ,$(if $(call var_defined,$(call var_name_demangle,$(combo))),$(combo))))
 
 # Params:
 #  1. Word-escaped list
@@ -207,7 +206,7 @@ __var_name_escape_whitespace = \
 __var_name_unescape_whitespace = \
   $(subst _$$s,$(\s),$(subst _$$t,$(\t),$(subst _$$n,$(\n),$1)))
 
-# TODO a possible optimization: on each iteration filter out 
+# TODO a possible optimization: on each iteration filter out
 #      single-, double-, triple-, etc. -worded variables. -- Eldar
 
 endif # __util_var_name_mk
