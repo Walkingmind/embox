@@ -1,0 +1,51 @@
+ifndef __mk_ready
+MK_DIR := $(abspath mk)
+MAKEFLAGS += --no-builtin-rules
+MAKEFLAGS += --include-dir=$(MK_DIR)
+MAKEFLAGS += --no-builtin-variables
+MAKEFLAGS += --no-print-directory
+MAKEFLAGS += --warn-undefined-variables
+.DEFAULT_GOAL := all
+% :
+	@$(MAKE) __mk_ready=1 $@
+else
+
+PATCH_NAME := 
+include mk/dirs.mk
+
+PRINTF := printf
+
+MY_PATH := $(SRC_DIR)/** $(PLATFORM_DIR)/** $(THIRDPARTY_DIR)/**
+
+ARCH := x86
+
+PLATFORM := 
+
+include mk/gold/engine.mk
+include mk/mybuild/myfile.mk
+include mk/mybuild/read.mk
+include mk/util/escape.mk
+include mk/configure.mk
+include mk/util/serialize.mk
+
+include mk/util/graph.mk
+
+mods_enable_obj_mk := mods_enable_obj.mk
+
+.PHONY : all 
+all :  mk_object_to_mk $(MK_LINK) $(mods_enable_obj_mk)
+
+-include $(mods_mk)
+
+include mk/conf/roots.mk
+include mk/conf/runlevel.mk
+
+$(mods_enable_obj_mk) : $(mods_mk)
+	$(eval MODS_ENABLE_OBJ := $(call find_mods,$(sort $(MODS_ENABLE))))
+	@$(call write,\
+		$(call escape_printf,$(call serialize_var,MODS_ENABLE_OBJ)),\
+		$@)
+	$(info configured modules with deps are $(call module_closure,$(MODS_ENABLE_OBJ)))
+	$(call runlevels_setup,$(MODS_ENABLE_OBJ))
+endif
+
