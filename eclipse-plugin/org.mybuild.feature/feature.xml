@@ -1,16 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature
       id="org.mybuild.feature"
-      label="MyBuild Feature"
-      version="0.2.1">
+      label="Mybuild"
+      version="0.2.3"
+      provider-name="Embox Project">
 
    <description>
-      Plugin for MyBuild build system. Includes editor for so-called my-files.
+      Plugin for Mybuild build automation tool. Includes editor for so-called my-files.
    </description>
 
    <copyright>
-      Copyright 2008-2011, Mathematics and Mechanics faculty of Saint-Petersburg State University. All rights reserved.
-Copyright 2008-2011, Lanit-Tercom Inc. All rights reserved.
+      Copyright 2008-2012, Mathematics and Mechanics faculty of Saint-Petersburg State University. All rights reserved.
+Copyright 2008-2012, Lanit-Tercom Inc. All rights reserved.
    </copyright>
 
    <license>

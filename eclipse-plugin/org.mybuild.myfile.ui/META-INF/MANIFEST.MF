@@ -1,8 +1,8 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: org.mybuild.myfile.ui
-Bundle-Vendor: My Company
-Bundle-Version: 0.2.1
+Bundle-Vendor: Embox Project
+Bundle-Version: 0.2.2
 Bundle-SymbolicName: org.mybuild.myfile.ui; singleton:=true
 Bundle-ActivationPolicy: lazy
 Require-Bundle: org.mybuild.myfile;visibility:=reexport,
@@ -20,5 +20,6 @@ Import-Package: org.apache.log4j,
  org.apache.commons.logging
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Export-Package: org.mybuild.myfile.ui.contentassist.antlr,
- org.mybuild.myfile.ui.internal
+ org.mybuild.myfile.ui.internal,
+ org.mybuild.myfile.ui.contentassist
 Bundle-Activator: org.mybuild.myfile.ui.internal.MyFileActivator

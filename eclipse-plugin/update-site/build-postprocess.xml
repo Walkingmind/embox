@@ -5,9 +5,8 @@
 			<pathelement location="/usr/share/java/ant-contrib.jar" />
 		</classpath>
 	</taskdef>
-	<property name="associate.sites" value="
-		http://download.eclipse.org/modeling/tmf/updates/#enabled-by-org.mybuild 
-		http://download.eclipse.org/modeling/emf/updates/#enabled-by-org.mybuild" />
+	<property name="associate.sites" value=
+		"http://download.eclipse.org/modeling/tmf/xtext/updates/composite/releases/#enabled-by-org.mybuild" />
 	<property name="update.site.source.dir" value="." />
 	<target name="add.associate.sites" if="associate.sites">
 		<if>
