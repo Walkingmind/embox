@@ -1,7 +1,0 @@
-package embox.driver.watchdog
-
-module at91_wdtc {
-	source "at91_wdtc.c"
-}
-
-

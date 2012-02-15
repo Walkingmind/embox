@@ -1,7 +1,0 @@
-package embox.fs
-
-module devfs {
-	source "devfs.c"
-	depends embox.fs.rootfs
-	make flags "-I$(SRC_DIR)/compat/posix/include"
-}

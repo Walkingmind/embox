@@ -1,7 +1,0 @@
-package embox.framework
-
-module mod {
-	/*FIXME mybuild make flags options */
-	make flags "-D__FRAMEWORK__"
-	source "core.c"
-}

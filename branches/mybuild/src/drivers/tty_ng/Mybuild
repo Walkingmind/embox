@@ -1,7 +1,0 @@
-package embox.driver.tty_ng
-
-module core {
-	source "tty_ng.c"
-	depends embox.fs.devfs
-} 
-	
