@@ -57,7 +57,7 @@ $(mk_mybuild) : CACHE_REQUIRES := \
 	$(mk_model)
 $(mk_mybuild) : ALLOC_SCOPE := e
 
-export all_mk_scripts := \
+export all_mk_files := \
 	$(mk_core_def) \
 	$(mk_core_obj) \
 	$(mk_gold_engine) \
@@ -77,7 +77,7 @@ $(mk_mybuild) : CACHE_REQUIRES := \
 	$(mk_gold_engine)
 $(mk_mybuild) : ALLOC_SCOPE := e
 
-export all_mk_scripts := \
+export all_mk_files := \
 	$(mk_core_def) \
 	$(mk_core_obj) \
 	$(mk_gold_engine) \
@@ -95,24 +95,24 @@ endif ###
 # both of them at the same time.
 export ALLOC_SCOPE ?=
 
-$(MAKECMDGOALS) : $(all_mk_scripts)
+$(MAKECMDGOALS) : $(all_mk_files)
 	@$(MAKE) -f mk/load2.mk $@
 
 .DELETE_ON_ERROR:
 
 # Default values which are overridden with target-specific ones.
-$(all_mk_scripts) : export CACHE_INCLUDES ?=
-$(all_mk_scripts) : export CACHE_REQUIRES ?=
+$(all_mk_files) : export CACHE_INCLUDES ?=
+$(all_mk_files) : export CACHE_REQUIRES ?=
 
 .SECONDEXPANSION:
 
-$(all_mk_scripts) : $$(CACHE_INCLUDES)
-$(all_mk_scripts) : $$(CACHE_REQUIRES)
-$(all_mk_scripts) : mk/load.mk
-$(all_mk_scripts) : mk/script/mk-cache.mk
-$(all_mk_scripts) :
+$(all_mk_files) : $$(CACHE_INCLUDES)
+$(all_mk_files) : $$(CACHE_REQUIRES)
+$(all_mk_files) : mk/load.mk
+$(all_mk_files) : mk/script/mk-cache.mk
+$(all_mk_files) :
 	@echo ' MKGEN $(@F)'
 	@mkdir -p $(@D) && \
 		$(MAKE) -f mk/script/mk-cache.mk CACHE_DEP_TARGET='$@' > $@
 
--include $(all_mk_scripts:%=%.d)
+-include $(all_mk_files:%=%.d)
