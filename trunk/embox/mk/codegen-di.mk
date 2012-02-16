@@ -57,7 +57,7 @@ mod_def = \
     $(call c_str_escape,$(value DETAILS-$(mod))));
 
 generate_mod_defs = $(call eol-trim,\n/* Mod definitions. */\
-  $(for m <- $(MODS_BUILD), \
+  $(for m <- $(MODS_BUILD) $(LIBS_BUILD), \
         mod <- $(get m->qualified_name), \
     $(mod_def) \
   ) \
@@ -69,7 +69,7 @@ generate_mod_defs = $(call eol-trim,\n/* Mod definitions. */\
 )\n
 
 generate_mod_deps = $(strip \n/* Mod deps. */\
-  $(for m <- $(MODS_BUILD), \
+  $(for m <- $(MODS_BUILD) $(LIBS_BUILD), \
         mod <- $(get m->qualified_name), \
     $(for link <- $(get m->depends_refs), \
           d <- $(get link->dst), \
