@@ -1,4 +1,4 @@
-# $Id: $
+# $Id$
 #
 # Second stage: loads My-files and links them together.
 #
