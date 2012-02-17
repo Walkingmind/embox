@@ -1,4 +1,4 @@
-# $Id: $
+# $Id$
 #
 # First stage launcher: prepares necessary Make scripts
 # and runs the second stage (see mk/load2.mk).

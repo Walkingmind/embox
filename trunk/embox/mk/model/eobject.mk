@@ -1,4 +1,4 @@
-# $Id: $
+# $Id$
 #
 # Builtins for generated implementations of modeled objects
 # and runtime support for managing object references.
