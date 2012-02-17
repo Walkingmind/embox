@@ -28,12 +28,10 @@ define class-module_link
 	#   1. Object, link to which must be deresolved
 	$(method deresolve,
 		$(set dst,$(\0)))
-		
+
+	$(if $(value 2), 
+		$(set dst,$2))	
 endef	
-
-MODULE_LINKS_NOTRESOLVED := $(\0)
-
-MODULE_LINKS_RESOLVED := $(\0)
 
 $(def_all)
 
