@@ -78,7 +78,7 @@ LIB_FILE = \
 
 # It's time to scan subdirs and prepare mods info.
 # ...and to build dependency injection model
-include $(MK_DIR)/codegen-di.mk
+include mk/codegen-di.mk
 
 # param $1 is module obj
 module_get_objects = \
@@ -186,7 +186,7 @@ $(CMDS) : FLAGS = $(subst ",,$(__FLAGS))
 $(CMDS) :
 	@echo '$(FLAGS) -o $(@:%.cmd=%.o) -c' > $@
 
-$(CMDS): $(AUTOCONF_DIR)/config.h $(AUTOCONF_DIR)/build.mk $(MK_DIR)/image.mk
+$(CMDS): $(AUTOCONF_DIR)/config.h $(AUTOCONF_DIR)/build.mk mk/image.mk
 
 ifndef VERBOSE
 ifdef CC_SUPPORTS_@file
