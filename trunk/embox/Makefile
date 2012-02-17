@@ -24,6 +24,7 @@ MAKEFLAGS += --warn-undefined-variables
 
 .DEFAULT_GOAL := all
 
+.NOTPARALLEL :
 % :
 	@$(MAKE) __mk_ready=1 $@
 
