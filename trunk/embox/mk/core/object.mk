@@ -1633,7 +1633,10 @@ __object_field_escape = \
 
 define __object_print_field.reference_list
 	$s.$f := \
-		$(for r <- $1,$(assert $(is-object $r))\$(\n)$(\t)
+		$(for r <- $1,\$(\n)$(\t)
+			$(assert $(is-object $r),
+				Not an object '$r' inside reference field $c.$f \
+				of object $o being serialized as $s)
 			# Substitute the suffix with the serial identifier of the
 			# referenced object and escape everything else.
 			$(call __object_field_escape,$(basename $r))
@@ -1645,7 +1648,10 @@ define __object_print_field.reference_scalar
 		Multiword value '$1' inside scalar field $c.$f \
 		of object $o being serialized as $s)
 	$s.$f := \
-		$(for r <- $1,$(assert $(is-object $r))
+		$(for r <- $1,
+			$(assert $(is-object $r),
+				Not an object '$r' inside reference field $c.$f \
+				of object $o being serialized as $s)
 			# See '__object_print_field_reference_list'.
 			$(call __object_field_escape,$(basename $r))
 			$($(suffix $r).__serial_id__))$(\n)
@@ -1662,7 +1668,7 @@ endef
 define __object_print_field.raw_scalar
 	$s.$f := \
 		# Check for a leading whitespace.
-		$(if $(subst x$(firstword $($o.$f)),,$(firstword x$($o.$f))),
+		$(if $(subst x$(firstword $1),,$(firstword x$1)),
 			$$(\0))
 		# Guard a trailing backslash (if any).
 		$(subst \$(\n),$$(\\)$(\n),
