@@ -48,7 +48,7 @@ define class-Resource
 	$(property exportedObjects... : ENamedObject)
 	$(getter exportedObjects,
 		$(for root <- $(get rootObject),
-			child  <- $(root) $(get root->eAllContents),
+			child  <- $(root) $(invoke root->eAllContents),
 			$(if $(invoke EModel_ENamedObject->isInstance,$(child)),$(child)))
 	)
 
@@ -57,9 +57,9 @@ define class-Resource
 	$(property unresolvedLinks... : ELink)
 	$(getter unresolvedLinks,
 		$(for root <- $(get rootObject),
-			child  <- $(root) $(get root->eAllContents),
-			link  <- $(get child->eUnresolvedLinks),
-			$(if $(not $(get link->eTarget)),
+			child  <- $(root) $(invoke root->eAllContents),
+			link  <- $(invoke child->eUnresolvedLinks),
+			$(if $(not $(invoke link->eTarget)),
 				$(link)))
 	)
 
