@@ -20,6 +20,8 @@ define class-LinkageUnit
 
 	$(field __exportedObjectsWithNamePrefixes... : ELink)
 
+	# Return:
+	#   List of still unresolved links.
 	$(method link,
 		$(with $(get-field __exportedObjectsWithNamePrefixes),
 			# Construct and push the list of currently exported objects.
@@ -34,7 +36,7 @@ define class-LinkageUnit
 	)
 
 	$(method __link,
-		$(for link     <- $(get unresolvedLinks),
+		$(strip $(for link     <- $(get unresolvedLinks),
 			linkName   <- $(get link->name),
 			linkPrefix <- $(firstword $(subst ., ,$(linkName))),
 			source     <- $(invoke link->eSource),
@@ -52,10 +54,11 @@ define class-LinkageUnit
 #				$(warning >>> '$(linkName)' -> '$1')
 				$(if $(singleword $1),
 					$(invoke link->resolve,$1),
-					$(warning Couldn't resolve reference to \
-						$(get targetType->name) '$(linkName)'))
+#					$(warning Couldn't resolve reference to \
+#						$(get targetType->name) '$(linkName)')
+					$(link))
 			)
-		)
+		))
 	)
 
 	# Param:
