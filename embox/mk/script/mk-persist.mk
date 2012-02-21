@@ -8,6 +8,8 @@
 all :
 	@#
 
+include mk/script/check-make-flags.mk
+
 ifndef PERSIST_OBJECTS
 $(error PERSIST_OBJECTS is not defined, nothing to serialize)
 endif
