@@ -1,0 +1,13 @@
+#summary Installing Mybuild plugin for Eclipse IDE HOWTO.
+
+= Introduction =
+
+Embox uses [Mybuild] for build automation and configuration management. Mybuild uses special text files (so-called my-files), that describe modules to build.
+
+In order to get IDE support of Mybuild (syntax highlighting of my-files, code completion, refactorings and so on), you have to install *Mybuild plugin for Eclipse*.
+
+= Brief =
+
+If you're familiar with Eclipse plugin installation process, then all you need is an address of the update site with latest version of Mybuild plugin:
+
+ <b>[http://embox.googlecode.com/svn/trunk/eclipse-plugin/update-site/]</b>
