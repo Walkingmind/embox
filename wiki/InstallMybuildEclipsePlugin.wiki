@@ -11,3 +11,34 @@ In order to get IDE support of Mybuild (syntax highlighting of my-files, code co
 If you're familiar with Eclipse plugin installation process, then all you need is an address of the update site with latest version of Mybuild plugin:
 
  <b>[http://embox.googlecode.com/svn/trunk/eclipse-plugin/update-site/]</b>
+
+The feature to install is called *Mybuild*.
+
+= Step-by-step =
+
+== Open Install New Software dialog ==
+
+From Eclipse main menu open *Help → Install New Software...*
+
+== Select Update Site ==
+
+Enter the address of our update site into _Work with_ field:
+ <b>[http://embox.googlecode.com/svn/trunk/eclipse-plugin/update-site/]</b>.
+After loading of the site contents, check *Mybuild* item.
+ http://embox.googlecode.com/svn-history/r4819/wiki/images/InstallMybuildEclipsePlugin/mybuild-eclipse-plugin-install.png
+
+== Confirm Selected Features ==
+
+By default you'll see all features included. No need to change them, so go *Next >*.
+
+== Finish the Installation ==
+
+You will have to _accept the terms of license agreements_ to be able to proceed.
+
+*Note:* During the installation you will get _Security Warning_ message, which
+notifies about installing a software from uncertified sources. This is a normal
+case, so just continue the installation.
+
+After the Software will be installed you will be prompted to restart Eclipse for
+the changes to take effect.
+
