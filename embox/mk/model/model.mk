@@ -25,7 +25,7 @@ include mk/model/model_impl.mk
 #   - operation 'eResolvedLinks'
 #   - operation 'eUnresolvedLinks'
 #
-define class-EObject		
+define class-EObject
 
 	# Reference 'eMetaClass' [0..1]: derived, read-only.
 	$(property eMetaClass : EMetaClass)
@@ -156,7 +156,7 @@ endef
 #   - attribute 'origin'
 #   - operation 'eInverseResolvedLinks'
 #
-define class-ENamedObject		
+define class-ENamedObject
 	$(eobject EModel_ENamedObject,
 		ENamedObject,,)
 
@@ -209,7 +209,7 @@ endef
 #   - attribute 'origin'
 #   - operation 'eInverseResolvedLinks'
 #
-define class-ELink		
+define class-ELink
 	# Extends 'ENamedObject' class.
 	$(eobject EModel_ELink,
 		ELink,ENamedObject,)
@@ -281,7 +281,7 @@ endef
 #   - attribute 'origin'
 #   - operation 'eInverseResolvedLinks'
 #
-define class-EMetaModel		
+define class-EMetaModel
 	# Extends 'ENamedObject', 'EFreezable' classes.
 	$(eobject EModel_EMetaModel,
 		EMetaModel,ENamedObject EFreezable,)
@@ -310,7 +310,7 @@ endef
 #   - attribute 'origin'
 #   - operation 'eInverseResolvedLinks'
 #
-define class-EMetaType		 # abstract
+define class-EMetaType # abstract
 	# Extends 'ENamedObject', 'EFreezable' classes.
 	$(eobject EModel_EMetaType,
 		EMetaType,ENamedObject EFreezable,abstract)
@@ -360,7 +360,7 @@ endef
 #   - attribute 'origin'
 #   - operation 'eInverseResolvedLinks'
 #
-define class-EMetaClass		
+define class-EMetaClass
 	# Extends 'EMetaType' class.
 	$(eobject EModel_EMetaClass,
 		EMetaClass,EMetaType,)
@@ -503,7 +503,7 @@ endef
 #   - attribute 'origin'
 #   - operation 'eInverseResolvedLinks'
 #
-define class-EMetaPrimitive		
+define class-EMetaPrimitive
 	# Extends 'EMetaType' class.
 	$(eobject EModel_EMetaPrimitive,
 		EMetaPrimitive,EMetaType,)
@@ -534,7 +534,7 @@ endef
 #   - attribute 'origin'
 #   - operation 'eInverseResolvedLinks'
 #
-define class-EMetaFeature		 # abstract
+define class-EMetaFeature # abstract
 	# Extends 'ETyped', 'EFreezable' classes.
 	$(eobject EModel_EMetaFeature,
 		EMetaFeature,ETyped EFreezable,abstract)
@@ -589,7 +589,7 @@ endef
 #   - attribute 'origin'
 #   - operation 'eInverseResolvedLinks'
 #
-define class-EMetaReference		
+define class-EMetaReference
 	# Extends 'EMetaFeature' class.
 	$(eobject EModel_EMetaReference,
 		EMetaReference,EMetaFeature,)
@@ -659,7 +659,7 @@ endef
 #   - attribute 'origin'
 #   - operation 'eInverseResolvedLinks'
 #
-define class-EMetaAttribute		
+define class-EMetaAttribute
 	# Extends 'EMetaFeature' class.
 	$(eobject EModel_EMetaAttribute,
 		EMetaAttribute,EMetaFeature,)
@@ -688,7 +688,7 @@ endef
 #   - attribute 'origin'
 #   - operation 'eInverseResolvedLinks'
 #
-define class-ETyped		 # abstract
+define class-ETyped # abstract
 	# Extends 'ENamedObject' class.
 	$(eobject EModel_ETyped,
 		ETyped,ENamedObject,abstract)
@@ -711,7 +711,7 @@ endef
 # The following operations are defined:
 #   - operation 'freeze'
 #
-define class-EFreezable		 # abstract
+define class-EFreezable # abstract
 	$(eobject EModel_EFreezable,
 		EFreezable,,abstract)
 
