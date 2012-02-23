@@ -2,6 +2,9 @@
 
 This wiki describes simple way get first Embox image running x86 simulator (QEMU).
 
+Building's details for other supported platform you can get on a corresponding platform page (([GettingStartedLego Lego], tsim, olimex).
+
+
 = Preparing environment = 
 Depending on your operating system perform the following steps. If it is unclear for you what is happening below please refer to the [InstallToolchain complete manual].
 <table cellspacing="10"><tr valign="top"><td width="50%">
