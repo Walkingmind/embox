@@ -3,12 +3,13 @@
 
 = Linux =
 == Using libnxt ==
-
- # [http://code.google.com/p/libnxt/downloads/detail?name=libnxt-0.3.tar.gz&can=2&q= Getting] and compiling libnxt
+ 
+ # [http://code.google.com/p/libnxt/downloads/detail?name=libnxt-0.3.tar.gz&can=2&q= Get] and compiling libnxt
 {{{
 $ cd <dir_libnxt-0.3>
 $ scons
 }}}
+OR get [http://embox.googlecode.com/files/libnxt-0.3_prebuilt.tar.gz prebuilt binaries]. 
  # Configure Embox with 'arm' platform 'nxt' template
  # Put NXT brick into flashing mode. This can be done via power_mng nxt platform test or via long (6s) pressing of reset button. In flashing mode brick clicks every ~1 sec.
  # Flashing Embox

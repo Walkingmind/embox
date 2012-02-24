@@ -1,6 +1,24 @@
-#summary Как начать работу с Embox на платформе Lego Mindstorms
+#summary Как начать работу с Embox на платформе Lego Mindstorms NXT
 
-Установка окружения не отличается от базового, то есть необходимо установить утилиты gcc и make
+Вы должны установить базовое окружение, как описано на [GettingStarted#Установка_окружения], у Вас должны иметься gcc и make.
+= Cборка =
 
-Кросс-компилятор используется arm-elf-gcc который можно скачать со страницы загрузки. или же собрать как описано тут.
+Для сборки используется кросс-компилятор arm-elf-gcc. 
+Можно скачать собранные версии под [http://www.gnuarm.com/files.html Windows] 
+или [http://embox.googlecode.com/files/arm-elf-gcc-4.3.3.txz Linux]. 
+На странице [Downloads] есть так же дополнительные утилитиы 
+([http://embox.googlecode.com/files/cross-arm-elf-gdb-7.1-1-i686.pkg.tar.xz gdb], etc). 
+Так же, компилятор можно собрать самостоятельно, как описано [ToolchainCrossCompiler здесь].
+
+После установки всего необходимого, собирите Embox с темплейтом nxt_debug или nxt_bt_pnet.
+
+{{{
+$ make config TEMPLATE=arm/nxt_debug all
+}}}
+
+Образом для прошивки является `build/base/bin/embox.bin`.
+
+= Прошивка =
+
+Прошивку осуществляем согласно инструкциям [PlatformLegoNxtFlashing].  
  
