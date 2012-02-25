@@ -3,7 +3,7 @@
 
 = Introduction =
 
-Based on success of Lego NXT porting with bluetooth remote control ability, it was interesting to repeat those function on more general, cheap and simple hardware.
+On success of Lego NXT porting with bluetooth remote control ability, it was interesting to repeat those function on more general, cheap and simple hardware.
 
 As a first step, it was chosen to make a bluetooth car, simple toy, that can move by remote control performed via bluetooth.
 
@@ -11,13 +11,13 @@ As a first step, it was chosen to make a bluetooth car, simple toy, that can mov
 == Hardware == 
  # Head controller: Olimex SAM7S256 debug board was chosed as well supported and known platform
  # Bluetooth module: [http://www.sparkfun.com/datasheets/Wireless/Bluetooth/BTM112_wATcommands.pdf BTM112] as one with simple UART interface
- # [www.sandorobotics.com/attachments/l298motores.pdf L298] motor driver 
+ # [http://www.sandorobotics.com/attachments/l298motores.pdf L298] motor driver 
  # Cheap radio RC car toy
 
 Bluetooth was connected to UART1 lines on Olimex SAM7 (RX, TX, CTS, RTS lines). Toy car motors are controlled through motor driver as described in reference to L298.
 
 == Software ==
 
-Embox with arm/olimex_bluetooth template.
+Embox built with arm/olimex_bluetooth template.
 
-Downloading of firmware can be done throug JTAG or Samba.
+Flashing firmware can be done throug JTAG or Samba.
