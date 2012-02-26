@@ -1,7 +1,7 @@
 #summary Embox development roadmap
 #labels Phase-Requirements,Featured
 
-= 2012/01/01 v0.2.4 [http://code.google.com/p/embox/issues/list?can=1&q=milestone=v0.2.4 [issues]] [http://code.google.com/p/embox/issues/list?q=milestone=v0.2.4 [open issues]] =
+= 2012/26/02 v0.3.0 [http://code.google.com/p/embox/issues/list?can=1&q=milestone=v0.3.0 [issues]] [http://code.google.com/p/embox/issues/list?q=milestone=v0.3.0 [open issues]] =
 
  == Development ==
   * Add [http://www.lua.org/about.html Lua 5.1] scripting support
