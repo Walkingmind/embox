@@ -10,7 +10,9 @@
   * Added RTL8139 Network Chip driver
 
 = 2011/12/01 v0.2.3 [http://code.google.com/p/embox/issues/list?can=1&q=milestone=v0.2.3 [issues]] =
-
+  * Added new dynamic allocation (bitmask for page allocation and boundary markers for malloc)
+  * Started Lua porting
+  * Started *pnet* stack research
 
 = 2011/09/25 v0.2.2 [http://code.google.com/p/embox/issues/list?can=1&q=milestone=v0.2.2 [issues]] =
 
