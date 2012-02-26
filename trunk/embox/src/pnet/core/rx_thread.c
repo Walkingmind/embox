@@ -1,11 +1,10 @@
 /**
  * @file
- *
  * @brief
  *
  * @date 19.10.2011
  * @author Anton Bondarev
- * @author Anton Kozlov 
+ * @author Anton Kozlov
  */
 
 #include <pnet/core.h>
@@ -16,7 +15,7 @@
 
 EMBOX_UNIT_INIT(rx_thread_init);
 
-#define RX_THRD_CNT PNET_PRIORITY_COUNT 
+#define RX_THRD_CNT PNET_PRIORITY_COUNT
 #define RX_THRD_BUF_SIZE 0x10
 
 static struct thread *pnet_rx_threads[RX_THRD_CNT];
@@ -39,7 +38,7 @@ static net_packet_t pack_bufs[RX_THRD_CNT][RX_THRD_BUF_SIZE];
 static struct ring_buff c_bufs[RX_THRD_CNT];
 
 static int rx_thread_init(void) {
-	for (int i = 0; i < RX_THRD_CNT; i++) {
+	for (size_t i = 0; i < RX_THRD_CNT; i++) {
 		ring_buff_init(&c_bufs[i], sizeof(net_packet_t), RX_THRD_BUF_SIZE, (void *) pack_bufs[i]);
 		thread_create(&pnet_rx_threads[i], 0, pnet_rx_thread_hnd, &c_bufs[i]);
 	}
