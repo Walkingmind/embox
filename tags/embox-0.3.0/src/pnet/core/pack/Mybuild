@@ -1,0 +1,4 @@
+
+package embox.pnet.core.pack
+
+abstract module api { }
