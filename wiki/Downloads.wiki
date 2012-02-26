@@ -2,11 +2,12 @@
 
 = Stable releases of Embox =
 
-The latest stable release of Embox is *embox-0.2.3* (released on Dec 1 2011).
+The latest stable release of Embox is *embox-0.3.0* (released on Feb 26 2012).
 
 || Version || Size || SHA1 Checksum ||
-|| *[http://embox.googlecode.com/files/embox-0.2.3.txz embox-0.2.3.txz]* || 650 KB || `7cb8153df423425931ab7fae7f93eb39881a81ed` ||
-|| *[http://embox.googlecode.com/files/embox-0.2.3.tar.gz embox-0.2.3.tar.gz]* || 871 KB || `03db20999ef3765ea112a71223917209f3ab4690` ||
+|| *[http://embox.googlecode.com/files/embox-0.3.0.txz embox-0.3.0.txz] || 700 KB || `6a4046e7867c6e90120dd222d12adabb9c884adb` ||
+|| *[http://embox.googlecode.com/files/embox-0.3.0.tar.gz embox-0.3.0.tar.gz] || 939 KB || `50a16741fabdbb3fa611318c395115bb9ca62113` ||
+|| [http://embox.googlecode.com/files/embox-0.2.3.txz embox-0.2.3.txz] || 650 KB || `7cb8153df423425931ab7fae7f93eb39881a81ed` ||
 || [http://embox.googlecode.com/files/embox-0.2.2.txz embox-0.2.2.txz] || 533 KB || `69560803363542460f58d3c211d62416d72781d7` ||
 || [http://embox.googlecode.com/files/embox-0.2.1.txz embox-0.2.1.txz] || 399 KB || `e66f971ee16071863ec4be3ff2056d5abd05c8f3` ||
 || [http://embox.googlecode.com/files/embox-0.2.0.txz embox-0.2.0.txz] || 392 KB || `c019bafa6d5d4a21fa3bdb2867a498d9d4ff530a` ||
