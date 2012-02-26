@@ -18,7 +18,7 @@
 
 #include <cmd/shell.h>
 
-#define BUF_INP_SIZE CONFIG_MAX_PROMPT_LENGTH 
+#define BUF_INP_SIZE CONFIG_MAX_PROMPT_LENGTH
 
 static int cmd_compl(char *buf, char *out_buf) {
 	const struct cmd *cmd = NULL;
@@ -53,8 +53,8 @@ static int run_cmd(int argc, char *argv[]) {
 	}
 
 	if (0 != (code = cmd_exec(cmd, argc, argv))) {
-		printf("%s: Command returned with code %d: %s\n", cmd_name(cmd), code,
-				strerror(-code));
+		printf("%s: Command returned with code %d: %s\n",
+				cmd_name(cmd), code, strerror(-code));
 	}
 	return code;
 }
@@ -71,7 +71,7 @@ int shell_line_input(const char *const_line) {
 	while (*line != '\0') {
 		if (last_was_blank && !isspace(*line)) {
 			token_line[tok_pos++] = line;
-		} 
+		}
 		last_was_blank = isspace(*line);
 		if (isspace(*line)) {
 			*line = '\0';
