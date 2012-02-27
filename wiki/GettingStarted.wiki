@@ -54,11 +54,17 @@ $ make
 It's smart build-system resolves all dependences and automatically includes those to image.
 
 = Running Embox =
-Now, You have Embox image ready to run. You can place image on disk and boot it with grub as described [here], or run it on simulator. We usually use second choise for easear debug. As You've build x86 version, run it on qemu (various parameters for qemu can be found [http://code.google.com/p/embox/wiki/InstallToolchainSimulation#QEMU here]). Very simple is 
+You should start QEMU with the compiled image. This can be done with following command
 {{{
 $ qemu -kernel build/base/bin/embox
 }}}
+More details for using QEMU you can get [SimulationQemuX86 here].
+
+= Starting =
 New window opens with Embox to play with.
+in a success case you will see output messages when the image is loaded you'll see an invitation *embox>* and will be able to execute commands.
+You can type "help" to show list of available commands. 
+
 
 = Going deeper =
 == Understanding modules ==
