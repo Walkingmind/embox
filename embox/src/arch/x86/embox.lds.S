@@ -91,7 +91,6 @@ SECTIONS {
 		*(.rel.plt)
 		*(.rel.iplt)
 	}
-
 	/DISCARD/ : {
 		*(.note)
 		*(.note.ABI-tag)
