@@ -42,19 +42,18 @@ cd build-binutils
 make && make install
 cd ..
 
-if [ ! -e "$gmp_name".tar.bz2 ]
-then
-	wget ftp://ftp.gmplib.org/pub/$gmp_name/$gmp_name.tar.bz2
-fi
 
 if [ ! -e "$gmp_name".tar.bz2 ]
 then
-	wget ftp://ftp.gmplib.org/pub/$gmp_name/$gmp_name.tar.bz2
+	wget http://mirrors.kernel.org/gnu/gmp/$gmp_name.tar.bz2
+	#wget ftp://ftp.gmplib.org/pub/$gmp_name/$gmp_name.tar.bz2
 fi
+
 if [ ! -e "$mpc_name".tar.gz ]
 then
 	wget http://www.multiprecision.org/mpc/download/$mpc_name.tar.gz
 fi
+
 if [ ! -e "$mpfr_name".tar.bz2 ]
 then
 	wget http://www.mpfr.org/mpfr-current/$mpfr_name.tar.bz2
