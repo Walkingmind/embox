@@ -20,6 +20,7 @@ sleepq 	- структура, хранящая информацию обо вс�
 
 Поместим все наши структуры в sched_trivial.h:
 
+{{{
 #ifndef KERNEL_THREAD_SCHED_POLICY_TRIVIAL_H_
 #define KERNEL_THREAD_SCHED_POLICY_TRIVIAL_H_
 
@@ -44,6 +45,7 @@ struct sleepq {
 };
 
 #endif /* KERNEL_THREAD_SCHED_POLICY_TRIVIAL_H_ */
+}}}
 
 == Реализация функций ==
 
