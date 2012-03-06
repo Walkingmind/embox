@@ -24,6 +24,7 @@
         * [KernelTasks Tasks]
         * [Scheduler Scheduler]
         * [SchedulerStrategy SchedulerStrategy]
+        * [TrivialScheduler TrivialScheduler]
     * [Hal Hardware Abstraction Layer]
     * [MemoryAllocation Memory allocation]
       * [AlgorithmAllocationMemory Allocation algorithms]
