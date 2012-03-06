@@ -1,0 +1,252 @@
+#summary Написание стратегии планировщика.
+
+= Вступление =
+
+В ОСРВ Embox можно выбирать стратегию планирования, наиболее подходящую системе для решения тех или иных задач. В данной статье будет описано написание и включение в проект примитивной стратегии планирования. Данная стратегия планирования выбирает потоки по очереди в порядке их поступления, т.е. не зависит от приоритетов.
+
+= Реализация =
+
+Для написания стратегии планировщика в ОСРВ Embox достаточно реализовать интерфейс, описанный в sched_strategy.h. Описание структур поместим в файл sched_trivial.h, а реализацию функций в sched_trivial.c (src/kernel/thread/sched_policy/).
+
+== Описание структур ==
+
+Нам нужно описать три структуры:
+sched_strategy_data 	– структура, приписывающаяся к каждому потоку, в которой планировщик может 	хранить нужные ему данные;
+runq 	– структура, хранящая информацию обо 	всех запущенных и готовых к исполнению 	потоках;
+sleepq 	- структура, хранящая информацию обо всех спящих потоках;
+
+
+В нашем случае runq содержит указатель на исполняемый сейчас поток и список всех готовых к исполнению потоков, sleepq содержит список всех спящих потоков: suspended и resumed, а sched_strategy_data – указатель на поток, как на элемент списка, в котором он содержится.
+
+Поместим все наши структуры в sched_trivial.h :
+
+#ifndef KERNEL_THREAD_SCHED_POLICY_TRIVIAL_H_
+#define KERNEL_THREAD_SCHED_POLICY_TRIVIAL_H_
+
+#include <lib/list.h>
+
+#include <kernel/thread/sched_priority.h>
+
+struct thread;
+
+struct sched_strategy_data {
+	struct list_head l_link; /* List data */
+};
+
+struct runq {
+	struct thread *current; /* Current thread */
+	struct list_head rq; /* Ready queue */
+};
+
+struct sleepq {
+	struct list_head rq; /* Resume queue */
+	struct list_head sq; /* Suspend queue */
+};
+
+#endif /* KERNEL_THREAD_SCHED_POLICY_TRIVIAL_H_ */
+
+== Реализация функций ==
+
+Для краткости описания все assert в коде, были опущены.
+
+В первую очередь нужно реализовать функции инициализации структур:
+
+{{{
+#include <kernel/thread/api.h>
+#include <kernel/thread/sched_strategy.h>
+#include <kernel/thread/state.h>
+
+void sched_strategy_init(struct sched_strategy_data *data) {
+	INIT_LIST_HEAD(&data->l_link);
+}
+
+void runq_init(struct runq *runq, struct thread *current, struct thread *idle) {
+	INIT_LIST_HEAD(&runq->rq);
+	runq->current = current;
+	runq_start(runq, idle);
+}
+
+inline void sleepq_init(struct sleepq *sleepq) {
+	INIT_LIST_HEAD(&sleepq->rq);
+	INIT_LIST_HEAD(&sleepq->sq);
+}
+}}}
+
+Все функции, описанные далее, с результатом типа int в случае возврата 1, требуют, чтобы планировщик сменил текущий исполняемый поток посредством вызова описанной далее функции runq_switch, и в случае 0 – если не требуют.
+
+Теперь опишем функции для работы с очередью готовых к исполнению потоков: 1) runq_current -  функция, возвращающая исполняемый сейчас поток;  2) runq_start, runq_stop - функции, вызываемые при запуске и окончании потока; 3) runq_switch - функция, выбирающая следующий исполняемый поток.
+
+{{{
+struct thread *runq_current(struct runq *runq) {
+	return runq->current;
+}
+
+int runq_start(struct runq *runq, struct thread *thread) {
+	int ret = 0;
+	if (list_empty(&runq->rq)) ret = 1;
+	list_add_tail(&thread->sched.l_link, &runq->rq);
+	return ret;
+}
+
+int runq_stop(struct runq *runq, struct thread *thread) {
+	if (thread == runq->current) {
+		return 1;
+	}
+
+	list_del(&thread->sched.l_link);
+	return 0;
+}
+
+int runq_switch(struct runq *runq) {
+	struct thread *prev, *next;
+
+	prev = runq->current;
+	if (thread_state_running(prev->state)) {
+		list_add_tail(&prev->sched.l_link, &runq->rq);
+	}
+
+	next = list_entry(runq->rq.next, struct thread, sched.l_link);
+	list_del(&next->sched.l_link);
+
+	runq->current = next;
+	return prev != next;
+}
+}}}
+
+Теперь нам нужно реализовать функции, которые переводят потоки из одной очереди в другую.
+
+Функция runq_wake пробуждает один поток или, в случае wake_all = 1, все потоки из sleepq. Для этого в коде используются еще две вспомогательные функции wakeup_resumed_thread и wakeup_suspended_thread.
+
+{{{
+static int wakeup_resumed_thread(struct runq *runq, struct sleepq *sleepq) {
+	struct thread *thread;
+	int ret = 0;
+
+	thread = list_entry(sleepq->rq.next, struct thread, sched.l_link);
+	list_del(&thread->sched.l_link);
+
+	thread->state = thread_state_do_wake(thread->state);
+	thread->runq = runq;
+
+	if (list_empty(&runq->rq)) ret = 1;
+	list_add_tail(&thread->sched.l_link, &runq->rq);
+	return ret;
+}
+
+static void wakeup_suspended_thread(struct runq *runq, struct sleepq *sleepq) {
+	struct thread *thread;
+
+	thread = list_entry(sleepq->sq.next, struct thread, sched.l_link);
+	list_del(&thread->sched.l_link);
+
+	thread->state = thread_state_do_wake(thread->state);
+}
+
+int runq_wake(struct runq *runq, struct sleepq *sleepq, int wake_all) {
+	int ret = 0;
+	if (sleepq_empty(sleepq)) {
+		return 0;
+	}
+
+	if (!list_empty(&sleepq->rq)) {
+		ret = wakeup_resumed_thread(runq, sleepq);
+	} else {
+		wakeup_suspended_thread(runq, sleepq);
+	}
+
+	if (wake_all) {
+		while (!list_empty(&sleepq->rq)) {
+			wakeup_resumed_thread(runq, sleepq);
+		}
+		while (!list_empty(&sleepq->sq)) {
+			wakeup_suspended_thread(runq, sleepq);
+		}
+	}
+
+	return ret;
+}
+}}}
+
+Функция, усыпляющая текуший исполняемый поток.
+
+{{{
+void runq_sleep(struct runq *runq, struct sleepq *sleepq) {
+	struct thread *current;
+
+	current = runq->current;
+	list_add_tail(&current->sched.l_link, &sleepq->rq);
+
+	current->sleepq = sleepq;
+	current->state = thread_state_do_sleep(current->state);
+}
+}}}
+
+Следующие две функции отвечают за смену у спящего потока состояния с resumed на suspended и наоборот. Для этого реализуется вспомогательная функция move_thread_to_another_q.
+
+{{{
+static void move_thread_to_another_q(struct list_head *q, struct thread *thread) {
+	struct list_head *link;
+
+	link = &thread->sched.l_link;
+	list_del(link);
+	list_add_tail(link, q);
+}
+
+void sleepq_on_suspend(struct sleepq *sleepq, struct thread *thread) {
+	move_thread_to_another_q(&sleepq->sq, thread);
+}
+
+void sleepq_on_resume(struct sleepq *sleepq, struct thread *thread) {
+	move_thread_to_another_q(&sleepq->rq, thread);
+}
+}}}
+
+
+Реализуем две функции, необходимые для планировщика:
+
+Функция sleepq_empty возвращающает 1, если sleepq пуст, и 0 - в противном случае:
+{{{
+int sleepq_empty(struct sleepq *sleepq) {
+	return list_empty(&sleepq->rq) && list_empty(&sleepq->sq);
+}
+}}}
+
+sleepq_get_thread возвращает указатель на поток, находящийся в sleepq. Гарантируется, что он там один.
+
+{{{
+struct thread *sleepq_get_thread(struct sleepq *sleepq) {
+	struct list_head *q;
+
+	q = list_empty(&sleepq->rq) ? &sleepq->sq : &sleepq->rq;
+	return list_entry(q->next, struct thread, sched.l_link);
+}
+}}}
+
+Осталось реализовать функции runq_change_priority и sleepq_change_priority, меняющие приоритет потоков, находящихся в runq и sleepq соответственно (в нашем случае никак не влияют на политику):
+
+{{{
+int runq_change_priority(struct runq *runq, struct thread *thread, int new_priority) {
+	thread->priority = new_priority;
+	return 0;
+}
+
+void sleepq_change_priority(struct sleepq *sleepq, struct thread *thread, int new_priority) {
+	thread->priority = new_priority;
+}
+}}}
+
+= Включение в проект =
+
+Для того, чтобы планировщик включить в проект. необходимо добавить следующий текст в файл src/kernel/thread/sched_strategy/Mybuild:
+
+{{{
+module sched_trivial extends api {
+	source "sched_trivial.c", "sched_trivial.h"
+	make flags "-I$(SRC_DIR)/compat/posix/include"
+}
+}}}
+
+Теперь, чтобы использовать наш планировщик, достаточно добавить в файл conf/mods-kernel.conf следующую строку (если уже используется другой планировщик то строку нужно заменить):
+{{{
+mod(embox.kernel.thread.sched_policy.sched_trivial)
+}}}
