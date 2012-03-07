@@ -1,6 +1,5 @@
 #summary Google Summer of Code Embox introduction.
 
-= Introduction =
 Every summer, Google sponsors a [http://code.google.com/soc/ Summer of Code] global program in which students are paid for work on open source projects.
 
-Embox apply to participate in the GSoC twice the first time was in [GSoC2011 2011 year] and [GSoC2012 this year] we try again.
+Embox apply to participate in the GSoC twice. The first time was in [GSoC2011 2011 year] and this year we apply [GSoC2012 again].
