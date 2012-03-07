@@ -9,7 +9,7 @@
 
 == О нас ==
 Embox - небольшая хорошо конфигурируемая операционная система реального времени. В следствии своей модульной архитектуры хорошо подходит для применения в системах с ограниченным количеством ресурсов и встроенных системах. 
-Относительно небольшое количество кода и хорошая структурированность отдельных модулей позволяют легко понимать общую структуру системы в целом, алгоритмы и принципы работы отдельных частей, планировщика, сетевой и файловых подсистем и так далее.
+Относительно небольшое количество кода и хорошая структурированность позволяют легко понимать общую структуру системы в целом, алгоритмы и принципы работы отдельных частей (планировщика, сетевой и файловых подсистем и так далее).
 Построенный с учетам применения в системах реального времени Embox находит применение в сфере робототехники например удаленного управления роботами  
 
 Embox - проект с открытым кодом распростряняется под лицензией BSD. Для того чтобы принять учатие в проекте вы должны согласится с тем что вашь код будет также распространяться под данной лицензией. Однако, согласно лицензии вы сохраняете право использовать код так как вы хотите.
@@ -21,27 +21,17 @@ Embox - проект с открытым кодом распростряняет
  * [http://socghop.appspot.com/document/show/gsoc_program/google/gsoc2012/faqs GSoC FAQ]
  * [http://socghop.appspot.com/document/show/gsoc_program/google/gsoc2012/timeline Timeline]
 
-Пожелайста, помните, что заявки на участие в GSoC2012 принимаются до *April 6 19:00 UTC* (6 апреля 23:00 MSK).
+Пожалуйста, помните, что заявки на участие в GSoC2012 принимаются до *April 6 19:00 UTC* (6 апреля 23:00 MSK).
 
-= Ideas =
-== Scheduling algorithm for multi-cores systems ==
-Today it is hard to imagine an effective multi-tasking system that does not use multiple computation cores of modern hardware. For example, it would be more rational to use DSP cores for video processing. Even using a few similar processor cores (SMP) allows to achieve a substantial increase of the performance while the power consumption is not increasing significantly.
-An effective resource scheduler is an essential part of each multi-core system. A good algorithm and implementation of one could greatly improve overall system performance. On the other hand scheduling and synchronization in multi-core system is a more difficult task comparing to a single-core one.
-A student involved in this task will have to design a multi-core scheduler algorithm, implement it and try to research its properties, like performance and memory consumption.
-The student must have a good knowledge of processor architectures, have an experience in an assembler language, understand IPC and memory subsystems.
+= Идеи =
+== Планировщик для многоядерных систем ==
 
 mentor: Anton Bondarev (anton.bondarev2310@gmail.com)
 
-== Configurable build system for modular project ==
+== Конфигурируемая система сборки для модульных систем ==
 
 mentor: Eldar Abusalimov (eldar.abusalimov@gmail.com)
 
-== Configurable network subsystems for remote control system ==
-Network stack is one of the most important part in modern systems. A lot of them is designed as distributed system when different part of systems communicate each other by network. Other systems must communicate with users by network and so on.
-Current implementation of network stacks  base on  principle of commutation packet . This principle does the stack on the one hand easy to use and scalable but in the other hand not determined during packet treatment on a network node.
-[PnetDescription pnet] is a attempt to create configurable network stack with determined way of data treatment. The way of data handling can be setup by user or calculate dynamically.
-It enables robots remote control and receiving data from robot’s sensors  under usual IP network in real-time mode.
-
-For working on this theme a participating student have to have good knowledge in network protocols and understand principles of network communications
+== Конфигурируемая сетевая подсистема для управления сисетмами с обратной связью ==
 
 mentor:  Nikolay Korotky (sikmir@gmail.com)
