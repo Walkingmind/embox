@@ -1,4 +1,7 @@
   * [QuickOverview Quick Overview]
+  * [GSoC Google summer of code]
+    * [GSoC2011 Google Summer of Code 2011]
+    * [GSoC2012 Google Summer of Code 2012]
   * [GettingStarted Getting Started]
     * [GettingStartedLego Lego Mindstorms]
     * [GettingStartedTsim Tsim симулятор SPARC v8]
@@ -50,7 +53,6 @@
   * [Community Community]
   * Old Wiki
     * [ProjDescription Project Description]
-    * [GSoC2011 Google Summer of Code]
     * [ProjectApplications Project Applications]
     * Development
       * [Roadmap Roadmap]

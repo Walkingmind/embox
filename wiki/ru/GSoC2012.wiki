@@ -1,0 +1,46 @@
+#summary Google Summer of Code 2012 Ideas list.
+
+<wiki:toc max_depth="3" />
+
+= Introduction =
+Every summer, Google sponsors a [http://code.google.com/soc/ Summer of Code] global program in which students are paid for work on open source projects.
+
+This year Embox attempts to participate in the GSoC for the second time, first time was in [GSoC2011 2011 year]. Our primary goal is to expand the developers community, improve the existing code base and add some new features.
+
+== About us ==
+Why would you like to work for Embox?
+ * Embox offers you an opportunity to learn how "this black box" does work inside on a simple example with a relatively small code base.
+
+Embox is an open source and uses the BSD license. By applying, you agree that we can distribute your code under this license. However, you also retain your right to reuse it as you wish.
+
+== About You ==
+There are several available pages with helpful information. They are:
+ * [http://socghop.appspot.com/ Google Summer of Code main page]
+ * [http://code.google.com/p/google-summer-of-code/wiki/AdviceforStudents Advice for Students]
+ * [http://socghop.appspot.com/document/show/gsoc_program/google/gsoc2011/faqs GSoC FAQ]
+ * [http://socghop.appspot.com/document/show/gsoc_program/google/gsoc2011/timeline Timeline]
+
+=== FIXME time Please keep in mind that the deadline for applications is *April 8 19:00 UTC*. ===
+
+= Ideas =
+== Scheduling algorithm for multi-cores systems ==
+Today it is hard to imagine an effective multi-tasking system that does not use multiple computation cores of modern hardware. For example, it would be more rational to use DSP cores for video processing. Even using a few similar processor cores (SMP) allows to achieve a substantial increase of the performance while the power consumption is not increasing significantly.
+An effective resource scheduler is an essential part of each multi-core system. A good algorithm and implementation of one could greatly improve overall system performance. On the other hand scheduling and synchronization in multi-core system is a more difficult task comparing to a single-core one.
+A student involved in this task will have to design a multi-core scheduler algorithm, implement it and try to research its properties, like performance and memory consumption.
+The student must have a good knowledge of processor architectures, have an experience in an assembler language, understand IPC and memory subsystems.
+
+mentor: Anton Bondarev (anton.bondarev2310[at]gmail.com)
+
+== Configurable build system for modular project ==
+
+mentor: Eldar Abusalimov (eldar.abusalimov[at]gmail.com)
+
+== Configurable network subsystems for remote control system ==
+Network stack is one of the most important part in modern systems. A lot of them is designed as distributed system when different part of systems communicate each other by network. Other systems must communicate with users by network and so on.
+Current implementation of network stacks  base on  principle of commutation packet . This principle does the stack on the one hand easy to use and scalable but in the other hand not determined during packet treatment on a network node.
+[PnetDescription pnet] is a attempt to create configurable network stack with determined way of data treatment. The way of data handling can be setup by user or calculate dynamically.
+It enables robots remote control and receiving data from robot’s sensors  under usual IP network in real-time mode.
+
+For working on this theme a participating student have to have good knowledge in network protocols and understand principles of network communications
+
+mentor:  Nikolay Korotky (sikmir[at]gmail.com)
