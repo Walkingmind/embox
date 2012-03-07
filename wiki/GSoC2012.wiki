@@ -20,7 +20,7 @@ There are several available pages with helpful information. They are:
  * [http://socghop.appspot.com/document/show/gsoc_program/google/gsoc2012/faqs GSoC FAQ]
  * [http://socghop.appspot.com/document/show/gsoc_program/google/gsoc2012/timeline Timeline]
 
-Please keep in mind that the deadline for applications is *April 6:19:00 UTC*.
+Please keep in mind that the deadline for applications is *April 6 19:00 UTC*.
 
 = Ideas =
 == Scheduling algorithm for multi-cores systems ==

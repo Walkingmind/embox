@@ -21,7 +21,7 @@ Embox - проект с открытым кодом распростряняет
  * [http://socghop.appspot.com/document/show/gsoc_program/google/gsoc2012/faqs GSoC FAQ]
  * [http://socghop.appspot.com/document/show/gsoc_program/google/gsoc2012/timeline Timeline]
 
-Please keep in mind that the deadline for applications is *April 6:19:00 UTC*.
+Пожелайста, помните, что заявки на участие в GSoC2012 принимаются до *April 6 19:00 UTC* (6 апреля 23:00 MSK).
 
 = Ideas =
 == Scheduling algorithm for multi-cores systems ==
