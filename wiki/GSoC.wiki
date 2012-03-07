@@ -1,0 +1,8 @@
+#summary Google Summer of Code 2012 Ideas list.
+
+<wiki:toc max_depth="3" />
+
+= Introduction =
+Every summer, Google sponsors a [http://code.google.com/soc/ Summer of Code] global program in which students are paid for work on open source projects.
+
+Embox apply to participate in the GSoC twice the first time was in [GSoC2011 2011 year] and [GSoC2012 this year] we try again.
