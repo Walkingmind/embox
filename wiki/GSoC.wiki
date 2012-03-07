@@ -1,6 +1,4 @@
-#summary Google Summer of Code 2012 Ideas list.
-
-<wiki:toc max_depth="3" />
+#summary Google Summer of Code Embox introduction.
 
 = Introduction =
 Every summer, Google sponsors a [http://code.google.com/soc/ Summer of Code] global program in which students are paid for work on open source projects.
