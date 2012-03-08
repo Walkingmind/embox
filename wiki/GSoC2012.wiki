@@ -25,23 +25,21 @@ Please keep in mind that the deadline for applications is *April 6 19:00 UTC*.
 
 = Ideas =
 == Scheduling algorithm for multi-cores systems ==
-Today it is hard to imagine an effective multi-tasking system that does not use multiple computation cores of modern hardware. For example, it would be more rational to use DSP cores for video processing. Even using a few similar processor cores (SMP) allows to achieve a substantial increase of the performance while the power consumption is not increasing significantly.
-An effective resource scheduler is an essential part of each multi-core system. A good algorithm and implementation of one could greatly improve overall system performance. On the other hand scheduling and synchronization in multi-core system is a more difficult task comparing to a single-core one.
-A student involved in this task will have to design a multi-core scheduler algorithm, implement it and try to research its properties, like performance and memory consumption.
-The student must have a good knowledge of processor architectures, have an experience in an assembler language, understand IPC and memory subsystems.
+Today it is hard to imagine an effective multi-tasking system without making use of distributed computations using multiple cores and processors. For example, multimedia processing is more rational to implement using special DSP cores. Even using a few similar processor cores (SMP) allows to achieve a substantial increase in performance while the power consumption is not increased significantly.
+Thus effective resource distribution is an essential feature of each multi-tasking system. On the other hand resource planning in presence of multiple cores is a way more complex task than in case of single core type because synchronizing computation streams involves taking in account presence of cache, sources of interrupts and plenty more of parameters.  Hence effectiveness of planning algorithms has a great deal of influence on overall system performance.
+Within the framework of this task students are to develop multi-core scheduler algorithm and to research its performance, memory consumption and so on. The knowledge of processor architecture and assembly language, IPC and memory subsystems shall be vital for accomplishing this task.
 
 mentor: Anton Bondarev (anton.bondarev2310@gmail.com)
 
 == Configurable build system for modular project ==
+Our project is built using a module-architecture and enables to set itself up to be utilized for a specific task. A big deal of acknowledgment for belongs to the build system which makes it easy to describe modules, set their properties and dependencies up, and fluently depicture the system on the whole and conduct the building of the system upon the declared rules. We’ve called that system [MybuildOverview Mybuild], because from our point of view it makes it possible to finely describe the process of building and configuring modules not only for Embox, but for any other module-based project which require fine tuning of it’s modules and the system altogether.
+
+In the current GSoC we offer students that direction. To participate in that task ‘make’ knowledge and understanding of compiling and linking of modules are what you shall need.
 
 mentor: Eldar Abusalimov (eldar.abusalimov@gmail.com)
 
 == Configurable network subsystems for remote control system ==
-Network stack is one of the most important part in modern systems. A lot of them is designed as distributed system when different part of systems communicate each other by network. Other systems must communicate with users by network and so on.
-Current implementation of network stacks  base on  principle of commutation packet . This principle does the stack on the one hand easy to use and scalable but in the other hand not determined during packet treatment on a network node.
-[PnetDescription pnet] is a attempt to create configurable network stack with determined way of data treatment. The way of data handling can be setup by user or calculate dynamically.
-It enables robots remote control and receiving data from robotâ€™s sensors  under usual IP network in real-time mode.
-
-For working on this theme a participating student have to have good knowledge in network protocols and understand principles of network communications
+The network protocol stack plays an important role, because a lot of systems are built as distributed, when many parts communicate via network or communication to the user himself is conducted via some network protocol. Current network protocol stack realizations are packet-oriented in their commutation, which from one point of view enables them to be flexible and on the other hand disables them to be determined in processing a packet on some host. Network stack ‘pnet’ is an attempt to develop a configurable network subsystem with determined, set up by user and computed on the fly route of processing the specified packet types. This enables to remotely control robots and to gain the feedback from them in the real time using just IP network.
+This task requires knowledge of network protocol stack and understanding the principles of telecommunication.
 
 mentor:  Nikolay Korotky (sikmir@gmail.com)
