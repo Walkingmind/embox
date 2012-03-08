@@ -47,3 +47,4 @@ mentor: Eldar Abusalimov (eldar.abusalimov@gmail.com)
 Для работы по данной теме необходимо знание сетевых протоколов понимание принципов в области телекоммуникации.
 
 mentor:  Nikolay Korotky (sikmir@gmail.com)
+
