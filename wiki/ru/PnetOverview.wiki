@@ -16,4 +16,3 @@ http://embox.googlecode.com/svn/wiki/images/Network/net-stack.png
 http://embox.googlecode.com/svn/wiki/images/Network/pnet-stack.png
 
 Таким образом данный подход позволяет обрабатывать заданные типы пакетов по детерменированным правилам. Данные правила могут как задаваться статически так и вырабатываться динамически во время работы системы.
-
