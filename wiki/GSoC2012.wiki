@@ -8,11 +8,11 @@ Every summer, Google sponsors a [http://code.google.com/soc/ Summer of Code] glo
 This year Embox attempts to participate in the GSoC for the second time, first time was in [GSoC2011 2011 year]. Our primary goal is to expand the developers community, improve the existing code base and add some new features.
 
 == About us ==
-Embox is a small fine-tuned real-time operating system. Due to it has modular architecture it suits well for resources limitation and embedded systems.
-A small codebase and a clear structure allows to understand both global architecture and  different part of systems algorithm (scheduler, network adn file subsystem and so on)
-Embox built with aimed to real-time systems it allows to apply it in robotics systems (for example car remote control)
+Embox is a small fine-tuned real-time operating system. Because of it having modular architecture it suits well for resources limited and embedded systems. 
+A small codebase and a clear structure allows to understand both global architecture and different parts of system’s algorithms (scheduler, network, file system and so on). 
+As Embox is built to be real-time system it allows to apply it in robotic systems (for example car remote control)
 
-Embox is an open source and uses the BSD license. By applying, you agree that we can distribute your code under this license. However, you also retain your right to reuse it as you wish.
+Embox is an open source project and is under the BSD license. By applying, you agree that we can distribute your code under this license. However, you also retain your right to reuse it as you wish.
 
 == About You ==
 There are several available pages with helpful information. They are:
