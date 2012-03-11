@@ -1,4 +1,4 @@
-#summary One-sentence summary of this page.
+#summary Mybuild overview.
 #labels Featured
 
 = What is Mybuild =
@@ -10,17 +10,47 @@ Mybuild itself is implemented on top of [http://www.gnu.org/software/make/ GNU M
 = Workflow =
 
 A typical workflow of developing a Mybuild-driven project involves two kinds of people:
- * *Developers*, who need to maintain build files for the component they are working on, and
- * *Users*, who just want to build the application by typing `make` (possibly with different configuration options).
 
-== Build files ==
+<table cellspacing="10" width="839"><tr valign="top"><td width="50%">
 
-There are two different types of the build files, accordingly to the intended audience:
- * *My-files* are used to describe all buildable modules of the application, their relationships and available configuration options. These files are written by the application developers and usually placed in the source tree.
- * *Config-files* contain directives to build certain modules with values for their options.
+== Developers ==
+ who need to maintain build files for the component they are working on.
+</td><td>
+
+== Users ==
+ who just want to build the (maybe with different configurations).
+</td></tr></table>
+
+_Well, there are also developers of Mybuild itself, but we don't consider them for now._ So, there are two different types of the build files, accordingly to the intended audience:
+
+<table cellspacing="10" width="839"><tr valign="top"><td width="50%">
+
+== My-files ==
+ are used to describe all buildable modules of the application, their relationships and available configuration options. These files are written by the application developers and usually placed in the source tree.
+{{{
+module HelloWorld {
+    source "hello.c"
+}
+}}}
+ Proper names for my-files are *`Mybuild`* and *`*.my`*.
+</td><td>
+
+== Config-files ==
+ contain directives to build certain modules with values for their options. These files are assumed to be constructed by the users, however developers can provide templates with reasonable defaults.
+{{{
+configuration Main {
+    include HelloWorld
+}
+}}}
+ Configuration files are named *`*.config`*.
+</td></tr></table>
 
 Both files are regular text files (no XML!) that can be edited in any text editor. There is also a [InstallMybuildEclipsePlugin plug-in] for Eclipse IDE, which provides rich editing facilities including syntax highlighting, content proposals, more powerful error reporting and so on.
 
+After necessary my- and config-files are ready one can build the project typing `make`. Based on the build files Mybuild will infer what needs to be built automatically.
 
+To summarize, the build process can be represented as follows:
 
-http://embox.googlecode.com/svn/wiki/images/Mybuild/mybuild-workflow.png
+<table align="center"><tr><td>
+<img src="http://embox.googlecode.com/svn/wiki/images/Mybuild/mybuild-workflow.png" />
+</td></tr></table>
