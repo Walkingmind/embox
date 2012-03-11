@@ -5,6 +5,7 @@
 Every summer, Google sponsors a [http://code.google.com/soc/ Summer of Code] global program in which students are paid for work on open source projects.
 
 Embox Project applies to participate in GSoC (this year is our second attempt).
+Our primary goal is to expand the developers community, improve the existing code base and add some new features.
 
 == About us ==
 Embox is a small fine-tuned real-time operating system. Because of it having modular architecture it suits well for resources limited and embedded systems. 

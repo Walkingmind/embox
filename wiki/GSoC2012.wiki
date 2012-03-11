@@ -30,7 +30,7 @@ This year we present you only three ideas.
  Nikolay Korotky (`sikmir@gmail.com`)
 ----
 
-== Build system for modular project ==
+== Build system for modular applications ==
  Our project is built using a module-architecture and enables to set itself up to be utilized for a specific task. A big deal of acknowledgment for belongs to the build system which makes it easy to describe modules, set their properties and dependencies up, and fluently depicture the system on the whole and conduct the building of the system upon the declared rules. We've called that system [Mybuild], because from our point of view it makes it possible to finely describe the process of building and configuring modules not only for Embox, but for any other module-based project which require fine tuning of it's modules and the system altogether.
 
  === Requirements ===
