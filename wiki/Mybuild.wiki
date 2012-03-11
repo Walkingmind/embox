@@ -9,4 +9,18 @@ Mybuild itself is implemented on top of [http://www.gnu.org/software/make/ GNU M
 
 = Workflow =
 
+A typical workflow of developing a Mybuild-driven project involves two kinds of people:
+ * *Developers*, who need to maintain build files for the component they are working on, and
+ * *Users*, who just want to build the application by typing `make` (possibly with different configuration options).
+
+== Build files ==
+
+There are two different types of the build files, accordingly to the intended audience:
+ * *My-files* are used to describe all buildable modules of the application, their relationships and available configuration options. These files are written by the application developers and usually placed in the source tree.
+ * *Config-files* contain directives to build certain modules with values for their options.
+
+Both files are regular text files (no XML!) that can be edited in any text editor. There is also a [InstallMybuildEclipsePlugin plug-in] for Eclipse IDE, which provides rich editing facilities including syntax highlighting, content proposals, more powerful error reporting and so on.
+
+
+
 http://embox.googlecode.com/svn/wiki/images/Mybuild/mybuild-workflow.png
