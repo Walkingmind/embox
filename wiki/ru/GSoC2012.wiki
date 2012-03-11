@@ -18,7 +18,7 @@
  Для работы над данной темой студенту понадобится знание архитектуры процессора, языка ассемблера, IPC и подсистемы памяти.
 
  === Ментор ===
- Anton Bondarev (`anton.bondarev2310@gmail.com`)
+ Антон Бондарев (`anton.bondarev2310@gmail.com`)
 ----
 
 == Конфигурируемая сетевая подсистема для управления системами с обратной связью ==
@@ -42,7 +42,7 @@
  Эльдар Абусалимов (`eldar.abusalimov@gmail.com`)
 ----
 
-== Полезные ссылки для GSoC 2012 ==
+= Полезные ссылки для GSoC 2012 =
 Для вас существует несколько страниц с полезной информацией (на английском):
  * [http://socghop.appspot.com/ Google Summer of Code main page]
  * [http://code.google.com/p/google-summer-of-code/wiki/AdviceforStudents Advice for Students]
