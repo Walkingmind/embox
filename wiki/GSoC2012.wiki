@@ -1,6 +1,8 @@
 #summary Google Summer of Code 2012 Ideas.
 #labels Featured
 
+= Introduction =
+This is a list of ideas for Google Summer of Code 2012. Read more about participating in Embox as part of GSoC [GSoC here].
 <wiki:toc max_depth="2" />
 
 = GSoC 2012 Ideas =
