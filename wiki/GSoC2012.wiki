@@ -1,28 +1,7 @@
-#summary Google Summer of Code 2012 Ideas list.
+#summary Google Summer of Code 2012 Ideas.
 #labels Featured
 
 <wiki:toc max_depth="3" />
-
-= Introduction =
-Every summer, Google sponsors a [http://code.google.com/soc/ Summer of Code] global program in which students are paid for work on open source projects.
-
-This year Embox attempts to participate in the GSoC for the second time, first time was in [GSoC2011 2011 year]. Our primary goal is to expand the developers community, improve the existing code base and add some new features.
-
-== About us ==
-Embox is a small fine-tuned real-time operating system. Because of it having modular architecture it suits well for resources limited and embedded systems. 
-A small codebase and a clear structure allows to understand both global architecture and different parts of system’s algorithms (scheduler, network, file system and so on). 
-As Embox is built to be real-time system it allows to apply it in robotic systems (for example car remote control)
-
-Embox is an open source project and is under the BSD license. By applying, you agree that we can distribute your code under this license. However, you also retain your right to reuse it as you wish.
-
-== About You ==
-There are several available pages with helpful information. They are:
- * [http://socghop.appspot.com/ Google Summer of Code main page]
- * [http://code.google.com/p/google-summer-of-code/wiki/AdviceforStudents Advice for Students]
- * [http://socghop.appspot.com/document/show/gsoc_program/google/gsoc2012/faqs GSoC FAQ]
- * [http://socghop.appspot.com/document/show/gsoc_program/google/gsoc2012/timeline Timeline]
-
-Please keep in mind that the deadline for applications is *April 6 19:00 UTC*.
 
 = Ideas =
 == Scheduling algorithm for multi-cores systems ==
@@ -47,3 +26,12 @@ The network protocol stack plays an important role, because a lot of systems are
 This task requires knowledge of network protocol stack and understanding the principles of telecommunication.
 
 Mentor: *Nikolay Korotky* (`sikmir@gmail.com`)
+
+= GSoC 2012 useful links =
+There are several available pages with helpful information. They are:
+ * [http://socghop.appspot.com/ Google Summer of Code main page]
+ * [http://code.google.com/p/google-summer-of-code/wiki/AdviceforStudents Advice for Students]
+ * [http://socghop.appspot.com/document/show/gsoc_program/google/gsoc2012/faqs GSoC FAQ]
+ * [http://socghop.appspot.com/document/show/gsoc_program/google/gsoc2012/timeline Timeline]
+
+Please keep in mind that the deadline for applications is *April 6 19:00 UTC*.
