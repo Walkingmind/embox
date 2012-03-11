@@ -6,6 +6,8 @@ This is a list of ideas for Google Summer of Code 2012. Read more about particip
 <wiki:toc max_depth="2" />
 
 = GSoC 2012 Ideas =
+This year we present you only three ideas.
+
 == Scheduling algorithm for multi-cores systems ==
  Today it is hard to imagine an effective multi-tasking system without making use of distributed computations using multiple cores and processors. For example, multimedia processing is more rational to implement using special DSP cores. Even using a few similar processor cores (SMP) allows to achieve a substantial increase in performance while the power consumption is not increased significantly. Thus effective resource distribution is an essential feature of each multi-tasking system. On the other hand resource planning in presence of multiple cores is a way more complex task than in case of single core type because synchronizing computation streams involves taking in account presence of cache, sources of interrupts and plenty more of parameters.  Hence effectiveness of planning algorithms has a great deal of influence on overall system performance.
 
