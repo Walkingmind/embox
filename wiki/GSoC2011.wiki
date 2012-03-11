@@ -1,7 +1,7 @@
-#summary Google Summer of Code 2011 Ideas list.
+#summary Google Summer of Code 2011 Ideas.
 
 = Introduction =
-This is a list of ideas for Google Summer of Code 2011.
+This is a list of ideas for Google Summer of Code 2011. Read more about participating in Embox as part of GSoC [GSoC here].
 
 <wiki:toc max_depth="3" />
 
