@@ -11,7 +11,7 @@ __mybuild_myfile_linkage_mk := 1
 include mk/model/linkage.mk
 
 define class-MyFileLinker
-	$(super Linker)
+	$(super Linker,$1,$2)
 
 	$(method getResourceImportNormalizers,
 		$(for root <- $(get 1->contentsRoot),
@@ -24,8 +24,8 @@ define class-MyFileLinker
 			optBind <- $(invoke 1->eSource),
 			annot <- $(invoke optBind->eContainer),
 			
-			$(for link <- $(invoke annot->eUnresolvedLinks),
-				$(call Linker.doSingleLink,$(link)))
+		#	$(for link <- $(invoke annot->eUnresolvedLinks),
+		#		$(call Linker.doSingleLink,$(link)))
 
 			$(for annotType <- $(get annot->type),
 				opt <- $(get annotType->options),
