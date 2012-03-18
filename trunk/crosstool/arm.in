@@ -1,0 +1,5 @@
+#arm                                                                            
+#this flags was recommended by debian --with-arch=armv4 --with-no-thumb-interwork
+
+target_name=arm-elf                                                             
+target_configure_options="--enable-interwork --with-float=soft"
