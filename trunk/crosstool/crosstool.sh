@@ -40,12 +40,12 @@ do_unpack() {
 		echo "Unpack ${TARBALL[$i]}"
 		case `file -b ${TARBALL[$i]} | awk '{print $1}'` in
 		    bzip2 )
-			tar xjf ${TARBALL[$i]}
 			NAME[$i]=${TARBALL[$i]%%.tar.bz2}
+			[ -d ${NAME[$i]} ] || tar xjf ${TARBALL[$i]}
 			;;
 		    gzip )
-			tar xzf ${TARBALL[$i]}
 			NAME[$i]=${TARBALL[$i]%%.tar.gz}
+			[ -d ${NAME[$i]} ] || tar xzf ${TARBALL[$i]}
 			;;
 		    * )
 			echo "Unknown type"
@@ -121,8 +121,8 @@ pushd $TMP_DIR > /dev/null
 do_download
 do_unpack
 do_binutils
-do_gcc
-do_gdb
+#do_gcc
+#do_gdb
 makepkg
 
 popd > /dev/null
