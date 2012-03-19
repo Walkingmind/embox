@@ -121,8 +121,8 @@ pushd $TMP_DIR > /dev/null
 do_download
 do_unpack
 do_binutils
-#do_gcc
-#do_gdb
+do_gcc
+do_gdb
 makepkg
 
 popd > /dev/null
