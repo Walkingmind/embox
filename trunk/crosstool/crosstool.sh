@@ -19,10 +19,9 @@ TMP_DIR=$(mktemp -d)
 
 GET_URL[0]="http://ftp.gnu.org/gnu/binutils/binutils-2.22.tar.bz2"
 GET_URL[1]="http://mirrors.kernel.org/gnu/gmp/gmp-5.0.2.tar.bz2"
-#GET_URL[1]="ftp://ftp.gmplib.org/pub/gmp-5.0.2/gmp-5.0.2.tar.bz2"
 GET_URL[2]="http://www.multiprecision.org/mpc/download/mpc-0.9.tar.gz"
 GET_URL[3]="http://www.mpfr.org/mpfr-current/mpfr-3.1.0.tar.bz2"
-GET_URL[4]="http://gcc.cybermirror.org/releases/gcc-4.6.2/gcc-4.6.2.tar.bz2"
+GET_URL[4]="http://gcc.parentingamerica.com/releases/gcc-4.6.2/gcc-4.6.2.tar.bz2"
 GET_URL[5]="http://ftp.gnu.org/gnu/gdb/gdb-7.4.tar.bz2"
 
 do_download() {
@@ -70,8 +69,8 @@ do_binutils() {
 	mkdir build-binutils 
 	pushd build-binutils > /dev/null
 	../${NAME[0]}/configure \
-		--prefix=$TMP_DIR/$target_name-${NAME[4]} \
-		--target=$target_name \
+		--prefix=$TMP_DIR/$TARGET-${NAME[4]} \
+		--target=$TARGET \
 		--disable-werror \
 		--disable-nls
 	make && make install
@@ -83,8 +82,8 @@ do_gcc() {
 	mkdir build-gcc
 	pushd build-gcc > /dev/null
 	../${NAME[4]}/configure \
-		--prefix=$TMP_DIR/$target_name-${NAME[4]} \
-		--target=$target_name \
+		--prefix=$TMP_DIR/$TARGET-${NAME[4]} \
+		--target=$TARGET \
 		--disable-werror \
 		--with-gnu-ld \
 		--disable-nls \
@@ -95,7 +94,7 @@ do_gcc() {
 		--disable-libssp \
 		--with-mpfr-include=$(pwd)/../${NAME[4]}/mpfr/src \
 		--with-mpfr-lib=$(pwd)/mpfr/src/.libs \
-		$target_configure_options
+		$TARGET_OPTIONS
 	make && make install
 	popd > /dev/null
 }
@@ -105,15 +104,15 @@ do_gdb() {
 	mkdir build-gdb 
 	pushd build-gdb > /dev/null
 	../${NAME[5]}/configure \
-		--prefix=$TMP_DIR/$target_name-${NAME[4]} \
-		--target=$target_name
+		--prefix=$TMP_DIR/$TARGET-${NAME[4]} \
+		--target=$TARGET
 	make && make install
 	popd > /dev/null
 }
 
 makepkg() {
 	echo "Make package"
-	tar cf - $target_name-${NAME[4]} | bzip2 -f > ../$target_name-${NAME[4]}.tar.bz2
+	tar cf - $TARGET-${NAME[4]} | bzip2 -f > ../$TARGET-${NAME[4]}.tar.bz2
 }
 
 pushd $TMP_DIR > /dev/null

@@ -2,9 +2,9 @@
 #leon platform was added in 4.6 (sparc-leon-) and so on it means the same if use --with-tune=leon
 #also --with-cpu=leon was added  to libgloss (binutils)                         
 
-target_name=sparc-elf                                                          
-target_configure_options="--with-tune=leon --with-cpu=leon"                    
-target_configure_options="--with-tune=leon --with-cpu=v8"                      
+TARGET=sparc-elf                                                          
+#TARGET_OPTIONS="--with-tune=leon --with-cpu=leon"                    
+TARGET_OPTIONS="--with-tune=leon --with-cpu=v8"                      
 
-#target_name=sparc-leon-elf                                                     
-#target_configure_options=--with-soft-fp
+#TARGET=sparc-leon-elf                                                     
+#TARGET_OPTIONS=--with-soft-fp
