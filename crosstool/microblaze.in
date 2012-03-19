@@ -1,4 +1,4 @@
 #microblaze platform was added in gcc 4.6                                       
 
-target_name=microblaze-elf                                                     
-target_configure_options= 
+TARGET=microblaze-elf                                                     
+TARGET_OPTIONS= 
