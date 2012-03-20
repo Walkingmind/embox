@@ -1,4 +1,4 @@
-package embox.cmds
+package embox.cmd
 
 import embox.compat.posix.LibPosix
 import embox.net.icmp
@@ -49,7 +49,7 @@ import embox.net.socket
 			Nikolay Korotky
 	''')
 module ping {
-	@IncludePath("$(SRC_DIR)/compat/linux/include") 
+	@IncludePath("$(SRC_DIR)/compat/linux/include")
 	@IncludePath("$(SRC_DIR)/compat/posix/include")
 	source "ping.c"
 	depends icmp, socket
