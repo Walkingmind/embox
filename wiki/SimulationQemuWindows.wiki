@@ -1,26 +1,27 @@
-=Запуск QEMU под Windows=
-Под Windows существует оконный Qemu Manager. Его можно найти тут: http://www.davereyn.co.uk/download.htm
-Устанавливается как обычное приложение под Windows. 
-После установки необходимо создать новую виртуальную машину. 
+=Qemu and Windows=
+
+Use Qemu Windows Manager. It can be dowonloades here: http://www.davereyn.co.uk/download.htm 
+Create new Virtual Machine. 
 <img src="http://embox.googlecode.com/svn/wiki/images/Qemu/New_machine.jpg" >
-В процессе создания раздел Operation system следует оставить пустым.
+Section Operation System should be blank .
 <img src="http://embox.googlecode.com/svn/wiki/images/Qemu/New_machine_2.png" >
-Новый диск создавать не нужно. 
+It is no needs to create new disk. 
 <img src="http://embox.googlecode.com/svn/wiki/images/Qemu/New_machine_3_virtual_disk_2.png" >
-Virtual Machine Output можно оставить по умолчанию.
+Virtual Machine Output can be default.
 <img src="http://embox.googlecode.com/svn/wiki/images/Qemu/New_machine_4.png" >
-После, во вкладке Advanced нужно выбрать пункт Kernel image и прописать туда полный путь к исполняемому файлу embox.
+Select the Kernel image in the Advanced tab and enter full path to the executable embox file.
 <img src="http://embox.googlecode.com/svn/wiki/images/Qemu/Kernel.png" >
-В той же вкладке Advanced нужно в пункте Kernel command image прописать ключи -s -S
+In the tab Advanced needs to select Kernel command image write a keys -s -S
 <img src="http://embox.googlecode.com/svn/wiki/images/Qemu/Keys.png" >
-Для того, чтобы корректно работала прокрутка консоли необходимо произвести дополнительные действия: 
-Прежде всего скачать PuTTY (the Telnet and SSH client). Его можно загрузить отсюда: http://www.chiark.greenend.org.uk/~sgtatham/putty/download.html
+In order to properly work the console scrolling is necessary to make additional steps: 
+First of all download PuTTY (the Telnet and SSH client). It can be dowonloades here: http://www.chiark.greenend.org.uk/~sgtatham/putty/download.html
 <img src="http://embox.googlecode.com/svn/wiki/images/Qemu/putty_download.png" >
-В Qemu Manager во вкладке Hardware в пункте Serial Port 1 по умолчанию стоит concol. Это значение нужно изменить на TCP, прописать адрес и порт и установить флажки.
+In Qemu Manager in the tab Hardware Serial Port 1 default concol. Change to TCP, write address and port.
 <img src="http://embox.googlecode.com/svn/wiki/images/Qemu/Serial_port.png" >
-Теперь нужно запустить Putty и там тоже прописать адрес и порт, и добавить сессию qemu.
+Run Putty and write address and port and add session qemu.
 <img src="http://embox.googlecode.com/svn/wiki/images/Qemu/putty_conf.png" >
-Теперь можно запустить Embox. Сначала запускается виртуальная машина: 
+Now you can run Embox. First of all run Virtual Machine: 
 <img src="http://embox.googlecode.com/svn/wiki/images/Qemu/Qemu_start.png" >
-Потом открыть Putty порт.
-<img src="http://embox.googlecode.com/svn/wiki/images/Qemu/final.png" > 
+
+Open Putty port.
+<img src="http://embox.googlecode.com/svn/wiki/images/Qemu/final.png" >  
