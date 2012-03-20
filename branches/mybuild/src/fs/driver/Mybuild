@@ -1,6 +1,0 @@
-package embox.fs.driver
-
-module repo {
-    @IncludePath("$(SRC_DIR)/compat/posix/include")
-	source "fs_drv.c"
-}

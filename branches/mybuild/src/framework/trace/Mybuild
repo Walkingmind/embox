@@ -1,6 +1,0 @@
-package embox.framework
-
-module trace {
-	@DefineMacro("__FRAMEWORK__")
-	source "trace.c"
-}
