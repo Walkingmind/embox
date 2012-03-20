@@ -1,0 +1,26 @@
+=Запуск QEMU под Windows=
+Под Windows существует оконный Qemu Manager. Его можно найти тут: http://www.davereyn.co.uk/download.htm
+Устанавливается как обычное приложение под Windows. 
+После установки необходимо создать новую виртуальную машину. 
+<img src="http://embox.googlecode.com/svn/wiki/images/Qemu/New_machine.jpg" >
+В процессе создания раздел Operation system следует оставить пустым.
+<img src="http://embox.googlecode.com/svn/wiki/images/Qemu/New_machine_2.png" >
+Новый диск создавать не нужно. 
+<img src="http://embox.googlecode.com/svn/wiki/images/Qemu/New_machine_3_virtual_disk_2.png" >
+Virtual Machine Output можно оставить по умолчанию.
+<img src="http://embox.googlecode.com/svn/wiki/images/Qemu/New_machine_4.png" >
+После, во вкладке Advanced нужно выбрать пункт Kernel image и прописать туда полный путь к исполняемому файлу embox.
+<img src="http://embox.googlecode.com/svn/wiki/images/Qemu/Kernel.png" >
+В той же вкладке Advanced нужно в пункте Kernel command image прописать ключи -s -S
+<img src="http://embox.googlecode.com/svn/wiki/images/Qemu/Keys.png" >
+Для того, чтобы корректно работала прокрутка консоли необходимо произвести дополнительные действия: 
+Прежде всего скачать PuTTY (the Telnet and SSH client). Его можно загрузить отсюда: http://www.chiark.greenend.org.uk/~sgtatham/putty/download.html
+<img src="http://embox.googlecode.com/svn/wiki/images/Qemu/putty_download.png" >
+В Qemu Manager во вкладке Hardware в пункте Serial Port 1 по умолчанию стоит concol. Это значение нужно изменить на TCP, прописать адрес и порт и установить флажки.
+<img src="http://embox.googlecode.com/svn/wiki/images/Qemu/Serial_port.png" >
+Теперь нужно запустить Putty и там тоже прописать адрес и порт, и добавить сессию qemu.
+<img src="http://embox.googlecode.com/svn/wiki/images/Qemu/putty_conf.png" >
+Теперь можно запустить Embox. Сначала запускается виртуальная машина: 
+<img src="http://embox.googlecode.com/svn/wiki/images/Qemu/Qemu_start.png" >
+Потом открыть Putty порт.
+<img src="http://embox.googlecode.com/svn/wiki/images/Qemu/final.png" > 
