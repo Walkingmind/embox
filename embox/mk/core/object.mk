@@ -400,6 +400,12 @@ include mk/core/define.mk
 
 include mk/util/var/assign.mk
 
+# All variables with a leading period in their names are assumed to be objects.
+# This is not a precise criterion to check whether the variable is an object
+# or not, but excluding all these variable from auto-def is the most simple
+# and efficient way I see, at least for now.
+$(call def_exclude,.%)
+
 #
 # $(new class,args...)
 #
@@ -1274,6 +1280,8 @@ define builtin_macro-__class__
 
 		$(expand $1)$$(\0)# XXX
 
+		$(call def_exclude,$(__class__) $(__class__).%)
+
 		# Define four special variables needed for introspection.
 		# TODO Backward-compatibility, should be replaced
 		# by '__class_attr_xxx' API.
@@ -1378,8 +1386,8 @@ endef
 #   2. Body.
 define __class_new_func
 	$(foreach f,$(__class__).$1,
-		$(if $(call var_undefined,$f),
-			$(call def_exclude,$f))
+#		$(if $(call var_undefined,$f),
+#			$(call def_exclude,$f))
 		$(call var_assign_recursive_sl,$f,$2)
 	)
 endef
@@ -1390,7 +1398,7 @@ endef
 define __class_new_func_weak
 	$(foreach f,$(__class__).$1,
 		$(if $(call var_undefined,$f),
-			$(call def_exclude,$f)
+#			$(call def_exclude,$f)
 			$(call var_assign_recursive_sl,$f,$2))
 	)
 endef
