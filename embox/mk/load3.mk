@@ -26,11 +26,9 @@ $(CONFIG_GENERATED) :
 
 CONFIGFILES := \
 	$(shell find $(CONFIG_PATH) -depth \
-		-name \*.config -print) 
+		-name \*.config -print) \
+	$(CONFIG_GENERATED)
 	
-#	Add to CONFIGFILES above
-#	$(CONFIG_GENERATED)
-
 override CONFIGFILES := $(firstword $(CONFIGFILES))
 
 export configfiles_mk := \
