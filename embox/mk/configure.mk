@@ -31,6 +31,8 @@ build_model := $(call Mybuild-createBuild,$(mybuild_model))
 
 MODS_ENABLE_OBJ := $(call listInstances,$(build_model))
 
+#$(warning $(call printInstances,$(build_model)))
+
 else 
 
 MODS_ENABLE :=
