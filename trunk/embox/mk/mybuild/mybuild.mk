@@ -37,9 +37,12 @@ define class-Mybuild
 				cfgConfiguration <- $(firstword $(get cfgFileContent->configurations)), #FIXME
 				cfgInclude <- $(get cfgConfiguration->includes),
 				module <- $(get cfgInclude->module),
+
+				$(if $(invoke moduleInstanceHas,$(module)),,
+					$(invoke moduleInstanceClosure,$(module)))
+				
 				$(for moduleInst <- $(invoke moduleInstance,$(module)),
-					$(set moduleInst->includeMember,$(cfgInclude)))
-				$(invoke moduleInstanceClosure,$(module))),
+					$(set moduleInst->includeMember,$(cfgInclude)))),
 
 			$(if $(strip $(or $(invoke checkResolve,$1),
 				  $(invoke optionBind,$1))),,$1)))
@@ -62,7 +65,7 @@ define class-Mybuild
 			modInst <- $1,
 			mod <- $(get modInst->type),
 			opt<-$(get mod->allOptions),
-			optValue <- $(or $(if $(get modInst->includeMember), # if module was explicitly enabled
+			optValue <- $(or $(if $(get modInst->includeMember),# if module was explicitly enabled
 										# from configs and probably has
 										# config option bindings
 						$(invoke findOptValue,$(opt),
@@ -97,7 +100,7 @@ define class-Mybuild
 	#  ModuleInstance instance 
 	$(method moduleInstance,
 		$(for mod <- $1,
-			$(or $(map-get moduleInstanceStore/$(mod)),
+			$(or $(invoke moduleInstanceHas,$(mod)),
 				$(for moduleInstance <-
 					$(new BuildModuleInstance,$(mod)),
 
@@ -111,7 +114,14 @@ define class-Mybuild
 						$(set+ superInst->depends,$(moduleInstance)))
 
 					$(moduleInstance)))))
-
+	
+	# Args:
+	#  1. MyModule instance
+	# Return:
+	#  ModuleInstance on positive
+	#  None on negative 
+	$(method moduleInstanceHas,
+		$(map-get moduleInstanceStore/$1))
 
 	# Args:
 	#  1. MyModule object instance
