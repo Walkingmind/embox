@@ -16,12 +16,11 @@ mods_conf    := $(CONF_DIR)/mods.conf
 lds_conf     := $(CONF_DIR)/lds.conf
 
 build_mk     := $(AUTOCONF_DIR)/build.mk
-mods_mk      := $(AUTOCONF_DIR)/mods.mk
 config_h     := $(AUTOCONF_DIR)/config.h
 config_lds_h := $(AUTOCONF_DIR)/config.lds.h
 
 CONF_FILES     := $(build_conf) $(options_conf) $(mods_conf) $(lds_conf)
-AUTOCONF_FILES := $(build_mk) $(mods_mk) $(config_h) $(config_lds_h)
+AUTOCONF_FILES := $(build_mk) $(config_h) $(config_lds_h)
 
 ifeq (1,1)
 
@@ -74,7 +73,6 @@ check_conf_dir:
 		&& exit 1)
 
 $(build_mk)     : DEFS := __BUILD_MK__
-$(mods_mk)      : DEFS := __MODS_MK__
 $(config_h)     : DEFS := __CONFIG_H__
 $(config_lds_h) : DEFS := __CONFIG_LDS_H__
 
@@ -87,9 +85,9 @@ else
 HOSTCC_CPPFLAGS := -I $(CONF_DIR) -I-
 endif
 
-$(build_mk) $(mods_mk) : 
+$(build_mk) : 
 	$(HOSTCPP) -P -undef -nostdinc $(HOSTCC_CPPFLAGS) $(DEFS:%=-D%) \
-	-MMD -MT $@ -MF $@.d mk/confmacro.S \
+	-MMD -MP -MT $@ -MF $@.d mk/confmacro.S \
 		| sed 's/$$N/\n/g' > $@
 
 $(config_h) $(config_lds_h) :
