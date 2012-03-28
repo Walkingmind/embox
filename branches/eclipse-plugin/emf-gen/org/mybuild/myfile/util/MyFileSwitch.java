@@ -10,6 +10,8 @@ import org.eclipse.emf.ecore.EPackage;
 
 import org.eclipse.emf.ecore.util.Switch;
 
+import org.mybuild.myfile.AbstractFeatureListMember;
+import org.mybuild.myfile.AbstractFileListMember;
 import org.mybuild.myfile.Annotation;
 import org.mybuild.myfile.AnnotationTarget;
 import org.mybuild.myfile.AnnotationType;
@@ -205,10 +207,20 @@ public class MyFileSwitch<T> extends Switch<T>
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
+			case MyFilePackage.ABSTRACT_FEATURE_LIST_MEMBER:
+			{
+				AbstractFeatureListMember abstractFeatureListMember = (AbstractFeatureListMember)theEObject;
+				T result = caseAbstractFeatureListMember(abstractFeatureListMember);
+				if (result == null) result = caseMember(abstractFeatureListMember);
+				if (result == null) result = caseAnnotationTarget(abstractFeatureListMember);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
 			case MyFilePackage.REQUIRES_MEMBER:
 			{
 				RequiresMember requiresMember = (RequiresMember)theEObject;
 				T result = caseRequiresMember(requiresMember);
+				if (result == null) result = caseAbstractFeatureListMember(requiresMember);
 				if (result == null) result = caseMember(requiresMember);
 				if (result == null) result = caseAnnotationTarget(requiresMember);
 				if (result == null) result = defaultCase(theEObject);
@@ -218,8 +230,18 @@ public class MyFileSwitch<T> extends Switch<T>
 			{
 				ProvidesMember providesMember = (ProvidesMember)theEObject;
 				T result = caseProvidesMember(providesMember);
+				if (result == null) result = caseAbstractFeatureListMember(providesMember);
 				if (result == null) result = caseMember(providesMember);
 				if (result == null) result = caseAnnotationTarget(providesMember);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case MyFilePackage.ABSTRACT_FILE_LIST_MEMBER:
+			{
+				AbstractFileListMember abstractFileListMember = (AbstractFileListMember)theEObject;
+				T result = caseAbstractFileListMember(abstractFileListMember);
+				if (result == null) result = caseMember(abstractFileListMember);
+				if (result == null) result = caseAnnotationTarget(abstractFileListMember);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -227,6 +249,7 @@ public class MyFileSwitch<T> extends Switch<T>
 			{
 				SourceMember sourceMember = (SourceMember)theEObject;
 				T result = caseSourceMember(sourceMember);
+				if (result == null) result = caseAbstractFileListMember(sourceMember);
 				if (result == null) result = caseMember(sourceMember);
 				if (result == null) result = caseAnnotationTarget(sourceMember);
 				if (result == null) result = defaultCase(theEObject);
@@ -236,6 +259,7 @@ public class MyFileSwitch<T> extends Switch<T>
 			{
 				ObjectMember objectMember = (ObjectMember)theEObject;
 				T result = caseObjectMember(objectMember);
+				if (result == null) result = caseAbstractFileListMember(objectMember);
 				if (result == null) result = caseMember(objectMember);
 				if (result == null) result = caseAnnotationTarget(objectMember);
 				if (result == null) result = defaultCase(theEObject);
@@ -556,6 +580,22 @@ public class MyFileSwitch<T> extends Switch<T>
 	}
 
 	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Abstract Feature List Member</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Abstract Feature List Member</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseAbstractFeatureListMember(AbstractFeatureListMember object)
+	{
+		return null;
+	}
+
+	/**
 	 * Returns the result of interpreting the object as an instance of '<em>Requires Member</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
@@ -583,6 +623,22 @@ public class MyFileSwitch<T> extends Switch<T>
 	 * @generated
 	 */
 	public T caseProvidesMember(ProvidesMember object)
+	{
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Abstract File List Member</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Abstract File List Member</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseAbstractFileListMember(AbstractFileListMember object)
 	{
 		return null;
 	}

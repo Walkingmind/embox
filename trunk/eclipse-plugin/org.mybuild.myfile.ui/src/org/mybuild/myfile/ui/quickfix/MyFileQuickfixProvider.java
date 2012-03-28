@@ -8,7 +8,7 @@ import org.eclipse.xtext.ui.editor.quickfix.DefaultQuickfixProvider;
 import org.eclipse.xtext.ui.editor.quickfix.Fix;
 import org.eclipse.xtext.ui.editor.quickfix.IssueResolutionAcceptor;
 import org.eclipse.xtext.validation.Issue;
-import org.mybuild.myfile.myFile.Module;
+import org.mybuild.myfile.Module;
 import org.mybuild.myfile.validation.IssueCodes;
 
 public class MyFileQuickfixProvider extends DefaultQuickfixProvider {

@@ -35,7 +35,7 @@ import org.mybuild.myfile.Type;
  * <ul>
  *   <li>{@link org.mybuild.myfile.impl.ModelImpl#getPackage <em>Package</em>}</li>
  *   <li>{@link org.mybuild.myfile.impl.ModelImpl#getImports <em>Imports</em>}</li>
- *   <li>{@link org.mybuild.myfile.impl.ModelImpl#getEntities <em>Entities</em>}</li>
+ *   <li>{@link org.mybuild.myfile.impl.ModelImpl#getTypes <em>Types</em>}</li>
  * </ul>
  * </p>
  *
@@ -64,14 +64,14 @@ public class ModelImpl extends EObjectImpl implements Model
 	protected EList<Import> imports;
 
 	/**
-	 * The cached value of the '{@link #getEntities() <em>Entities</em>}' containment reference list.
+	 * The cached value of the '{@link #getTypes() <em>Types</em>}' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getEntities()
+	 * @see #getTypes()
 	 * @generated
 	 * @ordered
 	 */
-	protected EList<Type> entities;
+	protected EList<Type> types;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -161,13 +161,13 @@ public class ModelImpl extends EObjectImpl implements Model
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EList<Type> getEntities()
+	public EList<Type> getTypes()
 	{
-		if (entities == null)
+		if (types == null)
 		{
-			entities = new EObjectContainmentEList<Type>(Type.class, this, MyFilePackage.MODEL__ENTITIES);
+			types = new EObjectContainmentEList<Type>(Type.class, this, MyFilePackage.MODEL__TYPES);
 		}
-		return entities;
+		return types;
 	}
 
 	/**
@@ -184,8 +184,8 @@ public class ModelImpl extends EObjectImpl implements Model
 				return basicSetPackage(null, msgs);
 			case MyFilePackage.MODEL__IMPORTS:
 				return ((InternalEList<?>)getImports()).basicRemove(otherEnd, msgs);
-			case MyFilePackage.MODEL__ENTITIES:
-				return ((InternalEList<?>)getEntities()).basicRemove(otherEnd, msgs);
+			case MyFilePackage.MODEL__TYPES:
+				return ((InternalEList<?>)getTypes()).basicRemove(otherEnd, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -204,8 +204,8 @@ public class ModelImpl extends EObjectImpl implements Model
 				return getPackage();
 			case MyFilePackage.MODEL__IMPORTS:
 				return getImports();
-			case MyFilePackage.MODEL__ENTITIES:
-				return getEntities();
+			case MyFilePackage.MODEL__TYPES:
+				return getTypes();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -228,9 +228,9 @@ public class ModelImpl extends EObjectImpl implements Model
 				getImports().clear();
 				getImports().addAll((Collection<? extends Import>)newValue);
 				return;
-			case MyFilePackage.MODEL__ENTITIES:
-				getEntities().clear();
-				getEntities().addAll((Collection<? extends Type>)newValue);
+			case MyFilePackage.MODEL__TYPES:
+				getTypes().clear();
+				getTypes().addAll((Collection<? extends Type>)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -252,8 +252,8 @@ public class ModelImpl extends EObjectImpl implements Model
 			case MyFilePackage.MODEL__IMPORTS:
 				getImports().clear();
 				return;
-			case MyFilePackage.MODEL__ENTITIES:
-				getEntities().clear();
+			case MyFilePackage.MODEL__TYPES:
+				getTypes().clear();
 				return;
 		}
 		super.eUnset(featureID);
@@ -273,8 +273,8 @@ public class ModelImpl extends EObjectImpl implements Model
 				return package_ != null;
 			case MyFilePackage.MODEL__IMPORTS:
 				return imports != null && !imports.isEmpty();
-			case MyFilePackage.MODEL__ENTITIES:
-				return entities != null && !entities.isEmpty();
+			case MyFilePackage.MODEL__TYPES:
+				return types != null && !types.isEmpty();
 		}
 		return super.eIsSet(featureID);
 	}

@@ -20,7 +20,7 @@ import org.eclipse.xtext.resource.IResourceDescription;
 import org.eclipse.xtext.resource.XtextResource;
 import org.eclipse.xtext.ui.IImageHelper;
 import org.eclipse.xtext.ui.editor.model.XtextDocumentProvider;
-import org.mybuild.myfile.myFile.MyFilePackage;
+import org.mybuild.myfile.MyFilePackage;
 
 import com.google.inject.Inject;
 
@@ -77,7 +77,7 @@ public class MyFileLabelDecorator implements ILightweightLabelDecorator {
 		EClass found = null;
 
 		for (IEObjectDescription objectDescription : resourceDescription
-				.getExportedObjectsByType(MyFilePackage.Literals.ENTITY)) {
+				.getExportedObjectsByType(MyFilePackage.Literals.TYPE)) {
 			if (found != null) {
 				// More than one entity in the resource.
 				return null;

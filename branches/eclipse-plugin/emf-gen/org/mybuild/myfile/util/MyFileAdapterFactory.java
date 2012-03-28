@@ -12,6 +12,8 @@ import org.eclipse.emf.common.notify.impl.AdapterFactoryImpl;
 
 import org.eclipse.emf.ecore.EObject;
 
+import org.mybuild.myfile.AbstractFeatureListMember;
+import org.mybuild.myfile.AbstractFileListMember;
 import org.mybuild.myfile.Annotation;
 import org.mybuild.myfile.AnnotationTarget;
 import org.mybuild.myfile.AnnotationType;
@@ -167,6 +169,11 @@ public class MyFileAdapterFactory extends AdapterFactoryImpl
 				return createDependsMemberAdapter();
 			}
 			@Override
+			public Adapter caseAbstractFeatureListMember(AbstractFeatureListMember object)
+			{
+				return createAbstractFeatureListMemberAdapter();
+			}
+			@Override
 			public Adapter caseRequiresMember(RequiresMember object)
 			{
 				return createRequiresMemberAdapter();
@@ -175,6 +182,11 @@ public class MyFileAdapterFactory extends AdapterFactoryImpl
 			public Adapter caseProvidesMember(ProvidesMember object)
 			{
 				return createProvidesMemberAdapter();
+			}
+			@Override
+			public Adapter caseAbstractFileListMember(AbstractFileListMember object)
+			{
+				return createAbstractFileListMemberAdapter();
 			}
 			@Override
 			public Adapter caseSourceMember(SourceMember object)
@@ -459,6 +471,21 @@ public class MyFileAdapterFactory extends AdapterFactoryImpl
 	}
 
 	/**
+	 * Creates a new adapter for an object of class '{@link org.mybuild.myfile.AbstractFeatureListMember <em>Abstract Feature List Member</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.mybuild.myfile.AbstractFeatureListMember
+	 * @generated
+	 */
+	public Adapter createAbstractFeatureListMemberAdapter()
+	{
+		return null;
+	}
+
+	/**
 	 * Creates a new adapter for an object of class '{@link org.mybuild.myfile.RequiresMember <em>Requires Member</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
@@ -484,6 +511,21 @@ public class MyFileAdapterFactory extends AdapterFactoryImpl
 	 * @generated
 	 */
 	public Adapter createProvidesMemberAdapter()
+	{
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link org.mybuild.myfile.AbstractFileListMember <em>Abstract File List Member</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.mybuild.myfile.AbstractFileListMember
+	 * @generated
+	 */
+	public Adapter createAbstractFileListMemberAdapter()
 	{
 		return null;
 	}

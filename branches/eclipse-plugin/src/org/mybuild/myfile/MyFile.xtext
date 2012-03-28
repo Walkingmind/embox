@@ -9,7 +9,7 @@ grammar org.mybuild.myfile.MyFile with org.eclipse.xtext.common.Terminals
 import "http://www.mybuild.org/MyFile"
 
 Model:
-	package=Package? imports+=Import* entities+=Type*;
+	package=Package? imports+=Import* types+=Type*;
 
 Package:
 	'package' name=QualifiedName;

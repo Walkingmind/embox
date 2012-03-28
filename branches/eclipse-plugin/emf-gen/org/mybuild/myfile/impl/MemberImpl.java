@@ -26,7 +26,7 @@ import org.mybuild.myfile.MyFilePackage;
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link org.mybuild.myfile.impl.MemberImpl#getModule <em>Module</em>}</li>
+ *   <li>{@link org.mybuild.myfile.impl.MemberImpl#getContainingModule <em>Containing Module</em>}</li>
  * </ul>
  * </p>
  *
@@ -60,9 +60,9 @@ public class MemberImpl extends AnnotationTargetImpl implements Member
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public Module getModule()
+	public Module getContainingModule()
 	{
-		if (eContainerFeatureID() != MyFilePackage.MEMBER__MODULE) return null;
+		if (eContainerFeatureID() != MyFilePackage.MEMBER__CONTAINING_MODULE) return null;
 		return (Module)eContainer();
 	}
 
@@ -71,9 +71,9 @@ public class MemberImpl extends AnnotationTargetImpl implements Member
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public NotificationChain basicSetModule(Module newModule, NotificationChain msgs)
+	public NotificationChain basicSetContainingModule(Module newContainingModule, NotificationChain msgs)
 	{
-		msgs = eBasicSetContainer((InternalEObject)newModule, MyFilePackage.MEMBER__MODULE, msgs);
+		msgs = eBasicSetContainer((InternalEObject)newContainingModule, MyFilePackage.MEMBER__CONTAINING_MODULE, msgs);
 		return msgs;
 	}
 
@@ -82,22 +82,22 @@ public class MemberImpl extends AnnotationTargetImpl implements Member
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setModule(Module newModule)
+	public void setContainingModule(Module newContainingModule)
 	{
-		if (newModule != eInternalContainer() || (eContainerFeatureID() != MyFilePackage.MEMBER__MODULE && newModule != null))
+		if (newContainingModule != eInternalContainer() || (eContainerFeatureID() != MyFilePackage.MEMBER__CONTAINING_MODULE && newContainingModule != null))
 		{
-			if (EcoreUtil.isAncestor(this, newModule))
+			if (EcoreUtil.isAncestor(this, newContainingModule))
 				throw new IllegalArgumentException("Recursive containment not allowed for " + toString());
 			NotificationChain msgs = null;
 			if (eInternalContainer() != null)
 				msgs = eBasicRemoveFromContainer(msgs);
-			if (newModule != null)
-				msgs = ((InternalEObject)newModule).eInverseAdd(this, MyFilePackage.MODULE__MEMBERS, Module.class, msgs);
-			msgs = basicSetModule(newModule, msgs);
+			if (newContainingModule != null)
+				msgs = ((InternalEObject)newContainingModule).eInverseAdd(this, MyFilePackage.MODULE__MEMBERS, Module.class, msgs);
+			msgs = basicSetContainingModule(newContainingModule, msgs);
 			if (msgs != null) msgs.dispatch();
 		}
 		else if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, MyFilePackage.MEMBER__MODULE, newModule, newModule));
+			eNotify(new ENotificationImpl(this, Notification.SET, MyFilePackage.MEMBER__CONTAINING_MODULE, newContainingModule, newContainingModule));
 	}
 
 	/**
@@ -110,10 +110,10 @@ public class MemberImpl extends AnnotationTargetImpl implements Member
 	{
 		switch (featureID)
 		{
-			case MyFilePackage.MEMBER__MODULE:
+			case MyFilePackage.MEMBER__CONTAINING_MODULE:
 				if (eInternalContainer() != null)
 					msgs = eBasicRemoveFromContainer(msgs);
-				return basicSetModule((Module)otherEnd, msgs);
+				return basicSetContainingModule((Module)otherEnd, msgs);
 		}
 		return super.eInverseAdd(otherEnd, featureID, msgs);
 	}
@@ -128,8 +128,8 @@ public class MemberImpl extends AnnotationTargetImpl implements Member
 	{
 		switch (featureID)
 		{
-			case MyFilePackage.MEMBER__MODULE:
-				return basicSetModule(null, msgs);
+			case MyFilePackage.MEMBER__CONTAINING_MODULE:
+				return basicSetContainingModule(null, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -144,7 +144,7 @@ public class MemberImpl extends AnnotationTargetImpl implements Member
 	{
 		switch (eContainerFeatureID())
 		{
-			case MyFilePackage.MEMBER__MODULE:
+			case MyFilePackage.MEMBER__CONTAINING_MODULE:
 				return eInternalContainer().eInverseRemove(this, MyFilePackage.MODULE__MEMBERS, Module.class, msgs);
 		}
 		return super.eBasicRemoveFromContainerFeature(msgs);
@@ -160,8 +160,8 @@ public class MemberImpl extends AnnotationTargetImpl implements Member
 	{
 		switch (featureID)
 		{
-			case MyFilePackage.MEMBER__MODULE:
-				return getModule();
+			case MyFilePackage.MEMBER__CONTAINING_MODULE:
+				return getContainingModule();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -176,8 +176,8 @@ public class MemberImpl extends AnnotationTargetImpl implements Member
 	{
 		switch (featureID)
 		{
-			case MyFilePackage.MEMBER__MODULE:
-				setModule((Module)newValue);
+			case MyFilePackage.MEMBER__CONTAINING_MODULE:
+				setContainingModule((Module)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -193,8 +193,8 @@ public class MemberImpl extends AnnotationTargetImpl implements Member
 	{
 		switch (featureID)
 		{
-			case MyFilePackage.MEMBER__MODULE:
-				setModule((Module)null);
+			case MyFilePackage.MEMBER__CONTAINING_MODULE:
+				setContainingModule((Module)null);
 				return;
 		}
 		super.eUnset(featureID);
@@ -210,8 +210,8 @@ public class MemberImpl extends AnnotationTargetImpl implements Member
 	{
 		switch (featureID)
 		{
-			case MyFilePackage.MEMBER__MODULE:
-				return getModule() != null;
+			case MyFilePackage.MEMBER__CONTAINING_MODULE:
+				return getContainingModule() != null;
 		}
 		return super.eIsSet(featureID);
 	}

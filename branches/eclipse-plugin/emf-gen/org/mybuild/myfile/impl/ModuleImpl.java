@@ -10,7 +10,6 @@ import java.util.Collection;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 
-import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.common.util.EList;
 
 import org.eclipse.emf.ecore.EClass;
@@ -27,11 +26,6 @@ import org.mybuild.myfile.FileName;
 import org.mybuild.myfile.Member;
 import org.mybuild.myfile.Module;
 import org.mybuild.myfile.MyFilePackage;
-import org.mybuild.myfile.ObjectMember;
-import org.mybuild.myfile.ProvidesMember;
-import org.mybuild.myfile.RequiresMember;
-import org.mybuild.myfile.SourceMember;
-import org.mybuild.myfile.util.MyFileSwitch;
 
 /**
  * <!-- begin-user-doc -->
@@ -316,7 +310,7 @@ public class ModuleImpl extends TypeImpl implements Module
 	{
 		if (members == null)
 		{
-			members = new EObjectContainmentWithInverseEList<Member>(Member.class, this, MyFilePackage.MODULE__MEMBERS, MyFilePackage.MEMBER__MODULE);
+			members = new EObjectContainmentWithInverseEList<Member>(Member.class, this, MyFilePackage.MODULE__MEMBERS, MyFilePackage.MEMBER__CONTAINING_MODULE);
 		}
 		return members;
 	}
@@ -352,74 +346,59 @@ public class ModuleImpl extends TypeImpl implements Module
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated NOT
+	 * @generated
 	 */
 	public EList<Feature> getProvides()
 	{
-		return flattenMembers(new MyFileSwitch<EList<Feature>>() {
-			@Override
-			public EList<Feature> caseProvidesMember(ProvidesMember member) {
-				return member.getFeatures();
-			}
-		});
+		// TODO: implement this method to return the 'Provides' reference list
+		// Ensure that you remove @generated or mark it @generated NOT
+		// The list is expected to implement org.eclipse.emf.ecore.util.InternalEList and org.eclipse.emf.ecore.EStructuralFeature.Setting
+		// so it's likely that an appropriate subclass of org.eclipse.emf.ecore.util.EcoreEList should be used.
+		throw new UnsupportedOperationException();
 	}
 
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated NOT
+	 * @generated
 	 */
 	public EList<Feature> getRequires()
 	{
-		return flattenMembers(new MyFileSwitch<EList<Feature>>() {
-			@Override
-			public EList<Feature> caseRequiresMember(RequiresMember member) {
-				return member.getFeatures();
-			}
-		});
+		// TODO: implement this method to return the 'Requires' reference list
+		// Ensure that you remove @generated or mark it @generated NOT
+		// The list is expected to implement org.eclipse.emf.ecore.util.InternalEList and org.eclipse.emf.ecore.EStructuralFeature.Setting
+		// so it's likely that an appropriate subclass of org.eclipse.emf.ecore.util.EcoreEList should be used.
+		throw new UnsupportedOperationException();
 	}
 
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated NOT
+	 * @generated
 	 */
 	public EList<FileName> getSources()
 	{
-		return flattenMembers(new MyFileSwitch<EList<FileName>>() {
-			@Override
-			public EList<FileName> caseSourceMember(SourceMember member) {
-				return member.getFiles();
-			}
-		});
+		// TODO: implement this method to return the 'Sources' reference list
+		// Ensure that you remove @generated or mark it @generated NOT
+		// The list is expected to implement org.eclipse.emf.ecore.util.InternalEList and org.eclipse.emf.ecore.EStructuralFeature.Setting
+		// so it's likely that an appropriate subclass of org.eclipse.emf.ecore.util.EcoreEList should be used.
+		throw new UnsupportedOperationException();
 	}
 
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated NOT
+	 * @generated
 	 */
 	public EList<FileName> getObjects()
 	{
-		return flattenMembers(new MyFileSwitch<EList<FileName>>() {
-			@Override
-			public EList<FileName> caseObjectMember(ObjectMember member) {
-				return member.getFiles();
-			}
-		});
+		// TODO: implement this method to return the 'Objects' reference list
+		// Ensure that you remove @generated or mark it @generated NOT
+		// The list is expected to implement org.eclipse.emf.ecore.util.InternalEList and org.eclipse.emf.ecore.EStructuralFeature.Setting
+		// so it's likely that an appropriate subclass of org.eclipse.emf.ecore.util.EcoreEList should be used.
+		throw new UnsupportedOperationException();
 	}
 
-	private <E> EList<E> flattenMembers(MyFileSwitch<EList<E>> visitor) {
-		BasicEList<E> elements = new BasicEList<E>();
-		for (Member member : getMembers()) {
-			EList<E> memberElements = visitor.doSwitch(member);
-			if (memberElements != null) {
-				elements.addAll(memberElements);
-			}
-		}
-		return elements;
-	}
-	
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

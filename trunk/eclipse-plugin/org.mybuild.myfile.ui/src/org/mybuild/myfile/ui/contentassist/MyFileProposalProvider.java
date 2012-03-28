@@ -25,9 +25,9 @@ import org.eclipse.xtext.RuleCall;
 import org.eclipse.xtext.ui.editor.contentassist.ConfigurableCompletionProposal;
 import org.eclipse.xtext.ui.editor.contentassist.ContentAssistContext;
 import org.eclipse.xtext.ui.editor.contentassist.ICompletionProposalAcceptor;
-import org.mybuild.myfile.myFile.Filename;
-import org.mybuild.myfile.myFile.FilenameAttribute;
-import org.mybuild.myfile.myFile.Module;
+import org.mybuild.myfile.AbstractFileListMember;
+import org.mybuild.myfile.FileName;
+import org.mybuild.myfile.Module;
 
 import com.google.common.base.Predicate;
 import com.google.common.collect.Sets;
@@ -119,7 +119,7 @@ public class MyFileProposalProvider extends AbstractMyFileProposalProvider {
 			if (moduleFiles.contains(localFile)) {
 				continue;
 			}
-			
+
 			String string = getValueConverter().toString(localFile.getName(),
 					"STRING");
 			ConfigurableCompletionProposal proposal = (ConfigurableCompletionProposal) createCompletionProposal(
@@ -165,10 +165,10 @@ public class MyFileProposalProvider extends AbstractMyFileProposalProvider {
 
 		IContainer folder = file.getParent();
 		Set<IFile> moduleFiles = Sets.newHashSet();
-		for (FilenameAttribute attribute : filter(module.getAttributes(),
-				FilenameAttribute.class)) {
-			for (Filename filename : attribute.getFiles()) {
-				String name = filename.getName();
+		for (AbstractFileListMember member : filter(module.getMembers(),
+				AbstractFileListMember.class)) {
+			for (FileName filename : member.getFiles()) {
+				String name = filename.getValue();
 				if (name != null) {
 					IResource moduleFile = folder.findMember(name);
 					if (moduleFile instanceof IFile) {

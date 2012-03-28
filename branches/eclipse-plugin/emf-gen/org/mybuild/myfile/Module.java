@@ -174,7 +174,7 @@ public interface Module extends Type
 	/**
 	 * Returns the value of the '<em><b>Members</b></em>' containment reference list.
 	 * The list contents are of type {@link org.mybuild.myfile.Member}.
-	 * It is bidirectional and its opposite is '{@link org.mybuild.myfile.Member#getModule <em>Module</em>}'.
+	 * It is bidirectional and its opposite is '{@link org.mybuild.myfile.Member#getContainingModule <em>Containing Module</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of the '<em>Members</em>' containment reference list isn't clear,
@@ -183,8 +183,8 @@ public interface Module extends Type
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Members</em>' containment reference list.
 	 * @see org.mybuild.myfile.MyFilePackage#getModule_Members()
-	 * @see org.mybuild.myfile.Member#getModule
-	 * @model opposite="module" containment="true"
+	 * @see org.mybuild.myfile.Member#getContainingModule
+	 * @model opposite="containingModule" containment="true"
 	 * @generated
 	 */
 	EList<Member> getMembers();

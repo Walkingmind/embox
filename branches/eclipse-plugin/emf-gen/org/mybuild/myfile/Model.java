@@ -19,7 +19,7 @@ import org.eclipse.emf.ecore.EObject;
  * <ul>
  *   <li>{@link org.mybuild.myfile.Model#getPackage <em>Package</em>}</li>
  *   <li>{@link org.mybuild.myfile.Model#getImports <em>Imports</em>}</li>
- *   <li>{@link org.mybuild.myfile.Model#getEntities <em>Entities</em>}</li>
+ *   <li>{@link org.mybuild.myfile.Model#getTypes <em>Types</em>}</li>
  * </ul>
  * </p>
  *
@@ -72,19 +72,19 @@ public interface Model extends EObject
 	EList<Import> getImports();
 
 	/**
-	 * Returns the value of the '<em><b>Entities</b></em>' containment reference list.
+	 * Returns the value of the '<em><b>Types</b></em>' containment reference list.
 	 * The list contents are of type {@link org.mybuild.myfile.Type}.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of the '<em>Entities</em>' containment reference list isn't clear,
+	 * If the meaning of the '<em>Types</em>' containment reference list isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Entities</em>' containment reference list.
-	 * @see org.mybuild.myfile.MyFilePackage#getModel_Entities()
+	 * @return the value of the '<em>Types</em>' containment reference list.
+	 * @see org.mybuild.myfile.MyFilePackage#getModel_Types()
 	 * @model containment="true"
 	 * @generated
 	 */
-	EList<Type> getEntities();
+	EList<Type> getTypes();
 
 } // Model

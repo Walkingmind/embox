@@ -3,24 +3,24 @@
  */
 package org.mybuild.myfile.ui.outline;
 
-import static org.mybuild.myfile.myFile.MyFilePackage.Literals.DEPENDS__MODULES;
-import static org.mybuild.myfile.myFile.MyFilePackage.Literals.IMPORT__IMPORTED_NAMESPACE;
-import static org.mybuild.myfile.myFile.MyFilePackage.Literals.MODEL__IMPORTS;
-import static org.mybuild.myfile.myFile.MyFilePackage.Literals.PACKAGE__NAME;
+import static org.mybuild.myfile.MyFilePackage.Literals.DEPENDS_MEMBER__MODULES;
+import static org.mybuild.myfile.MyFilePackage.Literals.IMPORT__IMPORTED_NAMESPACE;
+import static org.mybuild.myfile.MyFilePackage.Literals.MODEL__IMPORTS;
+import static org.mybuild.myfile.MyFilePackage.Literals.PACKAGE__NAME;
 
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.xtext.ui.editor.outline.IOutlineNode;
 import org.eclipse.xtext.ui.editor.outline.impl.DefaultOutlineTreeProvider;
 import org.eclipse.xtext.ui.editor.outline.impl.DocumentRootNode;
-import org.mybuild.myfile.myFile.Depends;
-import org.mybuild.myfile.myFile.Entity;
-import org.mybuild.myfile.myFile.Filename;
-import org.mybuild.myfile.myFile.FilenameAttribute;
-import org.mybuild.myfile.myFile.Import;
-import org.mybuild.myfile.myFile.Model;
-import org.mybuild.myfile.myFile.Module;
-import org.mybuild.myfile.myFile.Package;
+import org.mybuild.myfile.AbstractFileListMember;
+import org.mybuild.myfile.DependsMember;
+import org.mybuild.myfile.FileName;
+import org.mybuild.myfile.Import;
+import org.mybuild.myfile.Model;
+import org.mybuild.myfile.Module;
+import org.mybuild.myfile.Package;
+import org.mybuild.myfile.Type;
 
 /**
  * customization of the default outline structure
@@ -43,7 +43,7 @@ public class MyFileOutlineTreeProvider extends DefaultOutlineTreeProvider {
 					false);
 		}
 
-		for (Entity entity : model.getEntities()) {
+		for (Type entity : model.getTypes()) {
 			createNode(parent, entity);
 		}
 	}
@@ -53,21 +53,21 @@ public class MyFileOutlineTreeProvider extends DefaultOutlineTreeProvider {
 				labelProvider.getImage(imp), imp.getImportedNamespace(), true);
 	}
 
-	protected void _createNode(IOutlineNode parent, Depends depends) {
+	protected void _createNode(IOutlineNode parent, DependsMember depends) {
 		Image image = labelProvider.getImage(depends);
 
 		for (Module module : depends.getModules()) {
 			String name = module.getName();
 			if (name != null) {
-				createEStructuralFeatureNode(parent, depends, DEPENDS__MODULES,
+				createEStructuralFeatureNode(parent, depends, DEPENDS_MEMBER__MODULES,
 						image, name, true);
 			}
 		}
 	}
 
 	protected void _createNode(IOutlineNode parent,
-			FilenameAttribute filenameAttribute) {
-		for (Filename filename : filenameAttribute.getFiles()) {
+			AbstractFileListMember filesMember) {
+		for (FileName filename : filesMember.getFiles()) {
 			createNode(parent, filename);
 		}
 	}

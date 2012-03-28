@@ -88,13 +88,13 @@ public interface MyFilePackage extends EPackage
 	int MODEL__IMPORTS = 1;
 
 	/**
-	 * The feature id for the '<em><b>Entities</b></em>' containment reference list.
+	 * The feature id for the '<em><b>Types</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int MODEL__ENTITIES = 2;
+	int MODEL__TYPES = 2;
 
 	/**
 	 * The number of structural features of the '<em>Model</em>' class.
@@ -169,7 +169,7 @@ public interface MyFilePackage extends EPackage
 	 * @see org.mybuild.myfile.impl.MyFilePackageImpl#getNamed()
 	 * @generated
 	 */
-	int NAMED = 29;
+	int NAMED = 31;
 
 	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -693,13 +693,13 @@ public interface MyFilePackage extends EPackage
 	int MEMBER__SELF = ANNOTATION_TARGET__SELF;
 
 	/**
-	 * The feature id for the '<em><b>Module</b></em>' container reference.
+	 * The feature id for the '<em><b>Containing Module</b></em>' container reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int MEMBER__MODULE = ANNOTATION_TARGET_FEATURE_COUNT + 0;
+	int MEMBER__CONTAINING_MODULE = ANNOTATION_TARGET_FEATURE_COUNT + 0;
 
 	/**
 	 * The number of structural features of the '<em>Member</em>' class.
@@ -739,13 +739,13 @@ public interface MyFilePackage extends EPackage
 	int DEPENDS_MEMBER__SELF = MEMBER__SELF;
 
 	/**
-	 * The feature id for the '<em><b>Module</b></em>' container reference.
+	 * The feature id for the '<em><b>Containing Module</b></em>' container reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int DEPENDS_MEMBER__MODULE = MEMBER__MODULE;
+	int DEPENDS_MEMBER__CONTAINING_MODULE = MEMBER__CONTAINING_MODULE;
 
 	/**
 	 * The feature id for the '<em><b>Modules</b></em>' reference list.
@@ -766,14 +766,14 @@ public interface MyFilePackage extends EPackage
 	int DEPENDS_MEMBER_FEATURE_COUNT = MEMBER_FEATURE_COUNT + 1;
 
 	/**
-	 * The meta object id for the '{@link org.mybuild.myfile.impl.RequiresMemberImpl <em>Requires Member</em>}' class.
+	 * The meta object id for the '{@link org.mybuild.myfile.impl.AbstractFeatureListMemberImpl <em>Abstract Feature List Member</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see org.mybuild.myfile.impl.RequiresMemberImpl
-	 * @see org.mybuild.myfile.impl.MyFilePackageImpl#getRequiresMember()
+	 * @see org.mybuild.myfile.impl.AbstractFeatureListMemberImpl
+	 * @see org.mybuild.myfile.impl.MyFilePackageImpl#getAbstractFeatureListMember()
 	 * @generated
 	 */
-	int REQUIRES_MEMBER = 12;
+	int ABSTRACT_FEATURE_LIST_MEMBER = 12;
 
 	/**
 	 * The feature id for the '<em><b>Annotations</b></em>' containment reference list.
@@ -782,7 +782,7 @@ public interface MyFilePackage extends EPackage
 	 * @generated
 	 * @ordered
 	 */
-	int REQUIRES_MEMBER__ANNOTATIONS = MEMBER__ANNOTATIONS;
+	int ABSTRACT_FEATURE_LIST_MEMBER__ANNOTATIONS = MEMBER__ANNOTATIONS;
 
 	/**
 	 * The feature id for the '<em><b>Self</b></em>' containment reference.
@@ -791,16 +791,16 @@ public interface MyFilePackage extends EPackage
 	 * @generated
 	 * @ordered
 	 */
-	int REQUIRES_MEMBER__SELF = MEMBER__SELF;
+	int ABSTRACT_FEATURE_LIST_MEMBER__SELF = MEMBER__SELF;
 
 	/**
-	 * The feature id for the '<em><b>Module</b></em>' container reference.
+	 * The feature id for the '<em><b>Containing Module</b></em>' container reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int REQUIRES_MEMBER__MODULE = MEMBER__MODULE;
+	int ABSTRACT_FEATURE_LIST_MEMBER__CONTAINING_MODULE = MEMBER__CONTAINING_MODULE;
 
 	/**
 	 * The feature id for the '<em><b>Features</b></em>' reference list.
@@ -809,7 +809,62 @@ public interface MyFilePackage extends EPackage
 	 * @generated
 	 * @ordered
 	 */
-	int REQUIRES_MEMBER__FEATURES = MEMBER_FEATURE_COUNT + 0;
+	int ABSTRACT_FEATURE_LIST_MEMBER__FEATURES = MEMBER_FEATURE_COUNT + 0;
+
+	/**
+	 * The number of structural features of the '<em>Abstract Feature List Member</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ABSTRACT_FEATURE_LIST_MEMBER_FEATURE_COUNT = MEMBER_FEATURE_COUNT + 1;
+
+	/**
+	 * The meta object id for the '{@link org.mybuild.myfile.impl.RequiresMemberImpl <em>Requires Member</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.mybuild.myfile.impl.RequiresMemberImpl
+	 * @see org.mybuild.myfile.impl.MyFilePackageImpl#getRequiresMember()
+	 * @generated
+	 */
+	int REQUIRES_MEMBER = 13;
+
+	/**
+	 * The feature id for the '<em><b>Annotations</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int REQUIRES_MEMBER__ANNOTATIONS = ABSTRACT_FEATURE_LIST_MEMBER__ANNOTATIONS;
+
+	/**
+	 * The feature id for the '<em><b>Self</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int REQUIRES_MEMBER__SELF = ABSTRACT_FEATURE_LIST_MEMBER__SELF;
+
+	/**
+	 * The feature id for the '<em><b>Containing Module</b></em>' container reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int REQUIRES_MEMBER__CONTAINING_MODULE = ABSTRACT_FEATURE_LIST_MEMBER__CONTAINING_MODULE;
+
+	/**
+	 * The feature id for the '<em><b>Features</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int REQUIRES_MEMBER__FEATURES = ABSTRACT_FEATURE_LIST_MEMBER__FEATURES;
 
 	/**
 	 * The number of structural features of the '<em>Requires Member</em>' class.
@@ -818,7 +873,7 @@ public interface MyFilePackage extends EPackage
 	 * @generated
 	 * @ordered
 	 */
-	int REQUIRES_MEMBER_FEATURE_COUNT = MEMBER_FEATURE_COUNT + 1;
+	int REQUIRES_MEMBER_FEATURE_COUNT = ABSTRACT_FEATURE_LIST_MEMBER_FEATURE_COUNT + 0;
 
 	/**
 	 * The meta object id for the '{@link org.mybuild.myfile.impl.ProvidesMemberImpl <em>Provides Member</em>}' class.
@@ -828,7 +883,7 @@ public interface MyFilePackage extends EPackage
 	 * @see org.mybuild.myfile.impl.MyFilePackageImpl#getProvidesMember()
 	 * @generated
 	 */
-	int PROVIDES_MEMBER = 13;
+	int PROVIDES_MEMBER = 14;
 
 	/**
 	 * The feature id for the '<em><b>Annotations</b></em>' containment reference list.
@@ -837,7 +892,7 @@ public interface MyFilePackage extends EPackage
 	 * @generated
 	 * @ordered
 	 */
-	int PROVIDES_MEMBER__ANNOTATIONS = MEMBER__ANNOTATIONS;
+	int PROVIDES_MEMBER__ANNOTATIONS = ABSTRACT_FEATURE_LIST_MEMBER__ANNOTATIONS;
 
 	/**
 	 * The feature id for the '<em><b>Self</b></em>' containment reference.
@@ -846,16 +901,16 @@ public interface MyFilePackage extends EPackage
 	 * @generated
 	 * @ordered
 	 */
-	int PROVIDES_MEMBER__SELF = MEMBER__SELF;
+	int PROVIDES_MEMBER__SELF = ABSTRACT_FEATURE_LIST_MEMBER__SELF;
 
 	/**
-	 * The feature id for the '<em><b>Module</b></em>' container reference.
+	 * The feature id for the '<em><b>Containing Module</b></em>' container reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int PROVIDES_MEMBER__MODULE = MEMBER__MODULE;
+	int PROVIDES_MEMBER__CONTAINING_MODULE = ABSTRACT_FEATURE_LIST_MEMBER__CONTAINING_MODULE;
 
 	/**
 	 * The feature id for the '<em><b>Features</b></em>' reference list.
@@ -864,7 +919,7 @@ public interface MyFilePackage extends EPackage
 	 * @generated
 	 * @ordered
 	 */
-	int PROVIDES_MEMBER__FEATURES = MEMBER_FEATURE_COUNT + 0;
+	int PROVIDES_MEMBER__FEATURES = ABSTRACT_FEATURE_LIST_MEMBER__FEATURES;
 
 	/**
 	 * The number of structural features of the '<em>Provides Member</em>' class.
@@ -873,7 +928,62 @@ public interface MyFilePackage extends EPackage
 	 * @generated
 	 * @ordered
 	 */
-	int PROVIDES_MEMBER_FEATURE_COUNT = MEMBER_FEATURE_COUNT + 1;
+	int PROVIDES_MEMBER_FEATURE_COUNT = ABSTRACT_FEATURE_LIST_MEMBER_FEATURE_COUNT + 0;
+
+	/**
+	 * The meta object id for the '{@link org.mybuild.myfile.impl.AbstractFileListMemberImpl <em>Abstract File List Member</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.mybuild.myfile.impl.AbstractFileListMemberImpl
+	 * @see org.mybuild.myfile.impl.MyFilePackageImpl#getAbstractFileListMember()
+	 * @generated
+	 */
+	int ABSTRACT_FILE_LIST_MEMBER = 15;
+
+	/**
+	 * The feature id for the '<em><b>Annotations</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ABSTRACT_FILE_LIST_MEMBER__ANNOTATIONS = MEMBER__ANNOTATIONS;
+
+	/**
+	 * The feature id for the '<em><b>Self</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ABSTRACT_FILE_LIST_MEMBER__SELF = MEMBER__SELF;
+
+	/**
+	 * The feature id for the '<em><b>Containing Module</b></em>' container reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ABSTRACT_FILE_LIST_MEMBER__CONTAINING_MODULE = MEMBER__CONTAINING_MODULE;
+
+	/**
+	 * The feature id for the '<em><b>Files</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ABSTRACT_FILE_LIST_MEMBER__FILES = MEMBER_FEATURE_COUNT + 0;
+
+	/**
+	 * The number of structural features of the '<em>Abstract File List Member</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ABSTRACT_FILE_LIST_MEMBER_FEATURE_COUNT = MEMBER_FEATURE_COUNT + 1;
 
 	/**
 	 * The meta object id for the '{@link org.mybuild.myfile.impl.SourceMemberImpl <em>Source Member</em>}' class.
@@ -883,7 +993,7 @@ public interface MyFilePackage extends EPackage
 	 * @see org.mybuild.myfile.impl.MyFilePackageImpl#getSourceMember()
 	 * @generated
 	 */
-	int SOURCE_MEMBER = 14;
+	int SOURCE_MEMBER = 16;
 
 	/**
 	 * The feature id for the '<em><b>Annotations</b></em>' containment reference list.
@@ -892,7 +1002,7 @@ public interface MyFilePackage extends EPackage
 	 * @generated
 	 * @ordered
 	 */
-	int SOURCE_MEMBER__ANNOTATIONS = MEMBER__ANNOTATIONS;
+	int SOURCE_MEMBER__ANNOTATIONS = ABSTRACT_FILE_LIST_MEMBER__ANNOTATIONS;
 
 	/**
 	 * The feature id for the '<em><b>Self</b></em>' containment reference.
@@ -901,16 +1011,16 @@ public interface MyFilePackage extends EPackage
 	 * @generated
 	 * @ordered
 	 */
-	int SOURCE_MEMBER__SELF = MEMBER__SELF;
+	int SOURCE_MEMBER__SELF = ABSTRACT_FILE_LIST_MEMBER__SELF;
 
 	/**
-	 * The feature id for the '<em><b>Module</b></em>' container reference.
+	 * The feature id for the '<em><b>Containing Module</b></em>' container reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int SOURCE_MEMBER__MODULE = MEMBER__MODULE;
+	int SOURCE_MEMBER__CONTAINING_MODULE = ABSTRACT_FILE_LIST_MEMBER__CONTAINING_MODULE;
 
 	/**
 	 * The feature id for the '<em><b>Files</b></em>' containment reference list.
@@ -919,7 +1029,7 @@ public interface MyFilePackage extends EPackage
 	 * @generated
 	 * @ordered
 	 */
-	int SOURCE_MEMBER__FILES = MEMBER_FEATURE_COUNT + 0;
+	int SOURCE_MEMBER__FILES = ABSTRACT_FILE_LIST_MEMBER__FILES;
 
 	/**
 	 * The number of structural features of the '<em>Source Member</em>' class.
@@ -928,7 +1038,7 @@ public interface MyFilePackage extends EPackage
 	 * @generated
 	 * @ordered
 	 */
-	int SOURCE_MEMBER_FEATURE_COUNT = MEMBER_FEATURE_COUNT + 1;
+	int SOURCE_MEMBER_FEATURE_COUNT = ABSTRACT_FILE_LIST_MEMBER_FEATURE_COUNT + 0;
 
 	/**
 	 * The meta object id for the '{@link org.mybuild.myfile.impl.ObjectMemberImpl <em>Object Member</em>}' class.
@@ -938,7 +1048,7 @@ public interface MyFilePackage extends EPackage
 	 * @see org.mybuild.myfile.impl.MyFilePackageImpl#getObjectMember()
 	 * @generated
 	 */
-	int OBJECT_MEMBER = 15;
+	int OBJECT_MEMBER = 17;
 
 	/**
 	 * The feature id for the '<em><b>Annotations</b></em>' containment reference list.
@@ -947,7 +1057,7 @@ public interface MyFilePackage extends EPackage
 	 * @generated
 	 * @ordered
 	 */
-	int OBJECT_MEMBER__ANNOTATIONS = MEMBER__ANNOTATIONS;
+	int OBJECT_MEMBER__ANNOTATIONS = ABSTRACT_FILE_LIST_MEMBER__ANNOTATIONS;
 
 	/**
 	 * The feature id for the '<em><b>Self</b></em>' containment reference.
@@ -956,16 +1066,16 @@ public interface MyFilePackage extends EPackage
 	 * @generated
 	 * @ordered
 	 */
-	int OBJECT_MEMBER__SELF = MEMBER__SELF;
+	int OBJECT_MEMBER__SELF = ABSTRACT_FILE_LIST_MEMBER__SELF;
 
 	/**
-	 * The feature id for the '<em><b>Module</b></em>' container reference.
+	 * The feature id for the '<em><b>Containing Module</b></em>' container reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int OBJECT_MEMBER__MODULE = MEMBER__MODULE;
+	int OBJECT_MEMBER__CONTAINING_MODULE = ABSTRACT_FILE_LIST_MEMBER__CONTAINING_MODULE;
 
 	/**
 	 * The feature id for the '<em><b>Files</b></em>' containment reference list.
@@ -974,7 +1084,7 @@ public interface MyFilePackage extends EPackage
 	 * @generated
 	 * @ordered
 	 */
-	int OBJECT_MEMBER__FILES = MEMBER_FEATURE_COUNT + 0;
+	int OBJECT_MEMBER__FILES = ABSTRACT_FILE_LIST_MEMBER__FILES;
 
 	/**
 	 * The number of structural features of the '<em>Object Member</em>' class.
@@ -983,7 +1093,7 @@ public interface MyFilePackage extends EPackage
 	 * @generated
 	 * @ordered
 	 */
-	int OBJECT_MEMBER_FEATURE_COUNT = MEMBER_FEATURE_COUNT + 1;
+	int OBJECT_MEMBER_FEATURE_COUNT = ABSTRACT_FILE_LIST_MEMBER_FEATURE_COUNT + 0;
 
 	/**
 	 * The meta object id for the '{@link org.mybuild.myfile.impl.FileNameImpl <em>File Name</em>}' class.
@@ -993,7 +1103,7 @@ public interface MyFilePackage extends EPackage
 	 * @see org.mybuild.myfile.impl.MyFilePackageImpl#getFileName()
 	 * @generated
 	 */
-	int FILE_NAME = 16;
+	int FILE_NAME = 18;
 
 	/**
 	 * The feature id for the '<em><b>Value</b></em>' attribute.
@@ -1021,7 +1131,7 @@ public interface MyFilePackage extends EPackage
 	 * @see org.mybuild.myfile.impl.MyFilePackageImpl#getOptionMember()
 	 * @generated
 	 */
-	int OPTION_MEMBER = 17;
+	int OPTION_MEMBER = 19;
 
 	/**
 	 * The feature id for the '<em><b>Annotations</b></em>' containment reference list.
@@ -1042,13 +1152,13 @@ public interface MyFilePackage extends EPackage
 	int OPTION_MEMBER__SELF = MEMBER__SELF;
 
 	/**
-	 * The feature id for the '<em><b>Module</b></em>' container reference.
+	 * The feature id for the '<em><b>Containing Module</b></em>' container reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int OPTION_MEMBER__MODULE = MEMBER__MODULE;
+	int OPTION_MEMBER__CONTAINING_MODULE = MEMBER__CONTAINING_MODULE;
 
 	/**
 	 * The feature id for the '<em><b>Property</b></em>' containment reference.
@@ -1076,7 +1186,7 @@ public interface MyFilePackage extends EPackage
 	 * @see org.mybuild.myfile.impl.MyFilePackageImpl#getProperty()
 	 * @generated
 	 */
-	int PROPERTY = 18;
+	int PROPERTY = 20;
 
 	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -1131,7 +1241,7 @@ public interface MyFilePackage extends EPackage
 	 * @see org.mybuild.myfile.impl.MyFilePackageImpl#getStringProperty()
 	 * @generated
 	 */
-	int STRING_PROPERTY = 19;
+	int STRING_PROPERTY = 21;
 
 	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -1186,7 +1296,7 @@ public interface MyFilePackage extends EPackage
 	 * @see org.mybuild.myfile.impl.MyFilePackageImpl#getNumberProperty()
 	 * @generated
 	 */
-	int NUMBER_PROPERTY = 20;
+	int NUMBER_PROPERTY = 22;
 
 	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -1241,7 +1351,7 @@ public interface MyFilePackage extends EPackage
 	 * @see org.mybuild.myfile.impl.MyFilePackageImpl#getBooleanProperty()
 	 * @generated
 	 */
-	int BOOLEAN_PROPERTY = 21;
+	int BOOLEAN_PROPERTY = 23;
 
 	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -1296,7 +1406,7 @@ public interface MyFilePackage extends EPackage
 	 * @see org.mybuild.myfile.impl.MyFilePackageImpl#getTypeProperty()
 	 * @generated
 	 */
-	int TYPE_PROPERTY = 22;
+	int TYPE_PROPERTY = 24;
 
 	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -1351,7 +1461,7 @@ public interface MyFilePackage extends EPackage
 	 * @see org.mybuild.myfile.impl.MyFilePackageImpl#getValue()
 	 * @generated
 	 */
-	int VALUE = 23;
+	int VALUE = 25;
 
 	/**
 	 * The number of structural features of the '<em>Value</em>' class.
@@ -1370,7 +1480,7 @@ public interface MyFilePackage extends EPackage
 	 * @see org.mybuild.myfile.impl.MyFilePackageImpl#getStringLiteral()
 	 * @generated
 	 */
-	int STRING_LITERAL = 24;
+	int STRING_LITERAL = 26;
 
 	/**
 	 * The feature id for the '<em><b>Value</b></em>' attribute.
@@ -1398,7 +1508,7 @@ public interface MyFilePackage extends EPackage
 	 * @see org.mybuild.myfile.impl.MyFilePackageImpl#getNumberLiteral()
 	 * @generated
 	 */
-	int NUMBER_LITERAL = 25;
+	int NUMBER_LITERAL = 27;
 
 	/**
 	 * The feature id for the '<em><b>Value</b></em>' attribute.
@@ -1426,7 +1536,7 @@ public interface MyFilePackage extends EPackage
 	 * @see org.mybuild.myfile.impl.MyFilePackageImpl#getBooleanLiteral()
 	 * @generated
 	 */
-	int BOOLEAN_LITERAL = 26;
+	int BOOLEAN_LITERAL = 28;
 
 	/**
 	 * The feature id for the '<em><b>Is True</b></em>' attribute.
@@ -1454,7 +1564,7 @@ public interface MyFilePackage extends EPackage
 	 * @see org.mybuild.myfile.impl.MyFilePackageImpl#getTypeLiteral()
 	 * @generated
 	 */
-	int TYPE_LITERAL = 27;
+	int TYPE_LITERAL = 29;
 
 	/**
 	 * The feature id for the '<em><b>Value</b></em>' reference.
@@ -1482,7 +1592,7 @@ public interface MyFilePackage extends EPackage
 	 * @see org.mybuild.myfile.impl.MyFilePackageImpl#getPropertyValueBinding()
 	 * @generated
 	 */
-	int PROPERTY_VALUE_BINDING = 28;
+	int PROPERTY_VALUE_BINDING = 30;
 
 	/**
 	 * The feature id for the '<em><b>Property</b></em>' reference.
@@ -1545,15 +1655,15 @@ public interface MyFilePackage extends EPackage
 	EReference getModel_Imports();
 
 	/**
-	 * Returns the meta object for the containment reference list '{@link org.mybuild.myfile.Model#getEntities <em>Entities</em>}'.
+	 * Returns the meta object for the containment reference list '{@link org.mybuild.myfile.Model#getTypes <em>Types</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the containment reference list '<em>Entities</em>'.
-	 * @see org.mybuild.myfile.Model#getEntities()
+	 * @return the meta object for the containment reference list '<em>Types</em>'.
+	 * @see org.mybuild.myfile.Model#getTypes()
 	 * @see #getModel()
 	 * @generated
 	 */
-	EReference getModel_Entities();
+	EReference getModel_Types();
 
 	/**
 	 * Returns the meta object for class '{@link org.mybuild.myfile.Package <em>Package</em>}'.
@@ -1931,15 +2041,15 @@ public interface MyFilePackage extends EPackage
 	EClass getMember();
 
 	/**
-	 * Returns the meta object for the container reference '{@link org.mybuild.myfile.Member#getModule <em>Module</em>}'.
+	 * Returns the meta object for the container reference '{@link org.mybuild.myfile.Member#getContainingModule <em>Containing Module</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the container reference '<em>Module</em>'.
-	 * @see org.mybuild.myfile.Member#getModule()
+	 * @return the meta object for the container reference '<em>Containing Module</em>'.
+	 * @see org.mybuild.myfile.Member#getContainingModule()
 	 * @see #getMember()
 	 * @generated
 	 */
-	EReference getMember_Module();
+	EReference getMember_ContainingModule();
 
 	/**
 	 * Returns the meta object for class '{@link org.mybuild.myfile.DependsMember <em>Depends Member</em>}'.
@@ -1963,6 +2073,27 @@ public interface MyFilePackage extends EPackage
 	EReference getDependsMember_Modules();
 
 	/**
+	 * Returns the meta object for class '{@link org.mybuild.myfile.AbstractFeatureListMember <em>Abstract Feature List Member</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Abstract Feature List Member</em>'.
+	 * @see org.mybuild.myfile.AbstractFeatureListMember
+	 * @generated
+	 */
+	EClass getAbstractFeatureListMember();
+
+	/**
+	 * Returns the meta object for the reference list '{@link org.mybuild.myfile.AbstractFeatureListMember#getFeatures <em>Features</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference list '<em>Features</em>'.
+	 * @see org.mybuild.myfile.AbstractFeatureListMember#getFeatures()
+	 * @see #getAbstractFeatureListMember()
+	 * @generated
+	 */
+	EReference getAbstractFeatureListMember_Features();
+
+	/**
 	 * Returns the meta object for class '{@link org.mybuild.myfile.RequiresMember <em>Requires Member</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1971,17 +2102,6 @@ public interface MyFilePackage extends EPackage
 	 * @generated
 	 */
 	EClass getRequiresMember();
-
-	/**
-	 * Returns the meta object for the reference list '{@link org.mybuild.myfile.RequiresMember#getFeatures <em>Features</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference list '<em>Features</em>'.
-	 * @see org.mybuild.myfile.RequiresMember#getFeatures()
-	 * @see #getRequiresMember()
-	 * @generated
-	 */
-	EReference getRequiresMember_Features();
 
 	/**
 	 * Returns the meta object for class '{@link org.mybuild.myfile.ProvidesMember <em>Provides Member</em>}'.
@@ -1994,15 +2114,25 @@ public interface MyFilePackage extends EPackage
 	EClass getProvidesMember();
 
 	/**
-	 * Returns the meta object for the reference list '{@link org.mybuild.myfile.ProvidesMember#getFeatures <em>Features</em>}'.
+	 * Returns the meta object for class '{@link org.mybuild.myfile.AbstractFileListMember <em>Abstract File List Member</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference list '<em>Features</em>'.
-	 * @see org.mybuild.myfile.ProvidesMember#getFeatures()
-	 * @see #getProvidesMember()
+	 * @return the meta object for class '<em>Abstract File List Member</em>'.
+	 * @see org.mybuild.myfile.AbstractFileListMember
 	 * @generated
 	 */
-	EReference getProvidesMember_Features();
+	EClass getAbstractFileListMember();
+
+	/**
+	 * Returns the meta object for the containment reference list '{@link org.mybuild.myfile.AbstractFileListMember#getFiles <em>Files</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference list '<em>Files</em>'.
+	 * @see org.mybuild.myfile.AbstractFileListMember#getFiles()
+	 * @see #getAbstractFileListMember()
+	 * @generated
+	 */
+	EReference getAbstractFileListMember_Files();
 
 	/**
 	 * Returns the meta object for class '{@link org.mybuild.myfile.SourceMember <em>Source Member</em>}'.
@@ -2015,17 +2145,6 @@ public interface MyFilePackage extends EPackage
 	EClass getSourceMember();
 
 	/**
-	 * Returns the meta object for the containment reference list '{@link org.mybuild.myfile.SourceMember#getFiles <em>Files</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the containment reference list '<em>Files</em>'.
-	 * @see org.mybuild.myfile.SourceMember#getFiles()
-	 * @see #getSourceMember()
-	 * @generated
-	 */
-	EReference getSourceMember_Files();
-
-	/**
 	 * Returns the meta object for class '{@link org.mybuild.myfile.ObjectMember <em>Object Member</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -2034,17 +2153,6 @@ public interface MyFilePackage extends EPackage
 	 * @generated
 	 */
 	EClass getObjectMember();
-
-	/**
-	 * Returns the meta object for the containment reference list '{@link org.mybuild.myfile.ObjectMember#getFiles <em>Files</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the containment reference list '<em>Files</em>'.
-	 * @see org.mybuild.myfile.ObjectMember#getFiles()
-	 * @see #getObjectMember()
-	 * @generated
-	 */
-	EReference getObjectMember_Files();
 
 	/**
 	 * Returns the meta object for class '{@link org.mybuild.myfile.FileName <em>File Name</em>}'.
@@ -2346,12 +2454,12 @@ public interface MyFilePackage extends EPackage
 		EReference MODEL__IMPORTS = eINSTANCE.getModel_Imports();
 
 		/**
-		 * The meta object literal for the '<em><b>Entities</b></em>' containment reference list feature.
+		 * The meta object literal for the '<em><b>Types</b></em>' containment reference list feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EReference MODEL__ENTITIES = eINSTANCE.getModel_Entities();
+		EReference MODEL__TYPES = eINSTANCE.getModel_Types();
 
 		/**
 		 * The meta object literal for the '{@link org.mybuild.myfile.impl.PackageImpl <em>Package</em>}' class.
@@ -2654,12 +2762,12 @@ public interface MyFilePackage extends EPackage
 		EClass MEMBER = eINSTANCE.getMember();
 
 		/**
-		 * The meta object literal for the '<em><b>Module</b></em>' container reference feature.
+		 * The meta object literal for the '<em><b>Containing Module</b></em>' container reference feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EReference MEMBER__MODULE = eINSTANCE.getMember_Module();
+		EReference MEMBER__CONTAINING_MODULE = eINSTANCE.getMember_ContainingModule();
 
 		/**
 		 * The meta object literal for the '{@link org.mybuild.myfile.impl.DependsMemberImpl <em>Depends Member</em>}' class.
@@ -2680,6 +2788,24 @@ public interface MyFilePackage extends EPackage
 		EReference DEPENDS_MEMBER__MODULES = eINSTANCE.getDependsMember_Modules();
 
 		/**
+		 * The meta object literal for the '{@link org.mybuild.myfile.impl.AbstractFeatureListMemberImpl <em>Abstract Feature List Member</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.mybuild.myfile.impl.AbstractFeatureListMemberImpl
+		 * @see org.mybuild.myfile.impl.MyFilePackageImpl#getAbstractFeatureListMember()
+		 * @generated
+		 */
+		EClass ABSTRACT_FEATURE_LIST_MEMBER = eINSTANCE.getAbstractFeatureListMember();
+
+		/**
+		 * The meta object literal for the '<em><b>Features</b></em>' reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference ABSTRACT_FEATURE_LIST_MEMBER__FEATURES = eINSTANCE.getAbstractFeatureListMember_Features();
+
+		/**
 		 * The meta object literal for the '{@link org.mybuild.myfile.impl.RequiresMemberImpl <em>Requires Member</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -2688,14 +2814,6 @@ public interface MyFilePackage extends EPackage
 		 * @generated
 		 */
 		EClass REQUIRES_MEMBER = eINSTANCE.getRequiresMember();
-
-		/**
-		 * The meta object literal for the '<em><b>Features</b></em>' reference list feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EReference REQUIRES_MEMBER__FEATURES = eINSTANCE.getRequiresMember_Features();
 
 		/**
 		 * The meta object literal for the '{@link org.mybuild.myfile.impl.ProvidesMemberImpl <em>Provides Member</em>}' class.
@@ -2708,12 +2826,22 @@ public interface MyFilePackage extends EPackage
 		EClass PROVIDES_MEMBER = eINSTANCE.getProvidesMember();
 
 		/**
-		 * The meta object literal for the '<em><b>Features</b></em>' reference list feature.
+		 * The meta object literal for the '{@link org.mybuild.myfile.impl.AbstractFileListMemberImpl <em>Abstract File List Member</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.mybuild.myfile.impl.AbstractFileListMemberImpl
+		 * @see org.mybuild.myfile.impl.MyFilePackageImpl#getAbstractFileListMember()
+		 * @generated
+		 */
+		EClass ABSTRACT_FILE_LIST_MEMBER = eINSTANCE.getAbstractFileListMember();
+
+		/**
+		 * The meta object literal for the '<em><b>Files</b></em>' containment reference list feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EReference PROVIDES_MEMBER__FEATURES = eINSTANCE.getProvidesMember_Features();
+		EReference ABSTRACT_FILE_LIST_MEMBER__FILES = eINSTANCE.getAbstractFileListMember_Files();
 
 		/**
 		 * The meta object literal for the '{@link org.mybuild.myfile.impl.SourceMemberImpl <em>Source Member</em>}' class.
@@ -2726,14 +2854,6 @@ public interface MyFilePackage extends EPackage
 		EClass SOURCE_MEMBER = eINSTANCE.getSourceMember();
 
 		/**
-		 * The meta object literal for the '<em><b>Files</b></em>' containment reference list feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EReference SOURCE_MEMBER__FILES = eINSTANCE.getSourceMember_Files();
-
-		/**
 		 * The meta object literal for the '{@link org.mybuild.myfile.impl.ObjectMemberImpl <em>Object Member</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -2742,14 +2862,6 @@ public interface MyFilePackage extends EPackage
 		 * @generated
 		 */
 		EClass OBJECT_MEMBER = eINSTANCE.getObjectMember();
-
-		/**
-		 * The meta object literal for the '<em><b>Files</b></em>' containment reference list feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EReference OBJECT_MEMBER__FILES = eINSTANCE.getObjectMember_Files();
 
 		/**
 		 * The meta object literal for the '{@link org.mybuild.myfile.impl.FileNameImpl <em>File Name</em>}' class.

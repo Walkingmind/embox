@@ -14,7 +14,7 @@ package org.mybuild.myfile;
  * <p>
  * The following features are supported:
  * <ul>
- *   <li>{@link org.mybuild.myfile.Member#getModule <em>Module</em>}</li>
+ *   <li>{@link org.mybuild.myfile.Member#getContainingModule <em>Containing Module</em>}</li>
  * </ul>
  * </p>
  *
@@ -25,31 +25,31 @@ package org.mybuild.myfile;
 public interface Member extends AnnotationTarget
 {
 	/**
-	 * Returns the value of the '<em><b>Module</b></em>' container reference.
+	 * Returns the value of the '<em><b>Containing Module</b></em>' container reference.
 	 * It is bidirectional and its opposite is '{@link org.mybuild.myfile.Module#getMembers <em>Members</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of the '<em>Module</em>' container reference isn't clear,
+	 * If the meaning of the '<em>Containing Module</em>' container reference isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Module</em>' container reference.
-	 * @see #setModule(Module)
-	 * @see org.mybuild.myfile.MyFilePackage#getMember_Module()
+	 * @return the value of the '<em>Containing Module</em>' container reference.
+	 * @see #setContainingModule(Module)
+	 * @see org.mybuild.myfile.MyFilePackage#getMember_ContainingModule()
 	 * @see org.mybuild.myfile.Module#getMembers
 	 * @model opposite="members" transient="false"
 	 * @generated
 	 */
-	Module getModule();
+	Module getContainingModule();
 
 	/**
-	 * Sets the value of the '{@link org.mybuild.myfile.Member#getModule <em>Module</em>}' container reference.
+	 * Sets the value of the '{@link org.mybuild.myfile.Member#getContainingModule <em>Containing Module</em>}' container reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Module</em>' container reference.
-	 * @see #getModule()
+	 * @param value the new value of the '<em>Containing Module</em>' container reference.
+	 * @see #getContainingModule()
 	 * @generated
 	 */
-	void setModule(Module value);
+	void setContainingModule(Module value);
 
 } // Member

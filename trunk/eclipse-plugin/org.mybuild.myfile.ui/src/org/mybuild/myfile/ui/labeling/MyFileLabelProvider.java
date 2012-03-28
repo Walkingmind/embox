@@ -12,14 +12,14 @@ import org.eclipse.swt.graphics.Image;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.xtext.ui.IImageHelper;
 import org.eclipse.xtext.ui.label.DefaultEObjectLabelProvider;
-import org.mybuild.myfile.myFile.Depends;
-import org.mybuild.myfile.myFile.Filename;
-import org.mybuild.myfile.myFile.Import;
-import org.mybuild.myfile.myFile.Interface;
-import org.mybuild.myfile.myFile.Module;
-import org.mybuild.myfile.myFile.Objects;
-import org.mybuild.myfile.myFile.Package;
-import org.mybuild.myfile.myFile.Sources;
+import org.mybuild.myfile.DependsMember;
+import org.mybuild.myfile.FileName;
+import org.mybuild.myfile.Import;
+import org.mybuild.myfile.Interface;
+import org.mybuild.myfile.Module;
+import org.mybuild.myfile.ObjectMember;
+import org.mybuild.myfile.Package;
+import org.mybuild.myfile.SourceMember;
 
 import com.google.inject.Inject;
 
@@ -68,15 +68,15 @@ public class MyFileLabelProvider extends DefaultEObjectLabelProvider {
 		return "package.png";
 	}
 
-	public String image(Depends deps) {
+	public String image(DependsMember deps) {
 		return "dependency.png";
 	}
 
-	public String image(Sources sources) {
+	public String image(SourceMember sources) {
 		return "file.png";
 	}
 
-	public Image image(Objects objects) {
+	public Image image(ObjectMember objects) {
 		Image image = imageHelper.getImage("file.png");
 
 		ImageDescriptor binaryAdornment = ImageDescriptor
@@ -87,7 +87,7 @@ public class MyFileLabelProvider extends DefaultEObjectLabelProvider {
 		return image;
 	}
 
-	public Image image(Filename file) {
+	public Image image(FileName file) {
 		return getImage(file.eContainer());
 	}
 
