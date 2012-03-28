@@ -20,8 +20,8 @@ import org.eclipse.xtext.resource.EObjectAtOffsetHelper;
 import org.eclipse.xtext.resource.XtextResource;
 import org.eclipse.xtext.ui.editor.hyperlinking.AbstractHyperlink;
 import org.eclipse.xtext.ui.editor.hyperlinking.IHyperlinkAcceptor;
-import org.mybuild.myfile.myFile.Filename;
-import org.mybuild.myfile.myFile.MyFilePackage;
+import org.mybuild.myfile.FileName;
+import org.mybuild.myfile.MyFilePackage;
 
 import com.google.inject.Inject;
 
@@ -58,18 +58,18 @@ public class MyFileHyperlinkHelper extends TypeAwareHyperlinkHelper {
 
 		EObject eObject = eObjectAtOffsetHelper.resolveElementAt(resource,
 				offset);
-		if (!(eObject instanceof Filename)) {
+		if (!(eObject instanceof FileName)) {
 			return;
 		}
 
-		Filename filename = (Filename) eObject;
+		FileName filename = (FileName) eObject;
 		IFile resourceFile = fileFromResource(resource);
 		if (resourceFile == null) {
 			return;
 		}
 
 		IResource referredResource = resourceFile.getParent()
-				.findMember(filename.getName());
+				.findMember(filename.getValue());
 		if (!(referredResource instanceof IFile)) {
 			return;
 		}
@@ -84,7 +84,7 @@ public class MyFileHyperlinkHelper extends TypeAwareHyperlinkHelper {
 
 		Region hyperlinkRegion = null;
 		List<INode> nodes = NodeModelUtils.findNodesForFeature(eObject,
-				MyFilePackage.Literals.FILENAME__NAME);
+				MyFilePackage.Literals.FILE_NAME__VALUE);
 		if (!nodes.isEmpty()) {
 			INode node = nodes.get(0);
 			hyperlinkRegion = new Region(node.getOffset(), node.getLength());
