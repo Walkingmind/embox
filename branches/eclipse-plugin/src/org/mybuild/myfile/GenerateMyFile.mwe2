@@ -13,7 +13,7 @@ Workflow {
 	bean = StandaloneSetup {
 		scanClassPath = true
 		platformUri = "${runtimeProject}/.."
-		registerGeneratedEPackage = "http://www.mybuild.org/MyFile"
+		registerGeneratedEPackage = "org.mybuild.myfile.MyFilePackage"
 		registerGenModelFile = "platform:/resource/${projectName}/src/model/MyFile.genmodel"
 		registerEcoreFile = "platform:/resource/${projectName}/src/model/MyFile.ecore"
 	}

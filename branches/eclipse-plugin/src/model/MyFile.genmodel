@@ -1,185 +1,109 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<genmodel:GenModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="/org.mybuild.myfile/emf-gen" modelPluginID="org.mybuild.myfile" forceOverwrite="true" modelName="MyFile" rootExtendsInterface="org.eclipse.emf.cdo.CDOObject" rootExtendsClass="org.eclipse.emf.internal.cdo.CDOObjectImpl" reflectiveDelegation="true" importerID="org.eclipse.emf.importer.ecore" featureDelegation="Reflective" complianceLevel="6.0" copyrightFields="false">
+<genmodel:GenModel xmi:version="2.0"
+    xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
+    xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="/org.mybuild.myfile/emf-gen"
+    modelPluginID="org.mybuild.myfile" forceOverwrite="true" modelName="MyFile" importerID="org.eclipse.emf.importer.ecore"
+    complianceLevel="6.0" copyrightFields="false">
   <foreignModel>MyFile.ecore</foreignModel>
-  <modelPluginVariables>CDO=org.eclipse.emf.cdo</modelPluginVariables>
-  <genPackages prefix="MyFile" basePackage="org.mybuild" disposableProviderFactory="true">
-    <ecorePackage href="MyFile.ecore#/"/>
-    <genClasses>
-      <ecoreClass href="MyFile.ecore#//Model"/>
-      <genFeatures property="None" children="true" createChild="true">
-        <ecoreFeature xsi:type="ecore:EReference" href="MyFile.ecore#//Model/package"/>
-      </genFeatures>
-      <genFeatures property="None" children="true" createChild="true">
-        <ecoreFeature xsi:type="ecore:EReference" href="MyFile.ecore#//Model/imports"/>
-      </genFeatures>
-      <genFeatures property="None" children="true" createChild="true">
-        <ecoreFeature xsi:type="ecore:EReference" href="MyFile.ecore#//Model/entities"/>
-      </genFeatures>
+  <genPackages prefix="MyFile" basePackage="org.mybuild" disposableProviderFactory="true"
+      ecorePackage="MyFile.ecore#/">
+    <genClasses ecoreClass="MyFile.ecore#//Model">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MyFile.ecore#//Model/package"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MyFile.ecore#//Model/imports"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MyFile.ecore#//Model/types"/>
     </genClasses>
-    <genClasses>
-      <ecoreClass href="MyFile.ecore#//Package"/>
-      <genFeatures createChild="false">
-        <ecoreFeature xsi:type="ecore:EAttribute" href="MyFile.ecore#//Package/name"/>
-      </genFeatures>
+    <genClasses ecoreClass="MyFile.ecore#//Package">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute MyFile.ecore#//Package/name"/>
     </genClasses>
-    <genClasses>
-      <ecoreClass href="MyFile.ecore#//Import"/>
-      <genFeatures createChild="false">
-        <ecoreFeature xsi:type="ecore:EAttribute" href="MyFile.ecore#//Import/importedNamespace"/>
-      </genFeatures>
+    <genClasses ecoreClass="MyFile.ecore#//Import">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute MyFile.ecore#//Import/importedNamespace"/>
     </genClasses>
-    <genClasses>
-      <ecoreClass href="MyFile.ecore#//Type"/>
+    <genClasses ecoreClass="MyFile.ecore#//Type"/>
+    <genClasses ecoreClass="MyFile.ecore#//AnnotationType">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MyFile.ecore#//AnnotationType/elements"/>
     </genClasses>
-    <genClasses>
-      <ecoreClass href="MyFile.ecore#//AnnotationType"/>
-      <genFeatures property="None" children="true" createChild="true">
-        <ecoreFeature xsi:type="ecore:EReference" href="MyFile.ecore#//AnnotationType/elements"/>
-      </genFeatures>
+    <genClasses ecoreClass="MyFile.ecore#//Annotation">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference MyFile.ecore#//Annotation/type"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference MyFile.ecore#//Annotation/target"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MyFile.ecore#//Annotation/elements"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MyFile.ecore#//Annotation/singleValue"/>
     </genClasses>
-    <genClasses>
-      <ecoreClass href="MyFile.ecore#//Annotation"/>
-      <genFeatures notify="false" createChild="false" propertySortChoices="true">
-        <ecoreFeature xsi:type="ecore:EReference" href="MyFile.ecore#//Annotation/type"/>
-      </genFeatures>
-      <genFeatures property="None" notify="false" createChild="false">
-        <ecoreFeature xsi:type="ecore:EReference" href="MyFile.ecore#//Annotation/target"/>
-      </genFeatures>
+    <genClasses ecoreClass="MyFile.ecore#//AnnotationTarget">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MyFile.ecore#//AnnotationTarget/annotations"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MyFile.ecore#//AnnotationTarget/self"/>
     </genClasses>
-    <genClasses>
-      <ecoreClass href="MyFile.ecore#//AnnotationTarget"/>
-      <genFeatures property="None" children="true" createChild="true">
-        <ecoreFeature xsi:type="ecore:EReference" href="MyFile.ecore#//AnnotationTarget/annotations"/>
-      </genFeatures>
-      <genFeatures property="None" children="true" createChild="true">
-        <ecoreFeature xsi:type="ecore:EReference" href="MyFile.ecore#//AnnotationTarget/self"/>
-      </genFeatures>
+    <genClasses ecoreClass="MyFile.ecore#//Interface">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference MyFile.ecore#//Interface/superType"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MyFile.ecore#//Interface/features"/>
     </genClasses>
-    <genClasses>
-      <ecoreClass href="MyFile.ecore#//Interface"/>
-      <genFeatures notify="false" createChild="false" propertySortChoices="true">
-        <ecoreFeature xsi:type="ecore:EReference" href="MyFile.ecore#//Interface/superType"/>
-      </genFeatures>
-      <genFeatures property="None" children="true" createChild="true">
-        <ecoreFeature xsi:type="ecore:EReference" href="MyFile.ecore#//Interface/features"/>
-      </genFeatures>
+    <genClasses ecoreClass="MyFile.ecore#//Feature">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference MyFile.ecore#//Feature/superType"/>
     </genClasses>
-    <genClasses>
-      <ecoreClass href="MyFile.ecore#//Feature"/>
-      <genFeatures notify="false" createChild="false" propertySortChoices="true">
-        <ecoreFeature xsi:type="ecore:EReference" href="MyFile.ecore#//Feature/superType"/>
-      </genFeatures>
+    <genClasses ecoreClass="MyFile.ecore#//Module">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute MyFile.ecore#//Module/static"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute MyFile.ecore#//Module/abstract"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference MyFile.ecore#//Module/superType"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference MyFile.ecore#//Module/subType"/>
+      <genFeatures property="Readonly" notify="false" createChild="false" ecoreFeature="ecore:EReference MyFile.ecore#//Module/allSuperType"/>
+      <genFeatures property="Readonly" notify="false" createChild="false" ecoreFeature="ecore:EReference MyFile.ecore#//Module/allSubType"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MyFile.ecore#//Module/members"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference MyFile.ecore#//Module/depends"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference MyFile.ecore#//Module/dependent"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference MyFile.ecore#//Module/provides"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference MyFile.ecore#//Module/requires"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference MyFile.ecore#//Module/sources"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference MyFile.ecore#//Module/objects"/>
     </genClasses>
-    <genClasses>
-      <ecoreClass href="MyFile.ecore#//Module"/>
-      <genFeatures createChild="false">
-        <ecoreFeature xsi:type="ecore:EAttribute" href="MyFile.ecore#//Module/static"/>
-      </genFeatures>
-      <genFeatures createChild="false">
-        <ecoreFeature xsi:type="ecore:EAttribute" href="MyFile.ecore#//Module/abstract"/>
-      </genFeatures>
-      <genFeatures notify="false" createChild="false" propertySortChoices="true">
-        <ecoreFeature xsi:type="ecore:EReference" href="MyFile.ecore#//Module/superType"/>
-      </genFeatures>
-      <genFeatures property="None" children="true" createChild="true">
-        <ecoreFeature xsi:type="ecore:EReference" href="MyFile.ecore#//Module/members"/>
-      </genFeatures>
+    <genClasses ecoreClass="MyFile.ecore#//Member">
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference MyFile.ecore#//Member/containingModule"/>
     </genClasses>
-    <genClasses>
-      <ecoreClass href="MyFile.ecore#//Member"/>
-      <genFeatures property="None" notify="false" createChild="false">
-        <ecoreFeature xsi:type="ecore:EReference" href="MyFile.ecore#//Member/module"/>
-      </genFeatures>
+    <genClasses ecoreClass="MyFile.ecore#//DependsMember">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference MyFile.ecore#//DependsMember/modules"/>
     </genClasses>
-    <genClasses>
-      <ecoreClass href="MyFile.ecore#//DependsMember"/>
-      <genFeatures notify="false" createChild="false" propertySortChoices="true">
-        <ecoreFeature xsi:type="ecore:EReference" href="MyFile.ecore#//DependsMember/modules"/>
-      </genFeatures>
+    <genClasses image="false" ecoreClass="MyFile.ecore#//AbstractFeatureListMember">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference MyFile.ecore#//AbstractFeatureListMember/features"/>
     </genClasses>
-    <genClasses>
-      <ecoreClass href="MyFile.ecore#//RequiresMember"/>
-      <genFeatures notify="false" createChild="false" propertySortChoices="true">
-        <ecoreFeature xsi:type="ecore:EReference" href="MyFile.ecore#//RequiresMember/features"/>
-      </genFeatures>
+    <genClasses ecoreClass="MyFile.ecore#//RequiresMember"/>
+    <genClasses ecoreClass="MyFile.ecore#//ProvidesMember"/>
+    <genClasses image="false" ecoreClass="MyFile.ecore#//AbstractFileListMember">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MyFile.ecore#//AbstractFileListMember/files"/>
     </genClasses>
-    <genClasses>
-      <ecoreClass href="MyFile.ecore#//ProvidesMember"/>
-      <genFeatures notify="false" createChild="false" propertySortChoices="true">
-        <ecoreFeature xsi:type="ecore:EReference" href="MyFile.ecore#//ProvidesMember/features"/>
-      </genFeatures>
+    <genClasses ecoreClass="MyFile.ecore#//SourceMember"/>
+    <genClasses ecoreClass="MyFile.ecore#//ObjectMember"/>
+    <genClasses ecoreClass="MyFile.ecore#//FileName">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute MyFile.ecore#//FileName/value"/>
     </genClasses>
-    <genClasses>
-      <ecoreClass href="MyFile.ecore#//SourceMember"/>
-      <genFeatures createChild="false">
-        <ecoreFeature xsi:type="ecore:EAttribute" href="MyFile.ecore#//SourceMember/files"/>
-      </genFeatures>
+    <genClasses ecoreClass="MyFile.ecore#//OptionMember">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MyFile.ecore#//OptionMember/property"/>
     </genClasses>
-    <genClasses>
-      <ecoreClass href="MyFile.ecore#//ObjectMember"/>
-      <genFeatures createChild="false">
-        <ecoreFeature xsi:type="ecore:EAttribute" href="MyFile.ecore#//ObjectMember/files"/>
-      </genFeatures>
+    <genClasses ecoreClass="MyFile.ecore#//Property">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MyFile.ecore#//Property/defaultValue"/>
     </genClasses>
-    <genClasses>
-      <ecoreClass href="MyFile.ecore#//OptionMember"/>
-      <genFeatures property="None" children="true" createChild="true">
-        <ecoreFeature xsi:type="ecore:EReference" href="MyFile.ecore#//OptionMember/property"/>
-      </genFeatures>
+    <genClasses ecoreClass="MyFile.ecore#//StringProperty"/>
+    <genClasses ecoreClass="MyFile.ecore#//NumberProperty"/>
+    <genClasses ecoreClass="MyFile.ecore#//BooleanProperty"/>
+    <genClasses ecoreClass="MyFile.ecore#//TypeProperty"/>
+    <genClasses ecoreClass="MyFile.ecore#//Value">
+      <genOperations ecoreOperation="MyFile.ecore#//Value/toString"/>
     </genClasses>
-    <genClasses>
-      <ecoreClass href="MyFile.ecore#//Property"/>
-      <genFeatures property="None" children="true" createChild="true">
-        <ecoreFeature xsi:type="ecore:EReference" href="MyFile.ecore#//Property/defaultValue"/>
-      </genFeatures>
+    <genClasses ecoreClass="MyFile.ecore#//StringLiteral">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute MyFile.ecore#//StringLiteral/value"/>
     </genClasses>
-    <genClasses>
-      <ecoreClass href="MyFile.ecore#//StringProperty"/>
+    <genClasses ecoreClass="MyFile.ecore#//NumberLiteral">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute MyFile.ecore#//NumberLiteral/value"/>
     </genClasses>
-    <genClasses>
-      <ecoreClass href="MyFile.ecore#//NumberProperty"/>
+    <genClasses ecoreClass="MyFile.ecore#//BooleanLiteral">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute MyFile.ecore#//BooleanLiteral/isTrue"/>
     </genClasses>
-    <genClasses>
-      <ecoreClass href="MyFile.ecore#//BooleanProperty"/>
+    <genClasses ecoreClass="MyFile.ecore#//TypeLiteral">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference MyFile.ecore#//TypeLiteral/value"/>
     </genClasses>
-    <genClasses>
-      <ecoreClass href="MyFile.ecore#//TypeProperty"/>
+    <genClasses ecoreClass="MyFile.ecore#//PropertyValueBinding">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference MyFile.ecore#//PropertyValueBinding/property"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MyFile.ecore#//PropertyValueBinding/value"/>
     </genClasses>
-    <genClasses>
-      <ecoreClass href="MyFile.ecore#//Value"/>
-      <genOperations>
-        <ecoreOperation href="MyFile.ecore#//Value/toString"/>
-      </genOperations>
-    </genClasses>
-    <genClasses>
-      <ecoreClass href="MyFile.ecore#//StringLiteral"/>
-      <genFeatures createChild="false">
-        <ecoreFeature xsi:type="ecore:EAttribute" href="MyFile.ecore#//StringLiteral/value"/>
-      </genFeatures>
-    </genClasses>
-    <genClasses>
-      <ecoreClass href="MyFile.ecore#//NumberLiteral"/>
-      <genFeatures createChild="false">
-        <ecoreFeature xsi:type="ecore:EAttribute" href="MyFile.ecore#//NumberLiteral/value"/>
-      </genFeatures>
-    </genClasses>
-    <genClasses>
-      <ecoreClass href="MyFile.ecore#//BooleanLiteral"/>
-      <genFeatures createChild="false">
-        <ecoreFeature xsi:type="ecore:EAttribute" href="MyFile.ecore#//BooleanLiteral/isTrue"/>
-      </genFeatures>
-    </genClasses>
-    <genClasses>
-      <ecoreClass href="MyFile.ecore#//TypeLiteral"/>
-      <genFeatures notify="false" createChild="false" propertySortChoices="true">
-        <ecoreFeature xsi:type="ecore:EReference" href="MyFile.ecore#//TypeLiteral/value"/>
-      </genFeatures>
-    </genClasses>
-    <genClasses>
-      <ecoreClass href="MyFile.ecore#//Named"/>
-      <genFeatures createChild="false">
-        <ecoreFeature xsi:type="ecore:EAttribute" href="MyFile.ecore#//Named/name"/>
-      </genFeatures>
+    <genClasses ecoreClass="MyFile.ecore#//Named">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute MyFile.ecore#//Named/name"/>
     </genClasses>
   </genPackages>
 </genmodel:GenModel>
