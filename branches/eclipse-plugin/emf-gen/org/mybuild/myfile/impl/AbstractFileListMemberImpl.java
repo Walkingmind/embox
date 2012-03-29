@@ -74,8 +74,7 @@ public abstract class AbstractFileListMemberImpl extends MemberImpl implements A
 	 */
 	public EList<FileName> getFiles()
 	{
-		if (files == null)
-		{
+		if (files == null) {
 			files = new EObjectContainmentEList<FileName>(FileName.class, this, MyFilePackage.ABSTRACT_FILE_LIST_MEMBER__FILES);
 		}
 		return files;
@@ -89,8 +88,7 @@ public abstract class AbstractFileListMemberImpl extends MemberImpl implements A
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs)
 	{
-		switch (featureID)
-		{
+		switch (featureID) {
 			case MyFilePackage.ABSTRACT_FILE_LIST_MEMBER__FILES:
 				return ((InternalEList<?>)getFiles()).basicRemove(otherEnd, msgs);
 		}
@@ -105,8 +103,7 @@ public abstract class AbstractFileListMemberImpl extends MemberImpl implements A
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType)
 	{
-		switch (featureID)
-		{
+		switch (featureID) {
 			case MyFilePackage.ABSTRACT_FILE_LIST_MEMBER__FILES:
 				return getFiles();
 		}
@@ -122,8 +119,7 @@ public abstract class AbstractFileListMemberImpl extends MemberImpl implements A
 	@Override
 	public void eSet(int featureID, Object newValue)
 	{
-		switch (featureID)
-		{
+		switch (featureID) {
 			case MyFilePackage.ABSTRACT_FILE_LIST_MEMBER__FILES:
 				getFiles().clear();
 				getFiles().addAll((Collection<? extends FileName>)newValue);
@@ -140,8 +136,7 @@ public abstract class AbstractFileListMemberImpl extends MemberImpl implements A
 	@Override
 	public void eUnset(int featureID)
 	{
-		switch (featureID)
-		{
+		switch (featureID) {
 			case MyFilePackage.ABSTRACT_FILE_LIST_MEMBER__FILES:
 				getFiles().clear();
 				return;
@@ -157,8 +152,7 @@ public abstract class AbstractFileListMemberImpl extends MemberImpl implements A
 	@Override
 	public boolean eIsSet(int featureID)
 	{
-		switch (featureID)
-		{
+		switch (featureID) {
 			case MyFilePackage.ABSTRACT_FILE_LIST_MEMBER__FILES:
 				return files != null && !files.isEmpty();
 		}

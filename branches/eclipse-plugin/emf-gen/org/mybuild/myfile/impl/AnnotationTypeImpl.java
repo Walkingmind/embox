@@ -74,8 +74,7 @@ public class AnnotationTypeImpl extends TypeImpl implements AnnotationType
 	 */
 	public EList<Property> getElements()
 	{
-		if (elements == null)
-		{
+		if (elements == null) {
 			elements = new EObjectContainmentEList<Property>(Property.class, this, MyFilePackage.ANNOTATION_TYPE__ELEMENTS);
 		}
 		return elements;
@@ -89,8 +88,7 @@ public class AnnotationTypeImpl extends TypeImpl implements AnnotationType
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs)
 	{
-		switch (featureID)
-		{
+		switch (featureID) {
 			case MyFilePackage.ANNOTATION_TYPE__ELEMENTS:
 				return ((InternalEList<?>)getElements()).basicRemove(otherEnd, msgs);
 		}
@@ -105,8 +103,7 @@ public class AnnotationTypeImpl extends TypeImpl implements AnnotationType
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType)
 	{
-		switch (featureID)
-		{
+		switch (featureID) {
 			case MyFilePackage.ANNOTATION_TYPE__ELEMENTS:
 				return getElements();
 		}
@@ -122,8 +119,7 @@ public class AnnotationTypeImpl extends TypeImpl implements AnnotationType
 	@Override
 	public void eSet(int featureID, Object newValue)
 	{
-		switch (featureID)
-		{
+		switch (featureID) {
 			case MyFilePackage.ANNOTATION_TYPE__ELEMENTS:
 				getElements().clear();
 				getElements().addAll((Collection<? extends Property>)newValue);
@@ -140,8 +136,7 @@ public class AnnotationTypeImpl extends TypeImpl implements AnnotationType
 	@Override
 	public void eUnset(int featureID)
 	{
-		switch (featureID)
-		{
+		switch (featureID) {
 			case MyFilePackage.ANNOTATION_TYPE__ELEMENTS:
 				getElements().clear();
 				return;
@@ -157,8 +152,7 @@ public class AnnotationTypeImpl extends TypeImpl implements AnnotationType
 	@Override
 	public boolean eIsSet(int featureID)
 	{
-		switch (featureID)
-		{
+		switch (featureID) {
 			case MyFilePackage.ANNOTATION_TYPE__ELEMENTS:
 				return elements != null && !elements.isEmpty();
 		}

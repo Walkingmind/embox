@@ -20,6 +20,7 @@ Workflow {
 
 	component = org.eclipse.emf.mwe2.ecore.EcoreGenerator {
 		genModel = "platform:/resource/${projectName}/src/model/MyFile.genmodel"
+		srcPath ="platform:/resource/${projectName}/emf-gen"
 		srcPath ="platform:/resource/${projectName}/src"
 	}
 

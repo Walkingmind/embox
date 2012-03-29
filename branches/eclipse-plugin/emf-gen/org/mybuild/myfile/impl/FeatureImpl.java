@@ -68,12 +68,10 @@ public class FeatureImpl extends TypeImpl implements Feature
 	 */
 	public Feature getSuperType()
 	{
-		if (superType != null && superType.eIsProxy())
-		{
+		if (superType != null && superType.eIsProxy()) {
 			InternalEObject oldSuperType = (InternalEObject)superType;
 			superType = (Feature)eResolveProxy(oldSuperType);
-			if (superType != oldSuperType)
-			{
+			if (superType != oldSuperType) {
 				if (eNotificationRequired())
 					eNotify(new ENotificationImpl(this, Notification.RESOLVE, MyFilePackage.FEATURE__SUPER_TYPE, oldSuperType, superType));
 			}
@@ -112,8 +110,7 @@ public class FeatureImpl extends TypeImpl implements Feature
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType)
 	{
-		switch (featureID)
-		{
+		switch (featureID) {
 			case MyFilePackage.FEATURE__SUPER_TYPE:
 				if (resolve) return getSuperType();
 				return basicGetSuperType();
@@ -129,8 +126,7 @@ public class FeatureImpl extends TypeImpl implements Feature
 	@Override
 	public void eSet(int featureID, Object newValue)
 	{
-		switch (featureID)
-		{
+		switch (featureID) {
 			case MyFilePackage.FEATURE__SUPER_TYPE:
 				setSuperType((Feature)newValue);
 				return;
@@ -146,8 +142,7 @@ public class FeatureImpl extends TypeImpl implements Feature
 	@Override
 	public void eUnset(int featureID)
 	{
-		switch (featureID)
-		{
+		switch (featureID) {
 			case MyFilePackage.FEATURE__SUPER_TYPE:
 				setSuperType((Feature)null);
 				return;
@@ -163,8 +158,7 @@ public class FeatureImpl extends TypeImpl implements Feature
 	@Override
 	public boolean eIsSet(int featureID)
 	{
-		switch (featureID)
-		{
+		switch (featureID) {
 			case MyFilePackage.FEATURE__SUPER_TYPE:
 				return superType != null;
 		}

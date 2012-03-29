@@ -626,7 +626,7 @@ public class MyFilePackageImpl extends EPackageImpl implements MyFilePackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getModule_SubType()
+	public EReference getModule_SubTypes()
 	{
 		return (EReference)moduleEClass.getEStructuralFeatures().get(3);
 	}
@@ -636,7 +636,7 @@ public class MyFilePackageImpl extends EPackageImpl implements MyFilePackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getModule_AllSuperType()
+	public EReference getModule_AllSuperTypes()
 	{
 		return (EReference)moduleEClass.getEStructuralFeatures().get(4);
 	}
@@ -646,7 +646,7 @@ public class MyFilePackageImpl extends EPackageImpl implements MyFilePackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getModule_AllSubType()
+	public EReference getModule_AllSubTypes()
 	{
 		return (EReference)moduleEClass.getEStructuralFeatures().get(5);
 	}
@@ -1148,9 +1148,9 @@ public class MyFilePackageImpl extends EPackageImpl implements MyFilePackage
 		createEAttribute(moduleEClass, MODULE__STATIC);
 		createEAttribute(moduleEClass, MODULE__ABSTRACT);
 		createEReference(moduleEClass, MODULE__SUPER_TYPE);
-		createEReference(moduleEClass, MODULE__SUB_TYPE);
-		createEReference(moduleEClass, MODULE__ALL_SUPER_TYPE);
-		createEReference(moduleEClass, MODULE__ALL_SUB_TYPE);
+		createEReference(moduleEClass, MODULE__SUB_TYPES);
+		createEReference(moduleEClass, MODULE__ALL_SUPER_TYPES);
+		createEReference(moduleEClass, MODULE__ALL_SUB_TYPES);
 		createEReference(moduleEClass, MODULE__MEMBERS);
 		createEReference(moduleEClass, MODULE__DEPENDS);
 		createEReference(moduleEClass, MODULE__DEPENDENT);
@@ -1310,10 +1310,10 @@ public class MyFilePackageImpl extends EPackageImpl implements MyFilePackage
 		initEClass(moduleEClass, Module.class, "Module", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getModule_Static(), ecorePackage.getEBoolean(), "static", null, 0, 1, Module.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getModule_Abstract(), ecorePackage.getEBoolean(), "abstract", null, 0, 1, Module.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getModule_SuperType(), this.getModule(), this.getModule_SubType(), "superType", null, 0, 1, Module.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getModule_SubType(), this.getModule(), this.getModule_SuperType(), "subType", null, 0, -1, Module.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getModule_AllSuperType(), this.getModule(), this.getModule_AllSubType(), "allSuperType", null, 0, -1, Module.class, IS_TRANSIENT, IS_VOLATILE, !IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, IS_DERIVED, IS_ORDERED);
-		initEReference(getModule_AllSubType(), this.getModule(), this.getModule_AllSuperType(), "allSubType", null, 0, -1, Module.class, IS_TRANSIENT, IS_VOLATILE, !IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, IS_DERIVED, IS_ORDERED);
+		initEReference(getModule_SuperType(), this.getModule(), this.getModule_SubTypes(), "superType", null, 0, 1, Module.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getModule_SubTypes(), this.getModule(), this.getModule_SuperType(), "subTypes", null, 0, -1, Module.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getModule_AllSuperTypes(), this.getModule(), this.getModule_AllSubTypes(), "allSuperTypes", null, 0, -1, Module.class, IS_TRANSIENT, IS_VOLATILE, !IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, IS_DERIVED, IS_ORDERED);
+		initEReference(getModule_AllSubTypes(), this.getModule(), this.getModule_AllSuperTypes(), "allSubTypes", null, 0, -1, Module.class, IS_TRANSIENT, IS_VOLATILE, !IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, IS_DERIVED, IS_ORDERED);
 		initEReference(getModule_Members(), this.getMember(), this.getMember_ContainingModule(), "members", null, 0, -1, Module.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getModule_Depends(), this.getModule(), null, "depends", null, 0, -1, Module.class, IS_TRANSIENT, IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, IS_DERIVED, IS_ORDERED);
 		initEReference(getModule_Dependent(), this.getModule(), null, "dependent", null, 0, -1, Module.class, IS_TRANSIENT, IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, IS_DERIVED, IS_ORDERED);

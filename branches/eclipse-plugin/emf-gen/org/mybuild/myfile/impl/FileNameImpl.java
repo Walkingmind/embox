@@ -102,8 +102,7 @@ public class FileNameImpl extends EObjectImpl implements FileName
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType)
 	{
-		switch (featureID)
-		{
+		switch (featureID) {
 			case MyFilePackage.FILE_NAME__VALUE:
 				return getValue();
 		}
@@ -118,8 +117,7 @@ public class FileNameImpl extends EObjectImpl implements FileName
 	@Override
 	public void eSet(int featureID, Object newValue)
 	{
-		switch (featureID)
-		{
+		switch (featureID) {
 			case MyFilePackage.FILE_NAME__VALUE:
 				setValue((String)newValue);
 				return;
@@ -135,8 +133,7 @@ public class FileNameImpl extends EObjectImpl implements FileName
 	@Override
 	public void eUnset(int featureID)
 	{
-		switch (featureID)
-		{
+		switch (featureID) {
 			case MyFilePackage.FILE_NAME__VALUE:
 				setValue(VALUE_EDEFAULT);
 				return;
@@ -152,8 +149,7 @@ public class FileNameImpl extends EObjectImpl implements FileName
 	@Override
 	public boolean eIsSet(int featureID)
 	{
-		switch (featureID)
-		{
+		switch (featureID) {
 			case MyFilePackage.FILE_NAME__VALUE:
 				return VALUE_EDEFAULT == null ? value != null : !VALUE_EDEFAULT.equals(value);
 		}

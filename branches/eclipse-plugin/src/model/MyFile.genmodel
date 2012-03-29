@@ -2,7 +2,7 @@
 <genmodel:GenModel xmi:version="2.0"
     xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
     xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="/org.mybuild.myfile/emf-gen"
-    modelPluginID="org.mybuild.myfile" forceOverwrite="true" modelName="MyFile" importerID="org.eclipse.emf.importer.ecore"
+    modelPluginID="org.mybuild.myfile" modelName="MyFile" importerID="org.eclipse.emf.importer.ecore"
     complianceLevel="6.0" copyrightFields="false">
   <foreignModel>MyFile.ecore</foreignModel>
   <genPackages prefix="MyFile" basePackage="org.mybuild" disposableProviderFactory="true"
@@ -43,9 +43,9 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute MyFile.ecore#//Module/static"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute MyFile.ecore#//Module/abstract"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference MyFile.ecore#//Module/superType"/>
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference MyFile.ecore#//Module/subType"/>
-      <genFeatures property="Readonly" notify="false" createChild="false" ecoreFeature="ecore:EReference MyFile.ecore#//Module/allSuperType"/>
-      <genFeatures property="Readonly" notify="false" createChild="false" ecoreFeature="ecore:EReference MyFile.ecore#//Module/allSubType"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference MyFile.ecore#//Module/subTypes"/>
+      <genFeatures property="Readonly" notify="false" createChild="false" ecoreFeature="ecore:EReference MyFile.ecore#//Module/allSuperTypes"/>
+      <genFeatures property="Readonly" notify="false" createChild="false" ecoreFeature="ecore:EReference MyFile.ecore#//Module/allSubTypes"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MyFile.ecore#//Module/members"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference MyFile.ecore#//Module/depends"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference MyFile.ecore#//Module/dependent"/>

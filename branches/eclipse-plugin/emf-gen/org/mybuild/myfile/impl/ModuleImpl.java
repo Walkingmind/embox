@@ -37,9 +37,9 @@ import org.mybuild.myfile.MyFilePackage;
  *   <li>{@link org.mybuild.myfile.impl.ModuleImpl#isStatic <em>Static</em>}</li>
  *   <li>{@link org.mybuild.myfile.impl.ModuleImpl#isAbstract <em>Abstract</em>}</li>
  *   <li>{@link org.mybuild.myfile.impl.ModuleImpl#getSuperType <em>Super Type</em>}</li>
- *   <li>{@link org.mybuild.myfile.impl.ModuleImpl#getSubType <em>Sub Type</em>}</li>
- *   <li>{@link org.mybuild.myfile.impl.ModuleImpl#getAllSuperType <em>All Super Type</em>}</li>
- *   <li>{@link org.mybuild.myfile.impl.ModuleImpl#getAllSubType <em>All Sub Type</em>}</li>
+ *   <li>{@link org.mybuild.myfile.impl.ModuleImpl#getSubTypes <em>Sub Types</em>}</li>
+ *   <li>{@link org.mybuild.myfile.impl.ModuleImpl#getAllSuperTypes <em>All Super Types</em>}</li>
+ *   <li>{@link org.mybuild.myfile.impl.ModuleImpl#getAllSubTypes <em>All Sub Types</em>}</li>
  *   <li>{@link org.mybuild.myfile.impl.ModuleImpl#getMembers <em>Members</em>}</li>
  *   <li>{@link org.mybuild.myfile.impl.ModuleImpl#getDepends <em>Depends</em>}</li>
  *   <li>{@link org.mybuild.myfile.impl.ModuleImpl#getDependent <em>Dependent</em>}</li>
@@ -59,10 +59,9 @@ public class ModuleImpl extends TypeImpl implements Module
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @see #isStatic()
-	 * @generated
 	 * @ordered
 	 */
-	protected static final boolean STATIC_EDEFAULT = false;
+	protected static final boolean STATIC_EDEFAULT = true;
 
 	/**
 	 * The cached value of the '{@link #isStatic() <em>Static</em>}' attribute.
@@ -105,14 +104,14 @@ public class ModuleImpl extends TypeImpl implements Module
 	protected Module superType;
 
 	/**
-	 * The cached value of the '{@link #getSubType() <em>Sub Type</em>}' reference list.
+	 * The cached value of the '{@link #getSubTypes() <em>Sub Types</em>}' reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getSubType()
+	 * @see #getSubTypes()
 	 * @generated
 	 * @ordered
 	 */
-	protected EList<Module> subType;
+	protected EList<Module> subTypes;
 
 	/**
 	 * The cached value of the '{@link #getMembers() <em>Members</em>}' containment reference list.
@@ -198,12 +197,10 @@ public class ModuleImpl extends TypeImpl implements Module
 	 */
 	public Module getSuperType()
 	{
-		if (superType != null && superType.eIsProxy())
-		{
+		if (superType != null && superType.eIsProxy()) {
 			InternalEObject oldSuperType = (InternalEObject)superType;
 			superType = (Module)eResolveProxy(oldSuperType);
-			if (superType != oldSuperType)
-			{
+			if (superType != oldSuperType) {
 				if (eNotificationRequired())
 					eNotify(new ENotificationImpl(this, Notification.RESOLVE, MyFilePackage.MODULE__SUPER_TYPE, oldSuperType, superType));
 			}
@@ -230,8 +227,7 @@ public class ModuleImpl extends TypeImpl implements Module
 	{
 		Module oldSuperType = superType;
 		superType = newSuperType;
-		if (eNotificationRequired())
-		{
+		if (eNotificationRequired()) {
 			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, MyFilePackage.MODULE__SUPER_TYPE, oldSuperType, newSuperType);
 			if (msgs == null) msgs = notification; else msgs.add(notification);
 		}
@@ -245,13 +241,12 @@ public class ModuleImpl extends TypeImpl implements Module
 	 */
 	public void setSuperType(Module newSuperType)
 	{
-		if (newSuperType != superType)
-		{
+		if (newSuperType != superType) {
 			NotificationChain msgs = null;
 			if (superType != null)
-				msgs = ((InternalEObject)superType).eInverseRemove(this, MyFilePackage.MODULE__SUB_TYPE, Module.class, msgs);
+				msgs = ((InternalEObject)superType).eInverseRemove(this, MyFilePackage.MODULE__SUB_TYPES, Module.class, msgs);
 			if (newSuperType != null)
-				msgs = ((InternalEObject)newSuperType).eInverseAdd(this, MyFilePackage.MODULE__SUB_TYPE, Module.class, msgs);
+				msgs = ((InternalEObject)newSuperType).eInverseAdd(this, MyFilePackage.MODULE__SUB_TYPES, Module.class, msgs);
 			msgs = basicSetSuperType(newSuperType, msgs);
 			if (msgs != null) msgs.dispatch();
 		}
@@ -264,13 +259,12 @@ public class ModuleImpl extends TypeImpl implements Module
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EList<Module> getSubType()
+	public EList<Module> getSubTypes()
 	{
-		if (subType == null)
-		{
-			subType = new EObjectWithInverseResolvingEList<Module>(Module.class, this, MyFilePackage.MODULE__SUB_TYPE, MyFilePackage.MODULE__SUPER_TYPE);
+		if (subTypes == null) {
+			subTypes = new EObjectWithInverseResolvingEList<Module>(Module.class, this, MyFilePackage.MODULE__SUB_TYPES, MyFilePackage.MODULE__SUPER_TYPE);
 		}
-		return subType;
+		return subTypes;
 	}
 
 	/**
@@ -278,9 +272,9 @@ public class ModuleImpl extends TypeImpl implements Module
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EList<Module> getAllSuperType()
+	public EList<Module> getAllSuperTypes()
 	{
-		// TODO: implement this method to return the 'All Super Type' reference list
+		// TODO: implement this method to return the 'All Super Types' reference list
 		// Ensure that you remove @generated or mark it @generated NOT
 		// The list is expected to implement org.eclipse.emf.ecore.util.InternalEList and org.eclipse.emf.ecore.EStructuralFeature.Setting
 		// so it's likely that an appropriate subclass of org.eclipse.emf.ecore.util.EcoreEList should be used.
@@ -292,9 +286,9 @@ public class ModuleImpl extends TypeImpl implements Module
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EList<Module> getAllSubType()
+	public EList<Module> getAllSubTypes()
 	{
-		// TODO: implement this method to return the 'All Sub Type' reference list
+		// TODO: implement this method to return the 'All Sub Types' reference list
 		// Ensure that you remove @generated or mark it @generated NOT
 		// The list is expected to implement org.eclipse.emf.ecore.util.InternalEList and org.eclipse.emf.ecore.EStructuralFeature.Setting
 		// so it's likely that an appropriate subclass of org.eclipse.emf.ecore.util.EcoreEList should be used.
@@ -308,8 +302,7 @@ public class ModuleImpl extends TypeImpl implements Module
 	 */
 	public EList<Member> getMembers()
 	{
-		if (members == null)
-		{
+		if (members == null) {
 			members = new EObjectContainmentWithInverseEList<Member>(Member.class, this, MyFilePackage.MODULE__MEMBERS, MyFilePackage.MEMBER__CONTAINING_MODULE);
 		}
 		return members;
@@ -408,14 +401,13 @@ public class ModuleImpl extends TypeImpl implements Module
 	@Override
 	public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs)
 	{
-		switch (featureID)
-		{
+		switch (featureID) {
 			case MyFilePackage.MODULE__SUPER_TYPE:
 				if (superType != null)
-					msgs = ((InternalEObject)superType).eInverseRemove(this, MyFilePackage.MODULE__SUB_TYPE, Module.class, msgs);
+					msgs = ((InternalEObject)superType).eInverseRemove(this, MyFilePackage.MODULE__SUB_TYPES, Module.class, msgs);
 				return basicSetSuperType((Module)otherEnd, msgs);
-			case MyFilePackage.MODULE__SUB_TYPE:
-				return ((InternalEList<InternalEObject>)(InternalEList<?>)getSubType()).basicAdd(otherEnd, msgs);
+			case MyFilePackage.MODULE__SUB_TYPES:
+				return ((InternalEList<InternalEObject>)(InternalEList<?>)getSubTypes()).basicAdd(otherEnd, msgs);
 			case MyFilePackage.MODULE__MEMBERS:
 				return ((InternalEList<InternalEObject>)(InternalEList<?>)getMembers()).basicAdd(otherEnd, msgs);
 		}
@@ -430,12 +422,11 @@ public class ModuleImpl extends TypeImpl implements Module
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs)
 	{
-		switch (featureID)
-		{
+		switch (featureID) {
 			case MyFilePackage.MODULE__SUPER_TYPE:
 				return basicSetSuperType(null, msgs);
-			case MyFilePackage.MODULE__SUB_TYPE:
-				return ((InternalEList<?>)getSubType()).basicRemove(otherEnd, msgs);
+			case MyFilePackage.MODULE__SUB_TYPES:
+				return ((InternalEList<?>)getSubTypes()).basicRemove(otherEnd, msgs);
 			case MyFilePackage.MODULE__MEMBERS:
 				return ((InternalEList<?>)getMembers()).basicRemove(otherEnd, msgs);
 		}
@@ -450,8 +441,7 @@ public class ModuleImpl extends TypeImpl implements Module
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType)
 	{
-		switch (featureID)
-		{
+		switch (featureID) {
 			case MyFilePackage.MODULE__STATIC:
 				return isStatic();
 			case MyFilePackage.MODULE__ABSTRACT:
@@ -459,12 +449,12 @@ public class ModuleImpl extends TypeImpl implements Module
 			case MyFilePackage.MODULE__SUPER_TYPE:
 				if (resolve) return getSuperType();
 				return basicGetSuperType();
-			case MyFilePackage.MODULE__SUB_TYPE:
-				return getSubType();
-			case MyFilePackage.MODULE__ALL_SUPER_TYPE:
-				return getAllSuperType();
-			case MyFilePackage.MODULE__ALL_SUB_TYPE:
-				return getAllSubType();
+			case MyFilePackage.MODULE__SUB_TYPES:
+				return getSubTypes();
+			case MyFilePackage.MODULE__ALL_SUPER_TYPES:
+				return getAllSuperTypes();
+			case MyFilePackage.MODULE__ALL_SUB_TYPES:
+				return getAllSubTypes();
 			case MyFilePackage.MODULE__MEMBERS:
 				return getMembers();
 			case MyFilePackage.MODULE__DEPENDS:
@@ -492,8 +482,7 @@ public class ModuleImpl extends TypeImpl implements Module
 	@Override
 	public void eSet(int featureID, Object newValue)
 	{
-		switch (featureID)
-		{
+		switch (featureID) {
 			case MyFilePackage.MODULE__STATIC:
 				setStatic((Boolean)newValue);
 				return;
@@ -503,9 +492,9 @@ public class ModuleImpl extends TypeImpl implements Module
 			case MyFilePackage.MODULE__SUPER_TYPE:
 				setSuperType((Module)newValue);
 				return;
-			case MyFilePackage.MODULE__SUB_TYPE:
-				getSubType().clear();
-				getSubType().addAll((Collection<? extends Module>)newValue);
+			case MyFilePackage.MODULE__SUB_TYPES:
+				getSubTypes().clear();
+				getSubTypes().addAll((Collection<? extends Module>)newValue);
 				return;
 			case MyFilePackage.MODULE__MEMBERS:
 				getMembers().clear();
@@ -547,8 +536,7 @@ public class ModuleImpl extends TypeImpl implements Module
 	@Override
 	public void eUnset(int featureID)
 	{
-		switch (featureID)
-		{
+		switch (featureID) {
 			case MyFilePackage.MODULE__STATIC:
 				setStatic(STATIC_EDEFAULT);
 				return;
@@ -558,8 +546,8 @@ public class ModuleImpl extends TypeImpl implements Module
 			case MyFilePackage.MODULE__SUPER_TYPE:
 				setSuperType((Module)null);
 				return;
-			case MyFilePackage.MODULE__SUB_TYPE:
-				getSubType().clear();
+			case MyFilePackage.MODULE__SUB_TYPES:
+				getSubTypes().clear();
 				return;
 			case MyFilePackage.MODULE__MEMBERS:
 				getMembers().clear();
@@ -594,20 +582,19 @@ public class ModuleImpl extends TypeImpl implements Module
 	@Override
 	public boolean eIsSet(int featureID)
 	{
-		switch (featureID)
-		{
+		switch (featureID) {
 			case MyFilePackage.MODULE__STATIC:
 				return static_ != STATIC_EDEFAULT;
 			case MyFilePackage.MODULE__ABSTRACT:
 				return abstract_ != ABSTRACT_EDEFAULT;
 			case MyFilePackage.MODULE__SUPER_TYPE:
 				return superType != null;
-			case MyFilePackage.MODULE__SUB_TYPE:
-				return subType != null && !subType.isEmpty();
-			case MyFilePackage.MODULE__ALL_SUPER_TYPE:
-				return !getAllSuperType().isEmpty();
-			case MyFilePackage.MODULE__ALL_SUB_TYPE:
-				return !getAllSubType().isEmpty();
+			case MyFilePackage.MODULE__SUB_TYPES:
+				return subTypes != null && !subTypes.isEmpty();
+			case MyFilePackage.MODULE__ALL_SUPER_TYPES:
+				return !getAllSuperTypes().isEmpty();
+			case MyFilePackage.MODULE__ALL_SUB_TYPES:
+				return !getAllSubTypes().isEmpty();
 			case MyFilePackage.MODULE__MEMBERS:
 				return members != null && !members.isEmpty();
 			case MyFilePackage.MODULE__DEPENDS:

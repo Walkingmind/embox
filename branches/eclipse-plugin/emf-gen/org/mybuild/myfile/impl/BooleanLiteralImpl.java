@@ -101,8 +101,7 @@ public class BooleanLiteralImpl extends ValueImpl implements BooleanLiteral
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType)
 	{
-		switch (featureID)
-		{
+		switch (featureID) {
 			case MyFilePackage.BOOLEAN_LITERAL__IS_TRUE:
 				return isIsTrue();
 		}
@@ -117,8 +116,7 @@ public class BooleanLiteralImpl extends ValueImpl implements BooleanLiteral
 	@Override
 	public void eSet(int featureID, Object newValue)
 	{
-		switch (featureID)
-		{
+		switch (featureID) {
 			case MyFilePackage.BOOLEAN_LITERAL__IS_TRUE:
 				setIsTrue((Boolean)newValue);
 				return;
@@ -134,8 +132,7 @@ public class BooleanLiteralImpl extends ValueImpl implements BooleanLiteral
 	@Override
 	public void eUnset(int featureID)
 	{
-		switch (featureID)
-		{
+		switch (featureID) {
 			case MyFilePackage.BOOLEAN_LITERAL__IS_TRUE:
 				setIsTrue(IS_TRUE_EDEFAULT);
 				return;
@@ -151,8 +148,7 @@ public class BooleanLiteralImpl extends ValueImpl implements BooleanLiteral
 	@Override
 	public boolean eIsSet(int featureID)
 	{
-		switch (featureID)
-		{
+		switch (featureID) {
 			case MyFilePackage.BOOLEAN_LITERAL__IS_TRUE:
 				return isTrue != IS_TRUE_EDEFAULT;
 		}

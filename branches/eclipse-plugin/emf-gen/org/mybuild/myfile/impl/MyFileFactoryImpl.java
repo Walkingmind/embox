@@ -61,16 +61,13 @@ public class MyFileFactoryImpl extends EFactoryImpl implements MyFileFactory
 	 */
 	public static MyFileFactory init()
 	{
-		try
-		{
+		try {
 			MyFileFactory theMyFileFactory = (MyFileFactory)EPackage.Registry.INSTANCE.getEFactory("http://www.mybuild.org/MyFile"); 
-			if (theMyFileFactory != null)
-			{
+			if (theMyFileFactory != null) {
 				return theMyFileFactory;
 			}
 		}
-		catch (Exception exception)
-		{
+		catch (Exception exception) {
 			EcorePlugin.INSTANCE.log(exception);
 		}
 		return new MyFileFactoryImpl();
@@ -95,8 +92,7 @@ public class MyFileFactoryImpl extends EFactoryImpl implements MyFileFactory
 	@Override
 	public EObject create(EClass eClass)
 	{
-		switch (eClass.getClassifierID())
-		{
+		switch (eClass.getClassifierID()) {
 			case MyFilePackage.MODEL: return createModel();
 			case MyFilePackage.PACKAGE: return createPackage();
 			case MyFilePackage.IMPORT: return createImport();

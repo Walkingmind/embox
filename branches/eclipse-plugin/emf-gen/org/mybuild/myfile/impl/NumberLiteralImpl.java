@@ -101,8 +101,7 @@ public class NumberLiteralImpl extends ValueImpl implements NumberLiteral
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType)
 	{
-		switch (featureID)
-		{
+		switch (featureID) {
 			case MyFilePackage.NUMBER_LITERAL__VALUE:
 				return getValue();
 		}
@@ -117,8 +116,7 @@ public class NumberLiteralImpl extends ValueImpl implements NumberLiteral
 	@Override
 	public void eSet(int featureID, Object newValue)
 	{
-		switch (featureID)
-		{
+		switch (featureID) {
 			case MyFilePackage.NUMBER_LITERAL__VALUE:
 				setValue((Integer)newValue);
 				return;
@@ -134,8 +132,7 @@ public class NumberLiteralImpl extends ValueImpl implements NumberLiteral
 	@Override
 	public void eUnset(int featureID)
 	{
-		switch (featureID)
-		{
+		switch (featureID) {
 			case MyFilePackage.NUMBER_LITERAL__VALUE:
 				setValue(VALUE_EDEFAULT);
 				return;
@@ -151,8 +148,7 @@ public class NumberLiteralImpl extends ValueImpl implements NumberLiteral
 	@Override
 	public boolean eIsSet(int featureID)
 	{
-		switch (featureID)
-		{
+		switch (featureID) {
 			case MyFilePackage.NUMBER_LITERAL__VALUE:
 				return value != VALUE_EDEFAULT;
 		}

@@ -101,8 +101,7 @@ public class PackageImpl extends EObjectImpl implements org.mybuild.myfile.Packa
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType)
 	{
-		switch (featureID)
-		{
+		switch (featureID) {
 			case MyFilePackage.PACKAGE__NAME:
 				return getName();
 		}
@@ -117,8 +116,7 @@ public class PackageImpl extends EObjectImpl implements org.mybuild.myfile.Packa
 	@Override
 	public void eSet(int featureID, Object newValue)
 	{
-		switch (featureID)
-		{
+		switch (featureID) {
 			case MyFilePackage.PACKAGE__NAME:
 				setName((String)newValue);
 				return;
@@ -134,8 +132,7 @@ public class PackageImpl extends EObjectImpl implements org.mybuild.myfile.Packa
 	@Override
 	public void eUnset(int featureID)
 	{
-		switch (featureID)
-		{
+		switch (featureID) {
 			case MyFilePackage.PACKAGE__NAME:
 				setName(NAME_EDEFAULT);
 				return;
@@ -151,8 +148,7 @@ public class PackageImpl extends EObjectImpl implements org.mybuild.myfile.Packa
 	@Override
 	public boolean eIsSet(int featureID)
 	{
-		switch (featureID)
-		{
+		switch (featureID) {
 			case MyFilePackage.PACKAGE__NAME:
 				return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
 		}

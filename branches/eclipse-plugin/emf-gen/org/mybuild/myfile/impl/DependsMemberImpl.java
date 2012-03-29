@@ -70,8 +70,7 @@ public class DependsMemberImpl extends MemberImpl implements DependsMember
 	 */
 	public EList<Module> getModules()
 	{
-		if (modules == null)
-		{
+		if (modules == null) {
 			modules = new EObjectResolvingEList<Module>(Module.class, this, MyFilePackage.DEPENDS_MEMBER__MODULES);
 		}
 		return modules;
@@ -85,8 +84,7 @@ public class DependsMemberImpl extends MemberImpl implements DependsMember
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType)
 	{
-		switch (featureID)
-		{
+		switch (featureID) {
 			case MyFilePackage.DEPENDS_MEMBER__MODULES:
 				return getModules();
 		}
@@ -102,8 +100,7 @@ public class DependsMemberImpl extends MemberImpl implements DependsMember
 	@Override
 	public void eSet(int featureID, Object newValue)
 	{
-		switch (featureID)
-		{
+		switch (featureID) {
 			case MyFilePackage.DEPENDS_MEMBER__MODULES:
 				getModules().clear();
 				getModules().addAll((Collection<? extends Module>)newValue);
@@ -120,8 +117,7 @@ public class DependsMemberImpl extends MemberImpl implements DependsMember
 	@Override
 	public void eUnset(int featureID)
 	{
-		switch (featureID)
-		{
+		switch (featureID) {
 			case MyFilePackage.DEPENDS_MEMBER__MODULES:
 				getModules().clear();
 				return;
@@ -137,8 +133,7 @@ public class DependsMemberImpl extends MemberImpl implements DependsMember
 	@Override
 	public boolean eIsSet(int featureID)
 	{
-		switch (featureID)
-		{
+		switch (featureID) {
 			case MyFilePackage.DEPENDS_MEMBER__MODULES:
 				return modules != null && !modules.isEmpty();
 		}

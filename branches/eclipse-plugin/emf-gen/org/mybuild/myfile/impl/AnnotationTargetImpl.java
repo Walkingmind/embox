@@ -89,8 +89,7 @@ public class AnnotationTargetImpl extends EObjectImpl implements AnnotationTarge
 	 */
 	public EList<Annotation> getAnnotations()
 	{
-		if (annotations == null)
-		{
+		if (annotations == null) {
 			annotations = new EObjectContainmentWithInverseEList<Annotation>(Annotation.class, this, MyFilePackage.ANNOTATION_TARGET__ANNOTATIONS, MyFilePackage.ANNOTATION__TARGET);
 		}
 		return annotations;
@@ -115,8 +114,7 @@ public class AnnotationTargetImpl extends EObjectImpl implements AnnotationTarge
 	{
 		AnnotationTarget oldSelf = self;
 		self = newSelf;
-		if (eNotificationRequired())
-		{
+		if (eNotificationRequired()) {
 			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, MyFilePackage.ANNOTATION_TARGET__SELF, oldSelf, newSelf);
 			if (msgs == null) msgs = notification; else msgs.add(notification);
 		}
@@ -130,8 +128,7 @@ public class AnnotationTargetImpl extends EObjectImpl implements AnnotationTarge
 	 */
 	public void setSelf(AnnotationTarget newSelf)
 	{
-		if (newSelf != self)
-		{
+		if (newSelf != self) {
 			NotificationChain msgs = null;
 			if (self != null)
 				msgs = ((InternalEObject)self).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - MyFilePackage.ANNOTATION_TARGET__SELF, null, msgs);
@@ -153,8 +150,7 @@ public class AnnotationTargetImpl extends EObjectImpl implements AnnotationTarge
 	@Override
 	public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs)
 	{
-		switch (featureID)
-		{
+		switch (featureID) {
 			case MyFilePackage.ANNOTATION_TARGET__ANNOTATIONS:
 				return ((InternalEList<InternalEObject>)(InternalEList<?>)getAnnotations()).basicAdd(otherEnd, msgs);
 		}
@@ -169,8 +165,7 @@ public class AnnotationTargetImpl extends EObjectImpl implements AnnotationTarge
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs)
 	{
-		switch (featureID)
-		{
+		switch (featureID) {
 			case MyFilePackage.ANNOTATION_TARGET__ANNOTATIONS:
 				return ((InternalEList<?>)getAnnotations()).basicRemove(otherEnd, msgs);
 			case MyFilePackage.ANNOTATION_TARGET__SELF:
@@ -187,8 +182,7 @@ public class AnnotationTargetImpl extends EObjectImpl implements AnnotationTarge
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType)
 	{
-		switch (featureID)
-		{
+		switch (featureID) {
 			case MyFilePackage.ANNOTATION_TARGET__ANNOTATIONS:
 				return getAnnotations();
 			case MyFilePackage.ANNOTATION_TARGET__SELF:
@@ -206,8 +200,7 @@ public class AnnotationTargetImpl extends EObjectImpl implements AnnotationTarge
 	@Override
 	public void eSet(int featureID, Object newValue)
 	{
-		switch (featureID)
-		{
+		switch (featureID) {
 			case MyFilePackage.ANNOTATION_TARGET__ANNOTATIONS:
 				getAnnotations().clear();
 				getAnnotations().addAll((Collection<? extends Annotation>)newValue);
@@ -227,8 +220,7 @@ public class AnnotationTargetImpl extends EObjectImpl implements AnnotationTarge
 	@Override
 	public void eUnset(int featureID)
 	{
-		switch (featureID)
-		{
+		switch (featureID) {
 			case MyFilePackage.ANNOTATION_TARGET__ANNOTATIONS:
 				getAnnotations().clear();
 				return;
@@ -247,8 +239,7 @@ public class AnnotationTargetImpl extends EObjectImpl implements AnnotationTarge
 	@Override
 	public boolean eIsSet(int featureID)
 	{
-		switch (featureID)
-		{
+		switch (featureID) {
 			case MyFilePackage.ANNOTATION_TARGET__ANNOTATIONS:
 				return annotations != null && !annotations.isEmpty();
 			case MyFilePackage.ANNOTATION_TARGET__SELF:

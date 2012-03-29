@@ -74,8 +74,7 @@ public class MyFileSwitch<T> extends Switch<T>
 	 */
 	public MyFileSwitch()
 	{
-		if (modelPackage == null)
-		{
+		if (modelPackage == null) {
 			modelPackage = MyFilePackage.eINSTANCE;
 		}
 	}
@@ -104,31 +103,26 @@ public class MyFileSwitch<T> extends Switch<T>
 	@Override
 	protected T doSwitch(int classifierID, EObject theEObject)
 	{
-		switch (classifierID)
-		{
-			case MyFilePackage.MODEL:
-			{
+		switch (classifierID) {
+			case MyFilePackage.MODEL: {
 				Model model = (Model)theEObject;
 				T result = caseModel(model);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
-			case MyFilePackage.PACKAGE:
-			{
+			case MyFilePackage.PACKAGE: {
 				org.mybuild.myfile.Package package_ = (org.mybuild.myfile.Package)theEObject;
 				T result = casePackage(package_);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
-			case MyFilePackage.IMPORT:
-			{
+			case MyFilePackage.IMPORT: {
 				Import import_ = (Import)theEObject;
 				T result = caseImport(import_);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
-			case MyFilePackage.TYPE:
-			{
+			case MyFilePackage.TYPE: {
 				Type type = (Type)theEObject;
 				T result = caseType(type);
 				if (result == null) result = caseNamed(type);
@@ -136,8 +130,7 @@ public class MyFileSwitch<T> extends Switch<T>
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
-			case MyFilePackage.ANNOTATION_TYPE:
-			{
+			case MyFilePackage.ANNOTATION_TYPE: {
 				AnnotationType annotationType = (AnnotationType)theEObject;
 				T result = caseAnnotationType(annotationType);
 				if (result == null) result = caseType(annotationType);
@@ -146,22 +139,19 @@ public class MyFileSwitch<T> extends Switch<T>
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
-			case MyFilePackage.ANNOTATION:
-			{
+			case MyFilePackage.ANNOTATION: {
 				Annotation annotation = (Annotation)theEObject;
 				T result = caseAnnotation(annotation);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
-			case MyFilePackage.ANNOTATION_TARGET:
-			{
+			case MyFilePackage.ANNOTATION_TARGET: {
 				AnnotationTarget annotationTarget = (AnnotationTarget)theEObject;
 				T result = caseAnnotationTarget(annotationTarget);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
-			case MyFilePackage.INTERFACE:
-			{
+			case MyFilePackage.INTERFACE: {
 				Interface interface_ = (Interface)theEObject;
 				T result = caseInterface(interface_);
 				if (result == null) result = caseType(interface_);
@@ -170,8 +160,7 @@ public class MyFileSwitch<T> extends Switch<T>
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
-			case MyFilePackage.FEATURE:
-			{
+			case MyFilePackage.FEATURE: {
 				Feature feature = (Feature)theEObject;
 				T result = caseFeature(feature);
 				if (result == null) result = caseType(feature);
@@ -180,8 +169,7 @@ public class MyFileSwitch<T> extends Switch<T>
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
-			case MyFilePackage.MODULE:
-			{
+			case MyFilePackage.MODULE: {
 				Module module = (Module)theEObject;
 				T result = caseModule(module);
 				if (result == null) result = caseType(module);
@@ -190,16 +178,14 @@ public class MyFileSwitch<T> extends Switch<T>
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
-			case MyFilePackage.MEMBER:
-			{
+			case MyFilePackage.MEMBER: {
 				Member member = (Member)theEObject;
 				T result = caseMember(member);
 				if (result == null) result = caseAnnotationTarget(member);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
-			case MyFilePackage.DEPENDS_MEMBER:
-			{
+			case MyFilePackage.DEPENDS_MEMBER: {
 				DependsMember dependsMember = (DependsMember)theEObject;
 				T result = caseDependsMember(dependsMember);
 				if (result == null) result = caseMember(dependsMember);
@@ -207,8 +193,7 @@ public class MyFileSwitch<T> extends Switch<T>
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
-			case MyFilePackage.ABSTRACT_FEATURE_LIST_MEMBER:
-			{
+			case MyFilePackage.ABSTRACT_FEATURE_LIST_MEMBER: {
 				AbstractFeatureListMember abstractFeatureListMember = (AbstractFeatureListMember)theEObject;
 				T result = caseAbstractFeatureListMember(abstractFeatureListMember);
 				if (result == null) result = caseMember(abstractFeatureListMember);
@@ -216,8 +201,7 @@ public class MyFileSwitch<T> extends Switch<T>
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
-			case MyFilePackage.REQUIRES_MEMBER:
-			{
+			case MyFilePackage.REQUIRES_MEMBER: {
 				RequiresMember requiresMember = (RequiresMember)theEObject;
 				T result = caseRequiresMember(requiresMember);
 				if (result == null) result = caseAbstractFeatureListMember(requiresMember);
@@ -226,8 +210,7 @@ public class MyFileSwitch<T> extends Switch<T>
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
-			case MyFilePackage.PROVIDES_MEMBER:
-			{
+			case MyFilePackage.PROVIDES_MEMBER: {
 				ProvidesMember providesMember = (ProvidesMember)theEObject;
 				T result = caseProvidesMember(providesMember);
 				if (result == null) result = caseAbstractFeatureListMember(providesMember);
@@ -236,8 +219,7 @@ public class MyFileSwitch<T> extends Switch<T>
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
-			case MyFilePackage.ABSTRACT_FILE_LIST_MEMBER:
-			{
+			case MyFilePackage.ABSTRACT_FILE_LIST_MEMBER: {
 				AbstractFileListMember abstractFileListMember = (AbstractFileListMember)theEObject;
 				T result = caseAbstractFileListMember(abstractFileListMember);
 				if (result == null) result = caseMember(abstractFileListMember);
@@ -245,8 +227,7 @@ public class MyFileSwitch<T> extends Switch<T>
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
-			case MyFilePackage.SOURCE_MEMBER:
-			{
+			case MyFilePackage.SOURCE_MEMBER: {
 				SourceMember sourceMember = (SourceMember)theEObject;
 				T result = caseSourceMember(sourceMember);
 				if (result == null) result = caseAbstractFileListMember(sourceMember);
@@ -255,8 +236,7 @@ public class MyFileSwitch<T> extends Switch<T>
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
-			case MyFilePackage.OBJECT_MEMBER:
-			{
+			case MyFilePackage.OBJECT_MEMBER: {
 				ObjectMember objectMember = (ObjectMember)theEObject;
 				T result = caseObjectMember(objectMember);
 				if (result == null) result = caseAbstractFileListMember(objectMember);
@@ -265,15 +245,13 @@ public class MyFileSwitch<T> extends Switch<T>
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
-			case MyFilePackage.FILE_NAME:
-			{
+			case MyFilePackage.FILE_NAME: {
 				FileName fileName = (FileName)theEObject;
 				T result = caseFileName(fileName);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
-			case MyFilePackage.OPTION_MEMBER:
-			{
+			case MyFilePackage.OPTION_MEMBER: {
 				OptionMember optionMember = (OptionMember)theEObject;
 				T result = caseOptionMember(optionMember);
 				if (result == null) result = caseMember(optionMember);
@@ -281,8 +259,7 @@ public class MyFileSwitch<T> extends Switch<T>
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
-			case MyFilePackage.PROPERTY:
-			{
+			case MyFilePackage.PROPERTY: {
 				Property property = (Property)theEObject;
 				T result = caseProperty(property);
 				if (result == null) result = caseNamed(property);
@@ -290,8 +267,7 @@ public class MyFileSwitch<T> extends Switch<T>
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
-			case MyFilePackage.STRING_PROPERTY:
-			{
+			case MyFilePackage.STRING_PROPERTY: {
 				StringProperty stringProperty = (StringProperty)theEObject;
 				T result = caseStringProperty(stringProperty);
 				if (result == null) result = caseProperty(stringProperty);
@@ -300,8 +276,7 @@ public class MyFileSwitch<T> extends Switch<T>
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
-			case MyFilePackage.NUMBER_PROPERTY:
-			{
+			case MyFilePackage.NUMBER_PROPERTY: {
 				NumberProperty numberProperty = (NumberProperty)theEObject;
 				T result = caseNumberProperty(numberProperty);
 				if (result == null) result = caseProperty(numberProperty);
@@ -310,8 +285,7 @@ public class MyFileSwitch<T> extends Switch<T>
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
-			case MyFilePackage.BOOLEAN_PROPERTY:
-			{
+			case MyFilePackage.BOOLEAN_PROPERTY: {
 				BooleanProperty booleanProperty = (BooleanProperty)theEObject;
 				T result = caseBooleanProperty(booleanProperty);
 				if (result == null) result = caseProperty(booleanProperty);
@@ -320,8 +294,7 @@ public class MyFileSwitch<T> extends Switch<T>
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
-			case MyFilePackage.TYPE_PROPERTY:
-			{
+			case MyFilePackage.TYPE_PROPERTY: {
 				TypeProperty typeProperty = (TypeProperty)theEObject;
 				T result = caseTypeProperty(typeProperty);
 				if (result == null) result = caseProperty(typeProperty);
@@ -330,54 +303,47 @@ public class MyFileSwitch<T> extends Switch<T>
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
-			case MyFilePackage.VALUE:
-			{
+			case MyFilePackage.VALUE: {
 				Value value = (Value)theEObject;
 				T result = caseValue(value);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
-			case MyFilePackage.STRING_LITERAL:
-			{
+			case MyFilePackage.STRING_LITERAL: {
 				StringLiteral stringLiteral = (StringLiteral)theEObject;
 				T result = caseStringLiteral(stringLiteral);
 				if (result == null) result = caseValue(stringLiteral);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
-			case MyFilePackage.NUMBER_LITERAL:
-			{
+			case MyFilePackage.NUMBER_LITERAL: {
 				NumberLiteral numberLiteral = (NumberLiteral)theEObject;
 				T result = caseNumberLiteral(numberLiteral);
 				if (result == null) result = caseValue(numberLiteral);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
-			case MyFilePackage.BOOLEAN_LITERAL:
-			{
+			case MyFilePackage.BOOLEAN_LITERAL: {
 				BooleanLiteral booleanLiteral = (BooleanLiteral)theEObject;
 				T result = caseBooleanLiteral(booleanLiteral);
 				if (result == null) result = caseValue(booleanLiteral);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
-			case MyFilePackage.TYPE_LITERAL:
-			{
+			case MyFilePackage.TYPE_LITERAL: {
 				TypeLiteral typeLiteral = (TypeLiteral)theEObject;
 				T result = caseTypeLiteral(typeLiteral);
 				if (result == null) result = caseValue(typeLiteral);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
-			case MyFilePackage.PROPERTY_VALUE_BINDING:
-			{
+			case MyFilePackage.PROPERTY_VALUE_BINDING: {
 				PropertyValueBinding propertyValueBinding = (PropertyValueBinding)theEObject;
 				T result = casePropertyValueBinding(propertyValueBinding);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
-			case MyFilePackage.NAMED:
-			{
+			case MyFilePackage.NAMED: {
 				Named named = (Named)theEObject;
 				T result = caseNamed(named);
 				if (result == null) result = defaultCase(theEObject);

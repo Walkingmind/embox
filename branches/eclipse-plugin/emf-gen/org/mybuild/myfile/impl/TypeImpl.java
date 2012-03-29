@@ -89,8 +89,7 @@ public class TypeImpl extends NamedImpl implements Type
 	 */
 	public EList<Annotation> getAnnotations()
 	{
-		if (annotations == null)
-		{
+		if (annotations == null) {
 			annotations = new EObjectContainmentWithInverseEList<Annotation>(Annotation.class, this, MyFilePackage.TYPE__ANNOTATIONS, MyFilePackage.ANNOTATION__TARGET);
 		}
 		return annotations;
@@ -115,8 +114,7 @@ public class TypeImpl extends NamedImpl implements Type
 	{
 		AnnotationTarget oldSelf = self;
 		self = newSelf;
-		if (eNotificationRequired())
-		{
+		if (eNotificationRequired()) {
 			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, MyFilePackage.TYPE__SELF, oldSelf, newSelf);
 			if (msgs == null) msgs = notification; else msgs.add(notification);
 		}
@@ -130,8 +128,7 @@ public class TypeImpl extends NamedImpl implements Type
 	 */
 	public void setSelf(AnnotationTarget newSelf)
 	{
-		if (newSelf != self)
-		{
+		if (newSelf != self) {
 			NotificationChain msgs = null;
 			if (self != null)
 				msgs = ((InternalEObject)self).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - MyFilePackage.TYPE__SELF, null, msgs);
@@ -153,8 +150,7 @@ public class TypeImpl extends NamedImpl implements Type
 	@Override
 	public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs)
 	{
-		switch (featureID)
-		{
+		switch (featureID) {
 			case MyFilePackage.TYPE__ANNOTATIONS:
 				return ((InternalEList<InternalEObject>)(InternalEList<?>)getAnnotations()).basicAdd(otherEnd, msgs);
 		}
@@ -169,8 +165,7 @@ public class TypeImpl extends NamedImpl implements Type
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs)
 	{
-		switch (featureID)
-		{
+		switch (featureID) {
 			case MyFilePackage.TYPE__ANNOTATIONS:
 				return ((InternalEList<?>)getAnnotations()).basicRemove(otherEnd, msgs);
 			case MyFilePackage.TYPE__SELF:
@@ -187,8 +182,7 @@ public class TypeImpl extends NamedImpl implements Type
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType)
 	{
-		switch (featureID)
-		{
+		switch (featureID) {
 			case MyFilePackage.TYPE__ANNOTATIONS:
 				return getAnnotations();
 			case MyFilePackage.TYPE__SELF:
@@ -206,8 +200,7 @@ public class TypeImpl extends NamedImpl implements Type
 	@Override
 	public void eSet(int featureID, Object newValue)
 	{
-		switch (featureID)
-		{
+		switch (featureID) {
 			case MyFilePackage.TYPE__ANNOTATIONS:
 				getAnnotations().clear();
 				getAnnotations().addAll((Collection<? extends Annotation>)newValue);
@@ -227,8 +220,7 @@ public class TypeImpl extends NamedImpl implements Type
 	@Override
 	public void eUnset(int featureID)
 	{
-		switch (featureID)
-		{
+		switch (featureID) {
 			case MyFilePackage.TYPE__ANNOTATIONS:
 				getAnnotations().clear();
 				return;
@@ -247,8 +239,7 @@ public class TypeImpl extends NamedImpl implements Type
 	@Override
 	public boolean eIsSet(int featureID)
 	{
-		switch (featureID)
-		{
+		switch (featureID) {
 			case MyFilePackage.TYPE__ANNOTATIONS:
 				return annotations != null && !annotations.isEmpty();
 			case MyFilePackage.TYPE__SELF:
@@ -265,10 +256,8 @@ public class TypeImpl extends NamedImpl implements Type
 	@Override
 	public int eBaseStructuralFeatureID(int derivedFeatureID, Class<?> baseClass)
 	{
-		if (baseClass == AnnotationTarget.class)
-		{
-			switch (derivedFeatureID)
-			{
+		if (baseClass == AnnotationTarget.class) {
+			switch (derivedFeatureID) {
 				case MyFilePackage.TYPE__ANNOTATIONS: return MyFilePackage.ANNOTATION_TARGET__ANNOTATIONS;
 				case MyFilePackage.TYPE__SELF: return MyFilePackage.ANNOTATION_TARGET__SELF;
 				default: return -1;
@@ -285,10 +274,8 @@ public class TypeImpl extends NamedImpl implements Type
 	@Override
 	public int eDerivedStructuralFeatureID(int baseFeatureID, Class<?> baseClass)
 	{
-		if (baseClass == AnnotationTarget.class)
-		{
-			switch (baseFeatureID)
-			{
+		if (baseClass == AnnotationTarget.class) {
+			switch (baseFeatureID) {
 				case MyFilePackage.ANNOTATION_TARGET__ANNOTATIONS: return MyFilePackage.TYPE__ANNOTATIONS;
 				case MyFilePackage.ANNOTATION_TARGET__SELF: return MyFilePackage.TYPE__SELF;
 				default: return -1;

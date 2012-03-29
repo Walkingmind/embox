@@ -566,31 +566,31 @@ public interface MyFilePackage extends EPackage
 	int MODULE__SUPER_TYPE = TYPE_FEATURE_COUNT + 2;
 
 	/**
-	 * The feature id for the '<em><b>Sub Type</b></em>' reference list.
+	 * The feature id for the '<em><b>Sub Types</b></em>' reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int MODULE__SUB_TYPE = TYPE_FEATURE_COUNT + 3;
+	int MODULE__SUB_TYPES = TYPE_FEATURE_COUNT + 3;
 
 	/**
-	 * The feature id for the '<em><b>All Super Type</b></em>' reference list.
+	 * The feature id for the '<em><b>All Super Types</b></em>' reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int MODULE__ALL_SUPER_TYPE = TYPE_FEATURE_COUNT + 4;
+	int MODULE__ALL_SUPER_TYPES = TYPE_FEATURE_COUNT + 4;
 
 	/**
-	 * The feature id for the '<em><b>All Sub Type</b></em>' reference list.
+	 * The feature id for the '<em><b>All Sub Types</b></em>' reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int MODULE__ALL_SUB_TYPE = TYPE_FEATURE_COUNT + 5;
+	int MODULE__ALL_SUB_TYPES = TYPE_FEATURE_COUNT + 5;
 
 	/**
 	 * The feature id for the '<em><b>Members</b></em>' containment reference list.
@@ -1921,37 +1921,37 @@ public interface MyFilePackage extends EPackage
 	EReference getModule_SuperType();
 
 	/**
-	 * Returns the meta object for the reference list '{@link org.mybuild.myfile.Module#getSubType <em>Sub Type</em>}'.
+	 * Returns the meta object for the reference list '{@link org.mybuild.myfile.Module#getSubTypes <em>Sub Types</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference list '<em>Sub Type</em>'.
-	 * @see org.mybuild.myfile.Module#getSubType()
+	 * @return the meta object for the reference list '<em>Sub Types</em>'.
+	 * @see org.mybuild.myfile.Module#getSubTypes()
 	 * @see #getModule()
 	 * @generated
 	 */
-	EReference getModule_SubType();
+	EReference getModule_SubTypes();
 
 	/**
-	 * Returns the meta object for the reference list '{@link org.mybuild.myfile.Module#getAllSuperType <em>All Super Type</em>}'.
+	 * Returns the meta object for the reference list '{@link org.mybuild.myfile.Module#getAllSuperTypes <em>All Super Types</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference list '<em>All Super Type</em>'.
-	 * @see org.mybuild.myfile.Module#getAllSuperType()
+	 * @return the meta object for the reference list '<em>All Super Types</em>'.
+	 * @see org.mybuild.myfile.Module#getAllSuperTypes()
 	 * @see #getModule()
 	 * @generated
 	 */
-	EReference getModule_AllSuperType();
+	EReference getModule_AllSuperTypes();
 
 	/**
-	 * Returns the meta object for the reference list '{@link org.mybuild.myfile.Module#getAllSubType <em>All Sub Type</em>}'.
+	 * Returns the meta object for the reference list '{@link org.mybuild.myfile.Module#getAllSubTypes <em>All Sub Types</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference list '<em>All Sub Type</em>'.
-	 * @see org.mybuild.myfile.Module#getAllSubType()
+	 * @return the meta object for the reference list '<em>All Sub Types</em>'.
+	 * @see org.mybuild.myfile.Module#getAllSubTypes()
 	 * @see #getModule()
 	 * @generated
 	 */
-	EReference getModule_AllSubType();
+	EReference getModule_AllSubTypes();
 
 	/**
 	 * Returns the meta object for the containment reference list '{@link org.mybuild.myfile.Module#getMembers <em>Members</em>}'.
@@ -2672,28 +2672,28 @@ public interface MyFilePackage extends EPackage
 		EReference MODULE__SUPER_TYPE = eINSTANCE.getModule_SuperType();
 
 		/**
-		 * The meta object literal for the '<em><b>Sub Type</b></em>' reference list feature.
+		 * The meta object literal for the '<em><b>Sub Types</b></em>' reference list feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EReference MODULE__SUB_TYPE = eINSTANCE.getModule_SubType();
+		EReference MODULE__SUB_TYPES = eINSTANCE.getModule_SubTypes();
 
 		/**
-		 * The meta object literal for the '<em><b>All Super Type</b></em>' reference list feature.
+		 * The meta object literal for the '<em><b>All Super Types</b></em>' reference list feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EReference MODULE__ALL_SUPER_TYPE = eINSTANCE.getModule_AllSuperType();
+		EReference MODULE__ALL_SUPER_TYPES = eINSTANCE.getModule_AllSuperTypes();
 
 		/**
-		 * The meta object literal for the '<em><b>All Sub Type</b></em>' reference list feature.
+		 * The meta object literal for the '<em><b>All Sub Types</b></em>' reference list feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EReference MODULE__ALL_SUB_TYPE = eINSTANCE.getModule_AllSubType();
+		EReference MODULE__ALL_SUB_TYPES = eINSTANCE.getModule_AllSubTypes();
 
 		/**
 		 * The meta object literal for the '<em><b>Members</b></em>' containment reference list feature.

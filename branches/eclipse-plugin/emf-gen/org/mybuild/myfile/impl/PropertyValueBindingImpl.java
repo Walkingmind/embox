@@ -83,12 +83,10 @@ public class PropertyValueBindingImpl extends EObjectImpl implements PropertyVal
 	 */
 	public Property getProperty()
 	{
-		if (property != null && property.eIsProxy())
-		{
+		if (property != null && property.eIsProxy()) {
 			InternalEObject oldProperty = (InternalEObject)property;
 			property = (Property)eResolveProxy(oldProperty);
-			if (property != oldProperty)
-			{
+			if (property != oldProperty) {
 				if (eNotificationRequired())
 					eNotify(new ENotificationImpl(this, Notification.RESOLVE, MyFilePackage.PROPERTY_VALUE_BINDING__PROPERTY, oldProperty, property));
 			}
@@ -138,8 +136,7 @@ public class PropertyValueBindingImpl extends EObjectImpl implements PropertyVal
 	{
 		Value oldValue = value;
 		value = newValue;
-		if (eNotificationRequired())
-		{
+		if (eNotificationRequired()) {
 			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, MyFilePackage.PROPERTY_VALUE_BINDING__VALUE, oldValue, newValue);
 			if (msgs == null) msgs = notification; else msgs.add(notification);
 		}
@@ -153,8 +150,7 @@ public class PropertyValueBindingImpl extends EObjectImpl implements PropertyVal
 	 */
 	public void setValue(Value newValue)
 	{
-		if (newValue != value)
-		{
+		if (newValue != value) {
 			NotificationChain msgs = null;
 			if (value != null)
 				msgs = ((InternalEObject)value).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - MyFilePackage.PROPERTY_VALUE_BINDING__VALUE, null, msgs);
@@ -175,8 +171,7 @@ public class PropertyValueBindingImpl extends EObjectImpl implements PropertyVal
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs)
 	{
-		switch (featureID)
-		{
+		switch (featureID) {
 			case MyFilePackage.PROPERTY_VALUE_BINDING__VALUE:
 				return basicSetValue(null, msgs);
 		}
@@ -191,8 +186,7 @@ public class PropertyValueBindingImpl extends EObjectImpl implements PropertyVal
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType)
 	{
-		switch (featureID)
-		{
+		switch (featureID) {
 			case MyFilePackage.PROPERTY_VALUE_BINDING__PROPERTY:
 				if (resolve) return getProperty();
 				return basicGetProperty();
@@ -210,8 +204,7 @@ public class PropertyValueBindingImpl extends EObjectImpl implements PropertyVal
 	@Override
 	public void eSet(int featureID, Object newValue)
 	{
-		switch (featureID)
-		{
+		switch (featureID) {
 			case MyFilePackage.PROPERTY_VALUE_BINDING__PROPERTY:
 				setProperty((Property)newValue);
 				return;
@@ -230,8 +223,7 @@ public class PropertyValueBindingImpl extends EObjectImpl implements PropertyVal
 	@Override
 	public void eUnset(int featureID)
 	{
-		switch (featureID)
-		{
+		switch (featureID) {
 			case MyFilePackage.PROPERTY_VALUE_BINDING__PROPERTY:
 				setProperty((Property)null);
 				return;
@@ -250,8 +242,7 @@ public class PropertyValueBindingImpl extends EObjectImpl implements PropertyVal
 	@Override
 	public boolean eIsSet(int featureID)
 	{
-		switch (featureID)
-		{
+		switch (featureID) {
 			case MyFilePackage.PROPERTY_VALUE_BINDING__PROPERTY:
 				return property != null;
 			case MyFilePackage.PROPERTY_VALUE_BINDING__VALUE:

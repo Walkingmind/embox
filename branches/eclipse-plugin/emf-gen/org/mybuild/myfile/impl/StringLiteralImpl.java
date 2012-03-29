@@ -101,8 +101,7 @@ public class StringLiteralImpl extends ValueImpl implements StringLiteral
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType)
 	{
-		switch (featureID)
-		{
+		switch (featureID) {
 			case MyFilePackage.STRING_LITERAL__VALUE:
 				return getValue();
 		}
@@ -117,8 +116,7 @@ public class StringLiteralImpl extends ValueImpl implements StringLiteral
 	@Override
 	public void eSet(int featureID, Object newValue)
 	{
-		switch (featureID)
-		{
+		switch (featureID) {
 			case MyFilePackage.STRING_LITERAL__VALUE:
 				setValue((String)newValue);
 				return;
@@ -134,8 +132,7 @@ public class StringLiteralImpl extends ValueImpl implements StringLiteral
 	@Override
 	public void eUnset(int featureID)
 	{
-		switch (featureID)
-		{
+		switch (featureID) {
 			case MyFilePackage.STRING_LITERAL__VALUE:
 				setValue(VALUE_EDEFAULT);
 				return;
@@ -151,8 +148,7 @@ public class StringLiteralImpl extends ValueImpl implements StringLiteral
 	@Override
 	public boolean eIsSet(int featureID)
 	{
-		switch (featureID)
-		{
+		switch (featureID) {
 			case MyFilePackage.STRING_LITERAL__VALUE:
 				return VALUE_EDEFAULT == null ? value != null : !VALUE_EDEFAULT.equals(value);
 		}

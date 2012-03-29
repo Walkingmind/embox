@@ -113,8 +113,7 @@ public class ModelImpl extends EObjectImpl implements Model
 	{
 		org.mybuild.myfile.Package oldPackage = package_;
 		package_ = newPackage;
-		if (eNotificationRequired())
-		{
+		if (eNotificationRequired()) {
 			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, MyFilePackage.MODEL__PACKAGE, oldPackage, newPackage);
 			if (msgs == null) msgs = notification; else msgs.add(notification);
 		}
@@ -128,8 +127,7 @@ public class ModelImpl extends EObjectImpl implements Model
 	 */
 	public void setPackage(org.mybuild.myfile.Package newPackage)
 	{
-		if (newPackage != package_)
-		{
+		if (newPackage != package_) {
 			NotificationChain msgs = null;
 			if (package_ != null)
 				msgs = ((InternalEObject)package_).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - MyFilePackage.MODEL__PACKAGE, null, msgs);
@@ -149,8 +147,7 @@ public class ModelImpl extends EObjectImpl implements Model
 	 */
 	public EList<Import> getImports()
 	{
-		if (imports == null)
-		{
+		if (imports == null) {
 			imports = new EObjectContainmentEList<Import>(Import.class, this, MyFilePackage.MODEL__IMPORTS);
 		}
 		return imports;
@@ -163,8 +160,7 @@ public class ModelImpl extends EObjectImpl implements Model
 	 */
 	public EList<Type> getTypes()
 	{
-		if (types == null)
-		{
+		if (types == null) {
 			types = new EObjectContainmentEList<Type>(Type.class, this, MyFilePackage.MODEL__TYPES);
 		}
 		return types;
@@ -178,8 +174,7 @@ public class ModelImpl extends EObjectImpl implements Model
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs)
 	{
-		switch (featureID)
-		{
+		switch (featureID) {
 			case MyFilePackage.MODEL__PACKAGE:
 				return basicSetPackage(null, msgs);
 			case MyFilePackage.MODEL__IMPORTS:
@@ -198,8 +193,7 @@ public class ModelImpl extends EObjectImpl implements Model
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType)
 	{
-		switch (featureID)
-		{
+		switch (featureID) {
 			case MyFilePackage.MODEL__PACKAGE:
 				return getPackage();
 			case MyFilePackage.MODEL__IMPORTS:
@@ -219,8 +213,7 @@ public class ModelImpl extends EObjectImpl implements Model
 	@Override
 	public void eSet(int featureID, Object newValue)
 	{
-		switch (featureID)
-		{
+		switch (featureID) {
 			case MyFilePackage.MODEL__PACKAGE:
 				setPackage((org.mybuild.myfile.Package)newValue);
 				return;
@@ -244,8 +237,7 @@ public class ModelImpl extends EObjectImpl implements Model
 	@Override
 	public void eUnset(int featureID)
 	{
-		switch (featureID)
-		{
+		switch (featureID) {
 			case MyFilePackage.MODEL__PACKAGE:
 				setPackage((org.mybuild.myfile.Package)null);
 				return;
@@ -267,8 +259,7 @@ public class ModelImpl extends EObjectImpl implements Model
 	@Override
 	public boolean eIsSet(int featureID)
 	{
-		switch (featureID)
-		{
+		switch (featureID) {
 			case MyFilePackage.MODEL__PACKAGE:
 				return package_ != null;
 			case MyFilePackage.MODEL__IMPORTS:

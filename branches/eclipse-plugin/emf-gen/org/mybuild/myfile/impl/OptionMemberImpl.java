@@ -82,8 +82,7 @@ public class OptionMemberImpl extends MemberImpl implements OptionMember
 	{
 		Property oldProperty = property;
 		property = newProperty;
-		if (eNotificationRequired())
-		{
+		if (eNotificationRequired()) {
 			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, MyFilePackage.OPTION_MEMBER__PROPERTY, oldProperty, newProperty);
 			if (msgs == null) msgs = notification; else msgs.add(notification);
 		}
@@ -97,8 +96,7 @@ public class OptionMemberImpl extends MemberImpl implements OptionMember
 	 */
 	public void setProperty(Property newProperty)
 	{
-		if (newProperty != property)
-		{
+		if (newProperty != property) {
 			NotificationChain msgs = null;
 			if (property != null)
 				msgs = ((InternalEObject)property).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - MyFilePackage.OPTION_MEMBER__PROPERTY, null, msgs);
@@ -119,8 +117,7 @@ public class OptionMemberImpl extends MemberImpl implements OptionMember
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs)
 	{
-		switch (featureID)
-		{
+		switch (featureID) {
 			case MyFilePackage.OPTION_MEMBER__PROPERTY:
 				return basicSetProperty(null, msgs);
 		}
@@ -135,8 +132,7 @@ public class OptionMemberImpl extends MemberImpl implements OptionMember
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType)
 	{
-		switch (featureID)
-		{
+		switch (featureID) {
 			case MyFilePackage.OPTION_MEMBER__PROPERTY:
 				return getProperty();
 		}
@@ -151,8 +147,7 @@ public class OptionMemberImpl extends MemberImpl implements OptionMember
 	@Override
 	public void eSet(int featureID, Object newValue)
 	{
-		switch (featureID)
-		{
+		switch (featureID) {
 			case MyFilePackage.OPTION_MEMBER__PROPERTY:
 				setProperty((Property)newValue);
 				return;
@@ -168,8 +163,7 @@ public class OptionMemberImpl extends MemberImpl implements OptionMember
 	@Override
 	public void eUnset(int featureID)
 	{
-		switch (featureID)
-		{
+		switch (featureID) {
 			case MyFilePackage.OPTION_MEMBER__PROPERTY:
 				setProperty((Property)null);
 				return;
@@ -185,8 +179,7 @@ public class OptionMemberImpl extends MemberImpl implements OptionMember
 	@Override
 	public boolean eIsSet(int featureID)
 	{
-		switch (featureID)
-		{
+		switch (featureID) {
 			case MyFilePackage.OPTION_MEMBER__PROPERTY:
 				return property != null;
 		}

@@ -71,8 +71,7 @@ public class MyFileAdapterFactory extends AdapterFactoryImpl
 	 */
 	public MyFileAdapterFactory()
 	{
-		if (modelPackage == null)
-		{
+		if (modelPackage == null) {
 			modelPackage = MyFilePackage.eINSTANCE;
 		}
 	}
@@ -88,12 +87,10 @@ public class MyFileAdapterFactory extends AdapterFactoryImpl
 	@Override
 	public boolean isFactoryForType(Object object)
 	{
-		if (object == modelPackage)
-		{
+		if (object == modelPackage) {
 			return true;
 		}
-		if (object instanceof EObject)
-		{
+		if (object instanceof EObject) {
 			return ((EObject)object).eClass().getEPackage() == modelPackage;
 		}
 		return false;
@@ -106,171 +103,137 @@ public class MyFileAdapterFactory extends AdapterFactoryImpl
 	 * @generated
 	 */
 	protected MyFileSwitch<Adapter> modelSwitch =
-		new MyFileSwitch<Adapter>()
-		{
+		new MyFileSwitch<Adapter>() {
 			@Override
-			public Adapter caseModel(Model object)
-			{
+			public Adapter caseModel(Model object) {
 				return createModelAdapter();
 			}
 			@Override
-			public Adapter casePackage(org.mybuild.myfile.Package object)
-			{
+			public Adapter casePackage(org.mybuild.myfile.Package object) {
 				return createPackageAdapter();
 			}
 			@Override
-			public Adapter caseImport(Import object)
-			{
+			public Adapter caseImport(Import object) {
 				return createImportAdapter();
 			}
 			@Override
-			public Adapter caseType(Type object)
-			{
+			public Adapter caseType(Type object) {
 				return createTypeAdapter();
 			}
 			@Override
-			public Adapter caseAnnotationType(AnnotationType object)
-			{
+			public Adapter caseAnnotationType(AnnotationType object) {
 				return createAnnotationTypeAdapter();
 			}
 			@Override
-			public Adapter caseAnnotation(Annotation object)
-			{
+			public Adapter caseAnnotation(Annotation object) {
 				return createAnnotationAdapter();
 			}
 			@Override
-			public Adapter caseAnnotationTarget(AnnotationTarget object)
-			{
+			public Adapter caseAnnotationTarget(AnnotationTarget object) {
 				return createAnnotationTargetAdapter();
 			}
 			@Override
-			public Adapter caseInterface(Interface object)
-			{
+			public Adapter caseInterface(Interface object) {
 				return createInterfaceAdapter();
 			}
 			@Override
-			public Adapter caseFeature(Feature object)
-			{
+			public Adapter caseFeature(Feature object) {
 				return createFeatureAdapter();
 			}
 			@Override
-			public Adapter caseModule(Module object)
-			{
+			public Adapter caseModule(Module object) {
 				return createModuleAdapter();
 			}
 			@Override
-			public Adapter caseMember(Member object)
-			{
+			public Adapter caseMember(Member object) {
 				return createMemberAdapter();
 			}
 			@Override
-			public Adapter caseDependsMember(DependsMember object)
-			{
+			public Adapter caseDependsMember(DependsMember object) {
 				return createDependsMemberAdapter();
 			}
 			@Override
-			public Adapter caseAbstractFeatureListMember(AbstractFeatureListMember object)
-			{
+			public Adapter caseAbstractFeatureListMember(AbstractFeatureListMember object) {
 				return createAbstractFeatureListMemberAdapter();
 			}
 			@Override
-			public Adapter caseRequiresMember(RequiresMember object)
-			{
+			public Adapter caseRequiresMember(RequiresMember object) {
 				return createRequiresMemberAdapter();
 			}
 			@Override
-			public Adapter caseProvidesMember(ProvidesMember object)
-			{
+			public Adapter caseProvidesMember(ProvidesMember object) {
 				return createProvidesMemberAdapter();
 			}
 			@Override
-			public Adapter caseAbstractFileListMember(AbstractFileListMember object)
-			{
+			public Adapter caseAbstractFileListMember(AbstractFileListMember object) {
 				return createAbstractFileListMemberAdapter();
 			}
 			@Override
-			public Adapter caseSourceMember(SourceMember object)
-			{
+			public Adapter caseSourceMember(SourceMember object) {
 				return createSourceMemberAdapter();
 			}
 			@Override
-			public Adapter caseObjectMember(ObjectMember object)
-			{
+			public Adapter caseObjectMember(ObjectMember object) {
 				return createObjectMemberAdapter();
 			}
 			@Override
-			public Adapter caseFileName(FileName object)
-			{
+			public Adapter caseFileName(FileName object) {
 				return createFileNameAdapter();
 			}
 			@Override
-			public Adapter caseOptionMember(OptionMember object)
-			{
+			public Adapter caseOptionMember(OptionMember object) {
 				return createOptionMemberAdapter();
 			}
 			@Override
-			public Adapter caseProperty(Property object)
-			{
+			public Adapter caseProperty(Property object) {
 				return createPropertyAdapter();
 			}
 			@Override
-			public Adapter caseStringProperty(StringProperty object)
-			{
+			public Adapter caseStringProperty(StringProperty object) {
 				return createStringPropertyAdapter();
 			}
 			@Override
-			public Adapter caseNumberProperty(NumberProperty object)
-			{
+			public Adapter caseNumberProperty(NumberProperty object) {
 				return createNumberPropertyAdapter();
 			}
 			@Override
-			public Adapter caseBooleanProperty(BooleanProperty object)
-			{
+			public Adapter caseBooleanProperty(BooleanProperty object) {
 				return createBooleanPropertyAdapter();
 			}
 			@Override
-			public Adapter caseTypeProperty(TypeProperty object)
-			{
+			public Adapter caseTypeProperty(TypeProperty object) {
 				return createTypePropertyAdapter();
 			}
 			@Override
-			public Adapter caseValue(Value object)
-			{
+			public Adapter caseValue(Value object) {
 				return createValueAdapter();
 			}
 			@Override
-			public Adapter caseStringLiteral(StringLiteral object)
-			{
+			public Adapter caseStringLiteral(StringLiteral object) {
 				return createStringLiteralAdapter();
 			}
 			@Override
-			public Adapter caseNumberLiteral(NumberLiteral object)
-			{
+			public Adapter caseNumberLiteral(NumberLiteral object) {
 				return createNumberLiteralAdapter();
 			}
 			@Override
-			public Adapter caseBooleanLiteral(BooleanLiteral object)
-			{
+			public Adapter caseBooleanLiteral(BooleanLiteral object) {
 				return createBooleanLiteralAdapter();
 			}
 			@Override
-			public Adapter caseTypeLiteral(TypeLiteral object)
-			{
+			public Adapter caseTypeLiteral(TypeLiteral object) {
 				return createTypeLiteralAdapter();
 			}
 			@Override
-			public Adapter casePropertyValueBinding(PropertyValueBinding object)
-			{
+			public Adapter casePropertyValueBinding(PropertyValueBinding object) {
 				return createPropertyValueBindingAdapter();
 			}
 			@Override
-			public Adapter caseNamed(Named object)
-			{
+			public Adapter caseNamed(Named object) {
 				return createNamedAdapter();
 			}
 			@Override
-			public Adapter defaultCase(EObject object)
-			{
+			public Adapter defaultCase(EObject object) {
 				return createEObjectAdapter();
 			}
 		};

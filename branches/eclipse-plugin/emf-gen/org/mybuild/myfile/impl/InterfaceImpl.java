@@ -88,12 +88,10 @@ public class InterfaceImpl extends TypeImpl implements Interface
 	 */
 	public Interface getSuperType()
 	{
-		if (superType != null && superType.eIsProxy())
-		{
+		if (superType != null && superType.eIsProxy()) {
 			InternalEObject oldSuperType = (InternalEObject)superType;
 			superType = (Interface)eResolveProxy(oldSuperType);
-			if (superType != oldSuperType)
-			{
+			if (superType != oldSuperType) {
 				if (eNotificationRequired())
 					eNotify(new ENotificationImpl(this, Notification.RESOLVE, MyFilePackage.INTERFACE__SUPER_TYPE, oldSuperType, superType));
 			}
@@ -131,8 +129,7 @@ public class InterfaceImpl extends TypeImpl implements Interface
 	 */
 	public EList<Feature> getFeatures()
 	{
-		if (features == null)
-		{
+		if (features == null) {
 			features = new EObjectContainmentEList<Feature>(Feature.class, this, MyFilePackage.INTERFACE__FEATURES);
 		}
 		return features;
@@ -146,8 +143,7 @@ public class InterfaceImpl extends TypeImpl implements Interface
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs)
 	{
-		switch (featureID)
-		{
+		switch (featureID) {
 			case MyFilePackage.INTERFACE__FEATURES:
 				return ((InternalEList<?>)getFeatures()).basicRemove(otherEnd, msgs);
 		}
@@ -162,8 +158,7 @@ public class InterfaceImpl extends TypeImpl implements Interface
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType)
 	{
-		switch (featureID)
-		{
+		switch (featureID) {
 			case MyFilePackage.INTERFACE__SUPER_TYPE:
 				if (resolve) return getSuperType();
 				return basicGetSuperType();
@@ -182,8 +177,7 @@ public class InterfaceImpl extends TypeImpl implements Interface
 	@Override
 	public void eSet(int featureID, Object newValue)
 	{
-		switch (featureID)
-		{
+		switch (featureID) {
 			case MyFilePackage.INTERFACE__SUPER_TYPE:
 				setSuperType((Interface)newValue);
 				return;
@@ -203,8 +197,7 @@ public class InterfaceImpl extends TypeImpl implements Interface
 	@Override
 	public void eUnset(int featureID)
 	{
-		switch (featureID)
-		{
+		switch (featureID) {
 			case MyFilePackage.INTERFACE__SUPER_TYPE:
 				setSuperType((Interface)null);
 				return;
@@ -223,8 +216,7 @@ public class InterfaceImpl extends TypeImpl implements Interface
 	@Override
 	public boolean eIsSet(int featureID)
 	{
-		switch (featureID)
-		{
+		switch (featureID) {
 			case MyFilePackage.INTERFACE__SUPER_TYPE:
 				return superType != null;
 			case MyFilePackage.INTERFACE__FEATURES:

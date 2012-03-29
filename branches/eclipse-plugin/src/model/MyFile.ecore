@@ -49,15 +49,15 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="static" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="abstract" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="superType" eType="#//Module"
-        eOpposite="#//Module/subType"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="subType" upperBound="-1"
+        eOpposite="#//Module/subTypes"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="subTypes" upperBound="-1"
         eType="#//Module" eOpposite="#//Module/superType"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="allSuperType" upperBound="-1"
+    <eStructuralFeatures xsi:type="ecore:EReference" name="allSuperTypes" upperBound="-1"
         eType="#//Module" changeable="false" volatile="true" transient="true" derived="true"
-        eOpposite="#//Module/allSubType"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="allSubType" upperBound="-1"
+        eOpposite="#//Module/allSubTypes"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="allSubTypes" upperBound="-1"
         eType="#//Module" changeable="false" volatile="true" transient="true" derived="true"
-        eOpposite="#//Module/allSuperType"/>
+        eOpposite="#//Module/allSuperTypes"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="members" upperBound="-1"
         eType="#//Member" containment="true" eOpposite="#//Member/containingModule"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="depends" upperBound="-1"

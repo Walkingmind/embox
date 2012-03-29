@@ -18,9 +18,9 @@ import org.eclipse.emf.common.util.EList;
  *   <li>{@link org.mybuild.myfile.Module#isStatic <em>Static</em>}</li>
  *   <li>{@link org.mybuild.myfile.Module#isAbstract <em>Abstract</em>}</li>
  *   <li>{@link org.mybuild.myfile.Module#getSuperType <em>Super Type</em>}</li>
- *   <li>{@link org.mybuild.myfile.Module#getSubType <em>Sub Type</em>}</li>
- *   <li>{@link org.mybuild.myfile.Module#getAllSuperType <em>All Super Type</em>}</li>
- *   <li>{@link org.mybuild.myfile.Module#getAllSubType <em>All Sub Type</em>}</li>
+ *   <li>{@link org.mybuild.myfile.Module#getSubTypes <em>Sub Types</em>}</li>
+ *   <li>{@link org.mybuild.myfile.Module#getAllSuperTypes <em>All Super Types</em>}</li>
+ *   <li>{@link org.mybuild.myfile.Module#getAllSubTypes <em>All Sub Types</em>}</li>
  *   <li>{@link org.mybuild.myfile.Module#getMembers <em>Members</em>}</li>
  *   <li>{@link org.mybuild.myfile.Module#getDepends <em>Depends</em>}</li>
  *   <li>{@link org.mybuild.myfile.Module#getDependent <em>Dependent</em>}</li>
@@ -91,7 +91,7 @@ public interface Module extends Type
 
 	/**
 	 * Returns the value of the '<em><b>Super Type</b></em>' reference.
-	 * It is bidirectional and its opposite is '{@link org.mybuild.myfile.Module#getSubType <em>Sub Type</em>}'.
+	 * It is bidirectional and its opposite is '{@link org.mybuild.myfile.Module#getSubTypes <em>Sub Types</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of the '<em>Super Type</em>' reference isn't clear,
@@ -101,8 +101,8 @@ public interface Module extends Type
 	 * @return the value of the '<em>Super Type</em>' reference.
 	 * @see #setSuperType(Module)
 	 * @see org.mybuild.myfile.MyFilePackage#getModule_SuperType()
-	 * @see org.mybuild.myfile.Module#getSubType
-	 * @model opposite="subType"
+	 * @see org.mybuild.myfile.Module#getSubTypes
+	 * @model opposite="subTypes"
 	 * @generated
 	 */
 	Module getSuperType();
@@ -118,58 +118,58 @@ public interface Module extends Type
 	void setSuperType(Module value);
 
 	/**
-	 * Returns the value of the '<em><b>Sub Type</b></em>' reference list.
+	 * Returns the value of the '<em><b>Sub Types</b></em>' reference list.
 	 * The list contents are of type {@link org.mybuild.myfile.Module}.
 	 * It is bidirectional and its opposite is '{@link org.mybuild.myfile.Module#getSuperType <em>Super Type</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of the '<em>Sub Type</em>' reference list isn't clear,
+	 * If the meaning of the '<em>Sub Types</em>' reference list isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Sub Type</em>' reference list.
-	 * @see org.mybuild.myfile.MyFilePackage#getModule_SubType()
+	 * @return the value of the '<em>Sub Types</em>' reference list.
+	 * @see org.mybuild.myfile.MyFilePackage#getModule_SubTypes()
 	 * @see org.mybuild.myfile.Module#getSuperType
 	 * @model opposite="superType"
 	 * @generated
 	 */
-	EList<Module> getSubType();
+	EList<Module> getSubTypes();
 
 	/**
-	 * Returns the value of the '<em><b>All Super Type</b></em>' reference list.
+	 * Returns the value of the '<em><b>All Super Types</b></em>' reference list.
 	 * The list contents are of type {@link org.mybuild.myfile.Module}.
-	 * It is bidirectional and its opposite is '{@link org.mybuild.myfile.Module#getAllSubType <em>All Sub Type</em>}'.
+	 * It is bidirectional and its opposite is '{@link org.mybuild.myfile.Module#getAllSubTypes <em>All Sub Types</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of the '<em>All Super Type</em>' reference list isn't clear,
+	 * If the meaning of the '<em>All Super Types</em>' reference list isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>All Super Type</em>' reference list.
-	 * @see org.mybuild.myfile.MyFilePackage#getModule_AllSuperType()
-	 * @see org.mybuild.myfile.Module#getAllSubType
-	 * @model opposite="allSubType" transient="true" changeable="false" volatile="true" derived="true"
+	 * @return the value of the '<em>All Super Types</em>' reference list.
+	 * @see org.mybuild.myfile.MyFilePackage#getModule_AllSuperTypes()
+	 * @see org.mybuild.myfile.Module#getAllSubTypes
+	 * @model opposite="allSubTypes" transient="true" changeable="false" volatile="true" derived="true"
 	 * @generated
 	 */
-	EList<Module> getAllSuperType();
+	EList<Module> getAllSuperTypes();
 
 	/**
-	 * Returns the value of the '<em><b>All Sub Type</b></em>' reference list.
+	 * Returns the value of the '<em><b>All Sub Types</b></em>' reference list.
 	 * The list contents are of type {@link org.mybuild.myfile.Module}.
-	 * It is bidirectional and its opposite is '{@link org.mybuild.myfile.Module#getAllSuperType <em>All Super Type</em>}'.
+	 * It is bidirectional and its opposite is '{@link org.mybuild.myfile.Module#getAllSuperTypes <em>All Super Types</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of the '<em>All Sub Type</em>' reference list isn't clear,
+	 * If the meaning of the '<em>All Sub Types</em>' reference list isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>All Sub Type</em>' reference list.
-	 * @see org.mybuild.myfile.MyFilePackage#getModule_AllSubType()
-	 * @see org.mybuild.myfile.Module#getAllSuperType
-	 * @model opposite="allSuperType" transient="true" changeable="false" volatile="true" derived="true"
+	 * @return the value of the '<em>All Sub Types</em>' reference list.
+	 * @see org.mybuild.myfile.MyFilePackage#getModule_AllSubTypes()
+	 * @see org.mybuild.myfile.Module#getAllSuperTypes
+	 * @model opposite="allSuperTypes" transient="true" changeable="false" volatile="true" derived="true"
 	 * @generated
 	 */
-	EList<Module> getAllSubType();
+	EList<Module> getAllSubTypes();
 
 	/**
 	 * Returns the value of the '<em><b>Members</b></em>' containment reference list.

@@ -69,12 +69,10 @@ public class TypeLiteralImpl extends ValueImpl implements TypeLiteral
 	 */
 	public Type getValue()
 	{
-		if (value != null && value.eIsProxy())
-		{
+		if (value != null && value.eIsProxy()) {
 			InternalEObject oldValue = (InternalEObject)value;
 			value = (Type)eResolveProxy(oldValue);
-			if (value != oldValue)
-			{
+			if (value != oldValue) {
 				if (eNotificationRequired())
 					eNotify(new ENotificationImpl(this, Notification.RESOLVE, MyFilePackage.TYPE_LITERAL__VALUE, oldValue, value));
 			}
@@ -113,8 +111,7 @@ public class TypeLiteralImpl extends ValueImpl implements TypeLiteral
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType)
 	{
-		switch (featureID)
-		{
+		switch (featureID) {
 			case MyFilePackage.TYPE_LITERAL__VALUE:
 				if (resolve) return getValue();
 				return basicGetValue();
@@ -130,8 +127,7 @@ public class TypeLiteralImpl extends ValueImpl implements TypeLiteral
 	@Override
 	public void eSet(int featureID, Object newValue)
 	{
-		switch (featureID)
-		{
+		switch (featureID) {
 			case MyFilePackage.TYPE_LITERAL__VALUE:
 				setValue((Type)newValue);
 				return;
@@ -147,8 +143,7 @@ public class TypeLiteralImpl extends ValueImpl implements TypeLiteral
 	@Override
 	public void eUnset(int featureID)
 	{
-		switch (featureID)
-		{
+		switch (featureID) {
 			case MyFilePackage.TYPE_LITERAL__VALUE:
 				setValue((Type)null);
 				return;
@@ -164,8 +159,7 @@ public class TypeLiteralImpl extends ValueImpl implements TypeLiteral
 	@Override
 	public boolean eIsSet(int featureID)
 	{
-		switch (featureID)
-		{
+		switch (featureID) {
 			case MyFilePackage.TYPE_LITERAL__VALUE:
 				return value != null;
 		}

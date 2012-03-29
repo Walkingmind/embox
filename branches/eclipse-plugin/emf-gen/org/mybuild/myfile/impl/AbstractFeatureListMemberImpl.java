@@ -70,8 +70,7 @@ public abstract class AbstractFeatureListMemberImpl extends MemberImpl implement
 	 */
 	public EList<Feature> getFeatures()
 	{
-		if (features == null)
-		{
+		if (features == null) {
 			features = new EObjectResolvingEList<Feature>(Feature.class, this, MyFilePackage.ABSTRACT_FEATURE_LIST_MEMBER__FEATURES);
 		}
 		return features;
@@ -85,8 +84,7 @@ public abstract class AbstractFeatureListMemberImpl extends MemberImpl implement
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType)
 	{
-		switch (featureID)
-		{
+		switch (featureID) {
 			case MyFilePackage.ABSTRACT_FEATURE_LIST_MEMBER__FEATURES:
 				return getFeatures();
 		}
@@ -102,8 +100,7 @@ public abstract class AbstractFeatureListMemberImpl extends MemberImpl implement
 	@Override
 	public void eSet(int featureID, Object newValue)
 	{
-		switch (featureID)
-		{
+		switch (featureID) {
 			case MyFilePackage.ABSTRACT_FEATURE_LIST_MEMBER__FEATURES:
 				getFeatures().clear();
 				getFeatures().addAll((Collection<? extends Feature>)newValue);
@@ -120,8 +117,7 @@ public abstract class AbstractFeatureListMemberImpl extends MemberImpl implement
 	@Override
 	public void eUnset(int featureID)
 	{
-		switch (featureID)
-		{
+		switch (featureID) {
 			case MyFilePackage.ABSTRACT_FEATURE_LIST_MEMBER__FEATURES:
 				getFeatures().clear();
 				return;
@@ -137,8 +133,7 @@ public abstract class AbstractFeatureListMemberImpl extends MemberImpl implement
 	@Override
 	public boolean eIsSet(int featureID)
 	{
-		switch (featureID)
-		{
+		switch (featureID) {
 			case MyFilePackage.ABSTRACT_FEATURE_LIST_MEMBER__FEATURES:
 				return features != null && !features.isEmpty();
 		}

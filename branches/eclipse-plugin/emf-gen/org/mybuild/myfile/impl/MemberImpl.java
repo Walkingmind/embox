@@ -84,8 +84,7 @@ public class MemberImpl extends AnnotationTargetImpl implements Member
 	 */
 	public void setContainingModule(Module newContainingModule)
 	{
-		if (newContainingModule != eInternalContainer() || (eContainerFeatureID() != MyFilePackage.MEMBER__CONTAINING_MODULE && newContainingModule != null))
-		{
+		if (newContainingModule != eInternalContainer() || (eContainerFeatureID() != MyFilePackage.MEMBER__CONTAINING_MODULE && newContainingModule != null)) {
 			if (EcoreUtil.isAncestor(this, newContainingModule))
 				throw new IllegalArgumentException("Recursive containment not allowed for " + toString());
 			NotificationChain msgs = null;
@@ -108,8 +107,7 @@ public class MemberImpl extends AnnotationTargetImpl implements Member
 	@Override
 	public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs)
 	{
-		switch (featureID)
-		{
+		switch (featureID) {
 			case MyFilePackage.MEMBER__CONTAINING_MODULE:
 				if (eInternalContainer() != null)
 					msgs = eBasicRemoveFromContainer(msgs);
@@ -126,8 +124,7 @@ public class MemberImpl extends AnnotationTargetImpl implements Member
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs)
 	{
-		switch (featureID)
-		{
+		switch (featureID) {
 			case MyFilePackage.MEMBER__CONTAINING_MODULE:
 				return basicSetContainingModule(null, msgs);
 		}
@@ -142,8 +139,7 @@ public class MemberImpl extends AnnotationTargetImpl implements Member
 	@Override
 	public NotificationChain eBasicRemoveFromContainerFeature(NotificationChain msgs)
 	{
-		switch (eContainerFeatureID())
-		{
+		switch (eContainerFeatureID()) {
 			case MyFilePackage.MEMBER__CONTAINING_MODULE:
 				return eInternalContainer().eInverseRemove(this, MyFilePackage.MODULE__MEMBERS, Module.class, msgs);
 		}
@@ -158,8 +154,7 @@ public class MemberImpl extends AnnotationTargetImpl implements Member
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType)
 	{
-		switch (featureID)
-		{
+		switch (featureID) {
 			case MyFilePackage.MEMBER__CONTAINING_MODULE:
 				return getContainingModule();
 		}
@@ -174,8 +169,7 @@ public class MemberImpl extends AnnotationTargetImpl implements Member
 	@Override
 	public void eSet(int featureID, Object newValue)
 	{
-		switch (featureID)
-		{
+		switch (featureID) {
 			case MyFilePackage.MEMBER__CONTAINING_MODULE:
 				setContainingModule((Module)newValue);
 				return;
@@ -191,8 +185,7 @@ public class MemberImpl extends AnnotationTargetImpl implements Member
 	@Override
 	public void eUnset(int featureID)
 	{
-		switch (featureID)
-		{
+		switch (featureID) {
 			case MyFilePackage.MEMBER__CONTAINING_MODULE:
 				setContainingModule((Module)null);
 				return;
@@ -208,8 +201,7 @@ public class MemberImpl extends AnnotationTargetImpl implements Member
 	@Override
 	public boolean eIsSet(int featureID)
 	{
-		switch (featureID)
-		{
+		switch (featureID) {
 			case MyFilePackage.MEMBER__CONTAINING_MODULE:
 				return getContainingModule() != null;
 		}
