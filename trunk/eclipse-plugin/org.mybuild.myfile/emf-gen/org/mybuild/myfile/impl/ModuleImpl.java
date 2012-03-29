@@ -23,6 +23,7 @@ import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 
 import org.eclipse.emf.ecore.util.EObjectContainmentWithInverseEList;
+import org.eclipse.emf.ecore.util.EObjectEList;
 import org.eclipse.emf.ecore.util.EObjectWithInverseResolvingEList;
 import org.eclipse.emf.ecore.util.InternalEList;
 
@@ -343,7 +344,8 @@ public class ModuleImpl extends TypeImpl implements Module {
 		// Ensure that you remove @generated or mark it @generated NOT
 		// The list is expected to implement org.eclipse.emf.ecore.util.InternalEList and org.eclipse.emf.ecore.EStructuralFeature.Setting
 		// so it's likely that an appropriate subclass of org.eclipse.emf.ecore.util.EcoreEList should be used.
-		throw new UnsupportedOperationException();
+//		throw new UnsupportedOperationException();
+		return new EObjectEList<Module>(Module.class, this, MyFilePackage.MODULE__DEPENDS);
 	}
 
 	/**
@@ -356,7 +358,8 @@ public class ModuleImpl extends TypeImpl implements Module {
 		// Ensure that you remove @generated or mark it @generated NOT
 		// The list is expected to implement org.eclipse.emf.ecore.util.InternalEList and org.eclipse.emf.ecore.EStructuralFeature.Setting
 		// so it's likely that an appropriate subclass of org.eclipse.emf.ecore.util.EcoreEList should be used.
-		throw new UnsupportedOperationException();
+//		throw new UnsupportedOperationException();
+		return new EObjectEList<Module>(Module.class, this, MyFilePackage.MODULE__DEPENDENT);
 	}
 
 	/**
@@ -365,12 +368,14 @@ public class ModuleImpl extends TypeImpl implements Module {
 	 * @generated NOT
 	 */
 	public EList<Feature> getProvides() {
-		return flattenMembers(new MyFileSwitch<EList<Feature>>() {
-			@Override
-			public EList<Feature> caseProvidesMember(ProvidesMember member) {
-				return member.getFeatures();
-			}
-		});
+		return flattenMembers(Feature.class, MyFilePackage.MODULE__PROVIDES,
+				new MyFileSwitch<EList<Feature>>() {
+					@Override
+					public EList<Feature> caseProvidesMember(
+							ProvidesMember member) {
+						return member.getFeatures();
+					}
+				});
 	}
 
 	/**
@@ -379,12 +384,14 @@ public class ModuleImpl extends TypeImpl implements Module {
 	 * @generated NOT
 	 */
 	public EList<Feature> getRequires() {
-		return flattenMembers(new MyFileSwitch<EList<Feature>>() {
-			@Override
-			public EList<Feature> caseRequiresMember(RequiresMember member) {
-				return member.getFeatures();
-			}
-		});
+		return flattenMembers(Feature.class, MyFilePackage.MODULE__REQUIRES,
+				new MyFileSwitch<EList<Feature>>() {
+					@Override
+					public EList<Feature> caseRequiresMember(
+							RequiresMember member) {
+						return member.getFeatures();
+					}
+				});
 	}
 
 	/**
@@ -393,12 +400,13 @@ public class ModuleImpl extends TypeImpl implements Module {
 	 * @generated NOT
 	 */
 	public EList<FileName> getSources() {
-		return flattenMembers(new MyFileSwitch<EList<FileName>>() {
-			@Override
-			public EList<FileName> caseSourceMember(SourceMember member) {
-				return member.getFiles();
-			}
-		});
+		return flattenMembers(FileName.class, MyFilePackage.MODULE__SOURCES,
+				new MyFileSwitch<EList<FileName>>() {
+					@Override
+					public EList<FileName> caseSourceMember(SourceMember member) {
+						return member.getFiles();
+					}
+				});
 	}
 
 	/**
@@ -407,16 +415,18 @@ public class ModuleImpl extends TypeImpl implements Module {
 	 * @generated NOT
 	 */
 	public EList<FileName> getObjects() {
-		return flattenMembers(new MyFileSwitch<EList<FileName>>() {
-			@Override
-			public EList<FileName> caseObjectMember(ObjectMember member) {
-				return member.getFiles();
-			}
-		});
+		return flattenMembers(FileName.class, MyFilePackage.MODULE__OBJECTS,
+				new MyFileSwitch<EList<FileName>>() {
+					@Override
+					public EList<FileName> caseObjectMember(ObjectMember member) {
+						return member.getFiles();
+					}
+				});
 	}
 
-	private <E> EList<E> flattenMembers(MyFileSwitch<EList<E>> visitor) {
-		EList<E> elements = new BasicEList<E>();
+	private <E> EList<E> flattenMembers(Class<E> clazz, int featureID,
+			MyFileSwitch<EList<E>> visitor) {
+		EList<E> elements = new EObjectEList<E>(clazz, this, featureID);
 		for (Member member : getMembers()) {
 			EList<E> memberElements = visitor.doSwitch(member);
 			if (memberElements != null) {
