@@ -5,7 +5,11 @@
  */
 package org.mybuild.myfile.impl;
 
+import static com.google.common.collect.Sets.newHashSet;
+
 import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
@@ -281,27 +285,38 @@ public class ModuleImpl extends TypeImpl implements Module {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
+	 * @generated NOT
 	 */
 	public EList<Module> getAllSuperTypes() {
-		// TODO: implement this method to return the 'All Super Types' reference list
-		// Ensure that you remove @generated or mark it @generated NOT
-		// The list is expected to implement org.eclipse.emf.ecore.util.InternalEList and org.eclipse.emf.ecore.EStructuralFeature.Setting
-		// so it's likely that an appropriate subclass of org.eclipse.emf.ecore.util.EcoreEList should be used.
-		throw new UnsupportedOperationException();
+		BasicEList<Module> allSuperTypes = new BasicEList<Module>();
+		for (Module m = getSuperType(); m != null; m = m.getSuperType()) {
+			allSuperTypes.add(m);
+			if (m == this) {
+				// inheritance loop.
+				break;
+			}
+		}
+		return allSuperTypes;
 	}
 
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
+	 * @generated NOT
 	 */
 	public EList<Module> getAllSubTypes() {
-		// TODO: implement this method to return the 'All Sub Types' reference list
-		// Ensure that you remove @generated or mark it @generated NOT
-		// The list is expected to implement org.eclipse.emf.ecore.util.InternalEList and org.eclipse.emf.ecore.EStructuralFeature.Setting
-		// so it's likely that an appropriate subclass of org.eclipse.emf.ecore.util.EcoreEList should be used.
-		throw new UnsupportedOperationException();
+		HashSet<Module> set = newHashSet();
+		internalPopulateSubTypesSet(set);
+		return new BasicEList<Module>(set);
+	}
+
+	private void internalPopulateSubTypesSet(Set<Module> allSubTypes) {
+		EList<Module> subTypes = getSubTypes();
+		for (Module m : subTypes) {
+			if (allSubTypes.add(m) && m instanceof ModuleImpl) {
+				((ModuleImpl) m).internalPopulateSubTypesSet(allSubTypes);
+			}
+		}
 	}
 
 	/**
@@ -401,7 +416,7 @@ public class ModuleImpl extends TypeImpl implements Module {
 	}
 
 	private <E> EList<E> flattenMembers(MyFileSwitch<EList<E>> visitor) {
-		BasicEList<E> elements = new BasicEList<E>();
+		EList<E> elements = new BasicEList<E>();
 		for (Member member : getMembers()) {
 			EList<E> memberElements = visitor.doSwitch(member);
 			if (memberElements != null) {
