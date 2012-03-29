@@ -27,8 +27,7 @@ import org.mybuild.myfile.MyFilePackage;
  *
  * @generated
  */
-public class BooleanLiteralImpl extends ValueImpl implements BooleanLiteral
-{
+public class BooleanLiteralImpl extends ValueImpl implements BooleanLiteral {
 	/**
 	 * The default value of the '{@link #isIsTrue() <em>Is True</em>}' attribute.
 	 * <!-- begin-user-doc -->
@@ -54,8 +53,7 @@ public class BooleanLiteralImpl extends ValueImpl implements BooleanLiteral
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected BooleanLiteralImpl()
-	{
+	protected BooleanLiteralImpl() {
 		super();
 	}
 
@@ -65,8 +63,7 @@ public class BooleanLiteralImpl extends ValueImpl implements BooleanLiteral
 	 * @generated
 	 */
 	@Override
-	protected EClass eStaticClass()
-	{
+	protected EClass eStaticClass() {
 		return MyFilePackage.Literals.BOOLEAN_LITERAL;
 	}
 
@@ -75,8 +72,7 @@ public class BooleanLiteralImpl extends ValueImpl implements BooleanLiteral
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public boolean isIsTrue()
-	{
+	public boolean isIsTrue() {
 		return isTrue;
 	}
 
@@ -85,12 +81,12 @@ public class BooleanLiteralImpl extends ValueImpl implements BooleanLiteral
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setIsTrue(boolean newIsTrue)
-	{
+	public void setIsTrue(boolean newIsTrue) {
 		boolean oldIsTrue = isTrue;
 		isTrue = newIsTrue;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, MyFilePackage.BOOLEAN_LITERAL__IS_TRUE, oldIsTrue, isTrue));
+			eNotify(new ENotificationImpl(this, Notification.SET,
+					MyFilePackage.BOOLEAN_LITERAL__IS_TRUE, oldIsTrue, isTrue));
 	}
 
 	/**
@@ -99,12 +95,10 @@ public class BooleanLiteralImpl extends ValueImpl implements BooleanLiteral
 	 * @generated
 	 */
 	@Override
-	public Object eGet(int featureID, boolean resolve, boolean coreType)
-	{
-		switch (featureID)
-		{
-			case MyFilePackage.BOOLEAN_LITERAL__IS_TRUE:
-				return isIsTrue();
+	public Object eGet(int featureID, boolean resolve, boolean coreType) {
+		switch (featureID) {
+		case MyFilePackage.BOOLEAN_LITERAL__IS_TRUE:
+			return isIsTrue();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -115,13 +109,11 @@ public class BooleanLiteralImpl extends ValueImpl implements BooleanLiteral
 	 * @generated
 	 */
 	@Override
-	public void eSet(int featureID, Object newValue)
-	{
-		switch (featureID)
-		{
-			case MyFilePackage.BOOLEAN_LITERAL__IS_TRUE:
-				setIsTrue((Boolean)newValue);
-				return;
+	public void eSet(int featureID, Object newValue) {
+		switch (featureID) {
+		case MyFilePackage.BOOLEAN_LITERAL__IS_TRUE:
+			setIsTrue((Boolean) newValue);
+			return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -132,13 +124,11 @@ public class BooleanLiteralImpl extends ValueImpl implements BooleanLiteral
 	 * @generated
 	 */
 	@Override
-	public void eUnset(int featureID)
-	{
-		switch (featureID)
-		{
-			case MyFilePackage.BOOLEAN_LITERAL__IS_TRUE:
-				setIsTrue(IS_TRUE_EDEFAULT);
-				return;
+	public void eUnset(int featureID) {
+		switch (featureID) {
+		case MyFilePackage.BOOLEAN_LITERAL__IS_TRUE:
+			setIsTrue(IS_TRUE_EDEFAULT);
+			return;
 		}
 		super.eUnset(featureID);
 	}
@@ -149,12 +139,10 @@ public class BooleanLiteralImpl extends ValueImpl implements BooleanLiteral
 	 * @generated
 	 */
 	@Override
-	public boolean eIsSet(int featureID)
-	{
-		switch (featureID)
-		{
-			case MyFilePackage.BOOLEAN_LITERAL__IS_TRUE:
-				return isTrue != IS_TRUE_EDEFAULT;
+	public boolean eIsSet(int featureID) {
+		switch (featureID) {
+		case MyFilePackage.BOOLEAN_LITERAL__IS_TRUE:
+			return isTrue != IS_TRUE_EDEFAULT;
 		}
 		return super.eIsSet(featureID);
 	}
@@ -165,9 +153,9 @@ public class BooleanLiteralImpl extends ValueImpl implements BooleanLiteral
 	 * @generated
 	 */
 	@Override
-	public String toString()
-	{
-		if (eIsProxy()) return super.toString();
+	public String toString() {
+		if (eIsProxy())
+			return super.toString();
 
 		StringBuffer result = new StringBuffer(super.toString());
 		result.append(" (isTrue: ");

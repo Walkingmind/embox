@@ -19,15 +19,14 @@ import org.mybuild.myfile.SourceMember;
  *
  * @generated
  */
-public class SourceMemberImpl extends AbstractFileListMemberImpl implements SourceMember
-{
+public class SourceMemberImpl extends AbstractFileListMemberImpl implements
+		SourceMember {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected SourceMemberImpl()
-	{
+	protected SourceMemberImpl() {
 		super();
 	}
 
@@ -37,8 +36,7 @@ public class SourceMemberImpl extends AbstractFileListMemberImpl implements Sour
 	 * @generated
 	 */
 	@Override
-	protected EClass eStaticClass()
-	{
+	protected EClass eStaticClass() {
 		return MyFilePackage.Literals.SOURCE_MEMBER;
 	}
 

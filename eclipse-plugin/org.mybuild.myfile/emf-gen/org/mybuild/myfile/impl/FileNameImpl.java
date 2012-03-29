@@ -28,8 +28,7 @@ import org.mybuild.myfile.MyFilePackage;
  *
  * @generated
  */
-public class FileNameImpl extends EObjectImpl implements FileName
-{
+public class FileNameImpl extends EObjectImpl implements FileName {
 	/**
 	 * The default value of the '{@link #getValue() <em>Value</em>}' attribute.
 	 * <!-- begin-user-doc -->
@@ -55,8 +54,7 @@ public class FileNameImpl extends EObjectImpl implements FileName
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected FileNameImpl()
-	{
+	protected FileNameImpl() {
 		super();
 	}
 
@@ -66,8 +64,7 @@ public class FileNameImpl extends EObjectImpl implements FileName
 	 * @generated
 	 */
 	@Override
-	protected EClass eStaticClass()
-	{
+	protected EClass eStaticClass() {
 		return MyFilePackage.Literals.FILE_NAME;
 	}
 
@@ -76,8 +73,7 @@ public class FileNameImpl extends EObjectImpl implements FileName
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public String getValue()
-	{
+	public String getValue() {
 		return value;
 	}
 
@@ -86,12 +82,12 @@ public class FileNameImpl extends EObjectImpl implements FileName
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setValue(String newValue)
-	{
+	public void setValue(String newValue) {
 		String oldValue = value;
 		value = newValue;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, MyFilePackage.FILE_NAME__VALUE, oldValue, value));
+			eNotify(new ENotificationImpl(this, Notification.SET,
+					MyFilePackage.FILE_NAME__VALUE, oldValue, value));
 	}
 
 	/**
@@ -100,12 +96,10 @@ public class FileNameImpl extends EObjectImpl implements FileName
 	 * @generated
 	 */
 	@Override
-	public Object eGet(int featureID, boolean resolve, boolean coreType)
-	{
-		switch (featureID)
-		{
-			case MyFilePackage.FILE_NAME__VALUE:
-				return getValue();
+	public Object eGet(int featureID, boolean resolve, boolean coreType) {
+		switch (featureID) {
+		case MyFilePackage.FILE_NAME__VALUE:
+			return getValue();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -116,13 +110,11 @@ public class FileNameImpl extends EObjectImpl implements FileName
 	 * @generated
 	 */
 	@Override
-	public void eSet(int featureID, Object newValue)
-	{
-		switch (featureID)
-		{
-			case MyFilePackage.FILE_NAME__VALUE:
-				setValue((String)newValue);
-				return;
+	public void eSet(int featureID, Object newValue) {
+		switch (featureID) {
+		case MyFilePackage.FILE_NAME__VALUE:
+			setValue((String) newValue);
+			return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -133,13 +125,11 @@ public class FileNameImpl extends EObjectImpl implements FileName
 	 * @generated
 	 */
 	@Override
-	public void eUnset(int featureID)
-	{
-		switch (featureID)
-		{
-			case MyFilePackage.FILE_NAME__VALUE:
-				setValue(VALUE_EDEFAULT);
-				return;
+	public void eUnset(int featureID) {
+		switch (featureID) {
+		case MyFilePackage.FILE_NAME__VALUE:
+			setValue(VALUE_EDEFAULT);
+			return;
 		}
 		super.eUnset(featureID);
 	}
@@ -150,12 +140,11 @@ public class FileNameImpl extends EObjectImpl implements FileName
 	 * @generated
 	 */
 	@Override
-	public boolean eIsSet(int featureID)
-	{
-		switch (featureID)
-		{
-			case MyFilePackage.FILE_NAME__VALUE:
-				return VALUE_EDEFAULT == null ? value != null : !VALUE_EDEFAULT.equals(value);
+	public boolean eIsSet(int featureID) {
+		switch (featureID) {
+		case MyFilePackage.FILE_NAME__VALUE:
+			return VALUE_EDEFAULT == null ? value != null : !VALUE_EDEFAULT
+					.equals(value);
 		}
 		return super.eIsSet(featureID);
 	}
@@ -166,9 +155,9 @@ public class FileNameImpl extends EObjectImpl implements FileName
 	 * @generated
 	 */
 	@Override
-	public String toString()
-	{
-		if (eIsProxy()) return super.toString();
+	public String toString() {
+		if (eIsProxy())
+			return super.toString();
 
 		StringBuffer result = new StringBuffer(super.toString());
 		result.append(" (value: ");

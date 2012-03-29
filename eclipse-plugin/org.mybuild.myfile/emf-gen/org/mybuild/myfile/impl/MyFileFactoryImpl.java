@@ -51,26 +51,21 @@ import org.mybuild.myfile.Value;
  * <!-- end-user-doc -->
  * @generated
  */
-public class MyFileFactoryImpl extends EFactoryImpl implements MyFileFactory
-{
+public class MyFileFactoryImpl extends EFactoryImpl implements MyFileFactory {
 	/**
 	 * Creates the default factory implementation.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public static MyFileFactory init()
-	{
-		try
-		{
-			MyFileFactory theMyFileFactory = (MyFileFactory)EPackage.Registry.INSTANCE.getEFactory("http://www.mybuild.org/MyFile"); 
-			if (theMyFileFactory != null)
-			{
+	public static MyFileFactory init() {
+		try {
+			MyFileFactory theMyFileFactory = (MyFileFactory) EPackage.Registry.INSTANCE
+					.getEFactory("http://www.mybuild.org/MyFile");
+			if (theMyFileFactory != null) {
 				return theMyFileFactory;
 			}
-		}
-		catch (Exception exception)
-		{
+		} catch (Exception exception) {
 			EcorePlugin.INSTANCE.log(exception);
 		}
 		return new MyFileFactoryImpl();
@@ -82,8 +77,7 @@ public class MyFileFactoryImpl extends EFactoryImpl implements MyFileFactory
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public MyFileFactoryImpl()
-	{
+	public MyFileFactoryImpl() {
 		super();
 	}
 
@@ -93,42 +87,71 @@ public class MyFileFactoryImpl extends EFactoryImpl implements MyFileFactory
 	 * @generated
 	 */
 	@Override
-	public EObject create(EClass eClass)
-	{
-		switch (eClass.getClassifierID())
-		{
-			case MyFilePackage.MODEL: return createModel();
-			case MyFilePackage.PACKAGE: return createPackage();
-			case MyFilePackage.IMPORT: return createImport();
-			case MyFilePackage.TYPE: return createType();
-			case MyFilePackage.ANNOTATION_TYPE: return createAnnotationType();
-			case MyFilePackage.ANNOTATION: return createAnnotation();
-			case MyFilePackage.ANNOTATION_TARGET: return createAnnotationTarget();
-			case MyFilePackage.INTERFACE: return createInterface();
-			case MyFilePackage.FEATURE: return createFeature();
-			case MyFilePackage.MODULE: return createModule();
-			case MyFilePackage.MEMBER: return createMember();
-			case MyFilePackage.DEPENDS_MEMBER: return createDependsMember();
-			case MyFilePackage.REQUIRES_MEMBER: return createRequiresMember();
-			case MyFilePackage.PROVIDES_MEMBER: return createProvidesMember();
-			case MyFilePackage.SOURCE_MEMBER: return createSourceMember();
-			case MyFilePackage.OBJECT_MEMBER: return createObjectMember();
-			case MyFilePackage.FILE_NAME: return createFileName();
-			case MyFilePackage.OPTION_MEMBER: return createOptionMember();
-			case MyFilePackage.PROPERTY: return createProperty();
-			case MyFilePackage.STRING_PROPERTY: return createStringProperty();
-			case MyFilePackage.NUMBER_PROPERTY: return createNumberProperty();
-			case MyFilePackage.BOOLEAN_PROPERTY: return createBooleanProperty();
-			case MyFilePackage.TYPE_PROPERTY: return createTypeProperty();
-			case MyFilePackage.VALUE: return createValue();
-			case MyFilePackage.STRING_LITERAL: return createStringLiteral();
-			case MyFilePackage.NUMBER_LITERAL: return createNumberLiteral();
-			case MyFilePackage.BOOLEAN_LITERAL: return createBooleanLiteral();
-			case MyFilePackage.TYPE_LITERAL: return createTypeLiteral();
-			case MyFilePackage.PROPERTY_VALUE_BINDING: return createPropertyValueBinding();
-			case MyFilePackage.NAMED: return createNamed();
-			default:
-				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
+	public EObject create(EClass eClass) {
+		switch (eClass.getClassifierID()) {
+		case MyFilePackage.MODEL:
+			return createModel();
+		case MyFilePackage.PACKAGE:
+			return createPackage();
+		case MyFilePackage.IMPORT:
+			return createImport();
+		case MyFilePackage.TYPE:
+			return createType();
+		case MyFilePackage.ANNOTATION_TYPE:
+			return createAnnotationType();
+		case MyFilePackage.ANNOTATION:
+			return createAnnotation();
+		case MyFilePackage.ANNOTATION_TARGET:
+			return createAnnotationTarget();
+		case MyFilePackage.INTERFACE:
+			return createInterface();
+		case MyFilePackage.FEATURE:
+			return createFeature();
+		case MyFilePackage.MODULE:
+			return createModule();
+		case MyFilePackage.MEMBER:
+			return createMember();
+		case MyFilePackage.DEPENDS_MEMBER:
+			return createDependsMember();
+		case MyFilePackage.REQUIRES_MEMBER:
+			return createRequiresMember();
+		case MyFilePackage.PROVIDES_MEMBER:
+			return createProvidesMember();
+		case MyFilePackage.SOURCE_MEMBER:
+			return createSourceMember();
+		case MyFilePackage.OBJECT_MEMBER:
+			return createObjectMember();
+		case MyFilePackage.FILE_NAME:
+			return createFileName();
+		case MyFilePackage.OPTION_MEMBER:
+			return createOptionMember();
+		case MyFilePackage.PROPERTY:
+			return createProperty();
+		case MyFilePackage.STRING_PROPERTY:
+			return createStringProperty();
+		case MyFilePackage.NUMBER_PROPERTY:
+			return createNumberProperty();
+		case MyFilePackage.BOOLEAN_PROPERTY:
+			return createBooleanProperty();
+		case MyFilePackage.TYPE_PROPERTY:
+			return createTypeProperty();
+		case MyFilePackage.VALUE:
+			return createValue();
+		case MyFilePackage.STRING_LITERAL:
+			return createStringLiteral();
+		case MyFilePackage.NUMBER_LITERAL:
+			return createNumberLiteral();
+		case MyFilePackage.BOOLEAN_LITERAL:
+			return createBooleanLiteral();
+		case MyFilePackage.TYPE_LITERAL:
+			return createTypeLiteral();
+		case MyFilePackage.PROPERTY_VALUE_BINDING:
+			return createPropertyValueBinding();
+		case MyFilePackage.NAMED:
+			return createNamed();
+		default:
+			throw new IllegalArgumentException("The class '" + eClass.getName()
+					+ "' is not a valid classifier");
 		}
 	}
 
@@ -137,8 +160,7 @@ public class MyFileFactoryImpl extends EFactoryImpl implements MyFileFactory
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public Model createModel()
-	{
+	public Model createModel() {
 		ModelImpl model = new ModelImpl();
 		return model;
 	}
@@ -148,8 +170,7 @@ public class MyFileFactoryImpl extends EFactoryImpl implements MyFileFactory
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public org.mybuild.myfile.Package createPackage()
-	{
+	public org.mybuild.myfile.Package createPackage() {
 		PackageImpl package_ = new PackageImpl();
 		return package_;
 	}
@@ -159,8 +180,7 @@ public class MyFileFactoryImpl extends EFactoryImpl implements MyFileFactory
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public Import createImport()
-	{
+	public Import createImport() {
 		ImportImpl import_ = new ImportImpl();
 		return import_;
 	}
@@ -170,8 +190,7 @@ public class MyFileFactoryImpl extends EFactoryImpl implements MyFileFactory
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public Type createType()
-	{
+	public Type createType() {
 		TypeImpl type = new TypeImpl();
 		return type;
 	}
@@ -181,8 +200,7 @@ public class MyFileFactoryImpl extends EFactoryImpl implements MyFileFactory
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public AnnotationType createAnnotationType()
-	{
+	public AnnotationType createAnnotationType() {
 		AnnotationTypeImpl annotationType = new AnnotationTypeImpl();
 		return annotationType;
 	}
@@ -192,8 +210,7 @@ public class MyFileFactoryImpl extends EFactoryImpl implements MyFileFactory
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public Annotation createAnnotation()
-	{
+	public Annotation createAnnotation() {
 		AnnotationImpl annotation = new AnnotationImpl();
 		return annotation;
 	}
@@ -203,8 +220,7 @@ public class MyFileFactoryImpl extends EFactoryImpl implements MyFileFactory
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public AnnotationTarget createAnnotationTarget()
-	{
+	public AnnotationTarget createAnnotationTarget() {
 		AnnotationTargetImpl annotationTarget = new AnnotationTargetImpl();
 		return annotationTarget;
 	}
@@ -214,8 +230,7 @@ public class MyFileFactoryImpl extends EFactoryImpl implements MyFileFactory
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public Interface createInterface()
-	{
+	public Interface createInterface() {
 		InterfaceImpl interface_ = new InterfaceImpl();
 		return interface_;
 	}
@@ -225,8 +240,7 @@ public class MyFileFactoryImpl extends EFactoryImpl implements MyFileFactory
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public Feature createFeature()
-	{
+	public Feature createFeature() {
 		FeatureImpl feature = new FeatureImpl();
 		return feature;
 	}
@@ -236,8 +250,7 @@ public class MyFileFactoryImpl extends EFactoryImpl implements MyFileFactory
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public Module createModule()
-	{
+	public Module createModule() {
 		ModuleImpl module = new ModuleImpl();
 		return module;
 	}
@@ -247,8 +260,7 @@ public class MyFileFactoryImpl extends EFactoryImpl implements MyFileFactory
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public Member createMember()
-	{
+	public Member createMember() {
 		MemberImpl member = new MemberImpl();
 		return member;
 	}
@@ -258,8 +270,7 @@ public class MyFileFactoryImpl extends EFactoryImpl implements MyFileFactory
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public DependsMember createDependsMember()
-	{
+	public DependsMember createDependsMember() {
 		DependsMemberImpl dependsMember = new DependsMemberImpl();
 		return dependsMember;
 	}
@@ -269,8 +280,7 @@ public class MyFileFactoryImpl extends EFactoryImpl implements MyFileFactory
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public RequiresMember createRequiresMember()
-	{
+	public RequiresMember createRequiresMember() {
 		RequiresMemberImpl requiresMember = new RequiresMemberImpl();
 		return requiresMember;
 	}
@@ -280,8 +290,7 @@ public class MyFileFactoryImpl extends EFactoryImpl implements MyFileFactory
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public ProvidesMember createProvidesMember()
-	{
+	public ProvidesMember createProvidesMember() {
 		ProvidesMemberImpl providesMember = new ProvidesMemberImpl();
 		return providesMember;
 	}
@@ -291,8 +300,7 @@ public class MyFileFactoryImpl extends EFactoryImpl implements MyFileFactory
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public SourceMember createSourceMember()
-	{
+	public SourceMember createSourceMember() {
 		SourceMemberImpl sourceMember = new SourceMemberImpl();
 		return sourceMember;
 	}
@@ -302,8 +310,7 @@ public class MyFileFactoryImpl extends EFactoryImpl implements MyFileFactory
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public ObjectMember createObjectMember()
-	{
+	public ObjectMember createObjectMember() {
 		ObjectMemberImpl objectMember = new ObjectMemberImpl();
 		return objectMember;
 	}
@@ -313,8 +320,7 @@ public class MyFileFactoryImpl extends EFactoryImpl implements MyFileFactory
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public FileName createFileName()
-	{
+	public FileName createFileName() {
 		FileNameImpl fileName = new FileNameImpl();
 		return fileName;
 	}
@@ -324,8 +330,7 @@ public class MyFileFactoryImpl extends EFactoryImpl implements MyFileFactory
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public OptionMember createOptionMember()
-	{
+	public OptionMember createOptionMember() {
 		OptionMemberImpl optionMember = new OptionMemberImpl();
 		return optionMember;
 	}
@@ -335,8 +340,7 @@ public class MyFileFactoryImpl extends EFactoryImpl implements MyFileFactory
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public Property createProperty()
-	{
+	public Property createProperty() {
 		PropertyImpl property = new PropertyImpl();
 		return property;
 	}
@@ -346,8 +350,7 @@ public class MyFileFactoryImpl extends EFactoryImpl implements MyFileFactory
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public StringProperty createStringProperty()
-	{
+	public StringProperty createStringProperty() {
 		StringPropertyImpl stringProperty = new StringPropertyImpl();
 		return stringProperty;
 	}
@@ -357,8 +360,7 @@ public class MyFileFactoryImpl extends EFactoryImpl implements MyFileFactory
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public NumberProperty createNumberProperty()
-	{
+	public NumberProperty createNumberProperty() {
 		NumberPropertyImpl numberProperty = new NumberPropertyImpl();
 		return numberProperty;
 	}
@@ -368,8 +370,7 @@ public class MyFileFactoryImpl extends EFactoryImpl implements MyFileFactory
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public BooleanProperty createBooleanProperty()
-	{
+	public BooleanProperty createBooleanProperty() {
 		BooleanPropertyImpl booleanProperty = new BooleanPropertyImpl();
 		return booleanProperty;
 	}
@@ -379,8 +380,7 @@ public class MyFileFactoryImpl extends EFactoryImpl implements MyFileFactory
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public TypeProperty createTypeProperty()
-	{
+	public TypeProperty createTypeProperty() {
 		TypePropertyImpl typeProperty = new TypePropertyImpl();
 		return typeProperty;
 	}
@@ -390,8 +390,7 @@ public class MyFileFactoryImpl extends EFactoryImpl implements MyFileFactory
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public Value createValue()
-	{
+	public Value createValue() {
 		ValueImpl value = new ValueImpl();
 		return value;
 	}
@@ -401,8 +400,7 @@ public class MyFileFactoryImpl extends EFactoryImpl implements MyFileFactory
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public StringLiteral createStringLiteral()
-	{
+	public StringLiteral createStringLiteral() {
 		StringLiteralImpl stringLiteral = new StringLiteralImpl();
 		return stringLiteral;
 	}
@@ -412,8 +410,7 @@ public class MyFileFactoryImpl extends EFactoryImpl implements MyFileFactory
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public NumberLiteral createNumberLiteral()
-	{
+	public NumberLiteral createNumberLiteral() {
 		NumberLiteralImpl numberLiteral = new NumberLiteralImpl();
 		return numberLiteral;
 	}
@@ -423,8 +420,7 @@ public class MyFileFactoryImpl extends EFactoryImpl implements MyFileFactory
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public BooleanLiteral createBooleanLiteral()
-	{
+	public BooleanLiteral createBooleanLiteral() {
 		BooleanLiteralImpl booleanLiteral = new BooleanLiteralImpl();
 		return booleanLiteral;
 	}
@@ -434,8 +430,7 @@ public class MyFileFactoryImpl extends EFactoryImpl implements MyFileFactory
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public TypeLiteral createTypeLiteral()
-	{
+	public TypeLiteral createTypeLiteral() {
 		TypeLiteralImpl typeLiteral = new TypeLiteralImpl();
 		return typeLiteral;
 	}
@@ -445,8 +440,7 @@ public class MyFileFactoryImpl extends EFactoryImpl implements MyFileFactory
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public PropertyValueBinding createPropertyValueBinding()
-	{
+	public PropertyValueBinding createPropertyValueBinding() {
 		PropertyValueBindingImpl propertyValueBinding = new PropertyValueBindingImpl();
 		return propertyValueBinding;
 	}
@@ -456,8 +450,7 @@ public class MyFileFactoryImpl extends EFactoryImpl implements MyFileFactory
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public Named createNamed()
-	{
+	public Named createNamed() {
 		NamedImpl named = new NamedImpl();
 		return named;
 	}
@@ -467,9 +460,8 @@ public class MyFileFactoryImpl extends EFactoryImpl implements MyFileFactory
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public MyFilePackage getMyFilePackage()
-	{
-		return (MyFilePackage)getEPackage();
+	public MyFilePackage getMyFilePackage() {
+		return (MyFilePackage) getEPackage();
 	}
 
 	/**
@@ -479,8 +471,7 @@ public class MyFileFactoryImpl extends EFactoryImpl implements MyFileFactory
 	 * @generated
 	 */
 	@Deprecated
-	public static MyFilePackage getPackage()
-	{
+	public static MyFilePackage getPackage() {
 		return MyFilePackage.eINSTANCE;
 	}
 

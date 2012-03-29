@@ -5,7 +5,6 @@
  */
 package org.mybuild.myfile;
 
-
 /**
  * <!-- begin-user-doc -->
  * A representation of the model object '<em><b>Requires Member</b></em>'.
@@ -16,6 +15,5 @@ package org.mybuild.myfile;
  * @model
  * @generated
  */
-public interface RequiresMember extends AbstractFeatureListMember
-{
+public interface RequiresMember extends AbstractFeatureListMember {
 } // RequiresMember

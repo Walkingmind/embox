@@ -23,8 +23,7 @@ import org.eclipse.emf.ecore.EObject;
  * @model
  * @generated
  */
-public interface Import extends EObject
-{
+public interface Import extends EObject {
 	/**
 	 * Returns the value of the '<em><b>Imported Namespace</b></em>' attribute.
 	 * <!-- begin-user-doc -->

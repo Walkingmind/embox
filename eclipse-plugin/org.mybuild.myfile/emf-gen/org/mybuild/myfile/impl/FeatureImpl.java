@@ -28,8 +28,7 @@ import org.mybuild.myfile.MyFilePackage;
  *
  * @generated
  */
-public class FeatureImpl extends TypeImpl implements Feature
-{
+public class FeatureImpl extends TypeImpl implements Feature {
 	/**
 	 * The cached value of the '{@link #getSuperType() <em>Super Type</em>}' reference.
 	 * <!-- begin-user-doc -->
@@ -45,8 +44,7 @@ public class FeatureImpl extends TypeImpl implements Feature
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected FeatureImpl()
-	{
+	protected FeatureImpl() {
 		super();
 	}
 
@@ -56,8 +54,7 @@ public class FeatureImpl extends TypeImpl implements Feature
 	 * @generated
 	 */
 	@Override
-	protected EClass eStaticClass()
-	{
+	protected EClass eStaticClass() {
 		return MyFilePackage.Literals.FEATURE;
 	}
 
@@ -66,16 +63,15 @@ public class FeatureImpl extends TypeImpl implements Feature
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public Feature getSuperType()
-	{
-		if (superType != null && superType.eIsProxy())
-		{
-			InternalEObject oldSuperType = (InternalEObject)superType;
-			superType = (Feature)eResolveProxy(oldSuperType);
-			if (superType != oldSuperType)
-			{
+	public Feature getSuperType() {
+		if (superType != null && superType.eIsProxy()) {
+			InternalEObject oldSuperType = (InternalEObject) superType;
+			superType = (Feature) eResolveProxy(oldSuperType);
+			if (superType != oldSuperType) {
 				if (eNotificationRequired())
-					eNotify(new ENotificationImpl(this, Notification.RESOLVE, MyFilePackage.FEATURE__SUPER_TYPE, oldSuperType, superType));
+					eNotify(new ENotificationImpl(this, Notification.RESOLVE,
+							MyFilePackage.FEATURE__SUPER_TYPE, oldSuperType,
+							superType));
 			}
 		}
 		return superType;
@@ -86,8 +82,7 @@ public class FeatureImpl extends TypeImpl implements Feature
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public Feature basicGetSuperType()
-	{
+	public Feature basicGetSuperType() {
 		return superType;
 	}
 
@@ -96,12 +91,12 @@ public class FeatureImpl extends TypeImpl implements Feature
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setSuperType(Feature newSuperType)
-	{
+	public void setSuperType(Feature newSuperType) {
 		Feature oldSuperType = superType;
 		superType = newSuperType;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, MyFilePackage.FEATURE__SUPER_TYPE, oldSuperType, superType));
+			eNotify(new ENotificationImpl(this, Notification.SET,
+					MyFilePackage.FEATURE__SUPER_TYPE, oldSuperType, superType));
 	}
 
 	/**
@@ -110,13 +105,12 @@ public class FeatureImpl extends TypeImpl implements Feature
 	 * @generated
 	 */
 	@Override
-	public Object eGet(int featureID, boolean resolve, boolean coreType)
-	{
-		switch (featureID)
-		{
-			case MyFilePackage.FEATURE__SUPER_TYPE:
-				if (resolve) return getSuperType();
-				return basicGetSuperType();
+	public Object eGet(int featureID, boolean resolve, boolean coreType) {
+		switch (featureID) {
+		case MyFilePackage.FEATURE__SUPER_TYPE:
+			if (resolve)
+				return getSuperType();
+			return basicGetSuperType();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -127,13 +121,11 @@ public class FeatureImpl extends TypeImpl implements Feature
 	 * @generated
 	 */
 	@Override
-	public void eSet(int featureID, Object newValue)
-	{
-		switch (featureID)
-		{
-			case MyFilePackage.FEATURE__SUPER_TYPE:
-				setSuperType((Feature)newValue);
-				return;
+	public void eSet(int featureID, Object newValue) {
+		switch (featureID) {
+		case MyFilePackage.FEATURE__SUPER_TYPE:
+			setSuperType((Feature) newValue);
+			return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -144,13 +136,11 @@ public class FeatureImpl extends TypeImpl implements Feature
 	 * @generated
 	 */
 	@Override
-	public void eUnset(int featureID)
-	{
-		switch (featureID)
-		{
-			case MyFilePackage.FEATURE__SUPER_TYPE:
-				setSuperType((Feature)null);
-				return;
+	public void eUnset(int featureID) {
+		switch (featureID) {
+		case MyFilePackage.FEATURE__SUPER_TYPE:
+			setSuperType((Feature) null);
+			return;
 		}
 		super.eUnset(featureID);
 	}
@@ -161,12 +151,10 @@ public class FeatureImpl extends TypeImpl implements Feature
 	 * @generated
 	 */
 	@Override
-	public boolean eIsSet(int featureID)
-	{
-		switch (featureID)
-		{
-			case MyFilePackage.FEATURE__SUPER_TYPE:
-				return superType != null;
+	public boolean eIsSet(int featureID) {
+		switch (featureID) {
+		case MyFilePackage.FEATURE__SUPER_TYPE:
+			return superType != null;
 		}
 		return super.eIsSet(featureID);
 	}

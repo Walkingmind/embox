@@ -19,15 +19,14 @@ import org.mybuild.myfile.RequiresMember;
  *
  * @generated
  */
-public class RequiresMemberImpl extends AbstractFeatureListMemberImpl implements RequiresMember
-{
+public class RequiresMemberImpl extends AbstractFeatureListMemberImpl implements
+		RequiresMember {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected RequiresMemberImpl()
-	{
+	protected RequiresMemberImpl() {
 		super();
 	}
 
@@ -37,8 +36,7 @@ public class RequiresMemberImpl extends AbstractFeatureListMemberImpl implements
 	 * @generated
 	 */
 	@Override
-	protected EClass eStaticClass()
-	{
+	protected EClass eStaticClass() {
 		return MyFilePackage.Literals.REQUIRES_MEMBER;
 	}
 

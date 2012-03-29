@@ -28,8 +28,7 @@ import org.mybuild.myfile.Named;
  *
  * @generated
  */
-public class NamedImpl extends EObjectImpl implements Named
-{
+public class NamedImpl extends EObjectImpl implements Named {
 	/**
 	 * The default value of the '{@link #getName() <em>Name</em>}' attribute.
 	 * <!-- begin-user-doc -->
@@ -55,8 +54,7 @@ public class NamedImpl extends EObjectImpl implements Named
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected NamedImpl()
-	{
+	protected NamedImpl() {
 		super();
 	}
 
@@ -66,8 +64,7 @@ public class NamedImpl extends EObjectImpl implements Named
 	 * @generated
 	 */
 	@Override
-	protected EClass eStaticClass()
-	{
+	protected EClass eStaticClass() {
 		return MyFilePackage.Literals.NAMED;
 	}
 
@@ -76,8 +73,7 @@ public class NamedImpl extends EObjectImpl implements Named
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public String getName()
-	{
+	public String getName() {
 		return name;
 	}
 
@@ -86,12 +82,12 @@ public class NamedImpl extends EObjectImpl implements Named
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setName(String newName)
-	{
+	public void setName(String newName) {
 		String oldName = name;
 		name = newName;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, MyFilePackage.NAMED__NAME, oldName, name));
+			eNotify(new ENotificationImpl(this, Notification.SET,
+					MyFilePackage.NAMED__NAME, oldName, name));
 	}
 
 	/**
@@ -100,12 +96,10 @@ public class NamedImpl extends EObjectImpl implements Named
 	 * @generated
 	 */
 	@Override
-	public Object eGet(int featureID, boolean resolve, boolean coreType)
-	{
-		switch (featureID)
-		{
-			case MyFilePackage.NAMED__NAME:
-				return getName();
+	public Object eGet(int featureID, boolean resolve, boolean coreType) {
+		switch (featureID) {
+		case MyFilePackage.NAMED__NAME:
+			return getName();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -116,13 +110,11 @@ public class NamedImpl extends EObjectImpl implements Named
 	 * @generated
 	 */
 	@Override
-	public void eSet(int featureID, Object newValue)
-	{
-		switch (featureID)
-		{
-			case MyFilePackage.NAMED__NAME:
-				setName((String)newValue);
-				return;
+	public void eSet(int featureID, Object newValue) {
+		switch (featureID) {
+		case MyFilePackage.NAMED__NAME:
+			setName((String) newValue);
+			return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -133,13 +125,11 @@ public class NamedImpl extends EObjectImpl implements Named
 	 * @generated
 	 */
 	@Override
-	public void eUnset(int featureID)
-	{
-		switch (featureID)
-		{
-			case MyFilePackage.NAMED__NAME:
-				setName(NAME_EDEFAULT);
-				return;
+	public void eUnset(int featureID) {
+		switch (featureID) {
+		case MyFilePackage.NAMED__NAME:
+			setName(NAME_EDEFAULT);
+			return;
 		}
 		super.eUnset(featureID);
 	}
@@ -150,12 +140,11 @@ public class NamedImpl extends EObjectImpl implements Named
 	 * @generated
 	 */
 	@Override
-	public boolean eIsSet(int featureID)
-	{
-		switch (featureID)
-		{
-			case MyFilePackage.NAMED__NAME:
-				return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
+	public boolean eIsSet(int featureID) {
+		switch (featureID) {
+		case MyFilePackage.NAMED__NAME:
+			return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT
+					.equals(name);
 		}
 		return super.eIsSet(featureID);
 	}
@@ -166,9 +155,9 @@ public class NamedImpl extends EObjectImpl implements Named
 	 * @generated
 	 */
 	@Override
-	public String toString()
-	{
-		if (eIsProxy()) return super.toString();
+	public String toString() {
+		if (eIsProxy())
+			return super.toString();
 
 		StringBuffer result = new StringBuffer(super.toString());
 		result.append(" (name: ");

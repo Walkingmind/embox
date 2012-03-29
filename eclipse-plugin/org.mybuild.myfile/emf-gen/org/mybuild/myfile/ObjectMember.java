@@ -5,7 +5,6 @@
  */
 package org.mybuild.myfile;
 
-
 /**
  * <!-- begin-user-doc -->
  * A representation of the model object '<em><b>Object Member</b></em>'.
@@ -16,6 +15,5 @@ package org.mybuild.myfile;
  * @model
  * @generated
  */
-public interface ObjectMember extends AbstractFileListMember
-{
+public interface ObjectMember extends AbstractFileListMember {
 } // ObjectMember

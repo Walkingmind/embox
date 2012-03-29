@@ -27,8 +27,8 @@ import org.mybuild.myfile.MyFilePackage;
  *
  * @generated
  */
-public class PackageImpl extends EObjectImpl implements org.mybuild.myfile.Package
-{
+public class PackageImpl extends EObjectImpl implements
+		org.mybuild.myfile.Package {
 	/**
 	 * The default value of the '{@link #getName() <em>Name</em>}' attribute.
 	 * <!-- begin-user-doc -->
@@ -54,8 +54,7 @@ public class PackageImpl extends EObjectImpl implements org.mybuild.myfile.Packa
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected PackageImpl()
-	{
+	protected PackageImpl() {
 		super();
 	}
 
@@ -65,8 +64,7 @@ public class PackageImpl extends EObjectImpl implements org.mybuild.myfile.Packa
 	 * @generated
 	 */
 	@Override
-	protected EClass eStaticClass()
-	{
+	protected EClass eStaticClass() {
 		return MyFilePackage.Literals.PACKAGE;
 	}
 
@@ -75,8 +73,7 @@ public class PackageImpl extends EObjectImpl implements org.mybuild.myfile.Packa
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public String getName()
-	{
+	public String getName() {
 		return name;
 	}
 
@@ -85,12 +82,12 @@ public class PackageImpl extends EObjectImpl implements org.mybuild.myfile.Packa
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setName(String newName)
-	{
+	public void setName(String newName) {
 		String oldName = name;
 		name = newName;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, MyFilePackage.PACKAGE__NAME, oldName, name));
+			eNotify(new ENotificationImpl(this, Notification.SET,
+					MyFilePackage.PACKAGE__NAME, oldName, name));
 	}
 
 	/**
@@ -99,12 +96,10 @@ public class PackageImpl extends EObjectImpl implements org.mybuild.myfile.Packa
 	 * @generated
 	 */
 	@Override
-	public Object eGet(int featureID, boolean resolve, boolean coreType)
-	{
-		switch (featureID)
-		{
-			case MyFilePackage.PACKAGE__NAME:
-				return getName();
+	public Object eGet(int featureID, boolean resolve, boolean coreType) {
+		switch (featureID) {
+		case MyFilePackage.PACKAGE__NAME:
+			return getName();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -115,13 +110,11 @@ public class PackageImpl extends EObjectImpl implements org.mybuild.myfile.Packa
 	 * @generated
 	 */
 	@Override
-	public void eSet(int featureID, Object newValue)
-	{
-		switch (featureID)
-		{
-			case MyFilePackage.PACKAGE__NAME:
-				setName((String)newValue);
-				return;
+	public void eSet(int featureID, Object newValue) {
+		switch (featureID) {
+		case MyFilePackage.PACKAGE__NAME:
+			setName((String) newValue);
+			return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -132,13 +125,11 @@ public class PackageImpl extends EObjectImpl implements org.mybuild.myfile.Packa
 	 * @generated
 	 */
 	@Override
-	public void eUnset(int featureID)
-	{
-		switch (featureID)
-		{
-			case MyFilePackage.PACKAGE__NAME:
-				setName(NAME_EDEFAULT);
-				return;
+	public void eUnset(int featureID) {
+		switch (featureID) {
+		case MyFilePackage.PACKAGE__NAME:
+			setName(NAME_EDEFAULT);
+			return;
 		}
 		super.eUnset(featureID);
 	}
@@ -149,12 +140,11 @@ public class PackageImpl extends EObjectImpl implements org.mybuild.myfile.Packa
 	 * @generated
 	 */
 	@Override
-	public boolean eIsSet(int featureID)
-	{
-		switch (featureID)
-		{
-			case MyFilePackage.PACKAGE__NAME:
-				return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
+	public boolean eIsSet(int featureID) {
+		switch (featureID) {
+		case MyFilePackage.PACKAGE__NAME:
+			return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT
+					.equals(name);
 		}
 		return super.eIsSet(featureID);
 	}
@@ -165,9 +155,9 @@ public class PackageImpl extends EObjectImpl implements org.mybuild.myfile.Packa
 	 * @generated
 	 */
 	@Override
-	public String toString()
-	{
-		if (eIsProxy()) return super.toString();
+	public String toString() {
+		if (eIsProxy())
+			return super.toString();
 
 		StringBuffer result = new StringBuffer(super.toString());
 		result.append(" (name: ");

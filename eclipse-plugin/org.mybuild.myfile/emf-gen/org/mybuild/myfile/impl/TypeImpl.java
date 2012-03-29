@@ -39,8 +39,7 @@ import org.mybuild.myfile.Type;
  *
  * @generated
  */
-public class TypeImpl extends NamedImpl implements Type
-{
+public class TypeImpl extends NamedImpl implements Type {
 	/**
 	 * The cached value of the '{@link #getAnnotations() <em>Annotations</em>}' containment reference list.
 	 * <!-- begin-user-doc -->
@@ -66,8 +65,7 @@ public class TypeImpl extends NamedImpl implements Type
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected TypeImpl()
-	{
+	protected TypeImpl() {
 		super();
 	}
 
@@ -77,8 +75,7 @@ public class TypeImpl extends NamedImpl implements Type
 	 * @generated
 	 */
 	@Override
-	protected EClass eStaticClass()
-	{
+	protected EClass eStaticClass() {
 		return MyFilePackage.Literals.TYPE;
 	}
 
@@ -87,11 +84,11 @@ public class TypeImpl extends NamedImpl implements Type
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EList<Annotation> getAnnotations()
-	{
-		if (annotations == null)
-		{
-			annotations = new EObjectContainmentWithInverseEList<Annotation>(Annotation.class, this, MyFilePackage.TYPE__ANNOTATIONS, MyFilePackage.ANNOTATION__TARGET);
+	public EList<Annotation> getAnnotations() {
+		if (annotations == null) {
+			annotations = new EObjectContainmentWithInverseEList<Annotation>(
+					Annotation.class, this, MyFilePackage.TYPE__ANNOTATIONS,
+					MyFilePackage.ANNOTATION__TARGET);
 		}
 		return annotations;
 	}
@@ -101,8 +98,7 @@ public class TypeImpl extends NamedImpl implements Type
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public AnnotationTarget getSelf()
-	{
+	public AnnotationTarget getSelf() {
 		return self;
 	}
 
@@ -111,14 +107,18 @@ public class TypeImpl extends NamedImpl implements Type
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public NotificationChain basicSetSelf(AnnotationTarget newSelf, NotificationChain msgs)
-	{
+	public NotificationChain basicSetSelf(AnnotationTarget newSelf,
+			NotificationChain msgs) {
 		AnnotationTarget oldSelf = self;
 		self = newSelf;
-		if (eNotificationRequired())
-		{
-			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, MyFilePackage.TYPE__SELF, oldSelf, newSelf);
-			if (msgs == null) msgs = notification; else msgs.add(notification);
+		if (eNotificationRequired()) {
+			ENotificationImpl notification = new ENotificationImpl(this,
+					Notification.SET, MyFilePackage.TYPE__SELF, oldSelf,
+					newSelf);
+			if (msgs == null)
+				msgs = notification;
+			else
+				msgs.add(notification);
 		}
 		return msgs;
 	}
@@ -128,20 +128,23 @@ public class TypeImpl extends NamedImpl implements Type
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setSelf(AnnotationTarget newSelf)
-	{
-		if (newSelf != self)
-		{
+	public void setSelf(AnnotationTarget newSelf) {
+		if (newSelf != self) {
 			NotificationChain msgs = null;
 			if (self != null)
-				msgs = ((InternalEObject)self).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - MyFilePackage.TYPE__SELF, null, msgs);
+				msgs = ((InternalEObject) self).eInverseRemove(this,
+						EOPPOSITE_FEATURE_BASE - MyFilePackage.TYPE__SELF,
+						null, msgs);
 			if (newSelf != null)
-				msgs = ((InternalEObject)newSelf).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - MyFilePackage.TYPE__SELF, null, msgs);
+				msgs = ((InternalEObject) newSelf).eInverseAdd(this,
+						EOPPOSITE_FEATURE_BASE - MyFilePackage.TYPE__SELF,
+						null, msgs);
 			msgs = basicSetSelf(newSelf, msgs);
-			if (msgs != null) msgs.dispatch();
-		}
-		else if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, MyFilePackage.TYPE__SELF, newSelf, newSelf));
+			if (msgs != null)
+				msgs.dispatch();
+		} else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET,
+					MyFilePackage.TYPE__SELF, newSelf, newSelf));
 	}
 
 	/**
@@ -151,12 +154,12 @@ public class TypeImpl extends NamedImpl implements Type
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
-	public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs)
-	{
-		switch (featureID)
-		{
-			case MyFilePackage.TYPE__ANNOTATIONS:
-				return ((InternalEList<InternalEObject>)(InternalEList<?>)getAnnotations()).basicAdd(otherEnd, msgs);
+	public NotificationChain eInverseAdd(InternalEObject otherEnd,
+			int featureID, NotificationChain msgs) {
+		switch (featureID) {
+		case MyFilePackage.TYPE__ANNOTATIONS:
+			return ((InternalEList<InternalEObject>) (InternalEList<?>) getAnnotations())
+					.basicAdd(otherEnd, msgs);
 		}
 		return super.eInverseAdd(otherEnd, featureID, msgs);
 	}
@@ -167,14 +170,14 @@ public class TypeImpl extends NamedImpl implements Type
 	 * @generated
 	 */
 	@Override
-	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs)
-	{
-		switch (featureID)
-		{
-			case MyFilePackage.TYPE__ANNOTATIONS:
-				return ((InternalEList<?>)getAnnotations()).basicRemove(otherEnd, msgs);
-			case MyFilePackage.TYPE__SELF:
-				return basicSetSelf(null, msgs);
+	public NotificationChain eInverseRemove(InternalEObject otherEnd,
+			int featureID, NotificationChain msgs) {
+		switch (featureID) {
+		case MyFilePackage.TYPE__ANNOTATIONS:
+			return ((InternalEList<?>) getAnnotations()).basicRemove(otherEnd,
+					msgs);
+		case MyFilePackage.TYPE__SELF:
+			return basicSetSelf(null, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -185,14 +188,12 @@ public class TypeImpl extends NamedImpl implements Type
 	 * @generated
 	 */
 	@Override
-	public Object eGet(int featureID, boolean resolve, boolean coreType)
-	{
-		switch (featureID)
-		{
-			case MyFilePackage.TYPE__ANNOTATIONS:
-				return getAnnotations();
-			case MyFilePackage.TYPE__SELF:
-				return getSelf();
+	public Object eGet(int featureID, boolean resolve, boolean coreType) {
+		switch (featureID) {
+		case MyFilePackage.TYPE__ANNOTATIONS:
+			return getAnnotations();
+		case MyFilePackage.TYPE__SELF:
+			return getSelf();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -204,17 +205,16 @@ public class TypeImpl extends NamedImpl implements Type
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
-	public void eSet(int featureID, Object newValue)
-	{
-		switch (featureID)
-		{
-			case MyFilePackage.TYPE__ANNOTATIONS:
-				getAnnotations().clear();
-				getAnnotations().addAll((Collection<? extends Annotation>)newValue);
-				return;
-			case MyFilePackage.TYPE__SELF:
-				setSelf((AnnotationTarget)newValue);
-				return;
+	public void eSet(int featureID, Object newValue) {
+		switch (featureID) {
+		case MyFilePackage.TYPE__ANNOTATIONS:
+			getAnnotations().clear();
+			getAnnotations()
+					.addAll((Collection<? extends Annotation>) newValue);
+			return;
+		case MyFilePackage.TYPE__SELF:
+			setSelf((AnnotationTarget) newValue);
+			return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -225,16 +225,14 @@ public class TypeImpl extends NamedImpl implements Type
 	 * @generated
 	 */
 	@Override
-	public void eUnset(int featureID)
-	{
-		switch (featureID)
-		{
-			case MyFilePackage.TYPE__ANNOTATIONS:
-				getAnnotations().clear();
-				return;
-			case MyFilePackage.TYPE__SELF:
-				setSelf((AnnotationTarget)null);
-				return;
+	public void eUnset(int featureID) {
+		switch (featureID) {
+		case MyFilePackage.TYPE__ANNOTATIONS:
+			getAnnotations().clear();
+			return;
+		case MyFilePackage.TYPE__SELF:
+			setSelf((AnnotationTarget) null);
+			return;
 		}
 		super.eUnset(featureID);
 	}
@@ -245,14 +243,12 @@ public class TypeImpl extends NamedImpl implements Type
 	 * @generated
 	 */
 	@Override
-	public boolean eIsSet(int featureID)
-	{
-		switch (featureID)
-		{
-			case MyFilePackage.TYPE__ANNOTATIONS:
-				return annotations != null && !annotations.isEmpty();
-			case MyFilePackage.TYPE__SELF:
-				return self != null;
+	public boolean eIsSet(int featureID) {
+		switch (featureID) {
+		case MyFilePackage.TYPE__ANNOTATIONS:
+			return annotations != null && !annotations.isEmpty();
+		case MyFilePackage.TYPE__SELF:
+			return self != null;
 		}
 		return super.eIsSet(featureID);
 	}
@@ -263,15 +259,15 @@ public class TypeImpl extends NamedImpl implements Type
 	 * @generated
 	 */
 	@Override
-	public int eBaseStructuralFeatureID(int derivedFeatureID, Class<?> baseClass)
-	{
-		if (baseClass == AnnotationTarget.class)
-		{
-			switch (derivedFeatureID)
-			{
-				case MyFilePackage.TYPE__ANNOTATIONS: return MyFilePackage.ANNOTATION_TARGET__ANNOTATIONS;
-				case MyFilePackage.TYPE__SELF: return MyFilePackage.ANNOTATION_TARGET__SELF;
-				default: return -1;
+	public int eBaseStructuralFeatureID(int derivedFeatureID, Class<?> baseClass) {
+		if (baseClass == AnnotationTarget.class) {
+			switch (derivedFeatureID) {
+			case MyFilePackage.TYPE__ANNOTATIONS:
+				return MyFilePackage.ANNOTATION_TARGET__ANNOTATIONS;
+			case MyFilePackage.TYPE__SELF:
+				return MyFilePackage.ANNOTATION_TARGET__SELF;
+			default:
+				return -1;
 			}
 		}
 		return super.eBaseStructuralFeatureID(derivedFeatureID, baseClass);
@@ -283,15 +279,15 @@ public class TypeImpl extends NamedImpl implements Type
 	 * @generated
 	 */
 	@Override
-	public int eDerivedStructuralFeatureID(int baseFeatureID, Class<?> baseClass)
-	{
-		if (baseClass == AnnotationTarget.class)
-		{
-			switch (baseFeatureID)
-			{
-				case MyFilePackage.ANNOTATION_TARGET__ANNOTATIONS: return MyFilePackage.TYPE__ANNOTATIONS;
-				case MyFilePackage.ANNOTATION_TARGET__SELF: return MyFilePackage.TYPE__SELF;
-				default: return -1;
+	public int eDerivedStructuralFeatureID(int baseFeatureID, Class<?> baseClass) {
+		if (baseClass == AnnotationTarget.class) {
+			switch (baseFeatureID) {
+			case MyFilePackage.ANNOTATION_TARGET__ANNOTATIONS:
+				return MyFilePackage.TYPE__ANNOTATIONS;
+			case MyFilePackage.ANNOTATION_TARGET__SELF:
+				return MyFilePackage.TYPE__SELF;
+			default:
+				return -1;
 			}
 		}
 		return super.eDerivedStructuralFeatureID(baseFeatureID, baseClass);

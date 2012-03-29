@@ -27,8 +27,7 @@ import org.mybuild.myfile.StringLiteral;
  *
  * @generated
  */
-public class StringLiteralImpl extends ValueImpl implements StringLiteral
-{
+public class StringLiteralImpl extends ValueImpl implements StringLiteral {
 	/**
 	 * The default value of the '{@link #getValue() <em>Value</em>}' attribute.
 	 * <!-- begin-user-doc -->
@@ -54,8 +53,7 @@ public class StringLiteralImpl extends ValueImpl implements StringLiteral
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected StringLiteralImpl()
-	{
+	protected StringLiteralImpl() {
 		super();
 	}
 
@@ -65,8 +63,7 @@ public class StringLiteralImpl extends ValueImpl implements StringLiteral
 	 * @generated
 	 */
 	@Override
-	protected EClass eStaticClass()
-	{
+	protected EClass eStaticClass() {
 		return MyFilePackage.Literals.STRING_LITERAL;
 	}
 
@@ -75,8 +72,7 @@ public class StringLiteralImpl extends ValueImpl implements StringLiteral
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public String getValue()
-	{
+	public String getValue() {
 		return value;
 	}
 
@@ -85,12 +81,12 @@ public class StringLiteralImpl extends ValueImpl implements StringLiteral
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setValue(String newValue)
-	{
+	public void setValue(String newValue) {
 		String oldValue = value;
 		value = newValue;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, MyFilePackage.STRING_LITERAL__VALUE, oldValue, value));
+			eNotify(new ENotificationImpl(this, Notification.SET,
+					MyFilePackage.STRING_LITERAL__VALUE, oldValue, value));
 	}
 
 	/**
@@ -99,12 +95,10 @@ public class StringLiteralImpl extends ValueImpl implements StringLiteral
 	 * @generated
 	 */
 	@Override
-	public Object eGet(int featureID, boolean resolve, boolean coreType)
-	{
-		switch (featureID)
-		{
-			case MyFilePackage.STRING_LITERAL__VALUE:
-				return getValue();
+	public Object eGet(int featureID, boolean resolve, boolean coreType) {
+		switch (featureID) {
+		case MyFilePackage.STRING_LITERAL__VALUE:
+			return getValue();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -115,13 +109,11 @@ public class StringLiteralImpl extends ValueImpl implements StringLiteral
 	 * @generated
 	 */
 	@Override
-	public void eSet(int featureID, Object newValue)
-	{
-		switch (featureID)
-		{
-			case MyFilePackage.STRING_LITERAL__VALUE:
-				setValue((String)newValue);
-				return;
+	public void eSet(int featureID, Object newValue) {
+		switch (featureID) {
+		case MyFilePackage.STRING_LITERAL__VALUE:
+			setValue((String) newValue);
+			return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -132,13 +124,11 @@ public class StringLiteralImpl extends ValueImpl implements StringLiteral
 	 * @generated
 	 */
 	@Override
-	public void eUnset(int featureID)
-	{
-		switch (featureID)
-		{
-			case MyFilePackage.STRING_LITERAL__VALUE:
-				setValue(VALUE_EDEFAULT);
-				return;
+	public void eUnset(int featureID) {
+		switch (featureID) {
+		case MyFilePackage.STRING_LITERAL__VALUE:
+			setValue(VALUE_EDEFAULT);
+			return;
 		}
 		super.eUnset(featureID);
 	}
@@ -149,12 +139,11 @@ public class StringLiteralImpl extends ValueImpl implements StringLiteral
 	 * @generated
 	 */
 	@Override
-	public boolean eIsSet(int featureID)
-	{
-		switch (featureID)
-		{
-			case MyFilePackage.STRING_LITERAL__VALUE:
-				return VALUE_EDEFAULT == null ? value != null : !VALUE_EDEFAULT.equals(value);
+	public boolean eIsSet(int featureID) {
+		switch (featureID) {
+		case MyFilePackage.STRING_LITERAL__VALUE:
+			return VALUE_EDEFAULT == null ? value != null : !VALUE_EDEFAULT
+					.equals(value);
 		}
 		return super.eIsSet(featureID);
 	}
@@ -165,9 +154,9 @@ public class StringLiteralImpl extends ValueImpl implements StringLiteral
 	 * @generated
 	 */
 	@Override
-	public String toString()
-	{
-		if (eIsProxy()) return super.toString();
+	public String toString() {
+		if (eIsProxy())
+			return super.toString();
 
 		StringBuffer result = new StringBuffer(super.toString());
 		result.append(" (value: ");

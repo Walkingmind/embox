@@ -45,8 +45,7 @@ import org.mybuild.myfile.Value;
  *
  * @generated
  */
-public class AnnotationImpl extends EObjectImpl implements Annotation
-{
+public class AnnotationImpl extends EObjectImpl implements Annotation {
 	/**
 	 * The cached value of the '{@link #getType() <em>Type</em>}' reference.
 	 * <!-- begin-user-doc -->
@@ -82,8 +81,7 @@ public class AnnotationImpl extends EObjectImpl implements Annotation
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected AnnotationImpl()
-	{
+	protected AnnotationImpl() {
 		super();
 	}
 
@@ -93,8 +91,7 @@ public class AnnotationImpl extends EObjectImpl implements Annotation
 	 * @generated
 	 */
 	@Override
-	protected EClass eStaticClass()
-	{
+	protected EClass eStaticClass() {
 		return MyFilePackage.Literals.ANNOTATION;
 	}
 
@@ -103,16 +100,14 @@ public class AnnotationImpl extends EObjectImpl implements Annotation
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public AnnotationType getType()
-	{
-		if (type != null && type.eIsProxy())
-		{
-			InternalEObject oldType = (InternalEObject)type;
-			type = (AnnotationType)eResolveProxy(oldType);
-			if (type != oldType)
-			{
+	public AnnotationType getType() {
+		if (type != null && type.eIsProxy()) {
+			InternalEObject oldType = (InternalEObject) type;
+			type = (AnnotationType) eResolveProxy(oldType);
+			if (type != oldType) {
 				if (eNotificationRequired())
-					eNotify(new ENotificationImpl(this, Notification.RESOLVE, MyFilePackage.ANNOTATION__TYPE, oldType, type));
+					eNotify(new ENotificationImpl(this, Notification.RESOLVE,
+							MyFilePackage.ANNOTATION__TYPE, oldType, type));
 			}
 		}
 		return type;
@@ -123,8 +118,7 @@ public class AnnotationImpl extends EObjectImpl implements Annotation
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public AnnotationType basicGetType()
-	{
+	public AnnotationType basicGetType() {
 		return type;
 	}
 
@@ -133,12 +127,12 @@ public class AnnotationImpl extends EObjectImpl implements Annotation
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setType(AnnotationType newType)
-	{
+	public void setType(AnnotationType newType) {
 		AnnotationType oldType = type;
 		type = newType;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, MyFilePackage.ANNOTATION__TYPE, oldType, type));
+			eNotify(new ENotificationImpl(this, Notification.SET,
+					MyFilePackage.ANNOTATION__TYPE, oldType, type));
 	}
 
 	/**
@@ -146,10 +140,10 @@ public class AnnotationImpl extends EObjectImpl implements Annotation
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public AnnotationTarget getTarget()
-	{
-		if (eContainerFeatureID() != MyFilePackage.ANNOTATION__TARGET) return null;
-		return (AnnotationTarget)eContainer();
+	public AnnotationTarget getTarget() {
+		if (eContainerFeatureID() != MyFilePackage.ANNOTATION__TARGET)
+			return null;
+		return (AnnotationTarget) eContainer();
 	}
 
 	/**
@@ -157,9 +151,10 @@ public class AnnotationImpl extends EObjectImpl implements Annotation
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public NotificationChain basicSetTarget(AnnotationTarget newTarget, NotificationChain msgs)
-	{
-		msgs = eBasicSetContainer((InternalEObject)newTarget, MyFilePackage.ANNOTATION__TARGET, msgs);
+	public NotificationChain basicSetTarget(AnnotationTarget newTarget,
+			NotificationChain msgs) {
+		msgs = eBasicSetContainer((InternalEObject) newTarget,
+				MyFilePackage.ANNOTATION__TARGET, msgs);
 		return msgs;
 	}
 
@@ -168,22 +163,25 @@ public class AnnotationImpl extends EObjectImpl implements Annotation
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setTarget(AnnotationTarget newTarget)
-	{
-		if (newTarget != eInternalContainer() || (eContainerFeatureID() != MyFilePackage.ANNOTATION__TARGET && newTarget != null))
-		{
+	public void setTarget(AnnotationTarget newTarget) {
+		if (newTarget != eInternalContainer()
+				|| (eContainerFeatureID() != MyFilePackage.ANNOTATION__TARGET && newTarget != null)) {
 			if (EcoreUtil.isAncestor(this, newTarget))
-				throw new IllegalArgumentException("Recursive containment not allowed for " + toString());
+				throw new IllegalArgumentException(
+						"Recursive containment not allowed for " + toString());
 			NotificationChain msgs = null;
 			if (eInternalContainer() != null)
 				msgs = eBasicRemoveFromContainer(msgs);
 			if (newTarget != null)
-				msgs = ((InternalEObject)newTarget).eInverseAdd(this, MyFilePackage.ANNOTATION_TARGET__ANNOTATIONS, AnnotationTarget.class, msgs);
+				msgs = ((InternalEObject) newTarget).eInverseAdd(this,
+						MyFilePackage.ANNOTATION_TARGET__ANNOTATIONS,
+						AnnotationTarget.class, msgs);
 			msgs = basicSetTarget(newTarget, msgs);
-			if (msgs != null) msgs.dispatch();
-		}
-		else if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, MyFilePackage.ANNOTATION__TARGET, newTarget, newTarget));
+			if (msgs != null)
+				msgs.dispatch();
+		} else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET,
+					MyFilePackage.ANNOTATION__TARGET, newTarget, newTarget));
 	}
 
 	/**
@@ -191,11 +189,11 @@ public class AnnotationImpl extends EObjectImpl implements Annotation
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EList<PropertyValueBinding> getElements()
-	{
-		if (elements == null)
-		{
-			elements = new EObjectContainmentEList<PropertyValueBinding>(PropertyValueBinding.class, this, MyFilePackage.ANNOTATION__ELEMENTS);
+	public EList<PropertyValueBinding> getElements() {
+		if (elements == null) {
+			elements = new EObjectContainmentEList<PropertyValueBinding>(
+					PropertyValueBinding.class, this,
+					MyFilePackage.ANNOTATION__ELEMENTS);
 		}
 		return elements;
 	}
@@ -205,8 +203,7 @@ public class AnnotationImpl extends EObjectImpl implements Annotation
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public Value getSingleValue()
-	{
+	public Value getSingleValue() {
 		return singleValue;
 	}
 
@@ -215,14 +212,18 @@ public class AnnotationImpl extends EObjectImpl implements Annotation
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public NotificationChain basicSetSingleValue(Value newSingleValue, NotificationChain msgs)
-	{
+	public NotificationChain basicSetSingleValue(Value newSingleValue,
+			NotificationChain msgs) {
 		Value oldSingleValue = singleValue;
 		singleValue = newSingleValue;
-		if (eNotificationRequired())
-		{
-			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, MyFilePackage.ANNOTATION__SINGLE_VALUE, oldSingleValue, newSingleValue);
-			if (msgs == null) msgs = notification; else msgs.add(notification);
+		if (eNotificationRequired()) {
+			ENotificationImpl notification = new ENotificationImpl(this,
+					Notification.SET, MyFilePackage.ANNOTATION__SINGLE_VALUE,
+					oldSingleValue, newSingleValue);
+			if (msgs == null)
+				msgs = notification;
+			else
+				msgs.add(notification);
 		}
 		return msgs;
 	}
@@ -232,20 +233,26 @@ public class AnnotationImpl extends EObjectImpl implements Annotation
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setSingleValue(Value newSingleValue)
-	{
-		if (newSingleValue != singleValue)
-		{
+	public void setSingleValue(Value newSingleValue) {
+		if (newSingleValue != singleValue) {
 			NotificationChain msgs = null;
 			if (singleValue != null)
-				msgs = ((InternalEObject)singleValue).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - MyFilePackage.ANNOTATION__SINGLE_VALUE, null, msgs);
+				msgs = ((InternalEObject) singleValue).eInverseRemove(this,
+						EOPPOSITE_FEATURE_BASE
+								- MyFilePackage.ANNOTATION__SINGLE_VALUE, null,
+						msgs);
 			if (newSingleValue != null)
-				msgs = ((InternalEObject)newSingleValue).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - MyFilePackage.ANNOTATION__SINGLE_VALUE, null, msgs);
+				msgs = ((InternalEObject) newSingleValue).eInverseAdd(this,
+						EOPPOSITE_FEATURE_BASE
+								- MyFilePackage.ANNOTATION__SINGLE_VALUE, null,
+						msgs);
 			msgs = basicSetSingleValue(newSingleValue, msgs);
-			if (msgs != null) msgs.dispatch();
-		}
-		else if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, MyFilePackage.ANNOTATION__SINGLE_VALUE, newSingleValue, newSingleValue));
+			if (msgs != null)
+				msgs.dispatch();
+		} else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET,
+					MyFilePackage.ANNOTATION__SINGLE_VALUE, newSingleValue,
+					newSingleValue));
 	}
 
 	/**
@@ -254,14 +261,13 @@ public class AnnotationImpl extends EObjectImpl implements Annotation
 	 * @generated
 	 */
 	@Override
-	public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs)
-	{
-		switch (featureID)
-		{
-			case MyFilePackage.ANNOTATION__TARGET:
-				if (eInternalContainer() != null)
-					msgs = eBasicRemoveFromContainer(msgs);
-				return basicSetTarget((AnnotationTarget)otherEnd, msgs);
+	public NotificationChain eInverseAdd(InternalEObject otherEnd,
+			int featureID, NotificationChain msgs) {
+		switch (featureID) {
+		case MyFilePackage.ANNOTATION__TARGET:
+			if (eInternalContainer() != null)
+				msgs = eBasicRemoveFromContainer(msgs);
+			return basicSetTarget((AnnotationTarget) otherEnd, msgs);
 		}
 		return super.eInverseAdd(otherEnd, featureID, msgs);
 	}
@@ -272,16 +278,16 @@ public class AnnotationImpl extends EObjectImpl implements Annotation
 	 * @generated
 	 */
 	@Override
-	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs)
-	{
-		switch (featureID)
-		{
-			case MyFilePackage.ANNOTATION__TARGET:
-				return basicSetTarget(null, msgs);
-			case MyFilePackage.ANNOTATION__ELEMENTS:
-				return ((InternalEList<?>)getElements()).basicRemove(otherEnd, msgs);
-			case MyFilePackage.ANNOTATION__SINGLE_VALUE:
-				return basicSetSingleValue(null, msgs);
+	public NotificationChain eInverseRemove(InternalEObject otherEnd,
+			int featureID, NotificationChain msgs) {
+		switch (featureID) {
+		case MyFilePackage.ANNOTATION__TARGET:
+			return basicSetTarget(null, msgs);
+		case MyFilePackage.ANNOTATION__ELEMENTS:
+			return ((InternalEList<?>) getElements()).basicRemove(otherEnd,
+					msgs);
+		case MyFilePackage.ANNOTATION__SINGLE_VALUE:
+			return basicSetSingleValue(null, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -292,12 +298,13 @@ public class AnnotationImpl extends EObjectImpl implements Annotation
 	 * @generated
 	 */
 	@Override
-	public NotificationChain eBasicRemoveFromContainerFeature(NotificationChain msgs)
-	{
-		switch (eContainerFeatureID())
-		{
-			case MyFilePackage.ANNOTATION__TARGET:
-				return eInternalContainer().eInverseRemove(this, MyFilePackage.ANNOTATION_TARGET__ANNOTATIONS, AnnotationTarget.class, msgs);
+	public NotificationChain eBasicRemoveFromContainerFeature(
+			NotificationChain msgs) {
+		switch (eContainerFeatureID()) {
+		case MyFilePackage.ANNOTATION__TARGET:
+			return eInternalContainer().eInverseRemove(this,
+					MyFilePackage.ANNOTATION_TARGET__ANNOTATIONS,
+					AnnotationTarget.class, msgs);
 		}
 		return super.eBasicRemoveFromContainerFeature(msgs);
 	}
@@ -308,19 +315,18 @@ public class AnnotationImpl extends EObjectImpl implements Annotation
 	 * @generated
 	 */
 	@Override
-	public Object eGet(int featureID, boolean resolve, boolean coreType)
-	{
-		switch (featureID)
-		{
-			case MyFilePackage.ANNOTATION__TYPE:
-				if (resolve) return getType();
-				return basicGetType();
-			case MyFilePackage.ANNOTATION__TARGET:
-				return getTarget();
-			case MyFilePackage.ANNOTATION__ELEMENTS:
-				return getElements();
-			case MyFilePackage.ANNOTATION__SINGLE_VALUE:
-				return getSingleValue();
+	public Object eGet(int featureID, boolean resolve, boolean coreType) {
+		switch (featureID) {
+		case MyFilePackage.ANNOTATION__TYPE:
+			if (resolve)
+				return getType();
+			return basicGetType();
+		case MyFilePackage.ANNOTATION__TARGET:
+			return getTarget();
+		case MyFilePackage.ANNOTATION__ELEMENTS:
+			return getElements();
+		case MyFilePackage.ANNOTATION__SINGLE_VALUE:
+			return getSingleValue();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -332,23 +338,22 @@ public class AnnotationImpl extends EObjectImpl implements Annotation
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
-	public void eSet(int featureID, Object newValue)
-	{
-		switch (featureID)
-		{
-			case MyFilePackage.ANNOTATION__TYPE:
-				setType((AnnotationType)newValue);
-				return;
-			case MyFilePackage.ANNOTATION__TARGET:
-				setTarget((AnnotationTarget)newValue);
-				return;
-			case MyFilePackage.ANNOTATION__ELEMENTS:
-				getElements().clear();
-				getElements().addAll((Collection<? extends PropertyValueBinding>)newValue);
-				return;
-			case MyFilePackage.ANNOTATION__SINGLE_VALUE:
-				setSingleValue((Value)newValue);
-				return;
+	public void eSet(int featureID, Object newValue) {
+		switch (featureID) {
+		case MyFilePackage.ANNOTATION__TYPE:
+			setType((AnnotationType) newValue);
+			return;
+		case MyFilePackage.ANNOTATION__TARGET:
+			setTarget((AnnotationTarget) newValue);
+			return;
+		case MyFilePackage.ANNOTATION__ELEMENTS:
+			getElements().clear();
+			getElements().addAll(
+					(Collection<? extends PropertyValueBinding>) newValue);
+			return;
+		case MyFilePackage.ANNOTATION__SINGLE_VALUE:
+			setSingleValue((Value) newValue);
+			return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -359,22 +364,20 @@ public class AnnotationImpl extends EObjectImpl implements Annotation
 	 * @generated
 	 */
 	@Override
-	public void eUnset(int featureID)
-	{
-		switch (featureID)
-		{
-			case MyFilePackage.ANNOTATION__TYPE:
-				setType((AnnotationType)null);
-				return;
-			case MyFilePackage.ANNOTATION__TARGET:
-				setTarget((AnnotationTarget)null);
-				return;
-			case MyFilePackage.ANNOTATION__ELEMENTS:
-				getElements().clear();
-				return;
-			case MyFilePackage.ANNOTATION__SINGLE_VALUE:
-				setSingleValue((Value)null);
-				return;
+	public void eUnset(int featureID) {
+		switch (featureID) {
+		case MyFilePackage.ANNOTATION__TYPE:
+			setType((AnnotationType) null);
+			return;
+		case MyFilePackage.ANNOTATION__TARGET:
+			setTarget((AnnotationTarget) null);
+			return;
+		case MyFilePackage.ANNOTATION__ELEMENTS:
+			getElements().clear();
+			return;
+		case MyFilePackage.ANNOTATION__SINGLE_VALUE:
+			setSingleValue((Value) null);
+			return;
 		}
 		super.eUnset(featureID);
 	}
@@ -385,18 +388,16 @@ public class AnnotationImpl extends EObjectImpl implements Annotation
 	 * @generated
 	 */
 	@Override
-	public boolean eIsSet(int featureID)
-	{
-		switch (featureID)
-		{
-			case MyFilePackage.ANNOTATION__TYPE:
-				return type != null;
-			case MyFilePackage.ANNOTATION__TARGET:
-				return getTarget() != null;
-			case MyFilePackage.ANNOTATION__ELEMENTS:
-				return elements != null && !elements.isEmpty();
-			case MyFilePackage.ANNOTATION__SINGLE_VALUE:
-				return singleValue != null;
+	public boolean eIsSet(int featureID) {
+		switch (featureID) {
+		case MyFilePackage.ANNOTATION__TYPE:
+			return type != null;
+		case MyFilePackage.ANNOTATION__TARGET:
+			return getTarget() != null;
+		case MyFilePackage.ANNOTATION__ELEMENTS:
+			return elements != null && !elements.isEmpty();
+		case MyFilePackage.ANNOTATION__SINGLE_VALUE:
+			return singleValue != null;
 		}
 		return super.eIsSet(featureID);
 	}

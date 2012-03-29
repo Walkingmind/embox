@@ -34,8 +34,8 @@ import org.mybuild.myfile.MyFilePackage;
  *
  * @generated
  */
-public abstract class AbstractFileListMemberImpl extends MemberImpl implements AbstractFileListMember
-{
+public abstract class AbstractFileListMemberImpl extends MemberImpl implements
+		AbstractFileListMember {
 	/**
 	 * The cached value of the '{@link #getFiles() <em>Files</em>}' containment reference list.
 	 * <!-- begin-user-doc -->
@@ -51,8 +51,7 @@ public abstract class AbstractFileListMemberImpl extends MemberImpl implements A
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected AbstractFileListMemberImpl()
-	{
+	protected AbstractFileListMemberImpl() {
 		super();
 	}
 
@@ -62,8 +61,7 @@ public abstract class AbstractFileListMemberImpl extends MemberImpl implements A
 	 * @generated
 	 */
 	@Override
-	protected EClass eStaticClass()
-	{
+	protected EClass eStaticClass() {
 		return MyFilePackage.Literals.ABSTRACT_FILE_LIST_MEMBER;
 	}
 
@@ -72,11 +70,10 @@ public abstract class AbstractFileListMemberImpl extends MemberImpl implements A
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EList<FileName> getFiles()
-	{
-		if (files == null)
-		{
-			files = new EObjectContainmentEList<FileName>(FileName.class, this, MyFilePackage.ABSTRACT_FILE_LIST_MEMBER__FILES);
+	public EList<FileName> getFiles() {
+		if (files == null) {
+			files = new EObjectContainmentEList<FileName>(FileName.class, this,
+					MyFilePackage.ABSTRACT_FILE_LIST_MEMBER__FILES);
 		}
 		return files;
 	}
@@ -87,12 +84,11 @@ public abstract class AbstractFileListMemberImpl extends MemberImpl implements A
 	 * @generated
 	 */
 	@Override
-	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs)
-	{
-		switch (featureID)
-		{
-			case MyFilePackage.ABSTRACT_FILE_LIST_MEMBER__FILES:
-				return ((InternalEList<?>)getFiles()).basicRemove(otherEnd, msgs);
+	public NotificationChain eInverseRemove(InternalEObject otherEnd,
+			int featureID, NotificationChain msgs) {
+		switch (featureID) {
+		case MyFilePackage.ABSTRACT_FILE_LIST_MEMBER__FILES:
+			return ((InternalEList<?>) getFiles()).basicRemove(otherEnd, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -103,12 +99,10 @@ public abstract class AbstractFileListMemberImpl extends MemberImpl implements A
 	 * @generated
 	 */
 	@Override
-	public Object eGet(int featureID, boolean resolve, boolean coreType)
-	{
-		switch (featureID)
-		{
-			case MyFilePackage.ABSTRACT_FILE_LIST_MEMBER__FILES:
-				return getFiles();
+	public Object eGet(int featureID, boolean resolve, boolean coreType) {
+		switch (featureID) {
+		case MyFilePackage.ABSTRACT_FILE_LIST_MEMBER__FILES:
+			return getFiles();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -120,14 +114,12 @@ public abstract class AbstractFileListMemberImpl extends MemberImpl implements A
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
-	public void eSet(int featureID, Object newValue)
-	{
-		switch (featureID)
-		{
-			case MyFilePackage.ABSTRACT_FILE_LIST_MEMBER__FILES:
-				getFiles().clear();
-				getFiles().addAll((Collection<? extends FileName>)newValue);
-				return;
+	public void eSet(int featureID, Object newValue) {
+		switch (featureID) {
+		case MyFilePackage.ABSTRACT_FILE_LIST_MEMBER__FILES:
+			getFiles().clear();
+			getFiles().addAll((Collection<? extends FileName>) newValue);
+			return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -138,13 +130,11 @@ public abstract class AbstractFileListMemberImpl extends MemberImpl implements A
 	 * @generated
 	 */
 	@Override
-	public void eUnset(int featureID)
-	{
-		switch (featureID)
-		{
-			case MyFilePackage.ABSTRACT_FILE_LIST_MEMBER__FILES:
-				getFiles().clear();
-				return;
+	public void eUnset(int featureID) {
+		switch (featureID) {
+		case MyFilePackage.ABSTRACT_FILE_LIST_MEMBER__FILES:
+			getFiles().clear();
+			return;
 		}
 		super.eUnset(featureID);
 	}
@@ -155,12 +145,10 @@ public abstract class AbstractFileListMemberImpl extends MemberImpl implements A
 	 * @generated
 	 */
 	@Override
-	public boolean eIsSet(int featureID)
-	{
-		switch (featureID)
-		{
-			case MyFilePackage.ABSTRACT_FILE_LIST_MEMBER__FILES:
-				return files != null && !files.isEmpty();
+	public boolean eIsSet(int featureID) {
+		switch (featureID) {
+		case MyFilePackage.ABSTRACT_FILE_LIST_MEMBER__FILES:
+			return files != null && !files.isEmpty();
 		}
 		return super.eIsSet(featureID);
 	}

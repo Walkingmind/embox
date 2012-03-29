@@ -23,8 +23,7 @@ import org.eclipse.emf.common.util.EList;
  * @model abstract="true"
  * @generated
  */
-public interface AbstractFileListMember extends Member
-{
+public interface AbstractFileListMember extends Member {
 	/**
 	 * Returns the value of the '<em><b>Files</b></em>' containment reference list.
 	 * The list contents are of type {@link org.mybuild.myfile.FileName}.

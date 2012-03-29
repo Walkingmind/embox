@@ -19,15 +19,13 @@ import org.mybuild.myfile.NumberProperty;
  *
  * @generated
  */
-public class NumberPropertyImpl extends PropertyImpl implements NumberProperty
-{
+public class NumberPropertyImpl extends PropertyImpl implements NumberProperty {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected NumberPropertyImpl()
-	{
+	protected NumberPropertyImpl() {
 		super();
 	}
 
@@ -37,8 +35,7 @@ public class NumberPropertyImpl extends PropertyImpl implements NumberProperty
 	 * @generated
 	 */
 	@Override
-	protected EClass eStaticClass()
-	{
+	protected EClass eStaticClass() {
 		return MyFilePackage.Literals.NUMBER_PROPERTY;
 	}
 
