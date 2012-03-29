@@ -19,15 +19,14 @@ import org.mybuild.myfile.MyFilePackage;
  *
  * @generated
  */
-public class BooleanPropertyImpl extends PropertyImpl implements BooleanProperty
-{
+public class BooleanPropertyImpl extends PropertyImpl implements
+		BooleanProperty {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected BooleanPropertyImpl()
-	{
+	protected BooleanPropertyImpl() {
 		super();
 	}
 
@@ -37,8 +36,7 @@ public class BooleanPropertyImpl extends PropertyImpl implements BooleanProperty
 	 * @generated
 	 */
 	@Override
-	protected EClass eStaticClass()
-	{
+	protected EClass eStaticClass() {
 		return MyFilePackage.Literals.BOOLEAN_PROPERTY;
 	}
 

@@ -5,7 +5,6 @@
  */
 package org.mybuild.myfile;
 
-
 /**
  * <!-- begin-user-doc -->
  * A representation of the model object '<em><b>Boolean Property</b></em>'.
@@ -16,6 +15,5 @@ package org.mybuild.myfile;
  * @model
  * @generated
  */
-public interface BooleanProperty extends Property
-{
+public interface BooleanProperty extends Property {
 } // BooleanProperty

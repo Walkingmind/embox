@@ -24,8 +24,7 @@ import org.eclipse.emf.ecore.EObject;
  * @model
  * @generated
  */
-public interface PropertyValueBinding extends EObject
-{
+public interface PropertyValueBinding extends EObject {
 	/**
 	 * Returns the value of the '<em><b>Property</b></em>' reference.
 	 * <!-- begin-user-doc -->

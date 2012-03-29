@@ -28,8 +28,7 @@ import org.mybuild.myfile.MyFilePackage;
  *
  * @generated
  */
-public class ImportImpl extends EObjectImpl implements Import
-{
+public class ImportImpl extends EObjectImpl implements Import {
 	/**
 	 * The default value of the '{@link #getImportedNamespace() <em>Imported Namespace</em>}' attribute.
 	 * <!-- begin-user-doc -->
@@ -55,8 +54,7 @@ public class ImportImpl extends EObjectImpl implements Import
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected ImportImpl()
-	{
+	protected ImportImpl() {
 		super();
 	}
 
@@ -66,8 +64,7 @@ public class ImportImpl extends EObjectImpl implements Import
 	 * @generated
 	 */
 	@Override
-	protected EClass eStaticClass()
-	{
+	protected EClass eStaticClass() {
 		return MyFilePackage.Literals.IMPORT;
 	}
 
@@ -76,8 +73,7 @@ public class ImportImpl extends EObjectImpl implements Import
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public String getImportedNamespace()
-	{
+	public String getImportedNamespace() {
 		return importedNamespace;
 	}
 
@@ -86,12 +82,13 @@ public class ImportImpl extends EObjectImpl implements Import
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setImportedNamespace(String newImportedNamespace)
-	{
+	public void setImportedNamespace(String newImportedNamespace) {
 		String oldImportedNamespace = importedNamespace;
 		importedNamespace = newImportedNamespace;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, MyFilePackage.IMPORT__IMPORTED_NAMESPACE, oldImportedNamespace, importedNamespace));
+			eNotify(new ENotificationImpl(this, Notification.SET,
+					MyFilePackage.IMPORT__IMPORTED_NAMESPACE,
+					oldImportedNamespace, importedNamespace));
 	}
 
 	/**
@@ -100,12 +97,10 @@ public class ImportImpl extends EObjectImpl implements Import
 	 * @generated
 	 */
 	@Override
-	public Object eGet(int featureID, boolean resolve, boolean coreType)
-	{
-		switch (featureID)
-		{
-			case MyFilePackage.IMPORT__IMPORTED_NAMESPACE:
-				return getImportedNamespace();
+	public Object eGet(int featureID, boolean resolve, boolean coreType) {
+		switch (featureID) {
+		case MyFilePackage.IMPORT__IMPORTED_NAMESPACE:
+			return getImportedNamespace();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -116,13 +111,11 @@ public class ImportImpl extends EObjectImpl implements Import
 	 * @generated
 	 */
 	@Override
-	public void eSet(int featureID, Object newValue)
-	{
-		switch (featureID)
-		{
-			case MyFilePackage.IMPORT__IMPORTED_NAMESPACE:
-				setImportedNamespace((String)newValue);
-				return;
+	public void eSet(int featureID, Object newValue) {
+		switch (featureID) {
+		case MyFilePackage.IMPORT__IMPORTED_NAMESPACE:
+			setImportedNamespace((String) newValue);
+			return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -133,13 +126,11 @@ public class ImportImpl extends EObjectImpl implements Import
 	 * @generated
 	 */
 	@Override
-	public void eUnset(int featureID)
-	{
-		switch (featureID)
-		{
-			case MyFilePackage.IMPORT__IMPORTED_NAMESPACE:
-				setImportedNamespace(IMPORTED_NAMESPACE_EDEFAULT);
-				return;
+	public void eUnset(int featureID) {
+		switch (featureID) {
+		case MyFilePackage.IMPORT__IMPORTED_NAMESPACE:
+			setImportedNamespace(IMPORTED_NAMESPACE_EDEFAULT);
+			return;
 		}
 		super.eUnset(featureID);
 	}
@@ -150,12 +141,11 @@ public class ImportImpl extends EObjectImpl implements Import
 	 * @generated
 	 */
 	@Override
-	public boolean eIsSet(int featureID)
-	{
-		switch (featureID)
-		{
-			case MyFilePackage.IMPORT__IMPORTED_NAMESPACE:
-				return IMPORTED_NAMESPACE_EDEFAULT == null ? importedNamespace != null : !IMPORTED_NAMESPACE_EDEFAULT.equals(importedNamespace);
+	public boolean eIsSet(int featureID) {
+		switch (featureID) {
+		case MyFilePackage.IMPORT__IMPORTED_NAMESPACE:
+			return IMPORTED_NAMESPACE_EDEFAULT == null ? importedNamespace != null
+					: !IMPORTED_NAMESPACE_EDEFAULT.equals(importedNamespace);
 		}
 		return super.eIsSet(featureID);
 	}
@@ -166,9 +156,9 @@ public class ImportImpl extends EObjectImpl implements Import
 	 * @generated
 	 */
 	@Override
-	public String toString()
-	{
-		if (eIsProxy()) return super.toString();
+	public String toString() {
+		if (eIsProxy())
+			return super.toString();
 
 		StringBuffer result = new StringBuffer(super.toString());
 		result.append(" (importedNamespace: ");

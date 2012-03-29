@@ -5,7 +5,6 @@
  */
 package org.mybuild.myfile;
 
-
 /**
  * <!-- begin-user-doc -->
  * A representation of the model object '<em><b>Type Literal</b></em>'.
@@ -22,8 +21,7 @@ package org.mybuild.myfile;
  * @model
  * @generated
  */
-public interface TypeLiteral extends Value
-{
+public interface TypeLiteral extends Value {
 	/**
 	 * Returns the value of the '<em><b>Value</b></em>' reference.
 	 * <!-- begin-user-doc -->

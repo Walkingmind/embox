@@ -30,8 +30,7 @@ import org.mybuild.myfile.MyFilePackage;
  *
  * @generated
  */
-public class DependsMemberImpl extends MemberImpl implements DependsMember
-{
+public class DependsMemberImpl extends MemberImpl implements DependsMember {
 	/**
 	 * The cached value of the '{@link #getModules() <em>Modules</em>}' reference list.
 	 * <!-- begin-user-doc -->
@@ -47,8 +46,7 @@ public class DependsMemberImpl extends MemberImpl implements DependsMember
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected DependsMemberImpl()
-	{
+	protected DependsMemberImpl() {
 		super();
 	}
 
@@ -58,8 +56,7 @@ public class DependsMemberImpl extends MemberImpl implements DependsMember
 	 * @generated
 	 */
 	@Override
-	protected EClass eStaticClass()
-	{
+	protected EClass eStaticClass() {
 		return MyFilePackage.Literals.DEPENDS_MEMBER;
 	}
 
@@ -68,11 +65,10 @@ public class DependsMemberImpl extends MemberImpl implements DependsMember
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EList<Module> getModules()
-	{
-		if (modules == null)
-		{
-			modules = new EObjectResolvingEList<Module>(Module.class, this, MyFilePackage.DEPENDS_MEMBER__MODULES);
+	public EList<Module> getModules() {
+		if (modules == null) {
+			modules = new EObjectResolvingEList<Module>(Module.class, this,
+					MyFilePackage.DEPENDS_MEMBER__MODULES);
 		}
 		return modules;
 	}
@@ -83,12 +79,10 @@ public class DependsMemberImpl extends MemberImpl implements DependsMember
 	 * @generated
 	 */
 	@Override
-	public Object eGet(int featureID, boolean resolve, boolean coreType)
-	{
-		switch (featureID)
-		{
-			case MyFilePackage.DEPENDS_MEMBER__MODULES:
-				return getModules();
+	public Object eGet(int featureID, boolean resolve, boolean coreType) {
+		switch (featureID) {
+		case MyFilePackage.DEPENDS_MEMBER__MODULES:
+			return getModules();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -100,14 +94,12 @@ public class DependsMemberImpl extends MemberImpl implements DependsMember
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
-	public void eSet(int featureID, Object newValue)
-	{
-		switch (featureID)
-		{
-			case MyFilePackage.DEPENDS_MEMBER__MODULES:
-				getModules().clear();
-				getModules().addAll((Collection<? extends Module>)newValue);
-				return;
+	public void eSet(int featureID, Object newValue) {
+		switch (featureID) {
+		case MyFilePackage.DEPENDS_MEMBER__MODULES:
+			getModules().clear();
+			getModules().addAll((Collection<? extends Module>) newValue);
+			return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -118,13 +110,11 @@ public class DependsMemberImpl extends MemberImpl implements DependsMember
 	 * @generated
 	 */
 	@Override
-	public void eUnset(int featureID)
-	{
-		switch (featureID)
-		{
-			case MyFilePackage.DEPENDS_MEMBER__MODULES:
-				getModules().clear();
-				return;
+	public void eUnset(int featureID) {
+		switch (featureID) {
+		case MyFilePackage.DEPENDS_MEMBER__MODULES:
+			getModules().clear();
+			return;
 		}
 		super.eUnset(featureID);
 	}
@@ -135,12 +125,10 @@ public class DependsMemberImpl extends MemberImpl implements DependsMember
 	 * @generated
 	 */
 	@Override
-	public boolean eIsSet(int featureID)
-	{
-		switch (featureID)
-		{
-			case MyFilePackage.DEPENDS_MEMBER__MODULES:
-				return modules != null && !modules.isEmpty();
+	public boolean eIsSet(int featureID) {
+		switch (featureID) {
+		case MyFilePackage.DEPENDS_MEMBER__MODULES:
+			return modules != null && !modules.isEmpty();
 		}
 		return super.eIsSet(featureID);
 	}

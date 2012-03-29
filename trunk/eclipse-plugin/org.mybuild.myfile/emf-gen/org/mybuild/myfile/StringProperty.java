@@ -5,7 +5,6 @@
  */
 package org.mybuild.myfile;
 
-
 /**
  * <!-- begin-user-doc -->
  * A representation of the model object '<em><b>String Property</b></em>'.
@@ -16,6 +15,5 @@ package org.mybuild.myfile;
  * @model
  * @generated
  */
-public interface StringProperty extends Property
-{
+public interface StringProperty extends Property {
 } // StringProperty

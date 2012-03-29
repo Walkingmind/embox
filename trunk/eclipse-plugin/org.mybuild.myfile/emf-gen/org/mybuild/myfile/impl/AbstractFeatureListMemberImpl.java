@@ -30,8 +30,8 @@ import org.mybuild.myfile.MyFilePackage;
  *
  * @generated
  */
-public abstract class AbstractFeatureListMemberImpl extends MemberImpl implements AbstractFeatureListMember
-{
+public abstract class AbstractFeatureListMemberImpl extends MemberImpl
+		implements AbstractFeatureListMember {
 	/**
 	 * The cached value of the '{@link #getFeatures() <em>Features</em>}' reference list.
 	 * <!-- begin-user-doc -->
@@ -47,8 +47,7 @@ public abstract class AbstractFeatureListMemberImpl extends MemberImpl implement
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected AbstractFeatureListMemberImpl()
-	{
+	protected AbstractFeatureListMemberImpl() {
 		super();
 	}
 
@@ -58,8 +57,7 @@ public abstract class AbstractFeatureListMemberImpl extends MemberImpl implement
 	 * @generated
 	 */
 	@Override
-	protected EClass eStaticClass()
-	{
+	protected EClass eStaticClass() {
 		return MyFilePackage.Literals.ABSTRACT_FEATURE_LIST_MEMBER;
 	}
 
@@ -68,11 +66,10 @@ public abstract class AbstractFeatureListMemberImpl extends MemberImpl implement
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EList<Feature> getFeatures()
-	{
-		if (features == null)
-		{
-			features = new EObjectResolvingEList<Feature>(Feature.class, this, MyFilePackage.ABSTRACT_FEATURE_LIST_MEMBER__FEATURES);
+	public EList<Feature> getFeatures() {
+		if (features == null) {
+			features = new EObjectResolvingEList<Feature>(Feature.class, this,
+					MyFilePackage.ABSTRACT_FEATURE_LIST_MEMBER__FEATURES);
 		}
 		return features;
 	}
@@ -83,12 +80,10 @@ public abstract class AbstractFeatureListMemberImpl extends MemberImpl implement
 	 * @generated
 	 */
 	@Override
-	public Object eGet(int featureID, boolean resolve, boolean coreType)
-	{
-		switch (featureID)
-		{
-			case MyFilePackage.ABSTRACT_FEATURE_LIST_MEMBER__FEATURES:
-				return getFeatures();
+	public Object eGet(int featureID, boolean resolve, boolean coreType) {
+		switch (featureID) {
+		case MyFilePackage.ABSTRACT_FEATURE_LIST_MEMBER__FEATURES:
+			return getFeatures();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -100,14 +95,12 @@ public abstract class AbstractFeatureListMemberImpl extends MemberImpl implement
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
-	public void eSet(int featureID, Object newValue)
-	{
-		switch (featureID)
-		{
-			case MyFilePackage.ABSTRACT_FEATURE_LIST_MEMBER__FEATURES:
-				getFeatures().clear();
-				getFeatures().addAll((Collection<? extends Feature>)newValue);
-				return;
+	public void eSet(int featureID, Object newValue) {
+		switch (featureID) {
+		case MyFilePackage.ABSTRACT_FEATURE_LIST_MEMBER__FEATURES:
+			getFeatures().clear();
+			getFeatures().addAll((Collection<? extends Feature>) newValue);
+			return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -118,13 +111,11 @@ public abstract class AbstractFeatureListMemberImpl extends MemberImpl implement
 	 * @generated
 	 */
 	@Override
-	public void eUnset(int featureID)
-	{
-		switch (featureID)
-		{
-			case MyFilePackage.ABSTRACT_FEATURE_LIST_MEMBER__FEATURES:
-				getFeatures().clear();
-				return;
+	public void eUnset(int featureID) {
+		switch (featureID) {
+		case MyFilePackage.ABSTRACT_FEATURE_LIST_MEMBER__FEATURES:
+			getFeatures().clear();
+			return;
 		}
 		super.eUnset(featureID);
 	}
@@ -135,12 +126,10 @@ public abstract class AbstractFeatureListMemberImpl extends MemberImpl implement
 	 * @generated
 	 */
 	@Override
-	public boolean eIsSet(int featureID)
-	{
-		switch (featureID)
-		{
-			case MyFilePackage.ABSTRACT_FEATURE_LIST_MEMBER__FEATURES:
-				return features != null && !features.isEmpty();
+	public boolean eIsSet(int featureID) {
+		switch (featureID) {
+		case MyFilePackage.ABSTRACT_FEATURE_LIST_MEMBER__FEATURES:
+			return features != null && !features.isEmpty();
 		}
 		return super.eIsSet(featureID);
 	}

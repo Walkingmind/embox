@@ -27,8 +27,7 @@ import org.mybuild.myfile.NumberLiteral;
  *
  * @generated
  */
-public class NumberLiteralImpl extends ValueImpl implements NumberLiteral
-{
+public class NumberLiteralImpl extends ValueImpl implements NumberLiteral {
 	/**
 	 * The default value of the '{@link #getValue() <em>Value</em>}' attribute.
 	 * <!-- begin-user-doc -->
@@ -54,8 +53,7 @@ public class NumberLiteralImpl extends ValueImpl implements NumberLiteral
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected NumberLiteralImpl()
-	{
+	protected NumberLiteralImpl() {
 		super();
 	}
 
@@ -65,8 +63,7 @@ public class NumberLiteralImpl extends ValueImpl implements NumberLiteral
 	 * @generated
 	 */
 	@Override
-	protected EClass eStaticClass()
-	{
+	protected EClass eStaticClass() {
 		return MyFilePackage.Literals.NUMBER_LITERAL;
 	}
 
@@ -75,8 +72,7 @@ public class NumberLiteralImpl extends ValueImpl implements NumberLiteral
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public int getValue()
-	{
+	public int getValue() {
 		return value;
 	}
 
@@ -85,12 +81,12 @@ public class NumberLiteralImpl extends ValueImpl implements NumberLiteral
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setValue(int newValue)
-	{
+	public void setValue(int newValue) {
 		int oldValue = value;
 		value = newValue;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, MyFilePackage.NUMBER_LITERAL__VALUE, oldValue, value));
+			eNotify(new ENotificationImpl(this, Notification.SET,
+					MyFilePackage.NUMBER_LITERAL__VALUE, oldValue, value));
 	}
 
 	/**
@@ -99,12 +95,10 @@ public class NumberLiteralImpl extends ValueImpl implements NumberLiteral
 	 * @generated
 	 */
 	@Override
-	public Object eGet(int featureID, boolean resolve, boolean coreType)
-	{
-		switch (featureID)
-		{
-			case MyFilePackage.NUMBER_LITERAL__VALUE:
-				return getValue();
+	public Object eGet(int featureID, boolean resolve, boolean coreType) {
+		switch (featureID) {
+		case MyFilePackage.NUMBER_LITERAL__VALUE:
+			return getValue();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -115,13 +109,11 @@ public class NumberLiteralImpl extends ValueImpl implements NumberLiteral
 	 * @generated
 	 */
 	@Override
-	public void eSet(int featureID, Object newValue)
-	{
-		switch (featureID)
-		{
-			case MyFilePackage.NUMBER_LITERAL__VALUE:
-				setValue((Integer)newValue);
-				return;
+	public void eSet(int featureID, Object newValue) {
+		switch (featureID) {
+		case MyFilePackage.NUMBER_LITERAL__VALUE:
+			setValue((Integer) newValue);
+			return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -132,13 +124,11 @@ public class NumberLiteralImpl extends ValueImpl implements NumberLiteral
 	 * @generated
 	 */
 	@Override
-	public void eUnset(int featureID)
-	{
-		switch (featureID)
-		{
-			case MyFilePackage.NUMBER_LITERAL__VALUE:
-				setValue(VALUE_EDEFAULT);
-				return;
+	public void eUnset(int featureID) {
+		switch (featureID) {
+		case MyFilePackage.NUMBER_LITERAL__VALUE:
+			setValue(VALUE_EDEFAULT);
+			return;
 		}
 		super.eUnset(featureID);
 	}
@@ -149,12 +139,10 @@ public class NumberLiteralImpl extends ValueImpl implements NumberLiteral
 	 * @generated
 	 */
 	@Override
-	public boolean eIsSet(int featureID)
-	{
-		switch (featureID)
-		{
-			case MyFilePackage.NUMBER_LITERAL__VALUE:
-				return value != VALUE_EDEFAULT;
+	public boolean eIsSet(int featureID) {
+		switch (featureID) {
+		case MyFilePackage.NUMBER_LITERAL__VALUE:
+			return value != VALUE_EDEFAULT;
 		}
 		return super.eIsSet(featureID);
 	}
@@ -165,9 +153,9 @@ public class NumberLiteralImpl extends ValueImpl implements NumberLiteral
 	 * @generated
 	 */
 	@Override
-	public String toString()
-	{
-		if (eIsProxy()) return super.toString();
+	public String toString() {
+		if (eIsProxy())
+			return super.toString();
 
 		StringBuffer result = new StringBuffer(super.toString());
 		result.append(" (value: ");

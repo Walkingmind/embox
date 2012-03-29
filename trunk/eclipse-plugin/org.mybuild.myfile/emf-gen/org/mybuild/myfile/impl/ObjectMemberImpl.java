@@ -19,15 +19,14 @@ import org.mybuild.myfile.ObjectMember;
  *
  * @generated
  */
-public class ObjectMemberImpl extends AbstractFileListMemberImpl implements ObjectMember
-{
+public class ObjectMemberImpl extends AbstractFileListMemberImpl implements
+		ObjectMember {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected ObjectMemberImpl()
-	{
+	protected ObjectMemberImpl() {
 		super();
 	}
 
@@ -37,8 +36,7 @@ public class ObjectMemberImpl extends AbstractFileListMemberImpl implements Obje
 	 * @generated
 	 */
 	@Override
-	protected EClass eStaticClass()
-	{
+	protected EClass eStaticClass() {
 		return MyFilePackage.Literals.OBJECT_MEMBER;
 	}
 

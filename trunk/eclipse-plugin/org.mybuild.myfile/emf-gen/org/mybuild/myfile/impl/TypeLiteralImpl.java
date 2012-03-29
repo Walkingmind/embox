@@ -29,8 +29,7 @@ import org.mybuild.myfile.TypeLiteral;
  *
  * @generated
  */
-public class TypeLiteralImpl extends ValueImpl implements TypeLiteral
-{
+public class TypeLiteralImpl extends ValueImpl implements TypeLiteral {
 	/**
 	 * The cached value of the '{@link #getValue() <em>Value</em>}' reference.
 	 * <!-- begin-user-doc -->
@@ -46,8 +45,7 @@ public class TypeLiteralImpl extends ValueImpl implements TypeLiteral
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected TypeLiteralImpl()
-	{
+	protected TypeLiteralImpl() {
 		super();
 	}
 
@@ -57,8 +55,7 @@ public class TypeLiteralImpl extends ValueImpl implements TypeLiteral
 	 * @generated
 	 */
 	@Override
-	protected EClass eStaticClass()
-	{
+	protected EClass eStaticClass() {
 		return MyFilePackage.Literals.TYPE_LITERAL;
 	}
 
@@ -67,16 +64,14 @@ public class TypeLiteralImpl extends ValueImpl implements TypeLiteral
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public Type getValue()
-	{
-		if (value != null && value.eIsProxy())
-		{
-			InternalEObject oldValue = (InternalEObject)value;
-			value = (Type)eResolveProxy(oldValue);
-			if (value != oldValue)
-			{
+	public Type getValue() {
+		if (value != null && value.eIsProxy()) {
+			InternalEObject oldValue = (InternalEObject) value;
+			value = (Type) eResolveProxy(oldValue);
+			if (value != oldValue) {
 				if (eNotificationRequired())
-					eNotify(new ENotificationImpl(this, Notification.RESOLVE, MyFilePackage.TYPE_LITERAL__VALUE, oldValue, value));
+					eNotify(new ENotificationImpl(this, Notification.RESOLVE,
+							MyFilePackage.TYPE_LITERAL__VALUE, oldValue, value));
 			}
 		}
 		return value;
@@ -87,8 +82,7 @@ public class TypeLiteralImpl extends ValueImpl implements TypeLiteral
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public Type basicGetValue()
-	{
+	public Type basicGetValue() {
 		return value;
 	}
 
@@ -97,12 +91,12 @@ public class TypeLiteralImpl extends ValueImpl implements TypeLiteral
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setValue(Type newValue)
-	{
+	public void setValue(Type newValue) {
 		Type oldValue = value;
 		value = newValue;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, MyFilePackage.TYPE_LITERAL__VALUE, oldValue, value));
+			eNotify(new ENotificationImpl(this, Notification.SET,
+					MyFilePackage.TYPE_LITERAL__VALUE, oldValue, value));
 	}
 
 	/**
@@ -111,13 +105,12 @@ public class TypeLiteralImpl extends ValueImpl implements TypeLiteral
 	 * @generated
 	 */
 	@Override
-	public Object eGet(int featureID, boolean resolve, boolean coreType)
-	{
-		switch (featureID)
-		{
-			case MyFilePackage.TYPE_LITERAL__VALUE:
-				if (resolve) return getValue();
-				return basicGetValue();
+	public Object eGet(int featureID, boolean resolve, boolean coreType) {
+		switch (featureID) {
+		case MyFilePackage.TYPE_LITERAL__VALUE:
+			if (resolve)
+				return getValue();
+			return basicGetValue();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -128,13 +121,11 @@ public class TypeLiteralImpl extends ValueImpl implements TypeLiteral
 	 * @generated
 	 */
 	@Override
-	public void eSet(int featureID, Object newValue)
-	{
-		switch (featureID)
-		{
-			case MyFilePackage.TYPE_LITERAL__VALUE:
-				setValue((Type)newValue);
-				return;
+	public void eSet(int featureID, Object newValue) {
+		switch (featureID) {
+		case MyFilePackage.TYPE_LITERAL__VALUE:
+			setValue((Type) newValue);
+			return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -145,13 +136,11 @@ public class TypeLiteralImpl extends ValueImpl implements TypeLiteral
 	 * @generated
 	 */
 	@Override
-	public void eUnset(int featureID)
-	{
-		switch (featureID)
-		{
-			case MyFilePackage.TYPE_LITERAL__VALUE:
-				setValue((Type)null);
-				return;
+	public void eUnset(int featureID) {
+		switch (featureID) {
+		case MyFilePackage.TYPE_LITERAL__VALUE:
+			setValue((Type) null);
+			return;
 		}
 		super.eUnset(featureID);
 	}
@@ -162,12 +151,10 @@ public class TypeLiteralImpl extends ValueImpl implements TypeLiteral
 	 * @generated
 	 */
 	@Override
-	public boolean eIsSet(int featureID)
-	{
-		switch (featureID)
-		{
-			case MyFilePackage.TYPE_LITERAL__VALUE:
-				return value != null;
+	public boolean eIsSet(int featureID) {
+		switch (featureID) {
+		case MyFilePackage.TYPE_LITERAL__VALUE:
+			return value != null;
 		}
 		return super.eIsSet(featureID);
 	}

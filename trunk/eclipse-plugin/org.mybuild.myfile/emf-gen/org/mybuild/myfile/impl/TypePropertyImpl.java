@@ -19,15 +19,13 @@ import org.mybuild.myfile.TypeProperty;
  *
  * @generated
  */
-public class TypePropertyImpl extends PropertyImpl implements TypeProperty
-{
+public class TypePropertyImpl extends PropertyImpl implements TypeProperty {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected TypePropertyImpl()
-	{
+	protected TypePropertyImpl() {
 		super();
 	}
 
@@ -37,8 +35,7 @@ public class TypePropertyImpl extends PropertyImpl implements TypeProperty
 	 * @generated
 	 */
 	@Override
-	protected EClass eStaticClass()
-	{
+	protected EClass eStaticClass() {
 		return MyFilePackage.Literals.TYPE_PROPERTY;
 	}
 

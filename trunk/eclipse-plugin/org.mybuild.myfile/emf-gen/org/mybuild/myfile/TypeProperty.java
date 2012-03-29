@@ -5,7 +5,6 @@
  */
 package org.mybuild.myfile;
 
-
 /**
  * <!-- begin-user-doc -->
  * A representation of the model object '<em><b>Type Property</b></em>'.
@@ -16,6 +15,5 @@ package org.mybuild.myfile;
  * @model
  * @generated
  */
-public interface TypeProperty extends Property
-{
+public interface TypeProperty extends Property {
 } // TypeProperty

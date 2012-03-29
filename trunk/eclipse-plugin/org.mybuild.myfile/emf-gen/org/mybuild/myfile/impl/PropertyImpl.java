@@ -41,8 +41,7 @@ import org.mybuild.myfile.Value;
  *
  * @generated
  */
-public class PropertyImpl extends NamedImpl implements Property
-{
+public class PropertyImpl extends NamedImpl implements Property {
 	/**
 	 * The cached value of the '{@link #getAnnotations() <em>Annotations</em>}' containment reference list.
 	 * <!-- begin-user-doc -->
@@ -78,8 +77,7 @@ public class PropertyImpl extends NamedImpl implements Property
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected PropertyImpl()
-	{
+	protected PropertyImpl() {
 		super();
 	}
 
@@ -89,8 +87,7 @@ public class PropertyImpl extends NamedImpl implements Property
 	 * @generated
 	 */
 	@Override
-	protected EClass eStaticClass()
-	{
+	protected EClass eStaticClass() {
 		return MyFilePackage.Literals.PROPERTY;
 	}
 
@@ -99,11 +96,12 @@ public class PropertyImpl extends NamedImpl implements Property
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EList<Annotation> getAnnotations()
-	{
-		if (annotations == null)
-		{
-			annotations = new EObjectContainmentWithInverseEList<Annotation>(Annotation.class, this, MyFilePackage.PROPERTY__ANNOTATIONS, MyFilePackage.ANNOTATION__TARGET);
+	public EList<Annotation> getAnnotations() {
+		if (annotations == null) {
+			annotations = new EObjectContainmentWithInverseEList<Annotation>(
+					Annotation.class, this,
+					MyFilePackage.PROPERTY__ANNOTATIONS,
+					MyFilePackage.ANNOTATION__TARGET);
 		}
 		return annotations;
 	}
@@ -113,8 +111,7 @@ public class PropertyImpl extends NamedImpl implements Property
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public AnnotationTarget getSelf()
-	{
+	public AnnotationTarget getSelf() {
 		return self;
 	}
 
@@ -123,14 +120,18 @@ public class PropertyImpl extends NamedImpl implements Property
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public NotificationChain basicSetSelf(AnnotationTarget newSelf, NotificationChain msgs)
-	{
+	public NotificationChain basicSetSelf(AnnotationTarget newSelf,
+			NotificationChain msgs) {
 		AnnotationTarget oldSelf = self;
 		self = newSelf;
-		if (eNotificationRequired())
-		{
-			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, MyFilePackage.PROPERTY__SELF, oldSelf, newSelf);
-			if (msgs == null) msgs = notification; else msgs.add(notification);
+		if (eNotificationRequired()) {
+			ENotificationImpl notification = new ENotificationImpl(this,
+					Notification.SET, MyFilePackage.PROPERTY__SELF, oldSelf,
+					newSelf);
+			if (msgs == null)
+				msgs = notification;
+			else
+				msgs.add(notification);
 		}
 		return msgs;
 	}
@@ -140,20 +141,23 @@ public class PropertyImpl extends NamedImpl implements Property
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setSelf(AnnotationTarget newSelf)
-	{
-		if (newSelf != self)
-		{
+	public void setSelf(AnnotationTarget newSelf) {
+		if (newSelf != self) {
 			NotificationChain msgs = null;
 			if (self != null)
-				msgs = ((InternalEObject)self).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - MyFilePackage.PROPERTY__SELF, null, msgs);
+				msgs = ((InternalEObject) self).eInverseRemove(this,
+						EOPPOSITE_FEATURE_BASE - MyFilePackage.PROPERTY__SELF,
+						null, msgs);
 			if (newSelf != null)
-				msgs = ((InternalEObject)newSelf).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - MyFilePackage.PROPERTY__SELF, null, msgs);
+				msgs = ((InternalEObject) newSelf).eInverseAdd(this,
+						EOPPOSITE_FEATURE_BASE - MyFilePackage.PROPERTY__SELF,
+						null, msgs);
 			msgs = basicSetSelf(newSelf, msgs);
-			if (msgs != null) msgs.dispatch();
-		}
-		else if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, MyFilePackage.PROPERTY__SELF, newSelf, newSelf));
+			if (msgs != null)
+				msgs.dispatch();
+		} else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET,
+					MyFilePackage.PROPERTY__SELF, newSelf, newSelf));
 	}
 
 	/**
@@ -161,8 +165,7 @@ public class PropertyImpl extends NamedImpl implements Property
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public Value getDefaultValue()
-	{
+	public Value getDefaultValue() {
 		return defaultValue;
 	}
 
@@ -171,14 +174,18 @@ public class PropertyImpl extends NamedImpl implements Property
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public NotificationChain basicSetDefaultValue(Value newDefaultValue, NotificationChain msgs)
-	{
+	public NotificationChain basicSetDefaultValue(Value newDefaultValue,
+			NotificationChain msgs) {
 		Value oldDefaultValue = defaultValue;
 		defaultValue = newDefaultValue;
-		if (eNotificationRequired())
-		{
-			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, MyFilePackage.PROPERTY__DEFAULT_VALUE, oldDefaultValue, newDefaultValue);
-			if (msgs == null) msgs = notification; else msgs.add(notification);
+		if (eNotificationRequired()) {
+			ENotificationImpl notification = new ENotificationImpl(this,
+					Notification.SET, MyFilePackage.PROPERTY__DEFAULT_VALUE,
+					oldDefaultValue, newDefaultValue);
+			if (msgs == null)
+				msgs = notification;
+			else
+				msgs.add(notification);
 		}
 		return msgs;
 	}
@@ -188,20 +195,26 @@ public class PropertyImpl extends NamedImpl implements Property
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setDefaultValue(Value newDefaultValue)
-	{
-		if (newDefaultValue != defaultValue)
-		{
+	public void setDefaultValue(Value newDefaultValue) {
+		if (newDefaultValue != defaultValue) {
 			NotificationChain msgs = null;
 			if (defaultValue != null)
-				msgs = ((InternalEObject)defaultValue).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - MyFilePackage.PROPERTY__DEFAULT_VALUE, null, msgs);
+				msgs = ((InternalEObject) defaultValue).eInverseRemove(this,
+						EOPPOSITE_FEATURE_BASE
+								- MyFilePackage.PROPERTY__DEFAULT_VALUE, null,
+						msgs);
 			if (newDefaultValue != null)
-				msgs = ((InternalEObject)newDefaultValue).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - MyFilePackage.PROPERTY__DEFAULT_VALUE, null, msgs);
+				msgs = ((InternalEObject) newDefaultValue).eInverseAdd(this,
+						EOPPOSITE_FEATURE_BASE
+								- MyFilePackage.PROPERTY__DEFAULT_VALUE, null,
+						msgs);
 			msgs = basicSetDefaultValue(newDefaultValue, msgs);
-			if (msgs != null) msgs.dispatch();
-		}
-		else if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, MyFilePackage.PROPERTY__DEFAULT_VALUE, newDefaultValue, newDefaultValue));
+			if (msgs != null)
+				msgs.dispatch();
+		} else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET,
+					MyFilePackage.PROPERTY__DEFAULT_VALUE, newDefaultValue,
+					newDefaultValue));
 	}
 
 	/**
@@ -211,12 +224,12 @@ public class PropertyImpl extends NamedImpl implements Property
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
-	public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs)
-	{
-		switch (featureID)
-		{
-			case MyFilePackage.PROPERTY__ANNOTATIONS:
-				return ((InternalEList<InternalEObject>)(InternalEList<?>)getAnnotations()).basicAdd(otherEnd, msgs);
+	public NotificationChain eInverseAdd(InternalEObject otherEnd,
+			int featureID, NotificationChain msgs) {
+		switch (featureID) {
+		case MyFilePackage.PROPERTY__ANNOTATIONS:
+			return ((InternalEList<InternalEObject>) (InternalEList<?>) getAnnotations())
+					.basicAdd(otherEnd, msgs);
 		}
 		return super.eInverseAdd(otherEnd, featureID, msgs);
 	}
@@ -227,16 +240,16 @@ public class PropertyImpl extends NamedImpl implements Property
 	 * @generated
 	 */
 	@Override
-	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs)
-	{
-		switch (featureID)
-		{
-			case MyFilePackage.PROPERTY__ANNOTATIONS:
-				return ((InternalEList<?>)getAnnotations()).basicRemove(otherEnd, msgs);
-			case MyFilePackage.PROPERTY__SELF:
-				return basicSetSelf(null, msgs);
-			case MyFilePackage.PROPERTY__DEFAULT_VALUE:
-				return basicSetDefaultValue(null, msgs);
+	public NotificationChain eInverseRemove(InternalEObject otherEnd,
+			int featureID, NotificationChain msgs) {
+		switch (featureID) {
+		case MyFilePackage.PROPERTY__ANNOTATIONS:
+			return ((InternalEList<?>) getAnnotations()).basicRemove(otherEnd,
+					msgs);
+		case MyFilePackage.PROPERTY__SELF:
+			return basicSetSelf(null, msgs);
+		case MyFilePackage.PROPERTY__DEFAULT_VALUE:
+			return basicSetDefaultValue(null, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -247,16 +260,14 @@ public class PropertyImpl extends NamedImpl implements Property
 	 * @generated
 	 */
 	@Override
-	public Object eGet(int featureID, boolean resolve, boolean coreType)
-	{
-		switch (featureID)
-		{
-			case MyFilePackage.PROPERTY__ANNOTATIONS:
-				return getAnnotations();
-			case MyFilePackage.PROPERTY__SELF:
-				return getSelf();
-			case MyFilePackage.PROPERTY__DEFAULT_VALUE:
-				return getDefaultValue();
+	public Object eGet(int featureID, boolean resolve, boolean coreType) {
+		switch (featureID) {
+		case MyFilePackage.PROPERTY__ANNOTATIONS:
+			return getAnnotations();
+		case MyFilePackage.PROPERTY__SELF:
+			return getSelf();
+		case MyFilePackage.PROPERTY__DEFAULT_VALUE:
+			return getDefaultValue();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -268,20 +279,19 @@ public class PropertyImpl extends NamedImpl implements Property
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
-	public void eSet(int featureID, Object newValue)
-	{
-		switch (featureID)
-		{
-			case MyFilePackage.PROPERTY__ANNOTATIONS:
-				getAnnotations().clear();
-				getAnnotations().addAll((Collection<? extends Annotation>)newValue);
-				return;
-			case MyFilePackage.PROPERTY__SELF:
-				setSelf((AnnotationTarget)newValue);
-				return;
-			case MyFilePackage.PROPERTY__DEFAULT_VALUE:
-				setDefaultValue((Value)newValue);
-				return;
+	public void eSet(int featureID, Object newValue) {
+		switch (featureID) {
+		case MyFilePackage.PROPERTY__ANNOTATIONS:
+			getAnnotations().clear();
+			getAnnotations()
+					.addAll((Collection<? extends Annotation>) newValue);
+			return;
+		case MyFilePackage.PROPERTY__SELF:
+			setSelf((AnnotationTarget) newValue);
+			return;
+		case MyFilePackage.PROPERTY__DEFAULT_VALUE:
+			setDefaultValue((Value) newValue);
+			return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -292,19 +302,17 @@ public class PropertyImpl extends NamedImpl implements Property
 	 * @generated
 	 */
 	@Override
-	public void eUnset(int featureID)
-	{
-		switch (featureID)
-		{
-			case MyFilePackage.PROPERTY__ANNOTATIONS:
-				getAnnotations().clear();
-				return;
-			case MyFilePackage.PROPERTY__SELF:
-				setSelf((AnnotationTarget)null);
-				return;
-			case MyFilePackage.PROPERTY__DEFAULT_VALUE:
-				setDefaultValue((Value)null);
-				return;
+	public void eUnset(int featureID) {
+		switch (featureID) {
+		case MyFilePackage.PROPERTY__ANNOTATIONS:
+			getAnnotations().clear();
+			return;
+		case MyFilePackage.PROPERTY__SELF:
+			setSelf((AnnotationTarget) null);
+			return;
+		case MyFilePackage.PROPERTY__DEFAULT_VALUE:
+			setDefaultValue((Value) null);
+			return;
 		}
 		super.eUnset(featureID);
 	}
@@ -315,16 +323,14 @@ public class PropertyImpl extends NamedImpl implements Property
 	 * @generated
 	 */
 	@Override
-	public boolean eIsSet(int featureID)
-	{
-		switch (featureID)
-		{
-			case MyFilePackage.PROPERTY__ANNOTATIONS:
-				return annotations != null && !annotations.isEmpty();
-			case MyFilePackage.PROPERTY__SELF:
-				return self != null;
-			case MyFilePackage.PROPERTY__DEFAULT_VALUE:
-				return defaultValue != null;
+	public boolean eIsSet(int featureID) {
+		switch (featureID) {
+		case MyFilePackage.PROPERTY__ANNOTATIONS:
+			return annotations != null && !annotations.isEmpty();
+		case MyFilePackage.PROPERTY__SELF:
+			return self != null;
+		case MyFilePackage.PROPERTY__DEFAULT_VALUE:
+			return defaultValue != null;
 		}
 		return super.eIsSet(featureID);
 	}
@@ -335,15 +341,15 @@ public class PropertyImpl extends NamedImpl implements Property
 	 * @generated
 	 */
 	@Override
-	public int eBaseStructuralFeatureID(int derivedFeatureID, Class<?> baseClass)
-	{
-		if (baseClass == AnnotationTarget.class)
-		{
-			switch (derivedFeatureID)
-			{
-				case MyFilePackage.PROPERTY__ANNOTATIONS: return MyFilePackage.ANNOTATION_TARGET__ANNOTATIONS;
-				case MyFilePackage.PROPERTY__SELF: return MyFilePackage.ANNOTATION_TARGET__SELF;
-				default: return -1;
+	public int eBaseStructuralFeatureID(int derivedFeatureID, Class<?> baseClass) {
+		if (baseClass == AnnotationTarget.class) {
+			switch (derivedFeatureID) {
+			case MyFilePackage.PROPERTY__ANNOTATIONS:
+				return MyFilePackage.ANNOTATION_TARGET__ANNOTATIONS;
+			case MyFilePackage.PROPERTY__SELF:
+				return MyFilePackage.ANNOTATION_TARGET__SELF;
+			default:
+				return -1;
 			}
 		}
 		return super.eBaseStructuralFeatureID(derivedFeatureID, baseClass);
@@ -355,15 +361,15 @@ public class PropertyImpl extends NamedImpl implements Property
 	 * @generated
 	 */
 	@Override
-	public int eDerivedStructuralFeatureID(int baseFeatureID, Class<?> baseClass)
-	{
-		if (baseClass == AnnotationTarget.class)
-		{
-			switch (baseFeatureID)
-			{
-				case MyFilePackage.ANNOTATION_TARGET__ANNOTATIONS: return MyFilePackage.PROPERTY__ANNOTATIONS;
-				case MyFilePackage.ANNOTATION_TARGET__SELF: return MyFilePackage.PROPERTY__SELF;
-				default: return -1;
+	public int eDerivedStructuralFeatureID(int baseFeatureID, Class<?> baseClass) {
+		if (baseClass == AnnotationTarget.class) {
+			switch (baseFeatureID) {
+			case MyFilePackage.ANNOTATION_TARGET__ANNOTATIONS:
+				return MyFilePackage.PROPERTY__ANNOTATIONS;
+			case MyFilePackage.ANNOTATION_TARGET__SELF:
+				return MyFilePackage.PROPERTY__SELF;
+			default:
+				return -1;
 			}
 		}
 		return super.eDerivedStructuralFeatureID(baseFeatureID, baseClass);

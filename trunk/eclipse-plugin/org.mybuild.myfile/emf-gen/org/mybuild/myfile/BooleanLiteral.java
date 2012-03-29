@@ -5,7 +5,6 @@
  */
 package org.mybuild.myfile;
 
-
 /**
  * <!-- begin-user-doc -->
  * A representation of the model object '<em><b>Boolean Literal</b></em>'.
@@ -22,8 +21,7 @@ package org.mybuild.myfile;
  * @model
  * @generated
  */
-public interface BooleanLiteral extends Value
-{
+public interface BooleanLiteral extends Value {
 	/**
 	 * Returns the value of the '<em><b>Is True</b></em>' attribute.
 	 * <!-- begin-user-doc -->

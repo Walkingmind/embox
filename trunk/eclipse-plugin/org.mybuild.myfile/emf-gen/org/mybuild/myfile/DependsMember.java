@@ -23,8 +23,7 @@ import org.eclipse.emf.common.util.EList;
  * @model
  * @generated
  */
-public interface DependsMember extends Member
-{
+public interface DependsMember extends Member {
 	/**
 	 * Returns the value of the '<em><b>Modules</b></em>' reference list.
 	 * The list contents are of type {@link org.mybuild.myfile.Module}.

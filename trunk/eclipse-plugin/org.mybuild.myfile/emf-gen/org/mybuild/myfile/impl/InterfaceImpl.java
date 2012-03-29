@@ -38,8 +38,7 @@ import org.mybuild.myfile.MyFilePackage;
  *
  * @generated
  */
-public class InterfaceImpl extends TypeImpl implements Interface
-{
+public class InterfaceImpl extends TypeImpl implements Interface {
 	/**
 	 * The cached value of the '{@link #getSuperType() <em>Super Type</em>}' reference.
 	 * <!-- begin-user-doc -->
@@ -65,8 +64,7 @@ public class InterfaceImpl extends TypeImpl implements Interface
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected InterfaceImpl()
-	{
+	protected InterfaceImpl() {
 		super();
 	}
 
@@ -76,8 +74,7 @@ public class InterfaceImpl extends TypeImpl implements Interface
 	 * @generated
 	 */
 	@Override
-	protected EClass eStaticClass()
-	{
+	protected EClass eStaticClass() {
 		return MyFilePackage.Literals.INTERFACE;
 	}
 
@@ -86,16 +83,15 @@ public class InterfaceImpl extends TypeImpl implements Interface
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public Interface getSuperType()
-	{
-		if (superType != null && superType.eIsProxy())
-		{
-			InternalEObject oldSuperType = (InternalEObject)superType;
-			superType = (Interface)eResolveProxy(oldSuperType);
-			if (superType != oldSuperType)
-			{
+	public Interface getSuperType() {
+		if (superType != null && superType.eIsProxy()) {
+			InternalEObject oldSuperType = (InternalEObject) superType;
+			superType = (Interface) eResolveProxy(oldSuperType);
+			if (superType != oldSuperType) {
 				if (eNotificationRequired())
-					eNotify(new ENotificationImpl(this, Notification.RESOLVE, MyFilePackage.INTERFACE__SUPER_TYPE, oldSuperType, superType));
+					eNotify(new ENotificationImpl(this, Notification.RESOLVE,
+							MyFilePackage.INTERFACE__SUPER_TYPE, oldSuperType,
+							superType));
 			}
 		}
 		return superType;
@@ -106,8 +102,7 @@ public class InterfaceImpl extends TypeImpl implements Interface
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public Interface basicGetSuperType()
-	{
+	public Interface basicGetSuperType() {
 		return superType;
 	}
 
@@ -116,12 +111,13 @@ public class InterfaceImpl extends TypeImpl implements Interface
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setSuperType(Interface newSuperType)
-	{
+	public void setSuperType(Interface newSuperType) {
 		Interface oldSuperType = superType;
 		superType = newSuperType;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, MyFilePackage.INTERFACE__SUPER_TYPE, oldSuperType, superType));
+			eNotify(new ENotificationImpl(this, Notification.SET,
+					MyFilePackage.INTERFACE__SUPER_TYPE, oldSuperType,
+					superType));
 	}
 
 	/**
@@ -129,11 +125,10 @@ public class InterfaceImpl extends TypeImpl implements Interface
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EList<Feature> getFeatures()
-	{
-		if (features == null)
-		{
-			features = new EObjectContainmentEList<Feature>(Feature.class, this, MyFilePackage.INTERFACE__FEATURES);
+	public EList<Feature> getFeatures() {
+		if (features == null) {
+			features = new EObjectContainmentEList<Feature>(Feature.class,
+					this, MyFilePackage.INTERFACE__FEATURES);
 		}
 		return features;
 	}
@@ -144,12 +139,12 @@ public class InterfaceImpl extends TypeImpl implements Interface
 	 * @generated
 	 */
 	@Override
-	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs)
-	{
-		switch (featureID)
-		{
-			case MyFilePackage.INTERFACE__FEATURES:
-				return ((InternalEList<?>)getFeatures()).basicRemove(otherEnd, msgs);
+	public NotificationChain eInverseRemove(InternalEObject otherEnd,
+			int featureID, NotificationChain msgs) {
+		switch (featureID) {
+		case MyFilePackage.INTERFACE__FEATURES:
+			return ((InternalEList<?>) getFeatures()).basicRemove(otherEnd,
+					msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -160,15 +155,14 @@ public class InterfaceImpl extends TypeImpl implements Interface
 	 * @generated
 	 */
 	@Override
-	public Object eGet(int featureID, boolean resolve, boolean coreType)
-	{
-		switch (featureID)
-		{
-			case MyFilePackage.INTERFACE__SUPER_TYPE:
-				if (resolve) return getSuperType();
-				return basicGetSuperType();
-			case MyFilePackage.INTERFACE__FEATURES:
-				return getFeatures();
+	public Object eGet(int featureID, boolean resolve, boolean coreType) {
+		switch (featureID) {
+		case MyFilePackage.INTERFACE__SUPER_TYPE:
+			if (resolve)
+				return getSuperType();
+			return basicGetSuperType();
+		case MyFilePackage.INTERFACE__FEATURES:
+			return getFeatures();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -180,17 +174,15 @@ public class InterfaceImpl extends TypeImpl implements Interface
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
-	public void eSet(int featureID, Object newValue)
-	{
-		switch (featureID)
-		{
-			case MyFilePackage.INTERFACE__SUPER_TYPE:
-				setSuperType((Interface)newValue);
-				return;
-			case MyFilePackage.INTERFACE__FEATURES:
-				getFeatures().clear();
-				getFeatures().addAll((Collection<? extends Feature>)newValue);
-				return;
+	public void eSet(int featureID, Object newValue) {
+		switch (featureID) {
+		case MyFilePackage.INTERFACE__SUPER_TYPE:
+			setSuperType((Interface) newValue);
+			return;
+		case MyFilePackage.INTERFACE__FEATURES:
+			getFeatures().clear();
+			getFeatures().addAll((Collection<? extends Feature>) newValue);
+			return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -201,16 +193,14 @@ public class InterfaceImpl extends TypeImpl implements Interface
 	 * @generated
 	 */
 	@Override
-	public void eUnset(int featureID)
-	{
-		switch (featureID)
-		{
-			case MyFilePackage.INTERFACE__SUPER_TYPE:
-				setSuperType((Interface)null);
-				return;
-			case MyFilePackage.INTERFACE__FEATURES:
-				getFeatures().clear();
-				return;
+	public void eUnset(int featureID) {
+		switch (featureID) {
+		case MyFilePackage.INTERFACE__SUPER_TYPE:
+			setSuperType((Interface) null);
+			return;
+		case MyFilePackage.INTERFACE__FEATURES:
+			getFeatures().clear();
+			return;
 		}
 		super.eUnset(featureID);
 	}
@@ -221,14 +211,12 @@ public class InterfaceImpl extends TypeImpl implements Interface
 	 * @generated
 	 */
 	@Override
-	public boolean eIsSet(int featureID)
-	{
-		switch (featureID)
-		{
-			case MyFilePackage.INTERFACE__SUPER_TYPE:
-				return superType != null;
-			case MyFilePackage.INTERFACE__FEATURES:
-				return features != null && !features.isEmpty();
+	public boolean eIsSet(int featureID) {
+		switch (featureID) {
+		case MyFilePackage.INTERFACE__SUPER_TYPE:
+			return superType != null;
+		case MyFilePackage.INTERFACE__FEATURES:
+			return features != null && !features.isEmpty();
 		}
 		return super.eIsSet(featureID);
 	}

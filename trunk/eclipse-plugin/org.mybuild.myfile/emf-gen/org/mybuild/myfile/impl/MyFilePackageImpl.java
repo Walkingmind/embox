@@ -52,8 +52,7 @@ import org.mybuild.myfile.Value;
  * <!-- end-user-doc -->
  * @generated
  */
-public class MyFilePackageImpl extends EPackageImpl implements MyFilePackage
-{
+public class MyFilePackageImpl extends EPackageImpl implements MyFilePackage {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -293,8 +292,7 @@ public class MyFilePackageImpl extends EPackageImpl implements MyFilePackage
 	 * @see #init()
 	 * @generated
 	 */
-	private MyFilePackageImpl()
-	{
+	private MyFilePackageImpl() {
 		super(eNS_URI, MyFileFactory.eINSTANCE);
 	}
 
@@ -317,12 +315,15 @@ public class MyFilePackageImpl extends EPackageImpl implements MyFilePackage
 	 * @see #initializePackageContents()
 	 * @generated
 	 */
-	public static MyFilePackage init()
-	{
-		if (isInited) return (MyFilePackage)EPackage.Registry.INSTANCE.getEPackage(MyFilePackage.eNS_URI);
+	public static MyFilePackage init() {
+		if (isInited)
+			return (MyFilePackage) EPackage.Registry.INSTANCE
+					.getEPackage(MyFilePackage.eNS_URI);
 
 		// Obtain or create and register package
-		MyFilePackageImpl theMyFilePackage = (MyFilePackageImpl)(EPackage.Registry.INSTANCE.get(eNS_URI) instanceof MyFilePackageImpl ? EPackage.Registry.INSTANCE.get(eNS_URI) : new MyFilePackageImpl());
+		MyFilePackageImpl theMyFilePackage = (MyFilePackageImpl) (EPackage.Registry.INSTANCE
+				.get(eNS_URI) instanceof MyFilePackageImpl ? EPackage.Registry.INSTANCE
+				.get(eNS_URI) : new MyFilePackageImpl());
 
 		isInited = true;
 
@@ -335,7 +336,6 @@ public class MyFilePackageImpl extends EPackageImpl implements MyFilePackage
 		// Mark meta-data to indicate it can't be changed
 		theMyFilePackage.freeze();
 
-  
 		// Update the registry and return the package
 		EPackage.Registry.INSTANCE.put(MyFilePackage.eNS_URI, theMyFilePackage);
 		return theMyFilePackage;
@@ -346,8 +346,7 @@ public class MyFilePackageImpl extends EPackageImpl implements MyFilePackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EClass getModel()
-	{
+	public EClass getModel() {
 		return modelEClass;
 	}
 
@@ -356,9 +355,8 @@ public class MyFilePackageImpl extends EPackageImpl implements MyFilePackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getModel_Package()
-	{
-		return (EReference)modelEClass.getEStructuralFeatures().get(0);
+	public EReference getModel_Package() {
+		return (EReference) modelEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
@@ -366,9 +364,8 @@ public class MyFilePackageImpl extends EPackageImpl implements MyFilePackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getModel_Imports()
-	{
-		return (EReference)modelEClass.getEStructuralFeatures().get(1);
+	public EReference getModel_Imports() {
+		return (EReference) modelEClass.getEStructuralFeatures().get(1);
 	}
 
 	/**
@@ -376,9 +373,8 @@ public class MyFilePackageImpl extends EPackageImpl implements MyFilePackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getModel_Types()
-	{
-		return (EReference)modelEClass.getEStructuralFeatures().get(2);
+	public EReference getModel_Types() {
+		return (EReference) modelEClass.getEStructuralFeatures().get(2);
 	}
 
 	/**
@@ -386,8 +382,7 @@ public class MyFilePackageImpl extends EPackageImpl implements MyFilePackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EClass getPackage()
-	{
+	public EClass getPackage() {
 		return packageEClass;
 	}
 
@@ -396,9 +391,8 @@ public class MyFilePackageImpl extends EPackageImpl implements MyFilePackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getPackage_Name()
-	{
-		return (EAttribute)packageEClass.getEStructuralFeatures().get(0);
+	public EAttribute getPackage_Name() {
+		return (EAttribute) packageEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
@@ -406,8 +400,7 @@ public class MyFilePackageImpl extends EPackageImpl implements MyFilePackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EClass getImport()
-	{
+	public EClass getImport() {
 		return importEClass;
 	}
 
@@ -416,9 +409,8 @@ public class MyFilePackageImpl extends EPackageImpl implements MyFilePackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getImport_ImportedNamespace()
-	{
-		return (EAttribute)importEClass.getEStructuralFeatures().get(0);
+	public EAttribute getImport_ImportedNamespace() {
+		return (EAttribute) importEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
@@ -426,8 +418,7 @@ public class MyFilePackageImpl extends EPackageImpl implements MyFilePackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EClass getType()
-	{
+	public EClass getType() {
 		return typeEClass;
 	}
 
@@ -436,8 +427,7 @@ public class MyFilePackageImpl extends EPackageImpl implements MyFilePackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EClass getAnnotationType()
-	{
+	public EClass getAnnotationType() {
 		return annotationTypeEClass;
 	}
 
@@ -446,9 +436,9 @@ public class MyFilePackageImpl extends EPackageImpl implements MyFilePackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getAnnotationType_Elements()
-	{
-		return (EReference)annotationTypeEClass.getEStructuralFeatures().get(0);
+	public EReference getAnnotationType_Elements() {
+		return (EReference) annotationTypeEClass.getEStructuralFeatures()
+				.get(0);
 	}
 
 	/**
@@ -456,8 +446,7 @@ public class MyFilePackageImpl extends EPackageImpl implements MyFilePackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EClass getAnnotation()
-	{
+	public EClass getAnnotation() {
 		return annotationEClass;
 	}
 
@@ -466,9 +455,8 @@ public class MyFilePackageImpl extends EPackageImpl implements MyFilePackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getAnnotation_Type()
-	{
-		return (EReference)annotationEClass.getEStructuralFeatures().get(0);
+	public EReference getAnnotation_Type() {
+		return (EReference) annotationEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
@@ -476,9 +464,8 @@ public class MyFilePackageImpl extends EPackageImpl implements MyFilePackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getAnnotation_Target()
-	{
-		return (EReference)annotationEClass.getEStructuralFeatures().get(1);
+	public EReference getAnnotation_Target() {
+		return (EReference) annotationEClass.getEStructuralFeatures().get(1);
 	}
 
 	/**
@@ -486,9 +473,8 @@ public class MyFilePackageImpl extends EPackageImpl implements MyFilePackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getAnnotation_Elements()
-	{
-		return (EReference)annotationEClass.getEStructuralFeatures().get(2);
+	public EReference getAnnotation_Elements() {
+		return (EReference) annotationEClass.getEStructuralFeatures().get(2);
 	}
 
 	/**
@@ -496,9 +482,8 @@ public class MyFilePackageImpl extends EPackageImpl implements MyFilePackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getAnnotation_SingleValue()
-	{
-		return (EReference)annotationEClass.getEStructuralFeatures().get(3);
+	public EReference getAnnotation_SingleValue() {
+		return (EReference) annotationEClass.getEStructuralFeatures().get(3);
 	}
 
 	/**
@@ -506,8 +491,7 @@ public class MyFilePackageImpl extends EPackageImpl implements MyFilePackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EClass getAnnotationTarget()
-	{
+	public EClass getAnnotationTarget() {
 		return annotationTargetEClass;
 	}
 
@@ -516,9 +500,9 @@ public class MyFilePackageImpl extends EPackageImpl implements MyFilePackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getAnnotationTarget_Annotations()
-	{
-		return (EReference)annotationTargetEClass.getEStructuralFeatures().get(0);
+	public EReference getAnnotationTarget_Annotations() {
+		return (EReference) annotationTargetEClass.getEStructuralFeatures()
+				.get(0);
 	}
 
 	/**
@@ -526,9 +510,9 @@ public class MyFilePackageImpl extends EPackageImpl implements MyFilePackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getAnnotationTarget_Self()
-	{
-		return (EReference)annotationTargetEClass.getEStructuralFeatures().get(1);
+	public EReference getAnnotationTarget_Self() {
+		return (EReference) annotationTargetEClass.getEStructuralFeatures()
+				.get(1);
 	}
 
 	/**
@@ -536,8 +520,7 @@ public class MyFilePackageImpl extends EPackageImpl implements MyFilePackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EClass getInterface()
-	{
+	public EClass getInterface() {
 		return interfaceEClass;
 	}
 
@@ -546,9 +529,8 @@ public class MyFilePackageImpl extends EPackageImpl implements MyFilePackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getInterface_SuperType()
-	{
-		return (EReference)interfaceEClass.getEStructuralFeatures().get(0);
+	public EReference getInterface_SuperType() {
+		return (EReference) interfaceEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
@@ -556,9 +538,8 @@ public class MyFilePackageImpl extends EPackageImpl implements MyFilePackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getInterface_Features()
-	{
-		return (EReference)interfaceEClass.getEStructuralFeatures().get(1);
+	public EReference getInterface_Features() {
+		return (EReference) interfaceEClass.getEStructuralFeatures().get(1);
 	}
 
 	/**
@@ -566,8 +547,7 @@ public class MyFilePackageImpl extends EPackageImpl implements MyFilePackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EClass getFeature()
-	{
+	public EClass getFeature() {
 		return featureEClass;
 	}
 
@@ -576,9 +556,8 @@ public class MyFilePackageImpl extends EPackageImpl implements MyFilePackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getFeature_SuperType()
-	{
-		return (EReference)featureEClass.getEStructuralFeatures().get(0);
+	public EReference getFeature_SuperType() {
+		return (EReference) featureEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
@@ -586,8 +565,7 @@ public class MyFilePackageImpl extends EPackageImpl implements MyFilePackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EClass getModule()
-	{
+	public EClass getModule() {
 		return moduleEClass;
 	}
 
@@ -596,9 +574,8 @@ public class MyFilePackageImpl extends EPackageImpl implements MyFilePackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getModule_Static()
-	{
-		return (EAttribute)moduleEClass.getEStructuralFeatures().get(0);
+	public EAttribute getModule_Static() {
+		return (EAttribute) moduleEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
@@ -606,9 +583,8 @@ public class MyFilePackageImpl extends EPackageImpl implements MyFilePackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getModule_Abstract()
-	{
-		return (EAttribute)moduleEClass.getEStructuralFeatures().get(1);
+	public EAttribute getModule_Abstract() {
+		return (EAttribute) moduleEClass.getEStructuralFeatures().get(1);
 	}
 
 	/**
@@ -616,9 +592,8 @@ public class MyFilePackageImpl extends EPackageImpl implements MyFilePackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getModule_SuperType()
-	{
-		return (EReference)moduleEClass.getEStructuralFeatures().get(2);
+	public EReference getModule_SuperType() {
+		return (EReference) moduleEClass.getEStructuralFeatures().get(2);
 	}
 
 	/**
@@ -626,9 +601,8 @@ public class MyFilePackageImpl extends EPackageImpl implements MyFilePackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getModule_SubTypes()
-	{
-		return (EReference)moduleEClass.getEStructuralFeatures().get(3);
+	public EReference getModule_SubTypes() {
+		return (EReference) moduleEClass.getEStructuralFeatures().get(3);
 	}
 
 	/**
@@ -636,9 +610,8 @@ public class MyFilePackageImpl extends EPackageImpl implements MyFilePackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getModule_AllSuperTypes()
-	{
-		return (EReference)moduleEClass.getEStructuralFeatures().get(4);
+	public EReference getModule_AllSuperTypes() {
+		return (EReference) moduleEClass.getEStructuralFeatures().get(4);
 	}
 
 	/**
@@ -646,9 +619,8 @@ public class MyFilePackageImpl extends EPackageImpl implements MyFilePackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getModule_AllSubTypes()
-	{
-		return (EReference)moduleEClass.getEStructuralFeatures().get(5);
+	public EReference getModule_AllSubTypes() {
+		return (EReference) moduleEClass.getEStructuralFeatures().get(5);
 	}
 
 	/**
@@ -656,9 +628,8 @@ public class MyFilePackageImpl extends EPackageImpl implements MyFilePackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getModule_Members()
-	{
-		return (EReference)moduleEClass.getEStructuralFeatures().get(6);
+	public EReference getModule_Members() {
+		return (EReference) moduleEClass.getEStructuralFeatures().get(6);
 	}
 
 	/**
@@ -666,9 +637,8 @@ public class MyFilePackageImpl extends EPackageImpl implements MyFilePackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getModule_Depends()
-	{
-		return (EReference)moduleEClass.getEStructuralFeatures().get(7);
+	public EReference getModule_Depends() {
+		return (EReference) moduleEClass.getEStructuralFeatures().get(7);
 	}
 
 	/**
@@ -676,9 +646,8 @@ public class MyFilePackageImpl extends EPackageImpl implements MyFilePackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getModule_Dependent()
-	{
-		return (EReference)moduleEClass.getEStructuralFeatures().get(8);
+	public EReference getModule_Dependent() {
+		return (EReference) moduleEClass.getEStructuralFeatures().get(8);
 	}
 
 	/**
@@ -686,9 +655,8 @@ public class MyFilePackageImpl extends EPackageImpl implements MyFilePackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getModule_Provides()
-	{
-		return (EReference)moduleEClass.getEStructuralFeatures().get(9);
+	public EReference getModule_Provides() {
+		return (EReference) moduleEClass.getEStructuralFeatures().get(9);
 	}
 
 	/**
@@ -696,9 +664,8 @@ public class MyFilePackageImpl extends EPackageImpl implements MyFilePackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getModule_Requires()
-	{
-		return (EReference)moduleEClass.getEStructuralFeatures().get(10);
+	public EReference getModule_Requires() {
+		return (EReference) moduleEClass.getEStructuralFeatures().get(10);
 	}
 
 	/**
@@ -706,9 +673,8 @@ public class MyFilePackageImpl extends EPackageImpl implements MyFilePackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getModule_Sources()
-	{
-		return (EReference)moduleEClass.getEStructuralFeatures().get(11);
+	public EReference getModule_Sources() {
+		return (EReference) moduleEClass.getEStructuralFeatures().get(11);
 	}
 
 	/**
@@ -716,9 +682,8 @@ public class MyFilePackageImpl extends EPackageImpl implements MyFilePackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getModule_Objects()
-	{
-		return (EReference)moduleEClass.getEStructuralFeatures().get(12);
+	public EReference getModule_Objects() {
+		return (EReference) moduleEClass.getEStructuralFeatures().get(12);
 	}
 
 	/**
@@ -726,8 +691,7 @@ public class MyFilePackageImpl extends EPackageImpl implements MyFilePackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EClass getMember()
-	{
+	public EClass getMember() {
 		return memberEClass;
 	}
 
@@ -736,9 +700,8 @@ public class MyFilePackageImpl extends EPackageImpl implements MyFilePackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getMember_ContainingModule()
-	{
-		return (EReference)memberEClass.getEStructuralFeatures().get(0);
+	public EReference getMember_ContainingModule() {
+		return (EReference) memberEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
@@ -746,8 +709,7 @@ public class MyFilePackageImpl extends EPackageImpl implements MyFilePackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EClass getDependsMember()
-	{
+	public EClass getDependsMember() {
 		return dependsMemberEClass;
 	}
 
@@ -756,9 +718,8 @@ public class MyFilePackageImpl extends EPackageImpl implements MyFilePackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getDependsMember_Modules()
-	{
-		return (EReference)dependsMemberEClass.getEStructuralFeatures().get(0);
+	public EReference getDependsMember_Modules() {
+		return (EReference) dependsMemberEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
@@ -766,8 +727,7 @@ public class MyFilePackageImpl extends EPackageImpl implements MyFilePackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EClass getAbstractFeatureListMember()
-	{
+	public EClass getAbstractFeatureListMember() {
 		return abstractFeatureListMemberEClass;
 	}
 
@@ -776,9 +736,9 @@ public class MyFilePackageImpl extends EPackageImpl implements MyFilePackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getAbstractFeatureListMember_Features()
-	{
-		return (EReference)abstractFeatureListMemberEClass.getEStructuralFeatures().get(0);
+	public EReference getAbstractFeatureListMember_Features() {
+		return (EReference) abstractFeatureListMemberEClass
+				.getEStructuralFeatures().get(0);
 	}
 
 	/**
@@ -786,8 +746,7 @@ public class MyFilePackageImpl extends EPackageImpl implements MyFilePackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EClass getRequiresMember()
-	{
+	public EClass getRequiresMember() {
 		return requiresMemberEClass;
 	}
 
@@ -796,8 +755,7 @@ public class MyFilePackageImpl extends EPackageImpl implements MyFilePackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EClass getProvidesMember()
-	{
+	public EClass getProvidesMember() {
 		return providesMemberEClass;
 	}
 
@@ -806,8 +764,7 @@ public class MyFilePackageImpl extends EPackageImpl implements MyFilePackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EClass getAbstractFileListMember()
-	{
+	public EClass getAbstractFileListMember() {
 		return abstractFileListMemberEClass;
 	}
 
@@ -816,9 +773,9 @@ public class MyFilePackageImpl extends EPackageImpl implements MyFilePackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getAbstractFileListMember_Files()
-	{
-		return (EReference)abstractFileListMemberEClass.getEStructuralFeatures().get(0);
+	public EReference getAbstractFileListMember_Files() {
+		return (EReference) abstractFileListMemberEClass
+				.getEStructuralFeatures().get(0);
 	}
 
 	/**
@@ -826,8 +783,7 @@ public class MyFilePackageImpl extends EPackageImpl implements MyFilePackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EClass getSourceMember()
-	{
+	public EClass getSourceMember() {
 		return sourceMemberEClass;
 	}
 
@@ -836,8 +792,7 @@ public class MyFilePackageImpl extends EPackageImpl implements MyFilePackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EClass getObjectMember()
-	{
+	public EClass getObjectMember() {
 		return objectMemberEClass;
 	}
 
@@ -846,8 +801,7 @@ public class MyFilePackageImpl extends EPackageImpl implements MyFilePackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EClass getFileName()
-	{
+	public EClass getFileName() {
 		return fileNameEClass;
 	}
 
@@ -856,9 +810,8 @@ public class MyFilePackageImpl extends EPackageImpl implements MyFilePackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getFileName_Value()
-	{
-		return (EAttribute)fileNameEClass.getEStructuralFeatures().get(0);
+	public EAttribute getFileName_Value() {
+		return (EAttribute) fileNameEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
@@ -866,8 +819,7 @@ public class MyFilePackageImpl extends EPackageImpl implements MyFilePackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EClass getOptionMember()
-	{
+	public EClass getOptionMember() {
 		return optionMemberEClass;
 	}
 
@@ -876,9 +828,8 @@ public class MyFilePackageImpl extends EPackageImpl implements MyFilePackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getOptionMember_Property()
-	{
-		return (EReference)optionMemberEClass.getEStructuralFeatures().get(0);
+	public EReference getOptionMember_Property() {
+		return (EReference) optionMemberEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
@@ -886,8 +837,7 @@ public class MyFilePackageImpl extends EPackageImpl implements MyFilePackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EClass getProperty()
-	{
+	public EClass getProperty() {
 		return propertyEClass;
 	}
 
@@ -896,9 +846,8 @@ public class MyFilePackageImpl extends EPackageImpl implements MyFilePackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getProperty_DefaultValue()
-	{
-		return (EReference)propertyEClass.getEStructuralFeatures().get(0);
+	public EReference getProperty_DefaultValue() {
+		return (EReference) propertyEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
@@ -906,8 +855,7 @@ public class MyFilePackageImpl extends EPackageImpl implements MyFilePackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EClass getStringProperty()
-	{
+	public EClass getStringProperty() {
 		return stringPropertyEClass;
 	}
 
@@ -916,8 +864,7 @@ public class MyFilePackageImpl extends EPackageImpl implements MyFilePackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EClass getNumberProperty()
-	{
+	public EClass getNumberProperty() {
 		return numberPropertyEClass;
 	}
 
@@ -926,8 +873,7 @@ public class MyFilePackageImpl extends EPackageImpl implements MyFilePackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EClass getBooleanProperty()
-	{
+	public EClass getBooleanProperty() {
 		return booleanPropertyEClass;
 	}
 
@@ -936,8 +882,7 @@ public class MyFilePackageImpl extends EPackageImpl implements MyFilePackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EClass getTypeProperty()
-	{
+	public EClass getTypeProperty() {
 		return typePropertyEClass;
 	}
 
@@ -946,8 +891,7 @@ public class MyFilePackageImpl extends EPackageImpl implements MyFilePackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EClass getValue()
-	{
+	public EClass getValue() {
 		return valueEClass;
 	}
 
@@ -956,8 +900,7 @@ public class MyFilePackageImpl extends EPackageImpl implements MyFilePackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EClass getStringLiteral()
-	{
+	public EClass getStringLiteral() {
 		return stringLiteralEClass;
 	}
 
@@ -966,9 +909,8 @@ public class MyFilePackageImpl extends EPackageImpl implements MyFilePackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getStringLiteral_Value()
-	{
-		return (EAttribute)stringLiteralEClass.getEStructuralFeatures().get(0);
+	public EAttribute getStringLiteral_Value() {
+		return (EAttribute) stringLiteralEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
@@ -976,8 +918,7 @@ public class MyFilePackageImpl extends EPackageImpl implements MyFilePackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EClass getNumberLiteral()
-	{
+	public EClass getNumberLiteral() {
 		return numberLiteralEClass;
 	}
 
@@ -986,9 +927,8 @@ public class MyFilePackageImpl extends EPackageImpl implements MyFilePackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getNumberLiteral_Value()
-	{
-		return (EAttribute)numberLiteralEClass.getEStructuralFeatures().get(0);
+	public EAttribute getNumberLiteral_Value() {
+		return (EAttribute) numberLiteralEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
@@ -996,8 +936,7 @@ public class MyFilePackageImpl extends EPackageImpl implements MyFilePackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EClass getBooleanLiteral()
-	{
+	public EClass getBooleanLiteral() {
 		return booleanLiteralEClass;
 	}
 
@@ -1006,9 +945,9 @@ public class MyFilePackageImpl extends EPackageImpl implements MyFilePackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getBooleanLiteral_IsTrue()
-	{
-		return (EAttribute)booleanLiteralEClass.getEStructuralFeatures().get(0);
+	public EAttribute getBooleanLiteral_IsTrue() {
+		return (EAttribute) booleanLiteralEClass.getEStructuralFeatures()
+				.get(0);
 	}
 
 	/**
@@ -1016,8 +955,7 @@ public class MyFilePackageImpl extends EPackageImpl implements MyFilePackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EClass getTypeLiteral()
-	{
+	public EClass getTypeLiteral() {
 		return typeLiteralEClass;
 	}
 
@@ -1026,9 +964,8 @@ public class MyFilePackageImpl extends EPackageImpl implements MyFilePackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getTypeLiteral_Value()
-	{
-		return (EReference)typeLiteralEClass.getEStructuralFeatures().get(0);
+	public EReference getTypeLiteral_Value() {
+		return (EReference) typeLiteralEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
@@ -1036,8 +973,7 @@ public class MyFilePackageImpl extends EPackageImpl implements MyFilePackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EClass getPropertyValueBinding()
-	{
+	public EClass getPropertyValueBinding() {
 		return propertyValueBindingEClass;
 	}
 
@@ -1046,9 +982,9 @@ public class MyFilePackageImpl extends EPackageImpl implements MyFilePackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getPropertyValueBinding_Property()
-	{
-		return (EReference)propertyValueBindingEClass.getEStructuralFeatures().get(0);
+	public EReference getPropertyValueBinding_Property() {
+		return (EReference) propertyValueBindingEClass.getEStructuralFeatures()
+				.get(0);
 	}
 
 	/**
@@ -1056,9 +992,9 @@ public class MyFilePackageImpl extends EPackageImpl implements MyFilePackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getPropertyValueBinding_Value()
-	{
-		return (EReference)propertyValueBindingEClass.getEStructuralFeatures().get(1);
+	public EReference getPropertyValueBinding_Value() {
+		return (EReference) propertyValueBindingEClass.getEStructuralFeatures()
+				.get(1);
 	}
 
 	/**
@@ -1066,8 +1002,7 @@ public class MyFilePackageImpl extends EPackageImpl implements MyFilePackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EClass getNamed()
-	{
+	public EClass getNamed() {
 		return namedEClass;
 	}
 
@@ -1076,9 +1011,8 @@ public class MyFilePackageImpl extends EPackageImpl implements MyFilePackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getNamed_Name()
-	{
-		return (EAttribute)namedEClass.getEStructuralFeatures().get(0);
+	public EAttribute getNamed_Name() {
+		return (EAttribute) namedEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
@@ -1086,9 +1020,8 @@ public class MyFilePackageImpl extends EPackageImpl implements MyFilePackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public MyFileFactory getMyFileFactory()
-	{
-		return (MyFileFactory)getEFactoryInstance();
+	public MyFileFactory getMyFileFactory() {
+		return (MyFileFactory) getEFactoryInstance();
 	}
 
 	/**
@@ -1105,9 +1038,9 @@ public class MyFilePackageImpl extends EPackageImpl implements MyFilePackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void createPackageContents()
-	{
-		if (isCreated) return;
+	public void createPackageContents() {
+		if (isCreated)
+			return;
 		isCreated = true;
 
 		// Create classes and their features
@@ -1166,14 +1099,16 @@ public class MyFilePackageImpl extends EPackageImpl implements MyFilePackage
 		createEReference(dependsMemberEClass, DEPENDS_MEMBER__MODULES);
 
 		abstractFeatureListMemberEClass = createEClass(ABSTRACT_FEATURE_LIST_MEMBER);
-		createEReference(abstractFeatureListMemberEClass, ABSTRACT_FEATURE_LIST_MEMBER__FEATURES);
+		createEReference(abstractFeatureListMemberEClass,
+				ABSTRACT_FEATURE_LIST_MEMBER__FEATURES);
 
 		requiresMemberEClass = createEClass(REQUIRES_MEMBER);
 
 		providesMemberEClass = createEClass(PROVIDES_MEMBER);
 
 		abstractFileListMemberEClass = createEClass(ABSTRACT_FILE_LIST_MEMBER);
-		createEReference(abstractFileListMemberEClass, ABSTRACT_FILE_LIST_MEMBER__FILES);
+		createEReference(abstractFileListMemberEClass,
+				ABSTRACT_FILE_LIST_MEMBER__FILES);
 
 		sourceMemberEClass = createEClass(SOURCE_MEMBER);
 
@@ -1211,8 +1146,10 @@ public class MyFilePackageImpl extends EPackageImpl implements MyFilePackage
 		createEReference(typeLiteralEClass, TYPE_LITERAL__VALUE);
 
 		propertyValueBindingEClass = createEClass(PROPERTY_VALUE_BINDING);
-		createEReference(propertyValueBindingEClass, PROPERTY_VALUE_BINDING__PROPERTY);
-		createEReference(propertyValueBindingEClass, PROPERTY_VALUE_BINDING__VALUE);
+		createEReference(propertyValueBindingEClass,
+				PROPERTY_VALUE_BINDING__PROPERTY);
+		createEReference(propertyValueBindingEClass,
+				PROPERTY_VALUE_BINDING__VALUE);
 
 		namedEClass = createEClass(NAMED);
 		createEAttribute(namedEClass, NAMED__NAME);
@@ -1232,9 +1169,9 @@ public class MyFilePackageImpl extends EPackageImpl implements MyFilePackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void initializePackageContents()
-	{
-		if (isInitialized) return;
+	public void initializePackageContents() {
+		if (isInitialized)
+			return;
 		isInitialized = true;
 
 		// Initialize package
@@ -1256,11 +1193,15 @@ public class MyFilePackageImpl extends EPackageImpl implements MyFilePackage
 		memberEClass.getESuperTypes().add(this.getAnnotationTarget());
 		dependsMemberEClass.getESuperTypes().add(this.getMember());
 		abstractFeatureListMemberEClass.getESuperTypes().add(this.getMember());
-		requiresMemberEClass.getESuperTypes().add(this.getAbstractFeatureListMember());
-		providesMemberEClass.getESuperTypes().add(this.getAbstractFeatureListMember());
+		requiresMemberEClass.getESuperTypes().add(
+				this.getAbstractFeatureListMember());
+		providesMemberEClass.getESuperTypes().add(
+				this.getAbstractFeatureListMember());
 		abstractFileListMemberEClass.getESuperTypes().add(this.getMember());
-		sourceMemberEClass.getESuperTypes().add(this.getAbstractFileListMember());
-		objectMemberEClass.getESuperTypes().add(this.getAbstractFileListMember());
+		sourceMemberEClass.getESuperTypes().add(
+				this.getAbstractFileListMember());
+		objectMemberEClass.getESuperTypes().add(
+				this.getAbstractFileListMember());
 		optionMemberEClass.getESuperTypes().add(this.getMember());
 		propertyEClass.getESuperTypes().add(this.getNamed());
 		propertyEClass.getESuperTypes().add(this.getAnnotationTarget());
@@ -1274,113 +1215,296 @@ public class MyFilePackageImpl extends EPackageImpl implements MyFilePackage
 		typeLiteralEClass.getESuperTypes().add(this.getValue());
 
 		// Initialize classes and features; add operations and parameters
-		initEClass(modelEClass, Model.class, "Model", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getModel_Package(), this.getPackage(), null, "package", null, 0, 1, Model.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getModel_Imports(), this.getImport(), null, "imports", null, 0, -1, Model.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getModel_Types(), this.getType(), null, "types", null, 0, -1, Model.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEClass(modelEClass, Model.class, "Model", !IS_ABSTRACT,
+				!IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getModel_Package(), this.getPackage(), null, "package",
+				null, 0, 1, Model.class, !IS_TRANSIENT, !IS_VOLATILE,
+				IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES,
+				!IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getModel_Imports(), this.getImport(), null, "imports",
+				null, 0, -1, Model.class, !IS_TRANSIENT, !IS_VOLATILE,
+				IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES,
+				!IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getModel_Types(), this.getType(), null, "types", null,
+				0, -1, Model.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE,
+				IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE,
+				!IS_DERIVED, IS_ORDERED);
 
-		initEClass(packageEClass, org.mybuild.myfile.Package.class, "Package", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEAttribute(getPackage_Name(), ecorePackage.getEString(), "name", null, 0, 1, org.mybuild.myfile.Package.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEClass(packageEClass, org.mybuild.myfile.Package.class, "Package",
+				!IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getPackage_Name(), ecorePackage.getEString(), "name",
+				null, 0, 1, org.mybuild.myfile.Package.class, !IS_TRANSIENT,
+				!IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE,
+				!IS_DERIVED, IS_ORDERED);
 
-		initEClass(importEClass, Import.class, "Import", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEAttribute(getImport_ImportedNamespace(), ecorePackage.getEString(), "importedNamespace", null, 0, 1, Import.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEClass(importEClass, Import.class, "Import", !IS_ABSTRACT,
+				!IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getImport_ImportedNamespace(),
+				ecorePackage.getEString(), "importedNamespace", null, 0, 1,
+				Import.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE,
+				!IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-		initEClass(typeEClass, Type.class, "Type", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEClass(typeEClass, Type.class, "Type", !IS_ABSTRACT, !IS_INTERFACE,
+				IS_GENERATED_INSTANCE_CLASS);
 
-		initEClass(annotationTypeEClass, AnnotationType.class, "AnnotationType", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getAnnotationType_Elements(), this.getProperty(), null, "elements", null, 0, -1, AnnotationType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEClass(annotationTypeEClass, AnnotationType.class,
+				"AnnotationType", !IS_ABSTRACT, !IS_INTERFACE,
+				IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getAnnotationType_Elements(), this.getProperty(), null,
+				"elements", null, 0, -1, AnnotationType.class, !IS_TRANSIENT,
+				!IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES,
+				!IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-		initEClass(annotationEClass, Annotation.class, "Annotation", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getAnnotation_Type(), this.getAnnotationType(), null, "type", null, 0, 1, Annotation.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getAnnotation_Target(), this.getAnnotationTarget(), this.getAnnotationTarget_Annotations(), "target", null, 0, 1, Annotation.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getAnnotation_Elements(), this.getPropertyValueBinding(), null, "elements", null, 0, -1, Annotation.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getAnnotation_SingleValue(), this.getValue(), null, "singleValue", null, 0, 1, Annotation.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEClass(annotationEClass, Annotation.class, "Annotation",
+				!IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getAnnotation_Type(), this.getAnnotationType(), null,
+				"type", null, 0, 1, Annotation.class, !IS_TRANSIENT,
+				!IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES,
+				!IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getAnnotation_Target(), this.getAnnotationTarget(),
+				this.getAnnotationTarget_Annotations(), "target", null, 0, 1,
+				Annotation.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE,
+				!IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE,
+				!IS_DERIVED, IS_ORDERED);
+		initEReference(getAnnotation_Elements(),
+				this.getPropertyValueBinding(), null, "elements", null, 0, -1,
+				Annotation.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE,
+				IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE,
+				!IS_DERIVED, IS_ORDERED);
+		initEReference(getAnnotation_SingleValue(), this.getValue(), null,
+				"singleValue", null, 0, 1, Annotation.class, !IS_TRANSIENT,
+				!IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES,
+				!IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-		initEClass(annotationTargetEClass, AnnotationTarget.class, "AnnotationTarget", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getAnnotationTarget_Annotations(), this.getAnnotation(), this.getAnnotation_Target(), "annotations", null, 0, -1, AnnotationTarget.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getAnnotationTarget_Self(), this.getAnnotationTarget(), null, "self", null, 0, 1, AnnotationTarget.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEClass(annotationTargetEClass, AnnotationTarget.class,
+				"AnnotationTarget", !IS_ABSTRACT, !IS_INTERFACE,
+				IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getAnnotationTarget_Annotations(), this.getAnnotation(),
+				this.getAnnotation_Target(), "annotations", null, 0, -1,
+				AnnotationTarget.class, !IS_TRANSIENT, !IS_VOLATILE,
+				IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES,
+				!IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getAnnotationTarget_Self(), this.getAnnotationTarget(),
+				null, "self", null, 0, 1, AnnotationTarget.class,
+				!IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE,
+				!IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED,
+				IS_ORDERED);
 
-		initEClass(interfaceEClass, Interface.class, "Interface", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getInterface_SuperType(), this.getInterface(), null, "superType", null, 0, 1, Interface.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getInterface_Features(), this.getFeature(), null, "features", null, 0, -1, Interface.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEClass(interfaceEClass, Interface.class, "Interface", !IS_ABSTRACT,
+				!IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getInterface_SuperType(), this.getInterface(), null,
+				"superType", null, 0, 1, Interface.class, !IS_TRANSIENT,
+				!IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES,
+				!IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getInterface_Features(), this.getFeature(), null,
+				"features", null, 0, -1, Interface.class, !IS_TRANSIENT,
+				!IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES,
+				!IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-		initEClass(featureEClass, Feature.class, "Feature", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getFeature_SuperType(), this.getFeature(), null, "superType", null, 0, 1, Feature.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEClass(featureEClass, Feature.class, "Feature", !IS_ABSTRACT,
+				!IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getFeature_SuperType(), this.getFeature(), null,
+				"superType", null, 0, 1, Feature.class, !IS_TRANSIENT,
+				!IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES,
+				!IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-		initEClass(moduleEClass, Module.class, "Module", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEAttribute(getModule_Static(), ecorePackage.getEBoolean(), "static", null, 0, 1, Module.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getModule_Abstract(), ecorePackage.getEBoolean(), "abstract", null, 0, 1, Module.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getModule_SuperType(), this.getModule(), this.getModule_SubTypes(), "superType", null, 0, 1, Module.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getModule_SubTypes(), this.getModule(), this.getModule_SuperType(), "subTypes", null, 0, -1, Module.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getModule_AllSuperTypes(), this.getModule(), this.getModule_AllSubTypes(), "allSuperTypes", null, 0, -1, Module.class, IS_TRANSIENT, IS_VOLATILE, !IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, IS_DERIVED, IS_ORDERED);
-		initEReference(getModule_AllSubTypes(), this.getModule(), this.getModule_AllSuperTypes(), "allSubTypes", null, 0, -1, Module.class, IS_TRANSIENT, IS_VOLATILE, !IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, IS_DERIVED, IS_ORDERED);
-		initEReference(getModule_Members(), this.getMember(), this.getMember_ContainingModule(), "members", null, 0, -1, Module.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getModule_Depends(), this.getModule(), null, "depends", null, 0, -1, Module.class, IS_TRANSIENT, IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, IS_DERIVED, IS_ORDERED);
-		initEReference(getModule_Dependent(), this.getModule(), null, "dependent", null, 0, -1, Module.class, IS_TRANSIENT, IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, IS_DERIVED, IS_ORDERED);
-		initEReference(getModule_Provides(), this.getFeature(), null, "provides", null, 0, -1, Module.class, IS_TRANSIENT, IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, IS_DERIVED, IS_ORDERED);
-		initEReference(getModule_Requires(), this.getFeature(), null, "requires", null, 0, -1, Module.class, IS_TRANSIENT, IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, IS_DERIVED, IS_ORDERED);
-		initEReference(getModule_Sources(), this.getFileName(), null, "sources", null, 0, -1, Module.class, IS_TRANSIENT, IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, IS_DERIVED, IS_ORDERED);
-		initEReference(getModule_Objects(), this.getFileName(), null, "objects", null, 0, -1, Module.class, IS_TRANSIENT, IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, IS_DERIVED, IS_ORDERED);
+		initEClass(moduleEClass, Module.class, "Module", !IS_ABSTRACT,
+				!IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getModule_Static(), ecorePackage.getEBoolean(),
+				"static", null, 0, 1, Module.class, !IS_TRANSIENT,
+				!IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE,
+				!IS_DERIVED, IS_ORDERED);
+		initEAttribute(getModule_Abstract(), ecorePackage.getEBoolean(),
+				"abstract", null, 0, 1, Module.class, !IS_TRANSIENT,
+				!IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE,
+				!IS_DERIVED, IS_ORDERED);
+		initEReference(getModule_SuperType(), this.getModule(),
+				this.getModule_SubTypes(), "superType", null, 0, 1,
+				Module.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE,
+				!IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE,
+				!IS_DERIVED, IS_ORDERED);
+		initEReference(getModule_SubTypes(), this.getModule(),
+				this.getModule_SuperType(), "subTypes", null, 0, -1,
+				Module.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE,
+				!IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE,
+				!IS_DERIVED, IS_ORDERED);
+		initEReference(getModule_AllSuperTypes(), this.getModule(),
+				this.getModule_AllSubTypes(), "allSuperTypes", null, 0, -1,
+				Module.class, IS_TRANSIENT, IS_VOLATILE, !IS_CHANGEABLE,
+				!IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE,
+				IS_DERIVED, IS_ORDERED);
+		initEReference(getModule_AllSubTypes(), this.getModule(),
+				this.getModule_AllSuperTypes(), "allSubTypes", null, 0, -1,
+				Module.class, IS_TRANSIENT, IS_VOLATILE, !IS_CHANGEABLE,
+				!IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE,
+				IS_DERIVED, IS_ORDERED);
+		initEReference(getModule_Members(), this.getMember(),
+				this.getMember_ContainingModule(), "members", null, 0, -1,
+				Module.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE,
+				IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE,
+				!IS_DERIVED, IS_ORDERED);
+		initEReference(getModule_Depends(), this.getModule(), null, "depends",
+				null, 0, -1, Module.class, IS_TRANSIENT, IS_VOLATILE,
+				IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES,
+				!IS_UNSETTABLE, IS_UNIQUE, IS_DERIVED, IS_ORDERED);
+		initEReference(getModule_Dependent(), this.getModule(), null,
+				"dependent", null, 0, -1, Module.class, IS_TRANSIENT,
+				IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES,
+				!IS_UNSETTABLE, IS_UNIQUE, IS_DERIVED, IS_ORDERED);
+		initEReference(getModule_Provides(), this.getFeature(), null,
+				"provides", null, 0, -1, Module.class, IS_TRANSIENT,
+				IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES,
+				!IS_UNSETTABLE, IS_UNIQUE, IS_DERIVED, IS_ORDERED);
+		initEReference(getModule_Requires(), this.getFeature(), null,
+				"requires", null, 0, -1, Module.class, IS_TRANSIENT,
+				IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES,
+				!IS_UNSETTABLE, IS_UNIQUE, IS_DERIVED, IS_ORDERED);
+		initEReference(getModule_Sources(), this.getFileName(), null,
+				"sources", null, 0, -1, Module.class, IS_TRANSIENT,
+				IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES,
+				!IS_UNSETTABLE, IS_UNIQUE, IS_DERIVED, IS_ORDERED);
+		initEReference(getModule_Objects(), this.getFileName(), null,
+				"objects", null, 0, -1, Module.class, IS_TRANSIENT,
+				IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES,
+				!IS_UNSETTABLE, IS_UNIQUE, IS_DERIVED, IS_ORDERED);
 
-		initEClass(memberEClass, Member.class, "Member", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getMember_ContainingModule(), this.getModule(), this.getModule_Members(), "containingModule", null, 0, 1, Member.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEClass(memberEClass, Member.class, "Member", !IS_ABSTRACT,
+				!IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getMember_ContainingModule(), this.getModule(),
+				this.getModule_Members(), "containingModule", null, 0, 1,
+				Member.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE,
+				!IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE,
+				!IS_DERIVED, IS_ORDERED);
 
-		initEClass(dependsMemberEClass, DependsMember.class, "DependsMember", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getDependsMember_Modules(), this.getModule(), null, "modules", null, 0, -1, DependsMember.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEClass(dependsMemberEClass, DependsMember.class, "DependsMember",
+				!IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getDependsMember_Modules(), this.getModule(), null,
+				"modules", null, 0, -1, DependsMember.class, !IS_TRANSIENT,
+				!IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES,
+				!IS_UNSETTABLE, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-		initEClass(abstractFeatureListMemberEClass, AbstractFeatureListMember.class, "AbstractFeatureListMember", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getAbstractFeatureListMember_Features(), this.getFeature(), null, "features", null, 0, -1, AbstractFeatureListMember.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEClass(abstractFeatureListMemberEClass,
+				AbstractFeatureListMember.class, "AbstractFeatureListMember",
+				IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getAbstractFeatureListMember_Features(),
+				this.getFeature(), null, "features", null, 0, -1,
+				AbstractFeatureListMember.class, !IS_TRANSIENT, !IS_VOLATILE,
+				IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES,
+				!IS_UNSETTABLE, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-		initEClass(requiresMemberEClass, RequiresMember.class, "RequiresMember", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEClass(requiresMemberEClass, RequiresMember.class,
+				"RequiresMember", !IS_ABSTRACT, !IS_INTERFACE,
+				IS_GENERATED_INSTANCE_CLASS);
 
-		initEClass(providesMemberEClass, ProvidesMember.class, "ProvidesMember", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEClass(providesMemberEClass, ProvidesMember.class,
+				"ProvidesMember", !IS_ABSTRACT, !IS_INTERFACE,
+				IS_GENERATED_INSTANCE_CLASS);
 
-		initEClass(abstractFileListMemberEClass, AbstractFileListMember.class, "AbstractFileListMember", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getAbstractFileListMember_Files(), this.getFileName(), null, "files", null, 0, -1, AbstractFileListMember.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEClass(abstractFileListMemberEClass, AbstractFileListMember.class,
+				"AbstractFileListMember", IS_ABSTRACT, !IS_INTERFACE,
+				IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getAbstractFileListMember_Files(), this.getFileName(),
+				null, "files", null, 0, -1, AbstractFileListMember.class,
+				!IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE,
+				!IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED,
+				IS_ORDERED);
 
-		initEClass(sourceMemberEClass, SourceMember.class, "SourceMember", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEClass(sourceMemberEClass, SourceMember.class, "SourceMember",
+				!IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
-		initEClass(objectMemberEClass, ObjectMember.class, "ObjectMember", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEClass(objectMemberEClass, ObjectMember.class, "ObjectMember",
+				!IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
-		initEClass(fileNameEClass, FileName.class, "FileName", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEAttribute(getFileName_Value(), ecorePackage.getEString(), "value", null, 0, 1, FileName.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEClass(fileNameEClass, FileName.class, "FileName", !IS_ABSTRACT,
+				!IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getFileName_Value(), ecorePackage.getEString(), "value",
+				null, 0, 1, FileName.class, !IS_TRANSIENT, !IS_VOLATILE,
+				IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED,
+				IS_ORDERED);
 
-		initEClass(optionMemberEClass, OptionMember.class, "OptionMember", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getOptionMember_Property(), this.getProperty(), null, "property", null, 0, 1, OptionMember.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEClass(optionMemberEClass, OptionMember.class, "OptionMember",
+				!IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getOptionMember_Property(), this.getProperty(), null,
+				"property", null, 0, 1, OptionMember.class, !IS_TRANSIENT,
+				!IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES,
+				!IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-		initEClass(propertyEClass, Property.class, "Property", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getProperty_DefaultValue(), this.getValue(), null, "defaultValue", null, 0, 1, Property.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEClass(propertyEClass, Property.class, "Property", !IS_ABSTRACT,
+				!IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getProperty_DefaultValue(), this.getValue(), null,
+				"defaultValue", null, 0, 1, Property.class, !IS_TRANSIENT,
+				!IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES,
+				!IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-		initEClass(stringPropertyEClass, StringProperty.class, "StringProperty", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEClass(stringPropertyEClass, StringProperty.class,
+				"StringProperty", !IS_ABSTRACT, !IS_INTERFACE,
+				IS_GENERATED_INSTANCE_CLASS);
 
-		initEClass(numberPropertyEClass, NumberProperty.class, "NumberProperty", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEClass(numberPropertyEClass, NumberProperty.class,
+				"NumberProperty", !IS_ABSTRACT, !IS_INTERFACE,
+				IS_GENERATED_INSTANCE_CLASS);
 
-		initEClass(booleanPropertyEClass, BooleanProperty.class, "BooleanProperty", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEClass(booleanPropertyEClass, BooleanProperty.class,
+				"BooleanProperty", !IS_ABSTRACT, !IS_INTERFACE,
+				IS_GENERATED_INSTANCE_CLASS);
 
-		initEClass(typePropertyEClass, TypeProperty.class, "TypeProperty", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEClass(typePropertyEClass, TypeProperty.class, "TypeProperty",
+				!IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
-		initEClass(valueEClass, Value.class, "Value", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEClass(valueEClass, Value.class, "Value", !IS_ABSTRACT,
+				!IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
-		addEOperation(valueEClass, ecorePackage.getEString(), "toString", 0, 1, IS_UNIQUE, IS_ORDERED);
+		addEOperation(valueEClass, ecorePackage.getEString(), "toString", 0, 1,
+				IS_UNIQUE, IS_ORDERED);
 
-		initEClass(stringLiteralEClass, StringLiteral.class, "StringLiteral", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEAttribute(getStringLiteral_Value(), ecorePackage.getEString(), "value", null, 0, 1, StringLiteral.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEClass(stringLiteralEClass, StringLiteral.class, "StringLiteral",
+				!IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getStringLiteral_Value(), ecorePackage.getEString(),
+				"value", null, 0, 1, StringLiteral.class, !IS_TRANSIENT,
+				!IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE,
+				!IS_DERIVED, IS_ORDERED);
 
-		initEClass(numberLiteralEClass, NumberLiteral.class, "NumberLiteral", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEAttribute(getNumberLiteral_Value(), ecorePackage.getEInt(), "value", null, 0, 1, NumberLiteral.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEClass(numberLiteralEClass, NumberLiteral.class, "NumberLiteral",
+				!IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getNumberLiteral_Value(), ecorePackage.getEInt(),
+				"value", null, 0, 1, NumberLiteral.class, !IS_TRANSIENT,
+				!IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE,
+				!IS_DERIVED, IS_ORDERED);
 
-		initEClass(booleanLiteralEClass, BooleanLiteral.class, "BooleanLiteral", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEAttribute(getBooleanLiteral_IsTrue(), ecorePackage.getEBoolean(), "isTrue", null, 0, 1, BooleanLiteral.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEClass(booleanLiteralEClass, BooleanLiteral.class,
+				"BooleanLiteral", !IS_ABSTRACT, !IS_INTERFACE,
+				IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getBooleanLiteral_IsTrue(), ecorePackage.getEBoolean(),
+				"isTrue", null, 0, 1, BooleanLiteral.class, !IS_TRANSIENT,
+				!IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE,
+				!IS_DERIVED, IS_ORDERED);
 
-		initEClass(typeLiteralEClass, TypeLiteral.class, "TypeLiteral", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getTypeLiteral_Value(), this.getType(), null, "value", null, 0, 1, TypeLiteral.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEClass(typeLiteralEClass, TypeLiteral.class, "TypeLiteral",
+				!IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getTypeLiteral_Value(), this.getType(), null, "value",
+				null, 0, 1, TypeLiteral.class, !IS_TRANSIENT, !IS_VOLATILE,
+				IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES,
+				!IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-		initEClass(propertyValueBindingEClass, PropertyValueBinding.class, "PropertyValueBinding", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getPropertyValueBinding_Property(), this.getProperty(), null, "property", null, 0, 1, PropertyValueBinding.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getPropertyValueBinding_Value(), this.getValue(), null, "value", null, 0, 1, PropertyValueBinding.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEClass(propertyValueBindingEClass, PropertyValueBinding.class,
+				"PropertyValueBinding", !IS_ABSTRACT, !IS_INTERFACE,
+				IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getPropertyValueBinding_Property(), this.getProperty(),
+				null, "property", null, 0, 1, PropertyValueBinding.class,
+				!IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE,
+				IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED,
+				IS_ORDERED);
+		initEReference(getPropertyValueBinding_Value(), this.getValue(), null,
+				"value", null, 0, 1, PropertyValueBinding.class, !IS_TRANSIENT,
+				!IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES,
+				!IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-		initEClass(namedEClass, Named.class, "Named", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEAttribute(getNamed_Name(), ecorePackage.getEString(), "name", null, 0, 1, Named.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEClass(namedEClass, Named.class, "Named", !IS_ABSTRACT,
+				!IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getNamed_Name(), ecorePackage.getEString(), "name",
+				null, 0, 1, Named.class, !IS_TRANSIENT, !IS_VOLATILE,
+				IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED,
+				IS_ORDERED);
 
 		// Create resource
 		createResource(eNS_URI);

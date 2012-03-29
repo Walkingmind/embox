@@ -34,8 +34,7 @@ import org.mybuild.myfile.Property;
  *
  * @generated
  */
-public class AnnotationTypeImpl extends TypeImpl implements AnnotationType
-{
+public class AnnotationTypeImpl extends TypeImpl implements AnnotationType {
 	/**
 	 * The cached value of the '{@link #getElements() <em>Elements</em>}' containment reference list.
 	 * <!-- begin-user-doc -->
@@ -51,8 +50,7 @@ public class AnnotationTypeImpl extends TypeImpl implements AnnotationType
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected AnnotationTypeImpl()
-	{
+	protected AnnotationTypeImpl() {
 		super();
 	}
 
@@ -62,8 +60,7 @@ public class AnnotationTypeImpl extends TypeImpl implements AnnotationType
 	 * @generated
 	 */
 	@Override
-	protected EClass eStaticClass()
-	{
+	protected EClass eStaticClass() {
 		return MyFilePackage.Literals.ANNOTATION_TYPE;
 	}
 
@@ -72,11 +69,10 @@ public class AnnotationTypeImpl extends TypeImpl implements AnnotationType
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EList<Property> getElements()
-	{
-		if (elements == null)
-		{
-			elements = new EObjectContainmentEList<Property>(Property.class, this, MyFilePackage.ANNOTATION_TYPE__ELEMENTS);
+	public EList<Property> getElements() {
+		if (elements == null) {
+			elements = new EObjectContainmentEList<Property>(Property.class,
+					this, MyFilePackage.ANNOTATION_TYPE__ELEMENTS);
 		}
 		return elements;
 	}
@@ -87,12 +83,12 @@ public class AnnotationTypeImpl extends TypeImpl implements AnnotationType
 	 * @generated
 	 */
 	@Override
-	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs)
-	{
-		switch (featureID)
-		{
-			case MyFilePackage.ANNOTATION_TYPE__ELEMENTS:
-				return ((InternalEList<?>)getElements()).basicRemove(otherEnd, msgs);
+	public NotificationChain eInverseRemove(InternalEObject otherEnd,
+			int featureID, NotificationChain msgs) {
+		switch (featureID) {
+		case MyFilePackage.ANNOTATION_TYPE__ELEMENTS:
+			return ((InternalEList<?>) getElements()).basicRemove(otherEnd,
+					msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -103,12 +99,10 @@ public class AnnotationTypeImpl extends TypeImpl implements AnnotationType
 	 * @generated
 	 */
 	@Override
-	public Object eGet(int featureID, boolean resolve, boolean coreType)
-	{
-		switch (featureID)
-		{
-			case MyFilePackage.ANNOTATION_TYPE__ELEMENTS:
-				return getElements();
+	public Object eGet(int featureID, boolean resolve, boolean coreType) {
+		switch (featureID) {
+		case MyFilePackage.ANNOTATION_TYPE__ELEMENTS:
+			return getElements();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -120,14 +114,12 @@ public class AnnotationTypeImpl extends TypeImpl implements AnnotationType
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
-	public void eSet(int featureID, Object newValue)
-	{
-		switch (featureID)
-		{
-			case MyFilePackage.ANNOTATION_TYPE__ELEMENTS:
-				getElements().clear();
-				getElements().addAll((Collection<? extends Property>)newValue);
-				return;
+	public void eSet(int featureID, Object newValue) {
+		switch (featureID) {
+		case MyFilePackage.ANNOTATION_TYPE__ELEMENTS:
+			getElements().clear();
+			getElements().addAll((Collection<? extends Property>) newValue);
+			return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -138,13 +130,11 @@ public class AnnotationTypeImpl extends TypeImpl implements AnnotationType
 	 * @generated
 	 */
 	@Override
-	public void eUnset(int featureID)
-	{
-		switch (featureID)
-		{
-			case MyFilePackage.ANNOTATION_TYPE__ELEMENTS:
-				getElements().clear();
-				return;
+	public void eUnset(int featureID) {
+		switch (featureID) {
+		case MyFilePackage.ANNOTATION_TYPE__ELEMENTS:
+			getElements().clear();
+			return;
 		}
 		super.eUnset(featureID);
 	}
@@ -155,12 +145,10 @@ public class AnnotationTypeImpl extends TypeImpl implements AnnotationType
 	 * @generated
 	 */
 	@Override
-	public boolean eIsSet(int featureID)
-	{
-		switch (featureID)
-		{
-			case MyFilePackage.ANNOTATION_TYPE__ELEMENTS:
-				return elements != null && !elements.isEmpty();
+	public boolean eIsSet(int featureID) {
+		switch (featureID) {
+		case MyFilePackage.ANNOTATION_TYPE__ELEMENTS:
+			return elements != null && !elements.isEmpty();
 		}
 		return super.eIsSet(featureID);
 	}

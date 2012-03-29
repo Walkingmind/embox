@@ -35,8 +35,7 @@ import org.eclipse.emf.common.util.EList;
  * @model
  * @generated
  */
-public interface Module extends Type
-{
+public interface Module extends Type {
 	/**
 	 * Returns the value of the '<em><b>Static</b></em>' attribute.
 	 * <!-- begin-user-doc -->

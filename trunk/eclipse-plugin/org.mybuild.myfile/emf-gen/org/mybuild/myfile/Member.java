@@ -5,7 +5,6 @@
  */
 package org.mybuild.myfile;
 
-
 /**
  * <!-- begin-user-doc -->
  * A representation of the model object '<em><b>Member</b></em>'.
@@ -22,8 +21,7 @@ package org.mybuild.myfile;
  * @model
  * @generated
  */
-public interface Member extends AnnotationTarget
-{
+public interface Member extends AnnotationTarget {
 	/**
 	 * Returns the value of the '<em><b>Containing Module</b></em>' container reference.
 	 * It is bidirectional and its opposite is '{@link org.mybuild.myfile.Module#getMembers <em>Members</em>}'.

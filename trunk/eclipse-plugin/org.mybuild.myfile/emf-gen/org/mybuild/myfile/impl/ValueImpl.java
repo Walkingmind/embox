@@ -21,15 +21,13 @@ import org.mybuild.myfile.Value;
  *
  * @generated
  */
-public class ValueImpl extends EObjectImpl implements Value
-{
+public class ValueImpl extends EObjectImpl implements Value {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected ValueImpl()
-	{
+	protected ValueImpl() {
 		super();
 	}
 
@@ -39,8 +37,7 @@ public class ValueImpl extends EObjectImpl implements Value
 	 * @generated
 	 */
 	@Override
-	protected EClass eStaticClass()
-	{
+	protected EClass eStaticClass() {
 		return MyFilePackage.Literals.VALUE;
 	}
 
@@ -49,8 +46,7 @@ public class ValueImpl extends EObjectImpl implements Value
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public String toString()
-	{
+	public String toString() {
 		// TODO: implement this method
 		// Ensure that you remove @generated or mark it @generated NOT
 		throw new UnsupportedOperationException();

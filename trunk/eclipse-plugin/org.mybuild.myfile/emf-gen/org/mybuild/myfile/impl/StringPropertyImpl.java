@@ -19,15 +19,13 @@ import org.mybuild.myfile.StringProperty;
  *
  * @generated
  */
-public class StringPropertyImpl extends PropertyImpl implements StringProperty
-{
+public class StringPropertyImpl extends PropertyImpl implements StringProperty {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected StringPropertyImpl()
-	{
+	protected StringPropertyImpl() {
 		super();
 	}
 
@@ -37,8 +35,7 @@ public class StringPropertyImpl extends PropertyImpl implements StringProperty
 	 * @generated
 	 */
 	@Override
-	protected EClass eStaticClass()
-	{
+	protected EClass eStaticClass() {
 		return MyFilePackage.Literals.STRING_PROPERTY;
 	}
 

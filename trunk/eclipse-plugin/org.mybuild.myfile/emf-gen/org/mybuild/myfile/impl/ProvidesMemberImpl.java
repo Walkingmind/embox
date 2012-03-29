@@ -19,15 +19,14 @@ import org.mybuild.myfile.ProvidesMember;
  *
  * @generated
  */
-public class ProvidesMemberImpl extends AbstractFeatureListMemberImpl implements ProvidesMember
-{
+public class ProvidesMemberImpl extends AbstractFeatureListMemberImpl implements
+		ProvidesMember {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected ProvidesMemberImpl()
-	{
+	protected ProvidesMemberImpl() {
 		super();
 	}
 
@@ -37,8 +36,7 @@ public class ProvidesMemberImpl extends AbstractFeatureListMemberImpl implements
 	 * @generated
 	 */
 	@Override
-	protected EClass eStaticClass()
-	{
+	protected EClass eStaticClass() {
 		return MyFilePackage.Literals.PROVIDES_MEMBER;
 	}
 

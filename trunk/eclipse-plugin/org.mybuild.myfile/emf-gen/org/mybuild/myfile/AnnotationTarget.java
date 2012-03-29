@@ -26,8 +26,7 @@ import org.eclipse.emf.ecore.EObject;
  * @model
  * @generated
  */
-public interface AnnotationTarget extends EObject
-{
+public interface AnnotationTarget extends EObject {
 	/**
 	 * Returns the value of the '<em><b>Annotations</b></em>' containment reference list.
 	 * The list contents are of type {@link org.mybuild.myfile.Annotation}.

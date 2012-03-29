@@ -15,8 +15,7 @@ import org.eclipse.emf.ecore.EFactory;
  * @see org.mybuild.myfile.MyFilePackage
  * @generated
  */
-public interface MyFileFactory extends EFactory
-{
+public interface MyFileFactory extends EFactory {
 	/**
 	 * The singleton instance of the factory.
 	 * <!-- begin-user-doc -->

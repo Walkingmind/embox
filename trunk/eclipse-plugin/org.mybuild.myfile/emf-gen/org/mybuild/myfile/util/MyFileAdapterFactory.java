@@ -53,8 +53,7 @@ import org.mybuild.myfile.Value;
  * @see org.mybuild.myfile.MyFilePackage
  * @generated
  */
-public class MyFileAdapterFactory extends AdapterFactoryImpl
-{
+public class MyFileAdapterFactory extends AdapterFactoryImpl {
 	/**
 	 * The cached model package.
 	 * <!-- begin-user-doc -->
@@ -69,10 +68,8 @@ public class MyFileAdapterFactory extends AdapterFactoryImpl
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public MyFileAdapterFactory()
-	{
-		if (modelPackage == null)
-		{
+	public MyFileAdapterFactory() {
+		if (modelPackage == null) {
 			modelPackage = MyFilePackage.eINSTANCE;
 		}
 	}
@@ -86,15 +83,12 @@ public class MyFileAdapterFactory extends AdapterFactoryImpl
 	 * @generated
 	 */
 	@Override
-	public boolean isFactoryForType(Object object)
-	{
-		if (object == modelPackage)
-		{
+	public boolean isFactoryForType(Object object) {
+		if (object == modelPackage) {
 			return true;
 		}
-		if (object instanceof EObject)
-		{
-			return ((EObject)object).eClass().getEPackage() == modelPackage;
+		if (object instanceof EObject) {
+			return ((EObject) object).eClass().getEPackage() == modelPackage;
 		}
 		return false;
 	}
@@ -105,175 +99,173 @@ public class MyFileAdapterFactory extends AdapterFactoryImpl
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected MyFileSwitch<Adapter> modelSwitch =
-		new MyFileSwitch<Adapter>()
-		{
-			@Override
-			public Adapter caseModel(Model object)
-			{
-				return createModelAdapter();
-			}
-			@Override
-			public Adapter casePackage(org.mybuild.myfile.Package object)
-			{
-				return createPackageAdapter();
-			}
-			@Override
-			public Adapter caseImport(Import object)
-			{
-				return createImportAdapter();
-			}
-			@Override
-			public Adapter caseType(Type object)
-			{
-				return createTypeAdapter();
-			}
-			@Override
-			public Adapter caseAnnotationType(AnnotationType object)
-			{
-				return createAnnotationTypeAdapter();
-			}
-			@Override
-			public Adapter caseAnnotation(Annotation object)
-			{
-				return createAnnotationAdapter();
-			}
-			@Override
-			public Adapter caseAnnotationTarget(AnnotationTarget object)
-			{
-				return createAnnotationTargetAdapter();
-			}
-			@Override
-			public Adapter caseInterface(Interface object)
-			{
-				return createInterfaceAdapter();
-			}
-			@Override
-			public Adapter caseFeature(Feature object)
-			{
-				return createFeatureAdapter();
-			}
-			@Override
-			public Adapter caseModule(Module object)
-			{
-				return createModuleAdapter();
-			}
-			@Override
-			public Adapter caseMember(Member object)
-			{
-				return createMemberAdapter();
-			}
-			@Override
-			public Adapter caseDependsMember(DependsMember object)
-			{
-				return createDependsMemberAdapter();
-			}
-			@Override
-			public Adapter caseAbstractFeatureListMember(AbstractFeatureListMember object)
-			{
-				return createAbstractFeatureListMemberAdapter();
-			}
-			@Override
-			public Adapter caseRequiresMember(RequiresMember object)
-			{
-				return createRequiresMemberAdapter();
-			}
-			@Override
-			public Adapter caseProvidesMember(ProvidesMember object)
-			{
-				return createProvidesMemberAdapter();
-			}
-			@Override
-			public Adapter caseAbstractFileListMember(AbstractFileListMember object)
-			{
-				return createAbstractFileListMemberAdapter();
-			}
-			@Override
-			public Adapter caseSourceMember(SourceMember object)
-			{
-				return createSourceMemberAdapter();
-			}
-			@Override
-			public Adapter caseObjectMember(ObjectMember object)
-			{
-				return createObjectMemberAdapter();
-			}
-			@Override
-			public Adapter caseFileName(FileName object)
-			{
-				return createFileNameAdapter();
-			}
-			@Override
-			public Adapter caseOptionMember(OptionMember object)
-			{
-				return createOptionMemberAdapter();
-			}
-			@Override
-			public Adapter caseProperty(Property object)
-			{
-				return createPropertyAdapter();
-			}
-			@Override
-			public Adapter caseStringProperty(StringProperty object)
-			{
-				return createStringPropertyAdapter();
-			}
-			@Override
-			public Adapter caseNumberProperty(NumberProperty object)
-			{
-				return createNumberPropertyAdapter();
-			}
-			@Override
-			public Adapter caseBooleanProperty(BooleanProperty object)
-			{
-				return createBooleanPropertyAdapter();
-			}
-			@Override
-			public Adapter caseTypeProperty(TypeProperty object)
-			{
-				return createTypePropertyAdapter();
-			}
-			@Override
-			public Adapter caseValue(Value object)
-			{
-				return createValueAdapter();
-			}
-			@Override
-			public Adapter caseStringLiteral(StringLiteral object)
-			{
-				return createStringLiteralAdapter();
-			}
-			@Override
-			public Adapter caseNumberLiteral(NumberLiteral object)
-			{
-				return createNumberLiteralAdapter();
-			}
-			@Override
-			public Adapter caseBooleanLiteral(BooleanLiteral object)
-			{
-				return createBooleanLiteralAdapter();
-			}
-			@Override
-			public Adapter caseTypeLiteral(TypeLiteral object)
-			{
-				return createTypeLiteralAdapter();
-			}
-			@Override
-			public Adapter casePropertyValueBinding(PropertyValueBinding object)
-			{
-				return createPropertyValueBindingAdapter();
-			}
-			@Override
-			public Adapter caseNamed(Named object)
-			{
-				return createNamedAdapter();
-			}
-			@Override
-			public Adapter defaultCase(EObject object)
-			{
-				return createEObjectAdapter();
-			}
-		};
+	protected MyFileSwitch<Adapter> modelSwitch = new MyFileSwitch<Adapter>() {
+		@Override
+		public Adapter caseModel(Model object) {
+			return createModelAdapter();
+		}
+
+		@Override
+		public Adapter casePackage(org.mybuild.myfile.Package object) {
+			return createPackageAdapter();
+		}
+
+		@Override
+		public Adapter caseImport(Import object) {
+			return createImportAdapter();
+		}
+
+		@Override
+		public Adapter caseType(Type object) {
+			return createTypeAdapter();
+		}
+
+		@Override
+		public Adapter caseAnnotationType(AnnotationType object) {
+			return createAnnotationTypeAdapter();
+		}
+
+		@Override
+		public Adapter caseAnnotation(Annotation object) {
+			return createAnnotationAdapter();
+		}
+
+		@Override
+		public Adapter caseAnnotationTarget(AnnotationTarget object) {
+			return createAnnotationTargetAdapter();
+		}
+
+		@Override
+		public Adapter caseInterface(Interface object) {
+			return createInterfaceAdapter();
+		}
+
+		@Override
+		public Adapter caseFeature(Feature object) {
+			return createFeatureAdapter();
+		}
+
+		@Override
+		public Adapter caseModule(Module object) {
+			return createModuleAdapter();
+		}
+
+		@Override
+		public Adapter caseMember(Member object) {
+			return createMemberAdapter();
+		}
+
+		@Override
+		public Adapter caseDependsMember(DependsMember object) {
+			return createDependsMemberAdapter();
+		}
+
+		@Override
+		public Adapter caseAbstractFeatureListMember(
+				AbstractFeatureListMember object) {
+			return createAbstractFeatureListMemberAdapter();
+		}
+
+		@Override
+		public Adapter caseRequiresMember(RequiresMember object) {
+			return createRequiresMemberAdapter();
+		}
+
+		@Override
+		public Adapter caseProvidesMember(ProvidesMember object) {
+			return createProvidesMemberAdapter();
+		}
+
+		@Override
+		public Adapter caseAbstractFileListMember(AbstractFileListMember object) {
+			return createAbstractFileListMemberAdapter();
+		}
+
+		@Override
+		public Adapter caseSourceMember(SourceMember object) {
+			return createSourceMemberAdapter();
+		}
+
+		@Override
+		public Adapter caseObjectMember(ObjectMember object) {
+			return createObjectMemberAdapter();
+		}
+
+		@Override
+		public Adapter caseFileName(FileName object) {
+			return createFileNameAdapter();
+		}
+
+		@Override
+		public Adapter caseOptionMember(OptionMember object) {
+			return createOptionMemberAdapter();
+		}
+
+		@Override
+		public Adapter caseProperty(Property object) {
+			return createPropertyAdapter();
+		}
+
+		@Override
+		public Adapter caseStringProperty(StringProperty object) {
+			return createStringPropertyAdapter();
+		}
+
+		@Override
+		public Adapter caseNumberProperty(NumberProperty object) {
+			return createNumberPropertyAdapter();
+		}
+
+		@Override
+		public Adapter caseBooleanProperty(BooleanProperty object) {
+			return createBooleanPropertyAdapter();
+		}
+
+		@Override
+		public Adapter caseTypeProperty(TypeProperty object) {
+			return createTypePropertyAdapter();
+		}
+
+		@Override
+		public Adapter caseValue(Value object) {
+			return createValueAdapter();
+		}
+
+		@Override
+		public Adapter caseStringLiteral(StringLiteral object) {
+			return createStringLiteralAdapter();
+		}
+
+		@Override
+		public Adapter caseNumberLiteral(NumberLiteral object) {
+			return createNumberLiteralAdapter();
+		}
+
+		@Override
+		public Adapter caseBooleanLiteral(BooleanLiteral object) {
+			return createBooleanLiteralAdapter();
+		}
+
+		@Override
+		public Adapter caseTypeLiteral(TypeLiteral object) {
+			return createTypeLiteralAdapter();
+		}
+
+		@Override
+		public Adapter casePropertyValueBinding(PropertyValueBinding object) {
+			return createPropertyValueBindingAdapter();
+		}
+
+		@Override
+		public Adapter caseNamed(Named object) {
+			return createNamedAdapter();
+		}
+
+		@Override
+		public Adapter defaultCase(EObject object) {
+			return createEObjectAdapter();
+		}
+	};
 
 	/**
 	 * Creates an adapter for the <code>target</code>.
@@ -284,11 +276,9 @@ public class MyFileAdapterFactory extends AdapterFactoryImpl
 	 * @generated
 	 */
 	@Override
-	public Adapter createAdapter(Notifier target)
-	{
-		return modelSwitch.doSwitch((EObject)target);
+	public Adapter createAdapter(Notifier target) {
+		return modelSwitch.doSwitch((EObject) target);
 	}
-
 
 	/**
 	 * Creates a new adapter for an object of class '{@link org.mybuild.myfile.Model <em>Model</em>}'.
@@ -300,8 +290,7 @@ public class MyFileAdapterFactory extends AdapterFactoryImpl
 	 * @see org.mybuild.myfile.Model
 	 * @generated
 	 */
-	public Adapter createModelAdapter()
-	{
+	public Adapter createModelAdapter() {
 		return null;
 	}
 
@@ -315,8 +304,7 @@ public class MyFileAdapterFactory extends AdapterFactoryImpl
 	 * @see org.mybuild.myfile.Package
 	 * @generated
 	 */
-	public Adapter createPackageAdapter()
-	{
+	public Adapter createPackageAdapter() {
 		return null;
 	}
 
@@ -330,8 +318,7 @@ public class MyFileAdapterFactory extends AdapterFactoryImpl
 	 * @see org.mybuild.myfile.Import
 	 * @generated
 	 */
-	public Adapter createImportAdapter()
-	{
+	public Adapter createImportAdapter() {
 		return null;
 	}
 
@@ -345,8 +332,7 @@ public class MyFileAdapterFactory extends AdapterFactoryImpl
 	 * @see org.mybuild.myfile.Type
 	 * @generated
 	 */
-	public Adapter createTypeAdapter()
-	{
+	public Adapter createTypeAdapter() {
 		return null;
 	}
 
@@ -360,8 +346,7 @@ public class MyFileAdapterFactory extends AdapterFactoryImpl
 	 * @see org.mybuild.myfile.AnnotationType
 	 * @generated
 	 */
-	public Adapter createAnnotationTypeAdapter()
-	{
+	public Adapter createAnnotationTypeAdapter() {
 		return null;
 	}
 
@@ -375,8 +360,7 @@ public class MyFileAdapterFactory extends AdapterFactoryImpl
 	 * @see org.mybuild.myfile.Annotation
 	 * @generated
 	 */
-	public Adapter createAnnotationAdapter()
-	{
+	public Adapter createAnnotationAdapter() {
 		return null;
 	}
 
@@ -390,8 +374,7 @@ public class MyFileAdapterFactory extends AdapterFactoryImpl
 	 * @see org.mybuild.myfile.AnnotationTarget
 	 * @generated
 	 */
-	public Adapter createAnnotationTargetAdapter()
-	{
+	public Adapter createAnnotationTargetAdapter() {
 		return null;
 	}
 
@@ -405,8 +388,7 @@ public class MyFileAdapterFactory extends AdapterFactoryImpl
 	 * @see org.mybuild.myfile.Interface
 	 * @generated
 	 */
-	public Adapter createInterfaceAdapter()
-	{
+	public Adapter createInterfaceAdapter() {
 		return null;
 	}
 
@@ -420,8 +402,7 @@ public class MyFileAdapterFactory extends AdapterFactoryImpl
 	 * @see org.mybuild.myfile.Feature
 	 * @generated
 	 */
-	public Adapter createFeatureAdapter()
-	{
+	public Adapter createFeatureAdapter() {
 		return null;
 	}
 
@@ -435,8 +416,7 @@ public class MyFileAdapterFactory extends AdapterFactoryImpl
 	 * @see org.mybuild.myfile.Module
 	 * @generated
 	 */
-	public Adapter createModuleAdapter()
-	{
+	public Adapter createModuleAdapter() {
 		return null;
 	}
 
@@ -450,8 +430,7 @@ public class MyFileAdapterFactory extends AdapterFactoryImpl
 	 * @see org.mybuild.myfile.Member
 	 * @generated
 	 */
-	public Adapter createMemberAdapter()
-	{
+	public Adapter createMemberAdapter() {
 		return null;
 	}
 
@@ -465,8 +444,7 @@ public class MyFileAdapterFactory extends AdapterFactoryImpl
 	 * @see org.mybuild.myfile.DependsMember
 	 * @generated
 	 */
-	public Adapter createDependsMemberAdapter()
-	{
+	public Adapter createDependsMemberAdapter() {
 		return null;
 	}
 
@@ -480,8 +458,7 @@ public class MyFileAdapterFactory extends AdapterFactoryImpl
 	 * @see org.mybuild.myfile.AbstractFeatureListMember
 	 * @generated
 	 */
-	public Adapter createAbstractFeatureListMemberAdapter()
-	{
+	public Adapter createAbstractFeatureListMemberAdapter() {
 		return null;
 	}
 
@@ -495,8 +472,7 @@ public class MyFileAdapterFactory extends AdapterFactoryImpl
 	 * @see org.mybuild.myfile.RequiresMember
 	 * @generated
 	 */
-	public Adapter createRequiresMemberAdapter()
-	{
+	public Adapter createRequiresMemberAdapter() {
 		return null;
 	}
 
@@ -510,8 +486,7 @@ public class MyFileAdapterFactory extends AdapterFactoryImpl
 	 * @see org.mybuild.myfile.ProvidesMember
 	 * @generated
 	 */
-	public Adapter createProvidesMemberAdapter()
-	{
+	public Adapter createProvidesMemberAdapter() {
 		return null;
 	}
 
@@ -525,8 +500,7 @@ public class MyFileAdapterFactory extends AdapterFactoryImpl
 	 * @see org.mybuild.myfile.AbstractFileListMember
 	 * @generated
 	 */
-	public Adapter createAbstractFileListMemberAdapter()
-	{
+	public Adapter createAbstractFileListMemberAdapter() {
 		return null;
 	}
 
@@ -540,8 +514,7 @@ public class MyFileAdapterFactory extends AdapterFactoryImpl
 	 * @see org.mybuild.myfile.SourceMember
 	 * @generated
 	 */
-	public Adapter createSourceMemberAdapter()
-	{
+	public Adapter createSourceMemberAdapter() {
 		return null;
 	}
 
@@ -555,8 +528,7 @@ public class MyFileAdapterFactory extends AdapterFactoryImpl
 	 * @see org.mybuild.myfile.ObjectMember
 	 * @generated
 	 */
-	public Adapter createObjectMemberAdapter()
-	{
+	public Adapter createObjectMemberAdapter() {
 		return null;
 	}
 
@@ -570,8 +542,7 @@ public class MyFileAdapterFactory extends AdapterFactoryImpl
 	 * @see org.mybuild.myfile.FileName
 	 * @generated
 	 */
-	public Adapter createFileNameAdapter()
-	{
+	public Adapter createFileNameAdapter() {
 		return null;
 	}
 
@@ -585,8 +556,7 @@ public class MyFileAdapterFactory extends AdapterFactoryImpl
 	 * @see org.mybuild.myfile.OptionMember
 	 * @generated
 	 */
-	public Adapter createOptionMemberAdapter()
-	{
+	public Adapter createOptionMemberAdapter() {
 		return null;
 	}
 
@@ -600,8 +570,7 @@ public class MyFileAdapterFactory extends AdapterFactoryImpl
 	 * @see org.mybuild.myfile.Property
 	 * @generated
 	 */
-	public Adapter createPropertyAdapter()
-	{
+	public Adapter createPropertyAdapter() {
 		return null;
 	}
 
@@ -615,8 +584,7 @@ public class MyFileAdapterFactory extends AdapterFactoryImpl
 	 * @see org.mybuild.myfile.StringProperty
 	 * @generated
 	 */
-	public Adapter createStringPropertyAdapter()
-	{
+	public Adapter createStringPropertyAdapter() {
 		return null;
 	}
 
@@ -630,8 +598,7 @@ public class MyFileAdapterFactory extends AdapterFactoryImpl
 	 * @see org.mybuild.myfile.NumberProperty
 	 * @generated
 	 */
-	public Adapter createNumberPropertyAdapter()
-	{
+	public Adapter createNumberPropertyAdapter() {
 		return null;
 	}
 
@@ -645,8 +612,7 @@ public class MyFileAdapterFactory extends AdapterFactoryImpl
 	 * @see org.mybuild.myfile.BooleanProperty
 	 * @generated
 	 */
-	public Adapter createBooleanPropertyAdapter()
-	{
+	public Adapter createBooleanPropertyAdapter() {
 		return null;
 	}
 
@@ -660,8 +626,7 @@ public class MyFileAdapterFactory extends AdapterFactoryImpl
 	 * @see org.mybuild.myfile.TypeProperty
 	 * @generated
 	 */
-	public Adapter createTypePropertyAdapter()
-	{
+	public Adapter createTypePropertyAdapter() {
 		return null;
 	}
 
@@ -675,8 +640,7 @@ public class MyFileAdapterFactory extends AdapterFactoryImpl
 	 * @see org.mybuild.myfile.Value
 	 * @generated
 	 */
-	public Adapter createValueAdapter()
-	{
+	public Adapter createValueAdapter() {
 		return null;
 	}
 
@@ -690,8 +654,7 @@ public class MyFileAdapterFactory extends AdapterFactoryImpl
 	 * @see org.mybuild.myfile.StringLiteral
 	 * @generated
 	 */
-	public Adapter createStringLiteralAdapter()
-	{
+	public Adapter createStringLiteralAdapter() {
 		return null;
 	}
 
@@ -705,8 +668,7 @@ public class MyFileAdapterFactory extends AdapterFactoryImpl
 	 * @see org.mybuild.myfile.NumberLiteral
 	 * @generated
 	 */
-	public Adapter createNumberLiteralAdapter()
-	{
+	public Adapter createNumberLiteralAdapter() {
 		return null;
 	}
 
@@ -720,8 +682,7 @@ public class MyFileAdapterFactory extends AdapterFactoryImpl
 	 * @see org.mybuild.myfile.BooleanLiteral
 	 * @generated
 	 */
-	public Adapter createBooleanLiteralAdapter()
-	{
+	public Adapter createBooleanLiteralAdapter() {
 		return null;
 	}
 
@@ -735,8 +696,7 @@ public class MyFileAdapterFactory extends AdapterFactoryImpl
 	 * @see org.mybuild.myfile.TypeLiteral
 	 * @generated
 	 */
-	public Adapter createTypeLiteralAdapter()
-	{
+	public Adapter createTypeLiteralAdapter() {
 		return null;
 	}
 
@@ -750,8 +710,7 @@ public class MyFileAdapterFactory extends AdapterFactoryImpl
 	 * @see org.mybuild.myfile.PropertyValueBinding
 	 * @generated
 	 */
-	public Adapter createPropertyValueBindingAdapter()
-	{
+	public Adapter createPropertyValueBindingAdapter() {
 		return null;
 	}
 
@@ -765,8 +724,7 @@ public class MyFileAdapterFactory extends AdapterFactoryImpl
 	 * @see org.mybuild.myfile.Named
 	 * @generated
 	 */
-	public Adapter createNamedAdapter()
-	{
+	public Adapter createNamedAdapter() {
 		return null;
 	}
 
@@ -778,8 +736,7 @@ public class MyFileAdapterFactory extends AdapterFactoryImpl
 	 * @return the new adapter.
 	 * @generated
 	 */
-	public Adapter createEObjectAdapter()
-	{
+	public Adapter createEObjectAdapter() {
 		return null;
 	}
 

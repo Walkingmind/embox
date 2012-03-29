@@ -24,8 +24,7 @@ import org.eclipse.emf.common.util.EList;
  * @model
  * @generated
  */
-public interface Interface extends Type
-{
+public interface Interface extends Type {
 	/**
 	 * Returns the value of the '<em><b>Super Type</b></em>' reference.
 	 * <!-- begin-user-doc -->

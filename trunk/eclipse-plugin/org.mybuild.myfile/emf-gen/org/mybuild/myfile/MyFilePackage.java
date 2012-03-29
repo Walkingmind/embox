@@ -25,8 +25,7 @@ import org.eclipse.emf.ecore.EReference;
  * @model kind="package"
  * @generated
  */
-public interface MyFilePackage extends EPackage
-{
+public interface MyFilePackage extends EPackage {
 	/**
 	 * The package name.
 	 * <!-- begin-user-doc -->
@@ -1621,7 +1620,6 @@ public interface MyFilePackage extends EPackage
 	 */
 	int PROPERTY_VALUE_BINDING_FEATURE_COUNT = 2;
 
-
 	/**
 	 * Returns the meta object for class '{@link org.mybuild.myfile.Model <em>Model</em>}'.
 	 * <!-- begin-user-doc -->
@@ -2425,8 +2423,7 @@ public interface MyFilePackage extends EPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	interface Literals
-	{
+	interface Literals {
 		/**
 		 * The meta object literal for the '{@link org.mybuild.myfile.impl.ModelImpl <em>Model</em>}' class.
 		 * <!-- begin-user-doc -->
@@ -2495,7 +2492,8 @@ public interface MyFilePackage extends EPackage
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EAttribute IMPORT__IMPORTED_NAMESPACE = eINSTANCE.getImport_ImportedNamespace();
+		EAttribute IMPORT__IMPORTED_NAMESPACE = eINSTANCE
+				.getImport_ImportedNamespace();
 
 		/**
 		 * The meta object literal for the '{@link org.mybuild.myfile.impl.TypeImpl <em>Type</em>}' class.
@@ -2523,7 +2521,8 @@ public interface MyFilePackage extends EPackage
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EReference ANNOTATION_TYPE__ELEMENTS = eINSTANCE.getAnnotationType_Elements();
+		EReference ANNOTATION_TYPE__ELEMENTS = eINSTANCE
+				.getAnnotationType_Elements();
 
 		/**
 		 * The meta object literal for the '{@link org.mybuild.myfile.impl.AnnotationImpl <em>Annotation</em>}' class.
@@ -2565,7 +2564,8 @@ public interface MyFilePackage extends EPackage
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EReference ANNOTATION__SINGLE_VALUE = eINSTANCE.getAnnotation_SingleValue();
+		EReference ANNOTATION__SINGLE_VALUE = eINSTANCE
+				.getAnnotation_SingleValue();
 
 		/**
 		 * The meta object literal for the '{@link org.mybuild.myfile.impl.AnnotationTargetImpl <em>Annotation Target</em>}' class.
@@ -2583,7 +2583,8 @@ public interface MyFilePackage extends EPackage
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EReference ANNOTATION_TARGET__ANNOTATIONS = eINSTANCE.getAnnotationTarget_Annotations();
+		EReference ANNOTATION_TARGET__ANNOTATIONS = eINSTANCE
+				.getAnnotationTarget_Annotations();
 
 		/**
 		 * The meta object literal for the '<em><b>Self</b></em>' containment reference feature.
@@ -2591,7 +2592,8 @@ public interface MyFilePackage extends EPackage
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EReference ANNOTATION_TARGET__SELF = eINSTANCE.getAnnotationTarget_Self();
+		EReference ANNOTATION_TARGET__SELF = eINSTANCE
+				.getAnnotationTarget_Self();
 
 		/**
 		 * The meta object literal for the '{@link org.mybuild.myfile.impl.InterfaceImpl <em>Interface</em>}' class.
@@ -2685,7 +2687,8 @@ public interface MyFilePackage extends EPackage
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EReference MODULE__ALL_SUPER_TYPES = eINSTANCE.getModule_AllSuperTypes();
+		EReference MODULE__ALL_SUPER_TYPES = eINSTANCE
+				.getModule_AllSuperTypes();
 
 		/**
 		 * The meta object literal for the '<em><b>All Sub Types</b></em>' reference list feature.
@@ -2767,7 +2770,8 @@ public interface MyFilePackage extends EPackage
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EReference MEMBER__CONTAINING_MODULE = eINSTANCE.getMember_ContainingModule();
+		EReference MEMBER__CONTAINING_MODULE = eINSTANCE
+				.getMember_ContainingModule();
 
 		/**
 		 * The meta object literal for the '{@link org.mybuild.myfile.impl.DependsMemberImpl <em>Depends Member</em>}' class.
@@ -2785,7 +2789,8 @@ public interface MyFilePackage extends EPackage
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EReference DEPENDS_MEMBER__MODULES = eINSTANCE.getDependsMember_Modules();
+		EReference DEPENDS_MEMBER__MODULES = eINSTANCE
+				.getDependsMember_Modules();
 
 		/**
 		 * The meta object literal for the '{@link org.mybuild.myfile.impl.AbstractFeatureListMemberImpl <em>Abstract Feature List Member</em>}' class.
@@ -2795,7 +2800,8 @@ public interface MyFilePackage extends EPackage
 		 * @see org.mybuild.myfile.impl.MyFilePackageImpl#getAbstractFeatureListMember()
 		 * @generated
 		 */
-		EClass ABSTRACT_FEATURE_LIST_MEMBER = eINSTANCE.getAbstractFeatureListMember();
+		EClass ABSTRACT_FEATURE_LIST_MEMBER = eINSTANCE
+				.getAbstractFeatureListMember();
 
 		/**
 		 * The meta object literal for the '<em><b>Features</b></em>' reference list feature.
@@ -2803,7 +2809,8 @@ public interface MyFilePackage extends EPackage
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EReference ABSTRACT_FEATURE_LIST_MEMBER__FEATURES = eINSTANCE.getAbstractFeatureListMember_Features();
+		EReference ABSTRACT_FEATURE_LIST_MEMBER__FEATURES = eINSTANCE
+				.getAbstractFeatureListMember_Features();
 
 		/**
 		 * The meta object literal for the '{@link org.mybuild.myfile.impl.RequiresMemberImpl <em>Requires Member</em>}' class.
@@ -2833,7 +2840,8 @@ public interface MyFilePackage extends EPackage
 		 * @see org.mybuild.myfile.impl.MyFilePackageImpl#getAbstractFileListMember()
 		 * @generated
 		 */
-		EClass ABSTRACT_FILE_LIST_MEMBER = eINSTANCE.getAbstractFileListMember();
+		EClass ABSTRACT_FILE_LIST_MEMBER = eINSTANCE
+				.getAbstractFileListMember();
 
 		/**
 		 * The meta object literal for the '<em><b>Files</b></em>' containment reference list feature.
@@ -2841,7 +2849,8 @@ public interface MyFilePackage extends EPackage
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EReference ABSTRACT_FILE_LIST_MEMBER__FILES = eINSTANCE.getAbstractFileListMember_Files();
+		EReference ABSTRACT_FILE_LIST_MEMBER__FILES = eINSTANCE
+				.getAbstractFileListMember_Files();
 
 		/**
 		 * The meta object literal for the '{@link org.mybuild.myfile.impl.SourceMemberImpl <em>Source Member</em>}' class.
@@ -2897,7 +2906,8 @@ public interface MyFilePackage extends EPackage
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EReference OPTION_MEMBER__PROPERTY = eINSTANCE.getOptionMember_Property();
+		EReference OPTION_MEMBER__PROPERTY = eINSTANCE
+				.getOptionMember_Property();
 
 		/**
 		 * The meta object literal for the '{@link org.mybuild.myfile.impl.PropertyImpl <em>Property</em>}' class.
@@ -2915,7 +2925,8 @@ public interface MyFilePackage extends EPackage
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EReference PROPERTY__DEFAULT_VALUE = eINSTANCE.getProperty_DefaultValue();
+		EReference PROPERTY__DEFAULT_VALUE = eINSTANCE
+				.getProperty_DefaultValue();
 
 		/**
 		 * The meta object literal for the '{@link org.mybuild.myfile.impl.StringPropertyImpl <em>String Property</em>}' class.
@@ -3019,7 +3030,8 @@ public interface MyFilePackage extends EPackage
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EAttribute BOOLEAN_LITERAL__IS_TRUE = eINSTANCE.getBooleanLiteral_IsTrue();
+		EAttribute BOOLEAN_LITERAL__IS_TRUE = eINSTANCE
+				.getBooleanLiteral_IsTrue();
 
 		/**
 		 * The meta object literal for the '{@link org.mybuild.myfile.impl.TypeLiteralImpl <em>Type Literal</em>}' class.
@@ -3055,7 +3067,8 @@ public interface MyFilePackage extends EPackage
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EReference PROPERTY_VALUE_BINDING__PROPERTY = eINSTANCE.getPropertyValueBinding_Property();
+		EReference PROPERTY_VALUE_BINDING__PROPERTY = eINSTANCE
+				.getPropertyValueBinding_Property();
 
 		/**
 		 * The meta object literal for the '<em><b>Value</b></em>' containment reference feature.
@@ -3063,7 +3076,8 @@ public interface MyFilePackage extends EPackage
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EReference PROPERTY_VALUE_BINDING__VALUE = eINSTANCE.getPropertyValueBinding_Value();
+		EReference PROPERTY_VALUE_BINDING__VALUE = eINSTANCE
+				.getPropertyValueBinding_Value();
 
 		/**
 		 * The meta object literal for the '{@link org.mybuild.myfile.impl.NamedImpl <em>Named</em>}' class.

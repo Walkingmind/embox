@@ -5,7 +5,6 @@
  */
 package org.mybuild.myfile;
 
-
 /**
  * <!-- begin-user-doc -->
  * A representation of the model object '<em><b>Feature</b></em>'.
@@ -22,8 +21,7 @@ package org.mybuild.myfile;
  * @model
  * @generated
  */
-public interface Feature extends Type
-{
+public interface Feature extends Type {
 	/**
 	 * Returns the value of the '<em><b>Super Type</b></em>' reference.
 	 * <!-- begin-user-doc -->
