@@ -27,9 +27,9 @@ AnnotationType:
 
 Annotation:
 	'@' type=[AnnotationType|QualifiedName]
-	('(' singleValue=Value |
+	('(' (singleValue=Value |
 	elements+=PropertyValueBinding (','
-	elements+=PropertyValueBinding)* ')')?;
+	elements+=PropertyValueBinding)*) ')')?;
 
 PropertyValueBinding:
 	property=[Property] '=' value=Value;
