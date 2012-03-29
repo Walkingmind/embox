@@ -14,12 +14,12 @@ Workflow {
 		scanClassPath = true
 		platformUri = "${runtimeProject}/.."
 		registerGeneratedEPackage = "org.mybuild.myfile.MyFilePackage"
-		registerGenModelFile = "platform:/resource/${projectName}/src/model/MyFile.genmodel"
-		registerEcoreFile = "platform:/resource/${projectName}/src/model/MyFile.ecore"
+		registerGenModelFile = "platform:/resource/${projectName}/model/MyFile.genmodel"
+		registerEcoreFile = "platform:/resource/${projectName}/model/MyFile.ecore"
 	}
 
 	component = org.eclipse.emf.mwe2.ecore.EcoreGenerator {
-		genModel = "platform:/resource/${projectName}/src/model/MyFile.genmodel"
+		genModel = "platform:/resource/${projectName}/model/MyFile.genmodel"
 		srcPath ="platform:/resource/${projectName}/emf-gen"
 		srcPath ="platform:/resource/${projectName}/src"
 	}
