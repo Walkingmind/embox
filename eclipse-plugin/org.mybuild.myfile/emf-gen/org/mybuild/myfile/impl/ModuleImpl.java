@@ -5,16 +5,11 @@
  */
 package org.mybuild.myfile.impl;
 
-import static com.google.common.collect.Sets.newHashSet;
-
 import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 
-import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.common.util.EList;
 
 import org.eclipse.emf.ecore.EClass;
@@ -24,6 +19,7 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
 
 import org.eclipse.emf.ecore.util.EObjectContainmentWithInverseEList;
 import org.eclipse.emf.ecore.util.EObjectEList;
+import org.eclipse.emf.ecore.util.EObjectWithInverseEList;
 import org.eclipse.emf.ecore.util.EObjectWithInverseResolvingEList;
 import org.eclipse.emf.ecore.util.InternalEList;
 
@@ -289,13 +285,15 @@ public class ModuleImpl extends TypeImpl implements Module {
 	 * @generated NOT
 	 */
 	public EList<Module> getAllSuperTypes() {
-		BasicEList<Module> allSuperTypes = new BasicEList<Module>();
+		EList<Module> allSuperTypes = new EObjectWithInverseResolvingEList<Module>(
+				Module.class, this, MyFilePackage.MODULE__ALL_SUPER_TYPES,
+				MyFilePackage.MODULE__ALL_SUB_TYPES);
 		for (Module m = getSuperType(); m != null; m = m.getSuperType()) {
-			allSuperTypes.add(m);
-			if (m == this) {
+			if (allSuperTypes.contains(m)) {
 				// inheritance loop.
 				break;
 			}
+			allSuperTypes.add(m);
 		}
 		return allSuperTypes;
 	}
@@ -306,16 +304,21 @@ public class ModuleImpl extends TypeImpl implements Module {
 	 * @generated NOT
 	 */
 	public EList<Module> getAllSubTypes() {
-		HashSet<Module> set = newHashSet();
-		internalPopulateSubTypesSet(set);
-		return new BasicEList<Module>(set);
+		EList<Module> allSubTypes = new EObjectWithInverseResolvingEList<Module>(
+				Module.class, this, MyFilePackage.MODULE__ALL_SUB_TYPES,
+				MyFilePackage.MODULE__ALL_SUPER_TYPES);
+		internalPopulateSubTypesList(allSubTypes);
+		return allSubTypes;
 	}
 
-	private void internalPopulateSubTypesSet(Set<Module> allSubTypes) {
-		EList<Module> subTypes = getSubTypes();
-		for (Module m : subTypes) {
-			if (allSubTypes.add(m) && m instanceof ModuleImpl) {
-				((ModuleImpl) m).internalPopulateSubTypesSet(allSubTypes);
+	private void internalPopulateSubTypesList(EList<Module> allSubTypes) {
+		for (Module m : getSubTypes()) {
+			if (allSubTypes.contains(m)) {
+				continue;
+			}
+			if (m instanceof ModuleImpl) {
+				allSubTypes.add(m);
+				((ModuleImpl) m).internalPopulateSubTypesList(allSubTypes);
 			}
 		}
 	}
