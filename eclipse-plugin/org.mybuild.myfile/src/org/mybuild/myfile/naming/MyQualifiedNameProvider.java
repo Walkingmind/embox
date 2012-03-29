@@ -3,8 +3,8 @@ package org.mybuild.myfile.naming;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.xtext.naming.DefaultDeclarativeQualifiedNameProvider;
 import org.eclipse.xtext.naming.QualifiedName;
-import org.mybuild.myfile.myFile.Model;
-import org.mybuild.myfile.myFile.Package;
+import org.mybuild.myfile.Model;
+import org.mybuild.myfile.Package;
 
 /**
  * @author Eldar Abusalimov

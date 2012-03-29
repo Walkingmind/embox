@@ -24,14 +24,11 @@ Require-Bundle: org.eclipse.xtext;bundle-version="2.1.0";visibility:=reexport,
 Import-Package: org.apache.commons.logging,
  org.apache.log4j,
  org.eclipse.xtext.xbase.lib,
- org.eclipse.xtext.xtend2.lib
+ org.eclipse.xtext.xtend2.lib,
+ org.eclipse.xtend2.lib
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Export-Package: org.mybuild.myfile,
  org.mybuild.myfile.services,
- org.mybuild.myfile.myFile,
- org.mybuild.myfile.myFile.impl,
- org.mybuild.myfile.myFile.util,
- org.mybuild.myfile.serializer,
  org.mybuild.myfile.parser.antlr,
  org.mybuild.myfile.parser.antlr.internal,
  org.mybuild.myfile.validation,
@@ -40,4 +37,5 @@ Export-Package: org.mybuild.myfile,
  org.mybuild.myfile.formatting,
  org.mybuild.myfile.naming,
  org.mybuild.myfile.resource,
- org.mybuild.myfile.util
+ org.mybuild.myfile.util,
+ org.mybuild.myfile.parseTreeConstruction
