@@ -2,6 +2,8 @@ package org.mybuild.myfile.util;
 
 import static com.google.common.collect.Iterables.*;
 
+import java.util.NoSuchElementException;
+
 import org.mybuild.myfile.Annotation;
 import org.mybuild.myfile.AnnotationTarget;
 import org.mybuild.myfile.AnnotationType;
@@ -32,11 +34,15 @@ public class Annotations {
 		if (name == null) {
 			throw new NullPointerException("name is null");
 		}
-		return find(o.getAnnotations(), new Predicate<Annotation>() {
-			public boolean apply(Annotation a) {
-				AnnotationType type = a.getType();
-				return type != null && name.equals(type.getName());
-			}
-		}) != null;
+		try {
+			return find(o.getAnnotations(), new Predicate<Annotation>() {
+				public boolean apply(Annotation a) {
+					AnnotationType type = a.getType();
+					return type != null && name.equals(type.getName());
+				}
+			}) != null;
+		} catch (NoSuchElementException e) {
+			return false;
+		}
 	}
 }
