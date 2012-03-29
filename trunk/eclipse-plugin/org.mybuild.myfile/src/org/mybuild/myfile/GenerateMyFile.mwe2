@@ -18,11 +18,11 @@ Workflow {
 		registerEcoreFile = "platform:/resource/${projectName}/model/MyFile.ecore"
 	}
 
-	component = org.eclipse.emf.mwe2.ecore.EcoreGenerator {
-		genModel = "platform:/resource/${projectName}/model/MyFile.genmodel"
-		srcPath ="platform:/resource/${projectName}/emf-gen"
-		srcPath ="platform:/resource/${projectName}/src"
-	}
+	//component = org.eclipse.emf.mwe2.ecore.EcoreGenerator {
+	//	genModel = "platform:/resource/${projectName}/model/MyFile.genmodel"
+	//	srcPath ="platform:/resource/${projectName}/emf-gen"
+	//	srcPath ="platform:/resource/${projectName}/src"
+	//}
 
 	component = DirectoryCleaner {
 		directory = "${runtimeProject}/src-gen"
