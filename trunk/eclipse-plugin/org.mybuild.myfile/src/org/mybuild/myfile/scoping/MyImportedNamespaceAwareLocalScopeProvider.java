@@ -8,8 +8,8 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.xtext.scoping.IScope;
 import org.eclipse.xtext.scoping.impl.ImportNormalizer;
 import org.eclipse.xtext.scoping.impl.ImportedNamespaceAwareLocalScopeProvider;
-import org.mybuild.myfile.myFile.Model;
-import org.mybuild.myfile.myFile.Package;
+import org.mybuild.myfile.Model;
+import org.mybuild.myfile.Package;
 
 /**
  * @author Eldar Abusalimov

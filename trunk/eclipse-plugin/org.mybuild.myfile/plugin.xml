@@ -5,9 +5,9 @@
 
   <extension point="org.eclipse.emf.ecore.generated_package">
     <package 
-       uri = "http://www.mybuild.org/myfile/MyFile" 
-       class = "org.mybuild.myfile.myFile.MyFilePackage"
-       genModel = "org/mybuild/myfile/MyFile.genmodel" /> 
+       uri = "http://www.mybuild.org/MyFile" 
+       class = "org.mybuild.myfile.MyFilePackage"
+       genModel = "model/MyFile.genmodel" /> 
 	
   </extension>
   <extension

@@ -1,15 +1,15 @@
 /**
  * MyBuild file grammar.
- * Version: 0.2
+ * Version: 0.4
  * 
  * Author: Eldar Abusalimov
  */
 grammar org.mybuild.myfile.MyFile with org.eclipse.xtext.common.Terminals
 
-generate myFile "http://www.mybuild.org/myfile/MyFile"
+import "http://www.mybuild.org/MyFile"
 
 Model:
-	package=Package? imports+=Import* entities+=Entity*;
+	package=Package? imports+=Import* types+=Type*;
 
 Package:
 	'package' name=QualifiedName;
@@ -17,73 +17,81 @@ Package:
 Import:
 	'import' importedNamespace=QualifiedNameWithWildcard;
 
-Entity:
-	Module | Interface;
+Type:
+	(AnnotationType | Module | Interface);
+
+AnnotationType:
+	annotations+=Annotation*
+	'annotation' name=ID
+	'{' elements+=Property* '}';
+
+Annotation:
+	'@' type=[AnnotationType|QualifiedName]
+	('(' singleValue=Value |
+	elements+=PropertyValueBinding (','
+	elements+=PropertyValueBinding)* ')')?;
+
+PropertyValueBinding:
+	property=[Property] '=' value=Value;
 
 Interface:
+	annotations+=Annotation*
 	'interface' name=ID ('extends' superType=[Interface|QualifiedName])?
-	'{' attributes+=InterfaceAttribute* '}';
-
-InterfaceAttribute:
-	Feature;
+	'{' features+=Feature* '}';
 
 Feature:
+	annotations+=Annotation*
 	'feature' name=ID ('extends' superType=[Feature|QualifiedNameWithWildcard])?;
 
 Module:
+	annotations+=Annotation*
 	(static?='static'? & abstract?='abstract'?)
 	'module' name=ID ('extends' superType=[Module|QualifiedName])?
-	'{' attributes+=ModuleAttribute* '}';
+	'{' members+=Member* '}';
 
-ModuleAttribute:
-	FilenameAttribute | Depends | FeatureAttribute | Make | Option;
-
-Depends:
-	'depends' modules+=[Module|QualifiedName] (',' modules+=[Module|QualifiedName])*;
-
-FeatureAttribute:
-	('requires' {Requires} | 'provides' {Provides})
+Member:
+	{Member} annotations+=Annotation*
+	({DependsMember.self=current} 'depends'
+	modules+=[Module|QualifiedName] (','
+	modules+=[Module|QualifiedName])*
+	|
+	({RequiresMember.self=current} 'requires'
+	| {ProvidesMember.self=current} 'provides')
 	features+=[Feature|QualifiedNameWithWildcard] (','
-	features+=[Feature|QualifiedNameWithWildcard])*;
+	features+=[Feature|QualifiedNameWithWildcard])*
+	|
+	({SourceMember.self=current} 'source'
+	| {ObjectMember.self=current} 'object')
+	files+=FileName (','
+	files+=FileName)*
+	|
+	{OptionMember.self=current} 'option'
+	property=Property);
 
-FilenameAttribute:
-	('source' {Sources} | 'object' {Objects})
-	files+=Filename (','
-	files+=Filename)*;
+FileName:
+	value=STRING;
 
-Filename:
-	name=STRING;
+Property:
+	({StringProperty} 'string'
+	| {NumberProperty} 'number'
+	| {BooleanProperty} 'boolean')
+	name=ID
+	('=' defaultValue=Value)?;
 
-Option:
-	'option' name=ID ':'
-	(string?=StringOption
-	| number?=NumberOption
-	| boolean?=BooleanOption);
+Value:
+	StringLiteral | NumberLiteral | BooleanLiteral | TypeLiteral;
 
-StringOption:
-	{Option} 'string' ('=' stringValue=STRING)?;
+StringLiteral:
+	value=STRING;
 
-NumberOption:
-	{Option} 'number' ('=' numberValue=INT)?;
-
-BooleanOption:
-	{Option} 'boolean' ('=' booleanValue=BooleanLiteral)?;
-
-Make:
-	'make' (MakeRule | MakeFlags);
-
-MakeFlags:
-	'flags' flags=StringList;
-
-MakeRule:
-	target=Filename (':' prerequisites+=Filename (',' prerequisites+=Filename)*)? ('{' recipes=StringList '}')?;
-
-StringList:
-	STRING (','
-	STRING)*;
+NumberLiteral:
+	value=INT;
 
 BooleanLiteral:
 	{BooleanLiteral} ('false' | isTrue?='true');
+
+TypeLiteral:
+	value=[Type];
 
 QualifiedName:
 	ID ('.' ID)*;
