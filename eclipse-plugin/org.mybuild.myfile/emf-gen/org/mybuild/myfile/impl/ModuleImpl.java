@@ -10,6 +10,7 @@ import java.util.Collection;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 
+import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.common.util.EList;
 
 import org.eclipse.emf.ecore.EClass;
@@ -20,7 +21,6 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.util.EObjectContainmentWithInverseEList;
 import org.eclipse.emf.ecore.util.EObjectEList;
 import org.eclipse.emf.ecore.util.EObjectWithInverseEList;
-import org.eclipse.emf.ecore.util.EObjectWithInverseResolvingEList;
 import org.eclipse.emf.ecore.util.InternalEList;
 
 import org.mybuild.myfile.Feature;
@@ -199,25 +199,6 @@ public class ModuleImpl extends TypeImpl implements Module {
 	 * @generated
 	 */
 	public Module getSuperType() {
-		if (superType != null && superType.eIsProxy()) {
-			InternalEObject oldSuperType = (InternalEObject) superType;
-			superType = (Module) eResolveProxy(oldSuperType);
-			if (superType != oldSuperType) {
-				if (eNotificationRequired())
-					eNotify(new ENotificationImpl(this, Notification.RESOLVE,
-							MyFilePackage.MODULE__SUPER_TYPE, oldSuperType,
-							superType));
-			}
-		}
-		return superType;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public Module basicGetSuperType() {
 		return superType;
 	}
 
@@ -272,8 +253,8 @@ public class ModuleImpl extends TypeImpl implements Module {
 	 */
 	public EList<Module> getSubTypes() {
 		if (subTypes == null) {
-			subTypes = new EObjectWithInverseResolvingEList<Module>(
-					Module.class, this, MyFilePackage.MODULE__SUB_TYPES,
+			subTypes = new EObjectWithInverseEList<Module>(Module.class, this,
+					MyFilePackage.MODULE__SUB_TYPES,
 					MyFilePackage.MODULE__SUPER_TYPE);
 		}
 		return subTypes;
@@ -285,7 +266,7 @@ public class ModuleImpl extends TypeImpl implements Module {
 	 * @generated NOT
 	 */
 	public EList<Module> getAllSuperTypes() {
-		EList<Module> allSuperTypes = new EObjectWithInverseResolvingEList<Module>(
+		EList<Module> allSuperTypes = new EObjectWithInverseEList.ManyInverse<Module>(
 				Module.class, this, MyFilePackage.MODULE__ALL_SUPER_TYPES,
 				MyFilePackage.MODULE__ALL_SUB_TYPES);
 		for (Module m = getSuperType(); m != null; m = m.getSuperType()) {
@@ -304,7 +285,7 @@ public class ModuleImpl extends TypeImpl implements Module {
 	 * @generated NOT
 	 */
 	public EList<Module> getAllSubTypes() {
-		EList<Module> allSubTypes = new EObjectWithInverseResolvingEList<Module>(
+		EList<Module> allSubTypes = new EObjectWithInverseEList.ManyInverse<Module>(
 				Module.class, this, MyFilePackage.MODULE__ALL_SUB_TYPES,
 				MyFilePackage.MODULE__ALL_SUPER_TYPES);
 		internalPopulateSubTypesList(allSubTypes);
@@ -340,29 +321,29 @@ public class ModuleImpl extends TypeImpl implements Module {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
+	 * @generated NOT
 	 */
 	public EList<Module> getDepends() {
 		// TODO: implement this method to return the 'Depends' reference list
 		// Ensure that you remove @generated or mark it @generated NOT
 		// The list is expected to implement org.eclipse.emf.ecore.util.InternalEList and org.eclipse.emf.ecore.EStructuralFeature.Setting
 		// so it's likely that an appropriate subclass of org.eclipse.emf.ecore.util.EcoreEList should be used.
-//		throw new UnsupportedOperationException();
-		return new EObjectEList<Module>(Module.class, this, MyFilePackage.MODULE__DEPENDS);
+		//		throw new UnsupportedOperationException();
+		return new BasicEList<Module>();
 	}
 
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
+	 * @generated NOT
 	 */
 	public EList<Module> getDependent() {
 		// TODO: implement this method to return the 'Dependent' reference list
 		// Ensure that you remove @generated or mark it @generated NOT
 		// The list is expected to implement org.eclipse.emf.ecore.util.InternalEList and org.eclipse.emf.ecore.EStructuralFeature.Setting
 		// so it's likely that an appropriate subclass of org.eclipse.emf.ecore.util.EcoreEList should be used.
-//		throw new UnsupportedOperationException();
-		return new EObjectEList<Module>(Module.class, this, MyFilePackage.MODULE__DEPENDENT);
+		//		throw new UnsupportedOperationException();
+		return new BasicEList<Module>();
 	}
 
 	/**
@@ -442,7 +423,7 @@ public class ModuleImpl extends TypeImpl implements Module {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
+	 * @generated NOT
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
@@ -460,6 +441,10 @@ public class ModuleImpl extends TypeImpl implements Module {
 		case MyFilePackage.MODULE__MEMBERS:
 			return ((InternalEList<InternalEObject>) (InternalEList<?>) getMembers())
 					.basicAdd(otherEnd, msgs);
+		case MyFilePackage.MODULE__ALL_SUPER_TYPES:
+		case MyFilePackage.MODULE__ALL_SUB_TYPES:
+			// do nothing.
+			return msgs;
 		}
 		return super.eInverseAdd(otherEnd, featureID, msgs);
 	}
@@ -467,7 +452,7 @@ public class ModuleImpl extends TypeImpl implements Module {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
+	 * @generated NOT
 	 */
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd,
@@ -481,6 +466,10 @@ public class ModuleImpl extends TypeImpl implements Module {
 		case MyFilePackage.MODULE__MEMBERS:
 			return ((InternalEList<?>) getMembers())
 					.basicRemove(otherEnd, msgs);
+		case MyFilePackage.MODULE__ALL_SUPER_TYPES:
+		case MyFilePackage.MODULE__ALL_SUB_TYPES:
+			// do nothing.
+			return msgs;
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -498,9 +487,7 @@ public class ModuleImpl extends TypeImpl implements Module {
 		case MyFilePackage.MODULE__ABSTRACT:
 			return isAbstract();
 		case MyFilePackage.MODULE__SUPER_TYPE:
-			if (resolve)
-				return getSuperType();
-			return basicGetSuperType();
+			return getSuperType();
 		case MyFilePackage.MODULE__SUB_TYPES:
 			return getSubTypes();
 		case MyFilePackage.MODULE__ALL_SUPER_TYPES:

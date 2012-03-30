@@ -7,7 +7,6 @@ package org.mybuild.myfile.impl;
 
 import java.util.Collection;
 
-import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 
 import org.eclipse.emf.common.util.EList;
@@ -15,7 +14,6 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
 
-import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
 
 import org.eclipse.emf.ecore.util.EObjectContainmentWithInverseEList;
@@ -33,7 +31,6 @@ import org.mybuild.myfile.MyFilePackage;
  * The following features are implemented:
  * <ul>
  *   <li>{@link org.mybuild.myfile.impl.AnnotationTargetImpl#getAnnotations <em>Annotations</em>}</li>
- *   <li>{@link org.mybuild.myfile.impl.AnnotationTargetImpl#getSelf <em>Self</em>}</li>
  * </ul>
  * </p>
  *
@@ -50,16 +47,6 @@ public class AnnotationTargetImpl extends EObjectImpl implements
 	 * @ordered
 	 */
 	protected EList<Annotation> annotations;
-
-	/**
-	 * The cached value of the '{@link #getSelf() <em>Self</em>}' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getSelf()
-	 * @generated
-	 * @ordered
-	 */
-	protected AnnotationTarget self;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -100,62 +87,6 @@ public class AnnotationTargetImpl extends EObjectImpl implements
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public AnnotationTarget getSelf() {
-		return self;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public NotificationChain basicSetSelf(AnnotationTarget newSelf,
-			NotificationChain msgs) {
-		AnnotationTarget oldSelf = self;
-		self = newSelf;
-		if (eNotificationRequired()) {
-			ENotificationImpl notification = new ENotificationImpl(this,
-					Notification.SET, MyFilePackage.ANNOTATION_TARGET__SELF,
-					oldSelf, newSelf);
-			if (msgs == null)
-				msgs = notification;
-			else
-				msgs.add(notification);
-		}
-		return msgs;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setSelf(AnnotationTarget newSelf) {
-		if (newSelf != self) {
-			NotificationChain msgs = null;
-			if (self != null)
-				msgs = ((InternalEObject) self).eInverseRemove(this,
-						EOPPOSITE_FEATURE_BASE
-								- MyFilePackage.ANNOTATION_TARGET__SELF, null,
-						msgs);
-			if (newSelf != null)
-				msgs = ((InternalEObject) newSelf).eInverseAdd(this,
-						EOPPOSITE_FEATURE_BASE
-								- MyFilePackage.ANNOTATION_TARGET__SELF, null,
-						msgs);
-			msgs = basicSetSelf(newSelf, msgs);
-			if (msgs != null)
-				msgs.dispatch();
-		} else if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET,
-					MyFilePackage.ANNOTATION_TARGET__SELF, newSelf, newSelf));
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	@SuppressWarnings("unchecked")
 	@Override
 	public NotificationChain eInverseAdd(InternalEObject otherEnd,
@@ -180,8 +111,6 @@ public class AnnotationTargetImpl extends EObjectImpl implements
 		case MyFilePackage.ANNOTATION_TARGET__ANNOTATIONS:
 			return ((InternalEList<?>) getAnnotations()).basicRemove(otherEnd,
 					msgs);
-		case MyFilePackage.ANNOTATION_TARGET__SELF:
-			return basicSetSelf(null, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -196,8 +125,6 @@ public class AnnotationTargetImpl extends EObjectImpl implements
 		switch (featureID) {
 		case MyFilePackage.ANNOTATION_TARGET__ANNOTATIONS:
 			return getAnnotations();
-		case MyFilePackage.ANNOTATION_TARGET__SELF:
-			return getSelf();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -216,9 +143,6 @@ public class AnnotationTargetImpl extends EObjectImpl implements
 			getAnnotations()
 					.addAll((Collection<? extends Annotation>) newValue);
 			return;
-		case MyFilePackage.ANNOTATION_TARGET__SELF:
-			setSelf((AnnotationTarget) newValue);
-			return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -234,9 +158,6 @@ public class AnnotationTargetImpl extends EObjectImpl implements
 		case MyFilePackage.ANNOTATION_TARGET__ANNOTATIONS:
 			getAnnotations().clear();
 			return;
-		case MyFilePackage.ANNOTATION_TARGET__SELF:
-			setSelf((AnnotationTarget) null);
-			return;
 		}
 		super.eUnset(featureID);
 	}
@@ -251,8 +172,6 @@ public class AnnotationTargetImpl extends EObjectImpl implements
 		switch (featureID) {
 		case MyFilePackage.ANNOTATION_TARGET__ANNOTATIONS:
 			return annotations != null && !annotations.isEmpty();
-		case MyFilePackage.ANNOTATION_TARGET__SELF:
-			return self != null;
 		}
 		return super.eIsSet(featureID);
 	}

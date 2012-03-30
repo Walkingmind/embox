@@ -101,7 +101,7 @@ public interface Module extends Type {
 	 * @see #setSuperType(Module)
 	 * @see org.mybuild.myfile.MyFilePackage#getModule_SuperType()
 	 * @see org.mybuild.myfile.Module#getSubTypes
-	 * @model opposite="subTypes"
+	 * @model opposite="subTypes" resolveProxies="false"
 	 * @generated
 	 */
 	Module getSuperType();
@@ -129,7 +129,7 @@ public interface Module extends Type {
 	 * @return the value of the '<em>Sub Types</em>' reference list.
 	 * @see org.mybuild.myfile.MyFilePackage#getModule_SubTypes()
 	 * @see org.mybuild.myfile.Module#getSuperType
-	 * @model opposite="superType"
+	 * @model opposite="superType" resolveProxies="false" transient="true"
 	 * @generated
 	 */
 	EList<Module> getSubTypes();
@@ -147,7 +147,7 @@ public interface Module extends Type {
 	 * @return the value of the '<em>All Super Types</em>' reference list.
 	 * @see org.mybuild.myfile.MyFilePackage#getModule_AllSuperTypes()
 	 * @see org.mybuild.myfile.Module#getAllSubTypes
-	 * @model opposite="allSubTypes" transient="true" changeable="false" volatile="true" derived="true"
+	 * @model opposite="allSubTypes" resolveProxies="false" transient="true" changeable="false" volatile="true" derived="true"
 	 * @generated
 	 */
 	EList<Module> getAllSuperTypes();
@@ -165,7 +165,7 @@ public interface Module extends Type {
 	 * @return the value of the '<em>All Sub Types</em>' reference list.
 	 * @see org.mybuild.myfile.MyFilePackage#getModule_AllSubTypes()
 	 * @see org.mybuild.myfile.Module#getAllSuperTypes
-	 * @model opposite="allSuperTypes" transient="true" changeable="false" volatile="true" derived="true"
+	 * @model opposite="allSuperTypes" resolveProxies="false" transient="true" changeable="false" volatile="true" derived="true"
 	 * @generated
 	 */
 	EList<Module> getAllSubTypes();
@@ -199,7 +199,7 @@ public interface Module extends Type {
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Depends</em>' reference list.
 	 * @see org.mybuild.myfile.MyFilePackage#getModule_Depends()
-	 * @model transient="true" volatile="true" derived="true"
+	 * @model resolveProxies="false" transient="true" volatile="true" derived="true"
 	 * @generated
 	 */
 	EList<Module> getDepends();
@@ -215,7 +215,7 @@ public interface Module extends Type {
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Dependent</em>' reference list.
 	 * @see org.mybuild.myfile.MyFilePackage#getModule_Dependent()
-	 * @model transient="true" volatile="true" derived="true"
+	 * @model resolveProxies="false" transient="true" volatile="true" derived="true"
 	 * @generated
 	 */
 	EList<Module> getDependent();
@@ -231,7 +231,7 @@ public interface Module extends Type {
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Provides</em>' reference list.
 	 * @see org.mybuild.myfile.MyFilePackage#getModule_Provides()
-	 * @model transient="true" volatile="true" derived="true"
+	 * @model resolveProxies="false" transient="true" volatile="true" derived="true"
 	 * @generated
 	 */
 	EList<Feature> getProvides();
@@ -247,7 +247,7 @@ public interface Module extends Type {
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Requires</em>' reference list.
 	 * @see org.mybuild.myfile.MyFilePackage#getModule_Requires()
-	 * @model transient="true" volatile="true" derived="true"
+	 * @model resolveProxies="false" transient="true" volatile="true" derived="true"
 	 * @generated
 	 */
 	EList<Feature> getRequires();
@@ -263,7 +263,7 @@ public interface Module extends Type {
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Sources</em>' reference list.
 	 * @see org.mybuild.myfile.MyFilePackage#getModule_Sources()
-	 * @model transient="true" volatile="true" derived="true"
+	 * @model resolveProxies="false" transient="true" volatile="true" derived="true"
 	 * @generated
 	 */
 	EList<FileName> getSources();
@@ -279,7 +279,7 @@ public interface Module extends Type {
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Objects</em>' reference list.
 	 * @see org.mybuild.myfile.MyFilePackage#getModule_Objects()
-	 * @model transient="true" volatile="true" derived="true"
+	 * @model resolveProxies="false" transient="true" volatile="true" derived="true"
 	 * @generated
 	 */
 	EList<FileName> getObjects();

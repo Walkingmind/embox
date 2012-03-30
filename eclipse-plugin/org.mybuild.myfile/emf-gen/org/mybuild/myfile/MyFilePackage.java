@@ -217,22 +217,13 @@ public interface MyFilePackage extends EPackage {
 	int TYPE__ANNOTATIONS = NAMED_FEATURE_COUNT + 0;
 
 	/**
-	 * The feature id for the '<em><b>Self</b></em>' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int TYPE__SELF = NAMED_FEATURE_COUNT + 1;
-
-	/**
 	 * The number of structural features of the '<em>Type</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int TYPE_FEATURE_COUNT = NAMED_FEATURE_COUNT + 2;
+	int TYPE_FEATURE_COUNT = NAMED_FEATURE_COUNT + 1;
 
 	/**
 	 * The meta object id for the '{@link org.mybuild.myfile.impl.AnnotationTypeImpl <em>Annotation Type</em>}' class.
@@ -261,15 +252,6 @@ public interface MyFilePackage extends EPackage {
 	 * @ordered
 	 */
 	int ANNOTATION_TYPE__ANNOTATIONS = TYPE__ANNOTATIONS;
-
-	/**
-	 * The feature id for the '<em><b>Self</b></em>' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int ANNOTATION_TYPE__SELF = TYPE__SELF;
 
 	/**
 	 * The feature id for the '<em><b>Elements</b></em>' containment reference list.
@@ -364,22 +346,13 @@ public interface MyFilePackage extends EPackage {
 	int ANNOTATION_TARGET__ANNOTATIONS = 0;
 
 	/**
-	 * The feature id for the '<em><b>Self</b></em>' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int ANNOTATION_TARGET__SELF = 1;
-
-	/**
 	 * The number of structural features of the '<em>Annotation Target</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int ANNOTATION_TARGET_FEATURE_COUNT = 2;
+	int ANNOTATION_TARGET_FEATURE_COUNT = 1;
 
 	/**
 	 * The meta object id for the '{@link org.mybuild.myfile.impl.InterfaceImpl <em>Interface</em>}' class.
@@ -408,15 +381,6 @@ public interface MyFilePackage extends EPackage {
 	 * @ordered
 	 */
 	int INTERFACE__ANNOTATIONS = TYPE__ANNOTATIONS;
-
-	/**
-	 * The feature id for the '<em><b>Self</b></em>' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int INTERFACE__SELF = TYPE__SELF;
 
 	/**
 	 * The feature id for the '<em><b>Super Type</b></em>' reference.
@@ -474,15 +438,6 @@ public interface MyFilePackage extends EPackage {
 	int FEATURE__ANNOTATIONS = TYPE__ANNOTATIONS;
 
 	/**
-	 * The feature id for the '<em><b>Self</b></em>' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int FEATURE__SELF = TYPE__SELF;
-
-	/**
 	 * The feature id for the '<em><b>Super Type</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -527,15 +482,6 @@ public interface MyFilePackage extends EPackage {
 	 * @ordered
 	 */
 	int MODULE__ANNOTATIONS = TYPE__ANNOTATIONS;
-
-	/**
-	 * The feature id for the '<em><b>Self</b></em>' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int MODULE__SELF = TYPE__SELF;
 
 	/**
 	 * The feature id for the '<em><b>Static</b></em>' attribute.
@@ -683,15 +629,6 @@ public interface MyFilePackage extends EPackage {
 	int MEMBER__ANNOTATIONS = ANNOTATION_TARGET__ANNOTATIONS;
 
 	/**
-	 * The feature id for the '<em><b>Self</b></em>' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int MEMBER__SELF = ANNOTATION_TARGET__SELF;
-
-	/**
 	 * The feature id for the '<em><b>Containing Module</b></em>' container reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -727,15 +664,6 @@ public interface MyFilePackage extends EPackage {
 	 * @ordered
 	 */
 	int DEPENDS_MEMBER__ANNOTATIONS = MEMBER__ANNOTATIONS;
-
-	/**
-	 * The feature id for the '<em><b>Self</b></em>' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int DEPENDS_MEMBER__SELF = MEMBER__SELF;
 
 	/**
 	 * The feature id for the '<em><b>Containing Module</b></em>' container reference.
@@ -784,15 +712,6 @@ public interface MyFilePackage extends EPackage {
 	int ABSTRACT_FEATURE_LIST_MEMBER__ANNOTATIONS = MEMBER__ANNOTATIONS;
 
 	/**
-	 * The feature id for the '<em><b>Self</b></em>' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int ABSTRACT_FEATURE_LIST_MEMBER__SELF = MEMBER__SELF;
-
-	/**
 	 * The feature id for the '<em><b>Containing Module</b></em>' container reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -837,15 +756,6 @@ public interface MyFilePackage extends EPackage {
 	 * @ordered
 	 */
 	int REQUIRES_MEMBER__ANNOTATIONS = ABSTRACT_FEATURE_LIST_MEMBER__ANNOTATIONS;
-
-	/**
-	 * The feature id for the '<em><b>Self</b></em>' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int REQUIRES_MEMBER__SELF = ABSTRACT_FEATURE_LIST_MEMBER__SELF;
 
 	/**
 	 * The feature id for the '<em><b>Containing Module</b></em>' container reference.
@@ -894,15 +804,6 @@ public interface MyFilePackage extends EPackage {
 	int PROVIDES_MEMBER__ANNOTATIONS = ABSTRACT_FEATURE_LIST_MEMBER__ANNOTATIONS;
 
 	/**
-	 * The feature id for the '<em><b>Self</b></em>' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int PROVIDES_MEMBER__SELF = ABSTRACT_FEATURE_LIST_MEMBER__SELF;
-
-	/**
 	 * The feature id for the '<em><b>Containing Module</b></em>' container reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -947,15 +848,6 @@ public interface MyFilePackage extends EPackage {
 	 * @ordered
 	 */
 	int ABSTRACT_FILE_LIST_MEMBER__ANNOTATIONS = MEMBER__ANNOTATIONS;
-
-	/**
-	 * The feature id for the '<em><b>Self</b></em>' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int ABSTRACT_FILE_LIST_MEMBER__SELF = MEMBER__SELF;
 
 	/**
 	 * The feature id for the '<em><b>Containing Module</b></em>' container reference.
@@ -1004,15 +896,6 @@ public interface MyFilePackage extends EPackage {
 	int SOURCE_MEMBER__ANNOTATIONS = ABSTRACT_FILE_LIST_MEMBER__ANNOTATIONS;
 
 	/**
-	 * The feature id for the '<em><b>Self</b></em>' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int SOURCE_MEMBER__SELF = ABSTRACT_FILE_LIST_MEMBER__SELF;
-
-	/**
 	 * The feature id for the '<em><b>Containing Module</b></em>' container reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1057,15 +940,6 @@ public interface MyFilePackage extends EPackage {
 	 * @ordered
 	 */
 	int OBJECT_MEMBER__ANNOTATIONS = ABSTRACT_FILE_LIST_MEMBER__ANNOTATIONS;
-
-	/**
-	 * The feature id for the '<em><b>Self</b></em>' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int OBJECT_MEMBER__SELF = ABSTRACT_FILE_LIST_MEMBER__SELF;
 
 	/**
 	 * The feature id for the '<em><b>Containing Module</b></em>' container reference.
@@ -1142,15 +1016,6 @@ public interface MyFilePackage extends EPackage {
 	int OPTION_MEMBER__ANNOTATIONS = MEMBER__ANNOTATIONS;
 
 	/**
-	 * The feature id for the '<em><b>Self</b></em>' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int OPTION_MEMBER__SELF = MEMBER__SELF;
-
-	/**
 	 * The feature id for the '<em><b>Containing Module</b></em>' container reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1206,22 +1071,13 @@ public interface MyFilePackage extends EPackage {
 	int PROPERTY__ANNOTATIONS = NAMED_FEATURE_COUNT + 0;
 
 	/**
-	 * The feature id for the '<em><b>Self</b></em>' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int PROPERTY__SELF = NAMED_FEATURE_COUNT + 1;
-
-	/**
 	 * The feature id for the '<em><b>Default Value</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int PROPERTY__DEFAULT_VALUE = NAMED_FEATURE_COUNT + 2;
+	int PROPERTY__DEFAULT_VALUE = NAMED_FEATURE_COUNT + 1;
 
 	/**
 	 * The number of structural features of the '<em>Property</em>' class.
@@ -1230,7 +1086,7 @@ public interface MyFilePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int PROPERTY_FEATURE_COUNT = NAMED_FEATURE_COUNT + 3;
+	int PROPERTY_FEATURE_COUNT = NAMED_FEATURE_COUNT + 2;
 
 	/**
 	 * The meta object id for the '{@link org.mybuild.myfile.impl.StringPropertyImpl <em>String Property</em>}' class.
@@ -1259,15 +1115,6 @@ public interface MyFilePackage extends EPackage {
 	 * @ordered
 	 */
 	int STRING_PROPERTY__ANNOTATIONS = PROPERTY__ANNOTATIONS;
-
-	/**
-	 * The feature id for the '<em><b>Self</b></em>' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int STRING_PROPERTY__SELF = PROPERTY__SELF;
 
 	/**
 	 * The feature id for the '<em><b>Default Value</b></em>' containment reference.
@@ -1316,15 +1163,6 @@ public interface MyFilePackage extends EPackage {
 	int NUMBER_PROPERTY__ANNOTATIONS = PROPERTY__ANNOTATIONS;
 
 	/**
-	 * The feature id for the '<em><b>Self</b></em>' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int NUMBER_PROPERTY__SELF = PROPERTY__SELF;
-
-	/**
 	 * The feature id for the '<em><b>Default Value</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1371,15 +1209,6 @@ public interface MyFilePackage extends EPackage {
 	int BOOLEAN_PROPERTY__ANNOTATIONS = PROPERTY__ANNOTATIONS;
 
 	/**
-	 * The feature id for the '<em><b>Self</b></em>' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int BOOLEAN_PROPERTY__SELF = PROPERTY__SELF;
-
-	/**
 	 * The feature id for the '<em><b>Default Value</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1424,15 +1253,6 @@ public interface MyFilePackage extends EPackage {
 	 * @ordered
 	 */
 	int TYPE_PROPERTY__ANNOTATIONS = PROPERTY__ANNOTATIONS;
-
-	/**
-	 * The feature id for the '<em><b>Self</b></em>' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int TYPE_PROPERTY__SELF = PROPERTY__SELF;
 
 	/**
 	 * The feature id for the '<em><b>Default Value</b></em>' containment reference.
@@ -1810,17 +1630,6 @@ public interface MyFilePackage extends EPackage {
 	 * @generated
 	 */
 	EReference getAnnotationTarget_Annotations();
-
-	/**
-	 * Returns the meta object for the containment reference '{@link org.mybuild.myfile.AnnotationTarget#getSelf <em>Self</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the containment reference '<em>Self</em>'.
-	 * @see org.mybuild.myfile.AnnotationTarget#getSelf()
-	 * @see #getAnnotationTarget()
-	 * @generated
-	 */
-	EReference getAnnotationTarget_Self();
 
 	/**
 	 * Returns the meta object for class '{@link org.mybuild.myfile.Interface <em>Interface</em>}'.
@@ -2585,15 +2394,6 @@ public interface MyFilePackage extends EPackage {
 		 */
 		EReference ANNOTATION_TARGET__ANNOTATIONS = eINSTANCE
 				.getAnnotationTarget_Annotations();
-
-		/**
-		 * The meta object literal for the '<em><b>Self</b></em>' containment reference feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EReference ANNOTATION_TARGET__SELF = eINSTANCE
-				.getAnnotationTarget_Self();
 
 		/**
 		 * The meta object literal for the '{@link org.mybuild.myfile.impl.InterfaceImpl <em>Interface</em>}' class.
