@@ -99,3 +99,7 @@ QualifiedName:
 QualifiedNameWithWildcard:
 	QualifiedName '.*'?;
 
+terminal STRING	: 
+			'"' ( '\\' ('b'|'t'|'n'|'f'|'r'|'u'|'"'|"'"|'\\') | !('\\'|'"') )* '"' |
+			"'''" ( ( "'" ? "'" )? (!('\\'|"'") | '\\' ('\\'|"'")) )* "'''"
+		; 

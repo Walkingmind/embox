@@ -3,13 +3,15 @@
  */
 package org.mybuild.myfile;
 
+import static com.google.inject.name.Names.named;
+
+import org.eclipse.xtext.conversion.impl.STRINGValueConverter;
 import org.eclipse.xtext.naming.IQualifiedNameProvider;
 import org.eclipse.xtext.scoping.IScopeProvider;
 import org.eclipse.xtext.scoping.impl.AbstractDeclarativeScopeProvider;
+import org.mybuild.myfile.conversions.TripleQuotedStringConverter;
 import org.mybuild.myfile.naming.MyQualifiedNameProvider;
 import org.mybuild.myfile.scoping.MyImportedNamespaceAwareLocalScopeProvider;
-
-import static com.google.inject.name.Names.named;
 
 /**
  * Use this class to register components to be used at runtime / without the
@@ -29,6 +31,10 @@ public class MyFileRuntimeModule extends
 	@Override
 	public Class<? extends IQualifiedNameProvider> bindIQualifiedNameProvider() {
 		return MyQualifiedNameProvider.class;
+	}
+
+	public Class<? extends STRINGValueConverter> bindSTRINGValueConverter() {
+		return TripleQuotedStringConverter.class;
 	}
 
 }
