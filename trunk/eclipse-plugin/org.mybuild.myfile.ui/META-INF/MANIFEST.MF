@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: org.mybuild.myfile.ui
 Bundle-Vendor: Embox Project
-Bundle-Version: 0.2.2
+Bundle-Version: 0.3
 Bundle-SymbolicName: org.mybuild.myfile.ui; singleton:=true
 Bundle-ActivationPolicy: lazy
 Require-Bundle: org.mybuild.myfile;visibility:=reexport,

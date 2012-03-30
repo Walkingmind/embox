@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: org.mybuild.myfile
 Bundle-Vendor: Embox Project
-Bundle-Version: 0.2.2
+Bundle-Version: 0.3
 Bundle-SymbolicName: org.mybuild.myfile; singleton:=true
 Bundle-ActivationPolicy: lazy
 Require-Bundle: org.eclipse.xtext;bundle-version="2.1.0";visibility:=reexport,
