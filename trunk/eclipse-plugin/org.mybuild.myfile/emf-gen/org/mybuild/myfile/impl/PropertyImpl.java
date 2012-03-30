@@ -34,7 +34,6 @@ import org.mybuild.myfile.Value;
  * The following features are implemented:
  * <ul>
  *   <li>{@link org.mybuild.myfile.impl.PropertyImpl#getAnnotations <em>Annotations</em>}</li>
- *   <li>{@link org.mybuild.myfile.impl.PropertyImpl#getSelf <em>Self</em>}</li>
  *   <li>{@link org.mybuild.myfile.impl.PropertyImpl#getDefaultValue <em>Default Value</em>}</li>
  * </ul>
  * </p>
@@ -51,16 +50,6 @@ public class PropertyImpl extends NamedImpl implements Property {
 	 * @ordered
 	 */
 	protected EList<Annotation> annotations;
-
-	/**
-	 * The cached value of the '{@link #getSelf() <em>Self</em>}' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getSelf()
-	 * @generated
-	 * @ordered
-	 */
-	protected AnnotationTarget self;
 
 	/**
 	 * The cached value of the '{@link #getDefaultValue() <em>Default Value</em>}' containment reference.
@@ -104,60 +93,6 @@ public class PropertyImpl extends NamedImpl implements Property {
 					MyFilePackage.ANNOTATION__TARGET);
 		}
 		return annotations;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public AnnotationTarget getSelf() {
-		return self;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public NotificationChain basicSetSelf(AnnotationTarget newSelf,
-			NotificationChain msgs) {
-		AnnotationTarget oldSelf = self;
-		self = newSelf;
-		if (eNotificationRequired()) {
-			ENotificationImpl notification = new ENotificationImpl(this,
-					Notification.SET, MyFilePackage.PROPERTY__SELF, oldSelf,
-					newSelf);
-			if (msgs == null)
-				msgs = notification;
-			else
-				msgs.add(notification);
-		}
-		return msgs;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setSelf(AnnotationTarget newSelf) {
-		if (newSelf != self) {
-			NotificationChain msgs = null;
-			if (self != null)
-				msgs = ((InternalEObject) self).eInverseRemove(this,
-						EOPPOSITE_FEATURE_BASE - MyFilePackage.PROPERTY__SELF,
-						null, msgs);
-			if (newSelf != null)
-				msgs = ((InternalEObject) newSelf).eInverseAdd(this,
-						EOPPOSITE_FEATURE_BASE - MyFilePackage.PROPERTY__SELF,
-						null, msgs);
-			msgs = basicSetSelf(newSelf, msgs);
-			if (msgs != null)
-				msgs.dispatch();
-		} else if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET,
-					MyFilePackage.PROPERTY__SELF, newSelf, newSelf));
 	}
 
 	/**
@@ -246,8 +181,6 @@ public class PropertyImpl extends NamedImpl implements Property {
 		case MyFilePackage.PROPERTY__ANNOTATIONS:
 			return ((InternalEList<?>) getAnnotations()).basicRemove(otherEnd,
 					msgs);
-		case MyFilePackage.PROPERTY__SELF:
-			return basicSetSelf(null, msgs);
 		case MyFilePackage.PROPERTY__DEFAULT_VALUE:
 			return basicSetDefaultValue(null, msgs);
 		}
@@ -264,8 +197,6 @@ public class PropertyImpl extends NamedImpl implements Property {
 		switch (featureID) {
 		case MyFilePackage.PROPERTY__ANNOTATIONS:
 			return getAnnotations();
-		case MyFilePackage.PROPERTY__SELF:
-			return getSelf();
 		case MyFilePackage.PROPERTY__DEFAULT_VALUE:
 			return getDefaultValue();
 		}
@@ -286,9 +217,6 @@ public class PropertyImpl extends NamedImpl implements Property {
 			getAnnotations()
 					.addAll((Collection<? extends Annotation>) newValue);
 			return;
-		case MyFilePackage.PROPERTY__SELF:
-			setSelf((AnnotationTarget) newValue);
-			return;
 		case MyFilePackage.PROPERTY__DEFAULT_VALUE:
 			setDefaultValue((Value) newValue);
 			return;
@@ -307,9 +235,6 @@ public class PropertyImpl extends NamedImpl implements Property {
 		case MyFilePackage.PROPERTY__ANNOTATIONS:
 			getAnnotations().clear();
 			return;
-		case MyFilePackage.PROPERTY__SELF:
-			setSelf((AnnotationTarget) null);
-			return;
 		case MyFilePackage.PROPERTY__DEFAULT_VALUE:
 			setDefaultValue((Value) null);
 			return;
@@ -327,8 +252,6 @@ public class PropertyImpl extends NamedImpl implements Property {
 		switch (featureID) {
 		case MyFilePackage.PROPERTY__ANNOTATIONS:
 			return annotations != null && !annotations.isEmpty();
-		case MyFilePackage.PROPERTY__SELF:
-			return self != null;
 		case MyFilePackage.PROPERTY__DEFAULT_VALUE:
 			return defaultValue != null;
 		}
@@ -346,8 +269,6 @@ public class PropertyImpl extends NamedImpl implements Property {
 			switch (derivedFeatureID) {
 			case MyFilePackage.PROPERTY__ANNOTATIONS:
 				return MyFilePackage.ANNOTATION_TARGET__ANNOTATIONS;
-			case MyFilePackage.PROPERTY__SELF:
-				return MyFilePackage.ANNOTATION_TARGET__SELF;
 			default:
 				return -1;
 			}
@@ -366,8 +287,6 @@ public class PropertyImpl extends NamedImpl implements Property {
 			switch (baseFeatureID) {
 			case MyFilePackage.ANNOTATION_TARGET__ANNOTATIONS:
 				return MyFilePackage.PROPERTY__ANNOTATIONS;
-			case MyFilePackage.ANNOTATION_TARGET__SELF:
-				return MyFilePackage.PROPERTY__SELF;
 			default:
 				return -1;
 			}

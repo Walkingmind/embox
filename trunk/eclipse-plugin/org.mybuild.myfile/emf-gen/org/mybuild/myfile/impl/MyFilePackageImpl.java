@@ -510,16 +510,6 @@ public class MyFilePackageImpl extends EPackageImpl implements MyFilePackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getAnnotationTarget_Self() {
-		return (EReference) annotationTargetEClass.getEStructuralFeatures()
-				.get(1);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	public EClass getInterface() {
 		return interfaceEClass;
 	}
@@ -1068,7 +1058,6 @@ public class MyFilePackageImpl extends EPackageImpl implements MyFilePackage {
 
 		annotationTargetEClass = createEClass(ANNOTATION_TARGET);
 		createEReference(annotationTargetEClass, ANNOTATION_TARGET__ANNOTATIONS);
-		createEReference(annotationTargetEClass, ANNOTATION_TARGET__SELF);
 
 		interfaceEClass = createEClass(INTERFACE);
 		createEReference(interfaceEClass, INTERFACE__SUPER_TYPE);
@@ -1284,11 +1273,6 @@ public class MyFilePackageImpl extends EPackageImpl implements MyFilePackage {
 				AnnotationTarget.class, !IS_TRANSIENT, !IS_VOLATILE,
 				IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES,
 				!IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getAnnotationTarget_Self(), this.getAnnotationTarget(),
-				null, "self", null, 0, 1, AnnotationTarget.class,
-				!IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE,
-				!IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED,
-				IS_ORDERED);
 
 		initEClass(interfaceEClass, Interface.class, "Interface", !IS_ABSTRACT,
 				!IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
@@ -1321,22 +1305,22 @@ public class MyFilePackageImpl extends EPackageImpl implements MyFilePackage {
 		initEReference(getModule_SuperType(), this.getModule(),
 				this.getModule_SubTypes(), "superType", null, 0, 1,
 				Module.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE,
-				!IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE,
+				!IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE,
 				!IS_DERIVED, IS_ORDERED);
 		initEReference(getModule_SubTypes(), this.getModule(),
 				this.getModule_SuperType(), "subTypes", null, 0, -1,
-				Module.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE,
-				!IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE,
+				Module.class, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE,
+				!IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE,
 				!IS_DERIVED, IS_ORDERED);
 		initEReference(getModule_AllSuperTypes(), this.getModule(),
 				this.getModule_AllSubTypes(), "allSuperTypes", null, 0, -1,
 				Module.class, IS_TRANSIENT, IS_VOLATILE, !IS_CHANGEABLE,
-				!IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE,
+				!IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE,
 				IS_DERIVED, IS_ORDERED);
 		initEReference(getModule_AllSubTypes(), this.getModule(),
 				this.getModule_AllSuperTypes(), "allSubTypes", null, 0, -1,
 				Module.class, IS_TRANSIENT, IS_VOLATILE, !IS_CHANGEABLE,
-				!IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE,
+				!IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE,
 				IS_DERIVED, IS_ORDERED);
 		initEReference(getModule_Members(), this.getMember(),
 				this.getMember_ContainingModule(), "members", null, 0, -1,
@@ -1345,27 +1329,27 @@ public class MyFilePackageImpl extends EPackageImpl implements MyFilePackage {
 				!IS_DERIVED, IS_ORDERED);
 		initEReference(getModule_Depends(), this.getModule(), null, "depends",
 				null, 0, -1, Module.class, IS_TRANSIENT, IS_VOLATILE,
-				IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES,
+				IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES,
 				!IS_UNSETTABLE, IS_UNIQUE, IS_DERIVED, IS_ORDERED);
 		initEReference(getModule_Dependent(), this.getModule(), null,
 				"dependent", null, 0, -1, Module.class, IS_TRANSIENT,
-				IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES,
+				IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES,
 				!IS_UNSETTABLE, IS_UNIQUE, IS_DERIVED, IS_ORDERED);
 		initEReference(getModule_Provides(), this.getFeature(), null,
 				"provides", null, 0, -1, Module.class, IS_TRANSIENT,
-				IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES,
+				IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES,
 				!IS_UNSETTABLE, IS_UNIQUE, IS_DERIVED, IS_ORDERED);
 		initEReference(getModule_Requires(), this.getFeature(), null,
 				"requires", null, 0, -1, Module.class, IS_TRANSIENT,
-				IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES,
+				IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES,
 				!IS_UNSETTABLE, IS_UNIQUE, IS_DERIVED, IS_ORDERED);
 		initEReference(getModule_Sources(), this.getFileName(), null,
 				"sources", null, 0, -1, Module.class, IS_TRANSIENT,
-				IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES,
+				IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES,
 				!IS_UNSETTABLE, IS_UNIQUE, IS_DERIVED, IS_ORDERED);
 		initEReference(getModule_Objects(), this.getFileName(), null,
 				"objects", null, 0, -1, Module.class, IS_TRANSIENT,
-				IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES,
+				IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES,
 				!IS_UNSETTABLE, IS_UNIQUE, IS_DERIVED, IS_ORDERED);
 
 		initEClass(memberEClass, Member.class, "Member", !IS_ABSTRACT,

@@ -50,22 +50,21 @@ Module:
 	'{' members+=Member* '}';
 
 Member:
-	{Member} annotations+=Annotation*
-	({DependsMember.self=current} 'depends'
+	({DependsMember} annotations+=Annotation* 'depends'
 	modules+=[Module|QualifiedName] (','
 	modules+=[Module|QualifiedName])*
 	|
-	({RequiresMember.self=current} 'requires'
-	| {ProvidesMember.self=current} 'provides')
+	({RequiresMember} annotations+=Annotation* 'requires'
+	| {ProvidesMember} annotations+=Annotation* 'provides')
 	features+=[Feature|QualifiedNameWithWildcard] (','
 	features+=[Feature|QualifiedNameWithWildcard])*
 	|
-	({SourceMember.self=current} 'source'
-	| {ObjectMember.self=current} 'object')
+	({SourceMember} annotations+=Annotation* 'source'
+	| {ObjectMember} annotations+=Annotation* 'object')
 	files+=FileName (','
 	files+=FileName)*
 	|
-	{OptionMember.self=current} 'option'
+	{OptionMember} annotations+=Annotation* 'option'
 	property=Property);
 
 FileName:
