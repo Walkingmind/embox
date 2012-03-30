@@ -28,14 +28,15 @@ Import-Package: org.apache.commons.logging,
  org.eclipse.xtend2.lib
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Export-Package: org.mybuild.myfile,
- org.mybuild.myfile.services,
+ org.mybuild.myfile.conversions,
+ org.mybuild.myfile.formatting,
+ org.mybuild.myfile.generator,
+ org.mybuild.myfile.naming,
+ org.mybuild.myfile.parseTreeConstruction,
  org.mybuild.myfile.parser.antlr,
  org.mybuild.myfile.parser.antlr.internal,
- org.mybuild.myfile.validation,
- org.mybuild.myfile.scoping,
- org.mybuild.myfile.generator,
- org.mybuild.myfile.formatting,
- org.mybuild.myfile.naming,
  org.mybuild.myfile.resource,
+ org.mybuild.myfile.scoping,
  org.mybuild.myfile.util,
- org.mybuild.myfile.parseTreeConstruction
+ org.mybuild.myfile.validation,
+ org.mybuild.myfile.services
