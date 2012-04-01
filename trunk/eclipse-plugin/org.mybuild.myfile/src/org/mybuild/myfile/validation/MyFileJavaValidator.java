@@ -22,13 +22,13 @@ import org.mybuild.myfile.Type;
 
 public class MyFileJavaValidator extends AbstractMyFileJavaValidator {
 
-	@Check
-	public void checkTypeNameStartsWithCapital(Type type) {
-		if (!Character.isUpperCase(type.getName().charAt(0))) {
-			warning("Name should start with a capital", Literals.NAMED__NAME,
-					IssueCodes.INVALID_MODULE_NAME);
-		}
-	}
+//	@Check
+//	public void checkTypeNameStartsWithCapital(Type type) {
+//		if (!Character.isUpperCase(type.getName().charAt(0))) {
+//			warning("Name should start with a capital", Literals.NAMED__NAME,
+//					IssueCodes.INVALID_MODULE_NAME);
+//		}
+//	}
 
 	@Check
 	public void checkSourceFileExists(SourceMember source) {
