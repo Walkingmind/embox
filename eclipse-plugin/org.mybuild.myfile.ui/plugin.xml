@@ -284,7 +284,7 @@
   <extension
         point="org.eclipse.xtext.content_resourceServiceProvider">
      <resourceServiceProvider
-           class="org.mybuild.myfile.ui.MyFileExecutableExtensionFactory:org.mybuild.myfile.resource.FileExensionUnawareResourceServiceProvider"
+           class="org.mybuild.myfile.ui.MyFileExecutableExtensionFactory:org.eclipse.xtext.ui.resource.IResourceUIServiceProvider"
            contentTypeIdentifier="org.mybuild.myfile.contentType">
      </resourceServiceProvider>
   </extension>

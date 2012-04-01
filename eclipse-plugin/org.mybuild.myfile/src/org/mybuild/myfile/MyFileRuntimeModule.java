@@ -7,10 +7,12 @@ import static com.google.inject.name.Names.named;
 
 import org.eclipse.xtext.conversion.impl.STRINGValueConverter;
 import org.eclipse.xtext.naming.IQualifiedNameProvider;
+import org.eclipse.xtext.resource.IResourceServiceProvider;
 import org.eclipse.xtext.scoping.IScopeProvider;
 import org.eclipse.xtext.scoping.impl.AbstractDeclarativeScopeProvider;
 import org.mybuild.myfile.conversions.TripleQuotedStringConverter;
 import org.mybuild.myfile.naming.MyQualifiedNameProvider;
+import org.mybuild.myfile.resource.FileExensionUnawareResourceServiceProvider;
 import org.mybuild.myfile.scoping.MyImportedNamespaceAwareLocalScopeProvider;
 
 /**
@@ -20,6 +22,10 @@ import org.mybuild.myfile.scoping.MyImportedNamespaceAwareLocalScopeProvider;
 public class MyFileRuntimeModule extends
 		org.mybuild.myfile.AbstractMyFileRuntimeModule {
 
+	public Class<? extends IResourceServiceProvider> bindIResourceServiceProvider() {
+		return FileExensionUnawareResourceServiceProvider.class;
+	}
+	
 	@Override
 	public void configureIScopeProviderDelegate(com.google.inject.Binder binder) {
 		binder.bind(IScopeProvider.class)
