@@ -26,10 +26,10 @@ public class MyImportedNamespaceAwareLocalScopeProvider extends
 		List<ImportNormalizer> normalizers = newLinkedList();
 
 		EObject context = res.getContents().get(0);
-		Package pkg = ((Model) context).getPackage();
+		String ownPackageName = getOwnPackageName(res);
 
-		if (pkg != null) {
-			normalizers.add(createImportedNamespaceResolver(pkg.getName()
+		if (ownPackageName != null) {
+			normalizers.add(createImportedNamespaceResolver(ownPackageName
 					+ ".*", isIgnoreCase(reference)));
 		}
 		normalizers.add(new ImportNormalizer(QualifiedName.create("mybuild",
@@ -38,6 +38,12 @@ public class MyImportedNamespaceAwareLocalScopeProvider extends
 		globalScope = createImportScope(globalScope, normalizers, null,
 				reference.getEReferenceType(), isIgnoreCase(reference));
 		return getResourceScope(globalScope, context, reference);
+	}
+
+	protected String getOwnPackageName(Resource res) {
+		EObject context = res.getContents().get(0);
+		Package pkg = ((Model) context).getPackage();
+		return pkg == null ? null : pkg.getName();
 	}
 
 	@Override
