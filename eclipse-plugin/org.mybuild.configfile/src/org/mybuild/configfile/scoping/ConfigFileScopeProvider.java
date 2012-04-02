@@ -30,12 +30,14 @@ public class ConfigFileScopeProvider extends MyFileScopeProvider {
 
 		if (container instanceof ModuleReferenceWithInitializer) {
 			ModuleReferenceWithInitializer moduleInitializer = (ModuleReferenceWithInitializer) container;
-			Module module = moduleInitializer.getType();
-			if (module == null || module.eIsProxy()) {
-				return IScope.NULLSCOPE;
+			IScope scope = IScope.NULLSCOPE;
+
+			for (Module module = moduleInitializer.getType(); module != null
+					&& !module.eIsProxy(); module = module.getSuperType()) {
+				scope = createPropertiesScope(scope, module.getOptions());
 			}
 
-			return createPropertiesScope(module.getOptions());
+			return scope;
 		}
 
 		return super.scope_PropertyValueBinding_property(ctx, ref);
