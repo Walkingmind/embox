@@ -29,6 +29,10 @@ Workflow {
 	}
 	
 	component = DirectoryCleaner {
+		directory = "${runtimeProject}/xtend-gen"
+	}
+	
+	component = DirectoryCleaner {
 		directory = "${runtimeProject}.ui/src-gen"
 	}
 
