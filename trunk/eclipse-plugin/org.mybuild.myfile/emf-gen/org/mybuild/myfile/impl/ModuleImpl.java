@@ -28,6 +28,8 @@ import org.mybuild.myfile.FileName;
 import org.mybuild.myfile.Member;
 import org.mybuild.myfile.Module;
 import org.mybuild.myfile.MyFilePackage;
+import org.mybuild.myfile.OptionMember;
+import org.mybuild.myfile.Property;
 import org.mybuild.myfile.ObjectMember;
 import org.mybuild.myfile.ProvidesMember;
 import org.mybuild.myfile.RequiresMember;
@@ -54,6 +56,7 @@ import org.mybuild.myfile.util.MyFileSwitch;
  *   <li>{@link org.mybuild.myfile.impl.ModuleImpl#getRequires <em>Requires</em>}</li>
  *   <li>{@link org.mybuild.myfile.impl.ModuleImpl#getSources <em>Sources</em>}</li>
  *   <li>{@link org.mybuild.myfile.impl.ModuleImpl#getObjects <em>Objects</em>}</li>
+ *   <li>{@link org.mybuild.myfile.impl.ModuleImpl#getOptions <em>Options</em>}</li>
  * </ul>
  * </p>
  *
@@ -419,6 +422,29 @@ public class ModuleImpl extends TypeImpl implements Module {
 		}
 		return elements;
 	}
+	
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated NOT
+	 */
+	public EList<Property> getOptions() {
+		EList<Property> elements = new EObjectEList<Property>(Property.class, 
+				this, MyFilePackage.MODULE__OPTIONS);
+		MyFileSwitch<Property> visitor = new MyFileSwitch<Property>() {
+			@Override
+			public Property caseOptionMember(OptionMember member) {
+				return member.getProperty();
+			}
+		};
+		for (Member member : getMembers()) {
+			Property memberElement = visitor.doSwitch(member);
+			if (memberElement != null) {
+				elements.add(memberElement);
+			}
+		}
+		return elements;
+	}
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -508,6 +534,8 @@ public class ModuleImpl extends TypeImpl implements Module {
 			return getSources();
 		case MyFilePackage.MODULE__OBJECTS:
 			return getObjects();
+		case MyFilePackage.MODULE__OPTIONS:
+			return getOptions();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -562,6 +590,10 @@ public class ModuleImpl extends TypeImpl implements Module {
 			getObjects().clear();
 			getObjects().addAll((Collection<? extends FileName>) newValue);
 			return;
+		case MyFilePackage.MODULE__OPTIONS:
+			getOptions().clear();
+			getOptions().addAll((Collection<? extends Property>) newValue);
+			return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -607,6 +639,9 @@ public class ModuleImpl extends TypeImpl implements Module {
 		case MyFilePackage.MODULE__OBJECTS:
 			getObjects().clear();
 			return;
+		case MyFilePackage.MODULE__OPTIONS:
+			getOptions().clear();
+			return;
 		}
 		super.eUnset(featureID);
 	}
@@ -645,6 +680,8 @@ public class ModuleImpl extends TypeImpl implements Module {
 			return !getSources().isEmpty();
 		case MyFilePackage.MODULE__OBJECTS:
 			return !getObjects().isEmpty();
+		case MyFilePackage.MODULE__OPTIONS:
+			return !getOptions().isEmpty();
 		}
 		return super.eIsSet(featureID);
 	}

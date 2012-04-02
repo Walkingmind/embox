@@ -601,13 +601,22 @@ public interface MyFilePackage extends EPackage {
 	int MODULE__OBJECTS = TYPE_FEATURE_COUNT + 12;
 
 	/**
+	 * The feature id for the '<em><b>Options</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MODULE__OPTIONS = TYPE_FEATURE_COUNT + 13;
+
+	/**
 	 * The number of structural features of the '<em>Module</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int MODULE_FEATURE_COUNT = TYPE_FEATURE_COUNT + 13;
+	int MODULE_FEATURE_COUNT = TYPE_FEATURE_COUNT + 14;
 
 	/**
 	 * The meta object id for the '{@link org.mybuild.myfile.impl.MemberImpl <em>Member</em>}' class.
@@ -1838,6 +1847,17 @@ public interface MyFilePackage extends EPackage {
 	EReference getModule_Objects();
 
 	/**
+	 * Returns the meta object for the reference list '{@link org.mybuild.myfile.Module#getOptions <em>Options</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference list '<em>Options</em>'.
+	 * @see org.mybuild.myfile.Module#getOptions()
+	 * @see #getModule()
+	 * @generated
+	 */
+	EReference getModule_Options();
+
+	/**
 	 * Returns the meta object for class '{@link org.mybuild.myfile.Member <em>Member</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -2553,6 +2573,14 @@ public interface MyFilePackage extends EPackage {
 		 * @generated
 		 */
 		EReference MODULE__OBJECTS = eINSTANCE.getModule_Objects();
+
+		/**
+		 * The meta object literal for the '<em><b>Options</b></em>' reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference MODULE__OPTIONS = eINSTANCE.getModule_Options();
 
 		/**
 		 * The meta object literal for the '{@link org.mybuild.myfile.impl.MemberImpl <em>Member</em>}' class.

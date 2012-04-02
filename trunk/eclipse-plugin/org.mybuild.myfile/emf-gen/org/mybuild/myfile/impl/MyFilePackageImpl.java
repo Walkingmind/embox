@@ -681,6 +681,15 @@ public class MyFilePackageImpl extends EPackageImpl implements MyFilePackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EReference getModule_Options() {
+		return (EReference) moduleEClass.getEStructuralFeatures().get(13);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EClass getMember() {
 		return memberEClass;
 	}
@@ -1080,6 +1089,7 @@ public class MyFilePackageImpl extends EPackageImpl implements MyFilePackage {
 		createEReference(moduleEClass, MODULE__REQUIRES);
 		createEReference(moduleEClass, MODULE__SOURCES);
 		createEReference(moduleEClass, MODULE__OBJECTS);
+		createEReference(moduleEClass, MODULE__OPTIONS);
 
 		memberEClass = createEClass(MEMBER);
 		createEReference(memberEClass, MEMBER__CONTAINING_MODULE);
@@ -1349,6 +1359,10 @@ public class MyFilePackageImpl extends EPackageImpl implements MyFilePackage {
 				!IS_UNSETTABLE, IS_UNIQUE, IS_DERIVED, IS_ORDERED);
 		initEReference(getModule_Objects(), this.getFileName(), null,
 				"objects", null, 0, -1, Module.class, IS_TRANSIENT,
+				IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES,
+				!IS_UNSETTABLE, IS_UNIQUE, IS_DERIVED, IS_ORDERED);
+		initEReference(getModule_Options(), this.getProperty(), null,
+				"options", null, 0, -1, Module.class, IS_TRANSIENT,
 				IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES,
 				!IS_UNSETTABLE, IS_UNIQUE, IS_DERIVED, IS_ORDERED);
 
