@@ -28,6 +28,7 @@ import org.eclipse.emf.common.util.EList;
  *   <li>{@link org.mybuild.myfile.Module#getRequires <em>Requires</em>}</li>
  *   <li>{@link org.mybuild.myfile.Module#getSources <em>Sources</em>}</li>
  *   <li>{@link org.mybuild.myfile.Module#getObjects <em>Objects</em>}</li>
+ *   <li>{@link org.mybuild.myfile.Module#getOptions <em>Options</em>}</li>
  * </ul>
  * </p>
  *
@@ -283,5 +284,21 @@ public interface Module extends Type {
 	 * @generated
 	 */
 	EList<FileName> getObjects();
+
+	/**
+	 * Returns the value of the '<em><b>Options</b></em>' reference list.
+	 * The list contents are of type {@link org.mybuild.myfile.Property}.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Options</em>' reference list isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Options</em>' reference list.
+	 * @see org.mybuild.myfile.MyFilePackage#getModule_Options()
+	 * @model resolveProxies="false" transient="true" volatile="true" derived="true"
+	 * @generated
+	 */
+	EList<Property> getOptions();
 
 } // Module
