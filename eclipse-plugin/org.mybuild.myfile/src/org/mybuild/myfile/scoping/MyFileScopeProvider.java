@@ -45,18 +45,21 @@ public class MyFileScopeProvider extends AbstractDeclarativeScopeProvider {
 				return IScope.NULLSCOPE;
 			}
 
-			EList<Property> elements = annotationType.getElements();
-			Iterable<IEObjectDescription> descriptions = transform(elements,
-					new Function<Property, IEObjectDescription>() {
-						public IEObjectDescription apply(Property from) {
-							return EObjectDescription.create(
-									QualifiedName.create(from.getName()), from);
-						}
-					});
-			return MapBasedScope.createScope(IScope.NULLSCOPE, descriptions);
+			return createPropertiesScope(annotationType.getElements());
 		}
 
 		return IScope.NULLSCOPE;
+	}
+
+	protected IScope createPropertiesScope(EList<Property> elements) {
+		Iterable<IEObjectDescription> descriptions = transform(elements,
+				new Function<Property, IEObjectDescription>() {
+					public IEObjectDescription apply(Property from) {
+						return EObjectDescription.create(
+								QualifiedName.create(from.getName()), from);
+					}
+				});
+		return MapBasedScope.createScope(IScope.NULLSCOPE, descriptions);
 	}
 
 }
