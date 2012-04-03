@@ -24,8 +24,6 @@ options = \
 
 header := digraph Embox {
 
-GRAPH = $(MODS_BUILD)
-
 footer := }
 
 mod_package = $(basename $(mod_name))
