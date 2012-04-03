@@ -5,8 +5,6 @@
 
 include mk/dirs.mk
 
-include mk/configure.mk #FIXME
-
 IMAGE      = $(BIN_DIR)/$(TARGET)
 IMAGE_DIS  = $(IMAGE).dis
 IMAGE_BIN  = $(IMAGE).bin
