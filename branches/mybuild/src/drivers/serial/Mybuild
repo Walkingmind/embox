@@ -1,0 +1,30 @@
+package embox.driver.serial
+
+abstract module serial {
+	
+}
+
+module serial_port extends serial{
+	option number baud_rate 
+
+    @IncludePath("$(SRC_DIR)/compat/posix/include")
+	source "serial_port.c"
+
+	depends embox.kernel.irq
+}
+
+module apbuart extends serial{
+	option number baud_rate 
+	source "apbuart.c"
+	depends embox.kernel.irq
+}
+
+module xuartlite extends serial{
+	source "xuartlite.c"
+	depends embox.kernel.irq
+}
+
+module at91_uart extends serial{
+	source "at91_uart.c"
+	depends embox.kernel.irq
+}

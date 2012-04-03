@@ -1,0 +1,8 @@
+package embox.driver.tty_ng
+
+module core {
+	@IncludePath("$(THIRDPARTY_DIR)/include/")
+	source "tty_ng.c"
+	depends embox.fs.devfs
+} 
+	

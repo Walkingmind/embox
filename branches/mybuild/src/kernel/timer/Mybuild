@@ -1,0 +1,29 @@
+package embox.kernel.timer
+
+abstract module sleep_api { }
+abstract module timer_api { }
+
+module timer extends timer_api {
+	@IncludePath("$(SRC_DIR)/compat/posix/include")
+	source "timer.c"
+	depends embox.kernel.clock_source, embox.arch.clock
+}
+
+module head_timer extends timer_api {
+	@IncludePath("$(SRC_DIR)/compat/posix/include")
+	source "head_timer.c"
+	depends embox.kernel.clock_source, embox.arch.clock
+}
+
+module sleep extends sleep_api {
+	@IncludePath("$(SRC_DIR)/compat/posix/include")
+	source "sleep.c"
+	depends timer_api, embox.kernel.thread.core
+}
+
+module sleep_nosched extends sleep_api {
+	@IncludePath("$(SRC_DIR)/compat/posix/include")
+	source "sleep_nosched.c"
+	depends timer_api
+}
+
