@@ -31,7 +31,7 @@ MAKEFLAGS += --warn-undefined-variables
 
 else
 
-include mk/load.mk
+include mk/main.mk
 
 endif
 
