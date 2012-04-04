@@ -6,8 +6,6 @@
 # Author: Eldar Abusalimov
 #
 
-CACHE_DIR := mk/.cache
-
 .DELETE_ON_ERROR:
 .SECONDEXPANSION:
 
