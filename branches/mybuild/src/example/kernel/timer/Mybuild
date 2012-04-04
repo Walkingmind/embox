@@ -1,6 +1,0 @@
-package embox.example.kernel.timer
-
-//$_BRIEF-timer = demonstrates using timer API
-module timer {
-	source "timer.c"
-}

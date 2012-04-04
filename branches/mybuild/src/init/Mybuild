@@ -1,9 +1,0 @@
-
-package embox.init
-
-module init {
-    @IncludePath("$(CONF_DIR)")
-    @IncludePath("$(SRC_DIR)/compat/posix/include")
-	source "init.c"
-}
-

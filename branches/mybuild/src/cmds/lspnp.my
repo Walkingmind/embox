@@ -1,8 +1,0 @@
-
-package embox.cmd
-
-module lspnp {
-    @IncludePath("$(CONF_DIR)")
-	source "lspnp.c"
-	depends embox.driver.amba_registry
-}

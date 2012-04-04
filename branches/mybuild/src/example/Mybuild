@@ -1,7 +1,0 @@
-package embox.example
-
-module hello {
-	@IncludePath("$(SRC_DIR)/compat/posix/include")
-	source "hello.c"
-}
-

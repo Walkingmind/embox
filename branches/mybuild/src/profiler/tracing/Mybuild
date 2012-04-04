@@ -1,5 +1,0 @@
-package embox.profiler
-
-module tracing {
-	source "trace.c"
-}
