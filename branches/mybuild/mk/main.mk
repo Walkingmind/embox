@@ -3,6 +3,7 @@
 # Embox main Makefile.
 #
 
+include mk/core/common.mk
 include mk/dirs.mk
 include mk/util/wildcard.mk
 
@@ -22,7 +23,9 @@ BUILD_TARGETS := all dot docsgen
 
 .PHONY : $(BUILD_TARGETS)
 $(BUILD_TARGETS) :
-	@$(MAKE) -f mk/load.mk $@
+# Call here prevents sub-make invocation in question mode (-q).
+# Used to speed up recent bash-completion.
+	@$(call MAKE) -f mk/load.mk $@
 
 #
 # Configuration related stuff.
