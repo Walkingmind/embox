@@ -1126,6 +1126,10 @@ endef
 
 $(def_all)
 
+map-get = $(map-get 1->$2/$3)
+
+map-set = $(map-set 1->$2/$3,$4)
+
 #
 # Object/class structure introspection.
 #
