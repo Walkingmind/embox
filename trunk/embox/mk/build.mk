@@ -36,7 +36,7 @@ docsgen:
 MODULE_LIST := $(strip $(call help_modulelist))
 
 help-mod-list : 
-	@echo --- Module list --- 
+	$(info --- Module list --- )
 	$(info $(addsuffix $(\n),$(MODULE_LIST)))
 	@#
 
