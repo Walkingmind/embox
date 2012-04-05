@@ -71,6 +71,13 @@ TEMPLATES := \
 	$(sort $(patsubst $(TEMPLATES_DIR)/%/build.conf,%, \
 		$(call r-wildcard,$(TEMPLATES_DIR)/**/build.conf)))
 
+.PHONY : confload
+confload :
+	@$(info Usage: $(MAKE) confload-<template>)$(info \
+	)$(info List of available templates: \
+	)$(foreach t,$(TEMPLATES),$(info $(\s)$(\s)$t))$(info \
+	)#
+
 # confload-<TEMPLATE>
 .PHONY : $(TEMPLATES:%=confload-%)
 $(TEMPLATES:%=confload-%) : confload-% : confclean
@@ -147,7 +154,7 @@ endef
 confclean : clean
 	@$(RM) -r $(CONF_DIR)
 
-define help-confclean 
+define help-confclean
 Usage: $(MAKE) confclean
 
   Cleans config directory, suitable for case, when you need precached Mybuild,
@@ -159,7 +166,8 @@ endef
 .PHONY : cacheclean
 cacheclean :
 	@$(RM) -r $(CACHE_DIR)
-define help-cacheclean 
+
+define help-cacheclean
 Usage: $(MAKE) cacheclean
 
   Removes build system cache. This is not intended to use manually,
@@ -192,6 +200,7 @@ Usage: $(MAKE) [targets]
 Mybuild version $(MYBUILD_VERSION).
 
 Configuration targets:
+  confload       - List available configuration templates
   confload-<t>   - Load a configuration from template <t>
   menuconfig (m) - Interactively select a configuration using a menu based
                    program (requires 'dialog')
