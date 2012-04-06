@@ -12,8 +12,7 @@ include mk/util/wildcard.mk
 # Targets that require Mybuild infrastructure.
 #
 
-build_targets := all dot docsgen 
-
+build_targets := all dot docsgen
 .PHONY : $(build_targets)
 $(build_targets) :
 # Call here prevents sub-make invocation in question mode (-q).
@@ -25,10 +24,6 @@ build_targets_implicit := help-mod-%
 $(build_targets_implicit) :
 	@$(call MAKE) -f mk/load.mk $@
 
-#
-# Configuration related stuff.
-#
-
 define help-all
 Usage: $(MAKE) [all]
 
@@ -38,23 +33,19 @@ Usage: $(MAKE) [all]
   producing various debug and log info.
 
   Note that you have to configure the project prior to building it.
-
-
-endef
+endef # all
 
 define help-dot
 Usage: $(MAKE) dot
 
   Generate PostScript file with module dependency graph.
-
-endef
+endef # dot
 
 define help-docsgen
 Usage: $(MAKE) docsgen
 
-  Generate documentation from doxygen comments in source files
-
-endef
+  Generate documentation from doxygen comments in source files.
+endef # docsgen
 
 define help-mod
 Usage: $(MAKE) help-mod-<INFO>
@@ -63,8 +54,11 @@ Usage: $(MAKE) help-mod-<INFO>
   list: list all modules included in build
   <module_name>: show brief informataion about module: dependencies, options,
 	source files
-
 endef
+
+#
+# Configuration related stuff.
+#
 
 # Assuming that we have 'build.conf' in every template.
 TEMPLATES := \
@@ -73,10 +67,17 @@ TEMPLATES := \
 
 .PHONY : confload
 confload :
-	@$(info Usage: $(MAKE) confload-<template>)$(info \
-	)$(info List of available templates: \
-	)$(foreach t,$(TEMPLATES),$(info $(\s)$(\s)$t))$(info \
-	)#
+	@$(info $(confload_list)$(\n))#
+
+ifdef TEMPLATES
+define confload_list
+List of available templates:$(subst $(\s),$(\n)  , $(TEMPLATES))
+
+Use '$(MAKE) confload-<template>' to load one.
+endef
+else
+confload_list := No templates are available.
+endif # TEMPLATES
 
 # confload-<TEMPLATE>
 .PHONY : $(TEMPLATES:%=confload-%)
@@ -86,12 +87,16 @@ $(TEMPLATES:%=confload-%) : confload-% : confclean
 	@echo 'Config complete'
 
 define help-confload
-Usage make confload-<template>
+Usage: $(MAKE) confload-<template>
+   Or: $(MAKE) confload
 
-  Loads <template> as config. In contrast with template, config is intended
-  for user to modify, adding problem-aspect features to system.
+  Load <template> as a new configuration or list available templates.
 
-endef
+  Template is a configuration stub with some reasonable pre-defined defaults.
+  Unlike regular configuration, template is not intended to be modified
+  directly. Instead, it is loaded as a new configuration into conf/ directory,
+  where you can edit it for your needs.
+endef # confload
 
 # Dialog-based interactive template selections.
 .PHONY : m menuconfig
@@ -111,11 +116,11 @@ x xconfig :
 define help-menuconfig
 Usage: $(MAKE) menuconfig
 
-  Displays pseudo-graphic menu with avaibale choises for config loading.
+  Displays pseudo-graphic menu listing templates available to be loaded
+  as a configuration.
 
   Requires 'dialog'.
-
-endef
+endef # menuconfig
 
 define help-xconfig
 Usage: $(MAKE) xconfig
@@ -124,8 +129,7 @@ Usage: $(MAKE) xconfig
   avaibale choises for config loading.
 
   Requires X11, GTK, Xdialog.
-
-endef
+endef # xconfig
 
 
 .PHONY : config
@@ -145,10 +149,10 @@ c clean :
 
 define help-clean
 Usage: $(MAKE) clean
+   Or: $(MAKE) c
 
   Remove most build artifacts (image, libraries, objects, etc.) #TODO Usecase?
-
-endef
+endef # clean
 
 .PHONY : confclean
 confclean : clean
@@ -159,9 +163,8 @@ Usage: $(MAKE) confclean
 
   Cleans config directory, suitable for case, when you need precached Mybuild,
   but no config, for example, when you gives a version to some end customers,
-  that will not chagne Mybuild's
-
-endef
+  that will not change Mybuild files.
+endef # confclean
 
 .PHONY : cacheclean
 cacheclean :
@@ -173,8 +176,7 @@ Usage: $(MAKE) cacheclean
   Removes build system cache. This is not intended to use manually,
   but may be usefull in build system developing or when update from repo
   causes broken build.
-
-endef
+endef # cacheclean
 
 .PHONY : distclean
 distclean : clean confclean cacheclean
@@ -185,17 +187,16 @@ Usage: $(MAKE) distclean
   Performs full clean: clean, confclean, distclean. After running this,
   root directory reverts to fresh state, just like after fresh checkout
   or after archive extraction.
-
-endef
+endef # distclean
 
 #
 # Make help and its friends.
 #
 .PHONY : help
 help :
-	@$(info $(help-main))#
+	@$(info $(help_main))#
 
-define help-main
+define help_main
 Usage: $(MAKE) [targets]
 Mybuild version $(MYBUILD_VERSION).
 
@@ -225,13 +226,31 @@ Module information:
 
 endef
 
-help_targets := confload menuconfig xconfig all clean confclean cacheclean distclean dot \
-	doxygen mod
-.PHONY : $(help_targets:%=help-%)
-$(help_targets:%=help-%) : help-% :
-	@$(info $(help-$*))#
+help_entries := \
+	all \
+	dot \
+	docsgen \
+	mod \
+	confload \
+	menuconfig \
+	xconfig \
+	clean \
+	confclean \
+	cacheclean \
+	distclean
+help_targets := $(help_entries:%=help-%)
 
-#default help section 
-help-% : 
-	@echo There is no such help section
+# Fixup documentation variables escaping colons (':' -> '$$:').
+# This prevents bash-completion to treat lines like 'Building targets:' as
+# rules.
+$(foreach h,help_main $(help_targets), \
+	$(eval define $h$(\n)$(subst :,$$:,$(value $h))$(\n)endef))
+
+.PHONY : $(help_targets)
+$(help_targets) :
+	@$(info $($@)$(\n))#
+
+# Default help section.
+help-% :
+	@echo No help section for '$*'
 
