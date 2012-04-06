@@ -72,27 +72,34 @@ endef
 #
 
 # Assuming that we have 'build.conf' in every template.
-TEMPLATES := \
+templates := \
 	$(sort $(patsubst $(TEMPLATES_DIR)/%/build.conf,%, \
 		$(call r-wildcard,$(TEMPLATES_DIR)/**/build.conf)))
+
+
+# build-<template>
+.PHONY : $(templates:%=build-%)
+$(templates:%=build-%) : build-% :
+	$(call MAKE) CONF_DIR=$(TEMPLATES_DIR)/$* build
+
 
 .PHONY : confload
 confload :
 	@$(info $(confload_list)$(\n))#
 
-ifdef TEMPLATES
+ifdef templates
 define confload_list
-List of available templates:$(subst $(\s),$(\n)  , $(TEMPLATES))
+List of available templates$:$(subst $(\s),$(\n)  , $(templates))
 
 Use '$(MAKE) confload-<template>' to load one.
 endef
 else
 confload_list := No templates are available.
-endif # TEMPLATES
+endif # templates
 
-# confload-<TEMPLATE>
-.PHONY : $(TEMPLATES:%=confload-%)
-$(TEMPLATES:%=confload-%) : confload-% : confclean
+# confload-<template>
+.PHONY : $(templates:%=confload-%)
+$(templates:%=confload-%) : confload-% : confclean
 	@$(MKDIR) $(CONF_DIR)
 	@$(CP) -fR -t $(CONF_DIR) $(TEMPLATES_DIR)/$*/*
 	@echo 'Config complete'
@@ -211,6 +218,11 @@ define help_main
 Usage: $(MAKE) [targets]
 Mybuild version $(MYBUILD_VERSION).
 
+Building targets:
+  all            - Default build target, alias to '$(MAKE) build'
+  build          - Build the current active configuration
+  build-<t>      - Build a given configuration template
+
 Configuration targets:
   confload       - List available configuration templates
   confload-<t>   - Load a configuration from template <t>
@@ -218,9 +230,6 @@ Configuration targets:
                    program (requires 'dialog')
   xconfig (x)    - Interactively select a configuration using GTK client
                    (requires 'Xdialog')
-
-Building targets:
-  all            - Build main executable (default build target)
 
 Cleaning targets:
   clean (c)      - Remove most build artifacts (image, libraries, objects, etc.)
