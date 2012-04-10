@@ -62,7 +62,7 @@ define class-Mybuild
 			inst <- $1,
 		   	mod <- $(get inst->type),	
 			super <- $(get mod->allSuperTypes),
-			superInst <- $(invoke moduleInstance,$(super)),
+			superInst <- $(invoke moduleInstanceHas,$(super)),
 			$(set+ superInst->depends,$(inst))))
 
 
