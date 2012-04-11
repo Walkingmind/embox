@@ -4,11 +4,7 @@
 # Author: Anton Kozlov 
 #
 
-.PHONY : all
-all :
-	@#
-
-include mk/script/check-make-flags.mk
+include mk/script/script-common.mk
 
 ifndef BUILD_MODEL
 $(error BUILD_MODEL is not defined)
