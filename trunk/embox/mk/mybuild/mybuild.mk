@@ -16,6 +16,8 @@ define class-Mybuild
 
 	$(map moduleInstanceStore... : BuildModuleInstance)
 	
+	$(map activeFeatures... : BuildModuleInstance)
+
 	# Args:
 	$(method createBuild,
 		$(for \
@@ -51,7 +53,8 @@ define class-Mybuild
 					$(set moduleInst->includeMember,$(cfgInclude)))),
 
 			$(invoke superSetDeps,$1)
-			$(invoke checkResolve,$1)
+			$(invoke checkAbstractRealization,$1)
+			$(invoke checkFeatureRealization,$1)
 			$(invoke optionBind,$1)
 			$1))
 				
@@ -82,19 +85,29 @@ define class-Mybuild
 
 	# Args:
 	#  1. List of moduleInstance's
-	$(method checkResolve,
-		$(strip 
-			$(for inst <- $1,
-				instType <- $(get inst->type),
-				isAbstr<-$(get instType->isAbstract), 
-				$(if $(singleword $(get inst->depends)),,#Not single realization, error
-					$(if $(get inst->depends),
-						$(invoke issueReceiver->addIssues,$(new InstantiateIssue,,error,,
-							Multiplie abstract realization: $(get instType->qualifiedName)
-								$(invoke getInstDepsOrigin,$(get inst->depends)))),
-						$(invoke issueReceiver->addIssues,$(new InstantiateIssue,,error,,
-							No abstract realization: $(get instType->qualifiedName))))))
-			))
+	$(method checkAbstractRealization,
+		$(for inst <- $1,
+			instType <- $(get inst->type),
+			isAbstr<-$(get instType->isAbstract), 
+			$(if $(singleword $(get inst->depends)),,#Not single realization, error
+				$(if $(get inst->depends),
+					$(invoke issueReceiver->addIssues,$(new InstantiateIssue,,error,,
+						Multiplie abstract realization: $(get instType->qualifiedName)
+							$(invoke getInstDepsOrigin,$(get inst->depends)))),
+					$(invoke issueReceiver->addIssues,$(new InstantiateIssue,,error,,
+						No abstract realization: $(get instType->qualifiedName))))))
+		)
+
+	$(method checkFeatureRealization,
+		$(for inst <- $1,
+			instType <- $(get inst->type),
+			require <- $(get instType->requires),
+			$(if $(map-get activeFeatures/$(require)),#OK nothing to do
+				,#Feature not realized, error
+				$(invoke issueReceiver->addIssues,$(new InstantiateIssue,,error,,
+					Feature $(get require->qualifiedName) required by 
+					$(get instType->qualifiedName) is not implemented)))))
+		
 
 	# Args:
 	#  1. List of moduleInstance's 
@@ -155,6 +168,11 @@ define class-Mybuild
 
 					$(map-set moduleInstanceStore/$(mod),
 						$(moduleInstance))
+
+					$(for provide <- $(get mod->provides),
+						opt <- $(provide) $(get provide->allSubFeatures),
+						$(map-set+ activeFeatures/$(opt),
+							$(moduleInstance)))
 
 					$(moduleInstance)))))
 	
@@ -226,16 +244,14 @@ define printInstances
 		$(warning $(call printInstance,$(get buildBuild->modules)))))
 endef 
 
+define printIssues
+	$(for issueReceiver <- $(get-field 1->issueReceiver),
+		$(if $(invoke issueReceiver->getIssues),
+			$(invoke issueReceiver->printIssues)))
+endef
+
 define listInstances
-		$(strip \
-			$(for \
-				buildBuild<-$1,
-				issueReceiver <- $(get-field buildBuild->issueReceiver),
-
-				$(if $(invoke issueReceiver->getIssues),
-					$(invoke issueReceiver->printIssues))
-
-				$(get buildBuild->modules)))
+		$(strip	$(get 1->modules))
 endef
 
 define class-InstantiateIssue
