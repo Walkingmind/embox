@@ -23,8 +23,8 @@ define class-BuildBuild
 		modules,BuildModuleInstance,configuration,changeable many containment)
 
 	# PROTECTED REGION ID(Build_Build) ENABLED START
-	$(field issueReceiver : IssueReceiver)
-
+	$(property-field issueReceiver : IssueReceiver)
+	
 	$(map moduleInstanceByName : BuildModuleInstance)
 
 	# PROTECTED REGION END
