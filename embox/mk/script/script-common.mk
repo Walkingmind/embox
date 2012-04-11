@@ -1,5 +1,7 @@
 # $Id$
 #
+# Checks for necessary Make flags and defines a no-op default target.
+#
 #   Date: Feb 21, 2012
 # Author: Eldar Abusalimov
 #
@@ -14,3 +16,9 @@ $(error '-d' flag must not be used. \
 	the script can't detect the presense of the latter, \
 	but building will fail later anyway)
 endif
+
+.DEFAULT_GOAL := all
+
+.PHONY : all
+all :
+	@#
