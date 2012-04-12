@@ -155,7 +155,7 @@ define class-Mybuild
 
 
 	# Args:
-	#  1. MyModule instance
+	#  1. MyModuleType instance
 	# Return:
 	#  ModuleInstance instance 
 	$(method moduleInstance,
@@ -177,7 +177,7 @@ define class-Mybuild
 					$(moduleInstance)))))
 	
 	# Args:
-	#  1. MyModule instance
+	#  1. MyModuleType instance
 	# Return:
 	#  ModuleInstance on positive
 	#  None on negative 
@@ -185,7 +185,7 @@ define class-Mybuild
 		$(map-get moduleInstanceStore/$1))
 
 	# Args:
-	#  1. MyModule object instance, that not presented in build
+	#  1. MyModuleType object instance, that not presented in build
 	# Return:
 	#  List of ModuleInstance for module, that have no reperesents yet
 	$(method moduleInstanceClosure,
