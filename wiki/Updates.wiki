@@ -1,0 +1,17 @@
+#summary Recent Commits and Updated Issues
+#labels Featured
+
+_So far as Google decided to [http://code.google.com/p/support/issues/detail?id=24324 disable the Updates/Activity tab], here is a temporary replacement._
+
+= Recent Commits to trunk =
+
+<wiki:gadget url="http://bulletphysics.org/~erwincoumans/com1.xml" up_projectName="embox" width="800"  height="100"/>
+
+= Detailed Updates to Open Issues =
+<wiki:gadget url="http://bulletphysics.org/~erwincoumans/t6.xml" up_projectName="embox" width="800"  height="250"/>
+
+= Updates to All Issues (including closed/fixed issues) =
+
+<wiki:gadget url="http://bulletphysics.org/~erwincoumans/gc23.xml" up_projectName="embox" width="800"  height="250"/>
+
+This page originates from [http://code.google.com/p/bullet/wiki/Updates Bullet project].
