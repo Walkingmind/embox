@@ -54,12 +54,12 @@ static void handle_body(struct lego_dc_msg *msg, int *addit_len, uint8_t addit_m
 static int dc_rx_hnd(struct pnet_pack *pack) {
 	struct lego_dc_msg *msg;
 	int addit_len = 0;
-	
+
 	msg = (struct lego_dc_msg *) pnet_pack_get_data(pack);
 
 	handle_body(msg, &addit_len, dc_out_msg.body.tail + 1);
 
-	return NET_HND_SUPPRESSED;
+	return NET_HND_STOP_FREE;
 }
 
 static int node_dc_init(void) {
