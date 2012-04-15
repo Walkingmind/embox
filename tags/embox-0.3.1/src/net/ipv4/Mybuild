@@ -1,0 +1,62 @@
+package embox.net
+
+module af_inet {
+    @IncludePath("$(SRC_DIR)/compat/linux/include") 
+    @IncludePath("$(SRC_DIR)/compat/posix/include")
+	source "af_inet.c", "protocol.c", "ipconfig.c"
+	depends embox.net.socket
+	depends embox.net.raw_sock
+	depends route
+}
+
+module route {
+    @IncludePath("$(SRC_DIR)/compat/linux/include") 
+    @IncludePath("$(SRC_DIR)/compat/posix/include")
+	source "route.c"
+}
+
+module arp_queue {
+    @IncludePath("$(SRC_DIR)/compat/linux/include") 
+    @IncludePath("$(SRC_DIR)/compat/posix/include")
+	source "arp_queue.c"
+}
+
+module arp {
+    @IncludePath("$(SRC_DIR)/compat/linux/include") 
+    @IncludePath("$(SRC_DIR)/compat/posix/include")
+	source "arp.c"
+	depends embox.net.neighbour, arp_queue
+}
+
+module ipv4 {
+    @IncludePath("$(SRC_DIR)/compat/linux/include") 
+    @IncludePath("$(SRC_DIR)/compat/posix/include")
+	source "ip_input.c", "ip_options.c", "ip_output.c", "ip_fragment.c"
+}
+
+module icmp {
+    @IncludePath("$(SRC_DIR)/compat/linux/include") 
+    @IncludePath("$(SRC_DIR)/compat/posix/include")
+	source "icmp.c"
+	depends af_inet
+	depends embox.kernel.time
+}
+
+module udp {
+    @IncludePath("$(SRC_DIR)/compat/linux/include") 
+    @IncludePath("$(SRC_DIR)/compat/posix/include")
+	source "udp.c"
+}
+
+module tcp {
+    @IncludePath("$(SRC_DIR)/compat/linux/include") 
+    @IncludePath("$(SRC_DIR)/compat/posix/include")
+	source "tcp.c"
+}
+
+module raw_sock {
+    @IncludePath("$(SRC_DIR)/compat/linux/include") 
+    @IncludePath("$(SRC_DIR)/compat/posix/include")
+	source "raw_sock.c"
+	depends embox.net.socket
+}

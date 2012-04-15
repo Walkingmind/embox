@@ -1,0 +1,53 @@
+package embox.example.net
+
+module tcp_echo {
+	source "tcp_echo.c"
+	depends embox.net.socket
+}
+
+module tcp_sender {
+	source "tcp_sender.c"
+	depends embox.net.socket
+}
+
+module tcp_connect {
+	source "tcp_connect.c"
+	depends embox.net.socket
+}
+
+module tcp_accepter {
+	source "tcp_accepter.c"
+	depends embox.net.socket
+}
+
+module receiver {
+	source "receiver.c"
+	depends embox.net.socket, embox.net.eth, embox.net.arp
+	depends embox.net.af_inet, embox.net.udp
+}
+
+module udp_echo {
+	source "udp_echo.c"
+	depends embox.net.socket, embox.net.eth, embox.net.arp
+	depends embox.net.af_inet, embox.net.udp
+}
+
+module tcp_receiver {
+	source "tcp_receiver.c"
+	depends embox.net.socket
+}
+
+module httpd {
+	source "httpd.c"
+
+	depends embox.net.socket
+	depends embox.compat.posix.LibPosix
+
+	@InitFS
+	source "hello.html"
+}
+
+module r6040_example {
+	source "r6040_example.c"
+	depends embox.driver.net.r6040
+}

@@ -1,0 +1,40 @@
+package embox.framework
+
+static module LibFrameworkNet {
+	@DefineMacro("__FRAMEWORK__")
+	source "net/pack/core.c",
+		"net/proto/core.c",
+		"net/sock/core.c"
+}
+	
+
+static module LibFramework {
+	@DefineMacro("__FRAMEWORK__")
+	source "cmd/core.c",
+		"mod/core.c",
+		"service/callback.c"
+
+	depends runlevel, test
+}
+
+module runlevel {
+	/*FIXME mybuild make flags options */
+	/*make flags "-D__FRAMEWORK__"*/
+	source "runlevel.c"
+	source "unit.c"
+}
+
+module level_0 { /*level_arch */
+}
+
+module level_1 { /* level_test */
+}
+
+module level_2 { /* level_driver */
+}
+
+module level_3 { /*level_user */
+}
+
+module level_4 { /*level_nonloaded */
+}
