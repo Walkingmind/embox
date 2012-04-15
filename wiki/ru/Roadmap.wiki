@@ -1,7 +1,10 @@
 #summary Embox development roadmap
 #labels Phase-Requirements,Featured
 
-= 2012/02/26 v0.3.0 [http://code.google.com/p/embox/issues/list?can=1&q=milestone=v0.3.0 [issues]] [http://code.google.com/p/embox/issues/list?q=milestone=v0.3.0 [open issues]] Посвящается детям Sikmir-a (Тимуру и Евгении) =
+= 2012/04/15 v0.3.1 [http://code.google.com/p/embox/issues/list?can=1&q=milestone=v0.3.1 [issues]] [http://code.google.com/p/embox/issues/list?q=milestone=v0.3.1 [open issues]] =
+
+
+= 2012/02/26 v0.3.0 [http://code.google.com/p/embox/issues/list?can=1&q=milestone=v0.3.0 [issues]] Посвящается детям Sikmir-a (Тимуру и Евгении) =
 
  == Разработка ==
   * Добавлен интерпретатор [http://www.lua.org/about.html Lua 5.1]
