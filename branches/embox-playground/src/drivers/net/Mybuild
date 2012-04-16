@@ -1,0 +1,25 @@
+package embox.driver.net
+
+module loopback {
+    @IncludePath("$(SRC_DIR)/compat/linux/include") 
+    @IncludePath("$(SRC_DIR)/compat/posix/include")
+	source "loopback.c"
+}
+
+module ne2k_pci {
+    @IncludePath("$(SRC_DIR)/compat/linux/include") 
+    @IncludePath("$(SRC_DIR)/compat/posix/include")
+	source "ne2k_pci.c"
+	depends embox.kernel.irq
+	depends embox.driver.pci
+}
+
+module xemaclite {
+	source "xilinx_emaclite.c"
+	depends embox.kernel.irq
+}
+
+module r6040 {
+	source "r6040.c"
+	depends embox.kernel.irq
+}

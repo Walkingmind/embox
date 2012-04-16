@@ -1,0 +1,7 @@
+package embox.example.vmem
+
+module mmuprobe {
+	source "mmu_probe.c"
+	depends embox.arch.x86.mm.mmu_map
+	depends embox.arch.x86.mm.mmu_core
+}

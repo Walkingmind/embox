@@ -1,0 +1,17 @@
+package embox.example.util
+
+module readline {
+	source "readline.c"
+}
+
+module ring_buff {
+	source "ring_buff.c"
+}
+
+module tree_set {
+	source "tree_set.c"
+}
+
+module priority_q {
+	source "priority_q.c"
+}

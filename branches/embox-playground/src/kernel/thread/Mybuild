@@ -1,0 +1,22 @@
+package embox.kernel.thread
+
+module core {
+	@IncludePath("$(SRC_DIR)/compat/posix/include")
+	source "core.c"
+
+	depends sched, sync, embox.kernel.task_api
+
+	depends embox.arch.context
+
+}
+
+module sched {
+	@IncludePath("$(SRC_DIR)/compat/posix/include")
+	source "sched.c"
+
+	depends embox.kernel.timer.timer_api // for timeslices support
+	depends embox.arch.context // context_switch
+	depends embox.kernel.critical
+	depends embox.kernel.thread.sched_policy.api
+}
+

@@ -1,0 +1,32 @@
+package embox.arch
+
+module system {
+	option number core_freq
+}
+
+abstract module cpu {
+}
+
+abstract module interrupt {
+}
+
+abstract module clock {
+}
+
+abstract module context {
+}
+
+abstract module libarch {
+}
+
+abstract module locore {
+}
+
+abstract module entry {
+}
+
+abstract module boot {
+}
+
+abstract module lds {
+}
