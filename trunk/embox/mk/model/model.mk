@@ -155,6 +155,8 @@ define class-EObject
 	$(field __eContents... : EObject)
 
 	$(method __serialize_extra_objects,
+#		$(for metaReference <- $(get $(get eMetaClass).eAllCrossReferences),
+#			$(get $(get-field metaReference->instanceProperty))) 
 		$(invoke eLinks))
 
 	$(method eCopy,
@@ -304,7 +306,7 @@ define class-ELink
 	# PROTECTED REGION END
 
 	# PROTECTED REGION ID(EModel_ELink) ENABLED START
-	
+
 	# 'metaRefernceId.object'
 	$(field eSource : EObject)
 
