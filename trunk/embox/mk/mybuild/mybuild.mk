@@ -35,9 +35,9 @@ define check
 		$1)
 endef
 
-LABEL-IfNeed := mybuild.lang.IfNeed
-LABEL-DefRealization := mybuild.lang.DefRealization
-LABEL-For := mybuild.lang.For
+LABEL-DefaultImpl := mybuild.lang.DefaultImpl
+LABEL-IfNeed      := mybuild.lang.IfNeed
+LABEL-For         := mybuild.lang.For
 
 excludeAnnotations := $(LABEL-IfNeed)
 leftToRightParentAnnotations := $(LABEL-IfNeed) $(LABEL-For)
@@ -134,7 +134,7 @@ define class-Mybuild
 						annotation <- $(get mod->annotations),
 						annotationType <- $(get annotation->type),
 						$(warning 1 $(annotationType))
-						$(if $(eq $(get annotationType->qualifiedName),$(LABEL-DefRealization)),
+						$(if $(eq $(get annotationType->qualifiedName),$(LABEL-DefaultImpl)),
 							$(warning $(annotation))
 							$(for \
 								bind <- $(get annotation->bindings),
