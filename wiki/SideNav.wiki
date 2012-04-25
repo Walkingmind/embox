@@ -18,6 +18,7 @@
       * [InstallToolchainOpenocdSetup Olimex JTAG]
       * [InstallToolchainEclipseDebug Debugging from Eclipse]
         * [InstallToolchainEclipseDebugCygwin Cygwin]
+        * [InstallToolchainEclipseRemoteDebug Remote Debugging With Eclipse]
     * [BuildingEmbox Building the project]
   * [EmboxArchitecture Architecture]
     * [Kernel Kernel]

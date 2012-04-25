@@ -1,0 +1,63 @@
+#summary How to use Eclipse as a Remote Debugger
+#labels Phase-Support
+
+In this chapter it is described how to configure Eclipse to debug embox remotely.
+This debugging will use network, so: 
+ * embox must be configured with debugging abilities
+ * with network support 
+ * host with embox must be available by network
+Of course, you can debug embox locally through loopback interface.
+
+= Add Embox project into Eclipse =
+If you are NOT use Eclipse as a developer tool, first of all you should
+add a new project for Eclipse. If you use Eclipse you can skip those steps.
+
+Set the directory where Eclipse will save it's settings. 
+Just point to somewhere and forget about it.
+http://embox.googlecode.com/svn/wiki/images/InstallToolchainEclipseAsRemoteDebugger/01-KeepEclipseSettings.jpg  
+
+Create a new project in Eclipse.
+http://embox.googlecode.com/svn/wiki/images/InstallToolchainEclipseAsRemoteDebugger/02-EclipseNewProject.jpg 
+
+Point to the directory where you have downloaded embox sources.
+In this example we use Cygwin as a development environment.
+http://embox.googlecode.com/svn/wiki/images/InstallToolchainEclipseAsRemoteDebugger/03-EclipseDefineCompiler.jpg 
+
+= Define Debugging Abilities =
+For project in Eclipse you can define debug configurations. The start point is following:
+http://embox.googlecode.com/svn/wiki/images/InstallToolchainEclipseAsRemoteDebugger/04-EclipseDebugConfigurationsStartPoint.jpg 
+
+Create new Remote Application debug as defined at the right row.
+http://embox.googlecode.com/svn/wiki/images/InstallToolchainEclipseAsRemoteDebugger/05-EclipseConfigurationRemote.jpg 
+
+New tab will appear. At this tab you should type underlined part for choosing proper Remote Debugger Launcher.
+http://embox.googlecode.com/svn/wiki/images/InstallToolchainEclipseAsRemoteDebugger/06-EclipseChoseLauncher.jpg 
+
+Type underlined part again.
+http://embox.googlecode.com/svn/wiki/images/InstallToolchainEclipseAsRemoteDebugger/07-EclipseChoseLauncher2.jpg
+
+Choose Manual type of Remote Launcher. So you will have to run embox on proper host manually before
+debugging start.
+http://embox.googlecode.com/svn/wiki/images/InstallToolchainEclipseAsRemoteDebugger/08-EclipseRemoteApplicationDebug.jpg  
+
+After it please return to main Debugging tab and disable auto build. If you miss it Eclipse will try to 
+assemble the whole project and you'll lost some time before each debugging session even without any changes
+in source code.
+http://embox.googlecode.com/svn/wiki/images/InstallToolchainEclipseAsRemoteDebugger/09-EclipseDisbleAutoBuild.jpg 
+
+Now you have to define
+ * Host IP address
+ * Port to connect to 
+ * Code entry point
+http://embox.googlecode.com/svn/wiki/images/InstallToolchainEclipseAsRemoteDebugger/10-EclipseRemoteHostEntryPoint.jpg 
+
+After this point you are ready to start debugging. Type icon with bug showed on the following image.
+Choose created configuration. Please, remember that you should manually start embox as well. 
+http://embox.googlecode.com/svn/wiki/images/InstallToolchainEclipseAsRemoteDebugger/11-EclipseStartDebuggingIcon.jpg 
+
+In some cases location of the sources doesn't coincide with information in compiled file.
+For example, this situation is common if you use Cygwin. In this case you'll get notification
+as displayed at the background. You should define paths mapping (Source tab at main debugging 
+settings tab). Or you can set them directly from this error notification. 
+http://embox.googlecode.com/svn/wiki/images/InstallToolchainEclipseAsRemoteDebugger/12-EclipsePathmappings.jpg  
+
