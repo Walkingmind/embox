@@ -243,6 +243,7 @@ Usage: $(MAKE) cacheclean
 endef # cacheclean
 
 .PHONY : distclean
+dc : distclean
 distclean : clean confclean cacheclean
 
 define help-distclean
