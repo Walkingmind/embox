@@ -76,7 +76,7 @@ static int fragment_skb_and_send(sk_buff_t *skb, const struct rt_entry *best_rou
 	struct sk_buff_head *tx_buf = ip_frag(skb, best_route->dev->mtu);
 	int res = tx_buf ? 0 : -1;
 	struct sk_buff *s_tmp;
-	
+
 	kfree_skb(skb);
 	while ((res >= 0) && (s_tmp = skb_dequeue(tx_buf))) {
 		res = min(ip_queue_xmit(s_tmp, 0), res);
