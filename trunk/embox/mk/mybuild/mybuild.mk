@@ -97,7 +97,6 @@ define class-Mybuild
 	#
 	# Context:
 	#   'configuration'
-	include my.test.mod1
 	#   'issueReceiver'
 	# Return:
 	#	List of avaible moduleInstances. Some of them may not be created, then
