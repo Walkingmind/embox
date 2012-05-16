@@ -39,7 +39,7 @@ void clock_handler(void) {
 
 void clock_init(void) {
 	systick.flags = 1;
-	systick.precision = 1000;
+	systick.resolution = 1000;
 	clock_source_register(&systick);
 }
 
@@ -51,7 +51,7 @@ void clock_setup(useconds_t usec) {
 	REG_STORE(SYSTICK_RELOAD, (ticks_per_10ms * usec)/10000 - 1);
 
 	REG_STORE(SYSTICK_VAL, 0);	
-	
+
 	REG_STORE(SCB_SHP_BASE + 2, 0xf0 << (3 * SCB_SHP_PERIF_N));
 
 	REG_STORE(SYSTICK_CTRL, SYSTICK_ENABLE | SYSTICK_TICKINT | 
