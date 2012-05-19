@@ -11,8 +11,6 @@ __util_wildcard_mk := 1
 include mk/core/common.mk
 include mk/core/string.mk
 
-include mk/util/list.mk
-
 ##
 # Builtin function: r-wildcard
 #   $(r-wildcard pattern...)
@@ -109,7 +107,7 @@ f-wildcard = \
 # Usage: $(call wildcard_first,pattern...)
 #
 wildcard_first = \
-	$(call list_fold,__wildcard_first_fold,,$1,wildcard)
+	$(call fold,,$1,__wildcard_first_fold,wildcard)
 
 ##
 # Function: d-wildcard_first
@@ -119,7 +117,7 @@ wildcard_first = \
 # See: wildcard_first, d-wildcard
 #
 d-wildcard_first = \
-	$(call list_fold,__wildcard_first_fold,,$1,d-wildcard)
+	$(call fold,,$1,__wildcard_first_fold,d-wildcard)
 
 ##
 # Function: f-wildcard_first
@@ -129,7 +127,7 @@ d-wildcard_first = \
 # See: wildcard_first, f-wildcard
 #
 f-wildcard_first = \
-  $(call list_fold,__wildcard_first_fold,,$1,f-wildcard)
+  $(call fold,,$1,__wildcard_first_fold,f-wildcard)
 
 # Params:
 #  1. The result of wildcard expansion of previous patterns
