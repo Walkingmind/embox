@@ -11,10 +11,10 @@ __mybuild_annotations_core_mk := 1
 include mk/core/define.mk
 
 define class-AnnotationsCore
-	$(map avaibleAnnotations : AnnotationCallbackFactory)
+	$(map avaibleAnnotations : AnnotationCallback)
 
 	$(method addSupported,
-		$(map-set avaibleAnnotations/$1/$2,$3))
+		$(map-set avaibleAnnotations/$1/$2,$(new $3)))
 
 	$(method getSupported,
 		$(map-get avaibleAnnotations/$1/$2))
@@ -22,6 +22,22 @@ define class-AnnotationsCore
 	$(for fileMain <- $(value 1),
 		$(if $(value $(fileMain)),
 			$(call $(fileMain),$(this))))
+
+	$(method new,
+		$(for obj <- $1,
+			$(set obj->target,$2)
+			$(set obj->annotationType,$(get 3->type))
+
+			$(for \
+				annotation <- $3,
+				annotationBinding <- $(get annotation->bindings),
+				option <- $(get annotationBinding->option),
+				optionName <- $(get option->name),
+				optionValue <- $(get annotationBinding->value),
+
+				$(map-set obj->options/$(optionName),$(get optionValue->value)))
+			$(obj)))
+			
 endef
 
 define class-AnnotationCallback
@@ -35,26 +51,6 @@ define class-AnnotationCallback
 	$(method MyLinkCallback)
 	$(method BuildCallback)
 
-endef
-
-define class-AnnotationCallbackFactory
-	$(property-field annotationCallbackObj : AnnotationCallback,$(new $1))
-
-	$(method new,
-		$(for obj <- $(get annotationCallbackObj),
-			$(set obj->target,$1)
-			$(set obj->annotationType,$(get 2->type))
-
-			$(for \
-				annotation <- $2,
-				annotationBinding <- $(get annotation->bindings),
-				option <- $(get annotationBinding->option),
-				optionName <- $(get option->name),
-				optionValue <- $(get annotationBinding->value),
-
-				$(map-set obj->options/$(optionName),$(get optionValue->value)))
-			$(obj)))
-			
 endef
 
 # Args:
@@ -72,7 +68,8 @@ define mybuild_annotation_process
 
 				callbackClass <- $(invoke annotationsCore->getSupported,$1,
 					$(get annotationType->qualifiedName)),
-				$(invoke callbackClass->new,$(target),$(annotation))),
+				$(invoke annotationsCore->new,$(callbackClass),$(target),
+					$(annotation))),
 			$(value 3),
 
 
