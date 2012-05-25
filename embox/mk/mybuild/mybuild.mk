@@ -22,6 +22,7 @@ builders_list := \
 checkers_list := \
 	Mybuild.checkAbstractRealization \
 	Mybuild.checkFeatureRealization \
+	Mybuild.checkCyclicDependency \
 	Mybuild.optionCheckUnique \
 	Mybuild.optionCheckConstraints
 
@@ -69,7 +70,8 @@ endef
 define class-Mybuild
 	$(map moduleInstanceStore : ModuleInstance) #by module
 	$(map activeFeatures... : ModuleInstance) #by feature
-	$(map includingInstances : ModuleInstance) #stack for cyclic detection
+	$(map includingInstances : MyModuleType) #stack for cyclic detection
+	$(map includingInstancesChecked : MyModuleType) #stack for cyclic detection
 	$(map recommendations : MyModuleType)
 	$(property-field issueReceiver)
 
@@ -466,13 +468,18 @@ define class-Mybuild
 
 			$(moduleInstance)))
 	
-	$(method printCyclic,
-		$(get 1->qualifiedName) ->
-		$(with $1,$(map-get includingInstances/$1),
-			$(if $(filter $1,$2),,
-		   		$(\s)$(get 2->qualifiedName) ->
-				$(call $0,$1,$(map-get includingInstances/$2))))
-		$(\s)$(get 1->qualifiedName) -> ... )
+	$(method chkCyclic,
+		$(if $(map-get includingInstances/$1),
+			$(if $(invoke addIssueGlobal,error,
+				Cyclic dependency detected: \
+				
+				$(get 1->qualifiedName) ->
+				$(with $1,$(map-get includingInstances/$1),
+					$(if $(filter $1,$2),,
+						$(\s)$(get 2->qualifiedName) ->
+						$(call $0,$1,$(map-get includingInstances/$2))))
+				$(\s)$(get 1->qualifiedName) -> ... ),),
+			Ok))
 
 	# Get ModuleInstance closure of given  Module
 	#
@@ -488,14 +495,36 @@ define class-Mybuild
 			was <- was$(map-get moduleInstanceStore/$(dep)),
 			$(map-set includingInstances/$(mod),$(dep))
 
-			$(if $(map-get includingInstances/$(dep)),
-				$(invoke addIssueGlobal,error,
-					Cyclic dependency detected: $(invoke printCyclic,$(dep))))
-			
+			$(if $(invoke chkCyclic,$(dep)),)
+
 			$(for depInst <- $(invoke includeModule,$(dep)),
 				$(set* thisInst->depends,$(depInst)))
 				
 			$(map-set includingInstances/$(mod),)))
+
+	$(method checkCyclicDependency,
+		$(for inst <- $1,
+			$(with $(inst),
+				$(warning $1: $(get 1->depends))
+				$(for \
+					inst <-$1,
+					depInst <- $(get inst->depends),
+					mod <- $(get inst->type),
+					depMod <- $(get depInst->type),
+					$(warning $(get mod->qualifiedName), $(depInst):$(get depMod->qualifiedName))
+					$(if $(map-get includingInstancesChecked/$(depMod)),,
+						$(warning $2-> $(get mod->qualifiedName))
+						$(map-set includingInstances/$(mod),$(depMod))
+
+						$(if $(invoke chkCyclic,$(depMod)),
+							$(call $0,$(depInst),$2   ))
+						
+						$(warning $2<- $(get mod->qualifiedName))
+						$(map-set includingInstances/$(mod),)
+						$(map-set includingInstancesChecked/$(depMod),1)
+						$(warning marking $(get inst->type>qualifiedName))
+						))
+				)))
 
 endef
 
