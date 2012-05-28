@@ -6,12 +6,14 @@
  * ...
  
  <table cellspacing="10" width="839"><tr valign="top"><td width="50%">
+ == Без расширений == 
 {{{
 foo = \
 	$(foreach bar,x y z, \
 		$(call baz,$(bar)))
 }}}
 </td><td>
+== С расширениями ==
 {{{
 define foo
 	$(for bar <- x y z,
