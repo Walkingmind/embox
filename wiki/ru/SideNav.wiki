@@ -20,7 +20,7 @@
     * [BuildingEmbox Сборка проекта]
     * [Mybuild описание Mybuild]
       * [MybuildInternalsOverview состав системы Mybuild]
-      * [MybuildMakeLanguageExtention библиотеки расширения Make]
+      * [MybuildMakeLanguageExtension библиотеки расширения Make]
       * [MybuildBuildSequence процесс сборки]
   * [EmboxArchitecture Архитектура проекта]
     * [Kernel Ядро]
