@@ -1,11 +1,11 @@
-#summary Mybuild overview.
+#summary Mybuild overview
 #labels Featured
-
-= What is Mybuild =
 
 *Mybuild* is build automation and configuration tool oriented on building modular applications.
 
-Mybuild itself is implemented on top of [http://www.gnu.org/software/make/ GNU Make] utilizing the power of incremental building of the latter. This also allows one to embed Mybuild into an existing Make-powered build infrastructure. At the same time, despite of using Make, Mybuild uses own [MybuildMyfiles syntax] for describing the build devoid of drawbacks of the language of Makefiles.
+Mybuild itself is implemented on top of [http://www.gnu.org/software/make/ GNU Make] utilizing the power of incremental and parallel building of the latter.
+This also allows one to embed Mybuild into an existing Make-powered build infrastructure.
+At the same time, despite of using Make, Mybuild uses own [MybuildLanguageReference syntax] devoid of drawbacks of the language of Makefiles.
 
 = Workflow =
 
