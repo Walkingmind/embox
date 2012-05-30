@@ -1,2 +1,0 @@
-#summary Simple command line
-#labels Phase-Implementation
