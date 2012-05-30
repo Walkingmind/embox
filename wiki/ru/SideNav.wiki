@@ -22,6 +22,7 @@
       * [MybuildMakeLanguageExtension библиотеки расширения Make]
       * [MybuildInternalsOverview состав системы Mybuild]
       * [MybuildFramework Библиотека классов и функций]
+      * [MybuildScripts Cкрипты]
       * [MybuildBuildSequence процесс сборки]
   * [EmboxArchitecture Архитектура проекта]
     * [Kernel Ядро]

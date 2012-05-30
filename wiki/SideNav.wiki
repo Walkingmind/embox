@@ -24,6 +24,7 @@
       * [MybuildMakeLanguageExtension Make language extension library]
       * [MybuildInternalsOverview Mybuild structure]
       * [MybuildFramework Classes and functions Library]
+      * [MybuildSequence Scripts]
       * [MybuildBuildSequence Mybild build sequence]
   * [EmboxArchitecture Architecture]
     * [Kernel Kernel]
