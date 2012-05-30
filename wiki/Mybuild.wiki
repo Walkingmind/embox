@@ -54,3 +54,10 @@ To summarize, the build process can be represented as follows:
 <table align="center"><tr><td>
 <img src="http://embox.googlecode.com/svn/wiki/images/Mybuild/mybuild-workflow.png" />
 </td></tr></table>
+
+= What's next? =
+The complete language reference for my- and config-files is available [MybuildLanguageReference here].
+
+To get more detailed understanding of how Mybuild actually builds the project please check [MybuildBuildSequence build sequence page].
+
+Finally, in case if you're interested about how Mybuild itself is implemented, you may check [MybuildInternalsOverview internal structure section].

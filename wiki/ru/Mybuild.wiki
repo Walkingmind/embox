@@ -60,3 +60,10 @@ configuration Main {
 <table align="center"><tr><td>
 <img src="http://embox.googlecode.com/svn/wiki/images/Mybuild/mybuild-workflow.png" />
 </td></tr></table>
+
+= Что дальше =
+Справочник языка описаний, используемого в my- и config-файлам доступен [MybuildLanguageReference тут].
+
+Получить более детальное представление о процессе сборки можно на [MybuildBuildSequence этой странице].
+
+И наконец, если вас интересует внутренняя реализация самого Mybuild, вы можно найти эту информацию в [MybuildInternalsOverview этой секции].
