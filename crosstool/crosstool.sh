@@ -8,6 +8,7 @@ source arm.in
 
 # Create temp working dir
 TMP_DIR=$(mktemp -d)
+CUR_DIR=$PWD
 
 # Keys:
 #  0 - binutils
@@ -62,6 +63,11 @@ do_unpack() {
 	ln -s ../${NAME[1]} ${NAME[5]}/gmp
 	ln -s ../${NAME[2]} ${NAME[5]}/mpc
 	ln -s ../${NAME[3]} ${NAME[5]}/mpfr
+
+	echo "Apply patches"
+	for f in $PATCHES; do
+		patch -p0 < $CUR_DIR/patches/$f
+	done
 }
 
 do_binutils() {
