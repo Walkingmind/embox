@@ -4,7 +4,7 @@
     * [GSoC2011 GSoC 2011 Ideas]
   * [GettingStarted Getting Started]
     * [GettingStartedLego Lego Mindstorms]
-    * [GettingStartedSparcLeon SPARC v8 (Leon3)]
+    * [GettingStartedSparc SPARC v8 (Leon3)]
     * [GettingStartedX86 x86]
   * [UserGuide User Guide]
     * [InstallToolchain Setting up the toolchain]
