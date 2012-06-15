@@ -1,0 +1,19 @@
+You can execute Embox on the x86 platform with Simulator and also you can do this on real hardware platform. There are 2 hardware platform: 
+ * biffboard for embedded system 
+ * usual PC with BIOS and grub loader
+ 
+== grub loader ==
+if you PC using grub as loader you should modify /boot/grub/menu.lst for starting Embox
+
+
+If you PC using grub2 as loader add follow text to the file /boot/grub/grub.cfg
+{{{
+### BEGIN /etc/grub.d/<number>_embox ###
+EMBOX
+menuentry "Embox" {
+
+  multiboot (hd0,6)/<project_path>/build/base/bin/embox
+  boot
+}
+### END /etc/grub.d/<number>_embox ###
+}}}

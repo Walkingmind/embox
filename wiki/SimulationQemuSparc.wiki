@@ -1,0 +1,4 @@
+For simulate Embox on QEMU for Leon3 processor you should start QEMU with options '''-M leon3_generic -cpu LEON3'''
+{{{
+qemu-system-sparc -s -S -nographic -M leon3_generic -cpu LEON3 -kernel /home/anton/workspace/embox-trunc/build/base/bin/embox
+}}}

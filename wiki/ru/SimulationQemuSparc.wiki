@@ -1,0 +1,5 @@
+Для запуска симуляции процессора Leon3 на QEMU следует использовать опции '''-M leon3_generic -cpu LEON3'''
+конечно у вас должен быть собрал соотвествующий сисмулятор qemu-system-sparc
+{{{
+qemu-system-sparc -s -S -nographic -M leon3_generic -cpu LEON3 -kernel /home/anton/workspace/embox-trunc/build/base/bin/embox
+}}}
