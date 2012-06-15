@@ -1,0 +1,13 @@
+== TSIM ==
+
+ # Установить последнюю версию [http://www.gaisler.com/cms/index.php?option=com_content&task=view&id=157&Itemid=105 TSIM2 LEON3 Evaluation]
+ # tsim-leon3 -fast_uart -gdb embox
+ # Присоединиться к gdb серверу
+    * если вы используете eclipse то посмотреть детали натройки можно [InstallToolchainEclipseDebug тут]  
+    * есди вы отлаживаетесь из консоли то выполните следующие команды 
+      {{{
+            > sparc-elf-gdb embox
+            (gdb) target remote :1234
+            (gdb) c
+      }}} 
+
