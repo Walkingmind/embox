@@ -1,0 +1,3 @@
+Embox can be run on following simulators:
+ * [SimulationQemuX86 QEMU]
+ * [SimulationBochs Botchs]

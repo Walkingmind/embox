@@ -1,0 +1,13 @@
+There are some useful advises for using QEMU simulator.
+
+== Setup using image ==
+Set an option {{{ -kernel <path>/embox }}}
+
+== Выход из симулятора при работе в консольном режиме ==
+Use key combination ''' ctrl + 'a' ''' затем 'X'
+
+== Некорректная работа backspace ==
+Use key combination '''ctrl + h'''
+
+== Отладка ==
+Set options '''-s -S'''

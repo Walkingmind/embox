@@ -1,0 +1,3 @@
+Embox можно запустить на нескольких симуляторах для x86 платформы:
+ * [SimulationQemuX86 QEMU]
+ * [SimulationBochs Botchs]
