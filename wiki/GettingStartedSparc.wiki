@@ -1,0 +1,5 @@
+Embox was ported on a processor [http://www.gaisler.com/cms/index.php?option=com_content&task=view&id=13&Itemid=53 Leon3]. LEON3 has been certified by SPARC International as being SPARC V8 conformant. It also has open source. 
+We use development board ML505 For debugging. Also Embox can be exeuted on SPARC simulators:яторы для отладки:
+ * [SimulationTsim TSIM]
+ * [SimulationQemuSparc QEMU]
+
