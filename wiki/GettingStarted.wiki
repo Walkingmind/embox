@@ -2,7 +2,7 @@
 
 This wiki describes simple way get first Embox image running x86 simulator (QEMU).
 
-Building's details for other supported platform you can get on a corresponding platform page (([GettingStartedLego Lego], tsim, olimex).
+Building's details for other supported platform you can get on a corresponding platform page (([GettingStartedLego Lego], [GettingStartedX86 x86 based platforms], [GettingStartedSparc Leon3 processor]).
 
 
 = Preparing environment = 
