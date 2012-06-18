@@ -345,8 +345,7 @@ static inline void __icmp_send(sk_buff_t *skb_in, __be16 type, __be16 code, __be
 	uint ret_len = min((realloc_shift + ntohs(skb_in->nh.iph->tot_len)), skb_in->dev->mtu);
 	uint ip_ret_len = min(ret_len, 576);			/* See RCF 1812 4.3.2.3 */
 	sk_buff_t *skb;
-	
-	
+
 	if (!likely(icmp_send_usability_check(skb_in))) {
 		kfree_skb(skb_in);
 		return;
@@ -357,8 +356,8 @@ static inline void __icmp_send(sk_buff_t *skb_in, __be16 type, __be16 code, __be
 		kfree_skb(skb_in);
 		return;
 	}
-	
-		/* Relink skb and build content */
+
+	/* Relink skb and build content */
 	{
 		iphdr_t *iph_in = skb->nh.iph;			/* Original IP header */
 		iphdr_t *iph;
@@ -393,8 +392,10 @@ static inline void __icmp_send(sk_buff_t *skb_in, __be16 type, __be16 code, __be
 		icmp_send_check_skb(skb);
 		
 	}
-	
+
 	ip_send_packet(NULL, skb);
+
+	kfree_skb(skb_in);
 }
 
 /* Unfortunately code might not be safe */
