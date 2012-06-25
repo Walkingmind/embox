@@ -2,7 +2,7 @@
 
 #include <asm-generic/embox.lds.h>
 
-OUTPUT_FORMAT("elf32-microblaze", "elf32-microblaze", "elf32-microblaze")
+OUTPUT_FORMAT("elf32-microblaze", "elf32-microblaze", "elf32-microblaze-little")
 OUTPUT_ARCH(microblaze)
 ENTRY(_start)
 
