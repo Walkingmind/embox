@@ -41,6 +41,7 @@ SECTIONS {
 		ALIGNMENT();
 		_data_start = .;
 		*(.data)
+		*(.sdata)
 		ALIGNMENT();
 		_data_end = .;
 	} SECTION_REGION(data)
@@ -59,7 +60,7 @@ SECTIONS {
 	.reserve (NOLOAD): {
 		LDS_INPUT_RESERVE
 	/* TODO memory region for reserve output section. */
-	} SECTION_REGION(reserve)
+	} SECTION_REGION(bss)
 	SECTION_SYMBOLS(reserve)
 
 	.stack (NOLOAD): {
