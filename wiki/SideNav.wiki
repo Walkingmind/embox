@@ -38,6 +38,8 @@
         * [SimulationQemuSparc QEMU]
       * [SimulationARM Simulation on an ARM]
         * [SymulationSkyeye SkyEye]
+      * [SimulationMips Simulation on an MIPS]
+        * [SymulationQemuMips QEMU]
   * [EmboxArchitecture Architecture]
     * [Kernel Kernel]
       * [KernelCritical Critical API]

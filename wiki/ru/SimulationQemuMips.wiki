@@ -1,0 +1,10 @@
+Для запуска симуляции Embox на симуляторе QEMU для платформы MIPSSim следует использовать опции *-M mipssim*
+Конечно у вас должен быть собран соотвествующий симулятор qemu-system-mips или вам нужно сконфигурировать qemu и собрать самостоятельно
+{{{
+./configure –target-list=mips-softmmu
+}}}
+
+*-M mipssim*
+{{{
+qemu-system-mips -s -S -serial stdio -kernel <embox_project_path>/build/base/bin/embox -M mipssim
+}}}

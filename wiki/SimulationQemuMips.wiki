@@ -1,0 +1,4 @@
+For simulate Embox on QEMU for MIPSSim platform you should start QEMU with options *-M mipssim*
+{{{
+qemu-system-mips -s -S -serial stdio -kernel <embox_project_path>/build/base/bin/embox -M mipssim
+}}}
