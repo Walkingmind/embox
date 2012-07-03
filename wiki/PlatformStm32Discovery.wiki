@@ -8,7 +8,8 @@ To try Embox on the board, you should configure and compile with *arm/stm32_vl* 
 
 Further, setup stlink (you may adjust rights for device, set up symlinks, etc. All required steps are on stlink's repo page) and run st-util from it's package.
 
-And finally, load Embox with usual gdb commands {{{
+And finally, load Embox with usual gdb commands 
+{{{
 target extended-remote :4242
 load
 c
