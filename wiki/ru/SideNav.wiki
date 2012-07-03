@@ -1,4 +1,6 @@
   * [QuickOverview О проекте]
+
+Notice, that commands above use st-util's default gdb port that you might change.
   * [GSoC Google Summer of Code]
     * [GSoC2012 Идеи для GSoC 2012]
     * [GSoC2011 Идеи для GSoC 2011]
@@ -57,6 +59,7 @@
       * [PlatformLegoNxtSound Звук]
     * [SpartanDescription HW-SPAR3AN-SK-UNI-G Starter Kit]
     * [ML505Description Virtex-5 LXT FPGA ML505 Evaluation Platform]
+    * [PlatformStm32Discovery STM32 Discovery]
   * [Theory Теория операционных систем]
     * [TheoryMemoryAllocation Выделение памяти]
     * [TheoryMultitasking Многозадачность]

@@ -11,6 +11,7 @@ Embox supports several types of processor architecture this page contains exampl
 == ARM ==
  || <img src="http://embox.googlecode.com/svn/wiki/images/PlatformsDescription/SAM7-P256-1.png" width="320" height="240"> || This development board contains at91sam7 controller and simple peripheral. It is very cheap and easy to development start. More details [PlatformOlimexSam7 here] ||
  || <img src="http://embox.googlecode.com/svn/wiki/images/PlatformsDescription/embox_lego.jpg" width="320" height="240">  || Embox supports [http://en.wikipedia.org/wiki/Lego_Mindstorms Lego Mindstorms NXT]. More Details [PlatformLegoNxt here] ||
+ || <img src="http://embox.googlecode.com/svn/wiki/images/PlatformsDescription/board_stm32vl_discovery.jpg" width="320" height="240">  || This development board contains Cortex-M3 and integrated debugger. More details [PlatformStm32Discovery here] ||
 
 == x86 ==
  || <img src="http://embox.googlecode.com/svn/wiki/images/PlatformsDescription/embox_asus.jpg" width="320" height="240"> || Embox supports PC platform the same, and it can be executed on [http://wiki.qemu.org/Main_Page QEMU].||

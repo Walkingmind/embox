@@ -66,6 +66,7 @@
       * [PlatformLegoNxtSound Sound]
     * [SpartanDescription HW-SPAR3AN-SK-UNI-G Starter Kit]
     * [ML505Description Virtex-5 LXT FPGA ML505 Evaluation Platform]
+    * [PlatformStm32Discovery STM32 Discovery]
   * [Theory Theoretical materials]
     * [TheoryMemoryAllocation Memory allocation]
     * [TheoryMultitasking Multitasking]

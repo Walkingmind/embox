@@ -1,0 +1,17 @@
+#summary Describes project Embox's usage on Stm32Discovery
+
+The board has integrated debugger that allows to program it with single USB-A <-> USB-mini-B wire.
+
+We are using free (as a speech) software to communicate with the debugger: https://github.com/texane/stlink, that provides gdb server. It is a single choice on Linux systems, on Windows, practically, you may prefer manufacturer's own software.
+
+To try Embox on the board, you should configure and compile with *arm/stm32_vl* template.
+
+Further, setup stlink (you may adjust rights for device, set up symlinks, etc. All required steps are on stlink's repo page) and run st-util from it's package.
+
+And finally, load Embox with usual gdb commands {{{
+target extended-remote :4242
+load
+c
+}}}
+
+Notice, that commands above use st-util's default gdb port that you might change.
