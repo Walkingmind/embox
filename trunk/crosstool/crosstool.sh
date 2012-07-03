@@ -2,9 +2,10 @@
 
 # Build a GNU/Linux cross-toolchain
 
-source arm.in
+#source arm.in
 #source microblaze.in
 #source sparc.in
+source mips.in
 
 # Create temp working dir
 TMP_DIR=$(mktemp -d)
@@ -119,6 +120,7 @@ do_gdb() {
 makepkg() {
 	echo "Make package"
 	tar cf - $TARGET-${NAME[4]} | bzip2 -f > ../$TARGET-${NAME[4]}.tar.bz2
+	cp ../$TARGET-${NAME[4]}.tar.bz2 ~/
 }
 
 pushd $TMP_DIR > /dev/null
