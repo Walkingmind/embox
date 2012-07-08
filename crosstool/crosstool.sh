@@ -9,7 +9,11 @@ source mips.in
 
 # Create temp working dir
 TMP_DIR=$(mktemp -d)
-CUR_DIR=$PWD
+
+CUR_DIR=$(pwd)
+
+LOG_FILE=$CUR_DIR/emtool.log
+
 
 # Keys:
 #  0 - binutils
@@ -22,23 +26,31 @@ CUR_DIR=$PWD
 GET_URL[0]="http://ftp.gnu.org/gnu/binutils/binutils-2.22.tar.bz2"
 GET_URL[1]="http://mirrors.kernel.org/gnu/gmp/gmp-5.0.2.tar.bz2"
 GET_URL[2]="http://www.multiprecision.org/mpc/download/mpc-0.9.tar.gz"
-GET_URL[3]="http://www.mpfr.org/mpfr-current/mpfr-3.1.0.tar.bz2"
+GET_URL[3]="http://www.mpfr.org/mpfr-current/mpfr-3.1.1.tar.bz2"
 GET_URL[4]="http://gcc.parentingamerica.com/releases/gcc-4.6.2/gcc-4.6.2.tar.bz2"
 GET_URL[5]="http://ftp.gnu.org/gnu/gdb/gdb-7.4.tar.bz2"
 
+print_msg() {
+	echo $1	
+	echo $1  >> $LOG_FILE
+}
+
 do_download() {
+	print_msg "downloading start" 
 	for i in $(seq 0 $((${#GET_URL[@]} - 1))); do
 		TARBALL[$i]=`basename $(echo ${GET_URL[$i]} | perl -MURI -le 'chomp(${GET_URL[$i]} = <>); print URI->new(${GET_URL[$i]})->path')`
-		echo "Download ${TARBALL[$i]}"
+		print_msg "Download ${TARBALL[$i]}"
 		if [ ! -e ${TARBALL[$i]} ]; then
 			wget ${GET_URL[$i]}
 		fi
 	done
+	print_msg "downloading done"
 }
 
 do_unpack() {
+	print_msg "unpack start"
 	for i in $(seq 0 $((${#GET_URL[@]} - 1))); do
-		echo "Unpack ${TARBALL[$i]}"
+		print_msg "Unpack ${TARBALL[$i]}"
 		case `file -b ${TARBALL[$i]} | awk '{print $1}'` in
 		    bzip2 )
 			NAME[$i]=${TARBALL[$i]%%.tar.bz2}
@@ -49,30 +61,25 @@ do_unpack() {
 			[ -d ${NAME[$i]} ] || tar xzf ${TARBALL[$i]}
 			;;
 		    * )
-			echo "Unknown type"
+			print_msg "Unknown type"
 			exit 1
 			;;
 		esac
 	done
 
-	echo "Set symlinks for gcc"
+	print_msg "Set symlinks for gcc"
 	ln -s ../${NAME[1]} ${NAME[4]}/gmp
 	ln -s ../${NAME[2]} ${NAME[4]}/mpc
 	ln -s ../${NAME[3]} ${NAME[4]}/mpfr
 
-	echo "Set symlinks for gdb"
+	print_msg "Set symlinks for gdb"
 	ln -s ../${NAME[1]} ${NAME[5]}/gmp
 	ln -s ../${NAME[2]} ${NAME[5]}/mpc
 	ln -s ../${NAME[3]} ${NAME[5]}/mpfr
-
-	echo "Apply patches"
-	for f in $PATCHES; do
-		patch -p0 < $CUR_DIR/patches/$f
-	done
 }
 
 do_binutils() {
-	echo "Build Binutils"
+	print_msg "Build Binutils start"
 	mkdir build-binutils 
 	pushd build-binutils > /dev/null
 	../${NAME[0]}/configure \
@@ -82,10 +89,11 @@ do_binutils() {
 		--disable-nls
 	make && make install
 	popd > /dev/null
+	print_msg "Build Binutils done"
 }
 
 do_gcc() {
-	echo "Build GCC"
+	print_msg "Build GCC start"
 	mkdir build-gcc
 	pushd build-gcc > /dev/null
 	../${NAME[4]}/configure \
@@ -104,10 +112,11 @@ do_gcc() {
 		$TARGET_OPTIONS
 	make && make install
 	popd > /dev/null
+	print_msg "Build GCC done"
 }
 
 do_gdb() {
-	echo "build GDB"
+	print_msg "Build GDB start"
 	mkdir build-gdb 
 	pushd build-gdb > /dev/null
 	../${NAME[5]}/configure \
@@ -115,15 +124,19 @@ do_gdb() {
 		--target=$TARGET
 	make && make install
 	popd > /dev/null
+	print_msg "Build GDB done"
 }
 
 makepkg() {
-	echo "Make package"
+	print_msg "Make package"
 	tar cf - $TARGET-${NAME[4]} | bzip2 -f > ../$TARGET-${NAME[4]}.tar.bz2
-	cp ../$TARGET-${NAME[4]}.tar.bz2 ~/
+	cp ../$TARGET-${NAME[4]}.tar.bz2 $(CUR_DIR)
 }
 
+echo "" > $LOG_FILE
 pushd $TMP_DIR > /dev/null
+
+print_msg "directory is $TMP_DIR"
 
 do_download
 do_unpack
