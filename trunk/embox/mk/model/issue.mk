@@ -1,4 +1,4 @@
-# $Id: $
+# $Id$
 #
 #   Date: Mar 27, 2012
 # Author: Anton Kozlov
