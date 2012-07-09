@@ -2,13 +2,39 @@
 #labels Phase-Requirements,Featured
 
 = 2012/07/09 v0.3.2 [http://code.google.com/p/embox/issues/list?can=1&q=milestone=v0.3.2 [issues]] [http://code.google.com/p/embox/issues/list?q=milestone=v0.3.2 [open issues]] =
+ == Сеть ==
+  * Добавлен telnet сервер
+  * Добавлена реализация rpc
+  * Добавлена поддержка NFS
+  
+ == файловая система ==
+  * Улучшена структура
+  * поддержка NFS
+ 
+ == Другое ==
+  * Переработана подсистема времени
+  * Добавлена поддержка платы STM32vl discovery
+  * Улучшена система сборки Mybuild
+  
+ == Фалйловая система ==
+= 2012/04/15 v0.3.1 [http://code.google.com/p/embox/issues/list?can=1&q=milestone=v0.3.1 [issues]] [http://code.google.com/p/embox/issues/list?q=milestone=v0.3.1 [open issues]] =
+ == Сеть ==
+ * добавлена попдержка протокола TCP
+ * Добавлен простой httpd сервер
+ * Улучшен интерфейс работы с сокетами
 
-
-= 2012/04/15 v0.3.1 [http://code.google.com/p/embox/issues/list?can=1&q=milestone=v0.3.1 [issues]] =
-
+ == Файловая система ==
+  * Добавлена поддержка FAT формата
+  * Добавлена возможность создания RAM дисков
+  
+== Примеры ==
+  * Работа с сетью (сокеты и так далее)
+  * Распределение динамической памяти
+== Общее ==
+  * много разных мелких багов
+  * немного удалили старый не используемый код 
 
 = 2012/02/26 v0.3.0 [http://code.google.com/p/embox/issues/list?can=1&q=milestone=v0.3.0 [issues]] Посвящается детям Sikmir-a (Тимуру и Евгении) =
-
  == Разработка ==
   * Добавлен интерпретатор [http://www.lua.org/about.html Lua 5.1]
 

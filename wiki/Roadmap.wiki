@@ -2,10 +2,37 @@
 #labels Phase-Requirements,Featured
 
 = 2012/07/09 v0.3.2 [http://code.google.com/p/embox/issues/list?can=1&q=milestone=v0.3.2 [issues]] [http://code.google.com/p/embox/issues/list?q=milestone=v0.3.2 [open issues]] =
+ == Network ==
+  * Added telnetd server
+  * Added RPC implementation
+  * Added protocol NFS
 
+ == File system ==
+  * Improve structure
+  * Added NFS client
 
-= 2012/04/15 v0.3.1 [http://code.google.com/p/embox/issues/list?can=1&q=milestone=v0.3.1 [issues]] =
+ == Other ==
+  * Reworked time subsystems
+  * Add template for STM32vl discovery
+  * Improve biuld system Mybuild
 
+= 2012/04/15 v0.3.1 [http://code.google.com/p/embox/issues/list?can=1&q=milestone=v0.3.1 [issues]] [http://code.google.com/p/embox/issues/list?q=milestone=v0.3.1 [open issues]] =
+ == Network ==
+ * Added TPC protocol
+ * Added simple httpd sever
+ * Improved socket interface
+
+ == File system ==
+  * Added FAT format
+  * Added RAM-disk support
+
+== Examples ==
+  * Network using (sockets, TCP, ..)
+  * Dynamic memory allocation
+
+== Others ==
+  * Fixed some another bugs
+  * Cleared code a little
 
 = 2012/02/26 v0.3.0 [http://code.google.com/p/embox/issues/list?can=1&q=milestone=v0.3.0 [issues]] Dedicated to Sikmir's children (Timur and Eugene) =
 
