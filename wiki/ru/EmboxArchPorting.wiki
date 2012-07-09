@@ -115,7 +115,7 @@ configuration conf {
 }
 }}}
 после выполнения вывод должен быть следующим
-[[[
+{{{
 Embox kernel start
 runlevel: init level is 0
 runlevel: init level is 1
