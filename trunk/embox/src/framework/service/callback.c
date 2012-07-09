@@ -1,8 +1,8 @@
 /**
  * @file Callback static information
- * @brief 
+ * @brief
  *
- * @date 7.07.11 
+ * @date 7.07.11
  * @author Anton Kozlov
  */
 

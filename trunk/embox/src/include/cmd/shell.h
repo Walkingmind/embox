@@ -1,9 +1,9 @@
 /**
  * @file
- * @brief 
+ * @brief
  *
  * @date 13.09.11
- * @author Anton Kozlov 
+ * @author Anton Kozlov
  */
 
 #ifndef CMD_SHELL_H_

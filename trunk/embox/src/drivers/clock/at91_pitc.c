@@ -51,8 +51,8 @@ static struct time_counter_device at91_pitc_counter = {
 };
 
 static struct clock_source at91_pitc_clock_source = {
-	.name = "at91_pitc", 
-	.event_device = &at91_pitc_event, 
+	.name = "at91_pitc",
+	.event_device = &at91_pitc_event,
 	.counter_device = &at91_pitc_counter,
 	.read = clock_source_read,
 };

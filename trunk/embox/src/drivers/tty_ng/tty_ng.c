@@ -2,7 +2,7 @@
  * @file
  *
  * @date 12.09.11
- * @author Anton Kozlov 
+ * @author Anton Kozlov
  */
 
 #include <types.h>
@@ -62,7 +62,7 @@ static size_t _read(void *buf, size_t size, void *data) {
 		}
 
 		tty->inp_len -= 1;
-		*(ch_buf++) = tty->inp[tty->inp_begin]; 
+		*(ch_buf++) = tty->inp[tty->inp_begin];
 		tty->inp_begin = (tty->inp_begin + 1) % TTY_INP_Q_LEN;
 
 	}
@@ -74,7 +74,7 @@ static int _canon_read(void *data, void *buf, size_t size) {
 	if (tty->canonical) {
 		int to_write;
 		if (tty->canon_left == 0) {
-			tty->canon_left = linenoise("", tty->canon_inp, TTY_CANON_INP_LEN, NULL, NULL); 
+			tty->canon_left = linenoise("", tty->canon_inp, TTY_CANON_INP_LEN, NULL, NULL);
 			tty->canon_pos = 0;
 		}
 		to_write = min(size, tty->canon_left);
@@ -82,14 +82,14 @@ static int _canon_read(void *data, void *buf, size_t size) {
 		tty->canon_left -= to_write;
 		tty->canon_pos += to_write;
 		return to_write;
-	}	
+	}
 	return _read(buf, size, data);
 }
 
 static int _write(void *data, const void *buf, size_t size) {
 	size_t cnt = 0;
 	char *b = (char*) buf;
-	struct tty_buf *tty = (struct tty_buf *) data; 
+	struct tty_buf *tty = (struct tty_buf *) data;
 	while (cnt != size) {
 		tty->putc(tty, b[cnt++]);
 	}
@@ -110,21 +110,21 @@ static void tty_putc_buf(struct tty_buf *tty, char ch) {
 static void *thread_handler(void* args) {
 	struct param *p = (struct param *) args;
 	struct idx_desc *cidx = task_idx_desc_alloc(&task_idx_ops_tty, p->tty);
-	
+
 	close(0);
 	close(1);
 	close(2);
-	
+
 	task_self_idx_set(0, cidx);
 	task_self_idx_set(1, cidx);
 	task_self_idx_set(2, cidx);
 
 	p->run();
 	return NULL;
-}	
+}
 
 static int _ioctl(void *data, int request, va_list args) {
-	struct tty_buf *tty = (struct tty_buf *) data; 
+	struct tty_buf *tty = (struct tty_buf *) data;
 	switch (request) {
 	case TTY_IOCTL_SET_RAW:
 		tty->canonical = 0;

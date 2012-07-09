@@ -1,8 +1,8 @@
 /**
- * @file 
- * @brief 
+ * @file
+ * @brief
  *
- * @author  Anton Kozlov 
+ * @author  Anton Kozlov
  * @date    21.06.2012
  */
 
@@ -20,7 +20,7 @@ util_num_alloc_t *util_num_alloc_init(void *space, int n) {
 
 	return self;
 }
-	
+
 int util_num_alloc(util_num_alloc_t *num_alloc) {
 	int n = util_num_alloc_next_alloc(num_alloc);
 

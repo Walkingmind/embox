@@ -38,7 +38,7 @@ extern void vga_putc(vga_console_t *con, char c);
 
 
 /**
- * Move physical cursor at position. Not alter without need 
+ * Move physical cursor at position. Not alter without need
  */
 extern void blink_cursor(unsigned x, unsigned y);
 

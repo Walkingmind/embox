@@ -124,7 +124,7 @@ static inline void icmp_send_check(icmphdr_t *icmph, uint len) {
 	icmph->checksum = ptclbsum((void *)icmph, len);
 }
 
-/* Generate a checksum for an outgoing ICMP datagram if skb is correct 
+/* Generate a checksum for an outgoing ICMP datagram if skb is correct
  * So we can obtain ICMP len from it
  */
 static inline void icmp_send_check_skb(sk_buff_t *skb) {

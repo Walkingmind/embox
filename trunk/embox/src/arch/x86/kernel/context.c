@@ -26,6 +26,6 @@ void context_enter_frame(struct context *ctx, void (*pc)(void)) {
 	stack -= sizeof(uint32_t);
 	*(uint32_t *) stack = ctx->eip;
 
-	ctx->esp = ((uint32_t) stack); 
+	ctx->esp = ((uint32_t) stack);
 	context_set_entry(ctx, pc);
 }

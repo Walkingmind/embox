@@ -48,11 +48,11 @@ static inline void build_ip_packet(struct inet_sock *sk, sk_buff_t *skb) {
 	if (sk->sk.sk_type == SOCK_RAW)
 		return;
 
-	/* We use headers in other way then Linux. So data coinsides with LL header 
+	/* We use headers in other way then Linux. So data coinsides with LL header
 	 * Ethernet was hardcoded in skb allocations, so be careful
 	 */
 	skb->nh.raw = skb->mac.raw + ETH_HEADER_SIZE;
-	
+
 		/* Suspicious:
 		 *	socket SHOULD NOT set TLL. It's possible, but strange
 		 *	socket (!raw || !packet) CAN NOT have information about id. It's not its business.
@@ -133,7 +133,7 @@ int ip_forward_packet(sk_buff_t *skb) {
 		return 0;
 	}
 
-	/* IP Options is a security violation 
+	/* IP Options is a security violation
 	 * Try to return packet as close as possible, so check it before ttl processsing (RFC 1812)
 	 */
 	if (unlikely(optlen)) {
@@ -156,7 +156,7 @@ int ip_forward_packet(sk_buff_t *skb) {
 		icmp_send(skb, ICMP_DEST_UNREACH, ICMP_NET_UNREACH, 0);
 		return -1;
 	}
-	
+
 		/* Should we send ICMP redirect */
 	if (skb->dev == best_route->dev) {
 		struct sk_buff *s_new = skb_duplicate(skb);

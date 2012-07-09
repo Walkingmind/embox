@@ -1,8 +1,8 @@
 /**
- * @file 
+ * @file
  * @brief implementaton of arm eabi specs for long long operations
  *
- * @author  Anton Kozlov 
+ * @author  Anton Kozlov
  * @date    02.07.2012
  */
 
@@ -22,8 +22,8 @@ void __aeabi_uldivmod(uint64_t u, uint64_t v) {
 		register uint32_t r2 __asm__ ("r2") = (mod & 0xFFFFFFFF);
 		register uint32_t r3 __asm__ ("r3") = (mod >> 32);
 		asm volatile(""
-			 : "+r"(r0), "+r"(r1), "+r"(r2),"+r"(r3)  // output             
-			 : "r"(r0), "r"(r1), "r"(r2), "r"(r3));   // input              
-		return ;//r0;                                                               
+			 : "+r"(r0), "+r"(r1), "+r"(r2),"+r"(r3)  // output
+			 : "r"(r0), "r"(r1), "r"(r2), "r"(r3));   // input
+		return ;//r0;
 	}
 }

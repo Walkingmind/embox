@@ -1,7 +1,7 @@
 /**
  * @file
  * @brief File descriptor (fd) abstraction over FILE *
- * @details Provide POSIX kernel support to operate with flides (int) 
+ * @details Provide POSIX kernel support to operate with flides (int)
  *	instead of FILE *
  * @date 06.09.11
  * @author Anton Kozlov
@@ -35,7 +35,7 @@ static int this_lseek(void *data, long int offset, int origin) {
 	return fseek(file, offset, origin);
 }
 
-static int this_ioctl(void *data, int request, va_list args) { 
+static int this_ioctl(void *data, int request, va_list args) {
 	FILE *file = (FILE *) data;
 	return fioctl(file, request, args);
 }

@@ -1,9 +1,9 @@
 /**
- * @file 
- * @brief 
+ * @file
+ * @brief
  *
- * @author  Anton Kozlov 
- * @date    31.05.12 
+ * @author  Anton Kozlov
+ * @date    31.05.12
  */
 
 #include <types.h>

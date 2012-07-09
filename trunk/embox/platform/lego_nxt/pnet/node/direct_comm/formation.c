@@ -28,11 +28,11 @@ static int ctrl_rx(struct pnet_pack *pack);
 static int data_rx(struct pnet_pack *pack);
 
 PNET_NODE_DEF_NAME(PNET_NODE_DIRECT_COMM_FORMATION_DATA, this_data, {
-	.rx_hnd = data_rx 
+	.rx_hnd = data_rx
 });
 
 PNET_NODE_DEF_NAME(PNET_NODE_DIRECT_COMM_FORMATION_CTRL, this_ctrl, {
-	.rx_hnd = ctrl_rx 
+	.rx_hnd = ctrl_rx
 });
 
 

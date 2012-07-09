@@ -70,7 +70,7 @@ typedef struct vconsole {
 	uint8_t  cl_buff[CONFIG_CMDLINE_S]; /* current terminal string (cannonical mode) */
 
 	volatile bool out_busy; /* tty_readline output */
-	uint8_t  out_buff[CONFIG_CMDLINE_S]; 
+	uint8_t  out_buff[CONFIG_CMDLINE_S];
 } vconsole_t;
 
 struct tty_device;

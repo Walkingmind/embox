@@ -315,7 +315,7 @@ static void sched_switch(void) {
 		assert(next != prev);
 
 		ipl_disable();
-		
+
 		task_notify_switch(prev, next);
 		context_switch(&prev->context, &next->context);
 	} while (0);

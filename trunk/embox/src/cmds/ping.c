@@ -152,7 +152,7 @@ static int ping(struct ping_info *pinfo) {
 						ICMP_HEADER_SIZE + pinfo->padding_size);
 		ip_send_check(&tx_pack.hdr.ip_hdr);
 		sendto(sk, tx_pack.packet_buff, ntohs(tx_pack.hdr.ip_hdr.tot_len), 0, (struct sockaddr *)&to, sizeof to);
-		
+
 		/* try to fetch response */
 		if (sent_result(sk, timeout, &tx_pack))
 			cnt_resp++;								/* if response was fetched proceed */
@@ -229,7 +229,7 @@ static int exec(int argc, char **argv) {
 				if (sscanf(optarg, "%d", &pinfo.ttl) != 1) {
 					printf("ping: can't set unicast time-to-live: Invalid argument\n");
 					return -1;
-				} 
+				}
 				ttl_set = 1;
 			}else
 				duplicate = 1;

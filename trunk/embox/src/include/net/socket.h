@@ -181,12 +181,12 @@ extern int connect(int sockfd, const struct sockaddr *daddr, socklen_t daddrlen)
 extern int bind(int sockfd, const struct sockaddr *addr, socklen_t addrlen);
 
 /**
- * mark socket as accepting connections 
+ * mark socket as accepting connections
  * @param sockfd socket descriptor
- * @param backlog limit of outstanding connections in sock queue 
+ * @param backlog limit of outstanding connections in sock queue
  * @return 0 on success. -1 on failure with errno indicating error.
  */
-extern int listen(int sockfd, int backlog); 
+extern int listen(int sockfd, int backlog);
 
 /**
  * peek first connection request from queue and return fd of socket associated to

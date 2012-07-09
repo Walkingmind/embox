@@ -1,8 +1,8 @@
 /**
- * @file 
- * @brief 
+ * @file
+ * @brief
  *
- * @author  Anton Kozlov 
+ * @author  Anton Kozlov
  * @date    22.06.2012
  */
 
@@ -16,7 +16,7 @@
  *
  * @param task
  *
- * @return 
+ * @return
  */
 extern int task_table_add(struct task *task);
 
@@ -25,7 +25,7 @@ extern int task_table_add(struct task *task);
  *
  * @param n
  *
- * @return 
+ * @return
  */
 extern struct task *task_table_get(int n);
 
@@ -37,9 +37,9 @@ extern struct task *task_table_get(int n);
 extern void task_table_del(int n);
 
 /**
- * @brief Check, if there is a space in task table for another one task 
+ * @brief Check, if there is a space in task table for another one task
  *
- * @return 
+ * @return
  */
 extern int task_table_has_space(void);
 

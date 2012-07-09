@@ -1,8 +1,8 @@
 /**
- * @file 
- * @brief 
+ * @file
+ * @brief
  *
- * @author  Anton Kozlov 
+ * @author  Anton Kozlov
  * @date    03.07.2012
  */
 
@@ -36,9 +36,9 @@ struct uart_stm32 {
 
 #define CORE_FREQ    OPTION_MODULE_GET(embox__arch__system,NUMBER,core_freq)
 #define BAUD_RATE    OPTION_GET(NUMBER,baud_rate)
-#if 0 
+#if 0
 #define HW_FLOW_CTRL OPTION_GET(BOOLEAN,hw_flow)
-#else 
+#else
 #define HW_FLOW_CTRL 0
 #endif
 
@@ -78,7 +78,7 @@ char uart_getc(void) {
 }
 
 static int stm32_usart_init(void) {
-	REG_ORIN(RCC_APB2ENR,RCC_APB2ENR_USART1EN); 
+	REG_ORIN(RCC_APB2ENR,RCC_APB2ENR_USART1EN);
 
 	gpio_out(UART_GPIO, TX_PIN , GPIO_MODE_OUT_ALTERNATE);
 	gpio_in(UART_GPIO, RX_PIN, 0);
@@ -89,10 +89,10 @@ static int stm32_usart_init(void) {
 	REG_ORIN(&uart1->cr3, USART_FLAG_RTSE | USART_FLAG_CTSE);
 #endif
 
-	REG_STORE(&uart1->brr, CORE_FREQ / BAUD_RATE); 
+	REG_STORE(&uart1->brr, CORE_FREQ / BAUD_RATE);
 	REG_ORIN(&uart1->cr1, USART_FLAG_RE | USART_FLAG_TE);
-	
-	REG_ORIN(&uart1->cr1, USART_FLAG_UE); 
+
+	REG_ORIN(&uart1->cr1, USART_FLAG_UE);
 
 	return 0;
 }

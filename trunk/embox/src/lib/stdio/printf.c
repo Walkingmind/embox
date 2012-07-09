@@ -38,7 +38,7 @@ int __print(void (*printchar_handler)(char **str, int c),
 static void display_printchar(char **str, int c) {
 
 	assert(str == NULL);
-	
+
 	putchar(c);
 }
 

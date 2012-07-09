@@ -50,11 +50,11 @@ static void fatal_error(const char *msg, int code) {
 }
 
 	/* Out a bunch of different error messages to the output and to the socket */
-static void out_msgs(const char *msg, const char *msg2, const char *msg3, 
+static void out_msgs(const char *msg, const char *msg2, const char *msg3,
 					int client_descr, struct sockaddr_in *client_socket) {
 	const int m_len = strlen(msg) + 1;
 	MD(printf("%s", msg2));
-	if(m_len != sendto(client_descr, msg, m_len, 0, 
+	if(m_len != sendto(client_descr, msg, m_len, 0,
 					   (struct sockaddr *)client_socket, sizeof(*client_socket))) {
 		MD(printf("Can't write to the socket (%s)\n", msg3));
 	}
@@ -70,7 +70,7 @@ static void run(void) {
 	}
 #else
 		/* Run tish.
-		 * Is it possible to overwrite its promt here? 
+		 * Is it possible to overwrite its promt here?
 		 */
 	shell_run();
 #endif
@@ -150,16 +150,16 @@ static void *telnet_thread_handler(void* args) {
 	dup(*client_descr_p);
 	dup(*client_descr_p);
 	dup(*client_descr_p);
-	
+
 	close(*client_descr_p);
 		/* Hack. Emulate future output, we need a char from user to exit from
-		 * parameters mode 
+		 * parameters mode
 		 */
 	{
 		static const char* prompt = "embox>"; /* OPTION_STRING_GET(prompt); */
 		printf("Welcome to telnet!\n%s", prompt);
 	}
-	
+
 		/* Operate with settings */
 	set_our_term_parameters();
 	ignore_telnet_options();
@@ -175,7 +175,7 @@ static void *telnet_thread_handler(void* args) {
 
 static int exec(int argc, char **argv) {
 	int res;
-	
+
 	struct sockaddr_in listening_socket;
 	int listening_descr;
 
@@ -187,7 +187,7 @@ static int exec(int argc, char **argv) {
 	listening_socket.sin_family = AF_INET;
 	listening_socket.sin_port= htons(TELNETD_PORT);
 	listening_socket.sin_addr.s_addr = htonl(TELNETD_ADDR);
-	
+
 	if (!((TELNETD_ADDR == INADDR_ANY) || ip_is_local(TELNETD_ADDR, false, false) )) {
 		fatal_error("telnetd address is incorrect", TELNETD_ADDR);
 	}
@@ -209,21 +209,21 @@ static int exec(int argc, char **argv) {
 	while (1) {
 		struct sockaddr_in client_socket;
 		int client_socket_len = sizeof(client_socket);
-		int client_descr = accept(listening_descr, (struct sockaddr *)&client_socket, 
+		int client_descr = accept(listening_descr, (struct sockaddr *)&client_socket,
 								  &client_socket_len);
-		
+
 		if (client_descr < 0) {
 			MD(printf("accept() failed. code=%d\n", client_descr));
 		} else {
 			uint i;
-			
+
 			MD(printf("Attempt to connect from address %s:%d",
 					inet_ntoa(client_socket.sin_addr), ntohs(client_socket.sin_port)) );
-			
+
 			for (i = 0; i < TELNETD_MAX_CONNECTIONS; i++) {
 				if (clients[i] == -1) {
 					clients[i] = client_descr;
-					
+
 					if ((res = new_task(telnet_thread_handler, &clients[i]))) {
 						out_msgs("Internal error with shell creation\n", " failed. Can't create shell\n",
 								 "shell_create", client_descr, &client_socket);

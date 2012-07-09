@@ -1,13 +1,13 @@
 /**
- * @file 
- * @brief 
+ * @file
+ * @brief
  *
- * @author  Anton Kozlov 
+ * @author  Anton Kozlov
  * @date    09.06.2012
  */
 
 #include <embox/unit.h>
-#include <diag/diag_device.h> 
+#include <diag/diag_device.h>
 
 #include <fcntl.h>
 #include <unistd.h>
@@ -25,7 +25,7 @@ static int check_valid(int fd, int reference_fd) {
 
 	if (fd < 0) {
 		return fd;
-	} 
+	}
 
 	close(fd);
 	return -1;
@@ -46,7 +46,7 @@ int diag_env_init(void) {
 			return res;
 		}
 	}
-		
+
 	return 0;
 }
 

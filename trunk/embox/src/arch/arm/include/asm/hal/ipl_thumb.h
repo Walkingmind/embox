@@ -32,6 +32,6 @@ static inline __ipl_t ipl_save(void) {
 static inline void ipl_restore(__ipl_t ipl) {
 	__asm__ __volatile__ (
 		"msr PRIMASK, %0;\n\t"
-		: 
+		:
 		: "r"(ipl));
 }

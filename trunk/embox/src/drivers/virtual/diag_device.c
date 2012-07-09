@@ -60,13 +60,13 @@ static size_t diag_read(void *buf, size_t size, size_t count, void *file) {
 				if (0 == i) {
 					return -EAGAIN;
 				}
-				return i; 
+				return i;
 			}
 			*(ch_buf++) = diag_getc();
 			i++;
 		}
 	} else {
-		int i = n; 
+		int i = n;
 		while (i --) {
 			*(ch_buf++) = diag_getc();
 		}

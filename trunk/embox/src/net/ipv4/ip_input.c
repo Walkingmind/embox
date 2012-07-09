@@ -88,7 +88,7 @@ int ip_rcv(sk_buff_t *skb, net_device_t *dev,
 			return NET_RX_DROP;
 		}
 	}
-	
+
 		/* It's very useful for us to have complete packet even for forwarding
 		 * (we may apply any filter, we may perform NAT etc),
 		 * but it'll break routing if different parts of a fragmented

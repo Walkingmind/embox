@@ -106,7 +106,7 @@ node_t *vfs_add_path(const char *path, node_t *parent) {
 
 	if (NULL == parent) {
 		node = rootfs_get_node();
-	} 
+	}
 	while (NULL != (p_path = get_next_node_name(p_path,	node_name,
 													sizeof(node_name)))) {
 		parent = node;

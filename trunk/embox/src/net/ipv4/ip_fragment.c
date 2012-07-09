@@ -245,7 +245,7 @@ struct sk_buff_head *ip_frag(const struct sk_buff *skb, uint32_t mtu) {
 	struct sk_buff *fragment;
 	int len = ETH_HEADER_SIZE + IP_HEADER_SIZE(skb->nh.iph);
 	int offset = len;		/* offset from skb start (== mac.raw) */
-	
+
 		/* Note: correct MTU, because fragment offset must divide on 8*/
 	int align_MTU = mtu - (mtu - len) % 8;
 
@@ -259,7 +259,7 @@ struct sk_buff_head *ip_frag(const struct sk_buff *skb, uint32_t mtu) {
 			skb_queue_free(tx_buf);
 			return NULL;
 		}
-		
+
 			/* Copy IP and MAC headers */
 		memcpy(fragment->mac.raw, skb->mac.raw, len);
 			/* Copy IP content */

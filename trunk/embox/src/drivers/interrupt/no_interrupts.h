@@ -1,8 +1,8 @@
 /**
  * @file
- * @brief No interrupts  
+ * @brief No interrupts
  *
- * @date 24.03.2012 
+ * @date 24.03.2012
  * @author Anton Kozlov
  */
 

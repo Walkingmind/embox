@@ -31,7 +31,7 @@ TEST_CASE("testing timer_set function") {
 	}
 
 	i = -1;
-	
+
 	while (i-- && !tick_happened) {
 	}
 

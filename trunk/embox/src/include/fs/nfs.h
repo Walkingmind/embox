@@ -1,6 +1,6 @@
 /**
  * @file nfs.h
- * @brief 
+ * @brief
  *
  * @date 14.05.2012
  * @author Andrey Gazukin

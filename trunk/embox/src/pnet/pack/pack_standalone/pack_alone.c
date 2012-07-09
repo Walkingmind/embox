@@ -37,11 +37,11 @@ OBJALLOC_DEF(net_packs_data,struct pnet_pack_data, CONFIG_PNET_PACKETS_QUANTITY)
  * @param data Content pointer to store to packet
  * @param len Content lenght
  *
- * @return Pointer to allocated packet 
+ * @return Pointer to allocated packet
  */
 static struct pnet_pack *pnet_pack_alloc(void *data, size_t len) {
 	struct pnet_pack *pack;
-	struct pnet_pack_data *pack_data; 
+	struct pnet_pack_data *pack_data;
 
 	if (len > PNET_PACK_MAX_DATA_LEN) {
 		return NULL;

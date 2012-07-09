@@ -25,10 +25,10 @@ static void sig_hnd(int sig) {
 
 static void *task_hnd(void *arg) {
 	int cnt = 5;
-	
+
 	signal(9, sig_hnd);
 
-	while (cnt--) { 
+	while (cnt--) {
 		usleep(1000);
 	}
 	return NULL;

@@ -44,7 +44,7 @@ static void *pnet_rx_thread_hnd(void *args) {
 		pnet_process(pack);
 	}
 	return NULL;
-}	
+}
 
 static net_packet_t pack_bufs[CONFIG_PNET_PRIORITY_COUNT][RX_THRD_BUF_SIZE];
 static struct ring_buff c_bufs[CONFIG_PNET_PRIORITY_COUNT];
@@ -86,6 +86,6 @@ int pnet_rx_thread_add(struct pnet_pack *pack) {
 				running[prio], suspended[prio]);
 #endif
 
-	return 0;	
+	return 0;
 }
 

@@ -81,7 +81,7 @@ struct tree_link *tree_postorder_begin(struct tree_link *tree) {
 	}
 	while (!list_is_empty(&tree->children)) {
 		tree = list_element(list_first_link(&tree->children),
-					struct tree_link, list_link); 
+					struct tree_link, list_link);
 	}
 	return tree;
 }

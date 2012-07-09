@@ -66,7 +66,7 @@ int new_task(void *(*run)(void *), void *arg) {
 	thd->stack_sz -= task_sz;
 
 	context_set_stack(&thd->context, thd->stack + thd->stack_sz);
-		
+
 	/* init new task */
 
 	thread_set_task(thd, self_task);
@@ -88,7 +88,7 @@ struct task *task_self(void) {
 int task_notify_switch(struct thread *prev, struct thread *next) {
 	task_notifing_resource_hnd notify_res;
 	int res;
-	
+
 	if (prev->task == next->task) {
 		return 0;
 	}
@@ -110,7 +110,7 @@ static void thread_set_task(struct thread *t, struct task *tsk) {
 static void task_init_parent(struct task *task, struct task *parent) {
 	const struct task_resource_desc *res_desc;
 	task->parent = parent;
-	
+
 	INIT_LIST_HEAD(&task->threads);
 
 	list_add(&task->link, &parent->children);
@@ -138,7 +138,7 @@ static void task_remove(struct task *task) {
 		/*thread_delete(thread);*/
 	}
 
-	sched_unlock(); 
+	sched_unlock();
 
 	task_resource_foreach(res_desc) {
 		res_desc->deinit(task);
@@ -150,7 +150,7 @@ static void task_remove(struct task *task) {
 static void *task_trampoline(void *arg) {
 	struct task_creat_param *param = (struct task_creat_param *) arg;
 	void *run_arg = param->arg;
-	run_fn run = param->run;		
+	run_fn run = param->run;
 	void *res = NULL;
 
 	pool_free(&creat_param, param);

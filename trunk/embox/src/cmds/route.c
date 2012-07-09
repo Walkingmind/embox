@@ -94,8 +94,8 @@ static int exec(int argc, char *argv[]) {
 	net = net & mask;
 
 	if (!strcmp(argv[argc - 1], "add")) {
-		/* ToDo: 
-		 * 	reject route if there is a route with the same length of the mask 
+		/* ToDo:
+		 * 	reject route if there is a route with the same length of the mask
 		 * 	We don't allow the similar routes in the kernel
 		 */
 		rt_add_route(ifdev->dev, net, mask, gw, ((gw == INADDR_ANY) ? RTF_UP : RTF_UP | RTF_GATEWAY));

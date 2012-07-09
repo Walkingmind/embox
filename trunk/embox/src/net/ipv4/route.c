@@ -69,7 +69,7 @@ int rt_del_route(net_device_t *dev, in_addr_t dst,
 	return -ENOENT;
 }
 
-/* svv: ToDo: 
+/* svv: ToDo:
  * 		1) this function returns -ENOENT/ENOERR, but arp_resolve -1/0
  * 			style must be the same
  *		2) Carrier without ARP can't be supported
@@ -85,16 +85,16 @@ int ip_route(sk_buff_t *skb, struct rt_entry *suggested_route) {
 	/* set the device for current destination address */
 	skb->dev = rte->dev;
 
-	/* if source and destination addresses are equal send via LB interface 
+	/* if source and destination addresses are equal send via LB interface
 	 * svv: suspicious. There is no check (src == dst) in ip_input
 	 */
 	if(skb->nh.iph->daddr  == skb->nh.iph->saddr)
 		skb->dev = inet_get_loopback_dev();
-	
+
 	/* if the packet should be sent using gateway */
 	if (rte->rt_gateway != INADDR_ANY) {
 		int arp_resolve_result;
-		/* the next line coerses arp_resolve to set HW destination address 
+		/* the next line coerses arp_resolve to set HW destination address
 		 * to gateway's HW address.
 		 * Suspicious:
 		 *	probably	dev_queue_xmit()->

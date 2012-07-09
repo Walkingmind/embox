@@ -227,7 +227,7 @@ int kernel_socket_listen(struct socket *sock, int backlog) {
 	if(sk_is_connected(sock)){
 		return -EINVAL;
 	}
- 
+
 	/* try to listen */
 	res = sock->ops->listen(sock, backlog);
 	if(res < 0){  /* If something went wrong */
@@ -308,7 +308,7 @@ int kernel_socket_connect(struct socket *sock, const struct sockaddr *addr,
 	if(!sock->ops->connect){
 		return -EOPNOTSUPP;
 	}
-	
+
 	/* find out if socket sock is registered in the system */
 	if(!sr_socket_exists(sock)){
 		return -ENOTSOCK;
@@ -357,11 +357,11 @@ int kernel_socket_connect(struct socket *sock, const struct sockaddr *addr,
 	   ENAMETOLONG, ENETDOWN*/
 	res = sock->ops->connect(sock, (struct sockaddr *) addr, addrlen, flags);
 	if(res < 0){
-		/* in case of non-blocking sockets(for the future) 
+		/* in case of non-blocking sockets(for the future)
 		   here should be handled situation when connect is trying to
 		   finish asynchronously */
 		LOG_ERROR("kernel_socket_connect", "unable to connect on socket");
-		sk_set_connection_state(sock, BOUND); 
+		sk_set_connection_state(sock, BOUND);
 	}else
 		sk_set_connection_state(sock, CONNECTED);
 

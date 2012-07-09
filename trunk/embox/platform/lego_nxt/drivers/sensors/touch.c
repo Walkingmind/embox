@@ -16,7 +16,7 @@
 
 static touch_hnd_t touch_sens_hnds[NXT_AVR_N_INPUTS];
 
-typedef enum { 
+typedef enum {
 	NXT_TOUCH_STATE_UP,
 	NXT_TOUCH_STATE_DOWN
 } touch_state_t;

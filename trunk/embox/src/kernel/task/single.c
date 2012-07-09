@@ -17,9 +17,9 @@ int new_task(void *(*run)(void *), void *arg) {
 struct task *task_self(void) {
 	/* Since there is only one task, actually it means --
 	 * that task is kernel's.
-	 */ 
+	 */
 	return task_kernel_task();
-}	
+}
 
 int task_notify_switch(struct thread *prev, struct thread *next) {
 	return 0;

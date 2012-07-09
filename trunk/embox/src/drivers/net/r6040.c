@@ -94,16 +94,16 @@ EMBOX_UNIT_INIT(r6040_init);
 /* Descriptor status */
 #define DSC_OWNER_MAC   0x8000  /* MAC is the owner of this descriptor */
 #define DSC_RX_OK       0x4000  /* RX was successful */
-#define DSC_RX_ERR      0x0800  /* RX PHY error */                              
-#define DSC_RX_ERR_DRI  0x0400  /* RX dribble packet */                         
-#define DSC_RX_ERR_BUF  0x0200  /* RX length exceeds buffer size */             
-#define DSC_RX_ERR_LONG 0x0100  /* RX length > maximum packet length */         
-#define DSC_RX_ERR_RUNT 0x0080  /* RX packet length < 64 byte */                
-#define DSC_RX_ERR_CRC  0x0040  /* RX CRC error */                              
-#define DSC_RX_BCAST    0x0020  /* RX broadcast (no error) */                   
-#define DSC_RX_MCAST    0x0010  /* RX multicast (no error) */                   
-#define DSC_RX_MCH_HIT  0x0008  /* RX multicast hit in hash table (no error) */ 
-#define DSC_RX_MIDH_HIT 0x0004  /* RX MID table hit (no error) */               
+#define DSC_RX_ERR      0x0800  /* RX PHY error */
+#define DSC_RX_ERR_DRI  0x0400  /* RX dribble packet */
+#define DSC_RX_ERR_BUF  0x0200  /* RX length exceeds buffer size */
+#define DSC_RX_ERR_LONG 0x0100  /* RX length > maximum packet length */
+#define DSC_RX_ERR_RUNT 0x0080  /* RX packet length < 64 byte */
+#define DSC_RX_ERR_CRC  0x0040  /* RX CRC error */
+#define DSC_RX_BCAST    0x0020  /* RX broadcast (no error) */
+#define DSC_RX_MCAST    0x0010  /* RX multicast (no error) */
+#define DSC_RX_MCH_HIT  0x0008  /* RX multicast hit in hash table (no error) */
+#define DSC_RX_MIDH_HIT 0x0004  /* RX MID table hit (no error) */
 #define DSC_RX_IDX_MID_MASK 3   /* RX mask for the index of matched MIDx */
 
 /* RX and TX interrupts that we handle */
@@ -143,32 +143,32 @@ static eth_desc_t *rxd_init(size_t pkt_size) {
 
 	/* Make this one owned by the MAC */
 	rxd->status = DSC_OWNER_MAC;
-  
+
 	/* Set the buffer pointer */
 	rxd->buf = pkt;
 	rxd->dlen = pkt_size;
-  
+
 	return rxd;
 }
 
 static void r6040_tx_enable(void) {
 	unsigned short tmp = in16(MCR0);
-	out16(tmp | (1 << 12), MCR0);  
+	out16(tmp | (1 << 12), MCR0);
 }
 
 static void r6040_tx_disable(void) {
 	unsigned short tmp = in16(MCR0);
-	out16(tmp & ~(1 << 12), MCR0);    
+	out16(tmp & ~(1 << 12), MCR0);
 }
 
 void r6040_rx_enable(void) {
 	unsigned short tmp = in16(MCR0);
-	out16(tmp | (1 << 1), MCR0);  
+	out16(tmp | (1 << 1), MCR0);
 //	out16(2, MCR0);
 }
 
 static void r6040_rx_disable(void) {
-	out8(0, MCR0);  
+	out8(0, MCR0);
 }
 
 static void r6040_set_tx_start(eth_desc_t* desc) {
@@ -248,7 +248,7 @@ size_t r6040_rx(unsigned char* pkt, size_t max_len) {
 		/* Descriptor descarded with error */
 		discard_descriptor();
 		return ret;
-	}  
+	}
 
 	/* If the buffer isn't long enough discard this packet */
 	if (g_rx_descriptor_next->dlen > max_len) {
@@ -263,13 +263,13 @@ size_t r6040_rx(unsigned char* pkt, size_t max_len) {
 	ret = g_rx_descriptor_next->dlen;
 	ret -= 4;   /* chop the checksum, we don't need it */
 	discard_descriptor();
-	return ret;  
+	return ret;
 }
 
 /* queue packet for transmission */
 void r6040_tx(unsigned char* pkt, size_t length) {
 	r6040_tx_disable();
-  
+
 	/* copy this packet into the transmit descriptor */
 	memset(g_tx_descriptor_next->buf, 0, 60);
 
@@ -278,21 +278,21 @@ void r6040_tx(unsigned char* pkt, size_t length) {
 
 	/* Copy the descriptor address (will have been set to zero by last op) */
 	r6040_set_tx_start(g_tx_descriptor_next);
-  
+
 	/* Make the mac own it */
 	g_tx_descriptor_next->status = DSC_OWNER_MAC;
 
 	//desc_dump(g_tx_descriptor_next);
-  
+
 	/* Start xmit */
 	r6040_tx_enable();
-  
+
 	/* poll for mac to no longer own it */
 	while (g_tx_descriptor_next->status & DSC_OWNER_MAC) {};
 	/* Stop any other activity */
 	r6040_tx_disable();
-  
-	//desc_dump(g_tx_descriptor_next);  
+
+	//desc_dump(g_tx_descriptor_next);
 }
 
 unsigned short r6040_mdio_read(int reg, int phy) {

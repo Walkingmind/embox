@@ -103,7 +103,7 @@ static void array_del(struct int_tree_set_element * elem) {
 	ideal[ideal_size] = NULL;
 }
 
-/* 
+/*
  * Check whether set and array contains the same elements.
  * Also check that both foreach loops (forward and back) are correct.
  */
@@ -161,7 +161,7 @@ static bool check_rb(struct tree_set *set) {
 	return check_rb_node(set->root);
 }
 
-#if 0 
+#if 0
 static void print(void){
 	int i;
 	struct tree_set_link *link;

@@ -1,8 +1,8 @@
 /**
- * @file 
- * @brief 
+ * @file
+ * @brief
  *
- * @author  Anton Kozlov 
+ * @author  Anton Kozlov
  * @date    20.06.2012
  */
 
@@ -12,7 +12,7 @@
 #include "common.h"
 
 extern void context_enter_frame(struct context *ctx, void (*pc)(void));
- 
+
 void kill(int tid, int sig) {
 	struct task *task = task_table_get(tid);
 	struct task_signal_table *sig_table = task->signal_table;
@@ -35,12 +35,12 @@ static void task_global_sig_handler(void) {
 
 static void task_signal_table_init(struct task *task, void *_signal_table) {
 	struct task_signal_table *sig_table = (struct task_signal_table *) _signal_table;
-	
+
 	task->signal_table = sig_table;
 }
 
 static void task_signal_table_inherit(struct task *task, struct task *parent_task) {
-	/* TODO Implement me */	
+	/* TODO Implement me */
 }
 
 static void task_signal_table_deinit(struct task *task) {
@@ -64,7 +64,7 @@ static int notify_hnd(struct thread *prev, struct thread *next) {
 		context_enter_frame(&next->context, task_global_sig_handler);
 	}
 
-	
+
 	return 0;
 }
 

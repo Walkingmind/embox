@@ -4,13 +4,13 @@
  * @brief
  *
  * @date 17.03.2012
- * @author Anton Kozlov 
+ * @author Anton Kozlov
  */
 
 #include <kernel/diag.h>
 #include <string.h>
 
-#define BUF_LEN 0x100 
+#define BUF_LEN 0x100
 
 static char diag_buf[BUF_LEN + 1]; /* for trailing \0 */
 static int diag_buf_head = 0;

@@ -1,9 +1,9 @@
 /**
  * @file
- * @brief  
+ * @brief
  *
  * @date 02.11.11
- * @author Anton Kozlov 
+ * @author Anton Kozlov
  */
 
 #include <errno.h>

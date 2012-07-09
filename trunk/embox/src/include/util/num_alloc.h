@@ -1,5 +1,5 @@
 /**
- * @file 
+ * @file
  * @brief Interface for number alloc struct. Structure has requests:
  *  * Alloc number -- returns minimal free number and mark it as busy.
  *  * Free number -- mark number as free
@@ -7,7 +7,7 @@
  *  * Alloc number range -- returns range of numbers, all are free
  *  * Free range -- mark range as free
  *
- * @author  Anton Kozlov 
+ * @author  Anton Kozlov
  * @date    21.06.2012
  */
 
@@ -33,7 +33,7 @@ typedef __util_num_alloc_t util_num_alloc_t;
  *
  * @param n Required number capacity for num_alloc
  *
- * @return 
+ * @return
  */
 #define UTIL_NUM_ALLOC_CALC(n) __UTIL_NUM_ALLOC_CALC(n)
 
@@ -43,14 +43,14 @@ typedef __util_num_alloc_t util_num_alloc_t;
  * @param space Pointer for space which can store struct with capacity n
  * @param n Capacity of initializing num_alloc
  *
- * @return Pointer for initilized num_alloc 
+ * @return Pointer for initilized num_alloc
  */
 util_num_alloc_t *util_num_alloc_init(void *space, int n);
 
 /**
  * @brief Allocate a positive integer from num_alloc
  *
- * @param num_alloc Pointer for util_num_alloc_t 
+ * @param num_alloc Pointer for util_num_alloc_t
  *
  * @return Minimal free integer, if there. Negative error code, otherwise.
  */
@@ -69,7 +69,7 @@ int util_num_alloc_specified(util_num_alloc_t *num_alloc, int n);
 /**
  * @brief Mark number as free in num_alloc
  *
- * @param num_alloc Pointer for util_num_alloc_t 
+ * @param num_alloc Pointer for util_num_alloc_t
  * @param n Number which are freeing
  */
 void util_num_free(util_num_alloc_t *num_alloc, int n);
@@ -79,7 +79,7 @@ void util_num_free(util_num_alloc_t *num_alloc, int n);
  *
  * @param num_alloc
  *
- * @return 
+ * @return
  */
 int util_num_alloc_next_alloc(util_num_alloc_t *num_alloc);
 

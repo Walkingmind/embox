@@ -5,7 +5,7 @@
  * @date 12.06.10
  * @author Eldar Abusalimov
  * @author Anton Kozlov
- *		- options support 
+ *		- options support
  */
 
 #ifndef FRAMEWORK_MOD_DECLS_H_

@@ -5,7 +5,7 @@
  * @date 30.10.11
  * @author Alexander Kalmuk
  *	- UDP version
- * @author Anton Kozlov 
+ * @author Anton Kozlov
  * @author Ilia Vaprol
  *	- TCP version
  */

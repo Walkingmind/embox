@@ -9,7 +9,7 @@
 #ifndef PNET_PACK_PACK_ALONE_H_
 #define PNET_PACK_PACK_ALONE_H_
 
-#define PNET_PACK_MAX_DATA_LEN 64 
+#define PNET_PACK_MAX_DATA_LEN 64
 
 struct pnet_pack_data {
 	int len;

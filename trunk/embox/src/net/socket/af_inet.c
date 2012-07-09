@@ -130,7 +130,7 @@ static int inet_release(struct socket *sock) {
 	ip_port_unlock(sk->sk_protocol, ntohs(inet->sport));
 
 	if (sk->sk_prot->close != NULL) {
-		/* altering close() interface to return NULL 
+		/* altering close() interface to return NULL
 			 is probably not appropriate) */
 		sk->sk_prot->close(sk, 0);
 	}

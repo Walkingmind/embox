@@ -63,7 +63,7 @@ static void nxt_motor_init(nxt_motor_t *motor, int8_t power, uint32_t limit,
 
 	pin_set_input_monitor((1 << motor->m_0) | (1 << motor->m_1),
 			(pin_handler_t) motor->pin_handler);
-	
+
 	data_to_avr.output_percent[motor->id] = power;
 }
 

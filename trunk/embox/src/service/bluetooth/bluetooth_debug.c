@@ -2,7 +2,7 @@
  * @file
  * @brief debug bluetooth front-end
  *
- * @date 7.07.11 
+ * @date 7.07.11
  * @author Anton Kozlov
  */
 
@@ -32,7 +32,7 @@ static int handler(int msg, uint8_t *buff) {
 	return 0;
 }
 int bluetooth_debug_init(void) {
-	CALLBACK_REG(bluetooth_uart, (callback_t) handler);	
+	CALLBACK_REG(bluetooth_uart, (callback_t) handler);
 	return 0;
 }
 

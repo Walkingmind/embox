@@ -1,6 +1,6 @@
 /**
  * @file
- * @brief Bluetooth driver 
+ * @brief Bluetooth driver
  *
  * @date 24.02.11
  * @author Anton Bondarev
@@ -33,7 +33,7 @@ typedef int (*nxt_bt_state_handle_t)(void);
 CALLBACK_DECLARE(nxt_bt_state_handle_t, bt_state);
 
 /*
- * Does hard reset. Usually need during boot, or unmaintable hw failure 
+ * Does hard reset. Usually need during boot, or unmaintable hw failure
  */
 extern void bluetooth_hw_hard_reset(void);
 
@@ -44,7 +44,7 @@ extern void bluetooth_hw_hard_reset(void);
 extern void bluetooth_hw_soft_reset(void);
 
 /*
- * One should call this as response on connection request 
+ * One should call this as response on connection request
  */
 void bluetooth_hw_accept_connect(void);
 

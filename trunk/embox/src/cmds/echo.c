@@ -1,6 +1,6 @@
 /**
  * @file echo.c
- * @brief 
+ * @brief
  *
  * @date 25.04.2012
  * @author Andrey Gazukin

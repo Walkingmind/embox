@@ -1,11 +1,11 @@
 /**
  * @file
- * @brief Shell starter 
+ * @brief Shell starter
  * @details As a shell_api doesn't provide autostart on load, this
  * module starts shell on load
  *
  * @date 13.09.11
- * @author Anton Kozlov 
+ * @author Anton Kozlov
  */
 
 #include <stdio.h>

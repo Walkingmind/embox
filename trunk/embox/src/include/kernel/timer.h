@@ -2,11 +2,11 @@
  * @file
  *
  * @brief Interface of periodical timers with milliseconds precision.
- * 
+ *
  * @details
  *   for set timer use `timer_init' or `timer_set' functions.
  *   for emulate non-periodical behavior use timer_close function in the end of handler.
- *  
+ *
  * @date 20.07.10
  * @author Fedor Burdun
  * @author Ilia Vaprol
@@ -76,7 +76,7 @@ typedef struct sys_timer sys_timer_t;
 
 /**
  * Set 'handle' timer for executing every 'ticks' ms.
- * Memory for set_tmr instance should be allocated before run timer_init. 
+ * Memory for set_tmr instance should be allocated before run timer_init.
  *
  * @param ptimer is pointer to preallocated buffer for system timer pointer.
  * @param ticks assignable time (quantity of milliseconds)

@@ -22,7 +22,7 @@ typedef struct in_device {
 	in_addr_t         ifa_broadcast;
 	in_addr_t         ifa_anycast;
 	unsigned char     ipv4_addr_length;
-	
+
 		/* IP packets requires uniq id. It's a way to generate them. Bytes order isn't important */
 	uint32_t          ip_id_generator;
 } in_device_t;

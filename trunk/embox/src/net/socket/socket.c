@@ -146,7 +146,7 @@ int accept(int sockfd, struct sockaddr *addr, socklen_t *addrlen) {
 	res = kernel_socket_accept(sock, &new_sock, addr, addrlen);
 	if (res < 0) {
 		SET_ERRNO(-res);
-		return -1;		
+		return -1;
 	}
 
 	res = task_self_idx_alloc(&task_idx_ops_socket, new_sock);
@@ -177,8 +177,8 @@ static size_t sendto_sock(struct socket *sock, const void *buf, size_t len, int 
 
 	inet = inet_sk(sock->sk);
 	if ( (sock->type == SOCK_STREAM) || (sock->type ==  SOCK_SEQPACKET) ) {
-		/* Quotation: "If sendto() is used on a connection-mode (SOCK_STREAM, SOCK_SEQPACKET) 
-		 * socket, the arguments dest_addr and addrlen are ignored 
+		/* Quotation: "If sendto() is used on a connection-mode (SOCK_STREAM, SOCK_SEQPACKET)
+		 * socket, the arguments dest_addr and addrlen are ignored
 		 * (and the error EISCONN MAY be returned when they are not NULL and 0)"
 		 *------------
 		 * Currently we do nothing and believe that inet has correct pair address-port
@@ -273,7 +273,7 @@ static ssize_t recvfrom_sock(struct socket *sock, void *buf, size_t len, int fla
 
 	return iov.iov_len; /* return length of received msg */
 }
- 
+
 
 ssize_t recvfrom(int sockfd, void *buf, size_t len, int flags,
 			struct sockaddr *daddr, socklen_t *daddrlen) {
@@ -301,7 +301,7 @@ int socket_close(int sockfd) {
 		SET_ERRNO(EBADF);
 		return -1;
 	}
-	
+
 	res = kernel_socket_release(sock);
 	if(res < 0){
 		SET_ERRNO(-res);
@@ -312,14 +312,14 @@ int socket_close(int sockfd) {
 }
 
 static ssize_t this_read(void *socket, void *buf, size_t nbyte) {
-	return recvfrom_sock((struct socket *) socket, buf, nbyte, 0, NULL, 0); 
+	return recvfrom_sock((struct socket *) socket, buf, nbyte, 0, NULL, 0);
 }
 
 static ssize_t this_write(void *socket, const void *buf, size_t nbyte) {
-	return sendto_sock((struct socket *) socket, buf, nbyte, 0, NULL, 0); 
+	return sendto_sock((struct socket *) socket, buf, nbyte, 0, NULL, 0);
 }
 
-static int this_ioctl(void *socket, int request, va_list args) { 
+static int this_ioctl(void *socket, int request, va_list args) {
 	return 0;
 }
 
