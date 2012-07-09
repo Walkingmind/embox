@@ -1,0 +1,19 @@
+package embox.cmd
+
+@Cmd(name = "lsmod",
+	help = "Lists mod info emitted by EMBuild",
+	man = '''
+		NAME
+			lsmod
+		AUTHORS
+			Eldar Abusalimov
+	''')
+module lsmod {
+	/* FIXME:
+	 * 1.it depends from embox.framework.mod (called from lsmod.c)
+	 */
+	source "lsmod.c"
+
+	depends embox.lib.LibC
+	depends embox.framework.LibFramework
+}

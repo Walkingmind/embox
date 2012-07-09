@@ -1,0 +1,4 @@
+
+SUBDIRS := $(PLATFORM)
+
+$_PACKAGE := $(PLATFORM)

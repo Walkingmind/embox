@@ -1,0 +1,93 @@
+package embox.net
+
+module arp_queue {
+	source "arp_queue.c"
+
+	depends embox.util.hashtable
+	depends dev /* for network_layer.c */
+	depends skbuff
+	depends embox.kernel.timer.sys_timer
+	depends embox.kernel.thread.sched
+	depends embox.mem.objalloc
+}
+
+module arp {
+	source "arp.c"
+
+	depends dev /* for network_layer.c */
+	depends skbuff
+	depends arp_queue
+	depends neighbour
+	depends embox.lib.LibC
+	depends embox.framework.LibFrameworkNet
+}
+
+module icmp {
+	source "icmp.c"
+
+	depends eth
+	depends raw_sock
+	depends core /* for devinet.c */
+	depends ipv4 /* for ip_output.c */
+	depends skbuff
+	depends embox.framework.LibFrameworkNet
+}
+
+module ipv4 {
+	/* FIXME:
+	 * 1.it depends from icmp (called from ip_options.c, ip_output.c)
+	 */
+	source "ip_fragment.c"
+	depends skbuff
+	depends embox.mem.objalloc
+	depends embox.kernel.timer.sys_timer
+	depends embox.lib.LibC
+
+	source "ip_input.c"
+	depends skbuff
+	depends raw_sock
+	depends embox.lib.LibC
+	/* depends from ip_fragment.c */
+
+	source "ip_options.c"
+
+	source "ip_output.c"
+	depends dev /* for network_layer.c */
+	depends skbuff
+	depends route
+	depends eth
+}
+
+module route {
+	source "route.c"
+
+	depends core /* for devinet.c */
+	depends arp
+	depends embox.mem.pool
+}
+
+module tcp {
+	source "tcp.c"
+
+	depends skbuff
+	depends core
+	depends ipv4 /* for ip_output.c */
+	depends af_inet /* for af_inet.c */
+	depends util
+	depends embox.kernel.time.clock_source
+	depends embox.kernel.critical
+	depends embox.lib.LibC
+	depends embox.kernel.timer.sys_timer
+	depends embox.framework.LibFrameworkNet
+}
+
+module udp {
+	source "udp.c"
+
+	depends ipv4 /* for ip_output.c */
+	depends skbuff
+	depends icmp
+	depends core /* for sock.c */
+	depends embox.lib.LibC
+	depends embox.framework.LibFrameworkNet
+}

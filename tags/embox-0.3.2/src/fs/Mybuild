@@ -1,0 +1,28 @@
+package embox.fs
+
+module node {
+    @IncludePath("$(SRC_DIR)/compat/linux/include") 
+    @IncludePath("$(SRC_DIR)/compat/posix/include")
+	source "node.c"
+	option number fnode_quantity=32
+}
+
+module file_desc {
+    @IncludePath("$(SRC_DIR)/compat/posix/include")
+	source "file_desc.c"
+	option number fdesc_quantity=32
+}
+
+module core {
+	source "vfs.c"
+	depends file_desc, node, rootfs
+	depends embox.fs.driver.repo	
+}
+
+module posix_compat {
+	@IncludePath("$(SRC_DIR)/compat/posix/include")
+	source "kernel_posix_plugin.c"
+	depends core
+	depends embox.kernel.task.idx_table
+}
+	

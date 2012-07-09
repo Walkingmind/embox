@@ -1,0 +1,40 @@
+/*FIXME mybuild wrong packet name */
+package embox.driver.interrupt
+
+module at91_aic extends embox.arch.interrupt {
+	/* FIXME:
+	 * 1.it use irq_def_handler (called from at91_aic.c)
+	 */
+	source "at91_aic.c", "at91_aic.h"
+
+	depends embox.lib.LibC
+	depends embox.kernel.critical
+}
+
+module i8259 extends embox.arch.interrupt {
+	source "i8259.c", "i8259.h"
+}
+
+module irqmp extends embox.arch.interrupt {
+	source "irqmp.c", "irqmp.h"
+
+	depends embox.driver.ambapp_api
+	depends embox.lib.LibC
+	option number irqmp_base=2147484160
+}
+
+module mb_intc extends embox.arch.interrupt {
+	source "mb_intc.c", "mb_intc.h"
+}
+
+module stm32_nvic extends embox.arch.interrupt {
+	source "stm32_nvic.c", "stm32_nvic.h"
+}
+
+module mips_intc extends embox.arch.interrupt {
+	source "mips_intc.c", "mips_intc.h"
+}
+
+module no_interrupts extends embox.arch.interrupt {
+	source "no_interrupts.h"
+}
