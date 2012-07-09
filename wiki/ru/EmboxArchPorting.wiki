@@ -22,8 +22,8 @@ configuration conf {
 	@Runlevel(2) include embox.arch.mips.cpu
 	@Runlevel(2) include embox.arch.mips.kernel.arch
 	
-	@Runlevel(2) include embox.driver.diag.no_diag            /* without diag outnput */
-	@Runlevel(2) include embox.driver.interrupt.no_interrupts /* wihiout interrupt code */
+	@Runlevel(2) include embox.driver.diag.no_diag            /* without diag output */
+	@Runlevel(2) include embox.driver.interrupt.no_interrupts /* without interrupt code */
 	
 	
 	@Runlevel(2) include embox.prom.noprom_printf      /* without format output library */
@@ -51,6 +51,40 @@ extern char diag_getc(void);
 extern void diag_putc(char ch);
 
 extern int diag_has_symbol(void);
+}}}
+В описание модуля нужно указать что он реализует данный интерфейс
+module diag_xxx extends diag_api {
+	source "diag_xxx.c"
+}
+и конфигурационный файл пример вид
+{{{
+package genconfig
+
+configuration conf {
+	@Runlevel(2) include embox.arch.mips.kernel.locore /* boot code*/
+	@Runlevel(2) include embox.arch.mips.lds           /* linker script template*/
+	
+	@Runlevel(2) include embox.arch.mips.cpu
+	@Runlevel(2) include embox.arch.mips.kernel.arch
+	
+	@Runlevel(2) include embox.driver.diag.diag_xxx          /* diag_xxx as diag output */
+	@Runlevel(2) include embox.driver.interrupt.no_interrupts /* without interrupt code */
+	
+	
+	@Runlevel(2) include embox.prom.prom_printf      /* with format output library */
+
+
+	@Runlevel(2) include embox.framework.LibFramework
+	@Runlevel(2) include embox.arch.mips.libarch
+}
+}}}
+в результате после сборки вы должны увидеть на экране следующий вывод
+{{{
+Embox kernel start
+runlevel: init level is 0
+runlevel: init level is 1
+runlevel: init level is 2
+runlevel: init level is 3
 }}}
 
 == Шаг третий - запуск пользовательсткого кода (тестов) ==
