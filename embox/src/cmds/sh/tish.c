@@ -1,11 +1,11 @@
 /**
  * @file
- * @brief Tiny Shell 
+ * @brief Tiny Shell
  * @details New shell build around tiny readline impl called linenoise.
  *	    Supports history and completions and tends to be extremely small.
- * 
+ *
  * @date 13.09.11
- * @author Anton Kozlov 
+ * @author Anton Kozlov
  */
 
 #include <stdio.h>
@@ -19,7 +19,7 @@
 
 #include <cmd/shell.h>
 
-#define BUF_INP_SIZE OPTION_GET(NUMBER, prompt_len) 
+#define BUF_INP_SIZE OPTION_GET(NUMBER, prompt_len)
 
 static char *token_line[(BUF_INP_SIZE + 1) / 2];
 static char cline[BUF_INP_SIZE];
@@ -46,7 +46,7 @@ static int cmd_compl(char *buf, char *out_buf) {
 static int run_cmd(int argc, char *argv[]) {
 	const struct cmd *cmd;
 	int code;
-	
+
 	if (argc == 0) {
 		return 0;
 	}
@@ -70,7 +70,7 @@ int shell_line_input(const char *const_line) {
 	int last_was_blank = 1;
 
         strncpy(cline, const_line, BUF_INP_SIZE);
-	
+
 	while (*line != '\0') {
 		char is_space = isspace(*line);
 		if (last_was_blank && !is_space) {
@@ -89,7 +89,7 @@ int shell_line_input(const char *const_line) {
 		last_was_blank = is_space;
 		if (is_space) {
 			*line = '\0';
-		}	
+		}
 		line++;
 	}
 	return run_cmd(tok_pos, token_line);
@@ -104,9 +104,9 @@ void shell_run(void) {
 	linenoise_history_init(&h);
 
 	printf("\n%s\n\n", OPTION_STRING_GET(welcome_msg));
-	
+
 	while (1) {
-		if ((ret = linenoise(prompt, inp_buf, BUF_INP_SIZE, &h, 
+		if ((ret = linenoise(prompt, inp_buf, BUF_INP_SIZE, &h,
 			(compl_callback_t) cmd_compl)) < 0) {
 			return;
 		}

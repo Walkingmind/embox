@@ -286,7 +286,7 @@ int arp_rcv(struct sk_buff *skb, struct net_device *dev,
 	struct arphdr *arph;
 
 	assert((skb != NULL) && (dev != NULL));
-	
+
 	arph = skb->nh.arph;
 	assert(arph != NULL);
 

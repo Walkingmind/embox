@@ -2,7 +2,7 @@
  * @file
  * @brief
  * @date 06.12.11
- * @author Anton Kozlov 
+ * @author Anton Kozlov
  *	- TCP version
  */
 
@@ -67,7 +67,7 @@ static int httpd_exec(int argc, char **argv) {
 
 	listen(sock, 1);
 	while (1) {
-		connect_sock = accept(sock,(struct sockaddr *)&dst, 
+		connect_sock = accept(sock,(struct sockaddr *)&dst,
 				&dst_addr_len);
 
 		if (connect_sock < 0) {
@@ -86,7 +86,7 @@ static int httpd_exec(int argc, char **argv) {
 			close(connect_sock);
 			continue;
 		}
-		sendto(connect_sock, file_buf, f - file_buf, 0, 
+		sendto(connect_sock, file_buf, f - file_buf, 0,
 				(struct sockaddr *) &dst, sizeof(dst));
 		close(connect_sock);
 	}

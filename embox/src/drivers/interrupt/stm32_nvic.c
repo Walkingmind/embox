@@ -1,8 +1,8 @@
 /**
- * @file 
- * @brief 
+ * @file
+ * @brief
  *
- * @author  Anton Kozlov 
+ * @author  Anton Kozlov
  * @date    02.07.2012
  */
 
@@ -33,10 +33,10 @@
 
 /**
  * ENABLE, CLEAR, SET_PEND, CLR_PEND, ACTIVE is a base of bit arrays
- * to calculate bit offset in array: calculate 32-bit word offset 
+ * to calculate bit offset in array: calculate 32-bit word offset
  *     nr / 32 * sizeof(int) == nr / 8
- * and calculate bit offset in word 
- *     nr / 32 
+ * and calculate bit offset in word
+ *     nr / 32
  */
 
 EMBOX_UNIT_INIT(nvic_init);
@@ -50,13 +50,13 @@ extern void *trap_table_end;
 
 static int nvic_init(void) {
 	ipl_t ipl;
-	int i; 
+	int i;
 	void *ptr;
 
 	for (i = 0; i < EXCEPTION_TABLE_SZ; i++) {
 		exception_table[i] = ((int) interrupt_handle) | 1;
 	}
-	
+
 	/* load head from bootstrap table */
 	for (ptr = &trap_table_start, i = 0; ptr != &trap_table_end; ptr += 4, i++) {
 		exception_table[i] = * (int32_t *) ptr;
@@ -64,9 +64,9 @@ static int nvic_init(void) {
 
 	ipl = ipl_save();
 
-	REG_STORE(SCB_VTOR, 1 << 29 /* indicate, table in SRAM */ | 
+	REG_STORE(SCB_VTOR, 1 << 29 /* indicate, table in SRAM */ |
 			(int) exception_table);
-	
+
 	ipl_restore(ipl);
 
 	return 0;
@@ -75,30 +75,30 @@ static int nvic_init(void) {
 void interrupt_enable(interrupt_nr_t interrupt_nr) {
 	assert(interrupt_nr_valid(interrupt_nr));
 
-	REG_STORE(NVIC_ENABLE_BASE + interrupt_nr / 8, 
+	REG_STORE(NVIC_ENABLE_BASE + interrupt_nr / 8,
 			1 << (interrupt_nr / (8 * sizeof(int)) ));
 }
 
 void interrupt_disable(interrupt_nr_t interrupt_nr) {
 	assert(interrupt_nr_valid(interrupt_nr));
-	REG_STORE(NVIC_CLEAR_BASE + interrupt_nr / 8, 
+	REG_STORE(NVIC_CLEAR_BASE + interrupt_nr / 8,
 			1 << (interrupt_nr / (8 * sizeof(int)) ));
 }
 
 void interrupt_clear(interrupt_nr_t interrupt_nr) {
 	assert(interrupt_nr_valid(interrupt_nr));
-	REG_STORE(NVIC_CLR_PEND_BASE + interrupt_nr / 8, 
+	REG_STORE(NVIC_CLR_PEND_BASE + interrupt_nr / 8,
 			1 << (interrupt_nr / (8 * sizeof(int)) ));
 }
 
 void interrupt_force(interrupt_nr_t interrupt_nr) {
 	assert(interrupt_nr_valid(interrupt_nr));
-	REG_STORE(NVIC_SET_PEND_BASE + interrupt_nr / 8, 
+	REG_STORE(NVIC_SET_PEND_BASE + interrupt_nr / 8,
 			1 << (interrupt_nr / (8 * sizeof(int)) ));
 }
 
 interrupt_mask_t interrupt_get_status(void) {
-	return REG_LOAD(NVIC_ACTIVE_BASE) | 
+	return REG_LOAD(NVIC_ACTIVE_BASE) |
 		REG_LOAD(NVIC_ACTIVE_BASE + 4)
 		| REG_LOAD(NVIC_ACTIVE_BASE + 8);
 }
@@ -106,14 +106,14 @@ interrupt_mask_t interrupt_get_status(void) {
 void interrupt_handle(void) {
 	uint32_t source;
 
-	source = REG_LOAD(SCB_ICSR) & 0x1ff; 
+	source = REG_LOAD(SCB_ICSR) & 0x1ff;
 
 	assert(!critical_inside(CRITICAL_IRQ_LOCK));
 
 	critical_enter(CRITICAL_IRQ_HANDLER);
-	
+
 	irq_dispatch(source);
-	
+
 	critical_leave(CRITICAL_IRQ_HANDLER);
 
 	critical_dispatch_pending();

@@ -22,14 +22,14 @@ extern const char _ctors_end;
 static int exec(int argc, char **argv) {
 	func_ptr *func;
 	uint n_entries;
-	
-	for (func = (func_ptr *) &_ctors_start, n_entries = 0; 
+
+	for (func = (func_ptr *) &_ctors_start, n_entries = 0;
 			*func && (func != (func_ptr *) &_ctors_end);
 			func++, n_entries++) {
 				/* printf("%u entry, address == 0x%lx \r\n", n_entries, (unsigned long)(*func) ); */
 				(*func)();
 	}
-	
+
 	printf("%u init and constructor functions were called \r\n", n_entries);
 
 	return ENOERR;

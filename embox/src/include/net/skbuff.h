@@ -62,23 +62,23 @@ typedef struct sk_buff {        /* Socket buffer */
 		 * for packet assembling.
 		 */
 	uint16_t protocol;
-	
-		/* Control buffer (used to store layer-specific info e.g. ip options) 
-		 * Nowdays it's used only in ip options, so it's a good idea to 
+
+		/* Control buffer (used to store layer-specific info e.g. ip options)
+		 * Nowdays it's used only in ip options, so it's a good idea to
 		 * remove this field
 		 */
 	char cb[52];
-	
+
 		/* Length of actual data, from LL header till the end */
 	unsigned int len;
-	
+
 	union {                     /* Transport layer header */
 		struct tcphdr *th;
 		struct udphdr *uh;
 		struct icmphdr *icmph;
 		unsigned char *raw;
 	} h;
-	
+
 		/* Network layer header.
 		 * Usually iph contains IP_MIN_HEADER_SIZE except some cases:
 		 *	when we process incoming IP packet with options
@@ -89,7 +89,7 @@ typedef struct sk_buff {        /* Socket buffer */
 		struct arphdr *arph;
 		unsigned char *raw;
 	} nh;
-	
+
 		/* In current implementation our stack allocates
 		 * ETH_HEADER_SIZE + IP_MIN_HEADER_SIZE + ...
 		 * for outgoing packets.
@@ -99,23 +99,23 @@ typedef struct sk_buff {        /* Socket buffer */
 		struct ethhdr *ethh;
 		unsigned char *raw;
 	} mac;
-	
+
 		/* Pointer for buffer used to store all skb content.
 		 * Used by operations with pool, so it MUST NOT be changed
 		 */
 	unsigned char *head;
-	
+
 		/* After processing by (incoming) stack packet is used by
 		 * socket structures. Socket (== User) may consume only a part
 		 * of data. Taken data ends with p_data
 		 * Note:
-		 *	Quoting from man recvfrom "If a message is too long to fit in 
-		 *	the supplied buffer, excess bytes may be discarded depending 
+		 *	Quoting from man recvfrom "If a message is too long to fit in
+		 *	the supplied buffer, excess bytes may be discarded depending
 		 *	on the type of socket the message is received from"
 		 * So the presence of this field isn't mandatory.
 		 */
 	unsigned char *p_data;
-	
+
 } sk_buff_t;
 
 
@@ -141,7 +141,7 @@ extern void skb_free(struct sk_buff *skb);
  *	@priority: allocation priority
  *
  *	Make a copy of both an &sk_buff and its data and while doing so
- *	allocate additional space. Do nothing if we already have such amount 
+ *	allocate additional space. Do nothing if we already have such amount
  *	of free space and this sbk and data are completely ours.
  *
  *	Returns NULL on failure or the pointer to the buffer

@@ -1,6 +1,6 @@
 /**
  * @file
- * @brief Network socket 
+ * @brief Network socket
  *
  * @date 19.10.2011
  * @author Anton Kozlov

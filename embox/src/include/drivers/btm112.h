@@ -1,9 +1,9 @@
 /**
  * @file
- * @brief 
+ * @brief
  *
- * @date 
- * @author 
+ * @date
+ * @author
  */
 
 #ifndef BTM112_H_

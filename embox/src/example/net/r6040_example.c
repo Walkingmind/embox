@@ -53,7 +53,7 @@ static int check_pkt(void) {
 	return 1;
 }
 
-// return to sender                                                             
+// return to sender
 static void reverse_pkt(void) {
 	my_addr = g_pkt->dst;
 	g_pkt->dst = g_pkt->src;

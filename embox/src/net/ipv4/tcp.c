@@ -5,7 +5,7 @@
  *
  * @date 04.04.10
  * @author Nikolay Korotky
- * @author Anton Kozlov 
+ * @author Anton Kozlov
  * @author Ilia Vaprol
  */
 

@@ -19,12 +19,12 @@ typedef uint32_t __ipl_t;
 
 
 static inline void ipl_init(void) {
-	set_cpsr(get_cpsr() & ~(I_BIT | F_BIT));		
+	set_cpsr(get_cpsr() & ~(I_BIT | F_BIT));
 }
 
 static inline __ipl_t ipl_save(void) {
 	uint32_t r = get_cpsr();
-	set_cpsr(r | I_BIT | F_BIT);		
+	set_cpsr(r | I_BIT | F_BIT);
 	return r;
 }
 

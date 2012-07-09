@@ -116,7 +116,7 @@ extern long double strtold(const char *nptr, char **endptr);
  * @return the absolute value of the argument
  */
 static inline int abs(int x) { return x < 0 ? -x : x; } // TODO move from here
-static inline long labs(long x) { return x < 0 ? -x : x; } 
+static inline long labs(long x) { return x < 0 ? -x : x; }
 
 __END_DECLS
 

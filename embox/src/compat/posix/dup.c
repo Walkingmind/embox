@@ -24,7 +24,7 @@ int dup(int flides) {
 		return -1;
 	}
 
-	return dup2(flides, new_fd);	
+	return dup2(flides, new_fd);
 }
 
 int dup2(int flides, int flides2) {
@@ -32,7 +32,7 @@ int dup2(int flides, int flides2) {
 
 	if (! task_valid_binded_fd(flides)) {
 	       return -1;
-	}	       
+	}
 
 	if (! task_valid_unbinded_fd(flides2)) {
 		return -1;
@@ -41,6 +41,6 @@ int dup2(int flides, int flides2) {
 	old_idx = task_self_idx_get(flides);
 
 	task_self_idx_set(flides2, old_idx);
-	
-	return flides2;	
+
+	return flides2;
 }

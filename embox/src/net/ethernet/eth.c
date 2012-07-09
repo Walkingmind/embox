@@ -229,7 +229,7 @@ uint8_t eth_packet_type(struct sk_buff *skb) {
 	if (dev == inet_get_loopback_dev()) {
 		return PACKET_LOOPBACK;
 	}
-	
+
 	if (is_multicast_ether_addr(eth->h_dest)) {
 		if (!compare_ether_addr(eth->h_dest, dev->broadcast))
 			return PACKET_BROADCAST;

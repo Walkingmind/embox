@@ -1,9 +1,9 @@
 /**
  * @file
- * @brief Defines ambapp has a dumb (no) realization 
+ * @brief Defines ambapp has a dumb (no) realization
  *
  * @date 24.04.12
- * @author Anton Kozlov 
+ * @author Anton Kozlov
  */
 
 #ifndef DRIVERS_AMBAPP_DUMB_H_

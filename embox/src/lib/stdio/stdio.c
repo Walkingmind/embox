@@ -1,9 +1,9 @@
 /**
- * @file 
+ * @file
  * @brief defines stdio files (stdin, stdout, stderr)
  *
  * @author Anton Kozlov
- * @version 
+ * @version
  * @date 14.05.2012
  */
 
@@ -15,13 +15,13 @@
 #include <fs/file_desc.h>
 
 static int _determ_flide(FILE *stream) {
-	
+
 	assert(stream == stdin || stream == stdout || stream == stderr);
 
 	if ((int) stream == (int) stdin) {
 		return 0;
-	} 
-	
+	}
+
 	if ((int) stream == (int) stdout) {
 		return 1;
 	}

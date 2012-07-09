@@ -1,6 +1,6 @@
 /**
  * @file
- * @brief Core clocking device in Cortex-M3 
+ * @brief Core clocking device in Cortex-M3
  *
  * @date 23.03.12
  * @author Anton Kozlov
@@ -36,7 +36,7 @@
 #define SYSTICK_CLOCKINIT (0x01 << 2)
 
 #define SCB_SHP_BASE ((unsigned int *) 0xe000ed18)
-#define SCB_SHP_PERIF_N 8 
+#define SCB_SHP_PERIF_N 8
 
 static irq_return_t clock_handler(irq_nr_t irq_nr, void *data) {
 	clock_tick_handler(irq_nr, data);
@@ -54,11 +54,11 @@ static int this_config(struct time_dev_conf * conf) {
 
 	REG_STORE(SYSTICK_RELOAD, reload - 1);
 
-	REG_STORE(SYSTICK_VAL, 0);	
+	REG_STORE(SYSTICK_VAL, 0);
 
 	REG_STORE(SCB_SHP_BASE + 2, 0xf0 << (3 * SCB_SHP_PERIF_N));
 
-	REG_STORE(SYSTICK_CTRL, SYSTICK_ENABLE | SYSTICK_TICKINT | 
+	REG_STORE(SYSTICK_CTRL, SYSTICK_ENABLE | SYSTICK_TICKINT |
 			SYSTICK_CLOCKINIT);
 
 	return 0;
@@ -80,8 +80,8 @@ static struct time_counter_device this_counter = {
 };
 
 static struct clock_source this_clock_source = {
-	.name = "system_tick", 
-	.event_device = &this_event, 
+	.name = "system_tick",
+	.event_device = &this_event,
 	.counter_device = &this_counter,
 	.read = clock_source_read,
 };

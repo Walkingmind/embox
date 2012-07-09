@@ -150,7 +150,7 @@ static int tree_set_example(int argc, char **argv) {
 	/* Delete all elements from set. */
 	printf("Clear set\n");
 	tree_set_clear(set, dispose);
-	
+
 	printf("Is it empty: %d\n", tree_set_empty(set));
 
 	return 0;

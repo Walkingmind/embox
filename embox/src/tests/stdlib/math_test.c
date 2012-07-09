@@ -1,9 +1,9 @@
 /**
  * @file
- * @brief 
+ * @brief
  *
  * @date 03.11.11
- * @author Anton Kozlov 
+ * @author Anton Kozlov
  * @author Malkovsky Nikolay
  */
 

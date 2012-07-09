@@ -2,7 +2,7 @@
  * @file
  *
  * @date 13.09.11
- * @author Anton Kozlov 
+ * @author Anton Kozlov
  */
 
 #include <string.h>
@@ -13,12 +13,12 @@
 
 EMBOX_CMD(serial_con_manager);
 
-#define SERIAL_N_CON 10 
+#define SERIAL_N_CON 10
 #define BUF_SIZE (80 * 30)
 
 static char serial_buffer[SERIAL_N_CON * BUF_SIZE];
 static int pos[SERIAL_N_CON];
-static int sz[SERIAL_N_CON]; 
+static int sz[SERIAL_N_CON];
 static int buf_pos = 0;
 static int act_id = 0;
 
@@ -27,7 +27,7 @@ static const char clrscr[] =  "\x1b[2J\x1b[H";
 static void serial_make_active(struct tty_buf *tty) {
 	int cnt = sz[tty->id];
 	int ps = pos[tty->id];
-	
+
 	const char *ch_buf = clrscr;
 	while (*ch_buf != '\0') {
 		diag_putc(*ch_buf++);
@@ -60,7 +60,7 @@ static void serial_pc(struct tty_buf *tty, char ch) {
 	if (sz[tty->id] < BUF_SIZE) {
 		sz[tty->id]++;
 	}
-	
+
 	pos[tty->id] = (pos[tty->id] + 1) % BUF_SIZE;
 
 }
@@ -76,12 +76,12 @@ static void tty_serial_init(struct tty_buf *tty) {
 
 static int serial_con_manager(int argc, char *argv[]) {
 	int n = 1;
-	
+
 	if (argc <= 1) {
 		printf("Must be run with n: count of virtual consoles\n");
 		return -1;
 	}
-	
+
 	sscanf(argv[1], "%d", &n);
 
 	if (n <= 0 || n > SERIAL_N_CON) {
@@ -89,7 +89,7 @@ static int serial_con_manager(int argc, char *argv[]) {
 		return -1;
 	}
 
-	tty_ng_manager(n, tty_serial_init, shell_run); 
+	tty_ng_manager(n, tty_serial_init, shell_run);
 
 	return 0;
 }

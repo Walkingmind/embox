@@ -24,7 +24,7 @@ static void task_idx_table_init(struct task *task, void* _idx_table) {
 
 	util_num_alloc_init(num_alloc, CONFIG_TASKS_RES_QUANTITY);
 
-	idx_table = (util_idx_table_t *) ((void *) num_alloc + 
+	idx_table = (util_idx_table_t *) ((void *) num_alloc +
 			UTIL_NUM_ALLOC_CALC(CONFIG_TASKS_RES_QUANTITY));
 
 	util_idx_table_init(idx_table, CONFIG_TASKS_RES_QUANTITY, num_alloc);
@@ -56,7 +56,7 @@ static void task_idx_table_deinit(struct task *task) {
 
 /*static*/ struct idx_desc *task_idx_desc_alloc(const struct task_idx_ops *res_ops, void *data) {
 	struct idx_desc *desc = objalloc(&idx_res_pool);
-	desc->link_count = 0; 
+	desc->link_count = 0;
 
 	desc->res_ops = res_ops;
 	desc->data = data;
@@ -77,15 +77,15 @@ int task_idx_table_set(struct task_idx_table *res, int idx, struct idx_desc *des
 	assert(res);
 	if (old_idx) {
 		if (0 == task_idx_desc_link_count_add(old_idx, -1)) {
-			ret = task_idx_desc_ops(old_idx)->close(old_idx->data);			
+			ret = task_idx_desc_ops(old_idx)->close(old_idx->data);
 			task_idx_desc_free(old_idx);
 		}
-	}	
+	}
 
 	util_idx_table_set((util_idx_table_t *) &res->idx, idx, desc);
-	
+
 	if (desc) {
-		task_idx_desc_link_count_add(desc, 1);	
+		task_idx_desc_link_count_add(desc, 1);
 	}
 
 	return ret;
@@ -104,9 +104,9 @@ int task_self_idx_alloc(const struct task_idx_ops *res_ops, void *data) {
 	}
 
 	task_idx_table_set(self_res, new_fd, task_idx_desc_alloc(res_ops, data));
-	
+
 	return new_fd;
-}	
+}
 
 static const struct task_resource_desc idx_resource = {
 	.init = task_idx_table_init,

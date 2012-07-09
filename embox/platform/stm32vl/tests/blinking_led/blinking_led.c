@@ -40,7 +40,7 @@ static void timer_hdn(sys_timer_t *tmd, void *param) {
 
 	led1_off();
 }
-	
+
 
 static int blinking_led(void) {
 	sys_timer_t tmr;

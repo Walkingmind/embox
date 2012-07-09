@@ -141,7 +141,7 @@ static int ctrl_rx(struct pnet_pack *pack) {
 
 static int get_length(void *_msg) {
 	struct bc_msg *msg = _msg;
-	data_hnd = get_body; 
+	data_hnd = get_body;
 	bluetooth_read(msg->length);
 
 	return NET_HND_STOP_FREE;
@@ -150,7 +150,7 @@ static int get_length(void *_msg) {
 static int get_body(void *msg) {
 	int answ = process_msg((struct bc_msg_body *) msg);
 	if (answ == 0) {
-		data_hnd = get_length; 
+		data_hnd = get_length;
 		bluetooth_read(1);
 	}
 
@@ -189,6 +189,6 @@ static int nxt_bluecore_start(struct net_node *node) {
 }
 
 static int nxt_bluecore_init(void) {
-	return 0; 
+	return 0;
 }
 

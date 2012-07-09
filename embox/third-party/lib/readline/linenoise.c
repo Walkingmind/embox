@@ -2,7 +2,7 @@
  * line editing lib needs to be 20,000 lines of C code.
  *
  * You can find the latest source code at:
- * 
+ *
  *   http://github.com/antirez/linenoise
  *
  * Does a number of crazy assumptions that happen to be true in 99.9999% of
@@ -14,18 +14,18 @@
  * Copyright (c) 2010, Pieter Noordhuis <pcnoordhuis at gmail dot com>
  *
  * All rights reserved.
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are
  * met:
- * 
+ *
  *  *  Redistributions of source code must retain the above copyright
  *     notice, this list of conditions and the following disclaimer.
  *
  *  *  Redistributions in binary form must reproduce the above copyright
  *     notice, this list of conditions and the following disclaimer in the
  *     documentation and/or other materials provided with the distribution.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
  * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
@@ -37,7 +37,7 @@
  * THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
- * 
+ *
  * ------------------------------------------------------------------------
  *
  * References:
@@ -82,7 +82,7 @@
  * ED2 (Clear entire screen)
  *    Sequence: ESC [ 2 J
  *    Effect: clear the whole screen
- * 
+ *
  */
 
 #include <termios.h>
@@ -126,7 +126,7 @@ static int getColumns(void) {
 static void refreshLine(int fd, const char *prompt, char *buf, size_t len, size_t pos, size_t cols) {
     char seq[64];
     size_t plen = strlen(prompt);
-    
+
     while((plen+pos) >= cols) {
         buf++;
         len--;
@@ -156,7 +156,7 @@ static void linenoiseClearScreen(void) {
     }
 }
 
-static int linenoise_prompt(int fd, FILE *descr, char *buf, size_t buflen, const char *prompt, 
+static int linenoise_prompt(int fd, FILE *descr, char *buf, size_t buflen, const char *prompt,
 							struct hist *history, compl_callback_t cb, bool read_raw_mode) {
     char compl[LINENOISE_COMPL_LEN];
 
@@ -164,7 +164,7 @@ static int linenoise_prompt(int fd, FILE *descr, char *buf, size_t buflen, const
     size_t pos = 0;
     size_t len = 0;
     size_t cols = getColumns();
-    int history_index = 0; 
+    int history_index = 0;
     int history_n = 0;
     int compl_cnt = 0;
     if (history != NULL) {
@@ -191,7 +191,7 @@ static int linenoise_prompt(int fd, FILE *descr, char *buf, size_t buflen, const
 	    }
 	    if (compl_cnt == 0) {
 		continue;
-	    } else if (compl_cnt == 1) {	
+	    } else if (compl_cnt == 1) {
 		strcpy(buf, compl);
 		len = strlen(buf);
 		pos = len;
@@ -201,7 +201,7 @@ static int linenoise_prompt(int fd, FILE *descr, char *buf, size_t buflen, const
 	    refreshLine(fd,prompt,buf,len,pos,cols);
 	    continue;
         }
-	
+
 	compl_cnt = 0;
 
         switch(c) {
@@ -400,9 +400,9 @@ int linenoise(const char *prompt, char *buf, int len, struct hist *history, comp
 	}
 */
 	if (isatty(0)) {
-		ioctl(fd, TTY_IOCTL_SET_RAW, NULL); 
+		ioctl(fd, TTY_IOCTL_SET_RAW, NULL);
 		count = linenoise_prompt(fd, stdin, buf, len, prompt, history, cb, true);
-		ioctl(fd, mode, NULL); 
+		ioctl(fd, mode, NULL);
 	} else {
 		count = linenoise_prompt(fd, stdin, buf, len, prompt, history, cb, false);
 	}

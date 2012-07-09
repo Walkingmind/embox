@@ -174,14 +174,14 @@ static int raw_sendmsg(struct kiocb *iocb, struct sock *sk, struct msghdr *msg,
 	memcpy((void*)((unsigned int)(skb->mac.raw + ETH_HEADER_SIZE)),
 					(void*) msg->msg_iov->iov_base, len);
 	skb->nh.raw = skb->mac.raw + ETH_HEADER_SIZE;
-	
+
 		/* Correct until somebody sends:
 		 *	IP packet with options
 		 *	already fragmented IP packet
 		 * Probably we don't need this pointer in later code
 		 */
 	skb->h.raw = skb->mac.raw + ETH_HEADER_SIZE + IP_MIN_HEADER_SIZE;// + inet->opt->optlen;
-	
+
 	skb->sk = sk;
 	return ip_send_packet(inet, skb);
 }

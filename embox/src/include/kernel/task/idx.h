@@ -3,7 +3,7 @@
  * @brief
  *
  * @date 15.06.12
- * @author Anton Kozlov 
+ * @author Anton Kozlov
  */
 
 #ifndef TASK_IDX_H_
@@ -14,7 +14,7 @@
 #include <assert.h>
 #include <stdarg.h>
 
-enum task_idx_ops_type { 
+enum task_idx_ops_type {
 	TASK_RES_OPS_REGULAR,
 	TASK_RES_OPS_TTY
 };
@@ -33,7 +33,7 @@ struct task_idx_ops {
 
 /**
  * Descriptor for numerated item for resource (int flides / int socket)
- * Task stores resources in this form, dynamically resolve operations 
+ * Task stores resources in this form, dynamically resolve operations
  * with resources by type
  */
 struct idx_desc {
@@ -43,7 +43,7 @@ struct idx_desc {
 };
 
 /**
- * @brief idx utillity: get resource by idx 
+ * @brief idx utillity: get resource by idx
  * @param desc idx descriptor to get
  * @return resource in idx
  */
@@ -63,12 +63,12 @@ static inline const struct task_idx_ops *task_idx_desc_ops(struct idx_desc *desc
  * @param type idx descriptor type
  * @param data pointer for idx descriptor data
  *
- * @return 
+ * @return
  */
 extern struct idx_desc *task_idx_desc_alloc(const struct task_idx_ops *ops, void *data);
 
 /**
- * @brief idx utillity: get reference count by idx 
+ * @brief idx utillity: get reference count by idx
  * @param desc idx descriptor to get
  * @return count of references to idx resource
  */
@@ -78,15 +78,15 @@ static inline int task_idx_desc_link_count(struct idx_desc *desc) {
 }
 
 /**
- * @brief idx utillity: update reference count by idx 
- * @param desc idx descriptor to update 
- * @param d references count delta 
+ * @brief idx utillity: update reference count by idx
+ * @param desc idx descriptor to update
+ * @param d references count delta
  * @return new count of references to idx resource
  */
 static inline int task_idx_desc_link_count_add(struct idx_desc *desc, int d) {
 	assert(desc);
 	return (desc->link_count += d);
-}	
+}
 #include <util/idx_table.h>
 
 struct task_idx_table {
@@ -99,7 +99,7 @@ struct task_idx_table {
  * @param res Task resources to get idx from
  * @param idx idx number
  *
- * @return Pointer to idx 
+ * @return Pointer to idx
  */
 static inline struct idx_desc *task_idx_table_get(struct task_idx_table *res, int idx) {
 	assert(res);
@@ -118,12 +118,12 @@ int task_idx_table_set(struct task_idx_table *res, int idx, struct idx_desc *des
 extern int task_idx_table_first_unbinded(struct task_idx_table *res);
 
 /**
- * @brief Check if task resource number is occupied 
+ * @brief Check if task resource number is occupied
  *
  * @param res Task resource to check
  * @param idx Number to check
  *
- * @return 
+ * @return
  */
 static inline int task_idx_table_is_binded(struct task_idx_table *res, int idx) {
 	return task_idx_table_get(res, idx) != NULL;
@@ -147,7 +147,7 @@ static inline struct task_idx_table *task_idx_table(struct task *task);
 /**
  * @brief Determ is given fd is valid to use with tasks
  * @param fd File descriptor number to test
- * @return If given fs is valid to use with tasks 
+ * @return If given fs is valid to use with tasks
  */
 static inline int task_valid_fd(int fd) {
 	return 0 <= fd && fd <= CONFIG_TASKS_RES_QUANTITY;

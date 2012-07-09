@@ -1,8 +1,8 @@
 /**
- * @file 
- * @brief 
+ * @file
+ * @brief
  *
- * @author  Anton Kozlov 
+ * @author  Anton Kozlov
  * @date    07.04.2012
  */
 
@@ -25,8 +25,8 @@ EMBOX_UNIT_INIT(stm32_gpio_init);
 
 static int stm32_gpio_init(void) {
 	REG_ORIN(RCC_APB1RSTR,RCC_APB1PWR);
-	REG_ORIN(RCC_APB2ENR,RCC_APB2GPIOx); 
-	REG_ORIN(RCC_APB2ENR,RCC_APB2AFIO); 
+	REG_ORIN(RCC_APB2ENR,RCC_APB2GPIOx);
+	REG_ORIN(RCC_APB2ENR,RCC_APB2AFIO);
 	return 0;
 }
 
@@ -73,7 +73,7 @@ int gpio_in(struct gpio *gpio, gpio_mask_t mask, int mode) {
 
 int gpio_out(struct gpio *gpio, gpio_mask_t mask, int mode) {
 	int mode_val = 3;
-	
+
 	if (mode & GPIO_MODE_OUT_ALTERNATE) {
 		mode_val |= 8;
 	}

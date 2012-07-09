@@ -20,7 +20,7 @@
 POOL_DEF(socket_pool, socket_node_t, MAX_SYSTEM_CONNECTIONS);
 DLIST_DEFINE(socket_registry);
 
-static inline socket_node_t *get_sock_node_by_socket(struct socket *sock); 
+static inline socket_node_t *get_sock_node_by_socket(struct socket *sock);
 static socket_node_t *get_sock_node_by_src_address(struct socket *sock,
     struct sockaddr *addr);
 static socket_node_t *get_sock_node_by_dst_address(struct socket *sock,
@@ -35,7 +35,7 @@ int sr_add_socket_to_registry(struct socket *sock){
 	newnode->link.list_id = 0;  /* 0_o */
 	if(newnode == NULL)
 		return -ENOMEM;
-	
+
 	/* set source address data to NULL for now*/
 	memset(&newnode->saddr, 0, sizeof(struct sockaddr));
 	/* set destination address data to NULL for now*/
@@ -92,7 +92,7 @@ bool sr_socket_exists(struct socket *sock){
 				return true;
 		}
 	}
-	return false;	
+	return false;
 }
 
 int sr_set_saddr(struct socket *sock, const struct sockaddr *addr){

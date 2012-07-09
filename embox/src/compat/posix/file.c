@@ -24,7 +24,7 @@ int open(const char *path, int __oflag, ...) {
 	else {
 		mode = 'r';
 	}
-	
+
 	return task_self_idx_alloc(&task_idx_ops_file, \
 			fopen(path, (const char *) &mode));
 }
@@ -32,10 +32,10 @@ int open(const char *path, int __oflag, ...) {
 int close(int fd) {
 	struct idx_desc *desc = task_self_idx_get(fd);
 	const struct task_idx_ops *ops = task_idx_desc_ops(desc);
-	
+
 	assert(ops);
 	assert(ops->close);
-	
+
 	return task_self_idx_table_unbind(fd);
 }
 
@@ -63,7 +63,7 @@ int lseek(int fd, long int offset, int origin) {
 	return ops->fseek(task_idx_desc_data(desc), offset, origin);
 }
 
-int ioctl(int fd, int request, ...) { 
+int ioctl(int fd, int request, ...) {
 	va_list args;
 	int ret = -ENOTSUP;
 	struct idx_desc *desc = task_self_idx_get(fd);

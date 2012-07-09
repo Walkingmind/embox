@@ -1,6 +1,6 @@
 /**
  * @file
- * @brief 
+ * @brief
  *
  * @date 15.07.11
  * @author Anton Kozlov
@@ -29,7 +29,7 @@ static int car_bt_disconnect(void);
 static int car_bt_connect(void);
 static int car_bt_read(int len, void *data);
 
-static uint8_t determ_ack[ROBOBOT_DETERM_ACK_SIZE] = 
+static uint8_t determ_ack[ROBOBOT_DETERM_ACK_SIZE] =
 	{0x03, 0x00, 0x02, 0x0d, 0x02};
 
 //#define MOTOR_DRY_RUN
@@ -86,7 +86,7 @@ static int robobot_handle(uint8_t *buff) {
 	return (buff[0] == 0x42 && buff[1] == 0x24);
 }
 
-#define FORW_THRESHOLD 45 
+#define FORW_THRESHOLD 45
 #define TURN_THRESHOLD 65
 static int8_t speed;
 static int8_t direction;
@@ -94,7 +94,7 @@ static int8_t direction;
 static void robobot_handle_car(uint8_t *buff) {
 	speed = (int8_t) buff[0];
 	direction = (int8_t) buff[1];
-	
+
 	if (speed > FORW_THRESHOLD) {
 	    go_forw();
 	} else if (speed < -FORW_THRESHOLD) {
@@ -102,7 +102,7 @@ static void robobot_handle_car(uint8_t *buff) {
 	} else {
 	    go_none();
 	}
-	
+
 	if (direction > TURN_THRESHOLD) {
 	    turn_right();
 	} else if (direction < -TURN_THRESHOLD) {
@@ -153,8 +153,8 @@ static int robobot_bluetooth_car(void) {
 	CALLBACK_REG(bt_rx, car_bt_read);
 	CALLBACK_REG(bt_state, car_bt_connect);
 
-	REG_STORE(AT91C_PIOA_PDR, RIGHT_PIN | LEFT_PIN | 
-			FORWARD_PIN | BACKWARD_PIN); 
+	REG_STORE(AT91C_PIOA_PDR, RIGHT_PIN | LEFT_PIN |
+			FORWARD_PIN | BACKWARD_PIN);
 	REG_STORE(AT91C_PIOA_ASR, BACKWARD_PIN);
 	REG_STORE(AT91C_PIOA_BSR, RIGHT_PIN | LEFT_PIN | FORWARD_PIN );
 

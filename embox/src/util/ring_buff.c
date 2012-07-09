@@ -3,7 +3,7 @@
  * @brief Nonblock ring buffer realization
  *
  * @date 21.10.2011
- * @author Anton Kozlov 
+ * @author Anton Kozlov
  */
 
 #include <stddef.h>
@@ -23,7 +23,7 @@ int ring_buff_empty(struct ring_buff *buf) {
 }
 
 int ring_buff_enque(struct ring_buff *buf, void *elem) {
-	char *buf_pool = buf->storage;	
+	char *buf_pool = buf->storage;
 
 	if (buf->cnt >= buf->capacity) {
 		return -1;
@@ -38,7 +38,7 @@ int ring_buff_enque(struct ring_buff *buf, void *elem) {
 }
 
 int ring_buff_deque(struct ring_buff *buf, void *elem) {
-	char *buf_pool = buf->storage;	
+	char *buf_pool = buf->storage;
 	void *ret = buf_pool + (buf->p_read * buf->elem_size);
 
 	if (buf->cnt == 0) {

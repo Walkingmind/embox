@@ -15,7 +15,7 @@
 
 #include <kernel/prom_printf.h>
 
-#define BUF_INP_SIZE OPTION_GET(NUMBER,input_buffer) 
+#define BUF_INP_SIZE OPTION_GET(NUMBER,input_buffer)
 
 EMBOX_UNIT_INIT(run);
 

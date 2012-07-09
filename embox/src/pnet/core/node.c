@@ -3,7 +3,7 @@
  * @brief Network node manager
  *
  * @date 19.10.2011
- * @author Anton Kozlov 
+ * @author Anton Kozlov
  */
 
 #include <stddef.h>
@@ -40,7 +40,7 @@ net_node_t pnet_node_alloc(net_addr_t addr, pnet_proto_t proto) {
 	pnet_node_init(node, proto);
 
 	return node;
- 
+
 }
 
 int pnet_node_free(net_node_t node) {

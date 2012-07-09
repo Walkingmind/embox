@@ -18,11 +18,11 @@ EMBOX_UNIT_INIT(tasks_init);
 
 #include <module/embox/kernel/task/api.h>
 
-#define MAX_RES_SUM_SIZE OPTION_MODULE_GET(embox__kernel__task__api, NUMBER, max_resource_size) 
+#define MAX_RES_SUM_SIZE OPTION_MODULE_GET(embox__kernel__task__api, NUMBER, max_resource_size)
 
 static char kernel_task[sizeof(struct task) + MAX_RES_SUM_SIZE];
 
-ARRAY_SPREAD_DEF(const struct task_resource_desc *, task_resource_desc_array); 
+ARRAY_SPREAD_DEF(const struct task_resource_desc *, task_resource_desc_array);
 ARRAY_SPREAD_DEF(const task_notifing_resource_hnd, task_notifing_resource);
 
 static size_t resource_sum_size = 0;

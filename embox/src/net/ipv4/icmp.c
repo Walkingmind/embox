@@ -28,13 +28,13 @@
 
 EMBOX_NET_PROTO_INIT(IPPROTO_ICMP, icmp_rcv, NULL, icmp_init);
 
-/* Is the packet described by skb is multicast/broadcast one at levels 2 or 3 
+/* Is the packet described by skb is multicast/broadcast one at levels 2 or 3
  * Packets with type PACKET_LOOPBACK we treat as broadcast and drop them.
  * There are much more simple interfaces for local error notifications
  * then ICMP
  */
 static inline bool is_packet_not_unicast(sk_buff_t *skb) {
-	return (eth_packet_type(skb) != PACKET_HOST) || 
+	return (eth_packet_type(skb) != PACKET_HOST) ||
 		   !(ip_is_local(skb->nh.iph->daddr, false, false));
 }
 
@@ -64,21 +64,21 @@ static inline bool is_ip_header_correct_brief(iphdr_t *iph) {
 	}
 
 	/* Don't be paranoid. Skip CRC. */
-	
+
 	return true;
 }
 
 
-/* Pre check. 
- * Is it possible at all to use the obtained ICMP error 
+/* Pre check.
+ * Is it possible at all to use the obtained ICMP error
  * Calculates parameters for future processing as side effect
  */
-static inline int icmp_unreach_usability_check(sk_buff_t *skb, 
+static inline int icmp_unreach_usability_check(sk_buff_t *skb,
 							bool *give_to_only_raw, uint32_t *info) {
 	iphdr_t *iph = ip_hdr(skb);
 	icmphdr_t *icmph = icmp_hdr(skb);
 	iphdr_t *iph_embedded = (iphdr_t *)(skb->h.raw + ICMP_HEADER_SIZE);
-	
+
 	*give_to_only_raw = false;
 
 		/* Drop ICMP if it send not to unicast address */
@@ -93,7 +93,7 @@ static inline int icmp_unreach_usability_check(sk_buff_t *skb,
 		 *	ICMP (ping) - it's User Space problems. They get the reply without us.
 		 *	We can't help here (or may be raw_err() will give something more?)
 		 */
-	if (unlikely((ntohs(iph->tot_len) < 
+	if (unlikely((ntohs(iph->tot_len) <
 			(IP_HEADER_SIZE(iph) + ICMP_HEADER_SIZE + IP_MIN_HEADER_SIZE + 20)))) {
 		net_device_stats_t *stats = &skb->dev->stats;
 		/* Nothing to work with */
@@ -136,8 +136,8 @@ static inline int icmp_unreach_usability_check(sk_buff_t *skb,
 		default:
 			return -1;
 	}
-	
-	/* Now it's a real error and we can use iph_embedded. 
+
+	/* Now it's a real error and we can use iph_embedded.
 	 * It's location is correct and addressible.
 	 */
 
@@ -145,13 +145,13 @@ static inline int icmp_unreach_usability_check(sk_buff_t *skb,
 		return -1;
 	}
 
-		/* Somebody is doing something nasty 
+		/* Somebody is doing something nasty
 		 * As a side effect it's a kind of protection for our loopback
 		 */
 	if (unlikely(iph_embedded->saddr != iph->daddr)) {
 		return -1;
 	}
-	
+
 	return ENOERR;;
 }
 
@@ -163,9 +163,9 @@ static int icmp_unreach(sk_buff_t *skb) {
 	int res;
 
 	/* This information is used as a marker for socket(s).
-	 * So it allows to use _some_ information when skb 
+	 * So it allows to use _some_ information when skb
 	 * isn't available any more.
-	 * If required any protocol can assemble it's own 
+	 * If required any protocol can assemble it's own
 	 * information based on the whole skb (=> ICMP) data.
 	 */
 	uint32_t info = icmph->type | (icmph->code << 8);
@@ -174,18 +174,18 @@ static int icmp_unreach(sk_buff_t *skb) {
 	}
 
 	/* Notify all raw/udp/tcp sockets */
-	
+
 	raw_err(skb, info);
-	
-		/* 1) We can notify upper protocols (for example that some TCP windows were lost), 
-		 * but the problem is with IP itself 
+
+		/* 1) We can notify upper protocols (for example that some TCP windows were lost),
+		 * but the problem is with IP itself
 		 * 2) Don't call ICMP error handler again (if it exists).
 		 * User Space must take care of it
 		 */
 	if (give_to_only_raw || (iph_embedded->proto == IPPROTO_ICMP)) {
 		return ENOERR;	/* Probably raw_err() took it */
 	}
-	
+
 	/* Walk by protocols here and notify the appropriate protocol */
 	{
 		const struct net_proto *net_proto_ptr = NULL;
@@ -222,26 +222,26 @@ static int icmp_prepare_reply(sk_buff_t *reply) {
 		in_device_t *idev = in_dev_get(reply->dev);	/* Requires symmetric routing */
 		__be16 ip_id = inet_dev_get_id(idev);
 		__be16 tot_len = reply->nh.iph->tot_len;
-		
+
 		/* Replace not unicast addresses */
 		in_addr_t daddr = ip_is_local(reply->nh.iph->daddr, false, false) ?
 							reply->nh.iph->daddr : idev->ifa_address;
-	
+
 		init_ip_header(reply->nh.iph, ICMP_PROTO_TYPE, ip_id, tot_len, 0, daddr, reply->nh.iph->saddr);
 
 		/* Calculate ICMP CRC. Header itself was fixed in caller */
 	icmp_send_check_skb(reply);
-	
+
 	return ip_send_packet(NULL, reply);
 }
 
 
 static int icmp_echo(sk_buff_t *skb) {
 	sk_buff_t *reply = skb_duplicate(skb);	/* We are going to fix the data */
-	
+
 	if (!likely(reply))
 		return -1;
-	
+
 		/* Mark it as a reply */
 	reply->h.icmph->type = ICMP_ECHOREPLY;
 	return icmp_prepare_reply(reply);
@@ -259,8 +259,8 @@ static int icmp_timestamp(sk_buff_t *skb) {
 	struct ktimeval tv;
 	__be32 time_field;
 	int i;
-	
-	if (unlikely(ntohs(skb->nh.iph->tot_len) != 
+
+	if (unlikely(ntohs(skb->nh.iph->tot_len) !=
 				 (IP_HEADER_SIZE(skb->nh.iph) + ICMP_LEN_TIMESTAMP))) {
 		net_device_stats_t *stats = &skb->dev->stats;
 		LOG_WARN("icmp timestamp request length is too small\n");
@@ -273,7 +273,7 @@ static int icmp_timestamp(sk_buff_t *skb) {
 
 	/* Mark it as a reply */
 	reply->h.icmph->type = ICMP_TIMESTAMPREPLY;
-	
+
 	/* Fix time fields. Similar fields will do for us */
 	ktime_get_timeval(&tv);
 	time_field = iptime(&tv);
@@ -286,8 +286,8 @@ static int icmp_timestamp(sk_buff_t *skb) {
 }
 
 
-/* Pre check. 
- * Is it possible at all to use the obtained skb to generate ICMP error 
+/* Pre check.
+ * Is it possible at all to use the obtained skb to generate ICMP error
  * where true means that we can generate an error
  */
 static inline bool icmp_send_usability_check(sk_buff_t *skb_in) {
@@ -301,41 +301,41 @@ static inline bool icmp_send_usability_check(sk_buff_t *skb_in) {
 	 *---------
 	 *   It's a bad idea to send ICMP error to an ICMP error
 	 */
-	
+
 	/* Don't reply for not unicast address of any kind */
-	if (unlikely(is_packet_not_unicast(skb_in)) || 
+	if (unlikely(is_packet_not_unicast(skb_in)) ||
 				 (skb_in->nh.iph->frag_off & htons(IP_OFFSET))) {
 		return false;
 	}
-	
+
 	/* At least the IP header and 8 bytes of header */
 	if (unlikely((ntohs(skb_in->nh.iph->tot_len) < (IP_HEADER_SIZE(skb_in->nh.iph) + 8)))) {
 		/* Nothing to report about */
 		return false;
 	}
-	
+
 	skb_in->h.raw = skb_in->nh.raw + IP_HEADER_SIZE(skb_in->nh.iph);
 	/* At least 8 bytes of h.raw are addressable now */
 
 	/* Don't reply to ICMP Error.
 	 *	Is there any reason to send errors about replies?
 	 *	(No such requirements in RFCs, but it's reasonable)
-	 */ 
-	if (unlikely((skb_in->nh.iph->proto == IPPROTO_ICMP) && 
+	 */
+	if (unlikely((skb_in->nh.iph->proto == IPPROTO_ICMP) &&
 				 !(ICMP_INFOTYPE(skb_in->h.icmph->type)))) {
 		return false;
 	}
-	
+
 	return true;
 }
 
 
 static inline void __icmp_send(sk_buff_t *skb_in, __be16 type, __be16 code, __be32 info) {
-		/* Determine how many data we can take from the original datagram 
+		/* Determine how many data we can take from the original datagram
 		 * Note 1:
 		 *	We suggest that routing is symmetric:
 		 *	(if we get packet from A from device B, then we can reply back through device B)
-		 *	That all income packets have device 
+		 *	That all income packets have device
 		 *	(no strange ICMP packets generated in User Space)
 		 * Note 2:
 		 * 	We generate an error with common length ICMP_HEADER_SIZE
@@ -344,8 +344,8 @@ static inline void __icmp_send(sk_buff_t *skb_in, __be16 type, __be16 code, __be
 	uint ret_len = min((realloc_shift + ntohs(skb_in->nh.iph->tot_len)), skb_in->dev->mtu);
 	uint ip_ret_len = min(ret_len, 576);			/* See RCF 1812 4.3.2.3 */
 	sk_buff_t *skb;
-	
-	
+
+
 	if (!likely(icmp_send_usability_check(skb_in))) {
 		skb_free(skb_in);
 		return;
@@ -356,43 +356,43 @@ static inline void __icmp_send(sk_buff_t *skb_in, __be16 type, __be16 code, __be
 		skb_free(skb_in);
 		return;
 	}
-	
+
 		/* Relink skb and build content */
 	{
 		iphdr_t *iph_in = skb->nh.iph;			/* Original IP header */
 		iphdr_t *iph;
 		icmphdr_t *icmph;
-		
+
 		skb_shifthead(skb, realloc_shift);
 		skb->len = ip_ret_len + ETH_HEADER_SIZE;
-		
+
 			/* IP header is in correct place now. We'll fill it later */
 		iph = skb->nh.iph;
-		
+
 			/* ICMP header follows IP header. We'll fill it later */
 		skb->h.raw = skb->nh.raw + IP_MIN_HEADER_SIZE;
 		icmph = skb->h.icmph;
-		
+
 			/* Link Layer will be build after routing. It may not be ready yet */
-		
+
 			/* Assemble IP header */
 		{
 			in_device_t *idev = in_dev_get(skb->dev);	/* Requires symmetric routing */
 			__be16 ip_id = inet_dev_get_id(idev);
 			__be16 tot_len = htons(ip_ret_len);
-		
-			init_ip_header(iph, ICMP_PROTO_TYPE, ip_id, tot_len, iph_in->tos, 
+
+			init_ip_header(iph, ICMP_PROTO_TYPE, ip_id, tot_len, iph_in->tos,
 						   idev->ifa_address, iph_in->saddr);
 		}
-		
+
 			/* Assemble ICMP header */
 		icmph->type = type;
 		icmph->code = code;
 		icmph->un.gateway = info;
 		icmp_send_check_skb(skb);
-		
+
 	}
-	
+
 	ip_send_packet(NULL, skb);
 }
 
@@ -412,8 +412,8 @@ static int icmp_init(void) {
 }
 
 static int ping_rcv(struct sk_buff *skb) {
-		/* Kernel doesn't need this answer. 
-		 * User Space stuff might process it if it wants to 
+		/* Kernel doesn't need this answer.
+		 * User Space stuff might process it if it wants to
 		 */
 	return ENOERR;
 }
@@ -457,13 +457,13 @@ static inline int __icmp_rcv(sk_buff_t *pack) {
 	net_device_stats_t *stats = &pack->dev->stats;
 	__be16 orig_crc = icmph->checksum;
 
-	if (unlikely(ntohs(pack->nh.iph->tot_len) < 
+	if (unlikely(ntohs(pack->nh.iph->tot_len) <
 				 (IP_HEADER_SIZE(pack->nh.iph) + ICMP_HEADER_SIZE))) {
 		LOG_WARN("icmp length is obviously too small\n");
 		stats->rx_length_errors++;
 		return -1;
 	}
-	
+
 	icmp_send_check_skb(pack);
 	if (unlikely(icmph->checksum != orig_crc)) {
 		LOG_WARN("bad icmp checksum\n");

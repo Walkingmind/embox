@@ -1,12 +1,12 @@
 /**
  * @file
- * @brief interface for tty new generation 
+ * @brief interface for tty new generation
  *
  * @date 12.09.11
- * @author Anton Kozlov 
+ * @author Anton Kozlov
  */
 
-#ifndef DRIVERS_TTY_NG_H_ 
+#ifndef DRIVERS_TTY_NG_H_
 #define DRIVERS_TTY_NG_H_
 
 #define TTY_IOCTL_SET_CANONICAL 1
@@ -24,7 +24,7 @@ struct tty_buf {
 	int id; /**< id, used for implementation special purpose */
 	/* output */
 	char *out_buf;/**< output store for refresh on make_active */
-		
+
 	int canonical;
 	char canon_inp[TTY_CANON_INP_LEN];
 	char canon_pos;
@@ -35,7 +35,7 @@ struct tty_buf {
 	int inp_len;
 	int inp_begin;
 	int inp_end;
-	
+
 	void (*putc)(struct tty_buf *tty, char ch);
 	void (*make_active)(struct tty_buf *tty);
 	void (*make_inactive)(struct tty_buf *tty);
@@ -44,5 +44,5 @@ struct tty_buf {
 
 extern void tty_ng_manager(int count, void (*init)(struct tty_buf *tty), void (*run)(void));
 
-#endif 
+#endif
 

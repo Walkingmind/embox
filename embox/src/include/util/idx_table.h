@@ -1,8 +1,8 @@
 /**
- * @file 
- * @brief 
+ * @file
+ * @brief
  *
- * @author  Anton Kozlov 
+ * @author  Anton Kozlov
  * @date    21.06.2012
  */
 
@@ -16,7 +16,7 @@
 typedef struct util_idx_table_struct {
 	int n;
 	util_num_alloc_t *num_alloc;
-	void *table[]; 
+	void *table[];
 } util_idx_table_t;
 
 #define UTIL_IDX_TABLE_DEF_INLINE(_type, _name, _n) \
@@ -29,11 +29,11 @@ typedef struct util_idx_table_struct {
 	UTIL_NUM_ALLOC_DEF(_name##_num_alloc, _n) ;\
 	static UTIL_IDX_TABLE_DEF_INLINE(_type, _name, _n)
 
-static inline void util_idx_table_init(util_idx_table_t *idx_table, int n, 
+static inline void util_idx_table_init(util_idx_table_t *idx_table, int n,
 		util_num_alloc_t *num_alloc) {
 	idx_table->n = n;
 	idx_table->num_alloc = num_alloc;
-	
+
 	for (int i = 0; i < n; i++) {
 		idx_table->table[i] = NULL;
 	}
@@ -52,7 +52,7 @@ static inline int util_idx_table_add(util_idx_table_t *idx_table, void *data) {
 	if (n < 0) {
 		return n;
 	}
-	
+
 	idx_table->table[n] = data;
 
 	return n;

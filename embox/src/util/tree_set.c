@@ -339,7 +339,7 @@ static inline struct tree_set_link *tree_set_replace_link(
 	/* Start of balancing. */
 	struct tree_set_link *res;
 
-	deleted = *del_pos; 
+	deleted = *del_pos;
 
 	if (deleted->left == NULL || deleted->right == NULL) {
 		/* There is less then two children of deleted node */
@@ -454,7 +454,7 @@ void tree_set_clear(struct tree_set *set, tree_set_dispose_t dispose) {
 struct tree_set_link *__tree_set_min_link(struct tree_set_link *root) {
 	struct tree_set_link *result;
 	if (root == NULL) {
-		return NULL;	
+		return NULL;
 	}
 	result = root;
 	while (result->left != NULL) {
@@ -472,7 +472,7 @@ struct tree_set_link *__tree_set_max_link(struct tree_set_link *root) {
 	struct tree_set_link *result;
 	result = root;
 	if (result == NULL) {
-		return NULL;	
+		return NULL;
 	}
 	while (result->right != NULL) {
 		result = result->right;

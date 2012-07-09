@@ -99,7 +99,7 @@ static int dc_rx_hnd(net_packet_t pack) {
 	struct lego_dc_msg *msg;
 	int addit_len = 0;
 	int status;
-	
+
 	msg = (struct lego_dc_msg *) pnet_pack_get_data(pack);
 
 	status = handle_body(msg, &addit_len, dc_out_msg.body.tail + 1);

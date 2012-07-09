@@ -119,8 +119,8 @@ static struct time_counter_device mb_cd = {
 };
 
 static struct clock_source mb_cs = {
-	.name = "gptimer", 
-	.event_device = &mb_ed, 
+	.name = "gptimer",
+	.event_device = &mb_ed,
 	.counter_device = &mb_cd,
 	.read = clock_source_read,
 };

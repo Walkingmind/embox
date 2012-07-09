@@ -14,7 +14,7 @@ struct net_node;
 struct pnet_pack;
 
 typedef int (*net_hnd)(struct pnet_pack *pack);
-typedef int (*net_node_hnd)(struct net_node *node); 
+typedef int (*net_node_hnd)(struct net_node *node);
 typedef struct net_node *(*net_alloc_hnd)(void);
 
 struct pnet_node_actions {

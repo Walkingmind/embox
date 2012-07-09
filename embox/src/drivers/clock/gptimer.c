@@ -163,8 +163,8 @@ static struct time_counter_device gptimer_cd = {
 };
 
 static struct clock_source gptimer_cs = {
-	.name = "gptimer", 
-	.event_device = &gptimer_ed, 
+	.name = "gptimer",
+	.event_device = &gptimer_ed,
 	.counter_device = &gptimer_cd,
 	.read = clock_source_read,
 };

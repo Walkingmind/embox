@@ -23,7 +23,7 @@ void timer_strat_start(struct sys_timer *tmr) {
 
 	/* find first element that its time bigger than inserting @new_time */
 	list_for_each_entry_safe(it_tmr, tmp, &sys_timers_list,lnk) {
-		if (it_tmr->cnt >= tmr->cnt) { 
+		if (it_tmr->cnt >= tmr->cnt) {
 			/* decrease value of next timer after inserting */
 			it_tmr->cnt -= tmr->cnt;
 
@@ -35,7 +35,7 @@ void timer_strat_start(struct sys_timer *tmr) {
 
 	}
 
-	/* add the latest timer to end of list */ 
+	/* add the latest timer to end of list */
 	list_add_tail(&tmr->lnk, &sys_timers_list);
 }
 

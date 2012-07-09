@@ -194,7 +194,7 @@ TEST_CASE("Unsuccessful search in subtree") {
 TEST_CASE("Move nodes") {
 	struct tree_link *root, *ch1, *ch2;
 	tree_reset_all();
-	root = tree_build_base(); 
+	root = tree_build_base();
 	ch1 = get_left_child(get_left_child(root)); /* 30 */
 	ch2 = tree_postorder_next(ch1); /* 31 */
 	tree_move_link(ch1, ch2);

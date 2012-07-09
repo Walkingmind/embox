@@ -16,7 +16,7 @@
 #define tree_element(link, element_type, link_member) \
 	(link == NULL ? NULL \
 		 : member_cast_out(link, element_type, link_member))
-	 
+
 /**
  * Link on element of tree, keeping in each element.
  */
@@ -41,13 +41,13 @@ typedef int (*tree_link_predicate_t)(struct tree_link *link);
  */
 typedef int (*tree_link_arg_predicate_t)(struct tree_link *link, void *arg);
 
-/* 
+/*
  * Initialize tree link.
  * @param tree_link Link to initialize.
  */
 extern struct tree_link *tree_link_init(struct tree_link *link);
 
-/** 
+/**
  * Add element to tree by adding new link into list of children of another node.
  *   Added tree_link must be initialized before and have no parent.
  *   Added element will be insert in the end of list of children.
@@ -56,14 +56,14 @@ extern struct tree_link *tree_link_init(struct tree_link *link);
  */
 extern void tree_add_link(struct tree_link *parent, struct tree_link *link);
 
-/** 
+/**
  * Unlink specified tree_link from its parent and bind it to new parent.
  * @param parent Parent of new node.
  * @param link Added element
  */
 extern void tree_move_link(struct tree_link *parent, struct tree_link *link);
 
-/** 
+/**
  * Separates node from its parent.
  *   This parent can not exist.
  * @param link Unlinked element
@@ -155,7 +155,7 @@ extern struct tree_link *tree_children_next(struct tree_link *tree);
 			link != end_link; \
 			link = next(link))
 
-	
+
 /**
  * Iteration on tree. Elements are links (without casting from links).
  * Calculates next element before processing of current.
@@ -226,4 +226,4 @@ extern struct tree_link *tree_children_next(struct tree_link *tree);
 	tree_foreach(element, tree, link_member, \
 		tree_postorder_begin, tree_postorder_end, tree_postorder_next)
 
-#endif /* UTIL_TREE_H_ */ 
+#endif /* UTIL_TREE_H_ */

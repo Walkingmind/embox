@@ -4,7 +4,7 @@
  * @brief used with linux network stack, optionally routes packs to pnet
  *
  * @date 21.10.2011
- * @author Anton Kozlov 
+ * @author Anton Kozlov
  */
 
 #include <net/in.h>

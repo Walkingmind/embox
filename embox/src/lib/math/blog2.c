@@ -1,9 +1,9 @@
 /**
- * @file 
- * @brief 
+ * @file
+ * @brief
  *
  * @author  Malkovsky Nikolay
- * @author  Anton Kozlov 
+ * @author  Anton Kozlov
  * @date    20.06.2012
  */
 
@@ -21,7 +21,7 @@ int blog2(int val) {
 	         9, 19, 24, 29, 18,
 	        28, 27
 	};
-	
+
 	return log2_magic_offsets[(log2_magic * (val & (~val + 1))) >> 27];
 }
 

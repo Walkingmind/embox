@@ -165,7 +165,7 @@ struct sk_buff *skb_checkcopy_expand(struct sk_buff *skb, int headroom, int tail
 
 		/* Stupid situations during shrink */
 	assert(((long)(-headroom)) < ((long)skb->len + (long)tailroom));
-	
+
 	if (likely((headroom <= free_headroom) && (tailroom <= free_tailroom))) {
 		/* Simplest case, do nothing */
 		return skb;
@@ -176,7 +176,7 @@ struct sk_buff *skb_checkcopy_expand(struct sk_buff *skb, int headroom, int tail
 		skb_copy_data(skb, &skb_fields_save);
 		return skb;
 	} else {
-		/* There is no way in current implementaion to give more than 
+		/* There is no way in current implementaion to give more than
 		 * we have space in pool. You should use sk_buff_head somehow
 		 */
 		return NULL;

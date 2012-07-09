@@ -3,7 +3,7 @@
  * @brief Implements BTM 112 Bluetooth driver.
  *
  * @date 15.07.11
- * @author Anton Kozlov 
+ * @author Anton Kozlov
  */
 
 #include <types.h>
@@ -28,7 +28,7 @@ extern void bt_handle(uint8_t *buff);
 
 static volatile AT91PS_USART us_dev_regs = ((AT91PS_USART) CONFIG_BTM_BT_SERIAL_PORT_OFFSET);
 
-#define BTM_BT_BAUD_RATE 19200 
+#define BTM_BT_BAUD_RATE 19200
 
 EMBOX_UNIT_INIT(btm_bluetooth_init);
 
@@ -48,7 +48,7 @@ CALLBACK_INIT_DEF(btm_bt_rx_handle_t, __bt_rx, nop_rx);
 CALLBACK_INIT_DEF(nxt_bt_state_handle_t, bt_state, nop);
 
 static irq_return_t btm_bt_us_handler(int irq_num, void *dev_id) {
-	
+
 	CALLBACK(__bt_rx)(btm_bt_read_len, btm_bt_read_buff);
 
 	return IRQ_HANDLED;
@@ -90,10 +90,10 @@ static void init_usart(void) {
 
 void bluetooth_hw_hard_reset(void) {
 	pin_config_output(CONFIG_BTM_BT_RST_PIN);
-	pin_set_output(CONFIG_BTM_BT_RST_PIN);	
+	pin_set_output(CONFIG_BTM_BT_RST_PIN);
 	usleep(1000);
-	
-	pin_clear_output(CONFIG_BTM_BT_RST_PIN);	
+
+	pin_clear_output(CONFIG_BTM_BT_RST_PIN);
 	usleep(5000);
 
 	pin_config_input(CONFIG_BTM_BT_LINK_PIN);

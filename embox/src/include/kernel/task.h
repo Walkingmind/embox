@@ -19,7 +19,7 @@ struct thread;
  * @brief Task resources container
  */
 /**
- * @brief Task describing struct 
+ * @brief Task describing struct
  */
 struct task {
 	int tid;

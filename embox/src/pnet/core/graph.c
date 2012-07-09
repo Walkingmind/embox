@@ -54,7 +54,7 @@ int pnet_graph_start(struct pnet_graph *graph) {
 	if (graph->state != PNET_GRAPH_STOPPED) {
 		return -EINVAL;
 	}
-	
+
 	list_for_each_entry(node, &graph->nodes, gr_link) {
 		if(NULL != (hnd = pnet_proto_start(node))) {
 			hnd(node);
@@ -104,7 +104,7 @@ int pnet_graph_add_node(struct pnet_graph *graph, struct net_node *node) {
 	}
 
 	node->graph = graph;
-	
+
 	list_add_tail(&node->gr_link, &graph->nodes);
 
 	return 0;

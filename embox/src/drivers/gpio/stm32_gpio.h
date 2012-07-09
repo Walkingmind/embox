@@ -1,7 +1,7 @@
 /**
- * @file 
+ * @file
  *
- * @brief GPIO driver for STM32 mcu 
+ * @brief GPIO driver for STM32 mcu
  *
  * @author Anton Kozlov
  * @date 20.04.2012
