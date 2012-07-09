@@ -1,4 +1,4 @@
-#summary Advices for process of porting to different platform
+#summary Advices for  porting process to different CPU architectures
 
 <wiki:gadget url="http://embox.googlecode.com/svn/wiki/gadgets/userbox-under-construction.xml" width="640" height="100" border="0"/>
 
@@ -37,7 +37,6 @@ Then:
 ==== reg.h ====
 
 ==== ipl.h ====
- 
 
 == Boot code ==
 == Linker scripts ==

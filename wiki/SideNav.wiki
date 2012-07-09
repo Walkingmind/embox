@@ -40,6 +40,7 @@
         * [SymulationSkyeye SkyEye]
       * [SimulationMips Simulation on an MIPS]
         * [SymulationQemuMips QEMU]
+    * [EmboxArchPorting Porting Embox to a new cpu architecture]
   * [EmboxArchitecture Architecture]
     * [Kernel Kernel]
       * [KernelCritical Critical API]
@@ -110,7 +111,5 @@
         * [Schedulers Schedulers]
       * USB
         * [USBDescription USB]
-      * Porting
-        * [PortingProcess Porting Process]
     * [EmboxArt Art]
  

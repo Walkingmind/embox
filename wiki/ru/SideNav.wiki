@@ -40,6 +40,8 @@ Notice, that commands above use st-util's default gdb port that you might change
         * [SimulationSkyeye SkyEye]
       * [SimulationMips Симуляция для архиетктуры MIPS]
         * [SimulationQemuMips QEMU]
+    * Портирование
+        * [EmboxArchPorting Процесс портирования]
   * [EmboxArchitecture Архитектура проекта]
     * [Kernel Ядро]
       * [KernelCritical Critical API]
@@ -102,6 +104,4 @@ Notice, that commands above use st-util's default gdb port that you might change
         * [Schedulers Менеджер потоков]
       * USB
         * [USBDescription USB]
-      * Портирование
-        * [PortingProcess Процесс портирования]
     * [EmboxArt Art]

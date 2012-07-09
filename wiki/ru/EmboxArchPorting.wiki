@@ -1,0 +1,61 @@
+#summary процесс портирования Embox на различные процессорные архитектуры
+
+<wiki:gadget url="http://embox.googlecode.com/svn/wiki/gadgets/userbox-under-construction.xml" width="640" height="100" border="0"/>
+
+<wiki:toc max_depth="4" />
+= Получение окружения =
+Для обеспечения запуска *Embox* на какой либо архитектурной платформе прежде всего нужно настроить [кросс платформенное окружение для данной архитектуры InstallToolchain]. Нужен кросс-компилятор-gcc и отладчик - gdb.
+их либо можно получить в бинарном виде либо собрать самостоятельно, с помощью какого либо скрипта или самостоятельно с помощью шагов описанных [здесь InstallToolchainCrossCompiler].
+
+== Шаг первый - загрузочный код ==
+Чтобы увидеть исполнение кода на какой либо архитектуре необходимо иметь загрузочный код (в компиляторах это crt0.S) и линкер скрипт с описанием карты памяти.
+Минимальный загрузочный код должен выставить регистры процессора определенное состояние, обнулять секцию bss, выставлять указатель стека и если требуется копировать секцию данных.
+Модуль для загрузки относится к интерфейсу locore
+В конфигурационных файлах необходимо указать следующее
+{{{
+package genconfig
+
+configuration conf {
+	@Runlevel(2) include embox.arch.mips.kernel.locore /* boot code*/
+	@Runlevel(2) include embox.arch.mips.lds           /* linker script template*/
+	
+	@Runlevel(2) include embox.arch.mips.cpu
+	@Runlevel(2) include embox.arch.mips.kernel.arch
+	
+	@Runlevel(2) include embox.driver.diag.no_diag            /* without diag outnput */
+	@Runlevel(2) include embox.driver.interrupt.no_interrupts /* wihiout interrupt code */
+	
+	
+	@Runlevel(2) include embox.prom.noprom_printf      /* without format output library */
+
+
+	@Runlevel(2) include embox.framework.LibFramework
+	@Runlevel(2) include embox.arch.mips.libarch
+}
+}}}
+в слуаче успешной сборки проекта вы можете запустить образ на симуляторе и приконектиться gdb.
+
+== Шаг второй - получение вывода  на диагностический интерфейс ==
+Следующим шагом является получение вывода на экран или какой либо терминал для этого необходимо
+реализовать интерфейс diag.
+{{{
+abstract module diag_api {
+}
+}}}
+для этого необходимы следующие функции
+{{{
+extern void diag_init(void);
+
+extern char diag_getc(void);
+
+extern void diag_putc(char ch);
+
+extern int diag_has_symbol(void);
+}}}
+
+== Шаг третий - запуск пользовательсткого кода (тестов) ==
+
+== Шаг чествертый - прерывания и исключения ==
+
+== Шаг пятый - время добавление системного таймера ==
+
