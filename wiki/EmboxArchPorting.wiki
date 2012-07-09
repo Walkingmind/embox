@@ -11,6 +11,7 @@ Most of project’s code was written in C languages and independent on cpu’s p
 
 This page contains minimal requirements for execution code on a new architecture.
 
+
 = List of architecture dependent part =
  * [#Headers Headers]
  * [#Boot_code Boot code]

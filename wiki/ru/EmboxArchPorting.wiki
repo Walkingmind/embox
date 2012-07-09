@@ -53,9 +53,11 @@ extern void diag_putc(char ch);
 extern int diag_has_symbol(void);
 }}}
 В описание модуля нужно указать что он реализует данный интерфейс
+{{{
 module diag_xxx extends diag_api {
 	source "diag_xxx.c"
 }
+}}}
 и конфигурационный файл пример вид
 {{{
 package genconfig
@@ -88,6 +90,39 @@ runlevel: init level is 3
 }}}
 
 == Шаг третий - запуск пользовательсткого кода (тестов) ==
+самым простыми пользовательскими модулями который можно выполнить в системе являются тесты.
+Для их выполнения необходимо реализовать стандартные функции *setjmp* и *longjmp*. Обычно они располагаются в модуле LibArch и находятся в папке embox/src/arch/new_arch/lib
+после реализации этих функции можно включить какой нибудь тест из набора например тест на саму работу setjmp конфигурационный файл будет выглядить
+{{{
+package genconfig
+
+configuration conf {
+	@Runlevel(2) include embox.arch.mips.kernel.locore /* boot code*/
+	@Runlevel(2) include embox.arch.mips.lds           /* linker script template*/
+	
+	@Runlevel(2) include embox.arch.mips.cpu
+	@Runlevel(2) include embox.arch.mips.kernel.arch
+	
+	@Runlevel(2) include embox.driver.diag.diag_xxx          /* diag_xxx as diag output */
+	@Runlevel(2) include embox.driver.interrupt.no_interrupts /* without interrupt code */
+	
+	
+	@Runlevel(2) include embox.prom.prom_printf      /* with format output library */
+
+
+	@Runlevel(2) include embox.framework.LibFramework
+	@Runlevel(2) include embox.arch.mips.libarch
+}
+}}}
+после выполнения вывод должен быть следующим
+[[[
+Embox kernel start
+runlevel: init level is 0
+runlevel: init level is 1
+	test: running setjmp_test . done
+runlevel: init level is 2
+runlevel: init level is 3
+}}}
 
 == Шаг чествертый - прерывания и исключения ==
 
