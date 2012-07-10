@@ -1,6 +1,4 @@
   * [QuickOverview О проекте]
-
-Notice, that commands above use st-util's default gdb port that you might change.
   * [GSoC Google Summer of Code]
     * [GSoC2012 Идеи для GSoC 2012]
     * [GSoC2011 Идеи для GSoC 2011]
