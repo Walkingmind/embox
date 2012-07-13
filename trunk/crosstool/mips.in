@@ -1,3 +1,5 @@
 
 TARGET=mips-elf
 TARGET_OPTIONS= 
+
+PATCHES="gengtype.patch"
