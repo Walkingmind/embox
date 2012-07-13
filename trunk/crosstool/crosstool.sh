@@ -135,7 +135,7 @@ do_gdb() {
 makepkg() {
 	print_msg "Make package"
 	tar cf - $TARGET-${NAME[4]} | bzip2 -f > ../$TARGET-${NAME[4]}.tar.bz2
-	cp ../$TARGET-${NAME[4]}.tar.bz2 $(CUR_DIR)
+	cp ../$TARGET-${NAME[4]}.tar.bz2 $CUR_DIR
 }
 
 echo "" > $LOG_FILE
