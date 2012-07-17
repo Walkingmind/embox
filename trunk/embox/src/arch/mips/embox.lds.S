@@ -1,4 +1,4 @@
-/* $Id:  $ */
+/* $Id$ */
 
 #include <asm-generic/embox.lds.h>
 #include <framework/mod/options.h>
