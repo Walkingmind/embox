@@ -2,7 +2,24 @@
 
 # Build a GNU/Linux cross-toolchain
 
-source arm.in
+LOG_FILE=$PWD/emtool.log
+
+CROSSTOOL_ARCH=$1
+
+print_msg() {
+	echo -e $1 | tee $LOG_FILE
+}
+
+error_exit() {
+	print_msg "$1"
+	exit 1
+}
+
+[ ! -z $CROSSTOOL_ARCH ] || error_exit "Provide arch name, like \n$0 sparc"
+
+source $CROSSTOOL_ARCH.in
+
+#source arm.in
 #source microblaze.in
 #source sparc.in
 #source mips.in
@@ -12,9 +29,9 @@ TMP_DIR=$(mktemp -d)
 CUR_DIR=$(pwd)
 PATCHES_DIR=$CUR_DIR/patches
 
-LOG_FILE=$CUR_DIR/emtool.log
+PATCHES="$(ls $PATCHES_DIR/*.patch 2>/dev/null) 
+	$(ls $PATCHES_DIR/$CROSSTOOL_ARCH/*.patch 2>/dev/null)"
 
-PATCHES=$(find $PATCHES_DIR -name \*.patch)
 
 # Keys:
 #  0 - binutils
@@ -23,16 +40,6 @@ PATCHES=$(find $PATCHES_DIR -name \*.patch)
 #  3 - mpfr
 #  4 - gcc
 #  5 - gdb
-
-print_msg() {
-	echo $1	
-	echo $1  >> $LOG_FILE
-}
-
-error_exit() {
-	print_msg "$1"
-	exit 1
-}
 
 
 GET_URL[0]="http://ftp.gnu.org/gnu/binutils/binutils-2.22.tar.bz2"
@@ -78,8 +85,7 @@ do_unpack() {
 	print_msg "Apply patches"
 	for f in $PATCHES; do
 		print_msg "Applying $f"
-		#patch -p0 < $CUR_DIR/patches/$f
-		patch -p0 < $f
+		patch -N -p0 < $f || print_msg "$f seems to be applied already"
 	done
 }
 
@@ -126,9 +132,9 @@ do_gdb() {
 	mkdir build-gdb 
 	pushd build-gdb > /dev/null
 	../${NAME[5]}/configure \
-		--prefix=$TMP_DIR/$TARGET-${NAME[5]} \
+		--prefix=$TMP_DIR/$TARGET-${NAME[4]} \
 		--target=$TARGET \
-		--with-mpfr-include=$(pwd)/../${NAME[5]}/mpfr/src \
+		--with-mpfr-include=$(pwd)/../${NAME[4]}/mpfr/src \
 		--with-mpfr-lib=$(pwd)/mpfr/src/.libs 
 
 	make && make install || error_exit "Building gdb failed"
