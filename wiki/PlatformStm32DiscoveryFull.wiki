@@ -31,4 +31,5 @@ $ sudo apt-get install eclipse
  # Now manage project for Embox in Eclipse. Press File -> New -> Project ... -> General -> Project. Uncheck 'Use default location' and supply next field path to Embox source root.
  # On `Make target` select `config arm stm32vl` and `all` then.
  # Configure debug configuration. Create new one under the 'GDB Hardware debug', select `embox` as Application, on Debugger tab select GDB command: `arm-none-eabi-gdb` and connection by TCP to `localhost:4242`.
+ # Run gdb server for discovery. On terminal execute `auto-st-link` from `embox-root/scripts`.
  # Now you can load Embox by pressing Debug.
