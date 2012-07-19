@@ -1,0 +1,55 @@
+#summary STM32Discovery step-by-step-guide (RU)
+
+= Введение =
+
+Здесь описан полный процесс загрузки Embox на плату STM32 Discovery.
+Предполагается, что у Вас установлена чистая Ubuntu (12.04).
+
+ # Поставьте Eclipse
+{{{
+$ sudo apt-get install eclipse
+}}}
+ # Для Eclipse установите C Development Toolkit. Для этого Help -> Install New Software,
+ в поле Repositary введите
+`http://download.eclipse.org/tools/cdt/releases/indigo`, если у Вас Ubuntu
+12.04. Иначе, используйте в URL кодовое имя своей версии Eclipse.
+ # Поставьте Main Feature, TCF и Uncategorized группы пакетов. После
+ перезагрузки Eclipse доустановите CDT Optional Features. Такой путь помогает
+избежать ошибок установки, иначе возникающих.
+ # Скачайте [http://embox.googlecode.com/files/arm-none-eabi-gcc-4.6.2.tar.bz2
+ arm-none-eabi-gcc] и поместите директорию `bin` из его состава в переменную
+PATH. Разумным способом сделать это будет распаковать содержимое архива в
+`/usr/local`:
+{{{
+ $ tar -zxf arm-none-eabi-gcc-4.6.2.tar.bz2
+ $ sudo cp arm-none-eabi-gcc-4.6.2/* /usr/local/
+}}}
+ # Скачайте и распакуйте  [http://embox.googlecode.com/files/texane-stlink.tar.bz2 stutil] 
+(больше информации:  https://github.com/texane/stlink).
+  # Скопируйте `st-util` в директорию из PATH, например, `/usr/local/bin`.
+  # Скопируйте конфигурационные файлы в систему. Это предотвратит использование
+  Discovery ядром как `usb-storage`:
+{{{
+# cp stlink_v1.modprobe.conf /etc/modprobe.d
+# modprobe -r usb-storage && modprobe usb-storage
+}}}
+  А это позволит запускать st-util рядовому пользователю:
+{{{
+# cp 49-stlinkv*.rules /etc/udev/rules.d/
+# udevadm control --reload-rules
+}}}
+ # На этом этапе Вам понадобится архив с исходными кодами Embox. Скачайте его
+ из секции Downloads или возьмите из SVN.
+ # Создайте в Eclipse проект Embox. Для этого  File -> New -> Project ... ->
+ General -> Project. Снимите 'Use default location' и введите путь до корня с
+исходными кодами Embox.
+ # Сконфигурируйте и соберите Embox. На вкладке `Make target` должны появиться различные цели. 
+ Выберите `config arm stm32vl`, а затем `all`.
+ # Сконфигурируйте отладку (debug configuration). Для этого Run -> Debug
+ Configurations... -> 'GDB Hardware debug', выберите `embox` как Application, во
+вкладке Debugger выберите GDB command: `arm-none-eabi-gdb` и `connection by TCP`
+к `localhost:4242`.
+ # Запустите gdb сервер. Для этого в терминале исполните `auto-st-link` из
+ `embox-root/scripts`.
+ # Теперь Вы можете загрузить Embox в Discovery нажав Debug.
+
