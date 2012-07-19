@@ -1,6 +1,6 @@
 #summary Describes project Embox's usage on Stm32Discovery
 
-The board has integrated debugger that allows to program it with single USB-A <-> USB-mini-B wire.
+The board has integrated debugger that allows to program it with single USB-A-USB-mini-B wire.
 
 We are using free (as a speech) software to communicate with the debugger: https://github.com/texane/stlink, that provides gdb server. It is a single choice on Linux systems, on Windows, practically, you may prefer manufacturer's own software.
 
@@ -16,3 +16,5 @@ c
 }}}
 
 Notice, that commands above use st-util's default gdb port that you might change.
+
+For complete guide for using Embox and Eclipse please refer [PlatformStm32DiscoveryFull this link]
