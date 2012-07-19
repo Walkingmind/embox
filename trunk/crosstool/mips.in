@@ -1,4 +1,3 @@
-
 TARGET=mips-elf
 TARGET_OPTIONS= 
 

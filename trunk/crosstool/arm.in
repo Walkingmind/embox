@@ -1,4 +1,4 @@
-#arm                                                                            
+#arm
 #this flags was recommended by debian --with-arch=armv4 --with-no-thumb-interwork
 
 TARGET=arm-none-eabi

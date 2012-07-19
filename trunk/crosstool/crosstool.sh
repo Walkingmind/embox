@@ -1,6 +1,7 @@
 #!/bin/bash
 
 # Build a GNU/Linux cross-toolchain
+# $Id$
 
 LOG_FILE=$PWD/emtool.log
 
