@@ -8,7 +8,7 @@ source arm.in
 #source mips.in
 
 # Create temp working dir
-TMP_DIR='/tmp/tmp.W7ulh99uyo'
+TMP_DIR=$(mktemp -d)
 CUR_DIR=$(pwd)
 PATCHES_DIR=$CUR_DIR/patches
 
