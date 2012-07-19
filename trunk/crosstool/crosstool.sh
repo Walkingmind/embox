@@ -24,13 +24,6 @@ PATCHES=$(find $PATCHES_DIR -name \*.patch)
 #  4 - gcc
 #  5 - gdb
 
-GET_URL[0]="http://ftp.gnu.org/gnu/binutils/binutils-2.22.tar.bz2"
-GET_URL[1]="http://mirrors.kernel.org/gnu/gmp/gmp-5.0.2.tar.bz2"
-GET_URL[2]="http://www.multiprecision.org/mpc/download/mpc-0.9.tar.gz"
-GET_URL[3]="http://www.mpfr.org/mpfr-current/mpfr-3.1.1.tar.bz2"
-GET_URL[4]="http://gcc.parentingamerica.com/releases/gcc-4.6.2/gcc-4.6.2.tar.bz2"
-GET_URL[5]="http://ftp.gnu.org/gnu/gdb/gdb-7.4.tar.bz2"
-
 print_msg() {
 	echo $1	
 	echo $1  >> $LOG_FILE
@@ -41,10 +34,22 @@ error_exit() {
 	exit 1
 }
 
+
+GET_URL[0]="http://ftp.gnu.org/gnu/binutils/binutils-2.22.tar.bz2"
+GET_URL[1]="http://mirrors.kernel.org/gnu/gmp/gmp-5.0.2.tar.bz2"
+GET_URL[2]="http://www.multiprecision.org/mpc/download/mpc-0.9.tar.gz"
+GET_URL[3]="http://www.mpfr.org/mpfr-current/mpfr-3.1.1.tar.bz2"
+GET_URL[4]="http://gcc.parentingamerica.com/releases/gcc-4.6.2/gcc-4.6.2.tar.bz2"
+GET_URL[5]="http://ftp.gnu.org/gnu/gdb/gdb-7.4.tar.bz2"
+
+for i in $(seq 0 $((${#GET_URL[@]} - 1))); do
+	TARBALL[$i]=$(basename ${GET_URL[$i]})
+	NAME[$i]=${TARBALL[$i]%%.tar.*}
+done
+
 do_download() {
 	print_msg "downloading start" 
 	for i in $(seq 0 $((${#GET_URL[@]} - 1))); do
-		TARBALL[$i]=$(basename ${GET_URL[$i]})
 		print_msg "Download ${TARBALL[$i]}"
 		if [ ! -e ${TARBALL[$i]} ]; then
 			wget ${GET_URL[$i]}
@@ -57,20 +62,7 @@ do_unpack() {
 	print_msg "unpack start"
 	for i in $(seq 0 $((${#GET_URL[@]} - 1))); do
 		print_msg "Unpack ${TARBALL[$i]}"
-		case `file -b ${TARBALL[$i]} | awk '{print $1}'` in
-		    bzip2 )
-			NAME[$i]=${TARBALL[$i]%%.tar.bz2}
-			[ -d ${NAME[$i]} ] || tar xjf ${TARBALL[$i]}
-			;;
-		    gzip )
-			NAME[$i]=${TARBALL[$i]%%.tar.gz}
-			[ -d ${NAME[$i]} ] || tar xzf ${TARBALL[$i]}
-			;;
-		    * )
-			print_msg "Unknown type"
-			exit 1
-			;;
-		esac
+		[ -d ${NAME[$i]} ] || tar xaf ${TARBALL[$i]}
 	done
 
 	print_msg "Set symlinks for gcc"
@@ -134,8 +126,11 @@ do_gdb() {
 	mkdir build-gdb 
 	pushd build-gdb > /dev/null
 	../${NAME[5]}/configure \
-		--prefix=$TMP_DIR/$TARGET-${NAME[4]} \
-		--target=$TARGET
+		--prefix=$TMP_DIR/$TARGET-${NAME[5]} \
+		--target=$TARGET \
+		--with-mpfr-include=$(pwd)/../${NAME[5]}/mpfr/src \
+		--with-mpfr-lib=$(pwd)/mpfr/src/.libs 
+
 	make && make install || error_exit "Building gdb failed"
 	popd > /dev/null
 	print_msg "Build GDB done"
