@@ -1,11 +1,12 @@
   * [QuickOverview Quick Overview]
-  * [GSoC Google Summer of Code]
-    * [GSoC2012 GSoC 2012 Ideas]
-    * [GSoC2011 GSoC 2011 Ideas]
+
+  * [Roadmap]
+
   * [GettingStarted Getting Started]
     * [GettingStartedLego Lego Mindstorms]
     * [GettingStartedSparc SPARC v8 (Leon3)]
     * [GettingStartedX86 x86]
+
   * [UserGuide User Guide]
     * [InstallToolchain Setting up the toolchain]
       * [InstallToolchainWindowsCygwin Windows-specific setup]
@@ -40,7 +41,7 @@
         * [SymulationSkyeye SkyEye]
       * [SimulationMips Simulation on an MIPS]
         * [SymulationQemuMips QEMU]
-    * [EmboxArchPorting Porting Embox to a new cpu architecture]
+
   * [EmboxArchitecture Architecture]
     * [Kernel Kernel]
       * [KernelCritical Critical API]
@@ -60,7 +61,8 @@
     * [Services Services and libraries]
       * [ServicesFileSystem File System]
     * [Applications Applications]
-  * [PlatformsDescription Supported platform]
+
+  * [PlatformsDescription Supported platforms]
     * [PlatformLegoNxt Lego Mindstorms NXT]
       * [PlatformLegoNxtFlashing Loading]
       * [PlatformLegoNxtExamples Examples]
@@ -68,17 +70,24 @@
     * [SpartanDescription HW-SPAR3AN-SK-UNI-G Starter Kit]
     * [ML505Description Virtex-5 LXT FPGA ML505 Evaluation Platform]
     * [PlatformStm32Discovery STM32 Discovery]
-  * [Theory Theoretical materials]
+
+  * [Theory OS Theory]
     * [TheoryMemoryAllocation Memory allocation]
     * [TheoryMultitasking Multitasking]
     * [TheoryVirtualMemory VirtualMemory]
-  * [Community Community]
+
+  * [Contributing For Developers]
+    * [Community Community]
+    * [CodeStyle Code Style]
+    * [EmboxArchPorting Porting Embox to a new cpu architecture]
+
+  * [GSoC Google Summer of Code]
+    * [GSoC2012 GSoC 2012 Ideas]
+    * [GSoC2011 GSoC 2011 Ideas]
+
   * Old Wiki
     * [ProjDescription Project Description]
     * [ProjectApplications Project Applications]
-    * Development
-      * [Roadmap Roadmap]
-      * [CodeStyle Code Style]
     * [EMBuild Building the project]
       * [EMBuildInfrastructure Infrastructure overview]
       * [EMBuildCLI Command-line interface]
