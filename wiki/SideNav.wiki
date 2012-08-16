@@ -1,12 +1,9 @@
   * [QuickOverview Quick Overview]
-
   * [Roadmap]
-
   * [GettingStarted Getting Started]
     * [GettingStartedLego Lego Mindstorms]
     * [GettingStartedSparc SPARC v8 (Leon3)]
     * [GettingStartedX86 x86]
-
   * [UserGuide User Guide]
     * [InstallToolchain Setting up the toolchain]
       * [InstallToolchainWindowsCygwin Windows-specific setup]
@@ -41,7 +38,6 @@
         * [SymulationSkyeye SkyEye]
       * [SimulationMips Simulation on an MIPS]
         * [SymulationQemuMips QEMU]
-
   * [EmboxArchitecture Architecture]
     * [Kernel Kernel]
       * [KernelCritical Critical API]
@@ -61,7 +57,6 @@
     * [Services Services and libraries]
       * [ServicesFileSystem File System]
     * [Applications Applications]
-
   * [PlatformsDescription Supported platforms]
     * [PlatformLegoNxt Lego Mindstorms NXT]
       * [PlatformLegoNxtFlashing Loading]
@@ -70,21 +65,17 @@
     * [SpartanDescription HW-SPAR3AN-SK-UNI-G Starter Kit]
     * [ML505Description Virtex-5 LXT FPGA ML505 Evaluation Platform]
     * [PlatformStm32Discovery STM32 Discovery]
-
   * [Theory OS Theory]
     * [TheoryMemoryAllocation Memory allocation]
     * [TheoryMultitasking Multitasking]
     * [TheoryVirtualMemory VirtualMemory]
-
   * [Contributing For Developers]
     * [Community Community]
     * [CodeStyle Code Style]
     * [EmboxArchPorting Porting Embox to a new cpu architecture]
-
   * [GSoC Google Summer of Code]
     * [GSoC2012 GSoC 2012 Ideas]
     * [GSoC2011 GSoC 2011 Ideas]
-
   * Old Wiki
     * [ProjDescription Project Description]
     * [ProjectApplications Project Applications]
