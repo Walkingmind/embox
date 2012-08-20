@@ -1,13 +1,14 @@
 #summary How to get envolved to Embox
+#labels Featured
 
-This wiki describes simple way get first Embox image running x86 simulator (QEMU).
+This page describes a simple way of getting the first Embox image running on x86 simulator (QEMU).
 
-Building's details for other supported platform you can get on a corresponding platform page (([GettingStartedLego Lego], [GettingStartedX86 x86 based platforms], [GettingStartedSparc Leon3 processor]).
+More detailed instructions of building and running Embox are available separately for each of [PlatformsDescription supported platforms].
 
 
 = Preparing environment = 
 Depending on your operating system perform the following steps. If it is unclear for you what is happening below please refer to the [InstallToolchain complete manual].
-<table cellspacing="10"><tr valign="top"><td width="50%">
+<table cellspacing="10" width="839"><tr valign="top"><td width="50%">
 == Windows ==
 First you have to install [http://cygwin.com/ Cygwin] Unix compatibility layer. During normal installation you'll be asked for additional packages, choose *make* and *gcc*. In the most case that will be enough.
  There are possible issues with using default gcc from Cygwin. If you are experiencing some problems with building Embox, try to use [http://code.google.com/p/embox/wiki/Downloads?tm=2#Tools our build] of gcc as one known to work.
@@ -21,27 +22,35 @@ $ sudo apt-get install build-essential
 </td></tr></table>
 
 = Building =
-Well, you've installed build environment, now it's time to perform you first Embox build. Embox is highly configurable, it consists of a set of modules that can be configured with custom options, and compiling is not just typing `make`.
+Well, you've installed build environment, now it's time to perform you first Embox build. Embox is highly configurable, it consists of a set of modules that can be configured with custom options, and compiling it is not just typing `make`.
 
-But first of all, into `embox` directory (which contains `src/`, `mk/`, etc.):
+Anyway, first of all, you have to go into `embox` directory (which contains `src/`, `mk/`, etc.):
 {{{
 $ cd embox
 }}}
 
 == Configuring ==
-Before actually compiling the system, you have to describe build configuration. Embox is bundled with a set of common configuration templates for various architectures and purposes. It is much more easy to modify one of them instead of writing your own from scratch.
+Before actually compiling the system, you have to describe a configuration to build.
 
-There are two ways to load a configuration template.
-If you know the exact name of the template, the simplest way to load it is to type the following line with *`<project>`* and *`<profile>`* substituted by the desired values.
+Embox is bundled with a set of common configuration templates for various architectures and purposes. It is much more easy to modify one of them instead of writing your own from scratch. To list all available template just type:
 {{{
-$ make config TEMPLATE=<project>/<profile>
-}}}
-For example, if you want to play with Embox just as on real machine, configure it using *`x86/debug`* template:
-{{{
-$ make config TEMPLATE=x86/debug
+$ make confload
 }}}
 
-If you want to look at list of all available templates you may use interactive menu:
+Once you know the name of the template, you should _load_ it in order to be able to build it.
+<table cellspacing="10" width="839"><tr valign="top"><td width="50%">
+The simplest way to load it is to type the following line with *`<template>`* substituted by the desired value.
+{{{
+$ make confload-<template>
+}}}
+</td><td>
+For example, if you want to play with Embox just as on a real machine, configure it using *`x86/debug`* template:
+{{{
+$ make confload-x86/debug
+}}}
+</td></tr></table>
+
+Another way of loading a template is using an interactive menu (however, it requires `dialog` program to be installed):
 {{{
 $ make menuconfig
 }}}
@@ -51,7 +60,7 @@ Now you can build Embox just typing
 {{{
 $ make
 }}}
-It's smart build-system resolves all dependences and automatically includes those to image.
+Based on the configuration loaded on the previous step the build system determines which modules are needed to be built and includes those to the image.
 
 = Running Embox =
 You should start QEMU with the compiled image. This can be done with following command
@@ -60,45 +69,6 @@ $ qemu -kernel build/base/bin/embox
 }}}
 More details for using QEMU you can get [SimulationQemuX86 here].
 
-= Starting =
 New window opens with Embox to play with.
 in a success case you will see output messages when the image is loaded you'll see an invitation *embox>* and will be able to execute commands.
 You can type "help" to show list of available commands. 
-
-
-= Going deeper =
-== Understanding modules ==
-
-Embox consists of modules. Module is a building unit, generalization of object in terms of compilation. Module is a set of objects with dependencies. Each subsystem is a module, which can be included or not to resulting image. Module can be included by automatic dependences resolving or by explicit inclusion. Inclusion is controlled by conf/mods.conf which is preprocessed.
-
-Config syntax is pretty simple. To include general module with kernel domain, add to mods-kernel.conf 
-{{{
-mod(embox.kernel.irq)
-}}}
-
-As there are several runlevels, module can be explicitly loaded on chosed one. For example, this loads irq on 2'nd runlevel
-{{{
-mod(embox.kernel.irq, 2)
-}}}
-
-There are some specail module types, which are included with special directive. Such types are: test, cmd (command), example
-{{{
-test(kernel.irq_test)
-}}}
-Domain is not specified when including special modules.
-
-== Options ==
-
-Options are placed in conf/ too. Build.conf points compilator and describes compilator's options such as optimization, debug info,..
-
-System configuring options are placed in options.conf. These are controll buffers' size,..
-
-lds.conf describes target's memory layout and section loading. 
-
-== Platforms ==
-
-There are several supported platforms, some of them have simulator.
-
-List of simulators with starting parameters can be found [InstallToolchainSimulation here].
-
-Building for a specified platform is accomplished by selecting appropriate template.
