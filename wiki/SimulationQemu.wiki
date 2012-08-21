@@ -1,8 +1,8 @@
 #summary QEMU HOWTO, Tips and Tricks
 
-<wiki:toc max_depth="1" />
-
 *[http://www.qemu.org QEMU]* is an open source machine emulator and virtualizer. QEMU supports all CPU architectures that are supported by Embox, and it is the main simulator that we use for the development.
+
+<wiki:toc max_depth="1" />
 
 = Installation =
 == Linux ==
@@ -24,16 +24,29 @@ Building QEMU is quite common and it is well described for both [http://wiki.qem
 The only thing to note is *`–-target-list`* configuration option. As the name suggests it controls emulation targets which we would like to support. By default, it is configured to enable all architectures supported by the QEMU, thus making a build time quite long.
 
 = Running =
+All QEMU binaries are called *`qemu-system-`_`arch`_* where _`arch`_ denotes the CPU architecture being emulated. In examples below we will use *`qemu-system-i386`* - an emulator for x86 family CPUs.
+
+== Specifying the kernel ==
 To run an image under the QEMU use *`-kernel`* option:
 {{{
-qemu -kernel path/to/embox
+qemu-system-i386 -kernel path/to/embox
 }}}
 
 == Debugging ==
-Set options *`-s -S`*.
+To enable the debugging through gdbserver you can use *`-gdb`* option. However it is more common to use *`-s`* option which is a shorthand for *`-gdb tcp::1234`*:
+{{{
+# Running gdbserver on localhost:1234
+qemu-system-i386 -s ...
+}}}
+Another useful option is *`-S`*, which suspends execution at startup. Often used in conjunction with `-s`:
+{{{
+# Suspend execution and wait for gdb connection
+qemu-system-i386 -s -S ...
+}}}
 
 = Keyboard shortcuts =
 During the emulation the following keys are used to control the QEMU.
+<table cellspacing="10" width="839"><tr valign="top"><td width="50%">
 == Graphical mode ==
 This is the default mode which uses a VGA console for the output.
 || *Keys* || *Action* ||
@@ -41,11 +54,11 @@ This is the default mode which uses a VGA console for the output.
 || `Ctrl+Alt+1` || Switch to the VGA console (default) ||
 || `Ctrl+Alt+2` || Switch to the QEMU monitor ||
 
+</td><td>
 == Non-graphical mode ==
 This mode is enabled by passing the *`-nographic`* option.
-
-As you might notice `Ctrl+C` combination does not work as one would expect.
 || *Keys* || *Action* ||
 || `Ctrl+A H` || Print some help ||
 || `Ctrl+A X` || Stop and exit ||
 || `Ctrl+A C` || Switch between console and monitor ||
+</td></tr></table>
