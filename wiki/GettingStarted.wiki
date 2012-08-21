@@ -1,10 +1,8 @@
 #summary First steps
 #labels Featured
 
-This page describes simple steps to get the first Embox image running on x86 simulator (using the QEMU simulator).
+This page describes simple steps to get the first Embox image running on x86 simulator (using the QEMU simulator). More detailed introductions can be found in the corresponding sections.
 There are also platform-specific instructions available separately for each of [PlatformsDescription supported platforms].
-
-<wiki:toc max_depth="1" />
 
 = [InstallToolchain Preparing environment] = 
 Depending on your operating system perform the following steps. If it is unclear for you what is happening below please refer to the [InstallToolchain complete manual].
