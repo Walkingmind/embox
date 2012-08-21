@@ -1,17 +1,31 @@
-#summary Describes project Embox's usage on HW-SPAR3AN-SK-UNI-G Starter Kit
+#summary Getting started with HW-SPAR3AN-SK-UNI-G Starter Kit
 
-= HOW-TO =
+<img src="http://embox.googlecode.com/svn/wiki/images/PlatformsDescription/HW-SPAR3AN-SK-UNI-G.png" width="320" height="240" align="right">
+
+This page is about running Embox on [http://www.xilinx.com/products/boards-and-kits/HW-SPAR3AN-SK-UNI-G.htm Spartan-3AN Starter Kit] - FPGA platform evaluation board.
+
+= Step-by-step =
 
  # Install [http://downloads.sourceforge.net/linux-hotplug/fxload-2008_10_13.tar.gz fxload]
- # Install *Xilinx_11.1_ISE_DS_SFD.tar* by _sudo ./xsetup_
+ # Install *Xilinx_11.1_ISE_DS_SFD.tar*
+{{{
+sudo ./xsetup
+}}}
  # Choose to install *Embedded Development Kit*
  # Choose *Install Cable Drivers* (if you don't use RH or Suse, then [http://www.xilinx.com/support/answers/22648.htm readme], driver doesn't support kernel > 2.6.18)
  # Update with *Xilinx_11.3_ISE_DS_lin.tar*
- # After connection usb cable try  _/sbin/fxload -v -t fx2 -I path/Xilinx/11.1/common/bin/lin/xusb_emb.hex -D /dev/bus/usb/dev_num/id_
- # _export LD_PRELOAD=libusb-driver.so_
- # _export PATH=path/Xilinx/11.1/EDK/bin/lin:$PATH_
- # _xmd -hw system.xml_
- # attach with _mb-gdb -nw path/embox_
+ # After connecting the USB cable try:
+{{{
+/sbin/fxload -v -t fx2 -I path/Xilinx/11.1/common/bin/lin/xusb_emb.hex -D /dev/bus/usb/dev_num/id
+export LD_PRELOAD=libusb-driver.so
+export PATH=path/Xilinx/11.1/EDK/bin/lin:$PATH
+xmd -hw system.xml
+}}}
+ # Attach with...
+{{{
+mb-gdb -nw path/to/embox
+}}}
+ ... and execute these commands:
 {{{
 > target remote localhost:1234
 > load
@@ -21,5 +35,4 @@
 > end
 }}}
 
-Download [http://embox.googlecode.com/files/xilinx-spartan-dev-kit.xz scripts].
-
+See also these [http://embox.googlecode.com/files/xilinx-spartan-dev-kit.xz scripts].
