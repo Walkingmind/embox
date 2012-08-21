@@ -22,7 +22,6 @@
 
 #include <pnet/node/direct_comm.h>
 
-#include <kernel/prom_printf.h>
 
 EMBOX_UNIT_INIT(node_dc_init);
 
@@ -99,7 +98,7 @@ static int dc_rx_hnd(net_packet_t pack) {
 	struct lego_dc_msg *msg;
 	int addit_len = 0;
 	int status;
-	
+
 	msg = (struct lego_dc_msg *) pnet_pack_get_data(pack);
 
 	status = handle_body(msg, &addit_len, dc_out_msg.body.tail + 1);

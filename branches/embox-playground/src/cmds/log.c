@@ -1,9 +1,9 @@
 /**
  * @file
- * @brief Ping hosts by ARP requests/replies.
+ * @brief See last debug message
  *
- * @date 23.12.09
- * @author Nikolay Korotky
+ * @date 14.03.12
+ * @author Timur Abdukadyrov
  */
 
 #include <embox/cmd.h>
@@ -82,7 +82,7 @@ static int exec(int argc, char **argv) {
 
 	/* toggle intrusive mode and exit */
 	if(intrusive_mode){
-		if(setting_types){  /* if set then we are setting message types to display 
+		if(setting_types){  /* if set then we are setting message types to display
 													 for intrusive mode */
 			syslog_toggle_intrusive(NULL);
 		}

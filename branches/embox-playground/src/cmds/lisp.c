@@ -22,6 +22,6 @@ static int exec(int argc, char **argv) {
 	for (int i = 1; i < argc; i++) {
 		av[i + 1] = argv[i];
 	}
-	
+
 	return lisp5000_main(argc + 1, av);
 }

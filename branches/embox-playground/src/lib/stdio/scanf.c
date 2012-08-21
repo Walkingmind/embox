@@ -83,7 +83,7 @@ static int scanchar(char **str) {
 	} if ((int)str == 1) {
 	    return getc(file);
 	} else {
-		if ('\r' == (ch = getchar())) {
+		if ('\n' == (ch = getchar())) {
 			return EOF;
 		}
 		return ch;
@@ -123,7 +123,7 @@ static int scan_int(char **in, int base, int widht) {
 	if ((ch == '-') || (ch == '+')) {
 		neg = (ch == '-');
 	} else {
-		dst = 0; 
+		dst = 0;
 	}
 
 	for (i = 0; (ch = (int) toupper(scanchar(in))) != EOF; i++) {

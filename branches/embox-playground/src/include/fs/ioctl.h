@@ -1,6 +1,6 @@
 /**
  * @file
- * @brief  
+ * @brief
  *
  * @date 06.09.11
  * @author Anton Kozlov

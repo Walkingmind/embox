@@ -1,8 +1,8 @@
 /**
  * @file
- * @brief No interrupts  
+ * @brief No interrupts
  *
- * @date 24.03.2012 
+ * @date 24.03.2012
  * @author Anton Kozlov
  */
 
@@ -19,4 +19,3 @@ typedef unsigned long __interrupt_mask_t;
 #endif /*__ASSEMBLER__*/
 
 #endif /* DRIVERS_INTERRUPT_NO_INTERRUPTS */
-

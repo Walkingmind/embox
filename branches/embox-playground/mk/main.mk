@@ -23,14 +23,12 @@ endef # all
 # Targets that require Mybuild infrastructure.
 #
 
-# Call here prevents sub-make invocation in question mode (-q).
-# Used to speed up recent bash-completion.
-make_mybuild = $(call MAKE) -f mk/load.mk
+make_mybuild = $(MAKE) -f mk/load.mk
 
 .PHONY : build b
 b : build
 build :
-	@$(make_mybuild) $@
+	+@$(make_mybuild) $@
 
 define help-build
 Usage: $(MAKE) build-<template>
@@ -48,7 +46,7 @@ endef # build
 
 .PHONY : dot
 dot :
-	@$(make_mybuild) $@
+	+@$(make_mybuild) $@
 
 define help-dot
 Usage: $(MAKE) dot
@@ -58,7 +56,7 @@ endef # dot
 
 .PHONY : docsgen
 docsgen :
-	@$(make_mybuild) $@
+	+@$(make_mybuild) $@
 
 define help-docsgen
 Usage: $(MAKE) docsgen
@@ -67,7 +65,7 @@ Usage: $(MAKE) docsgen
 endef # docsgen
 
 mod-% :
-	@$(make_mybuild) $@
+	+@$(make_mybuild) $@
 
 define help-mod
 Usage: $(MAKE) mod-<INFO>
@@ -89,7 +87,7 @@ templates := \
 # Reruns Make with overridden CONF_DIR
 .PHONY : $(templates:%=build-%)
 $(templates:%=build-%) : build-% :
-	@$(make_mybuild) CONF_DIR=$(TEMPLATES_DIR)/$* build
+	+@$(make_mybuild) CONF_DIR=$(TEMPLATES_DIR)/$* build
 
 #
 # Configuration related stuff.

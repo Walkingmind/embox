@@ -1,6 +1,6 @@
 /**
  * @file
- * @brief Network core interface 
+ * @brief Network core interface
  *
  * @date 19.10.2011
  * @author Anton Kozlov
@@ -17,7 +17,7 @@
 enum net_hnd_results {
 	NET_HND_FORWARD, /**< @brief Packet should go further to @link next_node @link */
 	NET_HND_FORWARD_DEFAULT, /**< @brief Packet should go to default next node */
-	NET_HND_STOP, /**< @brief Packet done processing and should not be 
+	NET_HND_STOP, /**< @brief Packet done processing and should not be
 			  processed further */
 	NET_HND_STOP_FREE, /**< @brief Packet done processing and should be freed */
 };

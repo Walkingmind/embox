@@ -37,7 +37,7 @@ static int bt_main(int argc, char **argv) {
 			*dc_format_ctrl, *dc_exec;
 
 	graph = pnet_graph_create("bt lego");
-	
+
 	hw_data = pnet_get_module(BLUETOOTH_HW_BLUE_CORE4_DATA);
 	pnet_graph_add_src(graph, hw_data);
 	assert(hw_data);
@@ -56,7 +56,7 @@ static int bt_main(int argc, char **argv) {
 	assert(dc_format_data);
 	assert(dc_format_ctrl);
 
-	dc_exec = add_mod(PNET_NODE_DIRECT_COMM_EXECUTER, graph, dc_format_data); 
+	dc_exec = add_mod(PNET_NODE_DIRECT_COMM_EXECUTER, graph, dc_format_data);
 	assert(dc_exec);
 
 	return pnet_graph_start(graph);

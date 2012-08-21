@@ -1,6 +1,6 @@
 /**
  * @file echo.c
- * @brief 
+ * @brief
  *
  * @date 25.04.2012
  * @author Andrey Gazukin
@@ -48,15 +48,15 @@ static int exec(int argc, char **argv) {
 
 		lseek(file, 0, SEEK_END);
 		write(file, (const void *) argv[1], strlen((const char *) argv[1]));
-		write(file, (const void *) "\n", 2);
+		write(file, (const void *) "\n", 1);
 		close(file);
 		return 0;
 	}
 	else if (argc == 2) {
 		printf("%s \n",argv[argc - 1]);
 	}
+	else {
+		print_usage();
+	}
 	return 0;
 }
-
-
-

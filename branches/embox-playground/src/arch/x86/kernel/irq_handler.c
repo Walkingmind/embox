@@ -31,7 +31,7 @@ void irq_handler(pt_regs_t *regs) {
 	out8(NON_SPEC_EOI, PIC1_COMMAND);
 
 	irq_dispatch(irqn);
-	
+
 	interrupt_enable(irqn);
 	critical_leave(CRITICAL_IRQ_HANDLER);
 	critical_dispatch_pending();

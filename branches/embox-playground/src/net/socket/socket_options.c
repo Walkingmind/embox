@@ -38,7 +38,7 @@ static const struct socket_opt_state DEFAULT_STREAM_OPTS = {
  * default dgram type socket options set
  */
 static const struct socket_opt_state DEFAULT_DGRAM_OPTS = {
-	.so_acceptconn = 0,  
+	.so_acceptconn = 0,
 	.so_broadcast = 0,   /* posix specifies default value as 0*/
 	.so_debug = 0,       /* no debug. posix default */
 	.so_dontroute = 0,	 /* no dontroute flag */
@@ -76,7 +76,7 @@ int so_set_socket_option(struct socket_opt_state *opts, unsigned int option,
 		return -EINVAL;
 		break;
 		/* integer valued options */
-	case SO_BROADCAST: 
+	case SO_BROADCAST:
 		/* in a specific protocol realization when the address is checked
 			 to be broadcast it is also a good idea to check wheather it can
 		   broadcast at all (like socket type is SOCK_DGRAM)
@@ -90,7 +90,7 @@ int so_set_socket_option(struct socket_opt_state *opts, unsigned int option,
 	case SO_DEBUG:
 		if(option_len != sizeof(unsigned int))
 			return -EINVAL;
-		opts->so_debug = *((unsigned int*)option_value); 
+		opts->so_debug = *((unsigned int*)option_value);
 		break;
 	case SO_DONTROUTE:
 		if(option_len != sizeof(unsigned int))

@@ -49,7 +49,7 @@ struct pnet_module {
 		.name = str_id,            \
 		.actions = __VA_ARGS__     \
 	}
- 
+
 #define __PNET_NODE_DEF_NAME(str_id, node_name, proto_name) \
 	static struct net_node node_name = { \
 		.name  = str_id,                 \
@@ -58,16 +58,16 @@ struct pnet_module {
 
 #define __PNET_PROTO_DEF_NAME_REPO(str_id, name, ...) \
 	__PNET_PROTO_DEF_NAME(str_id, name, __VA_ARGS__); \
-	__PNET_REPO_PROTO_ADD(str_id, name) 
+	__PNET_REPO_PROTO_ADD(str_id, name)
 
 #define __PNET_NODE_DEF_NAME_REPO(str_id, name, proto_name, ...) \
 	__PNET_PROTO_DEF_NAME(str_id, proto_name, __VA_ARGS__); \
 	__PNET_NODE_DEF_NAME(str_id, name, proto_name); \
-	__PNET_REPO_NODE_ADD(str_id, name) 
+	__PNET_REPO_NODE_ADD(str_id, name)
 
 
 #define PNET_PROTO_DEF(str_id, ...) \
-	__PNET_PROTO_DEF_NAME_REPO(str_id, MACRO_GUARD(proto), __VA_ARGS__) 
+	__PNET_PROTO_DEF_NAME_REPO(str_id, MACRO_GUARD(proto), __VA_ARGS__)
 
 #define PNET_NODE_DEF(str_id, ...)\
 	__PNET_NODE_DEF_NAME_REPO(str_id, MACRO_GUARD(node), MACRO_GUARD(proto) , __VA_ARGS__ )

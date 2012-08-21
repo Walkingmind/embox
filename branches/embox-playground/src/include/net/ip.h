@@ -108,7 +108,7 @@ static inline void ip_send_check(iphdr_t *iph) {
 }
 
 /* Init IP header with given parameters */
-static inline void init_ip_header(iphdr_t *hdr, uint8_t proto, __be16 ip_id, __be16 tot_len, __u8 tos, 
+static inline void init_ip_header(iphdr_t *hdr, uint8_t proto, __be16 ip_id, __be16 tot_len, __u8 tos,
 		in_addr_t saddr, in_addr_t daddr) {
 	hdr->version = 4;
 	hdr->ihl = IP_MIN_HEADER_SIZE >> 2;
@@ -171,14 +171,13 @@ extern int ip_options_compile(sk_buff_t *skb, ip_options_t *opt);
  */
 extern int ip_options_handle_srr(sk_buff_t *skb);
 
-extern struct proto tcp_prot;
-
-extern const struct proto_ops inet_stream_ops;
-
 extern struct net_proto_family inet_family_ops;
+extern const struct proto_ops inet_stream_ops;
+extern const struct proto_ops inet_dgram_ops;
+extern const struct proto_ops inet_raw_ops;
 
 
-/**  
+/**
  * notify an ip socket about icmp error
  **/
 extern void ip_v4_icmp_err_notify(struct sock *sk, int type, int code);

@@ -16,6 +16,11 @@
 #include <net/skbuff.h>
 #include <net/netdevice.h>
 #include <drivers/r6040.h>
+#include <kernel/irq.h>
+
+EMBOX_UNIT_INIT(r6040_init);
+
+#define INTERRUPTS_ENABLE 0
 
 /* PHY CHIP Address */
 #define PHY1_ADDR      1       /* For MAC1 */
@@ -89,16 +94,16 @@
 /* Descriptor status */
 #define DSC_OWNER_MAC   0x8000  /* MAC is the owner of this descriptor */
 #define DSC_RX_OK       0x4000  /* RX was successful */
-#define DSC_RX_ERR      0x0800  /* RX PHY error */                              
-#define DSC_RX_ERR_DRI  0x0400  /* RX dribble packet */                         
-#define DSC_RX_ERR_BUF  0x0200  /* RX length exceeds buffer size */             
-#define DSC_RX_ERR_LONG 0x0100  /* RX length > maximum packet length */         
-#define DSC_RX_ERR_RUNT 0x0080  /* RX packet length < 64 byte */                
-#define DSC_RX_ERR_CRC  0x0040  /* RX CRC error */                              
-#define DSC_RX_BCAST    0x0020  /* RX broadcast (no error) */                   
-#define DSC_RX_MCAST    0x0010  /* RX multicast (no error) */                   
-#define DSC_RX_MCH_HIT  0x0008  /* RX multicast hit in hash table (no error) */ 
-#define DSC_RX_MIDH_HIT 0x0004  /* RX MID table hit (no error) */               
+#define DSC_RX_ERR      0x0800  /* RX PHY error */
+#define DSC_RX_ERR_DRI  0x0400  /* RX dribble packet */
+#define DSC_RX_ERR_BUF  0x0200  /* RX length exceeds buffer size */
+#define DSC_RX_ERR_LONG 0x0100  /* RX length > maximum packet length */
+#define DSC_RX_ERR_RUNT 0x0080  /* RX packet length < 64 byte */
+#define DSC_RX_ERR_CRC  0x0040  /* RX CRC error */
+#define DSC_RX_BCAST    0x0020  /* RX broadcast (no error) */
+#define DSC_RX_MCAST    0x0010  /* RX multicast (no error) */
+#define DSC_RX_MCH_HIT  0x0008  /* RX multicast hit in hash table (no error) */
+#define DSC_RX_MIDH_HIT 0x0004  /* RX MID table hit (no error) */
 #define DSC_RX_IDX_MID_MASK 3   /* RX mask for the index of matched MIDx */
 
 /* RX and TX interrupts that we handle */
@@ -132,40 +137,38 @@ static eth_desc_t *rxd_init(size_t pkt_size) {
 
 	/* Clear it */
 	memset(rxd, 0, sizeof(eth_desc_t));
-  
-
 
 	/* clear pkt area */
 	memset(pkt, 0, pkt_size);
 
 	/* Make this one owned by the MAC */
 	rxd->status = DSC_OWNER_MAC;
-  
+
 	/* Set the buffer pointer */
 	rxd->buf = pkt;
 	rxd->dlen = pkt_size;
-  
+
 	return rxd;
 }
 
 static void r6040_tx_enable(void) {
 	unsigned short tmp = in16(MCR0);
-	out16(tmp | (1 << 12), MCR0);  
+	out16(tmp | (1 << 12), MCR0);
 }
 
 static void r6040_tx_disable(void) {
 	unsigned short tmp = in16(MCR0);
-	out16(tmp & ~(1 << 12), MCR0);    
+	out16(tmp & ~(1 << 12), MCR0);
 }
 
 void r6040_rx_enable(void) {
 	unsigned short tmp = in16(MCR0);
-	out16(tmp | (1 << 1), MCR0);  
+	out16(tmp | (1 << 1), MCR0);
 //	out16(2, MCR0);
 }
 
 static void r6040_rx_disable(void) {
-	out8(0, MCR0);  
+	out8(0, MCR0);
 }
 
 static void r6040_set_tx_start(eth_desc_t* desc) {
@@ -181,10 +184,14 @@ static void r6040_set_rx_start(eth_desc_t* desc) {
 	tmp >>= 16;
 	out16((tmp & 0xffff), RX_START_HIGH);
 }
-#if 0
+#include <prom/prom_printf.h>
+#if INTERRUPTS_ENABLE
 /* The RDC interrupt handler */
 static irq_return_t irq_handler(irq_nr_t irq_num, void *dev_id) {
 	uint16_t misr, status;
+
+	prom_printf("IRQ!\n");
+
 	/* Save MIER */
 	misr = in16(MIER);
 	/* Mask off RDC MAC interrupt */
@@ -211,29 +218,12 @@ eth_desc_t *g_rx_descriptor_list[R6040_RX_DESCRIPTORS];
 eth_desc_t *g_rx_descriptor_next;
 eth_desc_t *g_tx_descriptor_next;
 
-void r6040_init(void) {
-	int i;
-	r6040_rx_disable();
-	r6040_tx_disable();
-	for (i = 0; i < R6040_RX_DESCRIPTORS; i++) {
-		/* most packets will be no larger than this */
-		g_rx_descriptor_list[i] = rxd_init(1536);
-		if (i)
-			g_rx_descriptor_list[i-1]->DNX = g_rx_descriptor_list[i];
-	}
-	// Make ring buffer.
-	g_rx_descriptor_list[R6040_RX_DESCRIPTORS-1]->DNX = g_rx_descriptor_list[0];
-	r6040_set_rx_start(g_rx_descriptor_list[0]);
-	g_rx_descriptor_next = g_rx_descriptor_list[0];
-
-	g_tx_descriptor_next = rxd_init(1536);
-	r6040_rx_enable();
-}
-
+#if 0
 /* Disable packet reception */
 void r6040_done(void) {
 	out8(0, MCR0);
 }
+#endif
 
 static void discard_descriptor(void) {
 	/* reset the length field to original value. */
@@ -245,6 +235,10 @@ static void discard_descriptor(void) {
 /* Returns size of pkt, or zero if none received */
 size_t r6040_rx(unsigned char* pkt, size_t max_len) {
 	size_t ret = 0;
+	prom_printf("MIER=0x%08x\n", *((unsigned int *) MIER));
+	prom_printf("MISR=0x%08x\n", *((unsigned int *) MISR));
+	prom_printf("MR_ICR=0x%08x\n", *((unsigned int *) MR_ICR));
+
 	if (g_rx_descriptor_next->status & DSC_OWNER_MAC) {
 		/* Still owned by the MAC, nothing received */
 		return ret;
@@ -254,7 +248,7 @@ size_t r6040_rx(unsigned char* pkt, size_t max_len) {
 		/* Descriptor descarded with error */
 		discard_descriptor();
 		return ret;
-	}  
+	}
 
 	/* If the buffer isn't long enough discard this packet */
 	if (g_rx_descriptor_next->dlen > max_len) {
@@ -269,13 +263,13 @@ size_t r6040_rx(unsigned char* pkt, size_t max_len) {
 	ret = g_rx_descriptor_next->dlen;
 	ret -= 4;   /* chop the checksum, we don't need it */
 	discard_descriptor();
-	return ret;  
+	return ret;
 }
 
 /* queue packet for transmission */
 void r6040_tx(unsigned char* pkt, size_t length) {
 	r6040_tx_disable();
-  
+
 	/* copy this packet into the transmit descriptor */
 	memset(g_tx_descriptor_next->buf, 0, 60);
 
@@ -284,21 +278,21 @@ void r6040_tx(unsigned char* pkt, size_t length) {
 
 	/* Copy the descriptor address (will have been set to zero by last op) */
 	r6040_set_tx_start(g_tx_descriptor_next);
-  
+
 	/* Make the mac own it */
 	g_tx_descriptor_next->status = DSC_OWNER_MAC;
 
 	//desc_dump(g_tx_descriptor_next);
-  
+
 	/* Start xmit */
 	r6040_tx_enable();
-  
+
 	/* poll for mac to no longer own it */
 	while (g_tx_descriptor_next->status & DSC_OWNER_MAC) {};
 	/* Stop any other activity */
 	r6040_tx_disable();
-  
-	//desc_dump(g_tx_descriptor_next);  
+
+	//desc_dump(g_tx_descriptor_next);
 }
 
 unsigned short r6040_mdio_read(int reg, int phy) {
@@ -323,28 +317,39 @@ int r6040_wait_linkup(void) {
 	}
 	return 0;
 }
-#if 0
-static int r6040_open(net_device_t *dev) {
+
+int r6040_open(net_device_t *dev) {
+#if INTERRUPTS_ENABLE
 	if (-1 == irq_attach(0x0a, irq_handler, 0, dev, "RDC r6040")) {
 		return -1;
 	}
-}
+	out16(0, MT_ICR);
+	out16(0, MR_ICR);
+	out16(INT_MASK, MIER);
+#endif
+	return 0;
 
+}
+#if INTERRUPTS_ENABLE
 static int r6040_stop(net_device_t *dev) {
+	return 0;
 
 }
 
 static const struct net_device_ops r6040_netdev_ops = {
-	.ndo_start_xmit = r6040_start_xmit,
+//	.ndo_start_xmit = r6040_start_xmit,
 	.ndo_open       = r6040_open,
 	.ndo_stop       = r6040_stop,
 //	.ndo_get_stats  = r6040_get_eth_stat,
 //	.ndo_set_mac_address = set_mac_address
 };
+#endif
+
 
 /* setup descriptors, start packet reception */
 static int r6040_init(void) {
 	size_t i;
+	r6040_wait_linkup();
 	r6040_rx_disable();
 	r6040_tx_disable();
 	for (i = 0; i < R6040_RX_DESCRIPTORS; i++) {
@@ -363,4 +368,3 @@ static int r6040_init(void) {
 	r6040_rx_enable();
 	return 0;
 }
-#endif

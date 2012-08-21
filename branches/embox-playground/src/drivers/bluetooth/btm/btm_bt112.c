@@ -3,7 +3,7 @@
  * @brief Implements BTM 112 high-level routines.
  *
  * @date 15.11.11
- * @author Anton Kozlov 
+ * @author Anton Kozlov
  */
 
 #include <drivers/bluetooth.h>
@@ -17,13 +17,13 @@ CALLBACK_INIT(nxt_bt_rx_handle_t, bt_rx);
 typedef int (*string_handler)(int len, void *data);
 
 enum state_num {
-	CONNECT_WAIT = 0, 
+	CONNECT_WAIT = 0,
 	LR_WAIT = 1,
 	DISCONNECT_WAIT = 2
 };
 
 static const char *stamp[] = {
-	"CONNECT", 
+	"CONNECT",
 	"\r\n",
 	"DISCONNECT",
 };
@@ -45,7 +45,7 @@ static int set_state(int state_num) {
 	rs_comm = state_num;
 	rs_pos = 0;
 
-	CALLBACK_REG(__bt_rx, str_hnds[state_num]);	
+	CALLBACK_REG(__bt_rx, str_hnds[state_num]);
 
 	return 0;
 }
@@ -60,13 +60,13 @@ static int general_handler(int cnt, void *data) {
 			rs_pos = 0;
 		}
 		if (stamp[rs_comm][rs_pos] == 0) {
-			return 1;	
+			return 1;
 		}
 		buff++;
 	}
 
 	return 0;
-}	
+}
 
 static int irq_hnd_wait_conn(int len, void *data) {
 	if (general_handler(len, data)) {
@@ -80,7 +80,7 @@ static int irq_hnd_wait_lrlf(int len, void *data) {
 	if (general_handler(len, data)) {
 		set_state(DISCONNECT_WAIT);
 		//Acknowlege about connect
-		//FIXME 
+		//FIXME
 		CALLBACK(bt_state)();
 		return 0;
 	}

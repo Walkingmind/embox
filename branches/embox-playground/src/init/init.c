@@ -13,9 +13,9 @@
 #include <errno.h>
 #include <string.h>
 
-#include <kernel/prom_printf.h>
+#include <prom/prom_printf.h>
 
-#define BUF_INP_SIZE OPTION_GET(NUMBER,input_buffer) 
+#define BUF_INP_SIZE OPTION_GET(NUMBER,input_buffer)
 
 EMBOX_UNIT_INIT(run);
 
@@ -73,4 +73,3 @@ static int run(void) {
 	}
 	return 0;
 }
-

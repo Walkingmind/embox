@@ -11,7 +11,7 @@
 #include <string.h>
 #include <mem/misc/pool.h>
 #include <util/sys_log.h>
-#include <kernel/prom_printf.h>
+
 
 static bool annoy = false;
 static bool annoy_types[] = {true, true, true, true};
@@ -28,7 +28,7 @@ static char* types_str[] = {"INFO", "WARNING", "ERROR", "DEBUG"};
 
 bool syslog_toggle_intrusive(bool *types){
 	int i;
-	
+
 	/* set types to display in intrusive mode */
 	if(types != NULL)
 		for(i=0; i<LT_MAX-1; i++)

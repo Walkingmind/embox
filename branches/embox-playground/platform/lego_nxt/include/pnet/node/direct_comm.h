@@ -1,6 +1,6 @@
 /**
  * @file
- * @brief 
+ * @brief
  *
  * @date 17.11.11
  * @author Anton Kozlov
@@ -15,4 +15,3 @@
 #define PNET_NODE_DIRECT_COMM_EXECUTER  "direct comm executer"
 
 #endif
-

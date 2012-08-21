@@ -2,7 +2,7 @@
  * line editing lib needs to be 20,000 lines of C code.
  *
  * You can find the latest source code at:
- * 
+ *
  *   http://github.com/antirez/linenoise
  *
  * Does a number of crazy assumptions that happen to be true in 99.9999% of
@@ -14,18 +14,18 @@
  * Copyright (c) 2010, Pieter Noordhuis <pcnoordhuis at gmail dot com>
  *
  * All rights reserved.
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are
  * met:
- * 
+ *
  *  *  Redistributions of source code must retain the above copyright
  *     notice, this list of conditions and the following disclaimer.
  *
  *  *  Redistributions in binary form must reproduce the above copyright
  *     notice, this list of conditions and the following disclaimer in the
  *     documentation and/or other materials provided with the distribution.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
  * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
@@ -37,7 +37,7 @@
  * THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
- * 
+ *
  * ------------------------------------------------------------------------
  *
  * References:
@@ -82,7 +82,7 @@
  * ED2 (Clear entire screen)
  *    Sequence: ESC [ 2 J
  *    Effect: clear the whole screen
- * 
+ *
  */
 
 #include <termios.h>
@@ -126,7 +126,7 @@ static int getColumns(void) {
 static void refreshLine(int fd, const char *prompt, char *buf, size_t len, size_t pos, size_t cols) {
     char seq[64];
     size_t plen = strlen(prompt);
-    
+
     while((plen+pos) >= cols) {
         buf++;
         len--;
@@ -156,7 +156,7 @@ static void linenoiseClearScreen(void) {
     }
 }
 
-static int linenoise_prompt(int fd, FILE *descr, char *buf, size_t buflen, const char *prompt, 
+static int linenoise_prompt(int fd, FILE *descr, char *buf, size_t buflen, const char *prompt,
 							struct hist *history, compl_callback_t cb, bool read_raw_mode) {
     char compl[LINENOISE_COMPL_LEN];
 
@@ -164,7 +164,7 @@ static int linenoise_prompt(int fd, FILE *descr, char *buf, size_t buflen, const
     size_t pos = 0;
     size_t len = 0;
     size_t cols = getColumns();
-    int history_index = 0; 
+    int history_index = 0;
     int history_n = 0;
     int compl_cnt = 0;
     if (history != NULL) {
@@ -178,10 +178,24 @@ static int linenoise_prompt(int fd, FILE *descr, char *buf, size_t buflen, const
     while(1) {
         char c;
         int nread;
-        char seq[2], seq2[2];
+        char seq[2], seq2[2]= {0};
 
         nread = read_raw_mode ? read(fd,&c,1) : fread(&c, 1, 1, descr);
-        if (nread <= 0) return len;
+        if (nread <= 0) {
+			/**
+			 * FIXME
+			 * Quick hack to get telnet to work correctly.
+			 * Telnet is based on stream sockets, so after some time
+			 * tcp_v4_recvmsg will return ETIMEDOUT, but we supposed
+			 * that somebody pressed Enter. It's incorrect.
+			 * To fix it need to add a socket options
+			 * and set receive's timeout more, than we have now
+			 */
+			if (-nread == ETIMEDOUT) {
+				continue;
+			}
+			return len;
+		}
         /* Only autocomplete when the callback is set. It returns < 0 when
          * there was an error reading from fd. Otherwise it will return the
          * character that should be handled next. */
@@ -191,7 +205,7 @@ static int linenoise_prompt(int fd, FILE *descr, char *buf, size_t buflen, const
 	    }
 	    if (compl_cnt == 0) {
 		continue;
-	    } else if (compl_cnt == 1) {	
+	    } else if (compl_cnt == 1) {
 		strcpy(buf, compl);
 		len = strlen(buf);
 		pos = len;
@@ -201,7 +215,7 @@ static int linenoise_prompt(int fd, FILE *descr, char *buf, size_t buflen, const
 	    refreshLine(fd,prompt,buf,len,pos,cols);
 	    continue;
         }
-	
+
 	compl_cnt = 0;
 
         switch(c) {
@@ -383,21 +397,28 @@ void linenoise_history_init(struct hist *h) {
 int linenoise(const char *prompt, char *buf, int len, struct hist *history, compl_callback_t cb) {
     int fd = STDIN_FILENO;
     int mode = ioctl(fd, TTY_IOCTL_REQUEST_MODE, NULL);
-	int fd_type = task_self_idx_get(fd)->type;
     int count;
 
+/*
+	int fd_type = task_self_idx_get(fd)->type;
 	assert( (fd_type == TASK_IDX_TYPE_FILE) || (fd_type == TASK_IDX_TYPE_SOCKET) );
-	
+
 	if(fd_type == TASK_IDX_TYPE_FILE) {
-			/* FILE MIGHT be related with a terminal */
-		ioctl(fd, TTY_IOCTL_SET_RAW, NULL); /* this works, believe */
+			[> FILE MIGHT be related with a terminal <]
+		ioctl(fd, TTY_IOCTL_SET_RAW, NULL); [> this works, believe <]
 		count = linenoise_prompt(fd, stdin, buf, len, prompt, history, cb, true);
-		ioctl(fd, mode, NULL); /* this works, believe */
+		ioctl(fd, mode, NULL); [> this works, believe <]
 	} else {
-			/* SOCKET is much simpler */
+			[> SOCKET is much simpler <]
 		count = linenoise_prompt(fd, stdin, buf, len, prompt, history, cb, false);
 	}
-
+*/
+	if (isatty(0)) {
+		ioctl(fd, TTY_IOCTL_SET_RAW, NULL);
+		count = linenoise_prompt(fd, stdin, buf, len, prompt, history, cb, true);
+		ioctl(fd, mode, NULL);
+	} else {
+		count = linenoise_prompt(fd, stdin, buf, len, prompt, history, cb, false);
+	}
     return count;
 }
-

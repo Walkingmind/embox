@@ -14,7 +14,7 @@
 #include <cmd/shell.h>
 #include <err.h>
 #include <errno.h>
-
+#include <kernel/task.h>
 EMBOX_CMD(exec);
 
 	/* Upper limit of concurent telnet connections.
@@ -28,7 +28,7 @@ static int clients[TELNETD_MAX_CONNECTIONS];
 #define TELNETD_PORT 23
 
 	/* Allow to turn off/on extra debugging information */
-#if 1
+#if 0
 #	define MD(x) do {\
 		x;\
 	} while (0);
@@ -50,11 +50,11 @@ static void fatal_error(const char *msg, int code) {
 }
 
 	/* Out a bunch of different error messages to the output and to the socket */
-static void out_msgs(const char *msg, const char *msg2, const char *msg3, 
+static void out_msgs(const char *msg, const char *msg2, const char *msg3,
 					int client_descr, struct sockaddr_in *client_socket) {
 	const int m_len = strlen(msg) + 1;
 	MD(printf("%s", msg2));
-	if(m_len != sendto(client_descr, msg, m_len, 0, 
+	if(m_len != sendto(client_descr, msg, m_len, 0,
 					   (struct sockaddr *)client_socket, sizeof(*client_socket))) {
 		MD(printf("Can't write to the socket (%s)\n", msg3));
 	}
@@ -70,7 +70,7 @@ static void run(void) {
 	}
 #else
 		/* Run tish.
-		 * Is it possible to overwrite its promt here? 
+		 * Is it possible to overwrite its promt here?
 		 */
 	shell_run();
 #endif
@@ -142,47 +142,40 @@ static void set_our_term_parameters(void) {
 	/* Shell thread for telnet */
 static void *telnet_thread_handler(void* args) {
 	int *client_descr_p = (int *)args;
-	struct task_resources *t_r = task_self_res();
-	struct idx_desc *i_d = task_res_idx_get(t_r, *client_descr_p);
 
-		/* Redirect stdin, stdout, stderr to our socket
-		 * Unfortunately it's not working. We try to treat stdout as
-		 * a socket, but we can't map 1 into a socket descriptor
-		 */
 	close(0);
 	close(1);
 	close(2);
-	task_res_idx_set(t_r, 0, i_d);
-	task_res_idx_set(t_r, 1, i_d);
-	task_res_idx_set(t_r, 2, i_d);
-	
+
+	dup(*client_descr_p);
+	dup(*client_descr_p);
+	dup(*client_descr_p);
+
 		/* Hack. Emulate future output, we need a char from user to exit from
-		 * parameters mode 
+		 * parameters mode
 		 */
 	{
 		static const char* prompt = "embox>"; /* OPTION_STRING_GET(prompt); */
 		printf("Welcome to telnet!\n%s", prompt);
 	}
-	
+
 		/* Operate with settings */
 	set_our_term_parameters();
 	ignore_telnet_options();
 
 		/* Run shell */
 	run();
-	
-		/* We don't need socket any more. 
-		 * Task shutdown should clear other descriptors (not implemented yet)
-		 */
+
 	close(*client_descr_p);
 	*client_descr_p = -1;
+
 	return NULL;
 }
 
 
 static int exec(int argc, char **argv) {
 	int res;
-	
+
 	struct sockaddr_in listening_socket;
 	int listening_descr;
 
@@ -194,7 +187,7 @@ static int exec(int argc, char **argv) {
 	listening_socket.sin_family = AF_INET;
 	listening_socket.sin_port= htons(TELNETD_PORT);
 	listening_socket.sin_addr.s_addr = htonl(TELNETD_ADDR);
-	
+
 	if (!((TELNETD_ADDR == INADDR_ANY) || ip_is_local(TELNETD_ADDR, false, false) )) {
 		fatal_error("telnetd address is incorrect", TELNETD_ADDR);
 	}
@@ -216,46 +209,30 @@ static int exec(int argc, char **argv) {
 	while (1) {
 		struct sockaddr_in client_socket;
 		int client_socket_len = sizeof(client_socket);
-		int client_descr = accept(listening_descr, (struct sockaddr *)&client_socket, 
+		int client_descr = accept(listening_descr, (struct sockaddr *)&client_socket,
 								  &client_socket_len);
-		
+
 		if (client_descr < 0) {
 			MD(printf("accept() failed. code=%d\n", client_descr));
 		} else {
 			uint i;
-			
+
 			MD(printf("Attempt to connect from address %s:%d",
 					inet_ntoa(client_socket.sin_addr), ntohs(client_socket.sin_port)) );
 
-			{
-				/* Useless paranoidal check for descriptor allocation */
-				struct task_resources *t_r = task_self_res();
-				struct idx_desc *i_d = task_res_idx_get(t_r, client_descr);
-				
-				if (!i_d) {
-					fatal_error("Socked descriptor doesn't belong to task resources", client_descr);
-				}
-			}
-
-			
 			for (i = 0; i < TELNETD_MAX_CONNECTIONS; i++) {
 				if (clients[i] == -1) {
-					static struct thread th[TELNETD_MAX_CONNECTIONS];
-					static struct thread *thds[TELNETD_MAX_CONNECTIONS];
 					clients[i] = client_descr;
-					
-					thds[i] = &th[i];
-					if ((res = thread_create(&thds[i], 
-							THREAD_FLAG_PRIORITY_INHERIT | THREAD_FLAG_IN_NEW_TASK | THREAD_FLAG_DETACHED, 
-							telnet_thread_handler, &clients[i]))) {
+
+					if ((res = new_task(telnet_thread_handler, &clients[i]))) {
 						out_msgs("Internal error with shell creation\n", " failed. Can't create shell\n",
 								 "shell_create", client_descr, &client_socket);
 						MD(printf("thread_create() returned with code=%d\n", res));
-						close(client_descr);
 						clients[i] = -1;
 					} else {
 						MD(printf(" success\n"));
 					}
+					close(client_descr);
 					client_descr = -1;
 					break;
 				} /* if - if we have space for this connection */

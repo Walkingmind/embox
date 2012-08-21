@@ -1,8 +1,9 @@
 /* $Id$ */
 
 #include <asm-generic/embox.lds.h>
+#include <framework/mod/options.h>
 
-OUTPUT_FORMAT("elf32-microblaze", "elf32-microblaze", "elf32-microblaze")
+OUTPUT_FORMAT("elf32-microblaze", "elf32-microblaze", "elf32-microblaze-little")
 OUTPUT_ARCH(microblaze)
 ENTRY(_start)
 
@@ -35,6 +36,7 @@ SECTIONS {
 		_ivt_end = .;
 		. = ALIGN(0x100);
 		*(.text)
+		*(.text.*)
 		*(.init.text)
 		ALIGNMENT();
 	} SECTION_REGION(text)
@@ -73,7 +75,7 @@ SECTIONS {
 	.stack (NOLOAD): {
 		ALIGNMENT();
 		_stack_bottom = .;
-		. += CONFIG_STACK_SIZE;
+		. += OPTION_GET(NUMBER,stack_size);
 		ALIGNMENT();
 		_stack_top = .;
 		_stack = _stack_top;

@@ -5,7 +5,7 @@
  * @date 30.10.11
  * @author Alexander Kalmuk
  *	- UDP version
- * @author Anton Kozlov 
+ * @author Anton Kozlov
  * @author Ilia Vaprol
  *	- TCP version
  */
@@ -15,7 +15,7 @@
 #include <net/in.h>
 #include <net/socket.h>
 #include <framework/example/self.h>
-#include <kernel/prom_printf.h>
+#include <prom/prom_printf.h>
 
 EMBOX_EXAMPLE(exec);
 

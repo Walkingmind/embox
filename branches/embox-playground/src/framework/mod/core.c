@@ -9,6 +9,7 @@
 #include <stddef.h>
 #include <stdbool.h>
 #include <errno.h>
+#include <assert.h>
 
 #include <util/array.h>
 #include <framework/mod/api.h>
@@ -107,14 +108,14 @@ static int mod_traverse_do(const struct mod **mods, bool op, bool soft) {
 
 static int mod_traverse(const struct mod *mod, bool op) {
 	const struct mod **deps = op ? mod->requires : mod->provides;
-	const struct mod **after_deps = mod->after_deps; 
+	const struct mod **after_deps = mod->after_deps;
 	int ret;
 
 	if (!op == !mod_flag_tst(mod, MOD_FLAG_ENABLED)) {
 		return 0;
 	}
 
-	assert(0 == mod_flag_tst(mod, MOD_FLAG_OPINPROGRESS) && 
+	assert(0 == mod_flag_tst(mod, MOD_FLAG_OPINPROGRESS) &&
 			"Recursive mod traversing");
 
 	mod_flag_tgl(mod, MOD_FLAG_OPINPROGRESS);
@@ -132,7 +133,7 @@ static int mod_traverse(const struct mod *mod, bool op) {
 	}
 
 	mod_flag_tgl(mod, MOD_FLAG_OPINPROGRESS);
-	
+
 	if ((ret = mod_traverse_do(after_deps, op, 1))) {
 		return ret;
 	}
@@ -242,4 +243,3 @@ opfailed:
 	mod_flag_set(mod, MOD_FLAG_OPFAILED);
 	return -EINTR;
 }
-

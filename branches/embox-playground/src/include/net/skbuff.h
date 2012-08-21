@@ -20,17 +20,36 @@
 //#include <net/sock.h>
 //#include <net/udp.h>
 #include <types.h>
-#include <assert.h>
 
+/* Prototypes */
+struct sk_buff;
+struct sock;
+struct net_device;
+struct tcphdr;
+struct udphdr;
+struct icmphdr;
+struct iphdr;
+struct arphdr;
+struct ethhdr;
+
+
+#if 0
 struct skb_timeval {
 	uint32_t off_sec;
 	uint32_t off_usec;
 };
+#endif
 
 #define SK_BUF_EXTRA_HEADROOM	50	/* Requires if someone wants to enlarge packet from head */
 
+typedef struct sk_buff_head {
+	struct sk_buff *next;       /* Next buffer in list */
+	struct sk_buff *prev;       /* Previous buffer in list */
+} sk_buff_head_t;
+
 typedef struct sk_buff {        /* Socket buffer */
-	/* These two members must be first. */
+	/* This member must be first. */
+//	struct sk_buff_head lnk;    /* Pointers to next and previous packages */
 	struct sk_buff *next;       /* Next buffer in list */
 	struct sk_buff *prev;       /* Previous buffer in list */
 
@@ -43,23 +62,23 @@ typedef struct sk_buff {        /* Socket buffer */
 		 * for packet assembling.
 		 */
 	uint16_t protocol;
-	
-		/* Control buffer (used to store layer-specific info e.g. ip options) 
-		 * Nowdays it's used only in ip options, so it's a good idea to 
+
+		/* Control buffer (used to store layer-specific info e.g. ip options)
+		 * Nowdays it's used only in ip options, so it's a good idea to
 		 * remove this field
 		 */
 	char cb[52];
-	
+
 		/* Length of actual data, from LL header till the end */
 	unsigned int len;
-	
+
 	union {                     /* Transport layer header */
 		struct tcphdr *th;
 		struct udphdr *uh;
 		struct icmphdr *icmph;
 		unsigned char *raw;
 	} h;
-	
+
 		/* Network layer header.
 		 * Usually iph contains IP_MIN_HEADER_SIZE except some cases:
 		 *	when we process incoming IP packet with options
@@ -70,7 +89,7 @@ typedef struct sk_buff {        /* Socket buffer */
 		struct arphdr *arph;
 		unsigned char *raw;
 	} nh;
-	
+
 		/* In current implementation our stack allocates
 		 * ETH_HEADER_SIZE + IP_MIN_HEADER_SIZE + ...
 		 * for outgoing packets.
@@ -80,44 +99,40 @@ typedef struct sk_buff {        /* Socket buffer */
 		struct ethhdr *ethh;
 		unsigned char *raw;
 	} mac;
-	
+
 		/* Pointer for buffer used to store all skb content.
 		 * Used by operations with pool, so it MUST NOT be changed
 		 */
 	unsigned char *head;
-	
+
 		/* After processing by (incoming) stack packet is used by
 		 * socket structures. Socket (== User) may consume only a part
 		 * of data. Taken data ends with p_data
 		 * Note:
-		 *	Quoting from man recvfrom "If a message is too long to fit in 
-		 *	the supplied buffer, excess bytes may be discarded depending 
+		 *	Quoting from man recvfrom "If a message is too long to fit in
+		 *	the supplied buffer, excess bytes may be discarded depending
 		 *	on the type of socket the message is received from"
 		 * So the presence of this field isn't mandatory.
 		 */
 	unsigned char *p_data;
-	
-} sk_buff_t;
 
-typedef struct sk_buff_head {
-	struct sk_buff *next;
-	struct sk_buff *prev;
-} sk_buff_head_t;
+} sk_buff_t;
 
 
 /**
  * Allocate one instance of structure sk_buff. With pointed size and flags.
- * @return If size is more then mtu (now it is defined by macros
- * CONFIG_ETHERNET_V2_FRAME_SIZE) function will return queue of sk_buff.
- * Else function return single sk_buff.
+ * @return If size is more then mtu (now it is defined by module option
+ * skb_buff_size) function will return queue of sk_buff. Else function 
+ * return single sk_buff.
  * Function return NULL if function can't allocate demanded buffer
+ * TODO make skb_queue if `size` more than mtu
  */
-extern struct sk_buff * alloc_skb(unsigned int size, gfp_t priority);
+extern struct sk_buff * skb_alloc(unsigned int size);
 
 /**
- * Free skb allocated by alloc_skb
+ * Free skb allocated by skb_alloc
  */
-extern void kfree_skb(struct sk_buff *skb);
+extern void skb_free(struct sk_buff *skb);
 
 /**
  *	skb_checkcopy_expand	-	check, copy and expand sk_buff
@@ -127,7 +142,7 @@ extern void kfree_skb(struct sk_buff *skb);
  *	@priority: allocation priority
  *
  *	Make a copy of both an &sk_buff and its data and while doing so
- *	allocate additional space. Do nothing if we already have such amount 
+ *	allocate additional space. Do nothing if we already have such amount
  *	of free space and this sbk and data are completely ours.
  *
  *	Returns NULL on failure or the pointer to the buffer
@@ -145,60 +160,49 @@ extern struct sk_buff *skb_checkcopy_expand(struct sk_buff *skb,
  */
 extern void skb_shifthead(struct sk_buff *skb, int headshift);
 
+#if 0
 /**
  * buff_to_skb parse buffer with size 'size' and write it to skb structure
  */
 extern struct sk_buff * buff_to_skb(unsigned char *buff, unsigned int size);
+#endif
 
 /**
- * sk_buff clone it used as we want to queue sk_buff in several queue
+ * sk_buff duplicate it used as we want to queue sk_buff in several queue
  * In current implementation we don't have shared area for packets data,
  * so copy and clone are the same.
  */
-extern struct sk_buff *skb_clone(struct sk_buff *skb, gfp_t priority);
+extern struct sk_buff *skb_duplicate(struct sk_buff *skb);
 
 /**
  * Create copy of skb
  * In current implementation we don't have shared area for packets data,
  * so copy and clone are the same.
  */
-static inline struct sk_buff *skb_copy(struct sk_buff *skb, gfp_t priority) {
-    return skb_clone(skb, priority);
-}
 
 /**
  * Allocate one instance of structure sk_buff_head.
  */
-extern struct sk_buff_head * alloc_skb_queue(void);
+extern struct sk_buff_head * skb_queue_alloc(void);
 
 /**
  * Free sk_buff_head structure with his elements
  */
-extern void skb_queue_purge(struct sk_buff_head *queue);
+extern void skb_queue_free(struct sk_buff_head *queue);
 
 /**
- * Get struct sk_buff from the head of the list.
+ * Add skb to queue
  */
-extern struct sk_buff * skb_dequeue(struct sk_buff_head *list);
+extern void skb_queue_push(struct sk_buff_head *queue, struct sk_buff *skb);
 
 /**
- * Get sk_buff from list without removing it from list
+ * Get first sk_buff from queue without removing
  */
-extern struct sk_buff * skb_peek(struct sk_buff_head *list);
+extern struct sk_buff * skb_queue_front(struct sk_buff_head *queue);
 
 /**
- * Move newsk to tail of the list.
+ * Get first sk_buff from queue
  */
-extern void skb_queue_tail(struct sk_buff_head *list, struct sk_buff *newsk);
+extern struct sk_buff * skb_queue_pop(struct sk_buff_head *queue);
 
-/**
- * Receive struct sk_buff from receive queue of the sock
- */
-extern struct sk_buff * skb_recv_datagram(struct sock *sk, unsigned flags,
-					 int noblock, int *err);
-/**
- * Get sk_buff from queue of sock without removing it from sock's queue
- */
-extern struct sk_buff * skb_peek_datagram(struct sock *sk, unsigned flags, 
-					 int noblock, int *err);
 #endif /* NET_SKBUFF_H_ */

@@ -30,7 +30,7 @@ struct linger{
 };
 
 /**
- * socket options state structure 
+ * socket options state structure
  */
 typedef struct socket_opt_state{
 	int so_acceptconn;

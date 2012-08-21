@@ -23,7 +23,6 @@
 
 #include <pnet/node/direct_comm.h>
 
-#include <kernel/prom_printf.h>
 
 EMBOX_UNIT_INIT(node_dc_init);
 
@@ -40,7 +39,7 @@ static void reply_handle(uint8_t status, uint8_t cmd, int addit_len, struct lego
 
 static void handle_body(struct lego_dc_msg *msg, int *addit_len, uint8_t addit_msg[]) {
 	switch (msg->command) {
-	case DC_KEEP_ALIVE:	
+	case DC_KEEP_ALIVE:
 		reply_handle(1, msg->command, 0, &dc_out_msg);
 		break;
 	case DC_EX_SET_M_OUTPUT_STATE:

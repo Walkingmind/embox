@@ -1,6 +1,6 @@
 /**
  * @brief Exapmle for usage of priority queue
- * 
+ *
  * @author Nikoaly Malkovsky
  * @date 12.04.12
  */
@@ -28,15 +28,15 @@ int _cmp(void* a, void* b) {
 
 static int priority_q_example(int argc, char **argv) {
 
-	/* 
+	/*
 	 * Creating queue pq
 	 * that can store a maximum of 4 int's
 	 * comparing them with cmp
-	 */ 
+	 */
 	CREATE_PRIORITY_QUEUE(pq, int, 4, _cmp);
 
-	/* 
-	 * Puttin some values into queue 
+	/*
+	 * Puttin some values into queue
 	 * note that values should have type of void*
 	 */
 
@@ -44,8 +44,8 @@ static int priority_q_example(int argc, char **argv) {
 	priority_q_insert(pq, (void*)5);
 	priority_q_insert(pq, (void*)10);
 
-	/* 
-	 * retrieving values in acsending order 
+	/*
+	 * retrieving values in acsending order
 	 * note that priority_q_front has type of void*
 	 */
 	printf("%d\n", (int)priority_q_front(pq));
@@ -54,6 +54,6 @@ static int priority_q_example(int argc, char **argv) {
 	priority_q_pop(pq);
 	printf("%d\n", (int)priority_q_front(pq));
 	priority_q_pop(pq);
-		
-	return 0;	
+
+	return 0;
 }

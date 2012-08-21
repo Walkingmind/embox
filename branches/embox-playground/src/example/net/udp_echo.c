@@ -6,7 +6,7 @@
  * @author Alexander Kalmuk
  *	- Receive
  * @author Anton Kozlov
- *	- Sending back 
+ *	- Sending back
  *
  * @see example/net/sender.c
  */
@@ -14,7 +14,7 @@
 #include <net/ip.h>
 #include <net/socket.h>
 #include <framework/example/self.h>
-#include <kernel/prom_printf.h>
+#include <prom/prom_printf.h>
 
 EMBOX_EXAMPLE(exec);
 
@@ -69,7 +69,7 @@ static int exec(int argc, char **argv) {
 			 (struct sockaddr *)&addr, &sklen)) <= 0) {
 			break;
 		}
-		
+
 		sendto(sock, buf, bytes_read, 0,
 			(struct sockaddr *)&addr, sklen);
 		buf[bytes_read] = '\0';

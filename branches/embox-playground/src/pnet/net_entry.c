@@ -3,7 +3,7 @@
  * @brief  Entry net for pnet version network subsystem.
  *
  * @date 27.10.11
- * @author Anton Kozlov 
+ * @author Anton Kozlov
  */
 
 #include <errno.h>

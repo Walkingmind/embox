@@ -1,9 +1,9 @@
 /**
  * @file
- * @brief  
+ * @brief
  *
  * @date 02.11.11
- * @author Anton Kozlov 
+ * @author Anton Kozlov
  */
 
 #include <errno.h>
@@ -21,5 +21,3 @@ int pnet_entry(struct pnet_pack *pack) {
 	pnet_rx_thread_add(pack);
 	return 0;
 }
-
-

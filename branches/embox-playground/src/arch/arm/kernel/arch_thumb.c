@@ -1,6 +1,6 @@
 /**
  * @file
- * @brief XXX this is not arch code but platfrom 
+ * @brief XXX this is not arch code but platfrom
  *
  * @date 21.06.10
  * @author Anton Kozlov
@@ -17,4 +17,3 @@ void arch_idle(void) {
 void arch_shutdown(void) {
 	while (1);
 }
-

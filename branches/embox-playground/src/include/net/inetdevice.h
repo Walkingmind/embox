@@ -12,6 +12,8 @@
 #include <net/netdevice.h>
 #include <net/net.h>
 
+typedef void (*devinet_callback_t)(void *pack);
+
 /**
  * structute of inet(IP) device
  */
@@ -22,7 +24,7 @@ typedef struct in_device {
 	in_addr_t         ifa_broadcast;
 	in_addr_t         ifa_anycast;
 	unsigned char     ipv4_addr_length;
-	
+
 		/* IP packets requires uniq id. It's a way to generate them. Bytes order isn't important */
 	uint32_t          ip_id_generator;
 } in_device_t;
@@ -40,7 +42,7 @@ extern in_device_t *in_dev_get(net_device_t *dev);
  * not need set interface to PROMISC mode now
  */
 extern int inet_dev_listen(in_device_t *in_dev, unsigned short type,
-					    ETH_LISTEN_CALLBACK callback);
+					    devinet_callback_t callback);
 
 /**
  * find known netdev device has pointed ip address

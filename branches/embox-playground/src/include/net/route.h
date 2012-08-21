@@ -64,7 +64,7 @@ extern int rt_del_route(net_device_t *dev, in_addr_t dst,
 /**
  * Rebuild sk_buff according to appropriated route.
  * @param skbuff
- * @param route - take this route as best match. Or NULL to define it 
+ * @param route - take this route as best match. Or NULL to define it
  */
 extern int ip_route(sk_buff_t *skb, struct rt_entry *suggested_route);
 

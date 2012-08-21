@@ -1,6 +1,6 @@
 /**
  * @file
- * @brief nxt_bluetooth low level_ face 
+ * @brief nxt_bluetooth low level_ face
  *
  * @date 24.02.11
  * @author Anton Bondarev
