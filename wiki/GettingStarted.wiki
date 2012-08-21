@@ -1,10 +1,9 @@
-#summary How to get envolved to Embox
+#summary First steps
 #labels Featured
 
-This page describes a simple way of getting the first Embox image running on x86 simulator (QEMU).
+This page describes simple steps to get the first Embox image running on x86 simulator (using the QEMU simulator).
 
 More detailed instructions of building and running Embox are available separately for each of [PlatformsDescription supported platforms].
-
 
 = Preparing environment = 
 Depending on your operating system perform the following steps. If it is unclear for you what is happening below please refer to the [InstallToolchain complete manual].
@@ -17,7 +16,7 @@ First you have to install [http://cygwin.com/ Cygwin] Unix compatibility layer. 
 Linux boxes usually already have working compilation environment. If not, simply install *make* and *gcc* with your packet manager.
  For example, there is metapackage on Ubuntu for those things, installing is quite simple:
 {{{
-$ sudo apt-get install build-essential
+sudo apt-get install build-essential
 }}}
 </td></tr></table>
 
@@ -26,7 +25,7 @@ Well, you've installed build environment, now it's time to perform you first Emb
 
 Anyway, first of all, you have to go into `embox` directory (which contains `src/`, `mk/`, etc.):
 {{{
-$ cd embox
+cd embox
 }}}
 
 == Configuring ==
@@ -41,12 +40,12 @@ Once you know the name of the template, you should _load_ it in order to be able
 <table cellspacing="10" width="839"><tr valign="top"><td width="50%">
 The simplest way to load it is to type the following line with *`<template>`* substituted by the desired value.
 {{{
-$ make confload-<template>
+make confload-<template>
 }}}
 </td><td>
 For example, if you want to play with Embox just as on a real machine, configure it using *`x86/debug`* template:
 {{{
-$ make confload-x86/debug
+make confload-x86/debug
 }}}
 </td></tr></table>
 
@@ -58,17 +57,33 @@ $ make menuconfig
 == Compiling ==
 Now you can build Embox just typing
 {{{
-$ make
+make
 }}}
 Based on the configuration loaded on the previous step the build system determines which modules are needed to be built and includes those to the image.
 
 = Running Embox =
-You should start QEMU with the compiled image. This can be done with following command
-{{{
-$ qemu -kernel build/base/bin/embox
-}}}
-More details for using QEMU you can get [SimulationQemuX86 here].
+The most straightforward way to test the resulting image is to run it under the [http://www.qemu.org QEMU simulator].
+<table cellspacing="10" width="839"><tr valign="top"><td width="50%">
+== Windows ==
+On Windows you can use *Qemu Manager*, a step-by-step guide is available [SimulationQemuWindows here].
 
-New window opens with Embox to play with.
-in a success case you will see output messages when the image is loaded you'll see an invitation *embox>* and will be able to execute commands.
-You can type "help" to show list of available commands. 
+Another option is to build QEMU for Windows manually as described on the [http://wiki.qemu.org/Hosts/W32 QEMU wiki].
+</td><td>
+== Linux ==
+Installation on Linux is pretty simple, most likely that just installing *qemu* package will be enough:
+{{{
+sudo apt-get install qemu
+}}}
+</td></tr></table>
+Once you have the QEMU installed, you can run it using the following command:
+{{{
+qemu -kernel build/base/bin/embox
+}}}
+More details about using QEMU you can get [SimulationQemu here].
+
+A new window should appear with Embox running within it.
+In case of success you will see an invitation:
+{{{
+embox>
+}}}
+Type *`help`* to list all available commands.
