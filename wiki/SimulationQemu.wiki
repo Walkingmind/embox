@@ -1,13 +1,51 @@
-There are some useful advises for using QEMU simulator.
+#summary QEMU HOWTO, Tips and Tricks
 
-== Setup using image ==
-Set an option {{{ -kernel <path>/embox }}}
+<wiki:toc max_depth="1" />
 
-== Выход из симулятора при работе в консольном режиме ==
-Use key combination ''' ctrl + 'a' ''' затем 'X'
+*[http://www.qemu.org QEMU]* is an open source machine emulator and virtualizer. QEMU supports all CPU architectures that are supported by Embox, and it is the main simulator that we use for the development.
 
-== Некорректная работа backspace ==
-Use key combination '''ctrl + h'''
+= Installation =
+== Linux ==
+If you use Linux then QEMU can be installed from your package manager, for example, on Debian-based systems:
+{{{
+sudo apt-get install qemu
+}}}
+Usually this package includes only x86/x86_64 virtualizer, so in order to run Embox compiled for CPUs other that x86, you also have to install *qemu-system* or *qemu-kvm-extras* package.
 
-== Отладка ==
-Set options '''-s -S'''
+== Windows ==
+Here are few starting points to get QEMU working on Windows:
+ * Using Qemu Manager, see a [SimulationQemuWindows step-by-step guide].
+ * Using unofficial QEMU binaries found on [http://wiki.qemu.org/Links Links] page of the QEMU wiki.
+ * Building (and cross-building) it from source codes as described below.
+
+== Building from the source code ==
+Building QEMU is quite common and it is well described for both [http://wiki.qemu.org/Hosts/Linux Linux] and [http://wiki.qemu.org/Hosts/W32 Windows] hosts.
+
+The only thing to note is *`–-target-list`* configuration option. As the name suggests it controls emulation targets which we would like to support. By default, it is configured to enable all architectures supported by the QEMU, thus making a build time quite long.
+
+= Running =
+To run an image under the QEMU use *`-kernel`* option:
+{{{
+qemu -kernel path/to/embox
+}}}
+
+== Debugging ==
+Set options *`-s -S`*.
+
+= Keyboard shortcuts =
+During the emulation the following keys are used to control the QEMU.
+== Graphical mode ==
+This is the default mode which uses a VGA console for the output.
+|| *Keys* || *Action* ||
+|| `Ctrl+Alt` || Toggle mouse and keyboard grab ||
+|| `Ctrl+Alt+1` || Switch to the VGA console (default) ||
+|| `Ctrl+Alt+2` || Switch to the QEMU monitor ||
+
+== Non-graphical mode ==
+This mode is enabled by passing the *`-nographic`* option.
+
+As you might notice `Ctrl+C` combination does not work as one would expect.
+|| *Keys* || *Action* ||
+|| `Ctrl+A H` || Print some help ||
+|| `Ctrl+A X` || Stop and exit ||
+|| `Ctrl+A C` || Switch between console and monitor ||
