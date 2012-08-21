@@ -1,9 +1,5 @@
 #summary Eclipse IDE installation HOWTO.
 
-<wiki:toc max_depth="1" />
-
-= Introduction =
-
 Embox is "[http://en.wikipedia.org/wiki/Integrated_development_environment IDE]-independent" project,
 so you can edit sources in your favorite editor, compiling them and invoking
 debugger directly from console. But those who prefer all-in-one solutions will
@@ -14,6 +10,8 @@ especially since Embox already contains the necessary project files.
 
 Eclipse is cross-platform IDE, and its installation procedure is similar for
 both Windows and Linux systems.
+
+<wiki:toc max_depth="1" />
 
 = Brief =
 
