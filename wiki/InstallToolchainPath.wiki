@@ -1,15 +1,13 @@
 #summary HOWTO Set up PATH environment variable in your system.
 
-<wiki:toc max_depth="2" />
-
-= Introduction =
-
 *[http://en.wikipedia.org/wiki/Path_(variable) PATH]* environment variable
 specifies a list of directories where executable programs are located. Each time
 you type the command without its full path, the
 [http://en.wikipedia.org/wiki/Shell_(computing) shell] searches every directory
 listed in the `PATH` variable from the beginning and invokes the first found
 executable.
+
+<wiki:toc max_depth="1" />
 
 = Windows =
 
