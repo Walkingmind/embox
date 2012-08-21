@@ -2,22 +2,6 @@
 
 <wiki:toc max_depth="3" />
 
-= SPARC =
-
-== TSIM ==
-
- # Install the last version of [http://www.gaisler.com/cms/index.php?option=com_content&task=view&id=157&Itemid=105 TSIM2 LEON3 Evaluation]
- # tsim-leon3 -fast_uart -gdb embox
- # Connect to gdb server
-   * if use eclipse see details [InstallToolchainEclipseDebug here]
-   * for console debugging you should use command 
-      {{{
-            > sparc-elf-gdb embox
-            (gdb) target remote :1234
-            (gdb) c
-      }}}
-      
-
 = x86 =
 
 == QEMU ==
@@ -196,21 +180,6 @@ file path/embox
 .
 (gdb) target remote :1234
 (gdb) c
-}}}
-
-=== Non VGA console ===
-
-Use serial console output with:
-{{{
-qemu-system-i386 -nographic ...
-}}}
-Ctrl-A+x for exit.
-
-=== Kernel modus ===
-
-# Start qemu without GRUB
-{{{
-qemu-system-i386 -kernel path/embox
 }}}
 
 == Bochs ==
