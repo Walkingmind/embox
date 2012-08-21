@@ -3,7 +3,7 @@
 
 This page describes simple steps to get the first Embox image running on x86 simulator (using the QEMU simulator).
 
-More detailed instructions of building and running Embox are available separately for each of [PlatformsDescription supported platforms].
+<wiki:toc max_depth="1" />
 
 = Preparing environment = 
 Depending on your operating system perform the following steps. If it is unclear for you what is happening below please refer to the [InstallToolchain complete manual].
@@ -20,7 +20,7 @@ sudo apt-get install build-essential
 }}}
 </td></tr></table>
 
-= Building =
+= Building Embox =
 Well, you've installed build environment, now it's time to perform you first Embox build. Embox is highly configurable, it consists of a set of modules that can be configured with custom options, and compiling it is not just typing `make`.
 
 Anyway, first of all, you have to go into `embox` directory (which contains `src/`, `mk/`, etc.):
@@ -61,7 +61,7 @@ make
 }}}
 Based on the configuration loaded on the previous step the build system determines which modules are needed to be built and includes those to the image.
 
-= Running Embox =
+= Running on QEMU =
 The most straightforward way to test the resulting image is to run it under the [http://www.qemu.org QEMU simulator].
 <table cellspacing="10" width="839"><tr valign="top"><td width="50%">
 == Windows ==
@@ -77,13 +77,18 @@ sudo apt-get install qemu
 </td></tr></table>
 Once you have the QEMU installed, you can run it using the following command:
 {{{
-qemu -kernel build/base/bin/embox
+qemu-system-i386 -kernel build/base/bin/embox
 }}}
 More details about using QEMU you can get [SimulationQemu here].
 
 A new window should appear with Embox running within it.
-In case of success you will see an invitation:
+In case of success you will get a command prompt:
 {{{
 embox>
 }}}
 Type *`help`* to list all available commands.
+
+= What's next? =
+This page only covers a very basic case.
+
+More detailed information about [InstallToolchain setting up the environment], [BuildingEmbox building] and [SimulationQemu running Embox] can be found in the corresponding sections. There are also platform-specific instructions  available separately for each of [PlatformsDescription supported platforms].
