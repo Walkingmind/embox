@@ -109,9 +109,9 @@ Instructions of this section are not necessary to perform.
 
 == User name ==
 
-Open *_<Eclipse root>_\eclipse.ini* and add the following line after *`-vmargs`* line:
+Open *_<Eclipse root>_/eclipse.ini* and add the following line after *`-vmargs`* line:
 {{{
--Duser.name=<You full name>
+-Duser.name="<You full name>"
 }}}
 Now your full name will be used instead of your login when generating code from
 templates (for example, when you create a new file).
@@ -122,3 +122,28 @@ If your computer have plenty of RAM you can play with *`-Xms`*, *`-Xmx`* and
 *`-XX:MaxPermSize`* arguments. But this is not recommended if you do not have a
 clear understanding of what you are doing. More info can be found
 [http://wiki.eclipse.org/FAQ_How_do_I_increase_the_heap_size_available_to_Eclipse%3F here].
+
+== Build console speed up ==
+This simple fix improves the performance of Eclipse CDT build console by almost 5 times.
+
+ * Open *Window → Preferences*
+ * Proceed through *C/C++ → Build → Settings*
+ * In _Error Parsers_ tab select the following items and deselect the rest:
+  * CDT GNU C/C++ Error Parser
+  * CDT GNU Make Error Parser 7.0
+  * CDT GNU Linker Error Parser
+  * CDT GNU Assembler Error Parser
+ * Adjust _Error Parsing_ options for the first three parsers adding a rule with _Severity: *Ignore*_ on top of the rules list:
+  * For _C/C++ Error Parser_:
+{{{
+(?!(.*?):(\d+):(\d+:)?)(.*)
+}}}
+  * For _Make Error Parser_:
+{{{
+(?!(.*[Mm]ake.*)|(.*):(\d*):)(.*)
+}}}
+  * For _Linker Error Parser_:
+{{{
+(?!(.*?):?)(.*)
+}}}
+ * Save the changes
