@@ -32,6 +32,7 @@
     * [ArchX86 x86]
       * [SimulationQemuX86 QEMU x86 simulator]
       * [SimulationBochs Bochs simulator]
+      * [PlatformBifferboard Bifferboard]
   * [EmboxArchitecture Architecture]
     * [Kernel Kernel]
       * [KernelCritical Critical API]
