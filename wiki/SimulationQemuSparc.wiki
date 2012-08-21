@@ -10,7 +10,7 @@ sudo apt-get install qemu-system
 
 Another option is to configure and build it manually:
 {{{
-./configure –target-list=sparc-softmmu
+./configure –-target-list=sparc-softmmu
 make
 sudo make install
 }}}
