@@ -1,14 +1,22 @@
-#summary Describes project Embox's usage on Virtex-5 LXT FPGA ML505 Evaluation Platform
+#summary Running Embox on Virtex-5 LXT FPGA ML505 Evaluation Platform
 
-= HOW-TO =
+<img src="http://embox.googlecode.com/svn/wiki/images/PlatformsDescription/ml505.png" width="320" height="240" align="right">
+This page describes how to load Embox image on [http://www.xilinx.com/products/boards-and-kits/HW-V5-ML505-UNI-G.htm Virtex-5 LXT FPGA ML505 Evaluation Platform]. We assume you have the [http://www.gaisler.com/cms/index.php?option=com_content&task=view&id=13&Itemid=53 LEON3 CPU] firmware flashed on the board.
 
- # Install [ftp://gaisler.com/gaisler.com/grmon/grmon-eval-1.1.44.tar.gz grmon-eval]
- # grmon-eval -nb -xilusb -ni
+= Flashing the image =
+To load the image you can use [http://www.gaisler.com/cms/index.php?option=com_content&task=view&id=39&Itemid=253 GRMON] - a debug monitor for LEON processors.  An Evaluation/Academic version for Linux and Windows is available for downloading [ftp://gaisler.com/gaisler.com/grmon/grmon-eval-1.1.44.tar.gz here].
+
+ Once you have installed the GRMON, run it:
 {{{
-grlib> flash unlock all
-grlib> flash erase 0 0x8000
-grlib> flash load path/embox
-grlib> verify path/embox
-grlib> quit
+$ grmon-eval -xilusb -nb -ni
 }}}
 
+ Execute the following commands:
+{{{
+> flash unlock all
+> flash erase 0 0x10000
+> flash load path/to/embox
+> verify path/to/embox
+> flash lock all
+> quit
+}}}
