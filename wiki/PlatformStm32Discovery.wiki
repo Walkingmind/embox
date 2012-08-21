@@ -1,4 +1,6 @@
-#summary Describes project Embox's usage on Stm32Discovery
+#summary Getting started with Stm32Discovery
+
+<img src="http://embox.googlecode.com/svn/wiki/images/PlatformsDescription/stm32discovery.jpg" width="320" height="240" align="right">
 
 The board has integrated debugger that allows to program it with single USB-A-USB-mini-B wire.
 
