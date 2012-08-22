@@ -1,28 +1,31 @@
-#summary Describes project Embox's usage on Bifferboard
+#summary Getting started with Bifferboard
 
-= HOW-TO =
+<img src="http://embox.googlecode.com/svn/wiki/images/PlatformsDescription/bifferboard.jpg" width="320" height="240" align="right">
 
- # checkout Bifferboard's utils
+*[https://sites.google.com/site/bifferboard/ Bifferboard]* is a tiny computer with 150MHz Intel 486SX CPU.
+
+= Step-by-step =
+
+ # Checkout Bifferboard utils
 {{{
 svn co https://bifferboard.svn.sourceforge.net/svnroot/bifferboard/utils
 }}}
- # plug-in ethernet and usb cables to Bifferboard
- # run minicom
- # configure Bifferboard
+ # Plug-in Ethernet and USB cables to the Bifferboard
+ # Run `minicom`
+ # Configure the Bifferboard
 {{{
 sudo ./bb_eth_setconfig.py
 }}}
-  # set "Terget MAC"
+  # set "Target MAC"
   # set "Flash Size" to "8 MB"
   # set "Boot image type" to "flat binary"
   # set "Load address" to "0x400000"
   # push "Connect" (status Polling)
   # switch power on
   # push "Write" (if status is Connected)
- # build Embox with x86/bifferboard template
- # flash Bifferboard (set your board's MAC)
+ # Build Embox with *x86/bifferboard* template
+ # Flash the Bifferboard (set your board's MAC)
 {{{
-sudo ./bb_eth_upload8.py eth0 00:b3:f6:00:6e:6f path/embox.bin
+sudo ./bb_eth_upload8.py eth0 00:b3:f6:00:6e:6f path/to/embox.bin
 }}}
- # reset Bifferboard
-
+ # Reset the Bifferboard
