@@ -23,6 +23,7 @@
       * [PlatformStm32Discovery STM32 Discovery]
     * [ArchMicroblaze Microblaze]
       * [SpartanDescription HW-SPAR3AN-SK-UNI-G Starter Kit]
+      * [SimulationQemuMicroblaze QEMU Microblaze simulator]
     * [ArchMips MIPS]
       * [SimulationQemuMips QEMU MIPS simulator]
     * [ArchSparc SPARC]

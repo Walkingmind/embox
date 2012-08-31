@@ -6,5 +6,6 @@
 
 *-M mipssim*
 {{{
-qemu-system-mips -s -S -serial stdio -kernel <embox_project_path>/build/base/bin/embox -M mipssim
+qemu-system-mips -s -S -serial stdio -kernel <project_path>/build/base/bin/embox -M mipssim
 }}}
+QemuMips

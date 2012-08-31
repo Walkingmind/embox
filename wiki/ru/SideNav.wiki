@@ -36,8 +36,10 @@
         * [SimulationQemuSparc QEMU]
       * [SimulationARM Симуляция для ARM архитектуры]
         * [SimulationSkyeye SkyEye]
-      * [SimulationMips Симуляция для архиетктуры MIPS]
+      * [SimulationMips Симуляция для архитектуры MIPS]
         * [SimulationQemuMips QEMU]
+      * [SimulationMicroblaze Симуляция для архитектуры Microblaze]
+        * [SimulationQemuMicroblaze QEMU]      
     * Портирование
         * [EmboxArchPorting Процесс портирования]
   * [EmboxArchitecture Архитектура проекта]

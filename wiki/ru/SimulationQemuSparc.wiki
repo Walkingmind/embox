@@ -3,7 +3,15 @@
 {{{
 ./configure –target-list=sparc-softmmu
 }}}
+Текущая версия qemu 1.1.1 не правильно инициализирует grlib_uart. Для корректной работы нужно добавить в файл '''<qemu_path>/hw/grlib_apbuart.c''' в конец функции '''grlib_apbuart_init''' добавить строчку 
+{{{
+    uart->status = UART_TRANSMIT_SHIFT_EMPTY | UART_TRANSMIT_FIFO_EMPTY;
+}}}
+и собрать qemu
+{{{
+make
+}}} 
 Полная команда запуска выглядит следующим образом
 {{{
-qemu-system-sparc -s -S -nographic -M leon3_generic -cpu LEON3 -kernel /home/anton/workspace/embox-trunc/build/base/bin/embox
+qemu-system-sparc -s -S -nographic -M leon3_generic -cpu LEON3 -kernel <project_path>/build/base/bin/embox
 }}}

@@ -9,8 +9,16 @@ sudo apt-get install qemu-system
 }}}
 
 Another option is to configure and build it manually:
+configure it
 {{{
 ./configure --target-list=sparc-softmmu
+}}}
+Add single line to the end of the function '''grlib_apbuart_init''' in the file '''<qemu_path>/hw/grlib_apbuart.c'''
+{{{
+    uart->status = UART_TRANSMIT_SHIFT_EMPTY | UART_TRANSMIT_FIFO_EMPTY;
+}}}
+and build it
+{{{
 make
 sudo make install
 }}}

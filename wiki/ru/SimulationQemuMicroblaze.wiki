@@ -5,5 +5,5 @@
  }}}
 В результате запуск симулятора имеет следующий вид
 {{{
-qemu-system-microblaze -s -S -nographic -M petalogic -net none -kernel /home/anton/workspace/embox-trunc/build/base/bin/embox
+qemu-system-microblaze -s -S -nographic -M petalogic -net none -kernel <project_path>/build/base/bin/embox
 }}}

@@ -6,5 +6,5 @@ You must have qemu-system-microblaze simulator or you can configure QEMU as foll
  }}}
 Full command for start simulation look as:
 {{{
-qemu-system-microblaze -s -S -nographic -M petalogic -net none -kernel /home/anton/workspace/embox-trunc/build/base/bin/embox
+qemu-system-microblaze -s -S -nographic -M petalogic -net none -kernel <project_path>/build/base/bin/embox
 }}}
