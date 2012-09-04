@@ -1,9 +1,9 @@
 Для симуляции Embox на архитектуре Microblaze мы используем платформу *petalogix-s3adsp1800* поскольку ее поддержа есть в QEMU соответсвенно нужно собрать темплейт *microblaze/petalogic* и запустить симулятор с опцией *-M petalogix-s3adsp1800*
 Конечно у вас должен быть собран соотвествующий симулятор qemu-system-microblaze или вы должны его сконфигурировать и собрать самостоятельно. Для этого при конфигурации можно воспользоваться опцией
 {{{
- ./configure --target-list=microblaze-linux-user,microblaze-softmmu
+ ./configure --target-list=microblaze-softmmu
  }}}
 В результате запуск симулятора имеет следующий вид
 {{{
-qemu-system-microblaze -s -S -nographic -M petalogic -net none -kernel <project_path>/build/base/bin/embox
+qemu-system-microblaze -s -S -nographic -M petalogix-s3adsp1800 -net none -kernel <project_path>/build/base/bin/embox
 }}}

@@ -2,23 +2,6 @@
 
 <wiki:toc max_depth="3" />
 
-= SPARC =
-
-== TSIM ==
-
- # Установить последнюю версию [http://www.gaisler.com/cms/index.php?option=com_content&task=view&id=157&Itemid=105 TSIM2 LEON3 Evaluation]
- # tsim-leon3 -fast_uart -gdb embox
- # Присоединиться к gdb серверу
-    * если вы используете eclipse то посмотреть детали натройки можно [InstallToolchainEclipseDebug тут]  
-    * есди вы отлаживаетесь из консоли то выполните следующие команды 
-      {{{
-            > sparc-elf-gdb embox
-            (gdb) target remote :1234
-            (gdb) c
-      }}} 
-      
-= x86 =
-
 == QEMU ==
 
 Установить [http://wiki.qemu.org/Download QEMU]
@@ -175,64 +158,5 @@ qemu-system-i386 -nographic ...
 }}}
 Ctrl-A+x для выхода.
 
-== Bochs ==
 
- # Создать hd0.img (как описано выше)
- # пример bochs.cfg
-{{{
-megs: 32
-cpu: count=1, ips=15000000
-romimage: file=/usr/share/bochs/BIOS-bochs-latest, address=0xe0000
-vgaromimage: /usr/share/bochs/VGABIOS-elpin-2.40
-vga: extension=vbe
-ata0: enabled=1, ioaddr1=0x1f0, ioaddr2=0x3f0, irq=14
-ata0-master: type=disk, path=hd0.img, mode=flat, cylinders=40, heads=16, spt=63, translation=none
-boot: disk
-log: bochsout.txt
-mouse: enabled=0
-clock: sync=realtime
-#gdbstub: enabled=1, port=1234, text_base=0, data_base=0, bss_base=0
-#ne2k: ioaddr=0x300, irq=9, mac=AA:BB:CC:DD:EE:00, ethmod=linux, ethdev=eth0
-}}}
- # bochs -f bochs.cfg
 
-NOTE: на данный момент в bochs имеет место проблема запуска Embox из grub.
-
-= ARM =
-
-== SKYEYE ==
-
-Из интересующих платформ можем использовать для симуляции под ARM (Atmel AT91)
-(вообще говоря возможно для LEON2). Имеется поддержка UART.
-
-Установить Skyeye:
-
-   [http://sourceforge.net/projects/skyeye/files/skyeye/skyeye-1.3.0_rc1.tar.gz/download skyeye-1.3.0rc1]
-
-   [http://sourceforge.net/projects/skyeye/files/skyeye/skyeye-1.2.6_rc1/skyeye-1.2.6_rc1.tar.bz2/download skyeye-1.2.6rc1] (recommended)
-
- # Пример конфига skyeye.conf
-{{{
-arch:arm
-cpu: arm7tdmi
-
-mach: at91
-
-mem_bank: map=M, type=RW,  addr=0x00000000,  size=0x10000000
-mem_bank: map=I, type=RW,  addr=0xf0000000,  size=0x10000000
-uart:mod=term
-}}}
- # Запускаем симулятор
-{{{
-skyeye -d -c [path-to-embox]/third-party/conf/skyeye.conf
-}}}
- # Загружаем Embox в skyeye
-{{{
-arm-elf-gdb [path-to-embox-elf]
-    (gdb) tar extended-remote :12345
-    (gdb) load
-}}}
- # Теперь можно отлаживать
-{{{
-    (gdb) c
-}}}

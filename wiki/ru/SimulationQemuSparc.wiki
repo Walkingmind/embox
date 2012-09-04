@@ -1,7 +1,7 @@
 Для запуска симуляции процессора Leon3 на QEMU следует использовать опции '''-M leon3_generic -cpu LEON3'''
 Конечно у вас должен быть собран соотвествующий симулятор qemu-system-sparc или вам нужно сконфигурировать qemu и собрать самостоятельно
 {{{
-./configure –target-list=sparc-softmmu
+./configure --target-list=sparc-softmmu
 }}}
 Текущая версия qemu 1.1.1 не правильно инициализирует grlib_uart. Для корректной работы нужно добавить в файл '''<qemu_path>/hw/grlib_apbuart.c''' в конец функции '''grlib_apbuart_init''' добавить строчку 
 {{{
