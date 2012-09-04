@@ -2,8 +2,6 @@
 
 <wiki:toc max_depth="3" />
 
-= x86 =
-
 == QEMU ==
 
 Install [http://wiki.qemu.org/Download QEMU]
