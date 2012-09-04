@@ -15,11 +15,13 @@ MEMORY {
 SECTIONS {
 	.text : {
 		ALIGNMENT();
+		. = ALIGN(0x100);
 		*(.multiboot)
 		*(.text)
 		*(.text.*)
 		*(.init.text)
 		ALIGNMENT();
+		. = ALIGN(0x100);
 	} SECTION_REGION(text)
 	SECTION_SYMBOLS(text)
 
