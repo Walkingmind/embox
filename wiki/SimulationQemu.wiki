@@ -19,7 +19,7 @@ Here are few starting points to get QEMU working on Windows:
  * Building (and cross-building) it from source codes as described below.
 
 == Building from the source code ==
-Building QEMU is quite common and it is well described for both [http://wiki.qemu.org/Hosts/Linux Linux] and [http://wiki.qemu.org/Hosts/W32 Windows] hosts.
+Building QEMU is quite common and it is well described for both [http://wiki.qemu.org/Hosts/Linux Linux] and [http://wiki.qemu.org/Hosts/W32 Windows] hosts. _For linux you need libglib2.0-dev package._
 
 The only thing to note is *`–-target-list`* configuration option. As the name suggests it controls emulation targets which we would like to support. By default, it is configured to enable all architectures supported by the QEMU, thus making a build time quite long.
 
