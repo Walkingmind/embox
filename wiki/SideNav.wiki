@@ -12,6 +12,7 @@
     * [SimulationQemu Running on QEMU]
       * [SimulationQemuWindows QEMU on Windows]
       * [InstallToolchainSimulation All simulators on a sigle page XXX Obsolete]
+    * [VirtualBoxSupport Running on VirtualBox]
   * [PlatformsDescription Supported platforms]
     * [ArchArm ARM]
       * [SimulationSkyeye SkyEye ARM simulator]
