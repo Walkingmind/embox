@@ -13,7 +13,7 @@
 	make confload-x86/vb_debug
 	make
 }}}
-   After you get embox file in your <project-folder>/build/base/bin directory you can get too step two.
+   After you get embox file in your /project/folder/build/base/bin directory you can get too step two.
   === Step two ===
    It consists of configuring and using a script that will create a VDI image that will be run on a virtual machine. Also you got to have grub 0.97 installed. It's installation instructions are also available on this wiki.
    First of all you have to configure the script. It contains two constants that HAVE to be modified before you start it.
