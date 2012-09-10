@@ -26,10 +26,12 @@ SECTIONS {
 		*(.trap_table.text)
 		*(.text)
 		*(.text.*)
+		/*
 		*(.init.text)
 		ALIGNMENT();
 		*(.eh_frame)
 		ALIGNMENT();
+		*/
 	} SECTION_REGION(text)
 	SECTION_SYMBOLS(text)
 
