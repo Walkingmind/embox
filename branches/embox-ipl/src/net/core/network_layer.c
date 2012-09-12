@@ -103,7 +103,7 @@ int dev_queue_send(struct sk_buff *skb) {
 
 	return dev_queue_xmit(skb);
 }
-	
+
 int dev_queue_xmit(struct sk_buff *skb) {
 	int res;
 	net_device_t *dev;
