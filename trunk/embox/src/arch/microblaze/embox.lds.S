@@ -39,9 +39,11 @@ SECTIONS {
 
 	.bss : {
 		ALIGNMENT();
+		_bstart = .;
 		*(.bss)
 		*(.sbss)
 		ALIGNMENT();
+		_bend = .;
 	} SECTION_REGION(bss)
 	SECTION_SYMBOLS(bss)
 
@@ -55,6 +57,7 @@ SECTIONS {
 		ALIGNMENT();
 		. += OPTION_GET(NUMBER,stack_size);
 		ALIGNMENT();
+		_stack = .;
 	} SECTION_REGION(stack)
 	SECTION_SYMBOLS(stack)
 }
