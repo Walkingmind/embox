@@ -3,7 +3,8 @@
 #include <asm-generic/embox.lds.h>
 #include <framework/mod/options.h>
 
-OUTPUT_FORMAT("elf32-bigmips", "elf32-bigmips", "elf32-littlemips")
+OUTPUT_FORMAT(OPTION_STRING_GET(output_format))
+
 
 OUTPUT_ARCH(mips)
 
@@ -16,6 +17,7 @@ MEMORY {
 
 SECTIONS {
 	.text : {
+		KEEP(*(.reset))
 		. = + 0x400; /* reserve for exception table */
 		ALIGNMENT();
 		*(.text)
