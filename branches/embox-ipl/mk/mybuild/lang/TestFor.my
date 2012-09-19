@@ -1,6 +1,0 @@
-
-package mybuild.lang
-
-annotation TestFor {
-	Module value
-}
