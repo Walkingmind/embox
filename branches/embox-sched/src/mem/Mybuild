@@ -1,5 +1,0 @@
-package embox.mem
-
-module heap_lds {
-	source "heap.lds.S"
-}
