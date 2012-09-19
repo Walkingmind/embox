@@ -8,7 +8,7 @@ LOG_FILE=$PWD/emtool.log
 CROSSTOOL_ARCH=$1
 
 print_msg() {
-	echo -e $1 | tee $LOG_FILE
+	echo -e $1 | tee -a $LOG_FILE
 }
 
 error_exit() {
@@ -43,11 +43,11 @@ PATCHES="$(ls $PATCHES_DIR/*.patch 2>/dev/null)
 #  5 - gdb
 
 
-GET_URL[0]="http://ftp.gnu.org/gnu/binutils/binutils-2.22.tar.bz2"
+GET_URL[0]="http://www.mirrorservice.org/sites/ftp.gnu.org/gnu/binutils/binutils-2.22.tar.gz"
 GET_URL[1]="http://mirrors.kernel.org/gnu/gmp/gmp-5.0.2.tar.bz2"
 GET_URL[2]="http://www.multiprecision.org/mpc/download/mpc-0.9.tar.gz"
 GET_URL[3]="http://www.mpfr.org/mpfr-current/mpfr-3.1.1.tar.bz2"
-GET_URL[4]="http://gcc.parentingamerica.com/releases/gcc-4.6.2/gcc-4.6.2.tar.bz2"
+GET_URL[4]="http://www.mirrorservice.org/sites/ftp.gnu.org/gnu/gcc/gcc-4.6.2/gcc-4.6.2.tar.bz2"
 GET_URL[5]="http://ftp.gnu.org/gnu/gdb/gdb-7.4.tar.bz2"
 
 for i in $(seq 0 $((${#GET_URL[@]} - 1))); do
