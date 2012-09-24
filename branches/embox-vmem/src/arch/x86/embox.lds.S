@@ -13,6 +13,9 @@ MEMORY {
 }
 
 SECTIONS {
+	. = ALIGN(0x1000);
+	__KERNEL_START = .;
+
 	.text : {
 		ALIGNMENT();
 		. = ALIGN(0x100);
@@ -55,6 +58,8 @@ SECTIONS {
 		ALIGNMENT();
 	} SECTION_REGION(stack)
 	SECTION_SYMBOLS(stack)
+
+	KERNEL_END = .;
 }
 
 _mem_begin = LDS_REGION_BASE_sdram;
