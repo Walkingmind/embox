@@ -1,14 +1,14 @@
-package embox.cmd
+package embox.cmd.net
 
-@Cmd(name = "arping",
-	help = "Send ARP REQUEST to a neighbour host",
+@Cmd(name = "rarping",
+	help = "Send RARP REQUEST to a neighbour host",
 	man = '''
 		NAME
-			arping - send ARP REQUEST to a neighbour host
+			rarping - send RARP REQUEST to a neighbour host
 		SYNOPSIS
-			arping [ -c count] [-I iface] destination
+			rarping [ -c count] [-I iface] destination
 		DESCRIPTION
-			Ping destination on device interface by ARP packets,
+			Ping destination on device interface by RARP packets,
 			using source address source.
 		OPTIONS
 			-I interface
@@ -18,23 +18,21 @@ package embox.cmd
 				Stop after sending count ECHO_REQUEST packets.
 				by default: 4 (-1 infinity)
 		EXAMPLES
-			arping -c 3 10.0.3.97
+			rarping -c 3 aa:bb:cc:dd:ee:ff
 		SEE ALSO
-			arp, ping
+			arp, ping, arping
 		AUTHORS
-			Nikolay Korotky
+			Ilia Vaprol
 	''')
-module arping {
+module rarping {
 	@IncludePath("$(SRC_DIR)/compat/linux/include") 
 	@IncludePath("$(SRC_DIR)/compat/posix/include")
-	source "arping.c"
+	source "rarping.c"
 
 	depends embox.lib.LibC
-	depends embox.net.core
-	depends embox.compat.posix.LibPosix
 	depends embox.net.util
 	depends embox.net.neighbour
-	depends embox.net.arp
+	depends embox.net.rarp
 	depends embox.kernel.timer.sleep_api
 	depends embox.framework.LibFramework
 }
