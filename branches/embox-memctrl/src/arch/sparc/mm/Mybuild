@@ -1,0 +1,8 @@
+package embox.arch.sparc
+
+module mm extends embox.arch.mm {
+	source "mmu_core.c"
+	source "mmu_fault.S"
+	source "mmu_map.c"
+	source "table_alloc.c"
+}
