@@ -1,0 +1,29 @@
+package embox.test.kernel.task
+
+module core {
+	source "task.c"
+	depends embox.kernel.task.api
+}
+
+module signal {
+	source "signal.c"
+
+	depends embox.kernel.task.api
+	depends embox.kernel.task.signal
+	depends embox.framework.LibFramework
+}
+
+module idx_desc_test {
+	source "idx_desc_test.c"
+
+	depends embox.kernel.task.api
+	depends embox.framework.LibFramework
+}
+
+module pipe_test {
+	source "pipe_test.c"
+
+	depends embox.compat.posix.FileApi
+	depends embox.compat.posix.idx.pipe
+	depends embox.framework.LibFramework
+}
