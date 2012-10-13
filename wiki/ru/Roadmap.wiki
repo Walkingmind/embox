@@ -1,6 +1,32 @@
 #summary Embox development roadmap
 #labels Phase-Requirements,Featured
 
+= 2012/10/15 v0.3.4 [http://code.google.com/p/embox/issues/list?can=1&q=milestone=v0.3.4[issues]] [http://code.google.com/p/embox/issues/list?q=milestone=v0.3.4 [open issues]] =
+ Планируется:
+  * Поддержка архитектуры PowerPC
+  * Работа с виртуальной памятью в пользовательском режиме
+  * Поддержка USB
+  * Поддержка Ext2/3 файловых систем
+  
+= 2012/10/15 v0.3.3 [http://code.google.com/p/embox/issues/list?can=1&q=milestone=v0.3.3 [issues]]] =
+  * Добавлена поддержка MIPS архитектуры
+  * Виртуальная память для x86 и SPARC архитектуры
+
+ == Сеть ==
+  * Улучшена работа telnet сервера
+  * Добавлена rlogin
+  * Добавлен клиент NTP
+  
+ == файловая система ==
+  * Добавлена поддержка ISO9006 (DCROM)
+ 
+ == Другое ==
+  * добавлен stacktrace
+  * Добавлены каналы (pipes) 
+  * Добавлена поддержка сетевой карты E1000
+  * Многое другое
+  
+
 = 2012/07/09 v0.3.2 [http://code.google.com/p/embox/issues/list?can=1&q=milestone=v0.3.2 [issues]] [http://code.google.com/p/embox/issues/list?q=milestone=v0.3.2 [open issues]] =
  == Сеть ==
   * Добавлен telnet сервер
