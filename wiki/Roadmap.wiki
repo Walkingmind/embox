@@ -1,14 +1,14 @@
 #summary Embox development roadmap
 #labels Phase-Requirements,Featured
 
-= 2012/10/15 v0.3.4 [http://code.google.com/p/embox/issues/list?can=1&q=milestone=v0.3.4[issues]] [http://code.google.com/p/embox/issues/list?q=milestone=v0.3.4 [open issues]] =
+= [2012/10/15 v0.3.4 [http://code.google.com/p/embox/issues/list?can=1&q=milestone=v0.3.4[issues]] [http://code.google.com/p/embox/issues/list?q=milestone=v0.3.4 [open issues]] =
 Plans:
   * Support PowerPC
   * Support User mode 
   * Support USB
   * Support Ext2/3
   
-= 2012/10/15 v0.3.3 [http://code.google.com/p/embox/issues/list?can=1&q=milestone=v0.3.3 [issues]]] =
+= [2012/10/15 v0.3.3 [http://code.google.com/p/embox/issues/list?can=1&q=milestone=v0.3.3 [issues]]] =
   * Added MIPS architecture support
   * Added virtual mode for x86 architecture
 
@@ -26,7 +26,7 @@ Plans:
   * Added Network card E1000 support
  
   
-= 2012/07/09 v0.3.2 [http://code.google.com/p/embox/issues/list?can=1&q=milestone=v0.3.2 [issues]] [http://code.google.com/p/embox/issues/list?q=milestone=v0.3.2 [open issues]] =
+= [2012/07/09 v0.3.2 [http://code.google.com/p/embox/issues/list?can=1&q=milestone=v0.3.2 [issues]] =
  == Network ==
   * Added telnetd server
   * Added RPC implementation

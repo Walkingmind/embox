@@ -27,7 +27,7 @@
   * Многое другое
   
 
-= 2012/07/09 v0.3.2 [http://code.google.com/p/embox/issues/list?can=1&q=milestone=v0.3.2 [issues]] [http://code.google.com/p/embox/issues/list?q=milestone=v0.3.2 [open issues]] =
+= 2012/07/09 v0.3.2 [http://code.google.com/p/embox/issues/list?can=1&q=milestone=v0.3.2 [issues]] =
  == Сеть ==
   * Добавлен telnet сервер
   * Добавлена реализация rpc
@@ -42,7 +42,7 @@
   * Добавлена поддержка платы STM32vl discovery
   * Улучшена система сборки Mybuild
 
-= 2012/04/15 v0.3.1 [http://code.google.com/p/embox/issues/list?can=1&q=milestone=v0.3.1 [issues]] =
+= [2012/04/15 v0.3.1 [http://code.google.com/p/embox/issues/list?can=1&q=milestone=v0.3.1 [issues] ] =
  == Сеть ==
   * добавлена попдержка протокола TCP
   * Добавлен простой httpd сервер
@@ -60,7 +60,7 @@
   * Много разных мелких багов
   * Немного удалили старый не используемый код 
 
-= 2012/02/26 v0.3.0 [http://code.google.com/p/embox/issues/list?can=1&q=milestone=v0.3.0 [issues]] =
+= [2012/02/26 v0.3.0 [http://code.google.com/p/embox/issues/list?can=1&q=milestone=v0.3.0 [issues] ] =
  _Посвящается детям Sikmir-a (Тимуру и Евгении)_
  == Разработка ==
   * Добавлен интерпретатор [http://www.lua.org/about.html Lua 5.1]
