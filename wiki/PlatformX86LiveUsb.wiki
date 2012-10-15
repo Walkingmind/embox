@@ -1,0 +1,13 @@
+#summary Building USB live flash
+
+= Details =
+
+ * Build embox with some of x86 tempaltes
+ * Partition usb flash with one partition, format it to ext2. Probably, other configurations will work, but I end up with this.
+ * Perform grub-install
+{{{
+ # grub-install --root-directory=/media/flash /dev/sdb
+}}} 
+ where /dev/sdb is you usb device, and /media/flash is where /dev/sdb1 (your only and ext2 partition) is mounted.
+ * Place /embox/path/build/base/bin/embox in /media/flash/boot/
+ * Create grub menu entry, described [GettingStartedX86#GRUB_loader here]
