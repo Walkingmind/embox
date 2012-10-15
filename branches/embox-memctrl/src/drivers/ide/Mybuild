@@ -1,9 +1,0 @@
-package embox.driver
-
-module ide {
-	option number dev_quantity = 4
-	source "ide_drv.c"
-
-	depends embox.util.LibUtil
-	depends embox.driver.block
-}
