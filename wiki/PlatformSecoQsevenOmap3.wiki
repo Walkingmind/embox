@@ -2,8 +2,8 @@
 
 = Introduction =
 
-[http://www.seco.com/en/item/quadmo747-x_omap3/ Quadamo 747-X/Omap3] hosted on [http://www.seco.com/en/item/secocq7-pitx_xboard/ 
-SECOCQ7-pITX/Xboard]. Diag interface implemented by UART3, which is on JTAG (or Manufacturer) connector on pITX-board.
+[http://www.seco.com/en/item/quadmo747-x_omap3/ Quadamo 747-X/Omap3] hosted on [http://www.seco.com/en/item/secocq7-pitx_xboard SECOCQ7-pITX/Xboard].
+Diag interface implemented by UART3, which is on JTAG (or Manufacturer) connector on pITX-board.
 
 = Details =
 
