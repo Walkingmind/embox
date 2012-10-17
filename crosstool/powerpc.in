@@ -1,5 +1,5 @@
 #powerpc
 
-TARGET=power-elf
+TARGET=powerpc-elf
 
 GDB_OPTIONS="--enable-sim-powerpc"
