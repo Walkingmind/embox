@@ -7,7 +7,12 @@
 {{{
     uart->status = UART_TRANSMIT_SHIFT_EMPTY | UART_TRANSMIT_FIFO_EMPTY;
 }}}
-и собрать qemu
+Также для правильной работы MMU необходимо в файле <qemu_path>/target-sparc/cpu у LEON3 установить параметры:
+{{{
+        .mmu_ctpr_mask = 0xfffffffc,
+        .mmu_cxr_mask = 0x000000ff,
+}}}
+Cобрать qemu:
 {{{
 make
 }}} 
