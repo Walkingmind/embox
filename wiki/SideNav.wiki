@@ -28,6 +28,8 @@
       * [SimulationQemuMicroblaze QEMU Microblaze simulator]
     * [ArchMips MIPS]
       * [SimulationQemuMips QEMU MIPS simulator]
+    * [ArchPowerpc PowerPc]
+      * [SimulationQemuPowepc QEMU PowerPC simulator]
     * [ArchSparc SPARC]
       * [SimulationQemuSparc QEMU SPARC simulator]
       * [SimulationTsim TSIM LEON simulator]
