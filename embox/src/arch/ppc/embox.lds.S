@@ -29,6 +29,7 @@ SECTIONS {
 	.data : {
 		ALIGNMENT();
 		*(.data)
+		*(.sdata)
 		ALIGNMENT();
 	} SECTION_REGION(data)
 	SECTION_SYMBOLS(data)
