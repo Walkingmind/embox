@@ -7,8 +7,8 @@ Plans:
   * Support User mode 
   * Support USB
   * Support Ext2/3
-  
-= 2012/10/23 v0.3.3 [http://code.google.com/p/embox/issues/list?can=1&q=milestone=v0.3.3 [issues]]] =
+
+= 2012/10/23 v0.3.3 [http://code.google.com/p/embox/issues/list?can=1&q=milestone=v0.3.3 [issues]] =
   * Added MIPS architecture support
   * Added virtual mode for x86 architecture
 
@@ -16,16 +16,15 @@ Plans:
   * Improved telnet server
   * Added rlogin
   * Added NTP client
-  
+
  == File System  ==
   * Added FS ISO9006 (DCROM)
- 
+
  == Others ==
   * Added stacktrace for x86 and SPARC architectures
   * Added pipes 
   * Added Network card E1000 support
- 
-  
+
 = 2012/07/09 v0.3.2 [http://code.google.com/p/embox/issues/list?can=1&q=milestone=v0.3.2 [issues]] =
  == Network ==
   * Added telnetd server
