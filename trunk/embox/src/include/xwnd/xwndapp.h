@@ -21,7 +21,7 @@ struct xwnd_application {
 	int app_id;
 	sem_t msg_sem;
 	sem_t req_sem;
-	xwnd_event_handler callbacks[XWND_EV_MAX];	
+	xwnd_event_handler callbacks[XWND_EV_MAX];
 };
 
 

@@ -41,7 +41,7 @@ ssize_t read(int fd, void *buf, size_t nbyte) {
 	char *ch = buf;
 	int cnt = nbyte;
 
-	if (fd != 0) { 
+	if (fd != 0) {
 		return -1;
 	}
 

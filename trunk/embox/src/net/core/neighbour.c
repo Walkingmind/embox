@@ -178,7 +178,7 @@ int neighbour_get_hardware_address(const unsigned char *paddr,
 	else if (nh->n.hlen != hlen_max) {
 		/* no such entity with the same length of hardware address */
 		softirq_unlock();
-		return -ENOENT; 
+		return -ENOENT;
 	}
 
 	/* unlock softirq context */
@@ -219,7 +219,7 @@ int neighbour_get_protocol_address(const unsigned char *haddr,
 	else if (nh->n.plen != plen_max) {
 		/* no such entity with the same length of protocol address */
 		softirq_unlock();
-		return -ENOENT; 
+		return -ENOENT;
 	}
 
 	/* unlock softirq context */

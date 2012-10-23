@@ -1,8 +1,8 @@
 /**
- * @file 
- * @brief 
+ * @file
+ * @brief
  *
- * @author  Anton Kozlov 
+ * @author  Anton Kozlov
  * @date    04.10.2012
  */
 
@@ -14,7 +14,7 @@
 
 int open(const char *path, int __oflag, ...) {
 	char mode[] = "-";
-	struct file_desc *kfile; 
+	struct file_desc *kfile;
 
 	if ((O_RDWR == __oflag) || (O_WRONLY == __oflag)) {
 		mode[0] = 'w';

@@ -36,7 +36,7 @@ FILE *stdout = &stdout_struct;
 FILE *stderr = &stderr_struct;
 
 FILE *fopen(const char *path, const char *mode) {
-	FILE *file = pool_alloc(&file_pool);	
+	FILE *file = pool_alloc(&file_pool);
 	if (__libc_open(path, mode, (struct file_struct_int *) file) < 0) {
 		return NULL;
 	}

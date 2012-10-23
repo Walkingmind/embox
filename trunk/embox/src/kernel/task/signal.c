@@ -1,8 +1,8 @@
 /**
- * @file 
- * @brief 
+ * @file
+ * @brief
  *
- * @author  Anton Kozlov 
+ * @author  Anton Kozlov
  * @date    20.06.2012
  */
 
@@ -14,14 +14,14 @@
 
 extern void context_enter_frame(struct context *ctx, void *pc);
 extern void context_push_stack(struct context *ctx, void *arg, size_t n);
- 
+
 static int task_some_thd_run(struct task *task);
 
 
 void task_signal_send(struct task *task, int sig) {
 
 	task->signal_table->sig_mask |= 1 << sig;
-	
+
 	task_some_thd_run(task);
 }
 
@@ -54,7 +54,7 @@ static void task_sig_handler(int sig) {
 static void task_signal_table_init(struct task *task, void *_signal_table) {
 	int sig;
 
-	struct task_signal_table *sig_table = 
+	struct task_signal_table *sig_table =
 		(struct task_signal_table *) _signal_table;
 
 	for (sig = 0; sig < TASK_SIGNAL_MAX_N; sig++) {
@@ -81,7 +81,7 @@ static int notify_hnd(struct thread *prev, struct thread *next) {
 		context_enter_frame(&next->context, task_sig_handler);
 	}
 
-	
+
 	return 0;
 }
 

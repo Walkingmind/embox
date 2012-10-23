@@ -122,7 +122,7 @@ typedef struct sk_buff {        /* Socket buffer */
 /**
  * Allocate one instance of structure sk_buff. With pointed size and flags.
  * @return If size is more then mtu (now it is defined by module option
- * skb_buff_size) function will return queue of sk_buff. Else function 
+ * skb_buff_size) function will return queue of sk_buff. Else function
  * return single sk_buff.
  * Function return NULL if function can't allocate demanded buffer
  * TODO make skb_queue if `size` more than mtu

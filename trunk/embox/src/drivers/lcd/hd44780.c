@@ -1,10 +1,10 @@
 /**
- * @file 
+ * @file
  * @brief Simple driver for Hitachi HD44780. There is some limitation:
  *	* Control pins must be on same gpio port
  *	* Data pins must be attached sequentially to same port
  *
- * @author  Anton Kozlov 
+ * @author  Anton Kozlov
  * @date    10.07.2012
  */
 
@@ -55,7 +55,7 @@ static inline int clock(void) {
 	level = gpio_level(DATA_PORT, BUSY_FLAG);
 	gpio_out(DATA_PORT, BUSY_FLAG, 0);
 	ctrl(E, 0);
-	return level; 
+	return level;
 }
 
 static inline void set_data(int reg, char ch) {
@@ -79,7 +79,7 @@ static inline void set_n_clock(int reg, char ch) {
 
 static inline void go_to(int line, int char_pos) {
 	set_n_clock(0, 0x80 + line * 0x40 + char_pos);
-}	
+}
 
 static inline void clear(void) {
 	set_n_clock(0, 0x01);
@@ -98,7 +98,7 @@ static void refresh(void) {
 	for (int i = line_first+1; i < LINE_N; i++) {
 		go_to(cnt++, 0);
 		print_line(i);
-		
+
 	}
 	for (int i = 0; i <= line_first; i++) {
 		go_to(cnt++, 0);
@@ -129,7 +129,7 @@ static void lcd_putc(char ch) {
 
 	buf[line_first * WIDTH_N + pos] = ch;
 	pos ++;
-	
+
 	set_n_clock(1, ch);
 }
 

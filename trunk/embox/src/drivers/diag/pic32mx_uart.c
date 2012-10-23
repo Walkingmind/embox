@@ -1,8 +1,8 @@
 /**
- * @file 
- * @brief 
+ * @file
+ * @brief
  *
- * @author  Anton Kozlov 
+ * @author  Anton Kozlov
  * @date    13.09.2012
  */
 
@@ -200,25 +200,25 @@
 #define MODE_ON   0x8000     /* UART Enable */
 #define MODE_RTSSMD (1 << 11)
 
-#define STA_URXEN 0x1000     /* Receive enable */ 
-#define STA_UTXEN 0x400	     /* Transmit enable */ 
+#define STA_URXEN 0x1000     /* Receive enable */
+#define STA_UTXEN 0x400	     /* Transmit enable */
 #define STA_URXDA 0x1        /* Receive data avaible */
 #define STA_UTXBF (1 << 9)      /* Transmit data full */
-#define STA_UTRMT (1 << 8)      
+#define STA_UTRMT (1 << 8)
 
 #define BRG_VAL (PERPH_CLK / (16 * BAUD_RATE) - 1)
 
 
 extern void mips_delay(int cnt);
 
-#define TRISB            0xBF886040 
-#define PORTB            0xBF886050 
+#define TRISB            0xBF886040
+#define PORTB            0xBF886050
 
 void diag_init(void) {
 	REG_STORE(TRISB, 0);
 	REG_STORE(PORTB, 0);
 
-	REG_STORE(UxMODE, 0); 
+	REG_STORE(UxMODE, 0);
 	REG_STORE(UxBRG,  BRG_VAL);
 
 	REG_STORE(UxMODE, MODE_ON);
@@ -230,17 +230,17 @@ void diag_init(void) {
 
 void diag_putc(char c) {
 	while (REG_LOAD(UxSTA) & STA_UTXBF) {
-	
+
 	}
-	
+
 	REG_STORE(UxTXREG, c);
 }
 
 char diag_getc(void) {
 	while (!(REG_LOAD(UxSTA) & STA_URXDA)) {
-	
+
 	}
-	
+
 	return REG_LOAD(UxRXREG);
 }
 

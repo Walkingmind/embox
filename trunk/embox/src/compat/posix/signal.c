@@ -1,8 +1,8 @@
 /**
- * @file 
- * @brief 
+ * @file
+ * @brief
  *
- * @author  Anton Kozlov 
+ * @author  Anton Kozlov
  * @date    08.10.2012
  */
 
@@ -28,7 +28,7 @@ int kill (int tid, int sig) {
 	}
 
 	task_signal_send(task, sig);
-	
+
 	return 0;
 }
 
