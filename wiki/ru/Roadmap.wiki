@@ -8,7 +8,7 @@
   * Поддержка USB
   * Поддержка Ext2/3 файловых систем
   
-= 2012/10/15 v0.3.3 [http://code.google.com/p/embox/issues/list?can=1&q=milestone=v0.3.3 [issues]] =
+= 2012/10/23 v0.3.3 [http://code.google.com/p/embox/issues/list?can=1&q=milestone=v0.3.3 [issues]] =
   * Добавлена поддержка MIPS архитектуры
   * Виртуальная память для x86 и SPARC архитектуры
 
