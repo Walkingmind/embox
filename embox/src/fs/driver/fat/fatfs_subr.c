@@ -1,6 +1,6 @@
 /**
  * @file
- * @brief 
+ * @brief
  *
  * @date 14.08.2012
  * @author Andrey Gazukin

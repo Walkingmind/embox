@@ -1,28 +1,28 @@
 
 /**
- * @file 
+ * @file
  *
  * Copyright (c) 1987, 1997, 2006, Vrije Universiteit, Amsterdam,
  * The Netherlands All rights reserved. Redistribution and use of the MINIX 3
  * operating system in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are
  * met:
- * 
+ *
  *     * Redistributions of source code must retain the above copyright
  *     notice, this list of conditions and the following disclaimer.
- * 
+ *
  *     * Redistributions in binary form must reproduce the above copyright
  *     notice, this list of conditions and the following disclaimer in the
  *     documentation and/or other materials provided with the distribution.
- * 
+ *
  *     * Neither the name of the Vrije Universiteit nor the names of the
  *     software authors or contributors may be used to endorse or promote
  *     products derived from this software without specific prior written
  *     permission.
- * 
+ *
  *     * Any deviations from these conditions require written permission
  *     from the copyright holder in advance
- * 
+ *
  * @author Niek Linnenbank <nieklinnenbank@gmail.com>
  * @author Anton Kozlov
  * @date 27.09.2012
@@ -166,7 +166,7 @@
  * @{
  */
 
-/** Link Full Duplex Configuration Indication. */ 
+/** Link Full Duplex Configuration Indication. */
 #define E1000_REG_STATUS_FD	 (1 << 0)
 
 /** Link Up Indication. */
@@ -305,17 +305,17 @@
  * @{
  */
 
-#define ICH_FLASH_GFPREG                 0x0000 
-#define ICH_FLASH_HSFSTS                 0x0004 
-#define ICH_FLASH_HSFCTL                 0x0006 
-#define ICH_FLASH_FADDR                  0x0008 
-#define ICH_FLASH_FDATA0                 0x0010 
-#define FLASH_GFPREG_BASE_MASK           0x1FFF 
+#define ICH_FLASH_GFPREG                 0x0000
+#define ICH_FLASH_HSFSTS                 0x0004
+#define ICH_FLASH_HSFCTL                 0x0006
+#define ICH_FLASH_FADDR                  0x0008
+#define ICH_FLASH_FDATA0                 0x0010
+#define FLASH_GFPREG_BASE_MASK           0x1FFF
 #define FLASH_SECTOR_ADDR_SHIFT          12
 #define ICH_FLASH_READ_COMMAND_TIMEOUT   500
 #define ICH_FLASH_LINEAR_ADDR_MASK       0x00FFFFFF
-#define ICH_CYCLE_READ                   0 
-#define ICH_FLASH_CYCLE_REPEAT_COUNT     10 
+#define ICH_CYCLE_READ                   0
+#define ICH_FLASH_CYCLE_REPEAT_COUNT     10
 
 /** End of Packet. */
 #define E1000_TX_CMD_EOP	(1 << 0)

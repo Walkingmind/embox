@@ -15,4 +15,4 @@
 
 typedef struct list_head sys_timer_queue_t;
 
-#endif /* ARRAY_TIMER_ */ 
+#endif /* ARRAY_TIMER_ */

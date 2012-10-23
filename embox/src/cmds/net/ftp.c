@@ -882,7 +882,7 @@ static int exec(int argc, char **argv) {
 
 		/* Skip empty commands */
 		if (*cmd_name == '\0') {
-			continue; 
+			continue;
 		}
 
 		/* Set '\0' to the end of command's name */

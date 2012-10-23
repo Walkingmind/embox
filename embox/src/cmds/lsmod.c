@@ -42,7 +42,7 @@ static int exec(int argc, char **argv) {
 			return -1;
 		}
 	}
-	
+
 	mod_foreach(mod) {
 		printf("\n");
 		mod_print(mod);

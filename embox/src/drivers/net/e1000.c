@@ -55,7 +55,7 @@ struct e1000_rx_desc {
 	uint8_t  status;
 	uint8_t  error;
 	uint16_t reserved;
-	
+
 };
 
 struct e1000_tx_desc {
@@ -66,8 +66,8 @@ struct e1000_tx_desc {
 	uint8_t cmd;
 	uint8_t status; /* + reserved, not used */
 	uint8_t checksum_start;
-	uint16_t special; 
-	
+	uint16_t special;
+
 };
 
 static struct e1000_rx_desc rx_descs[E1000_RXDESC_NR] __attribute__((aligned(16)));
@@ -114,13 +114,13 @@ static int start_xmit(struct sk_buff *skb, struct net_device *dev) {
 	skb_queue_push((struct sk_buff_head *) &dev->tx_dev_queue, skb);
 
 	e1000_start_xmit(dev);
-	
+
 	return ENOERR;
 }
 
 static void txed_skb_clean(struct net_device *dev) {
 	struct sk_buff *skb;
-	
+
 	skb = skb_queue_pop(&dev->txing_queue);
 
 	if (skb) {
@@ -153,7 +153,7 @@ static void e1000_rx(struct net_device *dev) {
 		} else {
 			/*stat->rx_dropped++;*/
 		}
-		
+
 		tail = cur;
 
 		++cur;
@@ -179,7 +179,7 @@ static irq_return_t e1000_interrupt(unsigned int irq_num, void *dev_id) {
 }
 
 static int e1000_open(struct net_device *dev) {
-	
+
 	REG_ORIN(e1000_reg(dev, E1000_REG_CTRL), E1000_REG_CTRL_RST);
 
 	REG_ORIN(e1000_reg(dev, E1000_REG_CTRL), E1000_REG_CTRL_SLU | E1000_REG_CTRL_ASDE);
@@ -191,7 +191,7 @@ static int e1000_open(struct net_device *dev) {
 	REG_STORE(e1000_reg(dev, E1000_REG_FCT), 0);
 	REG_STORE(e1000_reg(dev, E1000_REG_FCTTV), 0);
 	REG_ANDIN(e1000_reg(dev, E1000_REG_CTRL), ~E1000_REG_CTRL_VME);
-	
+
 	/* Clear Multicast Table Array (MTA). */
 	for (int i = 0; i < 128; i++)
 	{
@@ -224,16 +224,16 @@ static int e1000_open(struct net_device *dev) {
 	REG_STORE(e1000_reg(dev, E1000_REG_RDH), 0);
 	REG_STORE(e1000_reg(dev, E1000_REG_RDT), E1000_RXDESC_NR - 1);
 	REG_ORIN( e1000_reg(dev, E1000_REG_RCTL), E1000_REG_RCTL_EN);
-	
+
 	REG_STORE(e1000_reg(dev, E1000_REG_TDBAL), (uint32_t) tx_descs);
 	REG_STORE(e1000_reg(dev, E1000_REG_TDBAH), 0);
 	REG_STORE(e1000_reg(dev, E1000_REG_TDLEN), sizeof(struct e1000_tx_desc) * E1000_TXDESC_NR);
 	REG_STORE(e1000_reg(dev, E1000_REG_TDH), 0);
 	REG_STORE(e1000_reg(dev, E1000_REG_TDT), 0);
 	REG_ORIN(e1000_reg(dev, E1000_REG_TCTL), E1000_REG_TCTL_EN | E1000_REG_TCTL_PSP);
-	
+
 	/* Enable interrupts. */
-	REG_STORE(e1000_reg(dev, E1000_REG_IMS), 
+	REG_STORE(e1000_reg(dev, E1000_REG_IMS),
 				      E1000_REG_IMS_RXO  |
 				      E1000_REG_IMS_RXT  |
 				      E1000_REG_IMS_TXQE |

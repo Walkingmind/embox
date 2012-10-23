@@ -145,7 +145,7 @@ void __attribute__((noreturn)) task_exit(void *res) {
 		thread_terminate(thread);
 	}
 
-	sched_unlock(); 
+	sched_unlock();
 
 	task_resource_foreach(res_desc) {
 		if (res_desc->deinit) {
@@ -177,7 +177,7 @@ static void *task_trampoline(void *arg) {
 	thread_self()->in_usermode = task_self()->in_usermode;
 	res = usermode_call_and_switch_if(task_self()->in_usermode, run, run_arg);
 	task_exit(res);
-	
+
 	/* NOTREACHED */
 
 	panic("Returning from task_trampoline()");

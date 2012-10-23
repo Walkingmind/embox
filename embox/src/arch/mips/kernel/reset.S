@@ -1,8 +1,8 @@
 /**
- * @file 
- * @brief 
+ * @file
+ * @brief
  *
- * @author  Anton Kozlov 
+ * @author  Anton Kozlov
  * @date    13.09.2012
  */
 
@@ -14,7 +14,7 @@
 	.align  4
 	.global _reset
 _reset:
-	la      $k0, _start 
+	la      $k0, _start
 	jr      $k0                      # Jump to startup code
         nop
 

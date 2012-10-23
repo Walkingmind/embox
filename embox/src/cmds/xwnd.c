@@ -66,7 +66,7 @@ static int exec (int argc, char ** argv) {
 		if (argc > 2)
 		{
 
-			printf("w/h: %d/%d, bpp: %d, ERR: %d\n", 
+			printf("w/h: %d/%d, bpp: %d, ERR: %d\n",
 				img->width, img->height, img->bpp, xwnd_bmp_get_errno());
 			xwnd_bmp_unload(img);
 			return 0;

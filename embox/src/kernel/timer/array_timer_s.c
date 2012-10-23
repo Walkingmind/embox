@@ -23,7 +23,7 @@ static struct list_head timeline[length];
 static uint32_t cur;
 
 EMBOX_UNIT_INIT(timer_strat_init);
-                    
+
 static int timer_strat_init(void) {
 	uint32_t i;
 
@@ -31,10 +31,10 @@ static int timer_strat_init(void) {
 		timeline[i].next = &(timeline[i]);
 		timeline[i].prev = &(timeline[i]);
 	}
-    
+
     cur = 0;
     return 0;
-}          
+}
 
 void timer_strat_start(struct sys_timer *ptimer) {
 	if(ptimer->load > length) {
