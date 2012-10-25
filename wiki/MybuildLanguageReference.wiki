@@ -160,6 +160,16 @@ module MyModule { … }
 
 =Библиотека типов=
 
+==`mybuild.lang.Mandatory`==
+{{{
+annotation Mandatory { }
+}}}
+Аннотация `Mandatory` помечает модуль обязательным для включения в сборку.
+{{{
+@Mandatory
+module BuildMeAlways { … }
+}}}
+
 ==`mybuild.lang.DefaultImpl`==
 {{{
 annotation DefaultImpl {
@@ -167,14 +177,15 @@ annotation DefaultImpl {
 }
 }}}
 Аннотация `DefaultImpl` может ставиться над абстрактным модулем и указывать реализацию по умолчанию, которая будет использоваться, если никакая другая реализация не включена в сборку.
-
+{{{
 @DefaultImpl(someImpl)
 abstract module abstractModule { … }
+}}}
 
 ==`mybuild.lang.IncludePath`==
 {{{
 annotation IncludePath {
-	string value 
+	string value
 }
 }}}
 Аннотация `IncludePath` может указываться над секцией с исходными кодом в теле описания модуля. При компиляции файлов `*.с` из такой секции компилятору будет указан дополнительный путь для поиска заголовочных файлов.
@@ -182,6 +193,31 @@ annotation IncludePath {
 module moduleName {
 	@IncludePath("src/some/path/include")
 	source "source.c"
+}
+}}}
+
+==`mybuild.lang.DefineMacro`==
+{{{
+annotation DefineMacro {
+	string value
+}
+}}}
+Аннотация `DefineMacro` может указываться над секцией с исходными кодом в теле описания модуля. При компиляции файлов `*.с` из такой секции компилятору будет переданы дополнительные флаги для опрделения данного макроса.
+{{{
+module moduleName {
+	@DefineMacro("FOO=42")
+	source "source.c"
+}
+}}}
+
+==`mybuild.lang.NoRuntime`==
+{{{
+annotation NoRuntime { }
+}}}
+Аннотация `NoRuntime` может указываться над секцией с зависимостями модуля. Зависимости, помеченные этой аннотацией, обрабатываются только на этапе сборки, и не влияют на порядок загрузки модулей во время исполнения.
+{{{
+module moduleName {
+	@NoRuntime depends otherModule
 }
 }}}
 
