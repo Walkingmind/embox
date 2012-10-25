@@ -105,7 +105,7 @@ int ioctl(int fd, int request, ...) {
 
 	if (NULL == ops->ioctl) {
 		ret = -1;
-	} else { 
+	} else {
 		ret = ops->ioctl(desc, request, args);
 	}
 

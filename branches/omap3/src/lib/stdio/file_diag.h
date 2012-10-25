@@ -1,8 +1,8 @@
 /**
- * @file 
- * @brief 
+ * @file
+ * @brief
  *
- * @author  Anton Kozlov 
+ * @author  Anton Kozlov
  * @date    18.10.2012
  */
 
@@ -50,4 +50,3 @@ static inline int __libc_ioctl(struct file_struct_int *file, int request, va_lis
 }
 
 #endif /* SRC_LIB_STDIO_FILE_DIAG_H_ */
-

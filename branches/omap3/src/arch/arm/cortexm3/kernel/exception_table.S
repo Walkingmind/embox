@@ -31,8 +31,7 @@ die:
 
 /* stubs */
 undef_handler:
-    b undef_handler 
+    b undef_handler
 
 hard_fault:
-    b hard_fault 
-
+    b hard_fault

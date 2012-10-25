@@ -74,7 +74,7 @@ static inline bool compare_ether_addr(const uint8_t *a, const uint8_t *b)
 }
 
 /**
- * Packet types. 
+ * Packet types.
  */
 enum {
 	PACKET_HOST,      /* To us */

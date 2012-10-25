@@ -1,9 +1,9 @@
 /**
- * @file 
- * @brief 
+ * @file
+ * @brief
  *
- * @author  Anton Kozlov 
- * @author  Anton Bondarev 
+ * @author  Anton Kozlov
+ * @author  Anton Bondarev
  * @date    02.07.2012
  */
 

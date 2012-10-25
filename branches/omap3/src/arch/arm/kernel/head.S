@@ -29,13 +29,13 @@ bootldr_start:
 
 hw_init_hook:
     ldr     r0, =hardware_init_hook
-    cmp	    r0, #0 
+    cmp	    r0, #0
     beq	    sw_init_hook
     bl      hardware_init_hook
 
 sw_init_hook:
     ldr     r0, =software_init_hook
-    cmp	    r0, #0 
+    cmp	    r0, #0
     beq	    krn_start
     bl      software_init_hook
 

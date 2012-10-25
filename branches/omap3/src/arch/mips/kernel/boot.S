@@ -51,7 +51,7 @@ C_ENTRY(_start):
 	move    $27, $zero
 #if 0
 	move    $28, $zero
-#endif 
+#endif
 	move    $29, $zero
 	move    $30, $zero
 	move    $31, $zero
