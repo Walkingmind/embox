@@ -140,7 +140,7 @@ int arp_queue_add(struct sk_buff *skb) {
 	waiting_item->was_posted = get_msec();
 	waiting_item->skb = skb;
 	waiting_item->dest_ip = daddr;
- 
+
 	ret = hashtable_put(arp_queue_table, (void *)&waiting_item->dest_ip, (void *)waiting_item);
 	if (ret != 0) {
 		pool_free(&arp_queue_item_pool, waiting_item);
@@ -158,8 +158,8 @@ int arp_queue_add(struct sk_buff *skb) {
 	return 0;
 }
 
-/* referencing to unaligned word pointer cannot be made on some arch, 
- * ensuring it's aligned 
+/* referencing to unaligned word pointer cannot be made on some arch,
+ * ensuring it's aligned
  */
 static in_addr_t addr_by_key(void *key) {
 	const unsigned int mask = sizeof(in_addr_t) - 1;

@@ -1,8 +1,8 @@
 /**
- * @file 
+ * @file
  * @brief Returns the number of leading 0-bits
  *
- * @author  Anton Kozlov 
+ * @author  Anton Kozlov
  * @date    24.07.2012
  */
 
@@ -17,4 +17,3 @@ int32_t __clzsi2(int32_t a) {
 
 	return i;
 }
-

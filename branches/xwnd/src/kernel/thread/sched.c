@@ -383,7 +383,7 @@ int sched_tryrun(struct thread *thread) {
 		} else if (!thread_state_running(thread->state)) {
 			res = -1;
 		}
-	} 
+	}
 
 	sched_unlock();
 

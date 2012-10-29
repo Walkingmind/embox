@@ -22,7 +22,7 @@
 
 #include <io_sync.h>
 
-#define MODOPS_MIN_AMOUNT_SOCK OPTION_GET(NUMBER, min_amount_sock) 
+#define MODOPS_MIN_AMOUNT_SOCK OPTION_GET(NUMBER, min_amount_sock)
 
 #if 0
 typedef struct sock_info {

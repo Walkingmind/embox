@@ -1,8 +1,8 @@
 /**
- * @file 
- * @brief 
+ * @file
+ * @brief
  *
- * @author  Anton Kozlov 
+ * @author  Anton Kozlov
  * @date    04.10.2012
  */
 
@@ -28,11 +28,11 @@ static int term_read(struct idx_desc *idx, void *buf, size_t nbyte) {
 
 static int term_flush(struct idx_desc *idx, char *tbuf, char **tbufpp) {
 	int res = task_idx_desc_ops(idx)->write(idx, (const void *) tbuf, (int) *tbufpp - (int) tbuf);
-	
+
 	if (res <= 0) {
 		return res;
 	}
-	
+
 	*tbufpp = tbuf;
 
 	return res;
@@ -63,7 +63,7 @@ static int term_write(struct idx_desc *idx, const void *buf, size_t nbyte) {
 
 	while (nbyte--) {
 
-		if (OPTION_GET(BOOLEAN,lf_crlf_map) && 
+		if (OPTION_GET(BOOLEAN,lf_crlf_map) &&
 				*bufp == '\n' && !was_r) {
 			term_putc(raw_idx, tbuf, &tbufp, '\r');
 		}
@@ -113,7 +113,7 @@ static int make_term(void) {
 		int new_stdn = term(stdn);
 		dup2(new_stdn, stdn);
 		close(new_stdn);
-		
+
 		stdn -= 1;
 	}
 

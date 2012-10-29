@@ -35,7 +35,7 @@ int pci_driver_load(struct pci_slot_dev *dev) {
 	/* Enable mod (and dependencies) without cyclic detection error generating.
 	 * This introduced since some driver can be inited before pci_driver_load, then next lines
 	 * just ensure that other dependecies of driver are satisfied */
-	mod_foreach_requires(dep, drv->mod) {	
+	mod_foreach_requires(dep, drv->mod) {
 		mod_enable_rec_safe(dep, true);
 	}
 

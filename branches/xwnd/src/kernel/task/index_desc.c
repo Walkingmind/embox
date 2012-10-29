@@ -54,7 +54,7 @@ struct idx_desc_data *task_idx_data_alloc(const struct task_idx_ops *res_ops, vo
 
 int task_idx_data_free(struct idx_desc *idx) {
 	int res;
-	
+
 	if (0 != (res = idx->data->res_ops->close(idx))) {
 		return res;
 	}

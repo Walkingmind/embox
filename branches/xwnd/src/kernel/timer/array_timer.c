@@ -52,7 +52,7 @@ static int timer_strat_init(void) {
 void timer_strat_start(struct sys_timer *ptimer) {
 	if(ptimer->load > inner_length * outer_length) {
 		return;
-	}	
+	}
 
 	if(ptimer->load < inner_length) {
 		list_add(&ptimer->lnk, &inner[mod(inner_cur + ptimer->load, inner_length)]);
@@ -67,7 +67,7 @@ void timer_strat_sched() {
 	struct sys_timer *ptimer;
 
 	inner_cur = mod(inner_cur + 1, inner_length);
-	
+
 	if(inner_cur == 0) {
 		outer_cur = mod(outer_cur + 1, outer_length);
 		while(!list_empty(&outer[outer_cur])) {
@@ -79,7 +79,7 @@ void timer_strat_sched() {
 
 	while(!list_empty(&inner[inner_cur])) {
 		ptimer = list_entry(inner[inner_cur].next, struct sys_timer, lnk);
-		ptimer->handle(ptimer, ptimer->param);		
+		ptimer->handle(ptimer, ptimer->param);
 		list_del(inner[inner_cur].next);
 		timer_strat_start(ptimer);
 	}
