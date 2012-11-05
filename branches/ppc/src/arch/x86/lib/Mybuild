@@ -1,0 +1,10 @@
+/*FIXME mybuild libarch is bad packet */
+package embox.arch.x86
+
+static module libarch extends embox.arch.libarch {
+	source "setjmp.S"
+}
+
+static module LibDl {
+	source "dl/dl_relocate.c"
+}
