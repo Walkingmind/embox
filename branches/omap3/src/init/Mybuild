@@ -9,6 +9,7 @@ module start_script {
 	option string shell_name=""
 	option string tty_dev=""
 	option number input_buffer = 80
+	depends embox.compat.posix.FileApi
 }
 
 module make_term {
@@ -17,6 +18,7 @@ module make_term {
 	@IncludePath("$(SRC_DIR)/compat/posix/include")
 	source "make_term.c"
 
+	depends embox.kernel.task.task_environment   
 	depends embox.compat.posix.idx.dup
 	depends embox.compat.posix.posix_env
 }
