@@ -214,6 +214,30 @@ static uint32_t fat_get_vol_info(void *fd,
 		  (((uint32_t) lbr->bpb.sectors_l_3) << 24);
 	}
 
+<<<<<<< .working
+	if((NULL == (fs_des = pool_alloc(&fat_fs_pool))) ||
+			(NULL == (fd = pool_alloc(&fat_file_pool)))) {
+		return -ENOMEM;
+	}
+	fs_des->dev_id = nod->dev_id;
+	strcpy((char *) fs_des->root_name, "\0");
+
+	fd->fs = fs_des;
+	nod->fs_type = &fatfs_drv;
+	nod->file_info = (void *) &fatfs_fop;
+	nod->fd = (void *)fd;
+
+	fatfs_partition(fd);
+	fatfs_root_create(fd);
+
+	return 0;
+}
+
+static int fatfs_mount(void *par) {
+	mount_params_t *params;
+	node_t *dir_node, *dev_node;
+	fat_file_description_t *fd, *dev_fd;
+=======
 	/**
 	 * If secperfat is 0, we must be in a FAT32 volume; get secperfat
 	 * from the FAT32 EBPB. The volume label and system ID string are also
@@ -226,10 +250,23 @@ static uint32_t fat_get_vol_info(void *fd,
 		  (((uint32_t) lbr->ebpb.ebpb32.fatsize_1) << 8) |
 		  (((uint32_t) lbr->ebpb.ebpb32.fatsize_2) << 16) |
 		  (((uint32_t) lbr->ebpb.ebpb32.fatsize_3) << 24);
+>>>>>>> .merge-right.r7444
 
 		memcpy(volinfo->label, lbr->ebpb.ebpb32.label, MSDOS_NAME);
 		volinfo->label[11] = 0;
 
+<<<<<<< .working
+	/* If dev_node created, but not attached to the filesystem driver */
+	if (NULL == (dev_fd = (fat_file_description_t *) dev_node->fd)) {
+		if((NULL == (dev_fd = pool_alloc(&fat_file_pool))) ||
+				(NULL == (dev_fd->fs = pool_alloc(&fat_fs_pool)))) {
+			return -ENOMEM;
+		}
+		dev_node->fd = dev_fd;
+		dev_fd->fs->dev_id = dev_node->dev_id;
+		dev_node->file_info = (void *) &fatfs_fop;
+=======
+>>>>>>> .merge-right.r7444
 	}
 	else {
 		memcpy(volinfo->label, lbr->ebpb.ebpb.label, MSDOS_NAME);
@@ -237,9 +274,24 @@ static uint32_t fat_get_vol_info(void *fd,
 
 	}
 
+<<<<<<< .working
+	fd->fs = dev_fd->fs;
+	dir_node->fs_type = &fatfs_drv;
+	dir_node->fd = (void *) fd;
+
+	return fat_mount_files(dir_node);
+}
+
+static int fatfs_create(void *par) {
+	file_create_param_t *param;
+	fat_file_description_t *fd, *parents_fd;
+	node_t *node, *parents_node;
+	int node_quantity;
+=======
 	/* note: if rootentries is 0, we must be in a FAT32 volume. */
 	volinfo->rootentries =  (uint16_t) lbr->bpb.rootentries_l |
 		  (((uint16_t) lbr->bpb.rootentries_h) << 8);
+>>>>>>> .merge-right.r7444
 
 	/* after extracting raw info we perform some useful precalculations */
 	volinfo->fat1 = startsector + volinfo->reservedsecs;
@@ -263,6 +315,29 @@ static uint32_t fat_get_vol_info(void *fd,
 		  (((uint32_t) lbr->ebpb.ebpb32.root_3) << 24);
 	}
 
+<<<<<<< .working
+	for (int count = 0; count < node_quantity; count ++) {
+		if(0 < count) {
+			if(1 == count) {
+				strcat(param->path, "/.");
+			}
+			else if(2 == count) {
+				strcat(param->path, ".");
+			}
+			if(NULL == (node = vfs_add_path (param->path, NULL))) {
+				return -ENOMEM;
+			}
+			node->properties = DIRECTORY_NODE_TYPE;
+		}
+
+		if(NULL == (fd = pool_alloc(&fat_file_pool))) {
+			return -ENOMEM;
+		}
+		fd->fs = parents_fd->fs;
+		node->fs_type = &fatfs_drv;
+		node->dev_id = parents_node->dev_id;
+		node->fd = (void *)fd;
+=======
 	/*
 	 * Calculate number of clusters in data area and infer FAT type from
 	 * this information.
@@ -275,6 +350,7 @@ static uint32_t fat_get_vol_info(void *fd,
 		volinfo->numclusters =
 				(volinfo->numsecs - volinfo->dataarea) / volinfo->secperclus;
 	}
+>>>>>>> .merge-right.r7444
 
 	/* try to set FAT type by filesystem ID */
 	if ((0 == strcmp ((const char *)lbr->ebpb.ebpb.system, "FAT12")) ||
@@ -386,12 +462,133 @@ static uint32_t fat_get_fat_(void *fd, uint8_t *p_scratch,
 			result = (uint32_t) p_scratch[offset] |
 			  ((uint32_t) p_scratch[offset+1]) << 8;
 		}
+<<<<<<< .working
+	}
+	pool_free(&fat_file_pool, fd);
+
+	vfs_del_leaf(nod);
+	return 0;
+}
+
+#define LABEL "EMBOX_DISK\0"
+#define SYSTEM "FAT12"
+
+char bootcode[130] =
+	{ 0x0e, 0x1f, 0xbe, 0x5b, 0x7c, 0xac, 0x22, 0xc0, 0x74, 0x0b,
+	  0x56, 0xb4, 0x0e, 0xbb, 0x07, 0x00, 0xcd, 0x10, 0x5e, 0xeb,
+	  0xf0, 0x32, 0xe4, 0xcd, 0x16, 0xcd, 0x19, 0xeb, 0xfe, 0x54,
+	  0x68, 0x69, 0x73, 0x20, 0x69, 0x73, 0x20, 0x6e, 0x6f, 0x74,
+	  0x20, 0x61, 0x20, 0x62, 0x6f, 0x6f, 0x74, 0x61, 0x62, 0x6c,
+	  0x65, 0x20, 0x64, 0x69, 0x73, 0x6b, 0x2e, 0x20, 0x20, 0x50,
+	  0x6c, 0x65, 0x61, 0x73, 0x65, 0x20, 0x69, 0x6e, 0x73, 0x65,
+	  0x72, 0x74, 0x20, 0x61, 0x20, 0x62, 0x6f, 0x6f, 0x74, 0x61,
+	  0x62, 0x6c, 0x65, 0x20, 0x66, 0x6c, 0x6f, 0x70, 0x70, 0x79,
+	  0x20, 0x61, 0x6e, 0x64, 0x0d, 0x0a, 0x70, 0x72, 0x65, 0x73,
+	  0x73, 0x20, 0x61, 0x6e, 0x79, 0x20, 0x6b, 0x65, 0x79, 0x20,
+	  0x74, 0x6f, 0x20, 0x74, 0x72, 0x79, 0x20, 0x61, 0x67, 0x61,
+	  0x69, 0x6e, 0x20, 0x2e, 0x2e, 0x2e, 0x20, 0x0d, 0x0a, 0x00 };
+
+int fatfs_partition(void *fdes) {
+	lbr_t lbr;
+	size_t num_sect;
+	uint16_t bytepersec, secperfat, rootentries;
+	fat_file_description_t *fd;
+
+	fd = (fat_file_description_t *) fdes;
+
+	memset ((void *)&lbr.jump, 0x00, SECTOR_SIZE); /* set all by ZERO */
+	lbr.jump[0] = 0xeb;
+	lbr.jump[1] = 0x3c;
+	lbr.jump[2] = 0x90;
+	memset ((void *)&lbr.oemid, 0x45, 0x08); /* EEEEEEEE */
+	bytepersec = SECTOR_SIZE;
+	lbr.bpb.bytepersec_l = (uint8_t)(bytepersec & 0xFF);
+	lbr.bpb.bytepersec_h = (uint8_t)((bytepersec & 0xFF00) >> 8);
+	lbr.bpb.secperclus = 0x04;
+	lbr.bpb.reserved_l = 0x01; /* reserved sectors */
+	lbr.bpb.numfats = 0x02;/* 2 FAT copy */
+	lbr.bpb.mediatype = 0xF8;
+	lbr.bpb.secpertrk_l = 0x3f;
+	lbr.bpb.heads_l = 0xff;
+	lbr.sig_55 = 0x55;
+	lbr.sig_aa = 0xAA;
+	memcpy(lbr.ebpb.ebpb.system + 8, bootcode, 130);
+
+	num_sect = block_dev(fd->fs->dev_id)->size / bytepersec;
+	if (0xFFFF > num_sect)	{
+		lbr.bpb.sectors_s_l = (uint8_t)(0x00000FF & num_sect);
+		lbr.bpb.sectors_s_h = (uint8_t)(0x00000FF & (num_sect >> 8));
+	}
+	else {
+		lbr.bpb.sectors_l_0 = (uint8_t)(0x00000FF & num_sect );
+		lbr.bpb.sectors_l_1 = (uint8_t)(0x00000FF & (num_sect >> 8));
+		lbr.bpb.sectors_l_2 = (uint8_t)(0x00000FF & (num_sect >> 16));
+		lbr.bpb.sectors_l_3 = (uint8_t)(0x00000FF & (num_sect >> 24));
+	}
+
+	secperfat = (uint16_t)(0xFFFF & (num_sect / bytepersec));
+	if(0 == secperfat) {
+		secperfat++;
+	}
+	lbr.bpb.secperfat_l = (uint8_t)(0x00FF & secperfat );
+	lbr.bpb.secperfat_h = (uint8_t)(0x00FF & (secperfat >> 8));
+	rootentries = 0x0200; /* 512 for FAT16 */
+	lbr.bpb.rootentries_l = (uint8_t)(0x00FF & rootentries );
+	lbr.bpb.rootentries_h = (uint8_t)(0x00FF & (rootentries >> 8));
+	lbr.ebpb.ebpb.signature = 0x29;
+	lbr.ebpb.ebpb.serial_0 = 0x81;
+	lbr.ebpb.ebpb.serial_1 = 0xdb;
+	lbr.ebpb.ebpb.serial_2 = 0xf7;
+	lbr.ebpb.ebpb.serial_3 = 0xbb;
+	strcpy ((void *)&lbr.ebpb.ebpb.label, LABEL);
+	strcpy ((void *)&lbr.ebpb.ebpb.system, SYSTEM);
+	memcpy ((void *)&sector_buff[0], (void *)&lbr, SECTOR_SIZE);
+
+	return fat_write_sector(fd, sector_buff, 0, 1);
+}
+
+
+const fs_drv_t *fatfs_get_fs(void) {
+    return &fatfs_drv;
+}
+
+/**
+ *	Get starting sector# of specified partition on drive #unit
+ *	NOTE: This code ASSUMES an MBR on the disk.
+ *	p_scratchsector should point to a SECTOR_SIZE scratch area
+ *	Returns 0xffffffff for any error.
+ *	If pactive is non-NULL, this function also returns partition active flag.
+ *	If pptype is non-NULL, this function also returns the partition type.
+ *	If psize is non-NULL, this function also returns the partition size.
+ */
+static uint32_t fat_get_ptn_start(void *fd,
+		uint8_t *p_scratchsector,	uint8_t pnum, uint8_t *pactive,
+		uint8_t *pptype, uint32_t *psize) {
+	uint32_t result;
+	p_mbr_t mbr = (p_mbr_t) p_scratchsector;
+
+	/* DOS ptable supports maximum 4 partitions */
+	if (pnum > 3) {
+		return DFS_ERRMISC;
+	}
+
+	/* Read MBR from target media */
+	if (fat_read_sector(fd, p_scratchsector, 0, 1)) {
+		return DFS_ERRMISC;
+	}
+	/* check if that a lbr */
+	if((mbr->bootcode[0] == 0xeb) &&
+	   (mbr->bootcode[1] == 0x3c) &&
+	   (mbr->bootcode[2] == 0x90)) {
+		return 0;
+=======
 		if (cluster & 1) {
 			result = result >> 4;
 		}
 		else {
 			result = result & 0xfff;
 		}
+>>>>>>> .merge-right.r7444
 	}
 	else if (volinfo->filesystem == FAT16) {
 		result = (uint32_t) p_scratch[offset] |
@@ -2107,10 +2304,18 @@ static size_t fatfs_fread(void *buf, size_t size, size_t count, void *file) {
 	size_to_read = size * count;
 	desc = (struct file_desc *) file;
 	fd = (fat_file_description_t *)desc->node->fd;
+<<<<<<< .working
+	if(0 > block_dev_read(fd->fs->dev_id, (char *) buffer, count * SECTOR_SIZE, sector)) {
+		return DFS_ERRMISC;
+	}
+	else {
+		return DFS_OK;
+=======
 
 	rezult = fat_read_file(fd, sector_buff, buf, &bytecount, size_to_read);
 	if (DFS_OK == rezult) {
 		return bytecount;
+>>>>>>> .merge-right.r7444
 	}
 	return rezult;
 }
@@ -2124,6 +2329,13 @@ static size_t fatfs_fwrite(const void *buf, size_t size,
 
 	size_to_write = size * count;
 	desc = (struct file_desc *) file;
+<<<<<<< .working
+	if(0 > block_dev_write(fd->fs->dev_id, (char *) buffer, count * SECTOR_SIZE, sector)) {
+		return DFS_ERRMISC;
+	}
+	else {
+		return DFS_OK;
+=======
 
 	fd = (fat_file_description_t *)desc->node->fd;
 
@@ -2131,6 +2343,7 @@ static size_t fatfs_fwrite(const void *buf, size_t size,
 			&bytecount, size_to_write);
 	if (DFS_OK == rezult) {
 		return bytecount;
+>>>>>>> .merge-right.r7444
 	}
 	return rezult;
 }
@@ -2262,7 +2475,14 @@ static int fatfs_create(void *par) {
 			if(NULL == (node = vfs_add_path (param->path, NULL))) {
 				return -ENOMEM;
 			}
+<<<<<<< .working
+			fd->fs = root_fd->fs;
+			node->fs_type = &fatfs_drv;
+			node->dev_id = root_node->dev_id;
+			node->fd = (void *)fd;
+=======
 		}
+>>>>>>> .merge-right.r7444
 
 		if(NULL == (fd = pool_alloc(&fat_file_pool))) {
 			return -ENOMEM;
@@ -2311,8 +2531,21 @@ static int fatfs_delete(const char *fname) {
 		pointnod = vfs_find_node(path, NULL);
 		vfs_del_leaf(pointnod);
 
+<<<<<<< .working
+			if(NULL == (node = vfs_add_path (full_path, NULL))) {
+				return -ENOMEM;
+			}
+			if(NULL == (fd = pool_alloc(&fat_file_pool))) {
+				return -ENOMEM;
+			}
+			fd->fs = parent_fd->fs;
+			node->fs_type = &fatfs_drv;
+			node->dev_id = parent_node->dev_id;
+			node->fd = (void *)fd;
+=======
 		path[strlen(path) - 3] = '\0';
 	}
+>>>>>>> .merge-right.r7444
 
 	/* remove the root name to give a name to fat filesystem name*/
 	cut_mount_dir(path, (char *) fd->fs->root_name);
