@@ -54,7 +54,7 @@ SECTIONS {
 	SECTION_SYMBOLS(reserve)
 
 
-		/* Sections to be discarded */
+	/* Sections to be discarded */
 	/DISCARD/ : {
 		*(.MIPS.options)
 		*(.options)
