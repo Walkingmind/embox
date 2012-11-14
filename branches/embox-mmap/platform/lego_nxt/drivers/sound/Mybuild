@@ -1,8 +1,0 @@
-
-package lego_nxt.driver 
-
-module nxt_sound {	
-    @IncludePath("$(PLATFORM_DIR)/lego_nxt/include")
-	source "sound.c"
-	depends embox.kernel.irq
-}
