@@ -18,21 +18,16 @@ export CONF_DIR       := $(ROOT_DIR)/conf
 export TEMPLATES_DIR  := $(ROOT_DIR)/templates
 
 export SRC_DIR        := $(ROOT_DIR)/src
-export THIRDPARTY_DIR := $(ROOT_DIR)/third-party
-export PLATFORM_DIR   := $(ROOT_DIR)/platform
 export DOC_DIR        := $(ROOT_DIR)/doc
 
-export BUILD_DIR      := $(ROOT_DIR)/build/base
+export BUILD_DIR      := $(ROOT_DIR)/build
 
 export BIN_DIR        := $(BUILD_DIR)/bin
 export OBJ_DIR        := $(BUILD_DIR)/obj
 export LIB_DIR        := $(BUILD_DIR)/lib
 export SRCGEN_DIR     := $(BUILD_DIR)/src-gen
-export MKGEN_DIR      := $(SRCGEN_DIR)
-export AUTOCONF_DIR   := $(SRCGEN_DIR)
-export ROOTFS_DIR     := $(OBJ_DIR)/rootfs
-export ROOTFS_IMAGE   := $(OBJ_DIR)/rootfs.cpio
-export USER_ROOTFS_DIR:= $(CONF_DIR)/rootfs
+export MKGEN_DIR      := $(BUILD_DIR)/mk-gen
+export AUTOCONF_DIR   := $(BUILD_DIR)/conf-gen
 export DOT_DIR        := $(DOC_DIR)
 export DOCS_OUT_DIR   := $(DOC_DIR)
 
