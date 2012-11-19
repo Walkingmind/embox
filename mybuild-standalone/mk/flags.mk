@@ -80,6 +80,7 @@ override CFLAGS += $(cflags)
 
 # Linker flags
 ldflags := $(LDFLAGS)
+override LDFLAGS =
 #override LDFLAGS  = -static -nostdlib
 override LDFLAGS += $(ldflags)
 

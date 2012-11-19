@@ -17,7 +17,7 @@ include mk/core/common.mk
 
 include $(MKGEN_DIR)/build.mk
 
-TARGET ?= embox$(if $(value PLATFORM),-$(PLATFORM))
+TARGET ?= app$(if $(value PLATFORM),-$(PLATFORM))
 TARGET := $(TARGET)$(if $(value LOCALVERSION),-$(LOCALVERSION))
 
 IMAGE       = $(BIN_DIR)/$(TARGET)
@@ -79,40 +79,7 @@ $(OBJ_DIR)/%.lds : $(ROOT_DIR)/%.lds.S | $$(@D)/.
 	$(CPP) -P -undef $(CPPFLAGS) $(flags) -imacros $(SRCGEN_DIR)/config.lds.h \
 		-MMD -MT $@ -MF $@.d -o $@ $<
 
-initfs_cp_prerequisites = $(common_prereqs) $(src_file) $(extra_prereqs)
-$(ROOTFS_DIR)/% : | $(ROOTFS_DIR)/.
-	@$(CP) -T $(src_file) $@
-$(ROOTFS_DIR)/. :
-	@$(MKDIR) $(@D)
-
 fmt_line = $(addprefix \$(\n)$(\t)$(\t),$1)
-
-initfs_prerequisites = $(common_prereqs) $(cpio_files) \
-	$(wildcard $(USER_ROOTFS_DIR) $(USER_ROOTFS_DIR)/*)
-$(ROOTFS_IMAGE) : rel_cpio_files = \
-		$(patsubst $(abspath $(ROOTFS_DIR))/%,%,$(abspath $(cpio_files)))
-$(ROOTFS_IMAGE) : | $$(@D)/. $(ROOTFS_DIR)/.
-$(ROOTFS_IMAGE) :
-	cd $(ROOTFS_DIR) \
-		&& find $(rel_cpio_files) -depth -print | cpio -L --quiet -H newc -o -O $(abspath $@)
-	if [ -d $(USER_ROOTFS_DIR) ]; \
-	then \
-		cd $(USER_ROOTFS_DIR) \
-			&& find * -depth -print | cpio -L --quiet -H newc -o --append -O $(abspath $@); \
-	fi
-	@FILES=`find $(cpio_files) $(USER_ROOTFS_DIR)/* -depth -print 2>/dev/null`; \
-	{                                            \
-		printf '$(ROOTFS_IMAGE):';               \
-		for dep in $$FILES;                      \
-			do printf ' \\\n\t%s' "$$dep"; done; \
-		printf '\n';                             \
-		for dep in $$FILES;                      \
-			do printf '\n%s:\n' "$$dep"; done;   \
-	} > $@.d
--include $(ROOTFS_IMAGE).d
-
-#XXX
-$(OBJ_DIR)/src/fs/driver/ramfs/ramfs_cpio.o : $(ROOTFS_IMAGE)
 
 ar_prerequisites    = $(common_prereqs) $(ar_objs)
 $(OBJ_DIR)/%.a : | $$(@D)/.
@@ -120,76 +87,25 @@ $(OBJ_DIR)/%.a : | $$(@D)/.
 
 # Here goes image creation rules...
 
-symbols_pass1_c = $(OBJ_DIR)/symbols_pass1.c
-symbols_pass2_c = $(OBJ_DIR)/symbols_pass2.c
-
-symbols_c_files = \
-	$(symbols_pass1_c) \
-	$(symbols_pass2_c)
-
-$(symbols_pass1_c) : image_o = $(image_nosymbols_o)
-$(symbols_pass2_c) : image_o = $(image_pass1_o)
-
-$(symbols_c_files) :
-$(symbols_c_files) : $$(common_prereqs_nomk) mk/script/nm2c.awk | $$(@D)/.
-$(symbols_c_files) : $$(image_o)
-	$(NM) -n $< | awk -f mk/script/nm2c.awk > $@
-
-symbols_pass1_a = $(OBJ_DIR)/symbols_pass1.a
-symbols_pass2_a = $(OBJ_DIR)/symbols_pass2.a
-
-symbols_a_files = \
-	$(symbols_pass1_a) \
-	$(symbols_pass2_a)
-
-$(symbols_a_files) : %.a : %.o
-	$(AR) $(ARFLAGS) $@ $<
-
-$(symbols_a_files:%.a=%.o) : flags :=
-
 # workaround to get VPATH and GPATH to work with an OBJ_DIR.
 $(shell $(MKDIR) $(OBJ_DIR) 2> /dev/null)
 GPATH := $(OBJ_DIR:$(ROOT_DIR)/%=%)
 VPATH += $(GPATH)
 
-image_nosymbols_o = $(OBJ_DIR)/image_nosymbols.o
-image_pass1_o = $(OBJ_DIR)/image_pass1.o
-
-image_files := $(IMAGE) $(image_nosymbols_o) $(image_pass1_o)
-
 __define_image_rules = $(eval $(value __image_rule))
-$(call __define_image_rules,$(image_files))
+$(call __define_image_rules,$(IMAGE))
 
 image_prerequisites = $(mk_file) \
 	$(ld_scripts) $(ld_objs) $(ld_libs)
 ifndef LD_SINGLE_T_OPTION
-$(image_files): ld_scripts_flag = $(ld_scripts:%=-T%)
+$(IMAGE): ld_scripts_flag = $(ld_scripts:%=-T%)
 else
-$(image_files): ld_scripts_flag = -T $(ld_scripts)
+$(IMAGE): ld_scripts_flag = -T $(ld_scripts)
 endif
-$(image_files): ldflags_all = $(LDFLAGS) $(call fmt_line,$(ld_scripts_flag))
+$(IMAGE): ldflags_all = $(LDFLAGS) $(call fmt_line,$(ld_scripts_flag))
 
-$(image_nosymbols_o): | $$(@D)/. $(dir $(IMAGE).map).
-	$(LD) --relocatable $(ldflags) \
-	$(call fmt_line,$(ld_objs)) \
-	$(call fmt_line,$(ld_libs)) \
-	--cref -Map $(IMAGE)_nosymbols.map \
-	-o $@
-
-$(image_pass1_o) : $(image_nosymbols_o) $(symbols_pass1_a) | $$(@D)/.
-	$(LD) --relax $(ldflags_all) \
-		$(image_nosymbols_o) \
-		$(symbols_pass1_a) \
-		$(call fmt_line,$(ld_libs)) \
-		--cref -Map $(IMAGE)_pass1.map \
-	-o $@
-
-$(IMAGE): $(image_nosymbols_o) $(symbols_pass2_a) | $$(@D)/.
-	$(LD) --relax $(ldflags_all) \
-		$(image_nosymbols_o) \
-		$(symbols_pass2_a) \
-		$(call fmt_line,$(ld_libs)) \
-		--cref -Map $(IMAGE).map \
+$(IMAGE): | $$(@D)/.
+	$(CC) $(ldflags_all) $(call fmt_line,$(ld_objs)) $(call fmt_line,$(ld_libs)) \
 	-o $@
 
 $(IMAGE_DIS): $(IMAGE)

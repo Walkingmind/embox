@@ -7,7 +7,7 @@
 # Author: Anton Kozlov
 #
 
-MYFILES_PATH := mk/ src/ platform/ third-party/
+MYFILES_PATH := mk/ src/
 MYFILES := \
 	$(shell find $(MYFILES_PATH) -depth \
 		\( -name Mybuild -o -name \*.my \) -print)
