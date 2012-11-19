@@ -23,6 +23,7 @@
         * [PlatformLegoNxtSound Sound]
       * [PlatformStm32Discovery STM32 Discovery]
       * [PlatformSecoQsevenOmap3 SECO Qseven-747/OMAP3]
+      * [PlatformBeagleBoardSd BeagleBoard]
     * [ArchMicroblaze Microblaze]
       * [SpartanDescription HW-SPAR3AN-SK-UNI-G Starter Kit]
       * [SimulationQemuMicroblaze QEMU Microblaze simulator]
