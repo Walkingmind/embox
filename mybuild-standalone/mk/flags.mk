@@ -36,19 +36,14 @@ endif
 
 # Preprocessor flags
 cppflags := $(CPPFLAGS)
-override CPPFLAGS  = -D__EMBOX__
-override CPPFLAGS += -D"__impl_x(path)=<../path>"
-override CPPFLAGS += -imacros $(AUTOCONF_DIR)/config.h
-override CPPFLAGS += -I$(SRC_DIR)/include -I$(SRC_DIR)/arch/$(ARCH)/include
-override CPPFLAGS += -I$(SRCGEN_DIR)/include -I$(SRCGEN_DIR)/src/include
-__srcgen_includes := $(addprefix $(SRCGEN_DIR)/src/,include arch/$(ARCH)/include)
+override CPPFLAGS += -I$(SRC_DIR)/include
+override CPPFLAGS += -I$(SRCGEN_DIR)/include
+
+__srcgen_includes := $(SRCGEN_DIR)/src/include
 $(and $(shell $(MKDIR) $(__srcgen_includes)),)
 override CPPFLAGS += $(__srcgen_includes:%=-I%)
-# XXX reduntand flags, agrrrr -- Eldar
-override CPPFLAGS += $(if $(value PLATFORM),-I$(PLATFORM_DIR)/$(PLATFORM)/include)
-override CPPFLAGS += -I$(SRC_DIR)/compat/linux/include -I$(SRC_DIR)/compat/posix/include
-override CPPFLAGS += -nostdinc
-override CPPFLAGS += -MMD -MP# -MT $@ -MF $(@:.o=.d)
+
+override CPPFLAGS += -MMD -MP
 override CPPFLAGS += $(cppflags)
 
 # Assembler flags
@@ -63,7 +58,7 @@ override CXXFLAGS += -fno-strict-aliasing -fno-common
 override CXXFLAGS += -Wall -Werror
 override CXXFLAGS += -Wundef -Wno-trigraphs -Wno-char-subscripts
 override CXXFLAGS += -Wformat -Wformat-nonliteral
-override CXXFLAGS += -I$(SRC_DIR)/include/c++
+#override CXXFLAGS += -I$(SRC_DIR)/include/c++
 override CXXFLAGS += -D"__BEGIN_DECLS=extern \"C\" {"
 override CXXFLAGS += -D"__END_DECLS=}"
 #	C++ has build-in type bool
@@ -85,7 +80,7 @@ override CFLAGS += $(cflags)
 
 # Linker flags
 ldflags := $(LDFLAGS)
-override LDFLAGS  = -static -nostdlib
+#override LDFLAGS  = -static -nostdlib
 override LDFLAGS += $(ldflags)
 
 override ARFLAGS = rcs
