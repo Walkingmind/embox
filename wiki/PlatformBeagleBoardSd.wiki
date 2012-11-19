@@ -1,0 +1,18 @@
+#summary Describe creating BeagleBoard bootable SD
+#labels Phase-Deploy,Phase-Support
+
+= Details =
+
+ * Build embox with arm/omap template
+ * Create uImage with scripts/omap-uboot-uimage like so
+{{{
+  user:~/embox$ ./scripts/omap-uboot-uimage
+}}}
+This will place `uImage` to embox root.
+ * Create SD with [http://embox.googlecode.com/files/embox-omap-sd.tar.gz this]  script like so 
+{{{
+  user:~/embox$ /path/to/embox-omap-sd/create-boot-sd /dev/sdb ./uImage
+}}}
+WARNING!!! It will destroy all /dev/sdb content! Make sure device argument points to SD card, that you want overwrite.
+
+Now you have bootable SD, plug it BeagleBoard and power it on.
