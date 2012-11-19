@@ -1,0 +1,9 @@
+package embox.mem
+
+module vmem {
+	source "vmem.c", "vmem_region.c", "vmem_alloc.c"
+
+	depends embox.arch.mmu
+	depends embox.mem.page_api
+	depends embox.mem.phymem
+}
