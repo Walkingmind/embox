@@ -15,6 +15,7 @@ MEMORY {
 SECTIONS {
 	.text : {
 		ALIGNMENT();
+		*(.trap_table.text)
 		*(.text)
 		*(.text.*)
 		ALIGNMENT();
