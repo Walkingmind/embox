@@ -1,4 +1,0 @@
-
-package mybuild.lang 
-
-annotation Unique { }

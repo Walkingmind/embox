@@ -1,8 +1,0 @@
-package mybuild.lang
-
-/*
- * Applied to a 'source' member of a module suppresses "File not found" error.
- */
-annotation Generated {
-	string script
-}
