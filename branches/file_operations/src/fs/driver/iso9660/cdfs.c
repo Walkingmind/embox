@@ -937,29 +937,25 @@ void cdfs_init(void) {
 
 
 /* File operations */
-static int    cdfsfs_open(struct node *node, struct file_desc *file_desc, int flags);
+static int    cdfsfs_open(struct node *node, struct file_desc *desk, int flags);
 static int    cdfsfs_close(struct file_desc *desc);
 static size_t cdfsfs_read(struct file_desc *desc, void *buf, size_t size, size_t count);
-static size_t cdfsfs_write(struct file_desc *desc, void *buf, size_t size, size_t count);
-static int    cdfsfs_octl(struct file_desc *desc, int request, va_list args);
-
-static int cdfsfs_fseek(void *file, long offset, int whence);
-static int cdfsfs_fstat(void *file, void *buff);
+static int    cdfsfs_ioctl(struct file_desc *desc, int request, va_list args);
 
 static struct kfile_operations cdfsfs_fop = {
-		cdfsfs_fopen,
-		cdfsfs_fclose,
-		cdfsfs_fread,
+		cdfsfs_open,
+		cdfsfs_close,
+		cdfsfs_read,
 		NULL,
 		cdfsfs_ioctl
 };
 
-static void *cdfsfs_fopen(struct node *node, struct file_desc *file_desc, int flags) {
+static int cdfsfs_open(struct node *node, struct file_desc *desc, int flags) {
 	node_t *nod;
 	char path [MAX_LENGTH_PATH_NAME];
 	cdfs_file_description_t *fi;
 
-	nod = file_desc->node;
+	nod = desc->node;
 	fi = (cdfs_file_description_t *)nod->fi;
 
 	fi->mode = flags;
@@ -969,12 +965,39 @@ static void *cdfsfs_fopen(struct node *node, struct file_desc *file_desc, int fl
 	path_cut_mount_dir(path, (char *) fi->fs->mntto);
 
 	if(0 == cdfs_open(fi, path)) {
-		return file_desc;
+		return 0;
 	}
-	return NULL;
+	return -1;
 }
 
-static int cdfsfs_fseek(void *file, long offset, int whence) {
+static int cdfsfs_close(struct file_desc *desc) {
+
+	return cdfs_close((cdfs_file_description_t *)desc->node->fi);
+}
+
+static size_t cdfsfs_read(struct file_desc *desc, void *buf, size_t size, size_t count) {
+	size_t size_to_read;
+	int rezult;
+	cdfs_file_description_t *fi;
+
+	size_to_read = size * count;
+	fi = (cdfs_file_description_t *)desc->node->fi;
+
+	//int cdfs_read(cdfs_file_description_t *filp, void *data, size_t size, off64_t pos);
+	rezult = cdfs_read(fi, (void *) buf, size_to_read, fi->pos);
+	fi->pos += rezult;
+
+	return rezult;
+}
+
+static int cdfsfs_ioctl(struct file_desc *desc, int request, va_list args) {
+	return 0;
+}
+
+/*
+static int cdfsfs_fseek(void *file, long offset, int whence);
+static int cdfsfs_fstat(void *file, void *buff);
+static int cdfsfs_seek(void *file, long offset, int whence) {
 	struct file_desc *desc;
 	cdfs_file_description_t *fi;
 
@@ -985,7 +1008,7 @@ static int cdfsfs_fseek(void *file, long offset, int whence) {
 	return 0;
 }
 
-static int cdfsfs_fstat(void *file, void *buff) {
+static int cdfsfs_stat(void *file, void *buff) {
 	struct file_desc *desc;
 	cdfs_file_description_t *fi;
 
@@ -995,32 +1018,7 @@ static int cdfsfs_fstat(void *file, void *buff) {
 	cdfs_fstat(fi, buff);
 	return 0;
 }
-
-static int cdfsfs_fclose(struct file_desc *desc) {
-
-	return cdfs_close((cdfs_file_description_t *)desc->node->fi);
-}
-
-static size_t cdfsfs_fread(void *cache, size_t size, size_t count, void *file) {
-	size_t size_to_read;
-	struct file_desc *desc;
-	int rezult;
-	cdfs_file_description_t *fi;
-
-	size_to_read = size * count;
-	desc = (struct file_desc *) file;
-	fi = (cdfs_file_description_t *)desc->node->fi;
-
-	//int cdfs_read(cdfs_file_description_t *filp, void *data, size_t size, off64_t pos);
-	rezult = cdfs_read(fi, (void *) cache, size_to_read, fi->pos);
-	fi->pos += rezult;
-
-	return rezult;
-}
-
-static int cdfsfs_ioctl(void *file, int request, va_list args) {
-	return 0;
-}
+*/
 
 /* File system operations*/
 

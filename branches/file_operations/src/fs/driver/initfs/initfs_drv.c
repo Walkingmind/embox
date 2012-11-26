@@ -35,7 +35,7 @@ static int ramfs_fclose(struct file_desc *desc);
 static size_t ramfs_fread(void *buf, size_t size, size_t count, void *file);
 static size_t ramfs_fwrite(const void *buf, size_t size, size_t count,
 		void *file);
-static int ramfs_fseek(void *file, long offset, int whence);
+
 static int ramfs_ioctl(void *file, int request, va_list args);
 
 static struct kfile_operations ramfs_fop = { ramfs_fopen, ramfs_fclose, ramfs_fread,
@@ -107,6 +107,8 @@ static size_t ramfs_fwrite(const void *buf, size_t size, size_t count,
 	return size_to_write;
 }
 
+/*
+static int ramfs_fseek(void *file, long offset, int whence);
 static int ramfs_fseek(void *file, long offset, int whence) {
 	struct file_desc *desc;
 	ramfs_file_info_t *fi;
@@ -135,12 +137,13 @@ static int ramfs_fseek(void *file, long offset, int whence) {
 	}
 
 	if (new_offset >= fi->size) {
-		return -1; /*Non-valid offset*/
+		return -1; //Non-valid offset
 	}
 
 	fi->cur_pointer = new_offset;
 	return 0;
 }
+*/
 
 static int ramfs_ioctl(void *file, int request, va_list ar) {
 	ramfs_file_info_t *fi;

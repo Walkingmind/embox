@@ -1356,76 +1356,6 @@ static uint32_t fat_read_file(void *fisc, uint8_t *p_scratch,
 	return result;
 }
 
-/*
- * Seek file pointer to a given position
- * This function does not return status - refer to the fi->pointer value
- * to see where the pointer wound up.
- * Requires a SECTOR_SIZE scratch buffer
- */
-static void fat_fseek(void *fisc, uint32_t offset, uint8_t *p_scratch) {
-	uint32_t tempint, clastersize;
-	fat_file_info_t *fi;
-
-	fi = (fat_file_info_t *) fisc;
-
-	/* Case 0a - Return immediately for degenerate case */
-	if (offset == fi->pointer) {
-		return;
-	}
-
-	/* Case 0b - Don't allow the user to seek past the end of the file */
-	if (offset > fi->filelen) {
-		offset = fi->filelen;
-		/* NOTE NO RETURN HERE! */
-	}
-
-	/*
-	 * Case 1 - Simple rewind to start
-	 * Note _intentional_ fallthrough from Case 0b above
-	 */
-	if (offset == 0) {
-		fi->cluster = fi->firstcluster;
-		fi->pointer = 0;
-		return;
-	}
-	/* Case 2 - Seeking backwards. Need to reset and seek forwards */
-	else if (offset < fi->pointer) {
-		fi->cluster = fi->firstcluster;
-		fi->pointer = 0;
-		/* NOTE NO RETURN HERE! */
-	}
-
-	clastersize = fi->volinfo->secperclus * SECTOR_SIZE;
-	if (div(fi->pointer, clastersize).quot ==
-			div(fi->pointer + offset, fi->volinfo->secperclus *
-					SECTOR_SIZE).quot) {
-		fi->pointer = offset;
-	}
-	/*Case 3b - Seeking across cluster boundary(ies) */
-	else {
-		/* round file pointer down to cluster boundary */
-		fi->pointer = div(fi->pointer,
-				clastersize).quot * clastersize;
-
-		/* seek by clusters */
-		while (div(fi->pointer, clastersize).quot !=
-				div(fi->pointer + offset,	clastersize).quot) {
-			fi->cluster = fat_get_fat_(fi, p_scratch,
-					&tempint, fi->cluster);
-			/* Abort if there was an error */
-			if (fi->cluster == 0x0ffffff7) {
-				fi->pointer = 0;
-				fi->cluster = fi->firstcluster;
-				return;
-			}
-			fi->pointer += SECTOR_SIZE * fi->volinfo->secperclus;
-			offset -= SECTOR_SIZE * fi->volinfo->secperclus;
-		}
-
-		/* since we know the cluster is right, we have no more work to do */
-		fi->pointer += offset;
-	}
-}
 
 /*
  * Delete a file
@@ -2075,6 +2005,7 @@ static int fatfs_open(struct node *node, struct file_desc *desc,  int flag) {
 /*
 static int fatfs_seek(void *file, long offset, int whence);
 static int fatfs_stat(void *file, void *buff);
+
 static int fatfs_seek(void *file, long offset, int whence) {
 	struct file_desc *desc;
 	fat_file_info_t *fi;
@@ -2126,6 +2057,78 @@ static int fatfs_stat(void *file, void *buff) {
 
 	return fi->filelen;
 }
+
+//
+ * Seek file pointer to a given position
+ * This function does not return status - refer to the fi->pointer value
+ * to see where the pointer wound up.
+ * Requires a SECTOR_SIZE scratch buffer
+
+static void fat_fseek(void *fisc, uint32_t offset, uint8_t *p_scratch) {
+	uint32_t tempint, clastersize;
+	fat_file_info_t *fi;
+
+	fi = (fat_file_info_t *) fisc;
+
+	// Case 0a - Return immediately for degenerate case
+	if (offset == fi->pointer) {
+		return;
+	}
+
+	// Case 0b - Don't allow the user to seek past the end of the file
+	if (offset > fi->filelen) {
+		offset = fi->filelen;
+		// NOTE NO RETURN HERE!
+	}
+
+	//
+	 * Case 1 - Simple rewind to start
+	 * Note _intentional_ fallthrough from Case 0b above
+
+	if (offset == 0) {
+		fi->cluster = fi->firstcluster;
+		fi->pointer = 0;
+		return;
+	}
+	// Case 2 - Seeking backwards. Need to reset and seek forwards
+	else if (offset < fi->pointer) {
+		fi->cluster = fi->firstcluster;
+		fi->pointer = 0;
+		// NOTE NO RETURN HERE!
+	}
+
+	clastersize = fi->volinfo->secperclus * SECTOR_SIZE;
+	if (div(fi->pointer, clastersize).quot ==
+			div(fi->pointer + offset, fi->volinfo->secperclus *
+					SECTOR_SIZE).quot) {
+		fi->pointer = offset;
+	}
+	//Case 3b - Seeking across cluster boundary(ies)
+	else {
+		// round file pointer down to cluster boundary
+		fi->pointer = div(fi->pointer,
+				clastersize).quot * clastersize;
+
+		// seek by clusters
+		while (div(fi->pointer, clastersize).quot !=
+				div(fi->pointer + offset,	clastersize).quot) {
+			fi->cluster = fat_get_fat_(fi, p_scratch,
+					&tempint, fi->cluster);
+			// Abort if there was an error
+			if (fi->cluster == 0x0ffffff7) {
+				fi->pointer = 0;
+				fi->cluster = fi->firstcluster;
+				return;
+			}
+			fi->pointer += SECTOR_SIZE * fi->volinfo->secperclus;
+			offset -= SECTOR_SIZE * fi->volinfo->secperclus;
+		}
+
+		// since we know the cluster is right, we have no more work to do
+		fi->pointer += offset;
+	}
+}
+
 */
 
 static int fatfs_close(struct file_desc *desc) {
