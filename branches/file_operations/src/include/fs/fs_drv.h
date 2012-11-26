@@ -58,18 +58,18 @@ extern fs_drv_t *alloc_fs_drivers(void);
  */
 extern void free_fs_drivers(fs_drv_t *);
 
-extern fs_drv_t *filesystem_find_drv(const char *name);
+extern fs_drv_t *fs_driver_find_drv(const char *name);
 
 /**
- * register a new filesystem
+ * register a new filesystem driver
  * @param fs the file system structure
  */
-extern int filesystem_register_drv(fs_drv_t *);
+extern int fs_driver_register_drv(fs_drv_t *);
 
 /**
- * unregister a file system
+ * unregister a file system driver
  * @param fs filesystem to unregister
  */
-extern int filesystem_unregister_drv(fs_drv_t *);
+extern int fs_driver_unregister_drv(fs_drv_t *);
 
 #endif /* FS_DRV_H_ */

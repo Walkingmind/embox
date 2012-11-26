@@ -133,7 +133,7 @@ static int mkfs_do_operation(size_t blocks, char *path, const char *fs_name,
 	if(operation_flag & MKFS_FORMAT_DEV) {
 		/* find filesystem driver by name */
 		if(NULL == (fs_drv =
-				filesystem_find_drv((const char *) fs_name))) {
+				fs_driver_find_drv((const char *) fs_name))) {
 			return -EINVAL;
 		}
 

@@ -45,7 +45,7 @@ static int mount_dev(char *dev, char *fs_type, char *dir) {
 	param.dev_node = dev_node;
 
 	if(0 != fs_type) {
-		drv = filesystem_find_drv((const char *) fs_type);
+		drv = fs_driver_find_drv((const char *) fs_type);
 		if(NULL == drv) {
 			return -EINVAL;
 		}

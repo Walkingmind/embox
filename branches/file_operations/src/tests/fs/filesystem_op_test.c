@@ -78,7 +78,7 @@ static int setup_suite(void) {
 
 	ramdisk_create((void *)&new_ramdisk);
 
-	fs_drv = filesystem_find_drv((const char *) new_ramdisk.fs_name);
+	fs_drv = fs_driver_find_drv((const char *) new_ramdisk.fs_name);
 
 	mount_param.dev = FS_DEV;
 	mount_param.dir = FS_DIR;

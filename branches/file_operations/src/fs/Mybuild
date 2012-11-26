@@ -2,7 +2,14 @@ package embox.fs
 
 module node {
 	source "node.c"
-	option number fnode_quantity=64
+	option number fnode_quantity=64	
+}
+
+module filesystem {
+	source "file_system.c"
+	option number fs_quantity=16
+	
+	depends embox.fs.driver.repo
 }
 
 module file_desc {

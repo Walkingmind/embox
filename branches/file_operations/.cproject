@@ -158,6 +158,7 @@
 			</target>
 			<target name="all" path="" targetID="org.eclipse.cdt.make.MakeTargetBuilder">
 				<buildCommand>make</buildCommand>
+				<buildArguments/>
 				<buildTarget>all</buildTarget>
 				<stopOnError>true</stopOnError>
 				<useDefaultCommand>false</useDefaultCommand>
@@ -261,12 +262,20 @@
 			</target>
 			<target name="config arm stm32_vl" path="" targetID="org.eclipse.cdt.make.MakeTargetBuilder">
 				<buildCommand>make</buildCommand>
-				<buildArguments/>
 				<buildTarget>confload-arm/stm32_vl</buildTarget>
+				<stopOnError>true</stopOnError>
+				<useDefaultCommand>false</useDefaultCommand>
+				<runAllBuilders>true</runAllBuilders>
+			</target>
+			<target name="block device, where is this file system" path="" targetID="org.eclipse.cdt.make.MakeTargetBuilder">
+				<buildCommand>block device, where is this file system</buildCommand>
+				<buildArguments>-d</buildArguments>
+				<buildTarget/>
 				<stopOnError>true</stopOnError>
 				<useDefaultCommand>false</useDefaultCommand>
 				<runAllBuilders>true</runAllBuilders>
 			</target>
 		</buildTargets>
 	</storageModule>
+	<storageModule moduleId="org.eclipse.cdt.core.LanguageSettingsProviders"/>
 </cproject>

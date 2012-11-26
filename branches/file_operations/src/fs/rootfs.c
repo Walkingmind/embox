@@ -32,7 +32,7 @@ static int rootfs_mount(void *par) {
 	mp = (mount_params_t *) par;
 
 	/* mount dev filesystem */
-	if (NULL != (fsdrv = filesystem_find_drv("devfs"))) {
+	if (NULL != (fsdrv = fs_driver_find_drv("devfs"))) {
 		fsdrv->fsop->mount(NULL);
 	}
 	/* looking for a device that will be mounted */
@@ -42,7 +42,7 @@ static int rootfs_mount(void *par) {
 		}
 	}
 	/* looking for a driver of root filesystem */
-	fsdrv = filesystem_find_drv(fs_type);
+	fsdrv = fs_driver_find_drv(fs_type);
 
 	/* mount root filesystem */
 	if (NULL != fsdrv) {

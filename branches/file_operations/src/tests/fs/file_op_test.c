@@ -114,7 +114,7 @@ static int setup_suite(void) {
 	}
 
 	if(NULL == (fs_drv =
-			filesystem_find_drv(FS_NAME))) {
+			fs_driver_find_drv(FS_NAME))) {
 		return -1;
 	}
 
