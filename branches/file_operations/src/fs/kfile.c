@@ -22,7 +22,7 @@
 struct file_desc *kopen(const char *path, int flag) {
 	node_t *nod;
 	fs_drv_t *drv;
-	struct kfile_desc *desc;
+	struct file_desc *desc;
 
 	if (NULL == (nod = vfs_find_node(path, NULL))) {
 		if ((O_WRONLY != flag) && (O_APPEND != flag)) {
@@ -61,18 +61,22 @@ struct file_desc *kopen(const char *path, int flag) {
 	assert(drv != NULL);
 
 	if (NULL != nod->node_info) {
-		desc->ops = (struct file_operations *)nod->node_info;
+		desc->ops = (struct kfile_operations *)nod->node_info;
 	} else {
-		desc->ops = (struct file_operations *)drv->file_op;
+		desc->ops = (struct kfile_operations *)drv->file_op;
 	}
 
 	if (NULL == desc->ops->open) {
+		//TODO free file_desc
 		errno = EBADF;
 		LOG_ERROR("fop->fopen is NULL handler\n");
 		return NULL;
 	}
-	return desc->ops->fopen(desc, flag);
-
+	if(0 < desc->ops->open(nod, desc, flag)) {
+		//TODO free file_desc
+		return NULL;
+	}
+	return desc;
 }
 
 size_t kwrite(const void *buf, size_t size, size_t count, struct file_desc *file) {
@@ -82,13 +86,13 @@ size_t kwrite(const void *buf, size_t size, size_t count, struct file_desc *file
 		return -1;
 	}
 
-	if (NULL == file->ops->fwrite) {
+	if (NULL == file->ops->write) {
 		errno = EBADF;
 		LOG_ERROR("fop->fwrite is NULL handler\n");
 		return -1;
 	}
 
-	return file->ops->fwrite(buf, size, count, file);
+	return file->ops->write(file, (void *)buf, size, count);
 }
 
 size_t kread(void *buf, size_t size, size_t count, struct file_desc *desc) {
@@ -98,13 +102,13 @@ size_t kread(void *buf, size_t size, size_t count, struct file_desc *desc) {
 		return -1;
 	}
 
-	if (NULL == desc->ops->fread) {
+	if (NULL == desc->ops->read) {
 		errno = EBADF;
 		LOG_ERROR("fop->fread is NULL handler\n");
 		return -1;
 	}
 
-	return desc->ops->fread(buf, size, count, desc);
+	return desc->ops->read(desc, buf, size, count);
 }
 
 
@@ -115,13 +119,13 @@ int kclose(struct file_desc *desc) {
 		return -1;
 	}
 
-	if (NULL == desc->ops->fclose) {
+	if (NULL == desc->ops->close) {
 		errno = EBADF;
 		LOG_ERROR("fop->fclose is NULL handler\n");
 		return -1;
 	}
 
-	desc->ops->fclose(desc);
+	desc->ops->close(desc);
 	file_desc_free(desc);
 
 	return 0;
@@ -133,7 +137,8 @@ int kseek(struct file_desc *desc, long int offset, int origin) {
 		errno = EBADF;
 		return -1;
 	}
-
+//FIXME now we wouldn't have special fseek function (it common for every file system)
+#if 0
 	if (NULL == desc->ops->fseek) {
 		errno = EBADF;
 		LOG_ERROR("fop->fseec is NULL handler\n");
@@ -141,6 +146,8 @@ int kseek(struct file_desc *desc, long int offset, int origin) {
 	}
 
 	return desc->ops->fseek(desc, offset, origin);
+#endif
+	return -1;
 }
 
 int kstat(struct file_desc *desc, void *buff) {
@@ -148,7 +155,8 @@ int kstat(struct file_desc *desc, void *buff) {
 		errno = EBADF;
 		return -1;
 	}
-
+	//FIXME now we wouldn't have special stat function (it common for every file system)
+#if 0
 	if (NULL == desc->ops->fstat) {
 		errno = EBADF;
 		LOG_ERROR("fop->fstat is NULL handler\n");
@@ -156,6 +164,8 @@ int kstat(struct file_desc *desc, void *buff) {
 	}
 
 	return desc->ops->fstat(desc->node->fi, buff); //FIXME Not much pretty -Anton Kozlov
+#endif
+	return -1;
 }
 
 int kioctl(struct file_desc *fp, int request, ...) {
