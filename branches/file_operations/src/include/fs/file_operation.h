@@ -12,6 +12,7 @@
 #include <types.h>
 #include <stdarg.h>
 
+#if 0
 struct file_desc;
 struct node;
 
@@ -32,5 +33,26 @@ typedef struct file_operations {
 	FILEOP_IOCTL ioctl;
 	FILEOP_FSTAT fstat;
 } file_operations_t;
+
+#endif
+
+struct node;
+struct file_desc;
+
+typedef int    (*kfile_op_open_ft)(struct node *node, struct file_desc *file_desc, int flags);
+typedef int    (*kfile_op_close_ft)(struct file_desc *desc);
+typedef size_t (*kfile_op_read_ft)(struct file_desc *desc, void *buf, size_t size, size_t count);
+typedef size_t (*kfile_op_write_ft)(struct file_desc *desc, void *buf, size_t size, size_t count);
+typedef int    (*kfile_op_ioctl_ft)(struct file_desc *desc, int request, va_list args);
+//typedef int    (*kfile_op_fstat_ft)(struct file_desc *desc, struct stat *buff);
+//typedef int    (*kfile_op_fseek_ft)(struct file_desc *desc, long offset, int whence);
+
+typedef struct kfile_operations {
+	kfile_op_open_ft  open;
+	kfile_op_close_ft close;
+	kfile_op_read_ft  read;
+	kfile_op_write_ft write;
+	kfile_op_ioctl_ft ioctl;
+} kfile_operations_t;
 
 #endif /* KERNEL_FILE_H_ */
