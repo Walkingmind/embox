@@ -17,7 +17,7 @@
 typedef int (* device_module_init_ft)(void);
 typedef struct device_module {
 	const char * name;
-	const struct file_operations *fops;
+	const struct kfile_operations *fops;
 	const device_module_init_ft init;
 } device_module_t;
 
