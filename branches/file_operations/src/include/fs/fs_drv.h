@@ -37,7 +37,7 @@ typedef struct fsop_desc {
  */
 typedef struct fs_drv {
 	const char                   *name;
-	const struct file_operations *file_op;
+	const struct kfile_operations *file_op;
 	const fsop_desc_t            *fsop;
 } fs_drv_t;
 

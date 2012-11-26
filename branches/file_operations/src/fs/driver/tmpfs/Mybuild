@@ -1,7 +1,7 @@
 package embox.fs.driver
 
 module tmpfs {
-	source "tmpfs.c"
+//	source "tmpfs.c"
 	option number tmpfs_inode_quantity=64
 	option number tmpfs_descriptor_quantity=4
 	option number tmpfs_file_size=32

@@ -1,7 +1,7 @@
 package embox.fs.driver
 
 module cdfs {
-	source "cdfs.c"
+//	source "cdfs.c"
 	option number inode_quantity=2048
 	option number cdfs_descriptor_quantity=2
 	

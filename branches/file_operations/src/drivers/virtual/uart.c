@@ -26,7 +26,7 @@ static struct uart_device *uart_dev_lookup(char *name) {
 	return uart_dev;
 }
 
-static void *dev_uart_open(struct node *node, struct file_desc *file_desc, int flags);
+static int dev_uart_open(struct node *node, struct file_desc *file_desc, int flags);
 static int dev_uart_close(struct file_desc *desc);
 static size_t dev_uart_read(struct file_desc *desc, void *buf, size_t size, size_t count);
 static size_t dev_uart_write(struct file_desc *desc, void *buf, size_t size, size_t count);
@@ -37,7 +37,7 @@ kfile_operations_t uart_dev_file_op = {
 	.close = dev_uart_close,
 	.read = dev_uart_read,
 	.write = dev_uart_write,
-	.octl = dev_uart_ioctl
+	.ioctl = dev_uart_ioctl
 };
 
 RING_BUFFER_DEF(dev_buff, int, 0x20);
@@ -62,12 +62,12 @@ static irq_return_t irq_handler(unsigned int irq_nr, void *data) {
 /*
  * file_operations
  */
-static void *dev_uart_open(struct node *node, struct file_desc *file_desc, int flags) {
+static int dev_uart_open(struct node *node, struct file_desc *desc, int flags) {
 	struct uart_device *uart_dev;
 	uart_dev = uart_dev_lookup((char *)node->name);
 
 	if(NULL == uart_dev || uart_dev->fops) {
-		return NULL;
+		return -1;
 	}
 
 	if(uart_dev->operations->setup) {
@@ -78,7 +78,7 @@ static void *dev_uart_open(struct node *node, struct file_desc *file_desc, int f
 
 	irq_attach(uart_dev->irq_num, irq_handler, 0, (void *)uart_dev, uart_dev->dev_name);
 
-	return (void *) desc;
+	return 0;
 }
 
 static int dev_uart_close(struct file_desc *desc) {
@@ -90,7 +90,7 @@ static int dev_uart_close(struct file_desc *desc) {
 	return 0;
 }
 
-static size_t dev_uart_read(struct file_desc *desc, void *buf, size_t size, size_t count) {
+static size_t dev_uart_read(struct file_desc *desc, void *buff, size_t size, size_t count) {
 	size_t cnt = count;
 
 	if(0 == ring_buff_get_cnt(&dev_buff)) {
@@ -117,8 +117,7 @@ static size_t dev_uart_read(struct file_desc *desc, void *buf, size_t size, size
 	return count - cnt;
 }
 
-static size_t dev_uart_write(struct file_desc *desc, void *buf, size_t size, size_t count) {
-	struct file_desc *desc = (struct file_desc *)file;
+static size_t dev_uart_write(struct file_desc *desc, void *buff, size_t size, size_t count) {
 	struct uart_device *uart_dev = uart_dev_lookup((char*)desc->node->name);
 	size_t cnt;
 	char *b;
