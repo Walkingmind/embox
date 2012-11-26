@@ -22,7 +22,7 @@
 struct file_desc *kopen(const char *path, int flag) {
 	node_t *nod;
 	fs_drv_t *drv;
-	struct file_desc *desc;
+	struct kfile_desc *desc;
 
 	if (NULL == (nod = vfs_find_node(path, NULL))) {
 		if ((O_WRONLY != flag) && (O_APPEND != flag)) {
@@ -66,7 +66,7 @@ struct file_desc *kopen(const char *path, int flag) {
 		desc->ops = (struct file_operations *)drv->file_op;
 	}
 
-	if (NULL == desc->ops->fopen) {
+	if (NULL == desc->ops->open) {
 		errno = EBADF;
 		LOG_ERROR("fop->fopen is NULL handler\n");
 		return NULL;

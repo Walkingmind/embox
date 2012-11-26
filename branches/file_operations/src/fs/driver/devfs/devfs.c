@@ -20,7 +20,7 @@ ARRAY_SPREAD_DEF(const block_dev_module_t, __block_dev_registry);
 
 static const fs_drv_t devfs_drv;
 
-static kfile_operations_t devfs_fop;
+static struct kfile_operations devfs_fop;
 
 const fs_drv_t *devfs_get_fs(void) {
     return &devfs_drv;
@@ -75,35 +75,38 @@ static int devfs_delete(const char *fname) {
 /*
  * file_operation
  */
-static int devfs_open(struct node *node, struct file_desc *desc, int flag) {
-	return desc->ops->open(node, desc, flag);
+static void *devfs_open(struct file_desc *desc, int flag) {
+	return desc->ops->fopen(desc, flag);
 }
 
 static int devfs_close(struct file_desc *desc) {
 	return 0;
 }
 
-static size_t devfs_read(struct file_desc *desc, void *buf, size_t size, size_t count) {
+static size_t devfs_read(void *buf, size_t size, size_t count, void *file) {
 	return 0;
 }
 
-static size_t devfs_write(struct file_desc *desc, void *buf, size_t size, size_t count) {
+static size_t devfs_write(const void *buf, size_t size, size_t count,
+		void *file) {
 	return 0;
 }
 
-static int devfs_ioctl(struct file_desc *desc, int request, va_list args) {
+static int devfs_ioctl(void *file, int request, va_list args) {
 	return 0;
 }
 
 static fsop_desc_t devfs_fsop = { devfs_init, devfs_format, devfs_mount,
 		devfs_create, devfs_delete};
 
-static kfile_operations_t devfs_fop = {
-       .open = devfs_open,
-       .close = devfs_close,
-       .read = devfs_read,
-       .write = devfs_write,
+static file_operations_t devfs_fop = {
+       .fopen = devfs_open,
+       .fclose = devfs_close,
+       .fread = devfs_read,
+       .fwrite = devfs_write,
+       .fseek =  NULL,
        .ioctl = devfs_ioctl,
+       .fstat = NULL
 };
 
 static const fs_drv_t devfs_drv = {

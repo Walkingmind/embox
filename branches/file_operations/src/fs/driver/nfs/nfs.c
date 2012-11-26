@@ -42,25 +42,30 @@ POOL_DEF (nfs_file_pool, struct nfs_file_info, OPTION_GET(NUMBER,inode_quantity)
 
 /* File operations */
 
-static void *nfsfs_fopen(struct file_desc *desc,  int flag);
-static int nfsfs_fclose(struct file_desc *desc);
-static size_t nfsfs_fread(void *buf, size_t size, size_t count, void *file);
-static size_t nfsfs_fwrite(const void *buf, size_t size, size_t count,
-		void *file);
-static int nfsfs_fseek(void *file, long offset, int whence);
-static int nfsfs_ioctl(void *file, int request, va_list args);
+static int    nfsfs_open(struct node *node, struct file_desc *file_desc, int flags);
+static int    nfsfs_close(struct file_desc *desc);
+static size_t nfsfs_read(struct file_desc *desc, void *buf, size_t size, size_t count);
+static size_t nfsfs_write(struct file_desc *desc, void *buf, size_t size, size_t count);
+static int    nfsfs_octl(struct file_desc *desc, int request, va_list args);
 
-static file_operations_t nfsfs_fop = { nfsfs_fopen, nfsfs_fclose, nfsfs_fread,
-		nfsfs_fwrite, nfsfs_fseek, nfsfs_ioctl, NULL };
+static int nfsfs_fseek(void *file, long offset, int whence);
+
+static struct kfile_operations nfsfs_fop = {
+		nfsfs_fopen,
+		nfsfs_fclose,
+		nfsfs_fread,
+		nfsfs_fwrite,
+		nfsfs_ioctl
+};
 /*
  * file_operation
  */
-static void *nfsfs_fopen(struct file_desc *desc, int flag) {
+static void *nfsfs_fopen(struct node *node, struct file_desc *file_desc, int flags) {
 
 	node_t *nod;
 	nfs_file_info_t *fi;
 
-	nod = desc->node;
+	nod = file_desc->node;
 	fi = (nfs_file_info_t *)nod->fi;
 
 	/*if ('r' == *mode) {
@@ -72,11 +77,11 @@ static void *nfsfs_fopen(struct file_desc *desc, int flag) {
 	else {
 		fi->mode = O_RDONLY;
 	}*/
-	fi->mode = flag;
+	fi->mode = flags;
 	fi->offset = 0;
 
 	if(0 == nfs_lookup(nod, fi)) {
-		return desc;
+		return file_desc;
 	}
 	return NULL;
 }

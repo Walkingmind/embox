@@ -38,8 +38,8 @@ static size_t ramfs_fwrite(const void *buf, size_t size, size_t count,
 static int ramfs_fseek(void *file, long offset, int whence);
 static int ramfs_ioctl(void *file, int request, va_list args);
 
-static file_operations_t ramfs_fop = { ramfs_fopen, ramfs_fclose, ramfs_fread,
-		ramfs_fwrite, ramfs_fseek, ramfs_ioctl, NULL };
+static struct kfile_operations ramfs_fop = { ramfs_fopen, ramfs_fclose, ramfs_fread,
+		ramfs_fwrite,  ramfs_ioctl };
 
 static void *ramfs_fopen(struct file_desc *desc, int flag) {
 	node_t *nod;

@@ -937,35 +937,39 @@ void cdfs_init(void) {
 
 
 /* File operations */
-static void *cdfsfs_fopen(struct file_desc *desc,  int flag);
-static int cdfsfs_fclose(struct file_desc *desc);
-static size_t cdfsfs_fread(void *cache, size_t size, size_t count, void *file);
+static int    cdfsfs_open(struct node *node, struct file_desc *file_desc, int flags);
+static int    cdfsfs_close(struct file_desc *desc);
+static size_t cdfsfs_read(struct file_desc *desc, void *buf, size_t size, size_t count);
+static size_t cdfsfs_write(struct file_desc *desc, void *buf, size_t size, size_t count);
+static int    cdfsfs_octl(struct file_desc *desc, int request, va_list args);
+
 static int cdfsfs_fseek(void *file, long offset, int whence);
-static int cdfsfs_ioctl(void *file, int request, va_list args);
 static int cdfsfs_fstat(void *file, void *buff);
 
+static struct kfile_operations cdfsfs_fop = {
+		cdfsfs_fopen,
+		cdfsfs_fclose,
+		cdfsfs_fread,
+		NULL,
+		cdfsfs_ioctl
+};
 
-static file_operations_t cdfsfs_fop = { cdfsfs_fopen, cdfsfs_fclose, cdfsfs_fread,
-		NULL, cdfsfs_fseek, cdfsfs_ioctl, cdfsfs_fstat };
-
-
-
-static void *cdfsfs_fopen(struct file_desc *desc, int flag) {
+static void *cdfsfs_fopen(struct node *node, struct file_desc *file_desc, int flags) {
 	node_t *nod;
 	char path [MAX_LENGTH_PATH_NAME];
 	cdfs_file_description_t *fi;
 
-	nod = desc->node;
+	nod = file_desc->node;
 	fi = (cdfs_file_description_t *)nod->fi;
 
-	fi->mode = flag;
+	fi->mode = flags;
 
 	vfs_get_path_by_node(nod, path);
 	/* set relative path in this file system */
 	path_cut_mount_dir(path, (char *) fi->fs->mntto);
 
 	if(0 == cdfs_open(fi, path)) {
-		return desc;
+		return file_desc;
 	}
 	return NULL;
 }

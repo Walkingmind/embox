@@ -2024,22 +2024,18 @@ static int fat_create_dir_entry(char *dir_name) {
 }
 
 /* File operations */
+static int    fatfs_open(struct node *node, struct file_desc *file_desc, int flags);
+static int    fatfs_close(struct file_desc *desc);
+static size_t fatfs_read(struct file_desc *desc, void *buf, size_t size, size_t count);
+static size_t fatfs_write(struct file_desc *desc, void *buf, size_t size, size_t count);
+static int    fatfs_ioctl(struct file_desc *desc, int request, va_list args);
 
-static void *fatfs_fopen(struct file_desc *desc,  int flag);
-static int fatfs_fclose(struct file_desc *desc);
-static size_t fatfs_fread(void *buf, size_t size, size_t count, void *file);
-static size_t fatfs_fwrite(const void *buf, size_t size, size_t count,
-		void *file);
-static int fatfs_fseek(void *file, long offset, int whence);
-static int fatfs_ioctl(void *file, int request, va_list args);
-static int fatfs_fstat(void *file, void *buff);
-
-static file_operations_t fatfs_fop = { fatfs_fopen, fatfs_fclose, fatfs_fread,
-		fatfs_fwrite, fatfs_fseek, fatfs_ioctl, fatfs_fstat };
+static struct kfile_operations fatfs_fop = { fatfs_open, fatfs_close, fatfs_read,
+		fatfs_write, fatfs_ioctl };
 /*
  * file_operation
  */
-static void *fatfs_fopen(struct file_desc *desc,  int flag) {
+static int fatfs_open(struct node *node, struct file_desc *desc,  int flag) {
 	node_t *nod;
 	int _mode;
 	uint8_t path [MAX_LENGTH_PATH_NAME];
@@ -2071,12 +2067,15 @@ static void *fatfs_fopen(struct file_desc *desc,  int flag) {
 		if(_mode & O_WRONLY) {
 			fi->filelen = 0;
 		}
-		return desc;
+		return 0;
 	}
-	return NULL;
+	return -1;
 }
 
-static int fatfs_fseek(void *file, long offset, int whence) {
+/*
+static int fatfs_seek(void *file, long offset, int whence);
+static int fatfs_stat(void *file, void *buff);
+static int fatfs_seek(void *file, long offset, int whence) {
 	struct file_desc *desc;
 	fat_file_info_t *fi;
 	uint32_t curr_offset;
@@ -2103,52 +2102,7 @@ static int fatfs_fseek(void *file, long offset, int whence) {
 	return 0;
 }
 
-static int fatfs_fclose(struct file_desc *desc) {
-	return 0;
-}
-
-static size_t fatfs_fread(void *buf, size_t size, size_t count, void *file) {
-	size_t size_to_read;
-	struct file_desc *desc;
-	size_t rezult;
-	fat_file_info_t *fi;
-
-	size_to_read = size * count;
-	desc = (struct file_desc *) file;
-	fi = (fat_file_info_t *)desc->node->fi;
-
-	rezult = fat_read_file(fi, sector_buff, buf, &bytecount, size_to_read);
-	if (DFS_OK == rezult) {
-		return bytecount;
-	}
-	return rezult;
-}
-
-static size_t fatfs_fwrite(const void *buf, size_t size,
-	size_t count, void *file) {
-	size_t size_to_write;
-	struct file_desc *desc;
-	size_t rezult;
-	fat_file_info_t *fi;
-
-	size_to_write = size * count;
-	desc = (struct file_desc *) file;
-
-	fi = (fat_file_info_t *)desc->node->fi;
-
-	rezult = fat_write_file(fi, sector_buff, (uint8_t *)buf,
-			&bytecount, size_to_write);
-	if (DFS_OK == rezult) {
-		return bytecount;
-	}
-	return rezult;
-}
-
-static int fatfs_ioctl(void *file, int request, va_list args) {
-	return 0;
-}
-
-static int fatfs_fstat(void *file, void *buff) {
+static int fatfs_stat(void *file, void *buff) {
 	struct file_desc *desc;
 	fat_file_info_t *fi;
 	stat_t *buffer;
@@ -2171,6 +2125,47 @@ static int fatfs_fstat(void *file, void *buff) {
 		}
 
 	return fi->filelen;
+}
+*/
+
+static int fatfs_close(struct file_desc *desc) {
+	return 0;
+}
+
+static size_t fatfs_read(struct file_desc *desc, void *buf, size_t size, size_t count) {
+	size_t size_to_read;
+	size_t rezult;
+	fat_file_info_t *fi;
+
+	size_to_read = size * count;
+	fi = (fat_file_info_t *)desc->node->fi;
+
+	rezult = fat_read_file(fi, sector_buff, buf, &bytecount, size_to_read);
+	if (DFS_OK == rezult) {
+		return bytecount;
+	}
+	return rezult;
+}
+
+static size_t fatfs_write(struct file_desc *desc, void *buf, size_t size, size_t count) {
+	size_t size_to_write;
+	size_t rezult;
+	fat_file_info_t *fi;
+
+	size_to_write = size * count;
+
+	fi = (fat_file_info_t *)desc->node->fi;
+
+	rezult = fat_write_file(fi, sector_buff, (uint8_t *)buf,
+			&bytecount, size_to_write);
+	if (DFS_OK == rezult) {
+		return bytecount;
+	}
+	return rezult;
+}
+
+static int fatfs_ioctl(struct file_desc *desc, int request, va_list args) {
+	return 0;
 }
 
 static int fat_mount_files (void *dir_node);

@@ -59,23 +59,22 @@ static fsop_desc_t tmpfs_fsop = {
 		tmpfs_delete
 };
 
-static void *tmpfs_fopen(struct file_desc *desc, int flag);
-static int tmpfs_fclose(struct file_desc *desc);
-static size_t tmpfs_fread(void *buf, size_t size, size_t count, void *file);
-static size_t tmpfs_fwrite(const void *buf, size_t size,
-	size_t count, void *file);
+static int    tmpfs_open(struct node *node, struct file_desc *file_desc, int flags);
+static int    tmpfs_close(struct file_desc *desc);
+static size_t tmpfs_read(struct file_desc *desc, void *buf, size_t size, size_t count);
+static size_t tmpfs_write(struct file_desc *desc, void *buf, size_t size, size_t count);
+static int    tmpfs_octl(struct file_desc *desc, int request, va_list args);
+
+
 static int tmpfs_fseek(void *file, long offset, int whence);
-static int tmpfs_ioctl(void *file, int request, va_list args);
 static int tmpfs_fstat(void *file, void *buff);
 
-static file_operations_t tmpfs_fop = {
+static struct kfile_operations tmpfs_fop = {
 		tmpfs_fopen,
 		tmpfs_fclose,
 		tmpfs_fread,
 		tmpfs_fwrite,
-		tmpfs_fseek,
-		tmpfs_ioctl,
-		tmpfs_fstat
+		tmpfs_ioctl
 };
 
 static fs_drv_t tmpfs_drv = {
