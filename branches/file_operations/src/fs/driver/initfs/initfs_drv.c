@@ -30,18 +30,16 @@ POOL_DEF (fdesc_pool, struct _ramfs_file_info,
 
 /* File operations */
 
-static void *ramfs_fopen(struct file_desc *desc, int flag);
-static int ramfs_fclose(struct file_desc *desc);
-static size_t ramfs_fread(void *buf, size_t size, size_t count, void *file);
-static size_t ramfs_fwrite(const void *buf, size_t size, size_t count,
-		void *file);
+static int    ramfs_open(struct node *node, struct file_desc *desk, int flags);
+static int    ramfs_close(struct file_desc *desc);
+static size_t ramfs_read(struct file_desc *desc, void *buf, size_t size, size_t count);
+static size_t ramfs_write(struct file_desc *desc, void *buf, size_t size, size_t count);
+static int    ramfs_ioctl(struct file_desc *desc, int request, va_list args);
 
-static int ramfs_ioctl(void *file, int request, va_list args);
+static struct kfile_operations ramfs_fop = { ramfs_open, ramfs_close, ramfs_read,
+		ramfs_write,  ramfs_ioctl };
 
-static struct kfile_operations ramfs_fop = { ramfs_fopen, ramfs_fclose, ramfs_fread,
-		ramfs_fwrite,  ramfs_ioctl };
-
-static void *ramfs_fopen(struct file_desc *desc, int flag) {
+static int ramfs_open(struct node *node, struct file_desc *desc, int flags) {
 	node_t *nod;
 	ramfs_file_info_t *fi;
 
@@ -50,10 +48,10 @@ static void *ramfs_fopen(struct file_desc *desc, int flag) {
 	fi = (ramfs_file_info_t*) nod->fi;
 	fi->cur_pointer = 0;
 	fi->lock = 1;
-	return desc;
+	return 0;
 }
 
-static int ramfs_fclose(struct file_desc *desc) {
+static int ramfs_close(struct file_desc *desc) {
 //	ramfs_file_info_t *fi;
 
 //	node_t *nod = (node_t *) file;
@@ -62,13 +60,11 @@ static int ramfs_fclose(struct file_desc *desc) {
 	return 0;
 }
 
-static size_t ramfs_fread(void *buf, size_t size, size_t count, void *file) {
+static size_t ramfs_read(struct file_desc *desc, void *buf, size_t size, size_t count) {
 	ramfs_file_info_t *fi;
-	struct file_desc *desc;
 	size_t size_to_read;
 
 	size_to_read = size * count;
-	desc = (struct file_desc *) file;
 	fi = (ramfs_file_info_t*) desc->node->fi;
 
 	if (fi == NULL) {
@@ -85,12 +81,11 @@ static size_t ramfs_fread(void *buf, size_t size, size_t count, void *file) {
 	return size_to_read / size; /* number of item not characters */
 }
 
-static size_t ramfs_fwrite(const void *buf, size_t size, size_t count,
-		void *file) {
+static size_t ramfs_write(struct file_desc *desc, void *buf, size_t size, size_t count) {
 	ramfs_file_info_t *fi;
 	node_t *nod;
 	size_t size_to_write = size * count;
-	nod = (node_t *) file;
+	nod = (node_t *) desc->node;
 	fi = (ramfs_file_info_t*) nod->fi;
 
 	if (fi == NULL) {
@@ -145,16 +140,16 @@ static int ramfs_fseek(void *file, long offset, int whence) {
 }
 */
 
-static int ramfs_ioctl(void *file, int request, va_list ar) {
+static int ramfs_ioctl(struct file_desc *desc, int request, va_list arg) {
 	ramfs_file_info_t *fi;
 	node_t *nod;
 	uint32_t *addr;
 	va_list args;
 	//TODO: switch through "request" ID.
-	va_copy(args, ar);
+	va_copy(args, arg);
 	addr = (uint32_t *) va_arg(args, unsigned long);
 	va_end(args);
-	nod = (node_t *) file;
+	nod = (node_t *) desc->node;
 	fi = (ramfs_file_info_t*) nod->fi;
 	*addr = fi->start_addr;
 	return 0;

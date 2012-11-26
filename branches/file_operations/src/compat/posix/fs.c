@@ -158,18 +158,18 @@ int rmdir(const char *pathname) {
 
 	return drv->fsop->delete_file (pathname);
 }
-/*
+
 int stat(const char *path, stat_t *buf) {
 	return lstat(path, buf);
 }
 
 int lstat(const char *path, stat_t *buf) {
-	node_t *node;
-	fs_drv_t *drv;
+	//node_t *node;
+	//fs_drv_t *drv;
 
-	node = vfs_find_node(path, NULL);
-	drv = node->fs_type;
+	//node = vfs_find_node(path, NULL);
+	//drv = node->fs_type;
 
-	return drv->file_op->fstat (node->fi, buf);
+	return 0;//drv->file_op->fstat (node->fi, buf);
 }
-*/
+

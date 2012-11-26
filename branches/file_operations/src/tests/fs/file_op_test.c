@@ -43,7 +43,7 @@ TEST_CASE("Write file") {
 	int file;
 
 	test_assert(0 <=  (file = open(FS_FILE1, O_WRONLY)));
-	test_assert_zero(lseek(file, 0, SEEK_END));
+	//test_assert_zero(lseek(file, 0, SEEK_END));
 	test_assert(0 < write(file, FS_TESTDATA, strlen(FS_TESTDATA)));
 	test_assert_zero(close(file));
 }
@@ -56,7 +56,7 @@ TEST_CASE("Copy file") {
 
 	test_assert(0 <=  (src_file = open(FS_FILE1, O_RDONLY)));
 	test_assert(0 <=  (dst_file = open(FS_FILE2, O_WRONLY)));
-	test_assert_zero(lseek(dst_file, 0, SEEK_SET));
+	//test_assert_zero(lseek(dst_file, 0, SEEK_SET));
 
 	bytesread = 0;
 	while (1) {
@@ -76,7 +76,7 @@ TEST_CASE("Read file") {
 	char buf[PAGE_SIZE()];
 
 	test_assert(0 <=  (file = open(FS_FILE2, O_RDONLY)));
-	test_assert_zero(lseek(file, 0, SEEK_SET));
+	//test_assert_zero(lseek(file, 0, SEEK_SET));
 
 	test_assert(0 <= read(file, buf, PAGE_SIZE()));
 	test_assert_zero(strcmp(FS_TESTDATA, buf));
@@ -84,6 +84,7 @@ TEST_CASE("Read file") {
 	test_assert_zero(close(file));
 }
 
+/*
 TEST_CASE("stat and fstat should return same stats") {
 	struct stat st, fst;
 	int fd;
@@ -98,6 +99,7 @@ TEST_CASE("stat and fstat should return same stats") {
 
 	close(fd);
 }
+*/
 
 static int setup_suite(void) {
 	fs_drv_t *fs_drv;
