@@ -1,0 +1,39 @@
+package embox.fs
+
+module node {
+	source "node.c"
+	option number fnode_quantity=64
+}
+
+module file_desc {
+	source "file_desc.c"
+	option number fdesc_quantity=32
+}
+
+module core {
+	source "vfs.c", "kfile.c", "path.c"
+
+	option number file_name_length=32
+	option number path_length=256
+
+	depends embox.compat.posix.fs
+	depends file_desc, node
+	depends embox.fs.driver.repo	
+}
+
+module posix_compat {
+	@IncludePath("$(SRC_DIR)/compat/posix/include")
+	source "posix_compat.c"
+	depends core
+	depends embox.kernel.task.idx_table
+}
+	
+module rootfs {
+	source "rootfs.c"
+	option string fstype = "ramfs"
+	option string src = ""
+	option string dst = "/"
+	option string mntscript = ""
+	depends node, driver.repo
+	depends embox.mem.heap_bm
+}
