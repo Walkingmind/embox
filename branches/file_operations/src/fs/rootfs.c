@@ -41,12 +41,11 @@ static int rootfs_mount(void *par) {
 			return -ENODEV;
 		}
 	}
-	/* looking for a driver of root filesystem */
+	/* looking for a driver of root file system */
 	fsdrv = fs_driver_find_drv(fs_type);
 
-	/* mount root filesystem */
+	/* mount root file system */
 	if (NULL != fsdrv) {
-
 		root_node->fs = alloc_filesystem(fs_type);
 		return fsdrv->fsop->mount(mp);
 	}

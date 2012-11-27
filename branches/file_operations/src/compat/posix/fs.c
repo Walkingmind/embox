@@ -59,7 +59,7 @@ node_t *create_filechain(const char *path, uint8_t node_type){
 		new_node->fs->drv = node->fs->drv;
 		new_node->properties = NODE_TYPE_DIRECTORY;
 		if ((LAST_IN_PATH == count_dir) && (NODE_TYPE_FILE == node_type)) {
-			new_node->properties &= ~NODE_TYPE_DIRECTORY;
+			new_node->properties = NODE_TYPE_FILE;
 		}
 
 		param.node = (void *) new_node;

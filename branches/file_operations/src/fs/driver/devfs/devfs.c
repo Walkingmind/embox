@@ -34,29 +34,26 @@ static int devfs_format(void *par) {
 	return 0;
 }
 
+
 static int devfs_mount(void *par) {
-	node_t *nod, *devnod;
+	struct node *nod;
 	size_t i;
 
-	if (NULL == (nod = vfs_find_node("/dev", NULL))) {
-		if (NULL == (nod = vfs_add_path("/dev", NULL))) {
-			return 0;
-		}
+	if (NULL != (nod = vfs_find_node("/dev", NULL))) {
+		/* we already initialized devfs */
+		return 0;
+	}
+
+	if (NULL == (nod = vfs_add_path("/dev", NULL))) {
+		return -1;
 	}
 	nod->properties = NODE_TYPE_DIRECTORY;
+	nod->nas = NULL; /* this is virtual folder to add folder or file we just add node */
+
 
 	for (i = 0; i < ARRAY_SPREAD_SIZE(__device_registry); i++) {
-		if (NULL != (devnod = vfs_add_path(__device_registry[i].name, nod))) {
-			if(NULL != __device_registry[i].init) {
-				__device_registry[i].init();
-			}
-
-			if(NULL == (devnod->fs = alloc_filesystem("empty"))) {
-				return -1;
-			}
-			devnod->fs->drv = (fs_drv_t *) &devfs_drv;
-			devnod->fs->drv->file_op =  __device_registry[i].fops;
-			//devnod->node_info = (void*) __device_registry[i].fops;
+		if(NULL != __device_registry[i].init) {
+			__device_registry[i].init();
 		}
 	}
 

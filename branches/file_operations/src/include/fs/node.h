@@ -21,7 +21,7 @@
 
 
 
-#define NODE_TYPE_FILE       0x00
+#define NODE_TYPE_FILE       0x01
 #define NODE_TYPE_DIRECTORY  0x10
 #define NODE_TYPE_SPECIAL    0x20
 
@@ -53,6 +53,10 @@ static inline int node_is_block_dev(struct node *node) {
 
 static inline int node_is_directory(struct node *node) {
 	return node->properties & NODE_TYPE_DIRECTORY;
+}
+
+static inline int node_is_file(struct node *node) {
+	return node->properties & NODE_TYPE_FILE;
 }
 
 #endif /* FS_NODE_H_ */

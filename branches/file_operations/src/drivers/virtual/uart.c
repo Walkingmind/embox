@@ -5,11 +5,13 @@
  * @author: Anton Bondarev
  */
 #include <types.h>
+#include <string.h>
 
 #include <util/ring_buff.h>
 
 #include <fs/file_desc.h>
 #include <fs/node.h>
+#include <fs/vfs.h>
 #include <fs/file_operation.h>
 
 #include <drivers/uart_device.h>
@@ -136,6 +138,25 @@ static int dev_uart_ioctl(struct file_desc *desc, int request, va_list args) {
 }
 
 int uart_dev_register(struct uart_device *dev) {
+	struct node *nod, *devnod;
+
+	//TODO tmp (we can have only one device)
 	uart_dev = dev;
+
+	/* register char device */
+	if (NULL == (nod = vfs_find_node("/dev", NULL))) {
+		return -1;
+	}
+	if (NULL == (devnod = vfs_add_path(dev->dev_name, nod))) {
+		return -1;
+	}
+
+	if(NULL == (devnod->fs = alloc_filesystem("empty"))) {
+		return -1;
+	}
+	//strncpy((char*)devnod->name, dev->dev_name, sizeof(devnod->name) - 1);
+
+	devnod->fs->file_op = &uart_dev_file_op;
+
 	return 0;
 }

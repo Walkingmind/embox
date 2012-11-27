@@ -2,4 +2,5 @@ package embox.fs.driver
 
 module devfs {
 	source "devfs.c"
+	depends embox.fs.rootfs
 }

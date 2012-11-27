@@ -17,12 +17,6 @@
 
 POOL_DEF(filesystem_pool, struct filesystem, OPTION_GET(NUMBER,fs_quantity));
 
-EMBOX_UNIT_INIT(filesystem_init);
-
-static int filesystem_init(void) {
-	return 0;
-}
-
 struct filesystem *alloc_filesystem(const char *drv_name) {
 	struct filesystem *fs;
 

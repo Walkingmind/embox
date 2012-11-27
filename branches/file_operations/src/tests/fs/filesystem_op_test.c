@@ -71,6 +71,7 @@ TEST_CASE("Delete file") {
 static int setup_suite(void) {
 	static ramdisk_create_params_t new_ramdisk;
 
+
 	new_ramdisk.size = FS_BLOCKS * PAGE_SIZE();
 	new_ramdisk.fs_type = FS_TYPE;
 
@@ -80,6 +81,7 @@ static int setup_suite(void) {
 	ramdisk_create((void *)&new_ramdisk);
 
 	fs_drv = fs_driver_find_drv((const char *) new_ramdisk.fs_name);
+	test_assert_not_null(fs_drv);
 
 	mount_param.dev = FS_DEV;
 	mount_param.dir = FS_DIR;
@@ -89,10 +91,7 @@ static int setup_suite(void) {
 }
 
 static int teardown_suite(void) {
-
-	if(ramdisk_delete(FS_DEV)) {
-		return -1;
-	}
+	test_assert_zero(ramdisk_delete(FS_DEV));
 
 	return 0;
 }
