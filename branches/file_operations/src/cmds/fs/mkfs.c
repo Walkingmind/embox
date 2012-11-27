@@ -14,13 +14,16 @@
 #include <stdlib.h>
 #include <string.h>
 #include <fcntl.h>
+
 #include <fs/ramfs.h>
+#include <fs/fs_drv.h>
 #include <drivers/ramdisk.h>
-#include <fs/fat.h>
-#include <embox/cmd.h>
+//#include <fs/fat.h>
+
 #include <mem/page.h>
 #include <cmd/mkfs.h>
 
+#include <embox/cmd.h>
 
 #define MIN_ARGS_OF_MKFS 3 /* <mkfs -q /dev/ram0> must create ramdisk*/
 #define DEFAULT_BLOCK_QTTY  0x20

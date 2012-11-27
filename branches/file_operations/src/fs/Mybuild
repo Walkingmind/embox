@@ -28,6 +28,7 @@ module core {
 	depends embox.fs.driver.repo
 		
 	depends embox.fs.SysLibFsFull
+	depends filesystem
 }
 
 module posix_compat {

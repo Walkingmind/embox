@@ -5,11 +5,11 @@ abstract module SysLib {
 	
 }
 
-module SysLibFsFull {
+module SysLibFsFull extends SysLib {
 	source "kfile.c"
 	
 }
 
-module SysLibFsNone {
+module SysLibFsNone extends SysLib {
 	source "nokfile.c"	
 }

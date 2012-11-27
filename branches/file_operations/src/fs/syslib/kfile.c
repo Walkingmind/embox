@@ -10,10 +10,12 @@
 #include <stdlib.h>
 #include <errno.h>
 #include <fcntl.h>
+#include <unistd.h>
 
 #include <fs/rootfs.h>
 #include <fs/ramfs.h>
 #include <fs/vfs.h>
+#include <fs/fs_drv.h>
 #include <fs/file_desc.h>
 #include <fs/kfile.h>
 

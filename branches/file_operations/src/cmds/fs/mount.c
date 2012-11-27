@@ -14,6 +14,7 @@
 
 #include <fs/vfs.h>
 #include <fs/mount.h>
+#include <fs/fs_drv.h>
 
 EMBOX_CMD(exec);
 

@@ -11,7 +11,7 @@
 
 #include <fs/ramfs.h>
 #include <fs/vfs.h>
-#include <fs/file_system.h>
+#include <fs/fs_drv.h>
 #include <cpio.h>
 
 

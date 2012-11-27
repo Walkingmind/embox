@@ -9,7 +9,7 @@
 #ifndef FS_NODE_H_
 #define FS_NODE_H_
 
-#include <fs/fs_drv.h>
+#include <fs/file_system.h>
 #include <util/tree.h>
 
 #include <module/embox/fs/core.h>
@@ -28,7 +28,6 @@
 typedef struct node {
 	const char            name[MAX_LENGTH_FILE_NAME];
 	int                   properties;  /* FILE, DIRECTORY, DEVICE, LINK ... */
-	//void                 *node_info;   /* WTF? maybe introduce Node Attribute Structure(NAS)? (sikmir) */
 	void                 *fi;
 	struct tree_link      tree_link;
 	void                 *nas;

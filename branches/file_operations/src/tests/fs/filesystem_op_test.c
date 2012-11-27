@@ -12,6 +12,7 @@
 #include <cmd/mkfs.h>
 #include <fs/mount.h>
 #include <fs/vfs.h>
+#include <fs/fs_drv.h>
 
 #include <drivers/ramdisk.h>
 #include <embox/block_dev.h>

@@ -45,7 +45,6 @@ node_t *create_filechain(const char *path, uint8_t node_type){
 	drv = node->fs->drv;
 
 	if ((NULL == drv) || (NULL == drv->fsop->create_file)) {
-		LOG_ERROR("fsop->create_file is NULL handler\n");
 		return NULL;
 	}
 
@@ -127,7 +126,6 @@ int remove(const char *pathname) {
 	drv = node->fs->drv;
 	if (NULL == drv->fsop->delete_file) {
 		errno = EINVAL;
-		LOG_ERROR("fsop->delete_file is NULL handler\n");
 		return -1;
 	}
 

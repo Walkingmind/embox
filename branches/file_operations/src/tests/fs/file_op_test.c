@@ -12,12 +12,16 @@
 
 #include <cmd/mkfs.h>
 #include <fs/mount.h>
-#include <drivers/ramdisk.h>
-#include <mem/page.h>
-#include <embox/test.h>
-#include <embox/block_dev.h>
 #include <fs/vfs.h>
+#include <fs/fs_drv.h>
+
+#include <embox/block_dev.h>
+#include <drivers/ramdisk.h>
+
 #include <mem/page.h>
+#include <mem/page.h>
+
+#include <embox/test.h>
 
 EMBOX_TEST_SUITE("fs/file test");
 

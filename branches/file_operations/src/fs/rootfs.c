@@ -46,7 +46,8 @@ static int rootfs_mount(void *par) {
 
 	/* mount root filesystem */
 	if (NULL != fsdrv) {
-		root_node->fs_type = fsdrv;
+
+		root_node->fs = alloc_filesystem(fs_type);
 		return fsdrv->fsop->mount(mp);
 	}
 
