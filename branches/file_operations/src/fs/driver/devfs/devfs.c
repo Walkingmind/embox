@@ -43,7 +43,7 @@ static int devfs_mount(void *par) {
 			return 0;
 		}
 	}
-	nod->properties = DIRECTORY_NODE_TYPE;
+	nod->properties = NODE_TYPE_DIRECTORY;
 
 	for (i = 0; i < ARRAY_SPREAD_SIZE(__device_registry); i++) {
 		if (NULL != (devnod = vfs_add_path(__device_registry[i].name, nod))) {

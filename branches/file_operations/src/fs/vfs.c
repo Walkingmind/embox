@@ -75,13 +75,13 @@ int vfs_add_leaf(node_t *child, node_t *parent) {
 static node_t *vfs_add_new_path(node_t *parent,
 		char *p_path, char *child_name) {
 	node_t *child;
-	child = alloc_node(child_name);
+	child = node_alloc(child_name);
 	vfs_add_leaf(child, parent);
 	while (NULL != (p_path = vfs_get_next_node_name(p_path, child_name,
 											MAX_LENGTH_FILE_NAME))) {
-		parent->properties = DIRECTORY_NODE_TYPE;
+		parent->properties = NODE_TYPE_DIRECTORY;
 		parent = child;
-		child = alloc_node(child_name);
+		child = node_alloc(child_name);
 		vfs_add_leaf(child, parent);
 	}
 	return child;
@@ -155,8 +155,8 @@ node_t *vfs_find_node(const char *path, node_t *parent) {
 
 node_t *vfs_get_root(void) {
 	if(NULL == root_node) {
-		root_node = alloc_node("/");
-		root_node->properties = DIRECTORY_NODE_TYPE;
+		root_node = node_alloc("/");
+		root_node->properties = NODE_TYPE_DIRECTORY;
 	}
 	return root_node;
 }

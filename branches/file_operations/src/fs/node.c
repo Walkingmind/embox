@@ -23,7 +23,7 @@ static int node_init(void) {
 	return 0;
 }
 
-node_t *alloc_node(const char *name) {
+node_t *node_alloc(const char *name) {
 	node_t *node;
 
 	node = pool_alloc(&node_pool);
@@ -36,7 +36,7 @@ node_t *alloc_node(const char *name) {
 	return node;
 }
 
-void free_node(node_t *node) {
+void node_free(node_t *node) {
 	if (NULL == node) {
 		return;
 	}

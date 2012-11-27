@@ -19,6 +19,12 @@
 #define MAX_LENGTH_FILE_NAME  OPTION_MODULE_GET(embox__fs__core,NUMBER,file_name_length)
 #define MAX_LENGTH_PATH_NAME  OPTION_MODULE_GET(embox__fs__core,NUMBER,path_length)
 
+
+
+#define NODE_TYPE_FILE       0x00
+#define NODE_TYPE_DIRECTORY  0x10
+#define NODE_TYPE_SPECIAL    0x20
+
 typedef struct node {
 	const char            name[MAX_LENGTH_FILE_NAME];
 	int                   properties;  /* FILE, DIRECTORY, DEVICE, LINK ... */
@@ -29,18 +35,25 @@ typedef struct node {
 	struct tree_link      tree_link;
 } node_t;
 
+#if 1
 typedef struct file_create_param {
 	void  *node;
 	void  *parents_node;
 	char   path[MAX_LENGTH_PATH_NAME];
 } file_create_param_t;
 
-extern node_t *alloc_node(const char *name);
-extern void free_node(node_t *node);
+#endif
+
+extern node_t *node_alloc(const char *name);
+extern void node_free(node_t *node);
 
 
-static inline int node_is_block_dev(void) {
+static inline int node_is_block_dev(struct node *node) {
 	return 1;
+}
+
+static inline int node_is_directory(struct node *node) {
+	return node->properties & NODE_TYPE_DIRECTORY;
 }
 
 #endif /* FS_NODE_H_ */

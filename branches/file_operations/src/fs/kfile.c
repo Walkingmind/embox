@@ -11,7 +11,6 @@
 #include <errno.h>
 #include <err.h>
 #include <fcntl.h>
-//#include <lib/list.h>
 
 #include <fs/rootfs.h>
 #include <fs/ramfs.h>
@@ -39,7 +38,7 @@ struct file_desc *kopen(const char *path, int flag) {
 		}
 	}
 
-	if (DIRECTORY_NODE_TYPE == (nod->properties & DIRECTORY_NODE_TYPE)) {
+	if (node_is_directory(nod)) {
 		errno = EISDIR;
 		return NULL;
 	}
@@ -52,10 +51,11 @@ struct file_desc *kopen(const char *path, int flag) {
 		return NULL;
 	}
 
+	desc->node = nod;
+
 	/*TODO set cursor by flag */
 	desc->cursor = 0;
 
-	desc->node = nod;
 
 	drv = nod->fs_type;
 	assert(drv != NULL);

@@ -12,8 +12,7 @@
 #include <fs/node.h>
 
 #define LAST_IN_PATH         0x01
-#define FILE_NODE_TYPE       0x00
-#define DIRECTORY_NODE_TYPE  0x10
+
 
 extern int vfs_get_path_by_node (node_t *nod, char *path);
 extern int vfs_add_leaf(node_t *child, node_t *parrent);

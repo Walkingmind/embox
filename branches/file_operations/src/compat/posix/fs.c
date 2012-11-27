@@ -58,9 +58,9 @@ node_t *create_filechain(const char *path, uint8_t node_type){
 		}
 
 		new_node->fs_type = node->fs_type;
-		new_node->properties = DIRECTORY_NODE_TYPE;
-		if ((LAST_IN_PATH == count_dir) && (FILE_NODE_TYPE == node_type)) {
-			new_node->properties &= ~DIRECTORY_NODE_TYPE;
+		new_node->properties = NODE_TYPE_DIRECTORY;
+		if ((LAST_IN_PATH == count_dir) && (NODE_TYPE_FILE == node_type)) {
+			new_node->properties &= ~NODE_TYPE_DIRECTORY;
 		}
 
 		param.node = (void *) new_node;
@@ -88,7 +88,7 @@ int create(const char *pathname, mode_t mode) {
 
 	/* set permission */
 
-	if (NULL == (nod = create_filechain(pathname, FILE_NODE_TYPE))) {
+	if (NULL == (nod = create_filechain(pathname, NODE_TYPE_FILE))) {
 		errno = EINVAL;
 		return -1;
 	}
@@ -107,7 +107,7 @@ int mkdir(const char *pathname, mode_t mode) {
 	/* set permission */
 
 
-	if (NULL == (nod = create_filechain(pathname, DIRECTORY_NODE_TYPE))) {
+	if (NULL == (nod = create_filechain(pathname, NODE_TYPE_DIRECTORY))) {
 		errno = EINVAL;
 		return -1;
 	}
@@ -131,7 +131,7 @@ int remove(const char *pathname) {
 		return -1;
 	}
 
-	if (DIRECTORY_NODE_TYPE == (node->properties & DIRECTORY_NODE_TYPE)) {
+	if (node_is_directory(node)) {
 		return rmdir(pathname);
 	}
 	else {
