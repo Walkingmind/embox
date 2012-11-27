@@ -57,14 +57,17 @@ struct file_desc *kopen(const char *path, int flag) {
 	desc->cursor = 0;
 
 
-	drv = nod->fs_type;
+	drv = nod->fs->drv;
 	assert(drv != NULL);
 
-	if (NULL != nod->node_info) {
-		desc->ops = (struct kfile_operations *)nod->node_info;
-	} else {
-		desc->ops = (struct kfile_operations *)drv->file_op;
-	}
+	/*
+	 * if (NULL != nod->node_info) {
+	 * 		desc->ops = (struct kfile_operations *)nod->node_info;
+	 * } else {
+	 * 		desc->ops = (struct kfile_operations *)drv->file_op;
+	 * }
+	 */
+	desc->ops = (struct kfile_operations *)drv->file_op;
 
 	if (NULL == desc->ops->open) {
 		//TODO free file_desc
