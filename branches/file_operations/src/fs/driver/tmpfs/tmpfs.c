@@ -24,6 +24,7 @@
 #include <mem/phymem.h>
 #include <fs/mount.h>
 #include <drivers/ramdisk.h>
+#include <fs/file_system.h>
 
 /* tmpfs filesystem description pool */
 POOL_DEF(tmpfs_fs_pool, struct tmpfs_filesystem, OPTION_GET(NUMBER,tmpfs_descriptor_quantity));
@@ -429,7 +430,7 @@ static int tmpfs_create(void *params) {
 	parents_node = (node_t *)param->parents_node;
 	parent_fi = (tmpfs_file_info_t *) parents_node->fi;
 
-	if (DIRECTORY_NODE_TYPE == (node->properties & DIRECTORY_NODE_TYPE)) {
+	if (NODE_TYPE_DIRECTORY == (node->properties & NODE_TYPE_DIRECTORY)) {
 		node_quantity = 3; /* need create . and .. directory */
 	}
 	else {
@@ -449,13 +450,14 @@ static int tmpfs_create(void *params) {
 			}
 		}
 
-		node->fs_type = &tmpfs_drv;
-		node->node_info = parents_node->node_info;
+		//node->fs_type = &tmpfs_drv;
+		//node->node_info = parents_node->node_info;
+		node->fs = parents_node->fs;
 		/* don't need create fi for directory - take root node fi */
 		node->fi = parents_node->fi;
 
-		if((0 >= count) & (DIRECTORY_NODE_TYPE !=
-				(node->properties & DIRECTORY_NODE_TYPE))) {
+		if((0 >= count) & (NODE_TYPE_DIRECTORY !=
+				(node->properties & NODE_TYPE_DIRECTORY))) {
 			if(NULL == (fi = tmpfs_create_file(parent_fi->fs))) {
 				return -ENOMEM;
 			}
@@ -483,7 +485,7 @@ static int tmpfs_delete(const char *fname) {
 	vfs_get_path_by_node(nod, path);
 
 	/* need delete "." and ".." node for directory */
-	if (DIRECTORY_NODE_TYPE == (nod->properties & DIRECTORY_NODE_TYPE)) {
+	if (NODE_TYPE_DIRECTORY == (nod->properties & NODE_TYPE_DIRECTORY)) {
 
 		strcat(path, "/.");
 		pointnod = vfs_find_node(path, NULL);
@@ -496,7 +498,7 @@ static int tmpfs_delete(const char *fname) {
 		path[strlen(path) - 3] = '\0';
 	}
 
-	if (DIRECTORY_NODE_TYPE != (nod->properties & DIRECTORY_NODE_TYPE)) {
+	if (NODE_TYPE_DIRECTORY != (nod->properties & NODE_TYPE_DIRECTORY)) {
 		index_free(&tmpfs_file_idx, fi->index);
 		pool_free(&tmpfs_file_pool, fi);
 	}
@@ -522,7 +524,7 @@ static int tmpfs_format(void *path) {
 		return -ENODEV;/*device not found*/
 	}
 
-	if(!node_is_block_dev()) {
+	if(!node_is_block_dev(nod)) {
 		return -ENODEV;
 	}
 
@@ -535,16 +537,17 @@ static int tmpfs_format(void *path) {
 		return -ENOMEM;
 	}
 
-	fs->bdev = nod->node_info;
+	fs->bdev = nod->fs->bdev;
 	strcpy((char *) fs->root_name, "\0");
 	fs->block_per_file = MAX_FILE_SIZE;
 	fs->block_size = PAGE_SIZE();
 
 
-	fs->numblocks = block_dev(nod->node_info)->size / PAGE_SIZE();
+	fs->numblocks = block_dev(nod->fs->bdev)->size / PAGE_SIZE();
 
 	fi->fs = fs;
-	nod->fs_type = &tmpfs_drv;
+	//nod->fs_type = &tmpfs_drv;
+	nod->fs->drv = &tmpfs_drv;
 	//nod->node_info = (void *) &tmpfs_fop;
 	nod->fi = (void *)fi;
 
@@ -563,7 +566,7 @@ static int tmpfs_mount(void *par) {
 		if (NULL == (dir_node = vfs_add_path (params->dir, NULL))) {
 			return -ENODEV;/*device not found*/
 		}
-		dir_node->properties = DIRECTORY_NODE_TYPE;
+		dir_node->properties = NODE_TYPE_DIRECTORY;
 	}
 
 	/* If dev_node created, but not attached to the filesystem driver */
@@ -576,7 +579,7 @@ static int tmpfs_mount(void *par) {
 			return -ENOMEM;
 		}
 		dev_node->fi = dev_fi;
-		dev_fi->fs->bdev = dev_node->node_info;
+		dev_fi->fs->bdev = dev_node->fs->bdev;
 	}
 
 	strncpy((char *) dev_fi->fs->root_name, params->dir, MAX_LENGTH_PATH_NAME);
@@ -586,7 +589,8 @@ static int tmpfs_mount(void *par) {
 	}
 
 	fi->fs = dev_fi->fs;
-	dir_node->fs_type = &tmpfs_drv;
+	//dir_node->fs_type = &tmpfs_drv;
+	dir_node->fs = dev_node->fs;
 	dir_node->fi = (void *) fi;
 
 	return 0;

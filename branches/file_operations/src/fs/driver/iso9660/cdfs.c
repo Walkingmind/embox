@@ -58,6 +58,7 @@
 #include <fcntl.h>
 #include <fs/path.h>
 #include <fs/file_system.h>
+#include <fs/fs_drv.h>
 
 /* cdfs filesystem description pool */
 POOL_DEF(cdfs_fs_pool, struct cdfs_fs_description, OPTION_GET(NUMBER,cdfs_descriptor_quantity));
@@ -1052,7 +1053,7 @@ static int cdfsfs_mount(void *par) {
 		if (NULL == (dir_node = vfs_add_path (params->dir, NULL))) {
 			return -ENODEV;/*device not found*/
 		}
-		dir_node->properties = DIRECTORY_NODE_TYPE;
+		dir_node->properties = NODE_TYPE_DIRECTORY;
 	}
 
 	/* If dev_node created, but not attached to the filesystem driver */
@@ -1190,7 +1191,7 @@ static int cdfs_create_file_node (node_t *dir_node, cdfs_t *cdfs, char *dirpath,
 			//node->node_info = dir_node->node_info;
 			node->fs = dir_node->fs;
 			node->fi = (void *)fi;
-			node->properties = FILE_NODE_TYPE;
+			node->properties = NODE_TYPE_FILE;
 		}
 		else {
 			/* Skip to next block */
@@ -1249,7 +1250,7 @@ static int cdfs_create_dir_entry (node_t *parent) {
 				//node->node_info = parent_node->node_info;
 				node->fs = parent_node->fs;
 				node->fi = (void *)fi;
-				node->properties = DIRECTORY_NODE_TYPE;
+				node->properties =NODE_TYPE_DIRECTORY;
 			}
 
 			cdfs_create_file_node (node, cdfs, name, n);

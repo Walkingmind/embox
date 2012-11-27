@@ -1,5 +1,5 @@
 package embox.fs.driver
 
 module devfs {
-	//source "devfs.c"
+	source "devfs.c"
 }

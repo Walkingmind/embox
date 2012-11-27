@@ -1118,7 +1118,7 @@ static int fatfs_create_file(void *par) {
 	temp = 0;
 	fat_set_fat_(fi, sector_buff, &temp, fi->cluster, cluster);
 
-	if (ATTR_DIRECTORY == (node->properties & DIRECTORY_NODE_TYPE)) {
+	if (NODE_TYPE_DIRECTORY == (node->properties & NODE_TYPE_DIRECTORY)) {
 		/* create . and ..  files of this catalog */
 		fatfs_set_direntry(di.currentcluster, fi->cluster);
 		cluster = fi->volinfo->dataarea +
@@ -1866,14 +1866,14 @@ static int fat_mount_files (void *dir_node) {
 			node->fi = (void *)fi;
 
 			if ((ATTR_DIRECTORY & de.attr) == ATTR_DIRECTORY) {
-				node->properties = DIRECTORY_NODE_TYPE;
+				node->properties = NODE_TYPE_DIRECTORY;
 				if ((0 != strncmp((char *) de.name, ".  ", 3)) &&
 					(0 != strncmp((char *) de.name, ".. ", 3))) {
 					fat_create_dir_entry(full_path);
 				}
 			}
 			else {
-				node->properties = FILE_NODE_TYPE;
+				node->properties = NODE_TYPE_FILE;
 			}
 		}
 	}
@@ -1939,14 +1939,14 @@ static int fat_create_dir_entry(char *dir_name) {
 			node->fi = (void *)fi;
 
 			if ((ATTR_DIRECTORY & de.attr) == ATTR_DIRECTORY) {
-				node->properties = DIRECTORY_NODE_TYPE;
+				node->properties = NODE_TYPE_DIRECTORY;
 				if ((0 != strncmp((char *) de.name, ".  ", 3)) &&
 					(0 != strncmp((char *) de.name, ".. ", 3))) {
 					fat_create_dir_entry(full_path);
 				}
 			}
 			else {
-				node->properties = FILE_NODE_TYPE;
+				node->properties = NODE_TYPE_FILE;
 			}
 		}
 	}
@@ -2244,7 +2244,7 @@ static int fatfs_mount(void *par) {
 		if (NULL == (dir_node = vfs_add_path (params->dir, NULL))) {
 			return -ENODEV;/*device not found*/
 		}
-		dir_node->properties = DIRECTORY_NODE_TYPE;
+		dir_node->properties = NODE_TYPE_DIRECTORY;
 	}
 
 	/* If dev_node created, but not attached to the filesystem driver */
@@ -2291,7 +2291,7 @@ static int fatfs_create(void *par) {
 	parents_node = (node_t *)param->parents_node;
 	parents_fi = (fat_file_info_t *) parents_node->fi;
 
-	if (DIRECTORY_NODE_TYPE == (node->properties & DIRECTORY_NODE_TYPE)) {
+	if (NODE_TYPE_DIRECTORY == (node->properties & NODE_TYPE_DIRECTORY)) {
 		node_quantity = 3; /* need create . and .. directory */
 	}
 	else {
@@ -2353,7 +2353,7 @@ static int fatfs_delete(const char *fname) {
 	vfs_get_path_by_node(nod, path);
 
 	/* need delete "." and ".." node for directory */
-	if (DIRECTORY_NODE_TYPE == (nod->properties & DIRECTORY_NODE_TYPE)) {
+	if (NODE_TYPE_DIRECTORY == (nod->properties & NODE_TYPE_DIRECTORY)) {
 
 		strcat(path, "/.");
 		pointnod = vfs_find_node(path, NULL);
@@ -2376,7 +2376,7 @@ static int fatfs_delete(const char *fname) {
 		pool_free(&fat_fs_pool, fi->fs);
 	}
 	else {
-		if (DIRECTORY_NODE_TYPE == (nod->properties & DIRECTORY_NODE_TYPE)) {
+		if (NODE_TYPE_DIRECTORY == (nod->properties & NODE_TYPE_DIRECTORY)) {
 			if(fat_unlike_directory(fi, (uint8_t *) path,
 				(uint8_t *) sector_buff)) {
 				return -1;

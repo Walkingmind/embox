@@ -20,6 +20,9 @@
 #include <fs/path.h>
 #include <fs/node.h>
 #include <fs/file_desc.h>
+#include <fs/fs_drv.h>
+#include <fs/file_operation.h>
+#include <fs/file_system.h>
 
 #include <mem/misc/pool.h>
 #include <net/rpc/clnt.h>
@@ -306,7 +309,12 @@ static int nfsfs_mount(void *par) {
 		if (NULL == (dir_node = vfs_add_path (params->dir, NULL))) {
 			return -ENODEV;/*device not found*/
 		}
-		dir_node->properties = DIRECTORY_NODE_TYPE;
+		dir_node->properties = NODE_TYPE_DIRECTORY;
+	}
+
+	/* there are nodev for nfs. we create fs here and set nfs fs_drv*/
+	if(NULL == (dir_node->fs = alloc_filesystem("nfs"))){
+		return -ENOMEM;
 	}
 
 	if ((NULL == (fs = pool_alloc(&nfs_fs_pool))) ||
@@ -316,15 +324,17 @@ static int nfsfs_mount(void *par) {
 		}
 		return -ENOMEM;
 	}
-	fi->fs = fs;
 
-	dir_node->fs_type = &nfsfs_drv;
+	fi->fs = fs;
+	dir_node->fs->fsi = fs;
+
 	dir_node->fi = (void *) fi;
 	//dir_node->dev = params->dev_node->dev;
 	params->dev_node = dir_node;
 
 	strncpy(fs->mnt_point, params->dir, MAX_LENGTH_PATH_NAME);
 
+	/* get server name and mount directory from params */
 	if(0 >  nfs_prepare(params->ext)) {
 		return -1;
 	}
@@ -351,7 +361,8 @@ static int nfsfs_mount(void *par) {
 	return 0;
 }
 
-static node_t  *nfs_create_file (char *full_name, readdir_desc_t *predesc) {
+static node_t  *nfs_create_file (node_t *parent,
+				char *full_name, readdir_desc_t *predesc) {
 	node_t  *node;
 	nfs_file_info_t *fi;
 
@@ -385,7 +396,7 @@ static node_t  *nfs_create_file (char *full_name, readdir_desc_t *predesc) {
 
 	fi->fs = fs;
 	//node->fs_type = &nfsfs_drv;
-	node->fs =
+	node->fs = parent->fs;
 	//node->file_info = (void *) &nfsfs_fop;
 	//node->dev_id = NULL;
 	node->fi = (void *)fi;
@@ -461,21 +472,21 @@ static int nfs_create_dir_entry(char *parent) {
 			strcat(full_path, "/");
 			strcat(full_path, (const char *) predesc->file_name.name.data);
 
-			if (NULL == (node = nfs_create_file(full_path, predesc))) {
+			if (NULL == (node = nfs_create_file(parent_node, full_path, predesc))) {
 				free(rcv_buf);
 				return -1;
 			}
 
 			fi = (nfs_file_info_t *) node->fi;
 			if (NFS_DIRECTORY_NODE_TYPE == fi->attr.type) {
-				node->properties = DIRECTORY_NODE_TYPE;
+				node->properties = NODE_TYPE_DIRECTORY;
 				if((0 != strcmp(fi->name_dsc.name.data, "."))
 					&& (0 != strcmp(fi->name_dsc.name.data, ".."))) {
 					nfs_create_dir_entry(full_path);
 				}
 			}
 			else {
-				node->properties = FILE_NODE_TYPE;
+				node->properties = NODE_TYPE_FILE;
 			}
 			point += sizeof(*predesc);
 		}
@@ -510,7 +521,7 @@ static int nfsfs_create(void *par) {
 	parent_node = (node_t *)param->parents_node;
 	parent_fi = (nfs_file_info_t *) parent_node->fi;
 
-	if (DIRECTORY_NODE_TYPE == (node->properties & DIRECTORY_NODE_TYPE)) {
+	if (NODE_TYPE_DIRECTORY == (node->properties & NODE_TYPE_DIRECTORY)) {
 		procnum = NFSPROC3_MKDIR;
 		req.type = NFS_DIRECTORY_NODE_TYPE;
 		req.create_mode = UNCHECKED_MODE;
@@ -573,7 +584,7 @@ static int nfsfs_delete(const char *fname) {
 	dir_fi = (nfs_file_info_t *) dir_node->fi;
 	req.dir_fh = &dir_fi->fh.name_fh;
 
-	if (DIRECTORY_NODE_TYPE == (node->properties & DIRECTORY_NODE_TYPE)) {
+	if (NODE_TYPE_DIRECTORY == (node->properties & NODE_TYPE_DIRECTORY)) {
 		procnum = NFSPROC3_RMDIR;
 	}
 	else {

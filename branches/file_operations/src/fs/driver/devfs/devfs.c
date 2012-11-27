@@ -51,7 +51,7 @@ static int devfs_mount(void *par) {
 				__device_registry[i].init();
 			}
 
-			if(NULL == (devnod->fs = filesystem_alloc("empty"))) {
+			if(NULL == (devnod->fs = alloc_filesystem("empty"))) {
 				return -1;
 			}
 			devnod->fs->drv = (fs_drv_t *) &devfs_drv;
