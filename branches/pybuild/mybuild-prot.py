@@ -115,8 +115,27 @@ class Interface(Inherit):
 	return "Interface '" + self.name + "'"
 
 class Scope(dict):
-    def __init__(self):
+    def __init__(self, parent=None):
 	self.do_later = []
+	self.parent = parent
+	
+    def __getitem__(self, x):
+	try:
+	    return dict.__getitem__(self, x)
+	except Exception, e:
+	    if self.parent:
+		return self.parent[x]
+	    else:
+		raise e
+
+    def __len__(self):
+	p = 0
+	try:
+	    p = len(self.parent)
+	except Exception, e:
+	    pass
+
+	return dict.__len__(self) + p
 
     def eval(self, ent, opts={}):
 	
@@ -134,12 +153,9 @@ class Scope(dict):
 	    reduce (operator.add, map(lambda x: "\t%s: %s" % x, self.items())) + \
 	    "\n\tdo_later: " + self.do_later.__repr__() + "\n}"
 
-    def copy(self):
-	return copy(self)
-
 def try_add_step(scope, ent, options = {}):
 
-    new_scope = scope.copy()
+    new_scope = Scope(scope)
 
     if new_scope.eval(ent, options):
 	return new_scope
@@ -155,7 +171,7 @@ def finalize(scope):
 	return scope 
 
     for i in range(0,len(scope.do_later)):
-	new_scope = scope.copy()
+	new_scope = Scope(scope)
 	new_scope.do_later = scope.do_later[0:i] + scope.do_later[i+1:]
 	tup = scope.do_later[i]
 	
@@ -226,7 +242,6 @@ class TestCase(unittest.TestCase):
 	scope = try_add_step(scope, stack_lds)
 	self.assertTrue(scope)
 	scope = finalize(scope)
-	print scope
 	self.assertTrue(scope)
 
 if __name__ == '__main__':
