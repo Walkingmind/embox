@@ -9,7 +9,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <errno.h>
-#include <err.h>
 #include <fcntl.h>
 
 #include <fs/rootfs.h>
@@ -43,7 +42,12 @@ struct file_desc *kopen(const char *path, int flag) {
 		return NULL;
 	}
 
-	/* check permissions */
+	drv = nod->fs->drv;
+	if(drv == NULL) {
+		errno = ENOENT;
+		return NULL;
+	}
+
 
 	/* allocate new descriptor */
 	if (NULL == (desc = file_desc_alloc())) {
@@ -52,38 +56,27 @@ struct file_desc *kopen(const char *path, int flag) {
 	}
 
 	desc->node = nod;
-
-	/*TODO set cursor by flag */
-	desc->cursor = 0;
-
-
-	drv = nod->fs->drv;
-	assert(drv != NULL);
-
-	/*
-	 * if (NULL != nod->node_info) {
-	 * 		desc->ops = (struct kfile_operations *)nod->node_info;
-	 * } else {
-	 * 		desc->ops = (struct kfile_operations *)drv->file_op;
-	 * }
-	 */
 	desc->ops = (struct kfile_operations *)drv->file_op;
 
+	if(flag & O_APPEND) {
+		desc->cursor = kseek(desc, 0, SEEK_END);
+	} else {
+		desc->cursor = 0;
+	}
+
 	if (NULL == desc->ops->open) {
-		//TODO free file_desc
+		file_desc_free(desc);
 		errno = EBADF;
-		LOG_ERROR("fop->fopen is NULL handler\n");
 		return NULL;
 	}
 	if(0 < desc->ops->open(nod, desc, flag)) {
-		//TODO free file_desc
+		file_desc_free(desc);
 		return NULL;
 	}
 	return desc;
 }
 
 size_t kwrite(const void *buf, size_t size, size_t count, struct file_desc *file) {
-
 	if (NULL == file) {
 		errno = EBADF;
 		return -1;
@@ -91,7 +84,6 @@ size_t kwrite(const void *buf, size_t size, size_t count, struct file_desc *file
 
 	if (NULL == file->ops->write) {
 		errno = EBADF;
-		LOG_ERROR("fop->fwrite is NULL handler\n");
 		return -1;
 	}
 
@@ -107,7 +99,6 @@ size_t kread(void *buf, size_t size, size_t count, struct file_desc *desc) {
 
 	if (NULL == desc->ops->read) {
 		errno = EBADF;
-		LOG_ERROR("fop->fread is NULL handler\n");
 		return -1;
 	}
 
@@ -124,7 +115,6 @@ int kclose(struct file_desc *desc) {
 
 	if (NULL == desc->ops->close) {
 		errno = EBADF;
-		LOG_ERROR("fop->fclose is NULL handler\n");
 		return -1;
 	}
 
@@ -141,15 +131,6 @@ int kseek(struct file_desc *desc, long int offset, int origin) {
 		return -1;
 	}
 //FIXME now we wouldn't have special fseek function (it common for every file system)
-#if 0
-	if (NULL == desc->ops->fseek) {
-		errno = EBADF;
-		LOG_ERROR("fop->fseec is NULL handler\n");
-		return -1;
-	}
-
-	return desc->ops->fseek(desc, offset, origin);
-#endif
 	return -1;
 }
 
@@ -159,15 +140,6 @@ int kstat(struct file_desc *desc, void *buff) {
 		return -1;
 	}
 	//FIXME now we wouldn't have special stat function (it common for every file system)
-#if 0
-	if (NULL == desc->ops->fstat) {
-		errno = EBADF;
-		LOG_ERROR("fop->fstat is NULL handler\n");
-		return -1;
-	}
-
-	return desc->ops->fstat(desc->node->fi, buff); //FIXME Not much pretty -Anton Kozlov
-#endif
 	return -1;
 }
 
@@ -183,7 +155,6 @@ int kioctl(struct file_desc *fp, int request, ...) {
 
 	if (NULL == desc->ops->ioctl) {
 		errno = EBADF;
-		LOG_ERROR("fop->ioctl is NULL handler\n");
 		return -1;
 	}
 	return desc->ops->ioctl(fp, request, args);

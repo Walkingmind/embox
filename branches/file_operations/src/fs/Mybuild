@@ -18,14 +18,16 @@ module file_desc {
 }
 
 module core {
-	source "vfs.c", "kfile.c", "path.c"
+	source "vfs.c", "path.c"
 
 	option number file_name_length=32
 	option number path_length=256
 
 	depends embox.compat.posix.fs
 	depends file_desc, node
-	depends embox.fs.driver.repo	
+	depends embox.fs.driver.repo
+		
+	depends embox.fs.SysLibFsFull
 }
 
 module posix_compat {

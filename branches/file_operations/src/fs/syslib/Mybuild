@@ -1,0 +1,15 @@
+package embox.fs
+
+@DefaultImpl(SysLibFsNone)
+abstract module SysLib {
+	
+}
+
+module SysLibFsFull {
+	source "kfile.c"
+	
+}
+
+module SysLibFsNone {
+	source "nokfile.c"	
+}
