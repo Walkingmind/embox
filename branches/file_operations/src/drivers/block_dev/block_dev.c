@@ -13,6 +13,7 @@
 #include <embox/unit.h>
 #include <embox/block_dev.h>
 #include <fs/vfs.h>
+#include <fs/file_system.h>
 #include <mem/phymem.h>
 #include <mem/misc/pool.h>
 #include <util/array.h>
@@ -86,7 +87,15 @@ struct block_dev *block_dev_create(char *path, void *driver, void *privdata) {
 		return NULL;
 	}
 
-	node->node_info = bdev;
+	if (NULL == (node->fs = alloc_filesystem("empty"))) {
+		vfs_del_leaf(node);
+		pool_free(&blockdev_pool, bdev);
+		index_free(&block_dev_idx, bdev->id);
+		errno = -ENOMEM;
+		return NULL;
+	}
+
+	node->fs->bdev = bdev;
 	strncpy (bdev->name, node->name, MAX_LENGTH_FILE_NAME);
 	bdev->dev_node = node;
 

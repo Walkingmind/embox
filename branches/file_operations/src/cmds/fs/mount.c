@@ -51,13 +51,13 @@ static int mount_dev(char *dev, char *fs_type, char *dir) {
 		}
 		else {
 			if(NULL != dev_node) {
-				dev_node->fs_type = drv;
+				dev_node->fs->drv = drv;
 			}
 		}
 	}
 
 	if(NULL != dev_node) {
-		drv = dev_node->fs_type;
+		drv = dev_node->fs->drv;
 	}
 	if (NULL == drv->fsop->mount) {
 		if(0 == fs_type) {

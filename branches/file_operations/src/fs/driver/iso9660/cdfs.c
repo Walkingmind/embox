@@ -57,6 +57,7 @@
 #include <kernel/time/clock_source.h>
 #include <fcntl.h>
 #include <fs/path.h>
+#include <fs/file_system.h>
 
 /* cdfs filesystem description pool */
 POOL_DEF(cdfs_fs_pool, struct cdfs_fs_description, OPTION_GET(NUMBER,cdfs_descriptor_quantity));
@@ -1064,7 +1065,8 @@ static int cdfsfs_mount(void *par) {
 			return -ENOMEM;
 		}
 		dev_node->fi = dev_fi;
-		dev_fi->fs->bdev = dev_node->node_info;
+		//dev_fi->fs->bdev = dev_node->node_info;
+		dev_fi->fs->bdev = dev_node->fs->bdev;
 		//dev_node->node_info = (void *) &cdfsfs_fop;
 	}
 
@@ -1076,7 +1078,8 @@ static int cdfsfs_mount(void *par) {
 	}
 
 	fi->fs = dev_fi->fs;
-	dir_node->fs_type = &cdfsfs_drv;
+	//dir_node->fs_type = &cdfsfs_drv;
+	dir_node->fs = dev_node->fs;
 	dir_node->fi = (void *) fi;
 
 	return cdfs_mount(dir_node);
@@ -1183,8 +1186,9 @@ static int cdfs_create_file_node (node_t *dir_node, cdfs_t *cdfs, char *dirpath,
 			}
 
 			fi->fs = dir_fi->fs;
-			node->fs_type = &cdfsfs_drv;
-			node->node_info = dir_node->node_info;
+			//node->fs_type = &cdfsfs_drv;
+			//node->node_info = dir_node->node_info;
+			node->fs = dir_node->fs;
 			node->fi = (void *)fi;
 			node->properties = FILE_NODE_TYPE;
 		}
@@ -1241,8 +1245,9 @@ static int cdfs_create_dir_entry (node_t *parent) {
 					return -ENOMEM;
 				}
 				fi->fs = parent_fi->fs;
-				node->fs_type = &cdfsfs_drv;
-				node->node_info = parent_node->node_info;
+				//node->fs_type = &cdfsfs_drv;
+				//node->node_info = parent_node->node_info;
+				node->fs = parent_node->fs;
 				node->fi = (void *)fi;
 				node->properties = DIRECTORY_NODE_TYPE;
 			}

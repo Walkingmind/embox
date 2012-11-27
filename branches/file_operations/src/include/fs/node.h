@@ -28,11 +28,11 @@
 typedef struct node {
 	const char            name[MAX_LENGTH_FILE_NAME];
 	int                   properties;  /* FILE, DIRECTORY, DEVICE, LINK ... */
-	void                 *node_info;   /* WTF? maybe introduce Node Attribute Structure(NAS)? (sikmir) */
-	struct fs_drv        *fs_type;     /* filesystem driver operation */
-	void                 *fi;          /* file information */
-	void                 *nas;
+	//void                 *node_info;   /* WTF? maybe introduce Node Attribute Structure(NAS)? (sikmir) */
+	void                 *fi;
 	struct tree_link      tree_link;
+	void                 *nas;
+	struct filesystem    *fs;
 } node_t;
 
 #if 1

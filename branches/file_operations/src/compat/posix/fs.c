@@ -42,7 +42,7 @@ node_t *create_filechain(const char *path, uint8_t node_type){
 		count_dir ++;
 	} while (NULL == (node = vfs_find_node(param.path, NULL)));
 	/* check drv of parents */
-	drv = node->fs_type;
+	drv = node->fs->drv;
 
 	if ((NULL == drv) || (NULL == drv->fsop->create_file)) {
 		LOG_ERROR("fsop->create_file is NULL handler\n");
@@ -57,7 +57,7 @@ node_t *create_filechain(const char *path, uint8_t node_type){
 			return NULL;
 		}
 
-		new_node->fs_type = node->fs_type;
+		new_node->fs->drv = node->fs->drv;
 		new_node->properties = NODE_TYPE_DIRECTORY;
 		if ((LAST_IN_PATH == count_dir) && (NODE_TYPE_FILE == node_type)) {
 			new_node->properties &= ~NODE_TYPE_DIRECTORY;
@@ -124,7 +124,7 @@ int remove(const char *pathname) {
 		return -1;
 	}
 
-	drv = node->fs_type;
+	drv = node->fs->drv;
 	if (NULL == drv->fsop->delete_file) {
 		errno = EINVAL;
 		LOG_ERROR("fsop->delete_file is NULL handler\n");
@@ -144,7 +144,7 @@ int unlink(const char *pathname) {
 	fs_drv_t *drv;
 
 	node = vfs_find_node(pathname, NULL);
-	drv = node->fs_type;
+	drv = node->fs->drv;
 
 	return drv->fsop->delete_file (pathname);
 }
@@ -154,7 +154,7 @@ int rmdir(const char *pathname) {
 	fs_drv_t *drv;
 
 	node = vfs_find_node(pathname, NULL);
-	drv = node->fs_type;
+	drv = node->fs->drv;
 
 	return drv->fsop->delete_file (pathname);
 }

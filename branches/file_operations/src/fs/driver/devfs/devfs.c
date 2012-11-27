@@ -50,8 +50,13 @@ static int devfs_mount(void *par) {
 			if(NULL != __device_registry[i].init) {
 				__device_registry[i].init();
 			}
-			devnod->node_info = (void*) __device_registry[i].fops;
-			devnod->fs_type = (fs_drv_t *) &devfs_drv;
+
+			if(NULL == (devnod->fs = filesystem_alloc("empty"))) {
+				return -1;
+			}
+			devnod->fs->drv = (fs_drv_t *) &devfs_drv;
+			devnod->fs->drv->file_op =  __device_registry[i].fops;
+			//devnod->node_info = (void*) __device_registry[i].fops;
 		}
 	}
 

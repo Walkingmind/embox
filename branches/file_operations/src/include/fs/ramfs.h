@@ -11,6 +11,7 @@
 #include <fs/rootfs.h>
 
 typedef struct _ramfs_create_param {
+	node_t *root_node;
 	unsigned long start_addr;
 	size_t        size;
 	char          name[MAX_LENGTH_FILE_NAME];

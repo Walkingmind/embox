@@ -11,6 +11,7 @@
 
 #include <fs/ramfs.h>
 #include <fs/vfs.h>
+#include <fs/file_system.h>
 #include <cpio.h>
 
 
@@ -53,6 +54,7 @@ static cpio_newc_header_t *parse_item(cpio_newc_header_t *cpio_h, char *name) {
 	mode       = parsed[1];
 	mtime      = parsed[5];
 
+	param.root_node = unpack_dir_node;
 	if (0 == strcmp(name, "TRAILER!!!")) {
 		return NULL;
 	} else {
@@ -63,7 +65,8 @@ static cpio_newc_header_t *parse_item(cpio_newc_header_t *cpio_h, char *name) {
 		param.mtime = mtime;
 		param.start_addr = start_addr;
 		//init_fs->fsop->create_file(&param);
-		unpack_dir_node->fs_type->fsop->create_file(&param);
+		//unpack_dir_node->fs_type->fsop->create_file(&param);
+		unpack_dir_node->fs->drv->fsop->create_file(&param);
 	}
 	return (cpio_newc_header_t*) F_ALIGN(start_addr + file_size);
 }
@@ -80,6 +83,8 @@ int cpio_unpack(char *dir) {
 	printk("cpio initramfs at 0x%08x to the directory %s\n", (unsigned int)&_ramfs_start, dir);
 
 	unpack_dir_node = vfs_find_node(dir, NULL);
+
+	unpack_dir_node->fs = alloc_filesystem("ramfs");
 
 	//init_fs = filesystem_find_drv("ramfs");
 

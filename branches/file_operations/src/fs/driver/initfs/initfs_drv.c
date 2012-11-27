@@ -185,8 +185,9 @@ static int ramfs_create(void *params) {
 	}
 
 	fi = pool_alloc(&fdesc_pool);
-	nod->fs_type = &ramfs_drv;
-	nod->node_info = (void *) &ramfs_fop;
+	//nod->fs_type = &ramfs_drv;
+	//nod->node_info = (void *) &ramfs_fop;
+	nod->fs = par->root_node->fs;
 	nod->fi = (void *) fi;
 
 	fi->start_addr = par->start_addr;

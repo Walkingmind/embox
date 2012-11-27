@@ -23,6 +23,7 @@
 #include <fs/fat.h>
 #include <fs/path.h>
 #include <fs/mount.h>
+#include <fs/file_system.h>
 
 #include <embox/block_dev.h>
 
@@ -66,13 +67,13 @@ static uint32_t fat_get_next(void *fi,
 static int fat_create_dir_entry(char *dir_name);
 
 
-static int fatfs_partition(void *fies) {
+static int fatfs_partition(void *finfo) {
 	lbr_t lbr;
 	size_t num_sect;
 	uint16_t bytepersec, secperfat, rootentries;
 	fat_file_info_t *fi;
 
-	fi = (fat_file_info_t *) fies;
+	fi = (fat_file_info_t *) finfo;
 
 	memset ((void *)&lbr.jump, 0x00, SECTOR_SIZE); /* set all by ZERO */
 	lbr.jump[0] = 0xeb;
@@ -1152,8 +1153,6 @@ static uint32_t fat_open_file(void *fisc, uint8_t *path, int mode,
 
 	volinfo = &fi->fs->vi;
 
-	//memset(fileinfo, 0, sizeof(file_info_t));
-
 	/* save access mode */
 	fi->mode = mode;
 
@@ -1726,7 +1725,7 @@ static int fat_write_sector(void *fisc, uint8_t *buffer,
 	}
 }
 
-static int fatfs_root_create(void *fies) {
+static int fatfs_root_create(void *finfo) {
 	uint32_t cluster;
 	p_vol_info_t volinfo;
 	uint32_t pstart, psize;
@@ -1735,7 +1734,7 @@ static int fatfs_root_create(void *fies) {
 	dir_ent_t de;
 	fat_file_info_t *fi;
 
-	fi = (fat_file_info_t *) fies;
+	fi = (fat_file_info_t *) finfo;
 
 	volinfo = (p_vol_info_t) &fi->fs->vi;
 
@@ -1861,8 +1860,9 @@ static int fat_mount_files (void *dir_node) {
 			memset(fi, 0, sizeof(fat_file_info_t));
 
 			fi->fs = root_fi->fs;
-			node->fs_type = &fatfs_drv;
-			node->node_info = root_node->node_info;
+			//node->fs->drv = &fatfs_drv;
+			//node->node_info = root_node->node_info;
+			node->fs = root_node->fs;
 			node->fi = (void *)fi;
 
 			if ((ATTR_DIRECTORY & de.attr) == ATTR_DIRECTORY) {
@@ -1933,8 +1933,9 @@ static int fat_create_dir_entry(char *dir_name) {
 			memset(fi, 0, sizeof(fat_file_info_t));
 
 			fi->fs = parent_fi->fs;
-			node->fs_type = &fatfs_drv;
-			node->node_info = parent_node->node_info;
+			//node->fs_type = &fatfs_drv;
+			//node->node_info = parent_node->node_info;
+			node->fs = parent_node->fs;
 			node->fi = (void *)fi;
 
 			if ((ATTR_DIRECTORY & de.attr) == ATTR_DIRECTORY) {
@@ -2174,8 +2175,8 @@ static int fatfs_ioctl(struct file_desc *desc, int request, va_list args) {
 static int fat_mount_files (void *dir_node);
 static int fatfs_create_file(void *par);
 static int fat_create_dir_entry (char *dir_name);
-static int fatfs_partition (void *fies);
-static int fatfs_root_create(void *fiesc);
+static int fatfs_partition (void *finfo);
+static int fatfs_root_create(void *finfo);
 static int fat_unlike_file(void *fi, uint8_t *path, uint8_t *scratch);
 static int fat_unlike_directory(void *fi, uint8_t *path, uint8_t *scratch);
 
@@ -2197,11 +2198,11 @@ static int fatfs_init(void * par) {
 }
 
 static int fatfs_format(void *path) {
-	node_t *nod;
+	node_t *dev_nod;
 	fat_fs_description_t *fs_des;
 	fat_file_info_t *fi;
 
-	if (NULL == (nod = vfs_find_node((char *) path, NULL))) {
+	if (NULL == (dev_nod = vfs_find_node((char *) path, NULL))) {
 		return -ENODEV;/*device not found*/
 	}
 
@@ -2216,12 +2217,14 @@ static int fatfs_format(void *path) {
 	memset(fi, 0, sizeof(fat_file_info_t));
 	memset(fs_des, 0, sizeof(struct fat_fs_description));
 
-	fs_des->bdev = nod->node_info;
+	//fs_des->bdev = dev_nod->node_info;
+	fs_des->bdev = dev_nod->fs->bdev;
 	strcpy((char *) fs_des->root_name, "\0");
 
 	fi->fs = fs_des;
-	nod->fs_type = &fatfs_drv;
-	nod->fi = (void *)fi;
+	//dev_nod->fs_type = &fatfs_drv;
+	dev_nod->fs->drv = &fatfs_drv;
+	dev_nod->fi = (void *)fi;
 
 	fatfs_partition(fi);
 	fatfs_root_create(fi);
@@ -2257,7 +2260,7 @@ static int fatfs_mount(void *par) {
 		memset(dev_fi->fs, 0, sizeof(fat_fs_description_t));
 
 		dev_node->fi = dev_fi;
-		dev_fi->fs->bdev = dev_node->node_info;
+		dev_fi->fs->bdev = dev_node->fs->bdev;
 	}
 
 	strncpy((char *) dev_fi->fs->root_name, params->dir, MAX_LENGTH_PATH_NAME);
@@ -2269,7 +2272,8 @@ static int fatfs_mount(void *par) {
 	memset(fi, 0, sizeof(fat_file_info_t));
 
 	fi->fs = dev_fi->fs;
-	dir_node->fs_type = &fatfs_drv;
+	//dir_node->fs_type = &fatfs_drv;
+	dir_node->fs = dev_node->fs;
 	dir_node->fi = (void *) fi;
 
 	return fat_mount_files(dir_node);
@@ -2315,8 +2319,9 @@ static int fatfs_create(void *par) {
 		memset(fi, 0, sizeof(fat_file_info_t));
 
 		fi->fs = parents_fi->fs;
-		node->fs_type = &fatfs_drv;
-		node->node_info = parents_node->node_info;
+		//node->fs_type = &fatfs_drv;
+		//node->node_info = parents_node->node_info;
+		node->fs = parents_node->fs;
 		node->fi = (void *)fi;
 
 		/*
