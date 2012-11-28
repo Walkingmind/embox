@@ -89,10 +89,20 @@ struct file_desc *kopen(const char *path, int flag) {
 }
 
 size_t kwrite(const void *buf, size_t size, size_t count, struct file_desc *file) {
+	struct node *node;
+
 	if (NULL == file) {
 		errno = EBADF;
 		return -1;
 	}
+
+	node = file->node;
+	if(node != NULL) {
+		if(node->properties & S_IREAD) {
+			return -EPERM;
+		}
+	}
+
 
 	if (NULL == file->ops->write) {
 		errno = EBADF;

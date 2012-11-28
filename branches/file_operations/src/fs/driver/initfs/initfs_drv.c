@@ -53,11 +53,6 @@ static int ramfs_open(struct node *nod, struct file_desc *desc, int flags) {
 }
 
 static int ramfs_close(struct file_desc *desc) {
-//	ramfs_file_info_t *fi;
-
-//	node_t *nod = (node_t *) file;
-//	fi = (ramfs_file_info_t*) nod->fi;
-//	fi->lock = 0;
 	return 0;
 }
 
@@ -160,38 +155,28 @@ static int ramfs_ioctl(struct file_desc *desc, int request, va_list arg) {
 
 /* File system operations */
 
-static int ramfs_init(void * par);
-static int ramfs_format(void * par);
 static int ramfs_mount(void * par);
-static int ramfs_create(void *params);
-static int ramfs_delete(const char *fname);
+static int ramfs_create(struct node *parent_node, struct node *new_nodes);
 
-
-static fsop_desc_t ramfs_fsop = { ramfs_init, ramfs_format, ramfs_mount,
-		ramfs_create, ramfs_delete };
+static fsop_desc_t ramfs_fsop = { NULL, NULL, ramfs_mount,
+		ramfs_create, NULL };
 
 static fs_drv_t ramfs_drv = { "ramfs", &ramfs_fop, &ramfs_fsop };
 
 DECLARE_FILE_SYSTEM_DRIVER(ramfs_drv);
 
-static int ramfs_format(void *par) {
-	return 0;
-}
-static int ramfs_create(void *params) {
+static int ramfs_create(struct node *parent_node, struct node *new_node) {
 	ramfs_create_param_t *par;
-	node_t *node;
 	struct nas *nas, *root_nas;
 	ramfs_file_info_t *fi;
 
-	par = (ramfs_create_param_t *) params;
-	if (NULL == (node = vfs_add_path(par->name, NULL))) {
-		return 0;/*file already exist*/
-	}
+
+	nas = new_node->nas;
+	par = (ramfs_create_param_t *) nas->fi;
 
 	fi = pool_alloc(&fdesc_pool);
-	//nod->fs_type = &ramfs_drv;
-	//nod->node_info = (void *) &ramfs_fop;
-	nas = node->nas;
+
+
 	root_nas = par->root_node->nas;
 	nas->fs = root_nas->fs;
 	nas->fi = (void *) fi;
@@ -204,21 +189,6 @@ static int ramfs_create(void *params) {
 	return 0;
 }
 
-static int ramfs_delete(const char *fname) {
-	node_t *node;
-	struct nas *nas;
-
-	node = vfs_find_node(fname, NULL);
-	nas = node->nas;
-
-	pool_free(&fdesc_pool, nas->fi);
-	vfs_del_leaf(node);
-	return 0;
-}
-
-static int ramfs_init(void * par) {
-	return 0;
-}
 
 static int ramfs_mount(void * par) {
 	struct mount_params *mp;

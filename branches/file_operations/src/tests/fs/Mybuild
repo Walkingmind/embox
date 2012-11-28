@@ -39,3 +39,11 @@ module file_test {
 	depends embox.compat.posix.LibPosix
 	depends embox.framework.LibFramework
 }
+
+module InitFsTest {
+	source "initfs_test.c"
+	@InitFS
+	source "initfs_test_file.txt"
+	
+	depends embox.fs.rootfs
+}

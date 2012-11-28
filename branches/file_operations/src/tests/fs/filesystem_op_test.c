@@ -40,7 +40,6 @@ TEST_CASE("Create fat filesystem") {
 
 #define FS_DIR  "/test_fsop"
 TEST_CASE("Mount fat filesystem") {
-
 	test_assert_zero(fs_drv->fsop->mount((void *) &mount_param));
 }
 

@@ -8,10 +8,11 @@
 #ifndef FS_RAMFS_H_
 #define FS_RAMFS_H_
 
-#include <fs/rootfs.h>
+#include <fs/node.h>
+
 
 typedef struct _ramfs_create_param {
-	node_t *root_node;
+	struct node *root_node;
 	unsigned long start_addr;
 	size_t        size;
 	char          name[MAX_LENGTH_FILE_NAME];

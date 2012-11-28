@@ -28,6 +28,7 @@
 typedef struct node {
 	const char            name[MAX_LENGTH_FILE_NAME];
 	int                   properties;  /* FILE, DIRECTORY, DEVICE, LINK ... */
+	int                   mode;
 	struct tree_link      tree_link;
 	void                 *nas;
 } node_t;
