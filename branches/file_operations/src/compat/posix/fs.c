@@ -46,7 +46,7 @@ node_t *create_filechain(const char *path, uint8_t node_type){
 	nas = node->nas;
 	drv = nas->fs->drv;
 
-	if ((NULL == drv) || (NULL == drv->fsop->create_file)) {
+	if ((NULL == drv) || (NULL == drv->fsop->create_node)) {
 		return NULL;
 	}
 
@@ -67,7 +67,8 @@ node_t *create_filechain(const char *path, uint8_t node_type){
 
 		param.node = (void *) new_node;
 		param.parents_node = (void *) node;
-		if(0 > drv->fsop->create_file ((void *)&param)) {
+		new_node->nas = &param;
+		if(0 > drv->fsop->create_node(node, new_node)) {
 			vfs_del_leaf(new_node);
 			return NULL;
 		}
@@ -129,7 +130,7 @@ int remove(const char *pathname) {
 
 	nas = node->nas;
 	drv = nas->fs->drv;
-	if (NULL == drv->fsop->delete_file) {
+	if (NULL == drv->fsop->delete_node) {
 		errno = EINVAL;
 		return -1;
 	}
@@ -151,7 +152,7 @@ int unlink(const char *pathname) {
 	nas = node->nas;
 	drv = nas->fs->drv;
 
-	return drv->fsop->delete_file (pathname);
+	return drv->fsop->delete_node (node);
 }
 
 int rmdir(const char *pathname) {
@@ -163,7 +164,7 @@ int rmdir(const char *pathname) {
 	nas = node->nas;
 	drv = nas->fs->drv;
 
-	return drv->fsop->delete_file (pathname);
+	return drv->fsop->delete_node(node);
 }
 
 int stat(const char *path, stat_t *buf) {

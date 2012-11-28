@@ -68,7 +68,7 @@ static cpio_newc_header_t *parse_item(cpio_newc_header_t *cpio_h, char *name) {
 		//init_fs->fsop->create_file(&param);
 		//unpack_dir_node->fs_type->fsop->create_file(&param);
 		nas = unpack_dir_node->nas;
-		nas->fs->drv->fsop->create_file(&param);
+		nas->fs->drv->fsop->create_node(NULL, NULL);
 	}
 	return (cpio_newc_header_t*) F_ALIGN(start_addr + file_size);
 }

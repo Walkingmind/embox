@@ -9,11 +9,12 @@
 
 #include <fs/fs_drv.h>
 
-static int pseudofs_create(void *params) {
+
+static int pseudofs_create(struct node *parent_node, struct node *new_node) {
 	return 0;
 }
 
-static int pseudofs_delete(const char *fname) {
+static int pseudofs_delete(struct node *nod) {
 	return 0;
 }
 
@@ -21,8 +22,8 @@ static const struct fsop_desc pseudofs_fsop = {
 		.init = NULL,
 		.format = NULL,
 		.mount = NULL,
-		.create_file = pseudofs_create,
-		.delete_file = pseudofs_delete
+		.create_node = pseudofs_create,
+		.delete_node = pseudofs_delete
 };
 
 static const struct fs_drv pseudofs_drv = {

@@ -12,19 +12,20 @@
 #include <fs/file_operation.h>
 #include <util/array.h>
 
+typedef int (*fsop_init_ft)(void *par);
+typedef int (*fsop_format_ft)(void *par);
+typedef int (*fsop_mount_ft)(void *par);
+typedef int (*fsop_create_ft)(struct node *parent_node, struct node *new_node);
+typedef int (*fsop_delete_ft)(struct node *node);
 
-typedef int (*FS_INIT_FUNC)(void *par);
-typedef int (*FS_FORMAT_FUNC)(void *par);
-typedef int (*FS_MOUNT_FUNC)(void *par);
-typedef int (*FS_CREATE_FUNC)(void *par);
-typedef int (*FS_DELETE_FUNC)(const char *file_name);
+
 
 typedef struct fsop_desc {
-        FS_INIT_FUNC init;
-        FS_FORMAT_FUNC format;
-        FS_MOUNT_FUNC mount;
-        FS_CREATE_FUNC create_file;
-        FS_DELETE_FUNC delete_file;
+	fsop_init_ft init;
+	fsop_format_ft format;
+	fsop_mount_ft mount;
+	fsop_create_ft create_node;
+	fsop_delete_ft delete_node;
 } fsop_desc_t;
 
 struct kfile_operations;

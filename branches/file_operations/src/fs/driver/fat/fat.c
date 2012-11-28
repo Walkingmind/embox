@@ -1012,7 +1012,7 @@ static void fatfs_set_direntry (uint32_t dir_cluster, uint32_t cluster) {
  * Returns various DFS_* error states. If the result is DFS_OK, file
  * was created and can be used.
  */
-static int fatfs_create_file(void *par) {
+static int fatfs_create_file(struct node * parant_node, struct node *node) {
 	char tmppath[MAX_LENGTH_PATH_NAME];
 	uint8_t filename[12];
 	dir_info_t di;
@@ -1021,13 +1021,13 @@ static int fatfs_create_file(void *par) {
 	p_vol_info_t volinfo;
 	fat_file_info_t *fi;
 	file_create_param_t *param;
-	node_t *node;
+	//node_t *node;
 	struct nas *nas;
 	uint32_t cluster, temp;
 
-	param = (file_create_param_t *) par;
+	//param = (file_create_param_t *) par;
 
-	node = (node_t *) param->node;
+	//node = (node_t *) param->node;
 	nas = node->nas;
 	fi = (fat_file_info_t *) nas->fi;
 
@@ -2188,7 +2188,7 @@ static int fatfs_ioctl(struct file_desc *desc, int request, va_list args) {
 }
 
 static int fat_mount_files (void *dir_node);
-static int fatfs_create_file(void *par);
+static int fatfs_create_file(struct node *parent_node, struct node *new_node);
 static int fat_create_dir_entry (char *dir_name);
 static int fatfs_partition (void *finfo);
 static int fatfs_root_create(void *finfo);
@@ -2200,8 +2200,8 @@ static int fat_unlike_directory(void *fi, uint8_t *path, uint8_t *scratch);
 static int fatfs_init(void * par);
 static int fatfs_format(void * bdev);
 static int fatfs_mount(void * par);
-static int fatfs_create(void *par);
-static int fatfs_delete(const char *fname);
+static int fatfs_create(struct node *parent_node, struct node *new_node);
+static int fatfs_delete(struct node *node);
 
 static fsop_desc_t fatfs_fsop = { fatfs_init, fatfs_format, fatfs_mount,
 		fatfs_create, fatfs_delete };
@@ -2299,19 +2299,19 @@ static int fatfs_mount(void *par) {
 	return fat_mount_files(dir_node);
 }
 
-static int fatfs_create(void *par) {
+static int fatfs_create(struct node *parent_node, struct node *node) {
 	file_create_param_t *param;
 	fat_file_info_t *fi, *parents_fi;
-	struct node *node, *parents_node;
+	//struct node *node, *parents_node;
 	struct nas *nas, *parents_nas;
 	int node_quantity;
 
-	param = (file_create_param_t *) par;
+	//param = (file_create_param_t *) par;
 
-	node = (node_t *)param->node;
+	//node = (node_t *)param->node;
 	nas = node->nas;
-	parents_node = (node_t *)param->parents_node;
-	parents_nas = parents_node->nas;
+	//parents_node = (node_t *)param->parents_node;
+	parents_nas = parent_node->nas;
 	parents_fi = (fat_file_info_t *) parents_nas->fi;
 
 	if (NODE_TYPE_DIRECTORY == (node->properties & NODE_TYPE_DIRECTORY)) {
@@ -2352,26 +2352,27 @@ static int fatfs_create(void *par) {
 		 * Creation of dir . and .. occurs into the function fatfs_create_file.
 		 */
 		if(0 >= count) {
-			fatfs_create_file(par);
+			fatfs_create_file(parent_node, node);
 		}
 	}
 	/* cut /.. from end of PATH, if need */
 	if (1 < node_quantity) {
-		param->path[strlen(param->path) - 3] = '\0';
+		//param->path[strlen(param->path) - 3] = '\0';
 	}
 
 	return 0;
 }
 
-static int fatfs_delete(const char *fname) {
+static int fatfs_delete(struct node *node) {
 	fat_file_info_t *fi;
-	node_t *node, *pointnode;
+	//node_t *node
+	struct node *pointnode;
 	struct nas *nas;
 	char path [MAX_LENGTH_PATH_NAME];
 
-	if(NULL == (node = vfs_find_node(fname, NULL))) {
-		return -1;
-	}
+//	if(NULL == (node = vfs_find_node(fname, NULL))) {
+//		return -1;
+//	}
 	nas = node->nas;
 	fi = (fat_file_info_t *)nas->fi;
 

@@ -6,12 +6,9 @@
  * @author Nikolay Korotky
  */
 
-#include <stdio.h>
-#include <drivers/ide.h>
-
 #include <fs/fs_drv.h>
 #include <fs/vfs.h>
-#include <util/array.h>
+
 #include <embox/device.h>
 #include <embox/block_dev.h>
 
