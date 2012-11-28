@@ -9,14 +9,18 @@ def get_all_options(obj):
 	option_set |= set(mod.options.keys())
     return option_set
 
-def one_or_many(obj):
-    if isinstance(obj, Module):
-	return [obj]
+def isiter(obj):
+    if isinstance(obj, BaseScope):
+	return False
 
     try:
-	return [e for e in obj]
+	t = [e for e in obj]
+	return True
     except TypeError:
-	return [obj] 
+	return False
+
+def one_or_many(obj):
+    return obj if isiter(obj) else [obj]
 
 class Option:
     def __init__(self, name='', mod=None, value=None):
@@ -57,10 +61,6 @@ class BaseScope(dict):
     def has_key(self, k):
 	return dict.has_key(self, k) or (self.parent.has_key(k) if self.parent else False)
 
-    def __repr__(self):
-	return 'BaseScope {' + \
-	    reduce (operator.add, map(lambda x: "\t%s: %s" % x, self.items()))
-
 class Scope(BaseScope):
     def __init__(self, parent=None):
 	self.parent = parent
@@ -87,7 +87,17 @@ class Module(Inherit, BaseScope):
 	self.name = name
 	self.id = name + ".__include_mod" # actually, this is option
 	self.id_option = Option(name = self.id, mod = self)
-	self.depends = one_or_many(depends)
+
+	if not isiter(depends):
+	    self.depends = ((depends, {}),)
+	else:
+	    self.depends = []
+	    for d in depends:
+		if not isiter(d):
+		    self.depends.append((d, {}))
+		else:
+		    self.depends.append(d)
+
 	self.implements = one_or_many(implements)
 	self.check_fns = check_fns
 
@@ -110,7 +120,7 @@ class Module(Inherit, BaseScope):
 	return self.implements
 
     def __repr__(self):
-	return "Module '" + self.name + "'"
+	return "<Module %s, depends %s>" % (self.name, self.depends)
 
     def subeval(self, scope):
 	new_scope = scope
@@ -124,8 +134,8 @@ class Module(Inherit, BaseScope):
 		return False
 
 	res = True
-	for i in self.depends:
-	    res &= new_scope.eval(i)
+	for dep, opts in self.depends:
+	    res &= new_scope.eval(dep, opts)
 
 	return res
 
@@ -223,6 +233,15 @@ class TestCase(unittest.TestCase):
 	scope = try_add_step(scope, stack_lds)
 	self.assertTrue(False != scope[thread_core])
 	self.assertTrue(False != scope[stack_lds])
+
+    def test_depends_with_options(self):
+	stack_lds = Module("stack", options = {'stack_sz' : 8192})
+	thread_core = Module("thread_core", depends = (
+	    (stack_lds, {'stack_sz' : 16000}),))
+
+	scope = try_add_step(Scope(), thread_core)
+		
+	self.assertEqual(stack_lds.option_val(scope, 'stack_sz'), 16000)
 
     def test_scope_pred(self):
 	scope = Scope()
