@@ -197,8 +197,8 @@ static int nfsfs_fseek(void *file, long offset, int whence) {
 static int nfsfs_init(void * par);
 static int nfsfs_format(void * par);
 static int nfsfs_mount(void * par);
-static int nfsfs_create(void *par);
-static int nfsfs_delete(const char *fname);
+static int nfsfs_create(struct node *parent_node, struct node *node);
+static int nfsfs_delete(struct node *node);
 
 static fsop_desc_t nfsfs_fsop = { nfsfs_init, nfsfs_format, nfsfs_mount,
 		nfsfs_create, nfsfs_delete };
@@ -508,11 +508,9 @@ static int nfs_create_dir_entry(char *parent) {
 	return 0;
 }
 
-static int nfsfs_create(void *par) {
+static int nfsfs_create(struct node *parent_node, struct node *node) {
 
-	file_create_param_t *param;
 	nfs_file_info_t *parent_fi, *fi;
-	node_t *node, *parent_node;
 	struct nas *nas, *parent_nas;
 	create_req_t  req;
 	rpc_string_t name;
@@ -521,12 +519,7 @@ static int nfsfs_create(void *par) {
 	char path[MAX_LENGTH_PATH_NAME];
 	char tail[MAX_LENGTH_PATH_NAME];
 
-	param = (file_create_param_t *) par;
-
-	node = (node_t *)param->node;
 	nas = node->nas;
-
-	parent_node = (node_t *)param->parents_node;
 	parent_nas = parent_node->nas;
 
 	parent_fi = (nfs_file_info_t *) parent_nas->fi;
@@ -566,15 +559,14 @@ static int nfsfs_create(void *par) {
 		return -1;
 	}
 	nas->fi = (void *) fi;
-	strncpy(path, param->path, MAX_LENGTH_PATH_NAME);
+	vfs_get_path_by_node(node, path);
 	path_nip_tail(path, tail);
 
 	return nfs_create_dir_entry (path);
 }
 
-static int nfsfs_delete(const char *fname) {
+static int nfsfs_delete(struct node *node) {
 	nfs_file_info_t *fi;
-	node_t *node;
 	struct nas *nas, *dir_nas;
 	node_t *dir_node;
 	nfs_file_info_t *dir_fi;
@@ -582,12 +574,10 @@ static int nfsfs_delete(const char *fname) {
 	delete_reply_t reply;
 	__u32 procnum;
 
-	node = vfs_find_node(fname, NULL);
 	nas = node->nas;
 	fi = (nfs_file_info_t *) nas->fi;
 
-	if(NULL ==
-			(dir_node = vfs_find_parent(node))) {
+	if(NULL == (dir_node = vfs_find_parent(node))) {
 		return -1;
 	}
 

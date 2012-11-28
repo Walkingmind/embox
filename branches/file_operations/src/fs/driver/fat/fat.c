@@ -1017,28 +1017,20 @@ static int fatfs_create_file(struct node * parant_node, struct node *node) {
 	uint8_t filename[12];
 	dir_info_t di;
 	dir_ent_t de;
-
 	p_vol_info_t volinfo;
 	fat_file_info_t *fi;
-	file_create_param_t *param;
-	//node_t *node;
 	struct nas *nas;
 	uint32_t cluster, temp;
 
-	//param = (file_create_param_t *) par;
 
-	//node = (node_t *) param->node;
 	nas = node->nas;
 	fi = (fat_file_info_t *) nas->fi;
 
 	volinfo = &fi->fs->vi;
-
-	//memset(fileinfo, 0, sizeof(file_info_t));
 	fi->volinfo = volinfo;
 
 	/* Get a local copy of the path. */
-	strncpy((char *) tmppath,
-			(char *) param->path, MAX_LENGTH_PATH_NAME);
+	vfs_get_path_by_node(node, tmppath);
 
 	/* set relative path in this file system */
 	path_cut_mount_dir(tmppath, (char *) fi->fs->root_name);
@@ -2300,22 +2292,18 @@ static int fatfs_mount(void *par) {
 }
 
 static int fatfs_create(struct node *parent_node, struct node *node) {
-	file_create_param_t *param;
 	fat_file_info_t *fi, *parents_fi;
-	//struct node *node, *parents_node;
 	struct nas *nas, *parents_nas;
 	int node_quantity;
+	char path [MAX_LENGTH_PATH_NAME];
 
-	//param = (file_create_param_t *) par;
-
-	//node = (node_t *)param->node;
 	nas = node->nas;
-	//parents_node = (node_t *)param->parents_node;
 	parents_nas = parent_node->nas;
-	parents_fi = (fat_file_info_t *) parents_nas->fi;
+	parents_fi = parents_nas->fi;
 
-	if (NODE_TYPE_DIRECTORY == (node->properties & NODE_TYPE_DIRECTORY)) {
+	if (node_is_directory(node)) {
 		node_quantity = 3; /* need create . and .. directory */
+		vfs_get_path_by_node(node, path);
 	}
 	else {
 		node_quantity = 1;
@@ -2324,12 +2312,12 @@ static int fatfs_create(struct node *parent_node, struct node *node) {
 	for (int count = 0; count < node_quantity; count ++) {
 		if(0 < count) {
 			if(1 == count) {
-				strcat(param->path, "/.");
+				strcat(path, "/.");
 			}
 			else if(2 == count) {
-				strcat(param->path, ".");
+				strcat(path, ".");
 			}
-			if(NULL == (node = vfs_add_path (param->path, NULL))) {
+			if(NULL == (node = vfs_add_path (path, NULL))) {
 				return -ENOMEM;
 			}
 		}
@@ -2342,8 +2330,6 @@ static int fatfs_create(struct node *parent_node, struct node *node) {
 		memset(fi, 0, sizeof(fat_file_info_t));
 
 		fi->fs = parents_fi->fs;
-		//node->fs_type = &fatfs_drv;
-		//node->node_info = parents_node->node_info;
 		nas->fs = parents_nas->fs;
 		nas->fi = (void *)fi;
 
@@ -2365,14 +2351,10 @@ static int fatfs_create(struct node *parent_node, struct node *node) {
 
 static int fatfs_delete(struct node *node) {
 	fat_file_info_t *fi;
-	//node_t *node
 	struct node *pointnode;
 	struct nas *nas;
 	char path [MAX_LENGTH_PATH_NAME];
 
-//	if(NULL == (node = vfs_find_node(fname, NULL))) {
-//		return -1;
-//	}
 	nas = node->nas;
 	fi = (fat_file_info_t *)nas->fi;
 

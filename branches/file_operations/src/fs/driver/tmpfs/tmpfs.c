@@ -395,8 +395,8 @@ static int tmpfs_stat(void *file, void *buff) {
 static int tmpfs_init(void * par);
 static int tmpfs_format(void *path);
 static int tmpfs_mount(void *par);
-static int tmpfs_create(void *params);
-static int tmpfs_delete(const char *fname);
+static int tmpfs_create(struct node *parent_node, struct node *node);
+static int tmpfs_delete(struct node *node);
 
 static fsop_desc_t tmpfs_fsop = {
 		tmpfs_init,
@@ -425,34 +425,30 @@ static tmpfs_file_info_t *tmpfs_create_file(struct nas *nas) {
 	return fi;
 }
 
-static int tmpfs_create(void *params) {
-	file_create_param_t *param;
-	node_t *node, *parents_node;
+static int tmpfs_create(struct node *parent_node, struct node *node) {
 	struct nas *nas, *parents_nas;
 	int node_quantity;
+	char path[MAX_LENGTH_PATH_NAME];
 
-	param = (file_create_param_t *) params;
+	parents_nas = parent_node->nas;
 
-	node = (node_t *)param->node;
-	parents_node = (node_t *)param->parents_node;
-	parents_nas = parents_node->nas;
-
-	if (NODE_TYPE_DIRECTORY == (node->properties & NODE_TYPE_DIRECTORY)) {
+	if (node_is_directory(node)) {
 		node_quantity = 3; /* need create . and .. directory */
 	}
 	else {
 		node_quantity = 1;
 	}
+	vfs_get_path_by_node(node, path);
 
 	for (int count = 0; count < node_quantity; count ++) {
 		if(0 < count) {
 			if(1 == count) {
-				strcat(param->path, "/.");
+				strcat(path, "/.");
 			}
 			else if(2 == count) {
-				strcat(param->path, ".");
+				strcat(path, ".");
 			}
-			if(NULL == (node = vfs_add_path (param->path, NULL))) {
+			if(NULL == (node = vfs_add_path (path, NULL))) {
 				return -ENOMEM;
 			}
 		}
@@ -468,24 +464,20 @@ static int tmpfs_create(void *params) {
 			}
 		}
 	}
-	/* cut /.. from end of PATH, if need */
+	/* cut /.. from end of PATH, if need
 	if (1 < node_quantity) {
-		param->path[strlen(param->path) - 3] = '\0';
-	}
+		path[strlen(path) - 3] = '\0';
+	} */
 
 	return 0;
 }
 
-static int tmpfs_delete(const char *fname) {
+static int tmpfs_delete(struct node *node) {
 	struct tmpfs_file_info *fi;
 	struct tmpfs_fs_info *fsi;
-	node_t *node, *pointnod;
+	node_t *pointnod;
 	struct nas *nas;
 	char path [MAX_LENGTH_PATH_NAME];
-
-	if(NULL == (node = vfs_find_node(fname, NULL))) {
-		return -1;
-	}
 
 	nas = node->nas;
 	fi = nas->fi;
@@ -514,7 +506,6 @@ static int tmpfs_delete(const char *fname) {
 
 	/* root node - have fi, but haven't index*/
 	if(0 == strcmp((const char *) path, (const char *) fsi->root_name)){
-
 		pool_free(&tmpfs_fs_pool, fsi);
 		pool_free(&tmpfs_file_pool, fi);
 	}
