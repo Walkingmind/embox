@@ -10,38 +10,19 @@ def get_all_options(obj):
     return option_set
 
 def one_or_many(obj):
-
-    if not obj:
-	return []
+    if isinstance(obj, Module):
+	return [obj]
 
     try:
 	return [e for e in obj]
     except TypeError:
 	return [obj] 
 
-class Instance():
-    def __init__(self, meta, option_overwrite={}):
-	self.meta = meta 
-	misset = set(option_overwrite.keys()) - set(get_all_options(meta))
-
-	for i in misset:
-	    raise AttributeError(i)
-
-	self.option_overwrite = option_overwrite
-
-    def option_val(self, option):
-	if self.option_overwrite.has_key(option):
-	    return self.option_overwrite[option]
-	return self.meta.option_val(option)
-
-    def __repr__(self):
-	return "Instance of %s with:%s\n" % \
-		(self.meta,
-		reduce(operator.add, 
-		    ['\n\t\t %s = %s' % (str(i), str(self.option_val(i))) 
-			for i in get_all_options(self.meta)], 
-		    ""), 
-		)
+class Option:
+    def __init__(self, name='', mod=None, value=None):
+	self.name = name
+	self.value = value
+	self.mod = mod
 
 class Inherit():
     def __init__(self, super=None):
@@ -52,14 +33,62 @@ class Inherit():
 	    return [self.super] + self.super.supers()
 	return []
 
-class Module(Inherit):
+class BaseScope(dict):
+    def __init__(self, parent=None):
+	self.parent = parent
+	
+    def __getitem__(self, x):
+	try:
+	    return dict.__getitem__(self, x)
+	except Exception, e:
+	    if self.parent:
+		return self.parent[x]
+	    else:
+		raise e
+
+    def __len__(self):
+	return len(self.keys())
+
+    def keys(self):
+	if self.parent: 
+	    return set(dict.keys(self)) | set(self.parent.keys())
+	else:
+	    return dict.keys(self)
+
+    def __repr__(self):
+	return 'BaseScope {' + \
+	    reduce (operator.add, map(lambda x: "\t%s: %s" % x, self.items())) + \
+	    "\n\tdo_later: " + self.do_later.__repr__() + "\n}"
+
+class Scope(BaseScope):
+    def __init__(self, parent=None):
+	self.do_later = []
+	self.parent = parent
+
+    def eval(self, ent, opts={}):
+	if ent.subeval(self):
+	    self[ent] = ent
+	    for i in ent.is_list():
+		self[i] = ent
+	    return True
+	return False
+
+    def __repr__(self):
+	return 'Scope {' + \
+	    reduce (operator.add, map(lambda x: "\t%s: %s" % x, self.items()), "") + \
+	    "\n\tdo_later: " + self.do_later.__repr__() + "\n}"
+
+class Module(Inherit, BaseScope):
     def __init__(self, name, options={}, super=None, implements=(), depends=(), check_fn=None):
-	self.super = super
+	self.parent = super
 	self.name = name
+	self.id = name + ".__include_mod" # actually, this is option
 	self.depends = one_or_many(depends)
 	self.implements = one_or_many(implements)
-	self.options = options
 	self.check_fn = check_fn
+
+	for k, v in options.items():
+	    dict.__setitem__(self, k, Option(name=k, mod=self, value = v))
 
     def implements(self):
 	def get_impl(obj):
@@ -67,19 +96,17 @@ class Module(Inherit):
 
 	return get_impl(self)[1:]	
 
-    def option_val(self, option):
-	for s in [self] + self.supers():
-	    if s.options.has_key(option):
-		return s.options[option]
+    def option_val(self, scope, option_name):
+	try:
+	    return scope[self[option_name]]
+	except:
+	    return self[option_name].value
 	    
     def is_list(self):
 	return self.implements
 
     def __repr__(self):
 	return "Module '" + self.name + "'"
-
-    def inst(self):
-	return Instance(self)
 
     def subeval(self, scope):
 	try:
@@ -88,18 +115,21 @@ class Module(Inherit):
 	except:
 	    return False
 
+	
+
 	res = True
 	for i in self.depends:
 	    res &= scope.eval(i)
 
 	return res
 
-    def __hash(self):
-	return self.name.__hash__()
+    def __hash__(self):
+	return self.id.__hash__()
 
 class Interface(Inherit):
     def __init__(self, name, super=()):
 	self.name = name
+	self.id = name + ".__include_mod" 
 	self.super = one_or_many(super)
 
     def is_list(self):
@@ -114,48 +144,12 @@ class Interface(Inherit):
     def __repr__(self):
 	return "Interface '" + self.name + "'"
 
-class Scope(dict):
-    def __init__(self, parent=None):
-	self.do_later = []
-	self.parent = parent
-	
-    def __getitem__(self, x):
-	try:
-	    return dict.__getitem__(self, x)
-	except Exception, e:
-	    if self.parent:
-		return self.parent[x]
-	    else:
-		raise e
-
-    def __len__(self):
-	p = 0
-	try:
-	    p = len(self.parent)
-	except Exception, e:
-	    pass
-
-	return dict.__len__(self) + p
-
-    def eval(self, ent, opts={}):
-	
-	inst = Instance(ent, opts)
-   
-	if ent.subeval(self):
-	    self[ent] = inst
-	    for i in ent.is_list():
-		self[i] = inst
-	    return True
-	return False
-
-    def __repr__(self):
-	return 'Scope {' + \
-	    reduce (operator.add, map(lambda x: "\t%s: %s" % x, self.items())) + \
-	    "\n\tdo_later: " + self.do_later.__repr__() + "\n}"
-
 def try_add_step(scope, ent, options = {}):
 
     new_scope = Scope(scope)
+
+    if set(options.keys()) - set(new_scope.keys()):
+	raise AttributeError
 
     if new_scope.eval(ent, options):
 	return new_scope
@@ -207,9 +201,9 @@ class TestCase(unittest.TestCase):
 	scope = try_add_step(scope, head_timer)
 	scope = finalize(scope)
 
-	self.assertEqual(scope[rt].option_val('timer_nr'), 32)
-	self.assertEqual(scope[rt].option_val('impl_name'), "rt timer")
-	self.assertEqual(scope[head_timer].option_val('impl_name'), None)
+	self.assertEqual(rt.option_val(scope, 'timer_nr'),	    32)
+	self.assertEqual(rt.option_val(scope, 'impl_name'),	    "rt timer")
+	self.assertEqual(head_timer.option_val(scope, 'impl_name'), None)
 
     def test_options_error(self):
 	timer = Module("Head timer", options = {'timer_nr' : 32})
