@@ -26,4 +26,6 @@ extern const device_module_t __device_registry[];
 #define EMBOX_DEVICE(name, file_op, init_func) \
 	ARRAY_SPREAD_ADD(__device_registry, {name, file_op, init_func})
 
+extern int char_devs_init(void);
+
 #endif /* DEVICE_H_ */

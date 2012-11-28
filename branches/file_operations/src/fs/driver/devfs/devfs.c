@@ -15,29 +15,9 @@
 #include <embox/device.h>
 #include <embox/block_dev.h>
 
-ARRAY_SPREAD_DEF(const device_module_t, __device_registry);
-ARRAY_SPREAD_DEF(const block_dev_module_t, __block_dev_registry);
-
-static const fs_drv_t devfs_drv;
-
-static struct kfile_operations devfs_fop;
-
-const fs_drv_t *devfs_get_fs(void) {
-    return &devfs_drv;
-}
-
-static int devfs_init(void * par) {
-	return 0;
-}
-
-static int devfs_format(void *par) {
-	return 0;
-}
-
 
 static int devfs_mount(void *par) {
 	struct node *nod;
-	size_t i;
 
 	if (NULL != (nod = vfs_find_node("/dev", NULL))) {
 		/* we already initialized devfs */
@@ -51,66 +31,19 @@ static int devfs_mount(void *par) {
 	nod->nas = NULL; /* this is virtual folder to add folder or file we just add node */
 
 
-	for (i = 0; i < ARRAY_SPREAD_SIZE(__device_registry); i++) {
-		if(NULL != __device_registry[i].init) {
-			__device_registry[i].init();
-		}
-	}
+	char_devs_init();
 
-	for (i = 0; i < ARRAY_SPREAD_SIZE(__block_dev_registry); i++) {
-		if (NULL != __block_dev_registry[i].init) {
-			__block_dev_registry[i].init(NULL);
-		}
-	}
+	block_devs_init();
 
 	return 0;
 }
 
-static int devfs_create(void *params) {
-	return 0;
-}
-
-static int devfs_delete(const char *fname) {
-	return 0;
-}
-
-/*
- * file_operation
- */
-static int devfs_open(struct node *node, struct file_desc *desc, int flags) {
-	return desc->ops->open(node, desc, flags);
-}
-
-static int devfs_close(struct file_desc *desc) {
-	return desc->ops->close(desc);
-}
-
-static size_t devfs_read(struct file_desc *desc, void *buf, size_t size, size_t count) {
-	return 0;
-}
-
-static size_t devfs_write(struct file_desc *desc, void *buf, size_t size, size_t count) {
-	return 0;
-}
-
-static int devfs_ioctl(struct file_desc *file, int request, va_list args) {
-	return 0;
-}
-
-static fsop_desc_t devfs_fsop = { devfs_init, devfs_format, devfs_mount,
-		devfs_create, devfs_delete};
-
-static kfile_operations_t devfs_fop = {
-       .open = devfs_open,
-       .close = devfs_close,
-       .read = devfs_read,
-       .write = devfs_write,
-       .ioctl = devfs_ioctl,
-};
+static fsop_desc_t devfs_fsop = { NULL, NULL, devfs_mount,
+		NULL, NULL};
 
 static const fs_drv_t devfs_drv = {
 	.name = "devfs",
-	.file_op = &devfs_fop,
+	.file_op = NULL,
 	.fsop = &devfs_fsop
 };
 

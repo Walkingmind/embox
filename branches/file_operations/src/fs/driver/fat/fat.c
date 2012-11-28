@@ -24,6 +24,7 @@
 #include <fs/path.h>
 #include <fs/mount.h>
 #include <fs/file_system.h>
+#include <fs/file_desc.h>
 
 #include <embox/block_dev.h>
 

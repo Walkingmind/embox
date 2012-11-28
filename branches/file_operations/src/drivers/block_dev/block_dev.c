@@ -246,3 +246,18 @@ int block_dev_destroy (void *dev) {
 	pool_free(&blockdev_pool, bdev);
 	return 0;
 }
+
+
+ARRAY_SPREAD_DEF(const block_dev_module_t, __block_dev_registry);
+
+
+int block_devs_init(void) {
+	int i;
+
+	for (i = 0; i < ARRAY_SPREAD_SIZE(__block_dev_registry); i++) {
+		if (NULL != __block_dev_registry[i].init) {
+			__block_dev_registry[i].init(NULL);
+		}
+	}
+	return i;
+}

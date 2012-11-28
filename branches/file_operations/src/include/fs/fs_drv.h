@@ -9,11 +9,8 @@
 #define FS_DRV_H_
 
 
-//#include <types.h>
-//#include <stdio.h>
 #include <fs/file_operation.h>
-//#include <unistd.h>
-//#include <fs/file_desc.h>
+#include <util/array.h>
 
 
 typedef int (*FS_INIT_FUNC)(void *par);
@@ -30,6 +27,7 @@ typedef struct fsop_desc {
         FS_DELETE_FUNC delete_file;
 } fsop_desc_t;
 
+struct kfile_operations;
 /**
  * Structure of file system driver.
  * We can mount some file system with name of FS which has been registered in

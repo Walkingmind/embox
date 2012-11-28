@@ -16,6 +16,7 @@
 #include <fs/ramfs.h>
 #include <fs/vfs.h>
 #include <fs/fs_drv.h>
+#include <fs/file_operation.h>
 #include <fs/file_desc.h>
 #include <fs/kfile.h>
 
