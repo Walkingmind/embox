@@ -38,13 +38,12 @@ class BaseScope(dict):
 	self.parent = parent
 	
     def __getitem__(self, x):
-	try:
+	if dict.has_key(self, x):
 	    return dict.__getitem__(self, x)
-	except Exception, e:
-	    if self.parent:
-		return self.parent[x]
-	    else:
-		raise e
+	elif self.parent:
+	    return self.parent[x]
+	else:
+	    raise AttributeError
 
     def __len__(self):
 	return len(self.keys())
@@ -54,6 +53,9 @@ class BaseScope(dict):
 	    return set(dict.keys(self)) | set(self.parent.keys())
 	else:
 	    return dict.keys(self)
+
+    def has_key(self, k):
+	return dict.has_key(self, k) or (self.parent.has_key(k) if self.parent else False)
 
     def __repr__(self):
 	return 'BaseScope {' + \
@@ -79,13 +81,14 @@ class Scope(BaseScope):
 	    "\n\tdo_later: " + self.do_later.__repr__() + "\n}"
 
 class Module(Inherit, BaseScope):
-    def __init__(self, name, options={}, super=None, implements=(), depends=(), check_fn=None):
+    def __init__(self, name, options={}, super=None, implements=(), depends=(), check_fns=()):
 	self.parent = super
 	self.name = name
 	self.id = name + ".__include_mod" # actually, this is option
+	self.id_option = Option(name = self.id, mod = self)
 	self.depends = one_or_many(depends)
 	self.implements = one_or_many(implements)
-	self.check_fn = check_fn
+	self.check_fns = check_fns
 
 	for k, v in options.items():
 	    dict.__setitem__(self, k, Option(name=k, mod=self, value = v))
@@ -109,17 +112,19 @@ class Module(Inherit, BaseScope):
 	return "Module '" + self.name + "'"
 
     def subeval(self, scope):
-	try:
-	    if self.check_fn and not self.check_fn(scope):
-		return False
-	except:
-	    return False
+	new_scope = scope
 
-	
+	res = True
+	for ent, fn in self.check_fns:
+	    ret = fn(new_scope, ent)
+	    if isinstance(ret, Scope):
+		new_scope = ret
+	    elif not ret:
+		return False
 
 	res = True
 	for i in self.depends:
-	    res &= scope.eval(i)
+	    res &= new_scope.eval(i)
 
 	return res
 
@@ -157,40 +162,27 @@ def try_add_step(scope, ent, options = {}):
     scope.do_later.append((ent, options))
     return scope
 
-def finalize(scope):
-    if not scope:
-	return False
-
-    if not scope.do_later:
-	return scope 
-
-    for i in range(0,len(scope.do_later)):
-	new_scope = Scope(scope)
-	new_scope.do_later = scope.do_later[0:i] + scope.do_later[i+1:]
-	tup = scope.do_later[i]
-	
-	if new_scope.eval(*tup):
-	    return new_scope
-
-    return False
-
 class TestCase(unittest.TestCase):
     def test_recursive_feature_add(self):
 	blck = Module('module block')
 	stdio = Module('module stdio')
 	fs = Module('module FS', depends=(blck, stdio))
 	test2 = Module('test2', depends=Module('test'))
+	test3 = Module('test3')
 
-	with_fs = try_add_step(Scope(), fs)
-	final = finalize(try_add_step(with_fs, test2))
-	self.assertEqual(len(final), 5)
+	scope = try_add_step(Scope(), fs)
+	scope = try_add_step(scope, test2)
+	self.assertEqual(len(scope), 5)
+
+	self.assertTrue(False != scope[blck])
+	self.assertRaises(AttributeError, scope.__getitem__, test3)
 
     def test_interface(self):
 	timer_api = Interface("Timer api")
 	head_timer = Module("Head timer", implements=timer_api)
 
-	final = finalize(try_add_step(Scope(), head_timer))
-	self.assertEqual(final[timer_api], final[head_timer])
+	scope = try_add_step(Scope(), head_timer)
+	self.assertEqual(scope[timer_api], scope[head_timer])
 
     def test_options(self):
 	timer_api = Interface("Timer api")
@@ -199,7 +191,6 @@ class TestCase(unittest.TestCase):
 
 	scope = try_add_step(Scope(), rt)
 	scope = try_add_step(scope, head_timer)
-	scope = finalize(scope)
 
 	self.assertEqual(rt.option_val(scope, 'timer_nr'),	    32)
 	self.assertEqual(rt.option_val(scope, 'impl_name'),	    "rt timer")
@@ -211,32 +202,34 @@ class TestCase(unittest.TestCase):
 
     def test_constraints(self):
 	stack_lds = Module("stack", options = {'stack_sz' : 1024})
+	constr = (
+		(stack_lds, lambda scope, ent: ent.option_val(scope, 'stack_sz') > 4096),)
 
-	def test_c(scope):
-	    return scope[stack_lds].option_val('stack_sz') > 4096
-
-	thread_core = Module("thread_core", check_fn=test_c)
+	thread_core = Module("thread_core", check_fns=constr)
 
 	scope = try_add_step(Scope(), stack_lds)
-	self.assertTrue(scope)
+	self.assertTrue(False != scope[stack_lds])
 	scope = try_add_step(scope, thread_core)
-	self.assertTrue(scope)
-	self.assertFalse(finalize(scope))
+	self.assertRaises(AttributeError, scope.__getitem__, thread_core)
 
     def test_constraints_unordered(self):
 	stack_lds = Module("stack", options = {'stack_sz' : 8192})
+	constr = (
+		(stack_lds, lambda scope, ent: ent.option_val(scope, 'stack_sz') > 4096),)
 
-	def test_c(scope):
-	    return scope[stack_lds].option_val('stack_sz') > 4096
-
-	thread_core = Module("thread_core", check_fn=test_c)
+	thread_core = Module("thread_core", check_fns=constr)
 
 	scope = try_add_step(Scope(), thread_core)
-	self.assertFalse(scope)
 	scope = try_add_step(scope, stack_lds)
-	self.assertTrue(scope)
-	scope = finalize(scope)
-	self.assertTrue(scope)
+	self.assertTrue(False != scope[thread_core])
+	self.assertTrue(False != scope[stack_lds])
+
+    def test_scope_pred(self):
+	scope = Scope()
+	self.assertTrue(scope != False)
+	scope = Scope(scope)
+	self.assertTrue(scope != False)
+
 
 if __name__ == '__main__':
     unittest.main()
