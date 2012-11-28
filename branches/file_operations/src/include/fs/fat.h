@@ -260,11 +260,11 @@ typedef struct dirinfo {
 	uint8_t flags;				/* internal DOSFS flags */
 } dir_info_t, *p_dir_info_t;
 
-typedef struct fat_fs_description {
+typedef struct fat_fs_info {
 	void *bdev;
 	uint8_t root_name[MAX_LENGTH_PATH_NAME];
 	vol_info_t vi;
-} fat_fs_description_t;
+} fat_fs_info_t;
 
 typedef struct _fat_file_info {
 	p_vol_info_t volinfo;		/* vol_info_t used to open this file */
@@ -276,7 +276,7 @@ typedef struct _fat_file_info {
 
 	uint32_t cluster;			/* current cluster */
 	uint32_t pointer;			/* current (BYTE) pointer */
-	fat_fs_description_t *fs;
+	fat_fs_info_t *fs;
 } fat_file_info_t;
 
 

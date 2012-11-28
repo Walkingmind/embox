@@ -34,7 +34,7 @@ static uint8_t sector_buff[SECTOR_SIZE];
 static uint32_t bytecount;
 
 /* fat filesystem description pool */
-POOL_DEF(fat_fs_pool, struct fat_fs_description, OPTION_GET(NUMBER,fat_descriptor_quantity));
+POOL_DEF(fat_fs_pool, struct fat_fs_info, OPTION_GET(NUMBER,fat_descriptor_quantity));
 
 /* fat file description pool */
 POOL_DEF(fat_file_pool, struct _fat_file_info, OPTION_GET(NUMBER,inode_quantity));
@@ -1022,12 +1022,14 @@ static int fatfs_create_file(void *par) {
 	fat_file_info_t *fi;
 	file_create_param_t *param;
 	node_t *node;
+	struct nas *nas;
 	uint32_t cluster, temp;
 
 	param = (file_create_param_t *) par;
 
 	node = (node_t *) param->node;
-	fi = (fat_file_info_t *) node->fi;
+	nas = node->nas;
+	fi = (fat_file_info_t *) nas->fi;
 
 	volinfo = &fi->fs->vi;
 
@@ -1812,6 +1814,7 @@ static int fatfs_root_create(void *finfo) {
 static int fat_mount_files (void *dir_node) {
 	uint32_t cluster;
 	node_t *node, *root_node;
+	struct nas *nas, *root_nas;
 	uint32_t pstart, psize;
 	uint8_t pactive, ptype;
 	dir_info_t di;
@@ -1821,7 +1824,8 @@ static int fat_mount_files (void *dir_node) {
 	uint8_t name[MSDOS_NAME + 2];
 
 	root_node = (node_t *)dir_node;
-	root_fi = (fat_file_info_t *) root_node->fi;
+	root_nas = root_node->nas;
+	root_fi = (fat_file_info_t *) root_nas->fi;
 
 	/* Obtain pointer to first partition */
 	pstart = fat_get_ptn_start(root_fi, sector_buff, 0, &pactive, &ptype, &psize);
@@ -1863,8 +1867,9 @@ static int fat_mount_files (void *dir_node) {
 			fi->fs = root_fi->fs;
 			//node->fs->drv = &fatfs_drv;
 			//node->node_info = root_node->node_info;
-			node->fs = root_node->fs;
-			node->fi = (void *)fi;
+			nas = node->nas;
+			nas->fs = root_nas->fs;
+			nas->fi = (void *)fi;
 
 			if ((ATTR_DIRECTORY & de.attr) == ATTR_DIRECTORY) {
 				node->properties = NODE_TYPE_DIRECTORY;
@@ -1884,6 +1889,7 @@ static int fat_mount_files (void *dir_node) {
 static int fat_create_dir_entry(char *dir_name) {
 	uint32_t cluster;
 	node_t *parent_node, *node;
+	struct nas *nas, *parent_nas;
 	fat_file_info_t *parent_fi, *fi;
 	dir_info_t di;
 	dir_ent_t de;
@@ -1896,7 +1902,8 @@ static int fat_create_dir_entry(char *dir_name) {
 		return -ENODEV;/*device not found*/
 	}
 
-	parent_fi = (fat_file_info_t *) parent_node->fi;
+	parent_nas = parent_node->nas;
+	parent_fi = (fat_file_info_t *) parent_nas->fi;
 
 	if(NULL == (rcv_buf = page_alloc(__phymem_allocator, 1))) {
 		return -ENOMEM;
@@ -1936,8 +1943,9 @@ static int fat_create_dir_entry(char *dir_name) {
 			fi->fs = parent_fi->fs;
 			//node->fs_type = &fatfs_drv;
 			//node->node_info = parent_node->node_info;
-			node->fs = parent_node->fs;
-			node->fi = (void *)fi;
+			nas = node->nas;
+			nas->fs = parent_nas->fs;
+			nas->fi = (void *)fi;
 
 			if ((ATTR_DIRECTORY & de.attr) == ATTR_DIRECTORY) {
 				node->properties = NODE_TYPE_DIRECTORY;
@@ -1967,14 +1975,16 @@ static struct kfile_operations fatfs_fop = { fatfs_open, fatfs_close, fatfs_read
 /*
  * file_operation
  */
-static int fatfs_open(struct node *node, struct file_desc *desc,  int flag) {
-	node_t *nod;
+static int fatfs_open(struct node *nod, struct file_desc *desc,  int flag) {
+	node_t *node;
+	struct nas *nas;
 	int _mode;
 	uint8_t path [MAX_LENGTH_PATH_NAME];
 	fat_file_info_t *fi;
 
-	nod = desc->node;
-	fi = (fat_file_info_t *)nod->fi;
+	node = nod;
+	nas = node->nas;
+	fi = (fat_file_info_t *)nas->fi;
 
 	/*if ('r' == *mode) {
 		_mode = O_RDONLY;
@@ -2016,7 +2026,7 @@ static int fatfs_seek(void *file, long offset, int whence) {
 	curr_offset = offset;
 
 	desc = (struct file_desc *) file;
-	fi = (fat_file_info_t *)desc->node->fi;
+	fi = (fat_file_info_t *)desc->node->nas->fi;
 
 	switch (whence) {
 	case SEEK_SET:
@@ -2041,7 +2051,7 @@ static int fatfs_stat(void *file, void *buff) {
 	stat_t *buffer;
 
 	desc = (struct file_desc *) file;
-	fi = (fat_file_info_t *)desc->node->fi;
+	fi = (fat_file_info_t *)desc->node->nas->fi;
 	buffer = (stat_t *) buff;
 
 	if (buffer) {
@@ -2141,9 +2151,11 @@ static size_t fatfs_read(struct file_desc *desc, void *buf, size_t size, size_t 
 	size_t size_to_read;
 	size_t rezult;
 	fat_file_info_t *fi;
+	struct nas *nas;
 
 	size_to_read = size * count;
-	fi = (fat_file_info_t *)desc->node->fi;
+	nas = desc->node->nas;
+	fi = (fat_file_info_t *)nas->fi;
 
 	rezult = fat_read_file(fi, sector_buff, buf, &bytecount, size_to_read);
 	if (DFS_OK == rezult) {
@@ -2156,10 +2168,12 @@ static size_t fatfs_write(struct file_desc *desc, void *buf, size_t size, size_t
 	size_t size_to_write;
 	size_t rezult;
 	fat_file_info_t *fi;
+	struct nas *nas;
 
 	size_to_write = size * count;
 
-	fi = (fat_file_info_t *)desc->node->fi;
+	nas = desc->node->nas;
+	fi = (fat_file_info_t *)nas->fi;
 
 	rezult = fat_write_file(fi, sector_buff, (uint8_t *)buf,
 			&bytecount, size_to_write);
@@ -2200,32 +2214,34 @@ static int fatfs_init(void * par) {
 
 static int fatfs_format(void *path) {
 	node_t *dev_nod;
-	fat_fs_description_t *fs_des;
+	struct nas *dev_nas;
+	fat_fs_info_t *fsi;
 	fat_file_info_t *fi;
 
 	if (NULL == (dev_nod = vfs_find_node((char *) path, NULL))) {
 		return -ENODEV;/*device not found*/
 	}
 
-	if((NULL == (fs_des = pool_alloc(&fat_fs_pool))) ||
+	if((NULL == (fsi = pool_alloc(&fat_fs_pool))) ||
 			(NULL == (fi = pool_alloc(&fat_file_pool)))) {
-		if(NULL != fs_des) {
-			pool_free(&fat_fs_pool, fs_des);
+		if(NULL != fsi) {
+			pool_free(&fat_fs_pool, fsi);
 		}
 		return -ENOMEM;
 	}
 
 	memset(fi, 0, sizeof(fat_file_info_t));
-	memset(fs_des, 0, sizeof(struct fat_fs_description));
+	memset(fsi, 0, sizeof(fat_fs_info_t));
 
 	//fs_des->bdev = dev_nod->node_info;
-	fs_des->bdev = dev_nod->fs->bdev;
-	strcpy((char *) fs_des->root_name, "\0");
+	dev_nas = dev_nod->nas;
+	fsi->bdev = dev_nas->fs->bdev;
+	strcpy((char *) fsi->root_name, "\0");
 
-	fi->fs = fs_des;
+	fi->fs = fsi;
 	//dev_nod->fs_type = &fatfs_drv;
-	dev_nod->fs->drv = &fatfs_drv;
-	dev_nod->fi = (void *)fi;
+	dev_nas->fs->drv = &fatfs_drv;
+	dev_nas->fi = (void *)fi;
 
 	fatfs_partition(fi);
 	fatfs_root_create(fi);
@@ -2235,7 +2251,8 @@ static int fatfs_format(void *path) {
 
 static int fatfs_mount(void *par) {
 	mount_params_t *params;
-	node_t *dir_node, *dev_node;
+	struct node *dir_node, *dev_node;
+	struct nas *dir_nas, *dev_nas;
 	fat_file_info_t *fi, *dev_fi;
 
 	params = (mount_params_t *) par;
@@ -2249,7 +2266,8 @@ static int fatfs_mount(void *par) {
 	}
 
 	/* If dev_node created, but not attached to the filesystem driver */
-	if (NULL == (dev_fi = (fat_file_info_t *) dev_node->fi)) {
+	dev_nas = dev_node->nas;
+	if (NULL == (dev_fi = (fat_file_info_t *) dev_nas->fi)) {
 		if((NULL == (dev_fi = pool_alloc(&fat_file_pool))) ||
 				(NULL == (dev_fi->fs = pool_alloc(&fat_fs_pool)))) {
 			if(NULL != dev_fi) {
@@ -2258,10 +2276,10 @@ static int fatfs_mount(void *par) {
 			return -ENOMEM;
 		}
 		memset(dev_fi, 0, sizeof(fat_file_info_t));
-		memset(dev_fi->fs, 0, sizeof(fat_fs_description_t));
+		memset(dev_fi->fs, 0, sizeof(fat_fs_info_t));
 
-		dev_node->fi = dev_fi;
-		dev_fi->fs->bdev = dev_node->fs->bdev;
+		dev_nas->fi = dev_fi;
+		dev_fi->fs->bdev = dev_nas->fs->bdev;
 	}
 
 	strncpy((char *) dev_fi->fs->root_name, params->dir, MAX_LENGTH_PATH_NAME);
@@ -2273,9 +2291,10 @@ static int fatfs_mount(void *par) {
 	memset(fi, 0, sizeof(fat_file_info_t));
 
 	fi->fs = dev_fi->fs;
-	//dir_node->fs_type = &fatfs_drv;
-	dir_node->fs = dev_node->fs;
-	dir_node->fi = (void *) fi;
+	//dir_node->nas->fs_type = &fatfs_drv;
+	dir_nas = dir_node->nas;
+	dir_nas->fs = dev_nas->fs;
+	dir_nas->fi = (void *) fi;
 
 	return fat_mount_files(dir_node);
 }
@@ -2283,14 +2302,17 @@ static int fatfs_mount(void *par) {
 static int fatfs_create(void *par) {
 	file_create_param_t *param;
 	fat_file_info_t *fi, *parents_fi;
-	node_t *node, *parents_node;
+	struct node *node, *parents_node;
+	struct nas *nas, *parents_nas;
 	int node_quantity;
 
 	param = (file_create_param_t *) par;
 
 	node = (node_t *)param->node;
+	nas = node->nas;
 	parents_node = (node_t *)param->parents_node;
-	parents_fi = (fat_file_info_t *) parents_node->fi;
+	parents_nas = parents_node->nas;
+	parents_fi = (fat_file_info_t *) parents_nas->fi;
 
 	if (NODE_TYPE_DIRECTORY == (node->properties & NODE_TYPE_DIRECTORY)) {
 		node_quantity = 3; /* need create . and .. directory */
@@ -2322,8 +2344,8 @@ static int fatfs_create(void *par) {
 		fi->fs = parents_fi->fs;
 		//node->fs_type = &fatfs_drv;
 		//node->node_info = parents_node->node_info;
-		node->fs = parents_node->fs;
-		node->fi = (void *)fi;
+		nas->fs = parents_nas->fs;
+		nas->fi = (void *)fi;
 
 		/*
 		 * fatfs_create_file called only once for the newly created directory.
@@ -2343,26 +2365,28 @@ static int fatfs_create(void *par) {
 
 static int fatfs_delete(const char *fname) {
 	fat_file_info_t *fi;
-	node_t *nod, *pointnod;
+	node_t *node, *pointnode;
+	struct nas *nas;
 	char path [MAX_LENGTH_PATH_NAME];
 
-	if(NULL == (nod = vfs_find_node(fname, NULL))) {
+	if(NULL == (node = vfs_find_node(fname, NULL))) {
 		return -1;
 	}
-	fi = (fat_file_info_t *)nod->fi;
+	nas = node->nas;
+	fi = (fat_file_info_t *)nas->fi;
 
-	vfs_get_path_by_node(nod, path);
+	vfs_get_path_by_node(node, path);
 
 	/* need delete "." and ".." node for directory */
-	if (NODE_TYPE_DIRECTORY == (nod->properties & NODE_TYPE_DIRECTORY)) {
+	if (node_is_directory(node)) {
 
 		strcat(path, "/.");
-		pointnod = vfs_find_node(path, NULL);
-		vfs_del_leaf(pointnod);
+		pointnode = vfs_find_node(path, NULL);
+		vfs_del_leaf(pointnode);
 
 		strcat(path, ".");
-		pointnod = vfs_find_node(path, NULL);
-		vfs_del_leaf(pointnod);
+		pointnode = vfs_find_node(path, NULL);
+		vfs_del_leaf(pointnode);
 
 		path[strlen(path) - 3] = '\0';
 	}
@@ -2377,7 +2401,7 @@ static int fatfs_delete(const char *fname) {
 		pool_free(&fat_fs_pool, fi->fs);
 	}
 	else {
-		if (NODE_TYPE_DIRECTORY == (nod->properties & NODE_TYPE_DIRECTORY)) {
+		if (node_is_directory(node)) {
 			if(fat_unlike_directory(fi, (uint8_t *) path,
 				(uint8_t *) sector_buff)) {
 				return -1;
@@ -2393,7 +2417,7 @@ static int fatfs_delete(const char *fname) {
 	}
 	pool_free(&fat_file_pool, fi);
 
-	vfs_del_leaf(nod);
+	vfs_del_leaf(node);
 	return 0;
 }
 

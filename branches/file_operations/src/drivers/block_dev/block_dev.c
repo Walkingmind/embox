@@ -63,6 +63,7 @@ block_dev_t *block_dev(void *dev) {
 struct block_dev *block_dev_create(char *path, void *driver, void *privdata) {
 	block_dev_t *bdev;
 	node_t *node;
+	struct nas *nas;
 
 	bdev = (block_dev_t *) pool_alloc(&blockdev_pool);
 	if (NULL == bdev) {
@@ -87,7 +88,8 @@ struct block_dev *block_dev_create(char *path, void *driver, void *privdata) {
 		return NULL;
 	}
 
-	if (NULL == (node->fs = alloc_filesystem("empty"))) {
+	nas = node->nas;
+	if (NULL == (nas->fs = alloc_filesystem("empty"))) {
 		vfs_del_leaf(node);
 		pool_free(&blockdev_pool, bdev);
 		index_free(&block_dev_idx, bdev->id);
@@ -95,7 +97,7 @@ struct block_dev *block_dev_create(char *path, void *driver, void *privdata) {
 		return NULL;
 	}
 
-	node->fs->bdev = bdev;
+	nas->fs->bdev = bdev;
 	strncpy (bdev->name, node->name, MAX_LENGTH_FILE_NAME);
 	bdev->dev_node = node;
 

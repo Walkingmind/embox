@@ -27,7 +27,8 @@ node_t *create_filechain(const char *path, uint8_t node_type){
 	int count_dir;
 	file_create_param_t param;
 	fs_drv_t *drv;
-	node_t *node, *new_node;
+	struct node *node, *new_node;
+	struct nas *nas, *new_nas;
 	char tail[MAX_LENGTH_FILE_NAME];
 
 	count_dir = 0;
@@ -42,7 +43,8 @@ node_t *create_filechain(const char *path, uint8_t node_type){
 		count_dir ++;
 	} while (NULL == (node = vfs_find_node(param.path, NULL)));
 	/* check drv of parents */
-	drv = node->fs->drv;
+	nas = node->nas;
+	drv = nas->fs->drv;
 
 	if ((NULL == drv) || (NULL == drv->fsop->create_file)) {
 		return NULL;
@@ -56,7 +58,8 @@ node_t *create_filechain(const char *path, uint8_t node_type){
 			return NULL;
 		}
 
-		new_node->fs->drv = node->fs->drv;
+		new_nas = new_node->nas;
+		new_nas->fs->drv = nas->fs->drv;
 		new_node->properties = NODE_TYPE_DIRECTORY;
 		if ((LAST_IN_PATH == count_dir) && (NODE_TYPE_FILE == node_type)) {
 			new_node->properties = NODE_TYPE_FILE;
@@ -116,6 +119,7 @@ int mkdir(const char *pathname, mode_t mode) {
 
 int remove(const char *pathname) {
 	node_t *node;
+	struct nas *nas;
 	fs_drv_t *drv;
 
 	if (NULL == (node = vfs_find_node(pathname, NULL))) {
@@ -123,7 +127,8 @@ int remove(const char *pathname) {
 		return -1;
 	}
 
-	drv = node->fs->drv;
+	nas = node->nas;
+	drv = nas->fs->drv;
 	if (NULL == drv->fsop->delete_file) {
 		errno = EINVAL;
 		return -1;
@@ -140,9 +145,11 @@ int remove(const char *pathname) {
 int unlink(const char *pathname) {
 	node_t *node;
 	fs_drv_t *drv;
+	struct nas *nas;
 
 	node = vfs_find_node(pathname, NULL);
-	drv = node->fs->drv;
+	nas = node->nas;
+	drv = nas->fs->drv;
 
 	return drv->fsop->delete_file (pathname);
 }
@@ -150,9 +157,11 @@ int unlink(const char *pathname) {
 int rmdir(const char *pathname) {
 	node_t *node;
 	fs_drv_t *drv;
+	struct nas *nas;
 
 	node = vfs_find_node(pathname, NULL);
-	drv = node->fs->drv;
+	nas = node->nas;
+	drv = nas->fs->drv;
 
 	return drv->fsop->delete_file (pathname);
 }

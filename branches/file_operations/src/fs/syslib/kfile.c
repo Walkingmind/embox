@@ -21,13 +21,14 @@
 #include <fs/kfile.h>
 
 struct file_desc *kopen(const char *path, int flag) {
-	node_t *nod;
+	struct node *node;
+	struct nas *nas;
 	struct file_desc *desc;
 	struct kfile_operations *ops;
 	int res;
 
 
-	if (NULL == (nod = vfs_find_node(path, NULL))) {
+	if (NULL == (node = vfs_find_node(path, NULL))) {
 		if ((O_WRONLY != flag) && (O_APPEND != flag)) {
 			errno = ENOENT;
 			return NULL;
@@ -37,30 +38,31 @@ struct file_desc *kopen(const char *path, int flag) {
 			return NULL;
 		}
 
-		if (NULL == (nod = vfs_find_node(path, NULL))) {
+		if (NULL == (node = vfs_find_node(path, NULL))) {
 			return NULL;
 		}
 	}
 
-	if (node_is_directory(nod)) {
+	if (node_is_directory(node)) {
 		errno = EISDIR;
 		return NULL;
 	}
 
+	nas = node->nas;
 	/* if we try open a file (not special) we must have the file system */
-	if(NULL == nod->fs ) {
+	if(NULL == nas->fs ) {
 		errno = ENOSUPP;
 		return NULL;
 	}
 
-	if(node_is_file(nod)) {
-		if(NULL == nod->fs->drv) {
+	if(node_is_file(node)) {
+		if(NULL == nas->fs->drv) {
 			errno = ENOSUPP;
 			return NULL;
 		}
-		ops = (struct kfile_operations *)nod->fs->drv->file_op;
+		ops = (struct kfile_operations *)nas->fs->drv->file_op;
 	} else {
-		ops = nod->fs->file_op;
+		ops = nas->fs->file_op;
 	}
 
 	/* allocate new descriptor */
@@ -69,16 +71,16 @@ struct file_desc *kopen(const char *path, int flag) {
 		return NULL;
 	}
 
-	desc->node = nod;
+	desc->node = node;
 	desc->ops = ops;
 
-	if((flag & O_APPEND) && node_is_file(nod)) {
+	if((flag & O_APPEND) && node_is_file(node)) {
 		desc->cursor = kseek(desc, 0, SEEK_END);
 	} else {
 		desc->cursor = 0;
 	}
 
-	if(0 < (res = desc->ops->open(nod, desc, flag))) {
+	if(0 < (res = desc->ops->open(node, desc, flag))) {
 		file_desc_free(desc);
 		errno = -res;
 		return NULL;

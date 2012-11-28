@@ -28,11 +28,16 @@
 typedef struct node {
 	const char            name[MAX_LENGTH_FILE_NAME];
 	int                   properties;  /* FILE, DIRECTORY, DEVICE, LINK ... */
-	void                 *fi;
 	struct tree_link      tree_link;
 	void                 *nas;
-	struct filesystem    *fs;
 } node_t;
+
+typedef struct nas {
+	struct node          *node;
+	struct filesystem    *fs;
+	void                 *fi;
+} nas_t;
+
 
 #if 1
 typedef struct file_create_param {

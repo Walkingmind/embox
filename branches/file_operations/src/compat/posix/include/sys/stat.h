@@ -11,6 +11,7 @@
 #define SYS_STAT_H_
 
 #include <sys/types.h>
+#include <fs/node.h>
 
 
 
@@ -74,6 +75,19 @@ typedef struct stat {
 	unsigned  st_mtime;   /* time of last modification */
 	unsigned  st_ctime;   /* time of last status change */
 } stat_t;
+
+typedef struct statfs  {
+	unsigned int bsize;        /* Fundamental file system block size */
+	unsigned int iosize;       /* Optimal transfer block size */
+	unsigned int blocks;       /* Total data blocks in file system */
+	unsigned int bfree;        /* Free blocks in fs */
+	unsigned int files;        /* Total file nodes in file system */
+	unsigned int ffree;        /* Free file nodes in fs */
+	unsigned int cachesize;    /* Cache buffers */
+	char fstype[MAX_LENGTH_FILE_NAME];   /* File system type name */
+	char mntto[MAX_LENGTH_PATH_NAME];       /* Directory on which mounted */
+	char mntfrom[MAX_LENGTH_PATH_NAME];     /* Mounted file system */
+} statfs_t;
 
 /**
  * Get file status (size, mode, mtime and so on)

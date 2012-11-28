@@ -16,6 +16,7 @@
 #include <mem/misc/pool.h>
 
 POOL_DEF(node_pool, struct node, OPTION_GET(NUMBER,fnode_quantity));
+POOL_DEF(nas_pool, struct nas, OPTION_GET(NUMBER,fnode_quantity));
 
 EMBOX_UNIT_INIT(node_init);
 
@@ -25,11 +26,21 @@ static int node_init(void) {
 
 node_t *node_alloc(const char *name) {
 	node_t *node;
+	struct nas *nas;
 
 	node = pool_alloc(&node_pool);
 	if(NULL == node) {
 		return NULL;
 	}
+
+	nas = pool_alloc(&nas_pool);
+	if(NULL == nas) {
+		node_free(node);
+		return NULL;
+	}
+
+	node->nas = nas;
+	nas->node = node;
 
 	strcpy((char*) node->name, name);
 	tree_link_init(&node->tree_link);

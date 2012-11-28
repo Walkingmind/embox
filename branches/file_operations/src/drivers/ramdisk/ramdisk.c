@@ -92,24 +92,28 @@ int ramdisk_create(void *params) {
 
 ramdisk_t *ramdisk_get_param(char *path) {
 	node_t *ramdisk_node;
+	struct nas *nas;
 
 	if (NULL == (ramdisk_node = vfs_find_node(path, NULL))) {
 		return NULL;
 	}
-	return (ramdisk_t *) block_dev(ramdisk_node->fs->bdev)->privdata;
+	nas = ramdisk_node->nas;
+	return (ramdisk_t *) block_dev(nas->fs->bdev)->privdata;
 }
 
 int ramdisk_delete(const char *name) {
 	node_t *ramdisk_node;
 	ramdisk_t *ramdisk;
+	struct nas *nas;
 
 	if (NULL == (ramdisk_node = vfs_find_node(name, NULL))) {
 		return -1;
 	}
-	if(NULL != (ramdisk = (ramdisk_t *) block_dev(ramdisk_node->fs->bdev)->privdata)) {
+	nas = ramdisk_node->nas;
+	if(NULL != (ramdisk = (ramdisk_t *) block_dev(nas->fs->bdev)->privdata)) {
 		index_free(&ramdisk_idx, ramdisk->idx);
 		pool_free(&ramdisk_pool, ramdisk);
-		block_dev_destroy (ramdisk_node->fs->bdev);
+		block_dev_destroy (nas->fs->bdev);
 		vfs_del_leaf(ramdisk_node);
 	}
 	return 0;

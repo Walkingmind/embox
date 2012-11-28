@@ -48,7 +48,7 @@ int vfs_get_path_by_node (node_t *nod, char *path) {
 	strncpy((char *) buff, (const char *) &node->name, MAX_LENGTH_FILE_NAME);
 
 	while(NULL !=
-			(parent = vfs_find_parent((const char *) &node->name, node))) {
+			(parent = vfs_find_parent(node))) {
 		strncpy((char *) path,
 				(const char *) &parent->name, MAX_LENGTH_FILE_NAME);
 		if('/' != *path) {
@@ -117,8 +117,8 @@ static int compare_children_names(struct tree_link* link, void *name) {
 	node_t *node = tree_element(link, node_t, tree_link);
 	return 0 == strcmp(node->name, (char *)name);
 }
-
-node_t *vfs_find_parent(const char *name, node_t *child) {
+/*TODO not need name */
+node_t *vfs_find_parent(node_t *child) {
 	struct tree_link *tlink;
 
 	tlink = &child->tree_link;

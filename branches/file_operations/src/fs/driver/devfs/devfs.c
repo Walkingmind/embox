@@ -15,6 +15,10 @@
 #include <embox/device.h>
 #include <embox/block_dev.h>
 
+static int devfs_init(void * par) {
+
+	return 0;
+}
 
 static int devfs_mount(void *par) {
 	struct node *nod;
@@ -38,7 +42,7 @@ static int devfs_mount(void *par) {
 	return 0;
 }
 
-static fsop_desc_t devfs_fsop = { NULL, NULL, devfs_mount,
+static fsop_desc_t devfs_fsop = { devfs_init, NULL, devfs_mount,
 		NULL, NULL};
 
 static const fs_drv_t devfs_drv = {

@@ -27,6 +27,7 @@ static struct mount_params mp;
 static int rootfs_mount(void *par) {
 	fs_drv_t *fsdrv;
 	struct mount_params *mp;
+	struct nas *root_nas;
 
 	static const char* fs_type = OPTION_STRING_GET(fstype);
 	mp = (mount_params_t *) par;
@@ -46,7 +47,8 @@ static int rootfs_mount(void *par) {
 
 	/* mount root file system */
 	if (NULL != fsdrv) {
-		root_node->fs = alloc_filesystem(fs_type);
+		root_nas = root_node->nas;
+		root_nas->fs = alloc_filesystem(fs_type);
 		return fsdrv->fsop->mount(mp);
 	}
 

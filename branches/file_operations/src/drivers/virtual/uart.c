@@ -139,6 +139,7 @@ static int dev_uart_ioctl(struct file_desc *desc, int request, va_list args) {
 
 int uart_dev_register(struct uart_device *dev) {
 	struct node *nod, *devnod;
+	struct nas *dev_nas;
 
 	//TODO tmp (we can have only one device)
 	uart_dev = dev;
@@ -151,12 +152,13 @@ int uart_dev_register(struct uart_device *dev) {
 		return -1;
 	}
 
-	if(NULL == (devnod->fs = alloc_filesystem("empty"))) {
+	dev_nas = devnod->nas;
+	if(NULL == (dev_nas->fs = alloc_filesystem("empty"))) {
 		return -1;
 	}
 	//strncpy((char*)devnod->name, dev->dev_name, sizeof(devnod->name) - 1);
 
-	devnod->fs->file_op = &uart_dev_file_op;
+	dev_nas->fs->file_op = &uart_dev_file_op;
 
 	return 0;
 }

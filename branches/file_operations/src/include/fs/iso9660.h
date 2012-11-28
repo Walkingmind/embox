@@ -151,6 +151,48 @@ typedef struct iso_pathtable_record {
 #define PS2                     '\\'    /* Alternate path separator */
 
 
+#define S_IFMT         0170000   /* File type mask */
+#define S_IFPKT        0160000   /* Packet device */
+#define S_IFSOCK       0140000   /* Socket */
+#define S_IFLNK        0120000   /* Symbolic link */
+#define S_IFREG        0100000   /* Regular file */
+#define S_IFBLK        0060000   /* Block device */
+#define S_IFDIR        0040000   /* Directory */
+#define S_IFCHR        0020000   /* Character device */
+#define S_IFIFO        0010000   /* Pipe */
+
+#define S_IREAD        0000400   /* Read permission, owner */
+#define S_IWRITE       0000200   /* Write permission, owner */
+#define S_IEXEC        0000100   /* Execute/search permission, owner */
+
+#define S_ISLNK(m)      (((m) & S_IFMT) == S_IFLNK)
+#define S_ISREG(m)      (((m) & S_IFMT) == S_IFREG)
+#define S_ISDIR(m)      (((m) & S_IFMT) == S_IFDIR)
+#define S_ISCHR(m)      (((m) & S_IFMT) == S_IFCHR)
+#define S_ISBLK(m)      (((m) & S_IFMT) == S_IFBLK)
+#define S_ISFIFO(m)     (((m) & S_IFMT) == S_IFIFO)
+#define S_ISSOCK(m)     (((m) & S_IFMT) == S_IFSOCK)
+#define S_ISPKT(m)      (((m) & S_IFMT) == S_IFPKT)
+
+#define S_IRWXU 00700
+#define S_IRUSR 00400
+#define S_IWUSR 00200
+#define S_IXUSR 00100
+
+#define S_IRWXG 00070
+#define S_IRGRP 00040
+#define S_IWGRP 00020
+#define S_IXGRP 00010
+
+#define S_IRWXO 00007
+#define S_IROTH 00004
+#define S_IWOTH 00002
+#define S_IXOTH 00001
+
+#define F_MODIFIED     0x100000  /* File has been modified since it was opened */
+#define F_DIR          0x200000  /* File is a directory */
+#define F_CLOSED       0x400000  /* File is closed */
+
 typedef unsigned short wchar_t;
 
 #define __int64 long long
@@ -238,19 +280,7 @@ typedef struct direntry {
 	char name[MAX_LENGTH_PATH_NAME];
 } direntry_t;
 
-typedef struct statfs  {
-	unsigned int bsize;        /* Fundamental file system block size */
-	unsigned int iosize;       /* Optimal transfer block size */
-	unsigned int blocks;       /* Total data blocks in file system */
-	unsigned int bfree;        /* Free blocks in fs */
-	unsigned int files;        /* Total file nodes in file system */
-	unsigned int ffree;        /* Free file nodes in fs */
-	unsigned int cachesize;    /* Cache buffers */
-	char fstype[MAX_LENGTH_FILE_NAME];   /* File system type name */
-	char mntto[MAX_LENGTH_PATH_NAME];       /* Directory on which mounted */
-	char mntfrom[MAX_LENGTH_PATH_NAME];     /* Mounted file system */
-} statfs_t;
-
+/*
 struct fsops {
 	unsigned long reentrant;
 
@@ -274,12 +304,12 @@ struct fsops {
 
 	off64_t (*tell)(cdfs_file_description_t *filp);
 	off64_t (*lseek)(cdfs_file_description_t *filp, off64_t offset, int origin);
-	int (*ftruncate)(cdfs_file_description_t *filp, off64_t size);
+	int (*ftruncate)(cdfs_file_description_t *filp, off64_t size);*/
 
 	/*int (*futime)(cdfs_file_description_t *filp, struct utimbuf *times); */
 	/*int (*utime)(cdfs_fs_description_t *fs, char *name, struct utimbuf *times); */
 
-	int (*fstat)(cdfs_file_description_t *filp, stat_t *buffer);
+	/*int (*fstat)(cdfs_file_description_t *filp, stat_t *buffer);
 	int (*stat)(cdfs_fs_description_t *fs, char *name, stat_t *buffer);
 
 	int (*access)(cdfs_fs_description_t *fs, char *name, int mode);
@@ -299,5 +329,21 @@ struct fsops {
 	int (*opendir)(cdfs_file_description_t *filp, char *name);
 	int (*readdir)(cdfs_file_description_t *filp, direntry_t *dirp, int count);
 };
+*/
+/*
+struct tm {
+	int tm_sec;                   // Seconds after the minute [0, 59]
+	int tm_min;                   // Minutes after the hour [0, 59]
+	int tm_hour;                  // Hours since midnight [0, 23]
+	int tm_mday;                  // Day of the month [1, 31]
+	int tm_mon;                   // Months since January [0, 11]
+	int tm_year;                  // Years since 1900
+	int tm_wday;                  // Days since Sunday [0, 6]
+	int tm_yday;                  // Days since January 1 [0, 365]
+	int tm_isdst;                 // Daylight Saving Time flag
+	int tm_gmtoff;                // Seconds east of UTC
+	char *tm_zone;                // Timezone abbreviation
+};
+*/
 
 #endif /* ISO9660_H_ */
