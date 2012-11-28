@@ -59,15 +59,17 @@ class BaseScope(dict):
 
     def __repr__(self):
 	return 'BaseScope {' + \
-	    reduce (operator.add, map(lambda x: "\t%s: %s" % x, self.items())) + \
-	    "\n\tdo_later: " + self.do_later.__repr__() + "\n}"
+	    reduce (operator.add, map(lambda x: "\t%s: %s" % x, self.items()))
 
 class Scope(BaseScope):
     def __init__(self, parent=None):
-	self.do_later = []
 	self.parent = parent
 
     def eval(self, ent, opts={}):
+
+	for k, v in opts.items():
+	    self[ent[k]] = v
+
 	if ent.subeval(self):
 	    self[ent] = ent
 	    for i in ent.is_list():
@@ -77,8 +79,7 @@ class Scope(BaseScope):
 
     def __repr__(self):
 	return 'Scope {' + \
-	    reduce (operator.add, map(lambda x: "\t%s: %s" % x, self.items()), "") + \
-	    "\n\tdo_later: " + self.do_later.__repr__() + "\n}"
+	    reduce (operator.add, map(lambda x: "\t%s: %s" % x, self.items()), "")
 
 class Module(Inherit, BaseScope):
     def __init__(self, name, options={}, super=None, implements=(), depends=(), check_fns=()):
@@ -153,13 +154,12 @@ def try_add_step(scope, ent, options = {}):
 
     new_scope = Scope(scope)
 
-    if set(options.keys()) - set(new_scope.keys()):
+    if set(options.keys()) - set(ent.keys()):
 	raise AttributeError
 
     if new_scope.eval(ent, options):
 	return new_scope
 
-    scope.do_later.append((ent, options))
     return scope
 
 class TestCase(unittest.TestCase):
@@ -190,9 +190,9 @@ class TestCase(unittest.TestCase):
 	rt = Module("Hard realtime head timer", implements=timer_api, super=head_timer, options={'impl_name' : "rt timer"})
 
 	scope = try_add_step(Scope(), rt)
-	scope = try_add_step(scope, head_timer)
+	scope = try_add_step(scope, head_timer, options = {'timer_nr' : 64})
 
-	self.assertEqual(rt.option_val(scope, 'timer_nr'),	    32)
+	self.assertEqual(rt.option_val(scope, 'timer_nr'),	    64)
 	self.assertEqual(rt.option_val(scope, 'impl_name'),	    "rt timer")
 	self.assertEqual(head_timer.option_val(scope, 'impl_name'), None)
 
