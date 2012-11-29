@@ -101,8 +101,8 @@ EMBOX_UNIT_INIT(tmp_ramdisk_fs_init); /*TODO*/
 
 static int    tmpfs_open(struct node *node, struct file_desc *file_desc, int flags);
 static int    tmpfs_close(struct file_desc *desc);
-static size_t tmpfs_read(struct file_desc *desc, void *buf, size_t size, size_t count);
-static size_t tmpfs_write(struct file_desc *desc, void *buf, size_t size, size_t count);
+static size_t tmpfs_read(struct file_desc *desc, void *buf, size_t size);
+static size_t tmpfs_write(struct file_desc *desc, void *buf, size_t size);
 static int    tmpfs_ioctl(struct file_desc *desc, int request, va_list args);
 
 static struct kfile_operations tmpfs_fop = {
@@ -172,7 +172,7 @@ static int tmpfs_write_sector(struct nas *nas, char *buffer,
 	}
 }
 
-static size_t tmpfs_read(struct file_desc *desc, void *buf, size_t size, size_t count) {
+static size_t tmpfs_read(struct file_desc *desc, void *buf, size_t size) {
 	size_t len;
 	size_t current, cnt;
 	uint32_t end_pointer;
@@ -187,7 +187,7 @@ static size_t tmpfs_read(struct file_desc *desc, void *buf, size_t size, size_t 
 	fi = nas->fi;
 	fsi = nas->fs->fsi;
 
-	len = size * count;
+	len = size;
 
 	/* Don't try to read past EOF */
 	if (len > fi->filelen - fi->pointer) {
@@ -248,7 +248,7 @@ static size_t tmpfs_read(struct file_desc *desc, void *buf, size_t size, size_t 
 }
 
 
-static size_t tmpfs_write(struct file_desc *desc, void *buf, size_t size, size_t count) {
+static size_t tmpfs_write(struct file_desc *desc, void *buf, size_t size) {
 	tmpfs_file_info_t *fi;
 	size_t len;
 	size_t current, cnt;
@@ -270,7 +270,7 @@ static size_t tmpfs_write(struct file_desc *desc, void *buf, size_t size, size_t
 		return 0;
 	}
 
-	len = size * count;
+	len = size;
 	end_pointer = fi->pointer + len;
 	start_block = fi->index * fsi->block_per_file;
 

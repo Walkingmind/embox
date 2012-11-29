@@ -946,7 +946,7 @@ void cdfs_init(void) {
 /* File operations */
 static int    cdfsfs_open(struct node *node, struct file_desc *desc, int flags);
 static int    cdfsfs_close(struct file_desc *desc);
-static size_t cdfsfs_read(struct file_desc *desc, void *buf, size_t size, size_t count);
+static size_t cdfsfs_read(struct file_desc *desc, void *buf, size_t size);
 static int    cdfsfs_ioctl(struct file_desc *desc, int request, va_list args);
 
 static struct kfile_operations cdfsfs_fop = {
@@ -996,19 +996,17 @@ static int cdfsfs_close(struct file_desc *desc) {
 	return 0;
 }
 
-static size_t cdfsfs_read(struct file_desc *desc, void *buf, size_t size, size_t count) {
-	size_t size_to_read;
+static size_t cdfsfs_read(struct file_desc *desc, void *buf, size_t size) {
 	int rezult;
 	struct cdfs_file_info *fi;
 	struct nas *nas;
 
 	nas = desc->node->nas;
 
-	size_to_read = size * count;
 	fi = (struct cdfs_file_info *)nas->fi;
 
 	//int cdfs_read(struct cdfs_file_info *filp, void *data, size_t size, off64_t pos);
-	rezult = cdfs_read(nas, (void *) buf, size_to_read, fi->pos);
+	rezult = cdfs_read(nas, (void *) buf, size, fi->pos);
 	fi->pos += rezult;
 
 	return rezult;
