@@ -90,7 +90,7 @@ struct file_desc *kopen(const char *path, int flag) {
 	return desc;
 }
 
-size_t kwrite(const void *buf, size_t size, size_t count, struct file_desc *file) {
+size_t kwrite(const void *buf, size_t size, struct file_desc *file) {
 	struct node *node;
 
 	if (NULL == file) {
@@ -111,10 +111,10 @@ size_t kwrite(const void *buf, size_t size, size_t count, struct file_desc *file
 		return -1;
 	}
 
-	return file->ops->write(file, (void *)buf, size, count);
+	return file->ops->write(file, (void *)buf, size);
 }
 
-size_t kread(void *buf, size_t size, size_t count, struct file_desc *desc) {
+size_t kread(void *buf, size_t size, struct file_desc *desc) {
 
 	if (NULL == desc) {
 		errno = EBADF;
@@ -126,7 +126,7 @@ size_t kread(void *buf, size_t size, size_t count, struct file_desc *desc) {
 		return -1;
 	}
 
-	return desc->ops->read(desc, buf, size, count);
+	return desc->ops->read(desc, buf, size);
 }
 
 

@@ -14,9 +14,9 @@ struct stat;
 
 extern struct file_desc *kopen(const char *path, int flag);
 
-extern size_t kwrite(const void *buf, size_t size, size_t count, struct file_desc *file);
+extern size_t kwrite(const void *buf, size_t size, struct file_desc *file);
 
-extern size_t kread(void *buf, size_t size, size_t count, struct file_desc *desc);
+extern size_t kread(void *buf, size_t size, struct file_desc *desc);
 
 extern int kclose(struct file_desc *desc);
 

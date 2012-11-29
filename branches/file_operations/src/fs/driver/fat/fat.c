@@ -1931,8 +1931,8 @@ static int fat_create_dir_entry(struct nas *parent_nas) {
 /* File operations */
 static int    fatfs_open(struct node *node, struct file_desc *file_desc, int flags);
 static int    fatfs_close(struct file_desc *desc);
-static size_t fatfs_read(struct file_desc *desc, void *buf, size_t size, size_t count);
-static size_t fatfs_write(struct file_desc *desc, void *buf, size_t size, size_t count);
+static size_t fatfs_read(struct file_desc *desc, void *buf, size_t size);
+static size_t fatfs_write(struct file_desc *desc, void *buf, size_t size);
 static int    fatfs_ioctl(struct file_desc *desc, int request, va_list args);
 
 static struct kfile_operations fatfs_fop = { fatfs_open, fatfs_close, fatfs_read,
@@ -2098,32 +2098,27 @@ static int fatfs_close(struct file_desc *desc) {
 	return 0;
 }
 
-static size_t fatfs_read(struct file_desc *desc, void *buf, size_t size, size_t count) {
-	size_t size_to_read;
+static size_t fatfs_read(struct file_desc *desc, void *buf, size_t size) {
 	size_t rezult;
 	struct nas *nas;
 
-	size_to_read = size * count;
 	nas = desc->node->nas;
 
-	rezult = fat_read_file(nas, sector_buff, buf, &bytecount, size_to_read);
+	rezult = fat_read_file(nas, sector_buff, buf, &bytecount, size);
 	if (DFS_OK == rezult) {
 		return bytecount;
 	}
 	return rezult;
 }
 
-static size_t fatfs_write(struct file_desc *desc, void *buf, size_t size, size_t count) {
-	size_t size_to_write;
+static size_t fatfs_write(struct file_desc *desc, void *buf, size_t size) {
 	size_t rezult;
 	struct nas *nas;
-
-	size_to_write = size * count;
 
 	nas = desc->node->nas;
 
 	rezult = fat_write_file(nas, sector_buff, (uint8_t *)buf,
-			&bytecount, size_to_write);
+			&bytecount, size);
 	if (DFS_OK == rezult) {
 		return bytecount;
 	}

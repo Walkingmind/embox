@@ -30,8 +30,8 @@ static struct uart_device *uart_dev_lookup(char *name) {
 
 static int dev_uart_open(struct node *node, struct file_desc *file_desc, int flags);
 static int dev_uart_close(struct file_desc *desc);
-static size_t dev_uart_read(struct file_desc *desc, void *buf, size_t size, size_t count);
-static size_t dev_uart_write(struct file_desc *desc, void *buf, size_t size, size_t count);
+static size_t dev_uart_read(struct file_desc *desc, void *buf, size_t size);
+static size_t dev_uart_write(struct file_desc *desc, void *buf, size_t size);
 static int dev_uart_ioctl(struct file_desc *desc, int request, va_list args);
 
 kfile_operations_t uart_dev_file_op = {
@@ -92,8 +92,8 @@ static int dev_uart_close(struct file_desc *desc) {
 	return 0;
 }
 
-static size_t dev_uart_read(struct file_desc *desc, void *buff, size_t size, size_t count) {
-	size_t cnt = count;
+static size_t dev_uart_read(struct file_desc *desc, void *buff, size_t size) {
+	size_t cnt = size;
 
 	if(0 == ring_buff_get_cnt(&dev_buff)) {
 		sched_lock();
@@ -113,13 +113,13 @@ static size_t dev_uart_read(struct file_desc *desc, void *buff, size_t size, siz
 		*tmp_char = (char)tmp;
 
 
-		buff = (void *)(((uint32_t)buff) + size);
+		buff = (void *)(((uint32_t)buff) + 1);
 	}
 
-	return count - cnt;
+	return size - cnt;
 }
 
-static size_t dev_uart_write(struct file_desc *desc, void *buff, size_t size, size_t count) {
+static size_t dev_uart_write(struct file_desc *desc, void *buff, size_t size) {
 	struct uart_device *uart_dev = uart_dev_lookup((char*)desc->node->name);
 	size_t cnt;
 	char *b;
@@ -127,7 +127,7 @@ static size_t dev_uart_write(struct file_desc *desc, void *buff, size_t size, si
 	cnt = 0;
 	b = (char*) buff;
 
-	while (cnt != count * size) {
+	while (cnt != size) {
 		uart_dev->operations->put(uart_dev, b[cnt++]);
 	}
 	return 0;

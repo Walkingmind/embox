@@ -22,12 +22,12 @@ static int this_close(struct idx_desc *data) {
 }
 
 static ssize_t this_read(struct idx_desc *data, void *buf, size_t nbyte) {
-	return kread(buf, 1, nbyte, from_data(data));
+	return kread(buf, nbyte, from_data(data));
 }
 
 static ssize_t this_write(struct idx_desc *data, const void *buf, size_t nbyte) {
 	assert(data);
-	return kwrite(buf, 1, nbyte, from_data(data));
+	return kwrite(buf, nbyte, from_data(data));
 }
 
 static int this_lseek(struct idx_desc *data, long int offset, int origin) {
