@@ -39,6 +39,10 @@ typedef struct nas {
 	void                 *fi;
 } nas_t;
 
+struct node_info {
+	size_t        size;
+	unsigned int  mtime;
+};
 
 #if 1
 typedef struct file_create_param {

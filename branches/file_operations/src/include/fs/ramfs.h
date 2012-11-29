@@ -20,14 +20,6 @@ typedef struct _ramfs_create_param {
 	unsigned int  mtime;
 } ramfs_create_param_t;
 
-typedef struct _ramfs_file_info {
-        unsigned long start_addr;
-        unsigned int  size;
-        unsigned int  mode;
-        unsigned int  mtime;
-        int           cur_pointer;
-        int           lock;
-} ramfs_file_info_t;
 
 extern int cpio_unpack(char *pathto);
 

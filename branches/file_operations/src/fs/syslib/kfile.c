@@ -157,11 +157,10 @@ int kseek(struct file_desc *desc, long int offset, int origin) {
 //FIXME now we wouldn't have special fseek function (it common for every file system)
 	return -1;
 }
-#include <fs/ramfs.h> //FIXME kfstat must have access for file information (size for example)
 
 int kfstat(struct file_desc *desc, struct stat *stat_buff) {
 	struct nas *nas;
-	ramfs_file_info_t *fi;
+	struct node_info *fi;
 
 	if (NULL == desc || stat_buff == NULL) {
 		errno = EBADF;
