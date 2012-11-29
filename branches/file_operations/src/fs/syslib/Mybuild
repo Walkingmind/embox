@@ -1,15 +1,28 @@
 package embox.fs
 
 @DefaultImpl(SysLibFsNone)
-abstract module SysLib {
+abstract module SysLibFile {
 	
 }
 
-module SysLibFsFull extends SysLib {
+module SysLibFsFull extends SysLibFile {
 	source "kfile.c"
+	depends SysLibFileSystemFull	
+}
+
+module SysLibFsNone extends SysLibFile {
+	source "nokfile.c"	
+}
+
+@DefaultImpl(SysLibFileSystemNone)
+abstract module SysLibFileSystem {
 	
 }
 
-module SysLibFsNone extends SysLib {
-	source "nokfile.c"	
+module SysLibFileSystemNone extends SysLibFileSystem {
+	source "nokfsop.c"
+}
+
+module SysLibFileSystemFull extends SysLibFileSystem {
+	source "kfsop.c"
 }

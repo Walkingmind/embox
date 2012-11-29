@@ -1,17 +1,24 @@
-/**
+/*
  * @file
  *
- * @brief
- *
- * @date 16.09.2011
- * @author Anton Bondarev
+ * @date Nov 29, 2012
+ * @author: Anton Bondarev
  */
 
+#include <unistd.h>
+#include <fcntl.h>
 
-#include <fs/kfsop.h>
+#include <string.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <errno.h>
+#include <sys/types.h>
 
-#if 0
-node_t *create_filechain(const char *path, uint8_t node_type){
+#include <fs/vfs.h>
+#include <fs/path.h>
+#include <fs/fs_drv.h>
+
+static node_t *create_filechain(const char *path, uint8_t node_type) {
 	int count_dir;
 	file_create_param_t param;
 	fs_drv_t *drv;
@@ -68,10 +75,8 @@ node_t *create_filechain(const char *path, uint8_t node_type){
 
 	return node;
 }
-#endif
 
-int create(const char *pathname, mode_t mode) {
-#if 0
+int kcreate(const char *pathname, mode_t mode) {
 	node_t *nod;
 
 	if (NULL != (nod = vfs_find_node(pathname, NULL))) {
@@ -85,12 +90,11 @@ int create(const char *pathname, mode_t mode) {
 		errno = EINVAL;
 		return -1;
 	}
-#endif
-	return kcreate(pathname, mode);
+
+	return 0;
 }
 
-int mkdir(const char *pathname, mode_t mode) {
-#if 0
+int kmkdir(const char *pathname, mode_t mode) {
 	node_t *nod;
 
 	if (NULL != (nod = vfs_find_node(pathname, NULL))) {
@@ -105,13 +109,11 @@ int mkdir(const char *pathname, mode_t mode) {
 		errno = EINVAL;
 		return -1;
 	}
-#endif
 
-	return kmkdir(pathname, mode);
+	return 0;
 }
 
-int remove(const char *pathname) {
-#if 0
+int kremove(const char *pathname) {
 	node_t *node;
 	struct nas *nas;
 	fs_drv_t *drv;
@@ -134,12 +136,9 @@ int remove(const char *pathname) {
 	else {
 		return unlink(pathname);
 	}
-#endif
-	return kremove(pathname);
 }
 
-int unlink(const char *pathname) {
-#if 0
+int kunlink(const char *pathname) {
 	node_t *node;
 	fs_drv_t *drv;
 	struct nas *nas;
@@ -152,12 +151,9 @@ int unlink(const char *pathname) {
 	drv = nas->fs->drv;
 
 	return drv->fsop->delete_node (node);
-#endif
-	return kunlink(pathname);
 }
 
-int rmdir(const char *pathname) {
-#if 0
+int krmdir(const char *pathname) {
 	node_t *node;
 	fs_drv_t *drv;
 	struct nas *nas;
@@ -167,16 +163,9 @@ int rmdir(const char *pathname) {
 	drv = nas->fs->drv;
 
 	return drv->fsop->delete_node(node);
-#endif
-	return krmdir(pathname);
-}
-
-int lstat(const char *path, struct stat *buf) {
-	return klstat(path, buf);
-}
-
-int stat(const char *path, struct stat *buf) {
-	return lstat(path, buf);
 }
 
 
+int klstat(const char *path, stat_t *buf) {
+	return 0;
+}
