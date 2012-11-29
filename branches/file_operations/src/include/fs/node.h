@@ -27,7 +27,7 @@
 
 typedef struct node {
 	const char            name[MAX_LENGTH_FILE_NAME];
-	int                   properties;  /* FILE, DIRECTORY, DEVICE, LINK ... */
+	int                   type;  /* FILE, DIRECTORY, DEVICE, LINK ... */
 	int                   mode;
 	struct tree_link      tree_link;
 	void                 *nas;
@@ -53,11 +53,11 @@ static inline int node_is_block_dev(struct node *node) {
 }
 
 static inline int node_is_directory(struct node *node) {
-	return node->properties & NODE_TYPE_DIRECTORY;
+	return node->type & NODE_TYPE_DIRECTORY;
 }
 
 static inline int node_is_file(struct node *node) {
-	return node->properties & NODE_TYPE_FILE;
+	return node->type & NODE_TYPE_FILE;
 }
 
 #endif /* FS_NODE_H_ */

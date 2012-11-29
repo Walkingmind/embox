@@ -1074,7 +1074,7 @@ static int cdfsfs_mount(void *par) {
 		if (NULL == (dir_node = vfs_add_path (params->dir, NULL))) {
 			return -ENODEV;/*device not found*/
 		}
-		dir_node->properties = NODE_TYPE_DIRECTORY;
+		dir_node->type = NODE_TYPE_DIRECTORY;
 	}
 	dir_nas = dir_node->nas;
 
@@ -1210,7 +1210,7 @@ static int cdfs_create_file_node (node_t *dir_node, cdfs_t *cdfs, char *dirpath,
 
 			nas->fs = dir_nas->fs;
 			nas->fi = (void *)fi;
-			node->properties = NODE_TYPE_FILE;
+			node->type = NODE_TYPE_FILE;
 		}
 		else {
 			/* Skip to next block */
@@ -1270,7 +1270,7 @@ static int cdfs_create_dir_entry (struct nas *parent_nas) {
 				nas = node->nas;
 				nas->fs = parent_nas->fs;
 				nas->fi = (void *)fi;
-				node->properties = NODE_TYPE_DIRECTORY;
+				node->type = NODE_TYPE_DIRECTORY;
 			}
 
 			cdfs_create_file_node (node, cdfs, name, n);

@@ -563,12 +563,11 @@ static int tmpfs_mount(void *par) {
 		if (NULL == (dir_node = vfs_add_path (params->dir, NULL))) {
 			return -ENODEV;/*device not found*/
 		}
-		dir_node->properties = NODE_TYPE_DIRECTORY;
+		dir_node->type = NODE_TYPE_DIRECTORY;
 	}
 
 	dir_nas = dir_node->nas;
 	dev_nas = dev_node->nas;
-
 	/* If dev_node created, but not attached to the filesystem driver */
 	if (NULL == (dev_fi = (tmpfs_file_info_t *) dev_nas->fi)) {
 		if((NULL == (dev_fi = pool_alloc(&tmpfs_file_pool))) ||

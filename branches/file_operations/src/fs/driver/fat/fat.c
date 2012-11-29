@@ -1049,7 +1049,7 @@ static int fatfs_create_file(struct node * parant_node, struct node *node) {
 	/* put sane values in the directory entry */
 	memset(&de, 0, sizeof(de));
 	memcpy(de.name, filename, MSDOS_NAME);
-	de.attr = node->properties;
+	de.attr = node->type;
 	fat_set_filetime(&de);
 
 	/* allocate a starting cluster for the directory entry */
@@ -1106,7 +1106,7 @@ static int fatfs_create_file(struct node * parant_node, struct node *node) {
 	temp = 0;
 	fat_set_fat_(nas, sector_buff, &temp, fi->cluster, cluster);
 
-	if (NODE_TYPE_DIRECTORY == (node->properties & NODE_TYPE_DIRECTORY)) {
+	if (node_is_directory(node)) {
 		/* create . and ..  files of this catalog */
 		fatfs_set_direntry(di.currentcluster, fi->cluster);
 		cluster = fi->volinfo->dataarea +
@@ -1846,14 +1846,14 @@ static int fat_mount_files(struct nas *dir_nas) {
 			nas->fi = (void *)fi;
 
 			if ((ATTR_DIRECTORY & de.attr) == ATTR_DIRECTORY) {
-				node->properties = NODE_TYPE_DIRECTORY;
+				node->type = NODE_TYPE_DIRECTORY;
 				if ((0 != strncmp((char *) de.name, ".  ", 3)) &&
 					(0 != strncmp((char *) de.name, ".. ", 3))) {
 					fat_create_dir_entry(nas);
 				}
 			}
 			else {
-				node->properties = NODE_TYPE_FILE;
+				node->type = NODE_TYPE_FILE;
 			}
 		}
 	}
@@ -1912,14 +1912,14 @@ static int fat_create_dir_entry(struct nas *parent_nas) {
 			nas->fi = (void *)fi;
 
 			if ((ATTR_DIRECTORY & de.attr) == ATTR_DIRECTORY) {
-				node->properties = NODE_TYPE_DIRECTORY;
+				node->type = NODE_TYPE_DIRECTORY;
 				if ((0 != strncmp((char *) de.name, ".  ", 3)) &&
 					(0 != strncmp((char *) de.name, ".. ", 3))) {
 					fat_create_dir_entry(nas);
 				}
 			}
 			else {
-				node->properties = NODE_TYPE_FILE;
+				node->type = NODE_TYPE_FILE;
 			}
 		}
 	}
@@ -2201,7 +2201,7 @@ static int fatfs_mount(void *par) {
 		if (NULL == (dir_node = vfs_add_path (params->dir, NULL))) {
 			return -ENODEV;/*device not found*/
 		}
-		dir_node->properties = NODE_TYPE_DIRECTORY;
+		dir_node->type = NODE_TYPE_DIRECTORY;
 	}
 
 	/* If dev_node created, but not attached to the filesystem driver */

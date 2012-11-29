@@ -305,7 +305,7 @@ static int nfsfs_mount(void *par) {
 		if (NULL == (dir_node = vfs_add_path (params->dir, NULL))) {
 			return -ENODEV;/*device not found*/
 		}
-		dir_node->properties = NODE_TYPE_DIRECTORY;
+		dir_node->type = NODE_TYPE_DIRECTORY;
 	}
 
 	/* there are nodev for nfs. we create fs here and set nfs fs_drv*/
@@ -476,14 +476,14 @@ static int nfs_create_dir_entry(char *parent) {
 			nas = node->nas;
 			fi = (nfs_file_info_t *) nas->fi;
 			if (NFS_DIRECTORY_NODE_TYPE == fi->attr.type) {
-				node->properties = NODE_TYPE_DIRECTORY;
+				node->type = NODE_TYPE_DIRECTORY;
 				if((0 != strcmp(fi->name_dsc.name.data, "."))
 					&& (0 != strcmp(fi->name_dsc.name.data, ".."))) {
 					nfs_create_dir_entry(full_path);
 				}
 			}
 			else {
-				node->properties = NODE_TYPE_FILE;
+				node->type = NODE_TYPE_FILE;
 			}
 			point += sizeof(*predesc);
 		}
@@ -516,7 +516,7 @@ static int nfsfs_create(struct node *parent_node, struct node *node) {
 
 	parent_fi = (nfs_file_info_t *) parent_nas->fi;
 
-	if (NODE_TYPE_DIRECTORY == (node->properties & NODE_TYPE_DIRECTORY)) {
+	if (node_is_directory(node)) {
 		procnum = NFSPROC3_MKDIR;
 		req.type = NFS_DIRECTORY_NODE_TYPE;
 		req.create_mode = UNCHECKED_MODE;
@@ -579,7 +579,7 @@ static int nfsfs_delete(struct node *node) {
 	dir_fi = (nfs_file_info_t *) dir_nas->fi;
 	req.dir_fh = &dir_fi->fh.name_fh;
 
-	if (NODE_TYPE_DIRECTORY == (node->properties & NODE_TYPE_DIRECTORY)) {
+	if (node_is_directory(node)) {
 		procnum = NFSPROC3_RMDIR;
 	}
 	else {

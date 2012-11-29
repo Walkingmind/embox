@@ -37,10 +37,10 @@ static node_t *create_filechain(const char *name, uint8_t node_type) {
 		}
 		newnode_cnt ++;
 	} while (NULL == (node = vfs_find_node(path, NULL)));
+
 	/* check drv of parents */
 	nas = node->nas;
 	drv = nas->fs->drv;
-
 	if ((NULL == drv) || (NULL == drv->fsop->create_node)) {
 		return NULL;
 	}
@@ -53,11 +53,10 @@ static node_t *create_filechain(const char *name, uint8_t node_type) {
 			return NULL;
 		}
 
-		new_node->properties = NODE_TYPE_DIRECTORY;
+		new_node->type = NODE_TYPE_DIRECTORY;
 		if ((LAST_IN_PATH == newnode_cnt) && (NODE_TYPE_FILE == node_type)) {
-			new_node->properties = NODE_TYPE_FILE;
+			new_node->type = NODE_TYPE_FILE;
 		}
-
 
 		if(0 > drv->fsop->create_node(node, new_node)) {
 			vfs_del_leaf(new_node);
@@ -140,7 +139,7 @@ int kunlink(const char *pathname) {
 	struct nas *nas;
 
 	node = vfs_find_node(pathname, NULL);
-	if(0 == (node->properties & S_IWRITE)) {
+	if(0 == (node->type & S_IWRITE)) {
 		return -EPERM;
 	}
 	nas = node->nas;

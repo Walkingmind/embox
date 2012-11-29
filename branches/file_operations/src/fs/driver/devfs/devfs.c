@@ -28,7 +28,7 @@ static int devfs_mount(void *par) {
 	if (NULL == (nod = vfs_add_path("/dev", NULL))) {
 		return -1;
 	}
-	nod->properties = NODE_TYPE_DIRECTORY;
+	nod->type = NODE_TYPE_DIRECTORY;
 	nod->nas = NULL; /* this is virtual folder to add folder or file we just add node */
 
 

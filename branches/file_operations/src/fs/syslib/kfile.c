@@ -100,7 +100,7 @@ size_t kwrite(const void *buf, size_t size, struct file_desc *file) {
 
 	node = file->node;
 	if(node != NULL) {
-		if(node->properties & S_IREAD) {
+		if(node->type & S_IREAD) {
 			return -EPERM;
 		}
 	}
@@ -167,7 +167,7 @@ int kfstat(struct file_desc *desc, struct stat *stat_buff) {
 		return -1;
 	}
 
-	stat_buff->st_mode = desc->node->properties;
+	stat_buff->st_mode = desc->node->type;
 
 	nas = desc->node->nas;
 	fi = nas->fi;
