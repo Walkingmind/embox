@@ -149,6 +149,9 @@ int unlink(const char *pathname) {
 	struct nas *nas;
 
 	node = vfs_find_node(pathname, NULL);
+	if(0 == (node->properties & S_IWRITE)) {
+		return -EPERM;
+	}
 	nas = node->nas;
 	drv = nas->fs->drv;
 
@@ -173,10 +176,10 @@ int stat(const char *path, stat_t *buf) {
 
 int lstat(const char *path, stat_t *buf) {
 	//node_t *node;
-	//fs_drv_t *drv;
+
 
 	//node = vfs_find_node(path, NULL);
-	//drv = node->fs_type;
+//	drv = node->fs_type;
 
 	return 0;//drv->file_op->fstat (node->fi, buf);
 }

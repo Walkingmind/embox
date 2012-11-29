@@ -11,6 +11,7 @@
 #include <errno.h>
 #include <fcntl.h>
 #include <unistd.h>
+#include <sys/stat.h>
 
 #include <fs/rootfs.h>
 #include <fs/ramfs.h>
@@ -19,6 +20,7 @@
 #include <fs/file_operation.h>
 #include <fs/file_desc.h>
 #include <fs/kfile.h>
+
 
 struct file_desc *kopen(const char *path, int flag) {
 	struct node *node;
@@ -155,14 +157,28 @@ int kseek(struct file_desc *desc, long int offset, int origin) {
 //FIXME now we wouldn't have special fseek function (it common for every file system)
 	return -1;
 }
+#include <fs/ramfs.h> //FIXME kfstat must have access for file information (size for example)
 
 int kstat(struct file_desc *desc, void *buff) {
-	if (NULL == desc) {
+	struct nas *nas;
+	struct stat *stat_buff;
+	ramfs_file_info_t *fi;
+
+	if (NULL == desc || buff == NULL) {
 		errno = EBADF;
 		return -1;
 	}
-	//FIXME now we wouldn't have special stat function (it common for every file system)
-	return -1;
+
+	stat_buff = (struct stat *)buff;
+
+	stat_buff->st_mode = desc->node->properties;
+
+	nas = desc->node->nas;
+	fi = nas->fi;
+
+	stat_buff->st_size = fi->size;
+
+	return ENOERR;
 }
 
 int kioctl(struct file_desc *fp, int request, ...) {
