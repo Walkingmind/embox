@@ -580,7 +580,7 @@ static int tmpfs_mount(void *par) {
 			return -ENOMEM;
 		}
 		dev_nas->fi = dev_fi;
-		dev_nas->fs->fsi = fsi;
+		dev_nas->fs->drv = &tmpfs_drv;
 	}
 
 	strncpy((char *) fsi->root_name, params->dir, MAX_LENGTH_PATH_NAME);
@@ -589,6 +589,7 @@ static int tmpfs_mount(void *par) {
 		return -ENOMEM;
 	}
 
+	dev_nas->fs->fsi = fsi;
 	dir_nas->fs = dev_nas->fs;
 	dir_nas->fi = (void *) fi;
 

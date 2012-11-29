@@ -324,10 +324,9 @@ static int nfsfs_mount(void *par) {
 	}
 
 	fi->fs = fsi;
+	dir_nas->fs->drv = &nfsfs_drv;
 	dir_nas->fs->fsi = fsi;
-
 	dir_nas->fi = (void *) fi;
-	//dir_node->dev = params->dev_node->dev;
 	params->dev_node = dir_node;
 
 	strncpy(fsi->mnt_point, params->dir, MAX_LENGTH_PATH_NAME);

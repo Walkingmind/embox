@@ -116,27 +116,27 @@ char *path_dir_to_canonical(char *dest, char *src, char dir) {
         memset(dest, 0, MSDOS_NAME + 2);
         for (i = 0; i < 8; i++) {
 			if (*src != ' ') {
-				*dest = *src;
-				if ((0 == dir) && (*dest >= 'A' && *dest <='Z')) {
-					*dest = (*dest - 'A') + 'a';
+				*dst = *src;
+				if ((0 == dir) && (*dst >= 'A' && *dst <='Z')) {
+					*dst = (*dst - 'A') + 'a';
 				}
-				dest++;
+				dst++;
 			}
 			src++;
         }
         if ((*src != ' ') && (0 == dir)) {
-        	*dest++ = '.';
+        	*dst++ = '.';
         }
         for (i = 0; i < 3; i++) {
 			if (*src != ' ') {
-				*dest = *src;
-				if ((0 == dir) && (*dest >= 'A' && *dest <='Z')) {
-					*dest = (*dest - 'A') + 'a';
+				*dst = *src;
+				if ((0 == dir) && (*dst >= 'A' && *dst <='Z')) {
+					*dst = (*dst - 'A') + 'a';
 				}
-				dest++;
+				dst++;
 			}
 			src++;
         }
-        return dst;
+        return dest;
 }
 

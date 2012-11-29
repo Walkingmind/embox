@@ -390,7 +390,6 @@ static time_t cdfs_isodate(unsigned char *date)
 	return (time_t) &tm; /*mktime(&tm); */
 }
 
-//int cdfs_mount(cdfs_fs_description_t *fs)
 int cdfs_mount(struct nas *root_nas)
 {
 	cdfs_t *cdfs;
@@ -405,7 +404,6 @@ int cdfs_mount(struct nas *root_nas)
 	fsi = root_nas->fs->fsi;
 
 	/* Check device */
-	//block_dev_open(fs->mntfrom);
 	if (NULL == root_nas->fs->bdev) {
 		return -NODEV;
 	}
@@ -1092,8 +1090,7 @@ static int cdfsfs_mount(void *par) {
 			return -ENOMEM;
 		}
 		dev_nas->fi = dev_fi;
-		//dev_fi->fs->bdev = dev_node->node_info;
-		//dev_node->node_info = (void *) &cdfsfs_fop;
+		dev_nas->fs->drv = &cdfsfs_drv;
 	}
 
 	strncpy(fsi->mntto, params->dir, strlen(params->dir) + 1);
