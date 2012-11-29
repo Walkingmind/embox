@@ -149,13 +149,18 @@ int kclose(struct file_desc *desc) {
 }
 
 int kseek(struct file_desc *desc, long int offset, int origin) {
+	struct nas *nas;
+	struct node_info *fi;
 
 	if (NULL == desc) {
 		errno = EBADF;
 		return -1;
 	}
+
+	nas = desc->node->nas;
+	fi = nas->fi;
 //FIXME now we wouldn't have special fseek function (it common for every file system)
-	return -1;
+	return fi->size;
 }
 
 int kfstat(struct file_desc *desc, struct stat *stat_buff) {

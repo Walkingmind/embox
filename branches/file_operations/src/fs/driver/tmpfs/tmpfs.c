@@ -577,9 +577,9 @@ static int tmpfs_mount(void *par) {
 			}
 			return -ENOMEM;
 		}
-		dev_nas->fi = dev_fi;
-		dev_nas->fs->drv = &tmpfs_drv;
 	}
+	dev_nas->fi = dev_fi;
+	dev_nas->fs->drv = &tmpfs_drv;
 
 	strncpy((char *) fsi->root_name, params->dir, MAX_LENGTH_PATH_NAME);
 
