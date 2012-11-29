@@ -313,6 +313,7 @@ typedef struct nfs_fs_info {
 } nfs_fs_info_t;
 
 typedef struct nfs_file_info {
+	struct node_info ni;
 	file_name_t name_dsc;
 	file_attribute_rep_t attr;
 	nfs_filehandle_t fh;

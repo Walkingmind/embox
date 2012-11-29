@@ -1079,7 +1079,7 @@ static int fatfs_create_file(struct node * parant_node, struct node *node) {
 	fi->diroffset = di.currententry - 1;
 	fi->cluster = cluster;
 	fi->firstcluster = cluster;
-	fi->filelen = 0;
+	fi->ni.size = 0;
 
 	/*
 	 * write the directory entry
@@ -1199,7 +1199,7 @@ static uint32_t fat_open_file(struct nas *nas, uint8_t *path, int mode,
 				  ((uint32_t) de.startclus_l_h) << 8;
 			}
 			fi->firstcluster = fi->cluster;
-			fi->filelen = (uint32_t) de.filesize_0 |
+			fi->ni.size = (uint32_t) de.filesize_0 |
 			  ((uint32_t) de.filesize_1) << 8 |
 			  ((uint32_t) de.filesize_2) << 16 |
 			  ((uint32_t) de.filesize_3) << 24;
@@ -1229,8 +1229,8 @@ static uint32_t fat_read_file(struct nas *nas, uint8_t *p_scratch,
 	fi = nas->fi;
 
 	/* Don't try to read past EOF */
-	if (len > fi->filelen - fi->pointer) {
-		len = fi->filelen - fi->pointer;
+	if (len > fi->ni.size - fi->pointer) {
+		len = fi->ni.size - fi->pointer;
 	}
 
 	result = DFS_OK;
@@ -1245,7 +1245,7 @@ static uint32_t fat_read_file(struct nas *nas, uint8_t *p_scratch,
 		 */
 		sector = fi->volinfo->dataarea +
 		  ((fi->cluster - 2) * fi->volinfo->secperclus) +
-		  div(div(fi->pointer,clastersize).rem, SECTOR_SIZE).quot;
+		  div(div(fi->pointer, clastersize).rem, SECTOR_SIZE).quot;
 
 		/* Case 1 - File pointer is not on a sector boundary */
 		if (div(fi->pointer, SECTOR_SIZE).rem) {
@@ -1316,7 +1316,6 @@ static uint32_t fat_read_file(struct nas *nas, uint8_t *p_scratch,
 		}
 
 		*successcount += bytesread;
-
 		/* check to see if we stepped over a cluster boundary */
 		if (div(fi->pointer - bytesread, clastersize).quot !=
 			div(fi->pointer, clastersize).quot) {
@@ -1504,8 +1503,8 @@ static uint32_t fat_write_file(struct nas *nas, uint8_t *p_scratch,
 				byteswritten = SECTOR_SIZE - tempsize;
 				buffer += SECTOR_SIZE - tempsize;
 				fi->pointer += SECTOR_SIZE - tempsize;
-				if (fi->filelen < fi->pointer) {
-					fi->filelen = fi->pointer;
+				if (fi->ni.size < fi->pointer) {
+					fi->ni.size = fi->pointer;
 				}
 				remain -= SECTOR_SIZE - tempsize;
 			}
@@ -1518,8 +1517,8 @@ static uint32_t fat_write_file(struct nas *nas, uint8_t *p_scratch,
 
 				buffer += remain;
 				fi->pointer += remain;
-				if (fi->filelen < fi->pointer) {
-					fi->filelen = fi->pointer;
+				if (fi->ni.size < fi->pointer) {
+					fi->ni.size = fi->pointer;
 				}
 				byteswritten = remain;
 				remain = 0;
@@ -1537,8 +1536,8 @@ static uint32_t fat_write_file(struct nas *nas, uint8_t *p_scratch,
 				remain -= SECTOR_SIZE;
 				buffer += SECTOR_SIZE;
 				fi->pointer += SECTOR_SIZE;
-				if (fi->filelen < fi->pointer) {
-					fi->filelen = fi->pointer;
+				if (fi->ni.size < fi->pointer) {
+					fi->ni.size = fi->pointer;
 				}
 				byteswritten = SECTOR_SIZE;
 			}
@@ -1552,7 +1551,7 @@ static uint32_t fat_write_file(struct nas *nas, uint8_t *p_scratch,
 				 * and need to load the original sector to do
 				 * a read-modify-write.
 				 */
-				if (fi->pointer < fi->filelen) {
+				if (fi->pointer < fi->ni.size) {
 					result = fat_read_sector(nas, p_scratch, sector, 1);
 					if (!result) {
 						memcpy(p_scratch, buffer, remain);
@@ -1567,8 +1566,8 @@ static uint32_t fat_write_file(struct nas *nas, uint8_t *p_scratch,
 
 				buffer += remain;
 				fi->pointer += remain;
-				if (fi->filelen < fi->pointer) {
-					fi->filelen = fi->pointer;
+				if (fi->ni.size < fi->pointer) {
+					fi->ni.size = fi->pointer;
 				}
 				byteswritten = remain;
 				remain = 0;
@@ -1627,8 +1626,8 @@ static uint32_t fat_write_file(struct nas *nas, uint8_t *p_scratch,
 		}
 	}
 	    /* If cleared, then mark free clusters*/
-		if(fi->filelen > fi->pointer) {
-			if (div(fi->filelen, clastersize).quot !=
+		if(fi->ni.size > fi->pointer) {
+			if (div(fi->ni.size, clastersize).quot !=
 				div(fi->pointer, clastersize).quot) {
 
 				byteswritten = 0;/* invalidate cache */
@@ -1663,7 +1662,7 @@ static uint32_t fat_write_file(struct nas *nas, uint8_t *p_scratch,
 			}
 		}
 
-		fi->filelen = fi->pointer;
+		fi->ni.size = fi->pointer;
 
 		/* Update directory entry */
 		if (fat_read_sector(nas, p_scratch, fi->dirsector, 1)) {
@@ -1671,16 +1670,16 @@ static uint32_t fat_write_file(struct nas *nas, uint8_t *p_scratch,
 		}
 
 		((p_dir_ent_t) p_scratch)[fi->diroffset].filesize_0 =
-				fi->filelen & 0xff;
+				fi->ni.size & 0xff;
 
 		((p_dir_ent_t) p_scratch)[fi->diroffset].filesize_1 =
-				(fi->filelen & 0xff00) >> 8;
+				(fi->ni.size & 0xff00) >> 8;
 
 		((p_dir_ent_t) p_scratch)[fi->diroffset].filesize_2 =
-				(fi->filelen & 0xff0000) >> 16;
+				(fi->ni.size & 0xff0000) >> 16;
 
 		((p_dir_ent_t) p_scratch)[fi->diroffset].filesize_3 =
-				(fi->filelen & 0xff000000) >> 24;
+				(fi->ni.size & 0xff000000) >> 24;
 
 		if (fat_write_sector(nas, p_scratch, fi->dirsector, 1)) {
 			return DFS_ERRMISC;
@@ -1764,7 +1763,7 @@ static int fatfs_root_dir_record(struct nas *dev_nas) {
 	fi->diroffset = 0;
 	fi->cluster = cluster;
 	fi->firstcluster = cluster;
-	fi->filelen = 0;
+	fi->ni.size = 0;
 	fi->mode = O_WRONLY;
 
 	/*
@@ -1957,8 +1956,9 @@ static int fatfs_open(struct node *nod, struct file_desc *desc,  int flag) {
 	path_cut_mount_dir((char *) path, (char *) fsi->root_name);
 
 	if(DFS_OK == fat_open_file(nas, (uint8_t *)path, flag, sector_buff)) {
+		fi->pointer = desc->cursor;
 		if(flag & O_WRONLY) {
-			fi->filelen = 0;
+			fi->ni.size = 0;
 		}
 		return 0;
 	}

@@ -18,25 +18,25 @@
 #include <fs/path.h>
 #include <fs/fs_drv.h>
 
-static node_t *create_filechain(const char *path, uint8_t node_type) {
-	int count_dir;
-	file_create_param_t param;
+static node_t *create_filechain(const char *name, uint8_t node_type) {
+	int newnode_cnt;
 	fs_drv_t *drv;
 	struct node *node, *new_node;
-	struct nas *nas, *new_nas;
-	char tail[MAX_LENGTH_FILE_NAME];
+	struct nas *nas;
+	char path[MAX_LENGTH_PATH_NAME];
+	char tail[MAX_LENGTH_PATH_NAME];
 
-	count_dir = 0;
+	strncpy(path, name, MAX_LENGTH_PATH_NAME);
+	newnode_cnt = 0;
 	tail[0] = '\0';
-	strncpy (param.path, path, MAX_LENGTH_PATH_NAME);
 
 	/* find last node in the path */
 	do {
-		if (path_nip_tail(param.path, tail)) {
+		if (path_nip_tail(path, tail)) {
 			return NULL;
 		}
-		count_dir ++;
-	} while (NULL == (node = vfs_find_node(param.path, NULL)));
+		newnode_cnt ++;
+	} while (NULL == (node = vfs_find_node(path, NULL)));
 	/* check drv of parents */
 	nas = node->nas;
 	drv = nas->fs->drv;
@@ -47,31 +47,27 @@ static node_t *create_filechain(const char *path, uint8_t node_type) {
 
 	/* add one directory and assign the parameters of the parent */
 	do {
-		path_increase_tail(param.path, tail);
+		path_increase_tail(path, tail);
 
-		if (NULL == (new_node = vfs_add_path(param.path, NULL))) {
+		if (NULL == (new_node = vfs_add_path(path, NULL))) {
 			return NULL;
 		}
 
-		new_nas = new_node->nas;
-		new_nas->fs->drv = nas->fs->drv;
 		new_node->properties = NODE_TYPE_DIRECTORY;
-		if ((LAST_IN_PATH == count_dir) && (NODE_TYPE_FILE == node_type)) {
+		if ((LAST_IN_PATH == newnode_cnt) && (NODE_TYPE_FILE == node_type)) {
 			new_node->properties = NODE_TYPE_FILE;
 		}
 
-		param.node = (void *) new_node;
-		param.parents_node = (void *) node;
-		new_node->nas = &param;
+
 		if(0 > drv->fsop->create_node(node, new_node)) {
 			vfs_del_leaf(new_node);
 			return NULL;
 		}
 
 		node = new_node;
-		count_dir--;
+		newnode_cnt--;
 
-	} while (0 < count_dir);
+	} while (0 < newnode_cnt);
 
 	return node;
 }

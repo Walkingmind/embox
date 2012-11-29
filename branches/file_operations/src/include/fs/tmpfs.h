@@ -27,9 +27,9 @@ typedef struct tmpfs_fs_info {
 } tmpfs_fs_info_t;
 
 typedef struct tmpfs_file_info {
+	struct node_info ni;
 	int     index;		        /* number of file in FS*/
 	int     mode;				/* mode in which this file was opened */
-	uint32_t filelen;			/* byte length of file */
 	uint32_t pointer;			/* current (BYTE) pointer */
 } tmpfs_file_info_t;
 

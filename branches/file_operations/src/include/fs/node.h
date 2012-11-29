@@ -44,15 +44,6 @@ struct node_info {
 	unsigned int  mtime;
 };
 
-#if 1
-typedef struct file_create_param {
-	void  *node;
-	void  *parents_node;
-	char   path[MAX_LENGTH_PATH_NAME];
-} file_create_param_t;
-
-#endif
-
 extern node_t *node_alloc(const char *name);
 extern void node_free(node_t *node);
 

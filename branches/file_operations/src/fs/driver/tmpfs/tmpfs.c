@@ -129,11 +129,10 @@ static int tmpfs_open(struct node *node, struct file_desc *desc, int flags) {
 	fi->pointer = 0;
 	fi->mode = flags;
 	if (O_WRONLY == fi->mode) {
-		fi->filelen = 0;
+		fi->ni.size = 0;
 	}
-	else if(O_APPEND == fi->mode) {
-		fi->pointer = fi->filelen;
-	}
+
+	fi->pointer = desc->cursor;
 
 	return 0;
 }
@@ -190,8 +189,8 @@ static size_t tmpfs_read(struct file_desc *desc, void *buf, size_t size) {
 	len = size;
 
 	/* Don't try to read past EOF */
-	if (len > fi->filelen - fi->pointer) {
-		len = fi->filelen - fi->pointer;
+	if (len > fi->ni.size - fi->pointer) {
+		len = fi->ni.size - fi->pointer;
 	}
 
 	end_pointer = fi->pointer + len;
@@ -321,8 +320,8 @@ static size_t tmpfs_write(struct file_desc *desc, void *buf, size_t size) {
 		}
 	}
 	/* if we write over the last EOF, set new filelen */
-	if (fi->filelen < fi->pointer) {
-		fi->filelen = fi->pointer;
+	if (fi->ni.size < fi->pointer) {
+		fi->ni.size = fi->pointer;
 	}
 
 	return bytecount;
@@ -420,7 +419,7 @@ static tmpfs_file_info_t *tmpfs_create_file(struct nas *nas) {
 	}
 
 	fi->index = index_alloc(&tmpfs_file_idx, INDEX_ALLOC_MIN);
-	fi->filelen = fi->pointer = 0;
+	fi->ni.size = fi->pointer = 0;
 
 	return fi;
 }
