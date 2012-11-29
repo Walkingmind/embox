@@ -35,7 +35,7 @@ static int this_lseek(struct idx_desc *data, long int offset, int origin) {
 }
 
 static int this_stat(struct idx_desc *data, void *buff) {
-	return kstat(from_data(data), buff);
+	return kfstat(from_data(data), buff);
 }
 
 static int this_ioctl(struct idx_desc *data, int request, va_list args) {
