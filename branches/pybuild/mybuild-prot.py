@@ -29,7 +29,7 @@ class Option:
 	self.mod = mod
 
     def trigger(self, scope, domain):
-	pass
+	return scope
 
 class Domain(frozenset):
     def value(self):
@@ -70,33 +70,34 @@ class BaseScope(dict):
 	return dict.__len__(self) + par
 
     def keys(self):
-	par_keys = ()
+	par_keys = set()
 	if self.parent: 
-	    par_keys = self.parent.keys()
+	    par_keys = set(self.parent.keys())
 
-	return itertools.chain(dict.keys(self), par_keys)
+	return set(dict.keys(self)) | par_keys
 
     def items(self):
-	par_items = ()
-	if self.parent: 
-	    par_keys = self.parent.items()
-
-	return itertools.chain(dict.items(self), par_items)
+	return ((k, self[k]) for k in self.keys())
 
     def has_key(self, k):
 	return k in self.keys()
 
 class Scope(BaseScope):
+    def value(self, opt):
+	for i in self[opt]:
+	    yield i
+
     def __repr__(self):
 	return 'Scope {' + \
 	    reduce (operator.add, map(lambda x: "\t%s: %s" % x, self.items()), "")
 
 class Module(Option, Inherit, BaseScope):
-    def __init__(self, name, options={}, super=None, implements=(), depends=(), tunings=()):
+    def __init__(self, name, options={}, super=None, implements=(), depends=(), trigger_opts=(), include_trigger=None):
 	self.parent = super
 	self.name = name
 	self.id = name + ".__include_mod" # actually, this is option
-	self.tunings = tunings
+	self.include_trigger = include_trigger
+	self.trigger_opts = trigger_opts
 
 	if not isiter(depends):
 	    self.depends = ((depends, {}),)
@@ -116,10 +117,25 @@ class Module(Option, Inherit, BaseScope):
 	    dict.__setitem__(self, o, d)
 
     def trigger(self, scope, domain):
-	for dep, opts in self.depends:
-	    cut(scope, dep, Domain([True]))
-	    for opt, d in opts.items():
-		cut(scope, opt, d)
+	v = domain.value()
+	if None != v and v:
+	    for dep, opts in self.depends:
+		scope = cut(scope, dep, Domain([True]))
+		for opt, d in opts.items():
+		    scope = cut(scope, opt, d)
+	    if self.include_trigger:
+		for i in itertools.product(*(scope[opt] for opt in self.trigger_opts)):
+		    try:
+			new_scope = Scope(scope)
+			for o, v in itertools.izip(self.trigger_opts, i):
+			    new_scope = cut(new_scope, o, Domain([v]))
+
+			return self.include_trigger(new_scope, *i)
+		    except CutConflictException, cc:
+			pass
+		raise CutConflictException()
+
+	return scope
 
     def implements(self):
 	def get_impl(obj):
@@ -139,23 +155,6 @@ class Module(Option, Inherit, BaseScope):
     def __repr__(self):
 	return "<Module %s, depends %s>" % (self.name, self.depends)
 
-    def subeval(self, scope):
-	new_scope = scope
-
-	res = True
-	for tuning in self.tunings:
-	    ret = tuning.tuning(new_scope)
-	    if isinstance(ret, Scope):
-		new_scope = ret
-	    elif not ret:
-		return False
-
-	res = True
-	for dep, opts in self.depends:
-	    res &= new_scope.eval(dep, opts)
-
-	return res
-
     def __hash__(self):
 	return self.id.__hash__()
 
@@ -164,15 +163,6 @@ class Interface(Inherit):
 	self.name = name
 	self.id = name + ".__include_mod" 
 	self.super = one_or_many(super)
-
-    def is_list(self):
-	return oneself.supers()
-
-    def inst(self):
-	return Instanse(self)
-
-    def subeval(self, scope):
-	return True
 
     def __repr__(self):
 	return "Interface '" + self.name + "'"
@@ -209,9 +199,12 @@ def try_add_step(scope, ent, options = {}):
 
 def cut(scope, opt, domain):
     strict_domain = scope[opt] & domain
+    new_scope = Scope(scope)
+
     if strict_domain:
-	scope[opt] = strict_domain
-	opt.trigger(scope, strict_domain)
+	new_scope[opt] = strict_domain
+	new_scope = opt.trigger(new_scope, strict_domain)
+	return new_scope
     else:
 	raise CutConflictException("%s option with %s domain cutting down with %s" % (opt, scope[opt], domain))
     
@@ -235,11 +228,11 @@ class TestCase(unittest.TestCase):
 	scope = Scope()
 	add_many(scope, [blck, stdio, fs, test2, test, test3])
 
-	cut(scope, fs, Domain([True]))
-	cut(scope, test2, Domain([True]))
+	scope = cut(scope, fs, Domain([True]))
+	scope = cut(scope, test2, Domain([True]))
 
 	final = fixate(scope)
-
+	
 	self.assertTrue(final[blck])
 	self.assertTrue(final[stdio])
 	self.assertTrue(final[fs])
@@ -256,7 +249,7 @@ class TestCase(unittest.TestCase):
 	scope = Scope()
 	add_many(scope, [stack_lds, thread_core])
 
-	cut(scope, thread_core, Domain([True]))
+	scope = cut(scope, thread_core, Domain([True]))
 
 	final = fixate(scope)
 
@@ -274,6 +267,28 @@ class TestCase(unittest.TestCase):
 	add_many(scope, [stack_lds, thread_core])
 
 	self.assertRaises(CutConflictException, cut, scope, thread_core, Domain([True]))
+
+    def test_optional_include(self):
+	amba_pp_opt = Option('amba_pp')
+	amba = Module("amba")
+
+	def uart_trigger(scope, amba_val):
+	    if amba_val:
+		return cut(scope, amba, Domain([True]))
+	    return scope
+
+	uart = Module("uart", options = {amba_pp_opt : Domain([True])}, trigger_opts=[amba_pp_opt], include_trigger=uart_trigger)
+
+	scope = Scope()
+	add_many(scope, [uart, amba])
+
+	scope = cut(scope, uart, Domain([True]))
+
+	self.assertTrue(scope != False)
+
+	final = fixate(scope)
+
+	self.assertTrue(final[amba])
 
     @unittest.expectedFailure 
     def test_interface(self):
