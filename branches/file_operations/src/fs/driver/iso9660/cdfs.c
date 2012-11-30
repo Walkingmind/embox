@@ -45,7 +45,6 @@
 #include <fs/node.h>
 #include <fs/vfs.h>
 #include <fs/iso9660.h>
-#include <fs/mount.h>
 #include <sys/stat.h>
 #include <stdio.h>
 #include <string.h>
@@ -533,7 +532,7 @@ static int cdfs_open(struct nas *nas, char *name) {
 	struct cdfs_file_info *fi;
 	struct cdfs_fs_info *fsi;
 
-	fi = nas->fi;
+	fi = nas->fi->privdata;
 	fsi = nas->fs->fsi;
 
 	cdfs = (cdfs_t *) fsi->data;
@@ -593,7 +592,7 @@ static int cdfs_read(struct nas *nas, void *data, size_t size, off64_t pos) {
 	cdfs_file_t *cdfile;
 	cdfs_t *cdfs;
 
-	fi = nas->fi;
+	fi = nas->fi->privdata;
 	fsi = nas->fs->fsi;
 	cdfile = (cdfs_file_t *) fi->data;
 	cdfs = (cdfs_t *) fsi->data;
@@ -647,7 +646,7 @@ static int cdfs_read(struct nas *nas, void *data, size_t size, off64_t pos) {
 /*
 static off64_t cdfs_tell(struct nas *nas) {
 	struct cdfs_file_info *fi;
-	fi = nas->fi;
+	fi = nas->fi->privdata;
 
 	return fi->pos;
 }
@@ -655,7 +654,7 @@ static off64_t cdfs_tell(struct nas *nas) {
 static off64_t cdfs_lseek(struct nas *nas, off64_t offset, int origin) {
 	cdfs_file_t *cdfile;
 	struct cdfs_file_info *fi;
-	fi = nas->fi;
+	fi = nas->fi->privdata;
 	cdfile = (cdfs_file_t *) fi->data;
 
 	switch (origin) {
@@ -681,7 +680,7 @@ static int cdfs_fstat(struct nas *nas, stat_t *buffer) {
 	cdfs_file_t *cdfile;
 	cdfs_t *cdfs;
 
-	fi = nas->fi;
+	fi = nas->fi->privdata;
 	cdfile = (cdfs_file_t *) fi->data;
 	cdfs = (cdfs_t *) fi->fs->data;
 
@@ -766,7 +765,7 @@ static int cdfs_opendir(struct nas *nas, char *name) {
 	int rc;
 	struct cdfs_file_info *fi;
 
-	fi = nas->fi;
+	fi = nas->fi->privdata;
 	cdfs = (cdfs_t *) fi->fs->data;
 
 	// Locate directory
@@ -811,7 +810,7 @@ static int cdfs_readdir(struct nas *nas, direntry_t *dirp, int count) {
 	wchar_t *wname;
 	struct cdfs_file_info *fi;
 
-	fi = nas->fi;
+	fi = nas->fi->privdata;
 	cdfile = (cdfs_file_t *) fi->data;
 	cdfs = (cdfs_t *) fi->fs->data;
 
@@ -964,7 +963,7 @@ static int cdfsfs_open(struct node *node, struct file_desc *desc, int flags) {
 	struct cdfs_fs_info *fsi;
 
 	nas = node->nas;
-	fi = nas->fi;
+	fi = nas->fi->privdata;
 	fsi = nas->fs->fsi;
 
 	fi->mode = flags;
@@ -986,7 +985,7 @@ static int cdfsfs_close(struct file_desc *desc) {
 
 	nas = desc->node->nas;
 
-	fi = nas->fi;
+	fi = nas->fi->privdata;
 	cdfile = (cdfs_file_t *) fi->data;
 
 	if (cdfile) {
@@ -1045,7 +1044,7 @@ static int cdfsfs_stat(void *file, void *buff) {
 /* File system operations*/
 
 static int cdfsfs_init(void * par);
-static int cdfsfs_mount(void * par);
+static int cdfsfs_mount(void * dev, void *dir);
 
 static fsop_desc_t cdfsfs_fsop = { cdfsfs_init, NULL, cdfsfs_mount,
 		NULL, NULL };
@@ -1059,47 +1058,42 @@ static int cdfsfs_init(void * par) {
 	return 0;
 }
 
-static int cdfsfs_mount(void *par) {
-	mount_params_t *params;
-	node_t *dir_node, *dev_node;
-	struct cdfs_file_info *fi, *dev_fi;
+static int cdfsfs_mount(void *dev, void *dir) {
+	struct node *dir_node, *dev_node;
 	struct nas *dir_nas, *dev_nas;
+	struct cdfs_file_info *fi;
 	struct cdfs_fs_info *fsi;
+	struct node_fi *dev_fi;
 
-	params = (mount_params_t *) par;
-	dev_node = params->dev_node;
+	dev_node = dev;
 	dev_nas = dev_node->nas;
-	if (NULL == (dir_node = vfs_find_node(params->dir, NULL))) {
-		/*FIXME: usually mount doesn't create a directory*/
-		if (NULL == (dir_node = vfs_add_path (params->dir, NULL))) {
-			return -ENODEV;/*device not found*/
-		}
-		dir_node->type = NODE_TYPE_DIRECTORY;
-	}
+	dir_node = dir;
 	dir_nas = dir_node->nas;
 
-	/* If dev_node created, but not attached to the filesystem driver */
-	if (NULL == (dev_fi = (struct cdfs_file_info *) dev_nas->fi)) {
-		if((NULL == (dev_fi = pool_alloc(&cdfs_file_pool))) ||
-				(NULL == (fsi = pool_alloc(&cdfs_fs_pool)))) {
-			if(NULL != dev_fi) {
-				pool_free(&cdfs_file_pool, dev_fi);
-			}
-			return -ENOMEM;
-		}
-		dev_nas->fi = dev_fi;
-		dev_nas->fs->drv = &cdfsfs_drv;
+	if (NULL == (dev_fi = dev_nas->fi)) {
+		return -ENODEV;
 	}
 
-	strncpy(fsi->mntto, params->dir, strlen(params->dir) + 1);
-	strncpy(fsi->mntfrom, params->dev, strlen(params->dev) + 1);
+	if (NULL == (dir_nas->fs = alloc_filesystem("cdfs"))) {
+		return -ENOMEM;
+	}
+	dir_nas->fs->bdev = dev_fi->privdata;
 
+	/* allocate this fs info */
+	if(NULL == (fsi = pool_alloc(&cdfs_fs_pool))) {
+		free_filesystem(dir_nas->fs);
+		return -ENOMEM;
+	}
+	memset(fsi, 0, sizeof(struct cdfs_fs_info));
+	dir_nas->fs->fsi = fsi;
+	vfs_get_path_by_node(dir_node, fsi->mntto);
+	vfs_get_path_by_node(dev_node, fsi->mntfrom);
+
+	/* allocate this directory info */
 	if(NULL == (fi = pool_alloc(&cdfs_file_pool))) {
 		return -ENOMEM;
 	}
-
-	dev_nas->fs->fsi = fsi;
-	dir_nas->fs = dev_nas->fs;
+	memset(fi, 0, sizeof(struct cdfs_file_info));
 	dir_nas->fi = (void *) fi;
 
 	return cdfs_mount(dir_nas);
@@ -1235,7 +1229,7 @@ static int cdfs_create_dir_entry (struct nas *parent_nas) {
 
 		node = parent_nas->node;
 
-		fi = parent_fi = parent_nas->fi;
+		fi = parent_fi = parent_nas->fi->privdata;
 		fsi = parent_nas->fs->fsi;
 		cdfs = fsi->data;
 

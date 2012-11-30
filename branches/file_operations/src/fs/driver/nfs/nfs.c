@@ -13,7 +13,6 @@
 #include <fcntl.h>
 #include <unistd.h>
 
-#include <fs/mount.h>
 #include <fs/vfs.h>
 #include <fs/nfs.h>
 #include <fs/xdr_nfs.h>
@@ -68,7 +67,7 @@ static int nfsfs_open(struct node *nod, struct file_desc *desc, int flags) {
 
 	node = nod;
 	nas = node->nas;
-	fi = (nfs_file_info_t *)nas->fi;
+	fi = (nfs_file_info_t *)nas->fi->privdata;
 
 	fi->mode = flags;
 	fi->offset = 0;
@@ -92,7 +91,7 @@ static size_t nfsfs_read(struct file_desc *desc, void *buf, size_t size) {
 	struct nas *nas;
 
 	nas = desc->node->nas;
-	fi = (nfs_file_info_t *) nas->fi;
+	fi = (nfs_file_info_t *) nas->fi->privdata;
 	datalen = 0;
 
 	while(1) {
@@ -136,7 +135,7 @@ static size_t nfsfs_write(struct file_desc *desc, void *buf, size_t size) {
 
 	size_to_write = size;
 	nas = desc->node->nas;
-	fi = (nfs_file_info_t *) nas->fi;
+	fi = (nfs_file_info_t *) nas->fi->privdata;
 
 	/* set read structure */
 	req.count = req.datalen = size_to_write;
@@ -194,7 +193,7 @@ static int nfsfs_fseek(void *file, long offset, int whence) {
 
 static int nfsfs_init(void * par);
 static int nfsfs_format(void * par);
-static int nfsfs_mount(void * par);
+static int nfsfs_mount(void * dev, void *dir);
 static int nfsfs_create(struct node *parent_node, struct node *node);
 static int nfsfs_delete(struct node *node);
 
@@ -291,22 +290,13 @@ static int nfs_client_init(struct nfs_fs_info *fsi) {
 	return nfs_unix_auth_set(fsi->nfs);
 }
 
-static int nfsfs_mount(void *par) {
-	mount_params_t *params;
+static int nfsfs_mount(void *dev, void *dir) {
 	node_t *dir_node;
 	nfs_file_info_t *fi;
 	struct nas *dir_nas;
 	struct nfs_fs_info *fsi;
 
-	params = (mount_params_t *) par;
-
-	if (NULL == (dir_node = vfs_find_node(params->dir, NULL))) {
-		/*TODO usually mount doesn't create a directory*/
-		if (NULL == (dir_node = vfs_add_path (params->dir, NULL))) {
-			return -ENODEV;/*device not found*/
-		}
-		dir_node->type = NODE_TYPE_DIRECTORY;
-	}
+	dir_node = dir;
 
 	/* there are nodev for nfs. we create fs here and set nfs fs_drv*/
 	dir_nas = dir_node->nas;
@@ -322,15 +312,13 @@ static int nfsfs_mount(void *par) {
 		return -ENOMEM;
 	}
 
-	dir_nas->fs->drv = &nfsfs_drv;
 	dir_nas->fs->fsi = fsi;
-	dir_nas->fi = (void *) fi;
-	params->dev_node = dir_node;
+	dir_nas->fi->privdata = (void *) fi;
 
-	strncpy(fsi->mnt_point, params->dir, MAX_LENGTH_PATH_NAME);
+	strncpy(fsi->mnt_point, dir, MAX_LENGTH_PATH_NAME);
 
 	/* get server name and mount directory from params */
-	if(0 >  nfs_prepare(fsi, params->ext)) {
+	if(0 >  nfs_prepare(fsi, dev)) {
 		return -1;
 	}
 	if(0 >  nfs_client_init(fsi)) {
@@ -339,8 +327,8 @@ static int nfsfs_mount(void *par) {
 
 	if(0 >  nfs_mount(dir_nas)) {
 		nfs_clnt_destroy(fsi);
-		//nfs_fsinfo_free(fs);
 		pool_free(&nfs_fs_pool, fsi);
+		pool_free(&nfs_file_pool, fi);
 		return -1;
 	}
 
@@ -349,8 +337,8 @@ static int nfsfs_mount(void *par) {
 
 	if(0 >  nfs_create_dir_entry(fsi->mnt_point)) {
 		nfs_clnt_destroy(fsi);
-		//nfs_fsinfo_free(fs);
 		pool_free(&nfs_fs_pool, fsi);
+		pool_free(&nfs_file_pool, fi);
 		return -1;
 	}
 	return 0;
@@ -374,7 +362,7 @@ static node_t  *nfs_create_file (struct nas *parent_nas,
 	}
 	else {
 		nas = node->nas;
-		fi = nas->fi;
+		fi = nas->fi->privdata;
 	}
 
 	/* copy read the description in the created file*/
@@ -393,7 +381,7 @@ static node_t  *nfs_create_file (struct nas *parent_nas,
 	}
 
 	nas->fs = parent_nas->fs;
-	nas->fi = (void *)fi;
+	nas->fi->privdata = (void *)fi;
 	return node;
 }
 
@@ -414,7 +402,7 @@ static int nfs_create_dir_entry(char *parent) {
 	}
 
 	parent_nas = parent_node->nas;
-	parent_fi = (nfs_file_info_t *) parent_nas->fi;
+	parent_fi = (nfs_file_info_t *) parent_nas->fi->privdata;
 	fh = &parent_fi->fh;
 	fh->count = fh->maxcount = DIRCOUNT;
 	fh->cookie = 0;
@@ -474,7 +462,7 @@ static int nfs_create_dir_entry(char *parent) {
 			}
 
 			nas = node->nas;
-			fi = (nfs_file_info_t *) nas->fi;
+			fi = (nfs_file_info_t *) nas->fi->privdata;
 			if (NFS_DIRECTORY_NODE_TYPE == fi->attr.type) {
 				node->type = NODE_TYPE_DIRECTORY;
 				if((0 != strcmp(fi->name_dsc.name.data, "."))
@@ -514,7 +502,7 @@ static int nfsfs_create(struct node *parent_node, struct node *node) {
 	nas = node->nas;
 	parent_nas = parent_node->nas;
 
-	parent_fi = (nfs_file_info_t *) parent_nas->fi;
+	parent_fi = (nfs_file_info_t *) parent_nas->fi->privdata;
 
 	if (node_is_directory(node)) {
 		procnum = NFSPROC3_MKDIR;
@@ -550,7 +538,7 @@ static int nfsfs_create(struct node *parent_node, struct node *node) {
 	if(NULL == (fi = pool_alloc(&nfs_file_pool))) {
 		return -1;
 	}
-	nas->fi = (void *) fi;
+	nas->fi->privdata = (void *) fi;
 	vfs_get_path_by_node(node, path);
 	path_nip_tail(path, tail);
 
@@ -567,7 +555,7 @@ static int nfsfs_delete(struct node *node) {
 	__u32 procnum;
 
 	nas = node->nas;
-	fi = (nfs_file_info_t *) nas->fi;
+	fi = (nfs_file_info_t *) nas->fi->privdata;
 
 	if(NULL == (dir_node = vfs_get_parent(node))) {
 		return -1;
@@ -576,7 +564,7 @@ static int nfsfs_delete(struct node *node) {
 	/* set delete structure */
 	req.fname = &fi->name_dsc.name;
 	dir_nas = dir_node->nas;
-	dir_fi = (nfs_file_info_t *) dir_nas->fi;
+	dir_fi = (nfs_file_info_t *) dir_nas->fi->privdata;
 	req.dir_fh = &dir_fi->fh.name_fh;
 
 	if (node_is_directory(node)) {
@@ -774,7 +762,7 @@ static int nfs_lookup(struct nas *nas) {
 	lookup_req_t req;
 	lookup_reply_t reply;
 
-	fi = nas->fi;
+	fi = nas->fi->privdata;
 	if(NULL == (dir_node = vfs_get_parent(nas->node))) {
 		return -1;
 	}
@@ -782,7 +770,7 @@ static int nfs_lookup(struct nas *nas) {
 
 	/* set lookup structure */
 	req.fname = &fi->name_dsc.name;
-	dir_fi = (nfs_file_info_t *) dir_nas->fi;
+	dir_fi = (nfs_file_info_t *) dir_nas->fi->privdata;
 	req.dir_fh = &dir_fi->fh.name_fh;
 
 	reply.fh = &fi->fh.name_fh;

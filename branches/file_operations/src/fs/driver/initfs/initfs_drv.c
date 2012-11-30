@@ -16,7 +16,6 @@
 #include <fs/ramfs.h>
 #include <fs/fs_drv.h>
 #include <fs/vfs.h>
-#include <fs/mount.h>
 #include <fs/file_desc.h>
 
 #include <mem/misc/pool.h>
@@ -90,7 +89,7 @@ static int ramfs_ioctl(struct file_desc *desc, int request, va_list arg) {
 
 /* File system operations */
 
-static int ramfs_mount(void * par);
+static int ramfs_mount(void * dev, void *dir);
 static int ramfs_create(struct node *parent_node, struct node *new_nodes);
 
 static fsop_desc_t ramfs_fsop = { NULL, NULL, ramfs_mount,
@@ -126,12 +125,9 @@ static int ramfs_create(struct node *parent_node, struct node *new_node) {
 }
 
 
-static int ramfs_mount(void * par) {
-	struct mount_params *mp;
+static int ramfs_mount(void * dev, void *dir) {
 
-	assert(par);
-	mp = par;
-
-	cpio_unpack(mp->dir);
+	assert(dir);
+	cpio_unpack(dir);
 	return 0;
 }

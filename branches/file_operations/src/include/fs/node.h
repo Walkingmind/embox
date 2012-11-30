@@ -33,16 +33,23 @@ typedef struct node {
 	void                 *nas;
 } node_t;
 
-typedef struct nas {
-	struct node          *node;
-	struct filesystem    *fs;
-	void                 *fi;
-} nas_t;
-
 struct node_info {
 	size_t        size;
 	unsigned int  mtime;
 };
+
+struct node_fi {
+	struct node_info ni;
+	void  *privdata;
+};
+
+typedef struct nas {
+	struct node          *node;
+	struct filesystem    *fs;
+	struct node_fi       *fi;
+} nas_t;
+
+
 
 extern node_t *node_alloc(const char *name);
 extern void node_free(node_t *node);

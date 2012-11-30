@@ -17,15 +17,15 @@ static int devfs_init(void * par) {
 	return 0;
 }
 
-static int devfs_mount(void *par) {
+static int devfs_mount(void *dev, void *dir) {
 	struct node *nod;
 
-	if (NULL != (nod = vfs_find_node("/dev", NULL))) {
+	if (NULL != (nod = vfs_find_node(dev, NULL))) {
 		/* we already initialized devfs */
 		return 0;
 	}
 
-	if (NULL == (nod = vfs_add_path("/dev", NULL))) {
+	if (NULL == (nod = vfs_add_path(dev, NULL))) {
 		return -1;
 	}
 	nod->type = NODE_TYPE_DIRECTORY;

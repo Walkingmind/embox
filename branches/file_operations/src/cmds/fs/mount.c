@@ -11,69 +11,16 @@
 #include <getopt.h>
 #include <string.h>
 #include <errno.h>
+#include <unistd.h>
 
 #include <fs/vfs.h>
-#include <fs/mount.h>
 #include <fs/fs_drv.h>
+
 
 EMBOX_CMD(exec);
 
 static void print_usage(void) {
 	printf("Usage: mount [-h] [-t fstype] dev dir\n");
-}
-
-#define NO_DEV_STR "\0\0"
-static int mount_dev(char *dev, char *fs_type, char *dir) {
-	mount_params_t param;
-	node_t *dev_node;
-	struct nas *dev_nas, virt_nas;
-	node_t virt_dev;
-	struct filesystem virt_fs;
-	fs_drv_t * drv = NULL;
-
-	param.dev = dev;
-	param.dir = dir;
-
-	/*TODO need refactoring */
-	if(NULL == (dev_node = vfs_find_node((const char *) dev, NULL))) {
-		if(0 != strcmp((const char *) fs_type, "nfs")) {
-			printf("mount: no such device\n");
-			return -ENODEV;
-		}
-		else {
-			dev_node = &virt_dev;
-			dev_node->nas = &virt_nas;
-			dev_nas = dev_node->nas;
-			dev_nas->fs = &virt_fs;
-			param.dev = NO_DEV_STR;
-			param.ext = dev;
-		}
-	}
-	param.dev_node = dev_node;
-	dev_nas = dev_node->nas;
-
-	if(0 != fs_type) {
-		drv = fs_driver_find_drv((const char *) fs_type);
-		if(NULL == drv) {
-			return -EINVAL;
-		}
-		else {
-			if(NULL != dev_node) {
-				dev_nas->fs->drv = drv;
-			}
-		}
-	}
-
-	if(NULL != dev_nas) {
-		drv = dev_nas->fs->drv;
-	}
-	if (NULL == drv->fsop->mount) {
-		if(0 == fs_type) {
-			printf("try to set \"-t [fstype]\" option\n");
-		}
-		return  -ENODEV;
-	}
-	return drv->fsop->mount((void *) &param);
 }
 
 static int exec(int argc, char **argv) {
@@ -112,7 +59,14 @@ static int exec(int argc, char **argv) {
 				return 0;
 			}
 		}
-		return mount_dev(dev, fs_type, dir);
+
+		if(0 == fs_type) {
+			print_usage();
+			printf("try to set \"-t [fstype]\" option\n");
+			return 0;
+		}
+
+		return mount(dev, dir, fs_type);
 	}
 	return 0;
 }

@@ -168,3 +168,42 @@ int krmdir(const char *pathname) {
 int klstat(const char *path, stat_t *buf) {
 	return 0;
 }
+
+int kmount(char *dev, char *dir, char *fs_type) {
+	struct node *dev_node, *dir_node;
+	fs_drv_t *drv;
+
+	if(0 != fs_type) {
+		drv = fs_driver_find_drv((const char *) fs_type);
+		if(NULL == drv) {
+			return -EINVAL;
+		}
+		if (NULL == drv->fsop->mount) {
+			return  -ENOSYS;
+		}
+	}
+	else {
+		return -EINVAL;
+	}
+
+	/* find device */
+	if(NULL == (dev_node = vfs_find_node((const char *) dev, NULL))) {
+		if(0 != strcmp((const char *) fs_type, "nfs")) {
+			printf("mount: no such device\n");
+			return -ENODEV;
+		}
+		else {
+			dev_node = (node_t *) dev;
+		}
+	}
+	/* find directory */
+	if (NULL == (dir_node = vfs_find_node(dir, NULL))) {
+		/*FIXME: usually mount doesn't create a directory*/
+		if (NULL == (dir_node = vfs_add_path (dir, NULL))) {
+			return -ENODEV;/*device not found*/
+		}
+		dir_node->type = NODE_TYPE_DIRECTORY;
+	}
+
+	return drv->fsop->mount(dev_node, dir_node);
+}

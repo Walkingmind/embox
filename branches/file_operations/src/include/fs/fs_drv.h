@@ -14,7 +14,7 @@
 
 typedef int (*fsop_init_ft)(void *par);
 typedef int (*fsop_format_ft)(void *par);
-typedef int (*fsop_mount_ft)(void *par);
+typedef int (*fsop_mount_ft)(void *dev_node, void *dir_node);
 typedef int (*fsop_create_ft)(struct node *parent_node, struct node *new_node);
 typedef int (*fsop_delete_ft)(struct node *node);
 

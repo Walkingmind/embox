@@ -8,7 +8,6 @@
 
 #include <fcntl.h>
 #include <cmd/mkfs.h>
-#include <fs/mount.h>
 #include <drivers/ramdisk.h>
 #include <embox/test.h>
 #include <fs/vfs.h>

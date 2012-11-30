@@ -13,7 +13,6 @@
 #include <embox/unit.h>
 #include <embox/block_dev.h>
 #include <fs/vfs.h>
-#include <fs/file_system.h>
 #include <mem/phymem.h>
 #include <mem/misc/pool.h>
 #include <util/array.h>
@@ -46,17 +45,7 @@ static block_dev_module_t *block_dev_find(char *name) {
 */
 
 block_dev_t *block_dev(void *dev) {
-#if 0
-	dev_t devno;
-	block_dev_t *dev;
 
-	assert(dev_id != NULL);
-	devno = *((dev_t *) dev_id);
-	dev = devtab[devno];
-	assert(dev != NULL);
-
-	return dev;
-#endif
 	return (block_dev_t *)dev;
 }
 
@@ -64,11 +53,13 @@ struct block_dev *block_dev_create(char *path, void *driver, void *privdata) {
 	block_dev_t *bdev;
 	node_t *node;
 	struct nas *nas;
+	struct node_fi *node_fi;
 
 	bdev = (block_dev_t *) pool_alloc(&blockdev_pool);
 	if (NULL == bdev) {
 		return NULL;
 	}
+
 	memset(bdev, 0, sizeof(block_dev_t));
 
 	bdev->id = (dev_t) index_alloc(&block_dev_idx, INDEX_ALLOC_MIN);
@@ -87,19 +78,14 @@ struct block_dev *block_dev_create(char *path, void *driver, void *privdata) {
 		index_free(&block_dev_idx, bdev->id);
 		return NULL;
 	}
-
-	nas = node->nas;
-	if (NULL == (nas->fs = alloc_filesystem("empty"))) {
-		vfs_del_leaf(node);
-		pool_free(&blockdev_pool, bdev);
-		index_free(&block_dev_idx, bdev->id);
-		errno = -ENOMEM;
-		return NULL;
-	}
-
-	nas->fs->bdev = bdev;
 	strncpy (bdev->name, node->name, MAX_LENGTH_FILE_NAME);
 	bdev->dev_node = node;
+
+	nas = node->nas;
+	node_fi = nas->fi;
+	node_fi->privdata = bdev;
+	node_fi->ni.size = 0;/*TODO*/
+	node_fi->ni.mtime = 0;/*TODO*/
 
 	return bdev;
 }

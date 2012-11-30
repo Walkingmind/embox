@@ -261,12 +261,12 @@ typedef struct dirinfo {
 } dir_info_t, *p_dir_info_t;
 
 typedef struct fat_fs_info {
-	uint8_t root_name[MAX_LENGTH_PATH_NAME];
+	char mntfrom[MAX_LENGTH_PATH_NAME];
+	char mntto[MAX_LENGTH_PATH_NAME];
 	vol_info_t vi;
 } fat_fs_info_t;
 
 typedef struct fat_file_info {
-	struct node_info ni;
 	vol_info_t *volinfo;		/* vol_info_t used to open this file */
 	uint32_t dirsector;			/* physical sector containing dir entry of this file */
 	uint8_t diroffset;			/* # of this entry within the dir sector */

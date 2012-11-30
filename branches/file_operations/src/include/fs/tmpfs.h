@@ -20,14 +20,14 @@
 ATTR_VOLUME_ID)
 
 typedef struct tmpfs_fs_info {
-	uint8_t root_name[MAX_LENGTH_PATH_NAME];
+	char mntfrom[MAX_LENGTH_PATH_NAME];
+	char mntto[MAX_LENGTH_PATH_NAME];
 	uint32_t numblocks;			/* number of block in volume */
 	uint32_t block_size;		/* size of block */
 	uint32_t block_per_file;	/* max number of blocks filesize*/
 } tmpfs_fs_info_t;
 
 typedef struct tmpfs_file_info {
-	struct node_info ni;
 	int     index;		        /* number of file in FS*/
 	int     mode;				/* mode in which this file was opened */
 	uint32_t pointer;			/* current (BYTE) pointer */
