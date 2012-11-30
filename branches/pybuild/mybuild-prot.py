@@ -3,6 +3,8 @@ import unittest
 import operator
 import itertools
 
+from functools import partial
+
 def get_all_options(obj):
     option_set = set()
     for mod in [obj] + obj.supers():
@@ -28,8 +30,8 @@ class Option:
 	self.value = value
 	self.mod = mod
 
-    def trigger(self, scope, domain):
-	return scope
+    def trigger(self, cont, scope, domain):
+	return cont(scope)
 
 class Domain(frozenset):
     def value(self):
@@ -116,7 +118,7 @@ class Module(Option, Inherit, BaseScope):
 	for o, d in options.items():
 	    dict.__setitem__(self, o, d)
 
-    def trigger(self, scope, domain):
+    def trigger(self, cont, scope, domain):
 	v = domain.value()
 	if None != v and v:
 	    for dep, opts in self.depends:
@@ -130,7 +132,7 @@ class Module(Option, Inherit, BaseScope):
 			for o, v in itertools.izip(self.trigger_opts, i):
 			    new_scope = cut(new_scope, o, Domain([v]))
 
-			return self.include_trigger(new_scope, *i)
+			return cont(self.include_trigger(new_scope, *i))
 		    except CutConflictException, cc:
 			pass
 		raise CutConflictException()
@@ -172,42 +174,49 @@ class CutConflictException(BaseException):
 
 def add_many(scope, ents):
     for ent in ents:
-	add_step(scope, ent)
-
-def add_step(scope, ent, options = {}):
-
-    for o, d in ent.items():
-	if scope.has_key(o):
-	    raise Exception
-	scope[o] = d 
-
-    for o, d in options.items():
-	cut(scope, o, d)
-
-    return scope
-
-def try_add_step(scope, ent, options = {}):
-
-    new_scope = Scope(scope)
-
-    try:
-	add_step(new_scope, ent, options)
-    except CutConflictException:
-	return False
-
-    return new_scope
+	for o, d in ent.items():
+	    if scope.has_key(o):
+		raise Exception
+	    scope[o] = d 
 
 def cut(scope, opt, domain):
     strict_domain = scope[opt] & domain
     new_scope = Scope(scope)
 
+
     if strict_domain:
 	new_scope[opt] = strict_domain
-	new_scope = opt.trigger(new_scope, strict_domain)
+	new_scope = opt.trigger(lambda x: x, new_scope, strict_domain)
 	return new_scope
     else:
 	raise CutConflictException("%s option with %s domain cutting down with %s" % (opt, scope[opt], domain))
     
+def cut_many(scope, opts):
+    has_no_trigger = filter(lambda m: not isinstance(m, Module) or not m.include_trigger, [m for m, d in opts])
+    d = dict(opts)
+
+    for opt in has_no_trigger:
+	scope = cut(scope, opt, d[opt])
+	del d[opt]
+
+    return cut_iter(scope, [(opt, dom) for opt, dom in d.items()])
+
+def cut_iter(scope, opts):
+    if not opts:
+	return scope
+
+    opt, domain = opts[0]
+
+    strict_domain = scope[opt] & domain
+    new_scope = Scope(scope)
+
+    if strict_domain:
+	new_scope[opt] = strict_domain
+	new_scope = opt.trigger(partial(cut_iter,opts=opts[1:]), new_scope, strict_domain)
+	return new_scope
+    else:
+	raise CutConflictException("%s option with %s domain cutting down with %s" % (opt, scope[opt], domain))
+
 def fixate(scope):
     new_scope = Scope(scope)
 
@@ -228,8 +237,7 @@ class TestCase(unittest.TestCase):
 	scope = Scope()
 	add_many(scope, [blck, stdio, fs, test2, test, test3])
 
-	scope = cut(scope, fs, Domain([True]))
-	scope = cut(scope, test2, Domain([True]))
+	scope = cut_many(scope, [(fs, Domain([True])), (test2, Domain([True]))])
 
 	final = fixate(scope)
 	
@@ -249,7 +257,7 @@ class TestCase(unittest.TestCase):
 	scope = Scope()
 	add_many(scope, [stack_lds, thread_core])
 
-	scope = cut(scope, thread_core, Domain([True]))
+	scope = cut_many(scope, [(thread_core, Domain([True])), (test2, Domain([True]))])
 
 	final = fixate(scope)
 
@@ -282,7 +290,7 @@ class TestCase(unittest.TestCase):
 	scope = Scope()
 	add_many(scope, [uart, amba])
 
-	scope = cut(scope, uart, Domain([True]))
+	scope = cut_many(scope, [(uart, Domain([True]))])
 
 	self.assertTrue(scope != False)
 
@@ -339,12 +347,6 @@ class TestCase(unittest.TestCase):
 	scope = try_add_step(scope, stack_lds)
 	self.assertTrue(False != scope[thread_core])
 	self.assertTrue(False != scope[stack_lds])
-
-    def test_interfer_options(self):
-	pass
-
-    def test_cond_depends(self):
-	pass
 
     def test_scope_pred(self):
 	scope = Scope()
