@@ -569,7 +569,7 @@ static int nfsfs_delete(struct node *node) {
 	nas = node->nas;
 	fi = (nfs_file_info_t *) nas->fi;
 
-	if(NULL == (dir_node = vfs_find_parent(node))) {
+	if(NULL == (dir_node = vfs_get_parent(node))) {
 		return -1;
 	}
 
@@ -775,7 +775,7 @@ static int nfs_lookup(struct nas *nas) {
 	lookup_reply_t reply;
 
 	fi = nas->fi;
-	if(NULL == (dir_node = vfs_find_parent(nas->node))) {
+	if(NULL == (dir_node = vfs_get_parent(nas->node))) {
 		return -1;
 	}
 	dir_nas = dir_node->nas;

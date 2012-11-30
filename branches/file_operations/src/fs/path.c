@@ -71,23 +71,36 @@ int path_increase_tail(char *head, char *tail) {
 }
 
 /*
- * Save first node name in path into buff variable.
+ * Save first node name in path into node_name parameter.
  * Return the remaining part of path.
  */
-char *path_get_next_node_name(const char *path, char *buff, int buff_len) {
+char *path_get_next_name(const char *path, char *node_name, int buff_len) {
 	char *p = (char *) path;
-	char *b = buff;
-	while ('/' == *p) {
+	char *nm = node_name;
+
+	*nm = '\0'; /* empty node_name */
+
+	/* we must pass '/' symbol */
+	if('/' == *p) {
 		p++;
 	}
-	while (('/' != *p) && ('\0' != *p) && (buff_len --> 1)) {
-		*b++ = *p++;
+
+	/* we copy chars while not appear end of string or we don't find next item
+	 * or don't fill the buffer*/
+	while (('/' != *p) && ('\0' != *p) && (buff_len-- > 0)) {
+		*nm++ = *p++;
 	}
-	*b = '\0';
-	if (b != buff) {
+
+	/* we must setup terminate symbol to the end of node_name */
+	*nm = '\0';
+
+	/* if we found some symbols it's a correct node_name  */
+	if (nm != node_name) {
+#if 0
 		while ('/' == *p) {
 			p++;
 		}
+#endif
 		return p;
 	}
 

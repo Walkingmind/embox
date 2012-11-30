@@ -25,7 +25,7 @@ extern int path_increase_tail(char *head, char *tail);
  * Save first node name in path into buff variable.
  * Return the remaining part of path.
  */
-extern char *path_get_next_node_name(const char *path, char *buff, int buff_len);
+extern char *path_get_next_name(const char *path, char *buff, int buff_len);
 
 
 //TODO this is only FAT function
