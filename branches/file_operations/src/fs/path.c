@@ -70,6 +70,29 @@ int path_increase_tail(char *head, char *tail) {
 		return 0;
 }
 
+/*
+ * Save first node name in path into buff variable.
+ * Return the remaining part of path.
+ */
+char *path_get_next_node_name(const char *path, char *buff, int buff_len) {
+	char *p = (char *) path;
+	char *b = buff;
+	while ('/' == *p) {
+		p++;
+	}
+	while (('/' != *p) && ('\0' != *p) && (buff_len --> 1)) {
+		*b++ = *p++;
+	}
+	*b = '\0';
+	if (b != buff) {
+		while ('/' == *p) {
+			p++;
+		}
+		return p;
+	}
+
+	return NULL;
+}
 
 #include <fs/fat.h>
 /*
@@ -139,4 +162,5 @@ char *path_dir_to_canonical(char *dest, char *src, char dir) {
         }
         return dest;
 }
+
 

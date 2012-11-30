@@ -30,6 +30,7 @@ static node_t *create_filechain(const char *name, uint8_t node_type) {
 	newnode_cnt = 0;
 	tail[0] = '\0';
 
+
 	/* find last node in the path */
 	do {
 		if (path_nip_tail(path, tail)) {
@@ -74,10 +75,13 @@ static node_t *create_filechain(const char *name, uint8_t node_type) {
 int kcreate(const char *pathname, mode_t mode) {
 	node_t *nod;
 
+	/* if node already exist return error */
 	if (NULL != (nod = vfs_find_node(pathname, NULL))) {
 		errno = EBUSY;
 		return -1;
 	}
+
+	/* get last exist node */
 
 	/* set permission */
 
