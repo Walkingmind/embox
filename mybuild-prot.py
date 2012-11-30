@@ -137,7 +137,7 @@ class Module(Option, Inherit, BaseScope):
 			pass
 		raise CutConflictException()
 
-	return scope
+	return cont(scope)
 
     def implements(self):
 	def get_impl(obj):
@@ -285,12 +285,12 @@ class TestCase(unittest.TestCase):
 		return cut(scope, amba, Domain([True]))
 	    return scope
 
-	uart = Module("uart", options = {amba_pp_opt : Domain([True])}, trigger_opts=[amba_pp_opt], include_trigger=uart_trigger)
+	uart = Module("uart", options = {amba_pp_opt : Domain([False, True])}, trigger_opts=[amba_pp_opt], include_trigger=uart_trigger)
 
 	scope = Scope()
 	add_many(scope, [uart, amba])
 
-	scope = cut_many(scope, [(uart, Domain([True]))])
+	scope = cut_many(scope, [(uart, Domain([True])), (amba_pp_opt, Domain([True]))])
 
 	self.assertTrue(scope != False)
 
