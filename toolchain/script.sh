@@ -175,13 +175,9 @@ build_all() {
 	echo "All sources were built!\n"
 }
 
-#download_all
-#unpack_all
-#patch_all
-#build_all
-unpack_newlib
-patch_newlib
-build_newlib
-build_crt
+download_all
+unpack_all
+patch_all
+build_all
 
 echo "Toolchain was builded!\n"
