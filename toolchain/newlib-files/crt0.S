@@ -1,8 +1,17 @@
-.global _start
-.extern main
-.extern exit
+	.extern main
+	.extern exit
+
+	.global _start
 _start:
-call main
-call exit
-.wait: hlt
-jmp .wait
+	mov  (%esp), %eax
+	mov  %esp, %ebx
+	add  $4, %ebx
+	push %ebx
+	push %eax
+	call main
+	add  $8, %esp 
+	push %eax
+	call exit
+.wait: 
+	hlt
+	jmp .wait
