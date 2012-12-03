@@ -3,6 +3,8 @@ import unittest
 import operator
 import itertools
 
+import traceback
+
 from functools import partial
 
 def get_all_options(obj):
@@ -122,9 +124,9 @@ class Module(Option, Inherit, BaseScope):
 	v = domain.value()
 	if None != v and v:
 	    for dep, opts in self.depends:
-		scope = cut(scope, dep, Domain([True]))
+		incut(scope, dep, Domain([True]))
 		for opt, d in opts.items():
-		    scope = cut(scope, opt, d)
+		    incut(scope, opt, d)
 	    if self.include_trigger:
 		for i in itertools.product(*(scope[opt] for opt in self.trigger_opts)):
 		    try:
@@ -132,7 +134,12 @@ class Module(Option, Inherit, BaseScope):
 			for o, v in itertools.izip(self.trigger_opts, i):
 			    new_scope = cut(new_scope, o, Domain([v]))
 
-			return cont(self.include_trigger(new_scope, *i))
+			trig_ret = self.include_trigger(new_scope, *i)
+
+			if isinstance(trig_ret, Scope):
+			    return cont(trig_ret)
+
+			return cont(new_scope)
 		    except CutConflictException, cc:
 			pass
 		raise CutConflictException()
@@ -179,18 +186,22 @@ def add_many(scope, ents):
 		raise Exception
 	    scope[o] = d 
 
-def cut(scope, opt, domain):
+def incut(scope, opt, domain):
     strict_domain = scope[opt] & domain
-    new_scope = Scope(scope)
-
-
     if strict_domain:
-	new_scope[opt] = strict_domain
-	new_scope = opt.trigger(lambda x: x, new_scope, strict_domain)
-	return new_scope
+	scope[opt] = strict_domain
+	scope = opt.trigger(lambda x: x, scope, strict_domain)
     else:
 	raise CutConflictException("%s option with %s domain cutting down with %s" % (opt, scope[opt], domain))
-    
+
+def cut(scope, opt, domain):
+
+    scope = Scope(scope)
+
+    incut(scope, opt, domain)
+
+    return scope
+
 def cut_many(scope, opts):
     has_no_trigger = filter(lambda m: not isinstance(m, Module) or not m.include_trigger, [m for m, d in opts])
     d = dict(opts)
@@ -282,8 +293,7 @@ class TestCase(unittest.TestCase):
 
 	def uart_trigger(scope, amba_val):
 	    if amba_val:
-		return cut(scope, amba, Domain([True]))
-	    return scope
+		incut(scope, amba, Domain([True]))
 
 	uart = Module("uart", options = {amba_pp_opt : Domain([False, True])}, trigger_opts=[amba_pp_opt], include_trigger=uart_trigger)
 
