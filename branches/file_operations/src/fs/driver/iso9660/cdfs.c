@@ -966,7 +966,7 @@ static int cdfsfs_open(struct node *node, struct file_desc *desc, int flags) {
 	fi = nas->fi->privdata;
 	fsi = nas->fs->fsi;
 
-	fi->mode = flags;
+	fi->flags = flags;
 
 	vfs_get_path_by_node(node, path);
 	/* set relative path in this file system */
@@ -1074,7 +1074,7 @@ static int cdfsfs_mount(void *dev, void *dir) {
 		return -ENODEV;
 	}
 
-	if (NULL == (dir_nas->fs = alloc_filesystem("cdfs"))) {
+	if (NULL == (dir_nas->fs = alloc_filesystem("iso9660"))) {
 		return -ENOMEM;
 	}
 	dir_nas->fs->bdev = dev_fi->privdata;
