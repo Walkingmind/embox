@@ -73,12 +73,20 @@ static int nfsfs_open(struct node *nod, struct file_desc *desc, int flags) {
 	fi->offset = desc->cursor;
 
 	if(0 == nfs_lookup(nas)) {
+		nas->fi->ni.size = fi->attr.size;
 		return 0;
 	}
 	return -1;
 }
 
 static int nfsfs_close(struct file_desc *desc) {
+	nfs_file_info_t *fi;
+	struct nas *nas;
+
+	nas = desc->node->nas;
+	fi = (nfs_file_info_t *)nas->fi->privdata;
+	fi->offset = desc->cursor = 0;
+
 	return 0;
 }
 
@@ -123,6 +131,7 @@ static size_t nfsfs_read(struct file_desc *desc, void *buf, size_t size) {
 			break;
 		}
 	}
+	desc->cursor = fi->offset;
 	return datalen;
 }
 
@@ -155,7 +164,7 @@ static size_t nfsfs_write(struct file_desc *desc, void *buf, size_t size) {
 	}
 
 	fi->offset += reply.count;
-
+	desc->cursor = fi->offset;
 	return reply.count;
 }
 
