@@ -159,8 +159,30 @@ int kseek(struct file_desc *desc, long int offset, int origin) {
 
 	nas = desc->node->nas;
 	ni = &nas->fi->ni;
-//FIXME now we wouldn't have special fseek function (it common for every file system)
-	return ni->size;
+
+	switch (origin) {
+	    case SEEK_SET:
+	    	desc->cursor = offset;
+	    	break;
+
+	    case SEEK_CUR:
+	    	desc->cursor += offset;
+	    	break;
+
+	    case SEEK_END:
+	    	desc->cursor = ni->size + offset;
+	    	break;
+
+	    default:
+	    	desc->cursor = -1;
+	    	break;
+
+	  }
+	if(ni->size < desc->cursor) {
+		desc->cursor = ni->size;
+	}
+	return desc->cursor;
+
 }
 
 int kfstat(struct file_desc *desc, struct stat *stat_buff) {
