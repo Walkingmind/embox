@@ -512,8 +512,6 @@ static int tmpfs_delete(struct node *node) {
 static int tmpfs_format(void *dev) {
 	node_t *dev_node;
 	struct nas *dev_nas;
-	struct tmpfs_file_info *fi;
-	struct tmpfs_fs_info *fsi;
 	struct node_fi *dev_fi;
 
 	if (NULL == (dev_node = vfs_find_node((char *) dev, NULL))) {
@@ -526,23 +524,9 @@ static int tmpfs_format(void *dev) {
 	dev_nas = dev_node->nas;
 	dev_fi = dev_nas->fi;
 
-	if((NULL == (fsi = pool_alloc(&tmpfs_fs_pool))) ||
-			(NULL == (fi = pool_alloc(&tmpfs_file_pool)))) {
-		if(NULL != fsi){
-			pool_free(&tmpfs_fs_pool, fsi);
-		}
-		return -ENOMEM;
+	if(MAX_FILE_SIZE > block_dev(dev_fi->privdata)->size / PAGE_SIZE()) {
+		return -1;
 	}
-
-	strcpy((char *) fsi->mntto, "\0");
-	fsi->block_per_file = MAX_FILE_SIZE;
-	fsi->block_size = PAGE_SIZE();
-	fsi->numblocks = block_dev(dev_fi->privdata)->size / PAGE_SIZE();
-
-	dev_nas->fi->privdata = (void *)fi;
-	dev_nas->fs->fsi = fsi;
-	dev_nas->fs->drv = &tmpfs_drv;
-
 	return 0;
 }
 
@@ -576,12 +560,17 @@ static int tmpfs_mount(void *dev, void *dir) {
 	dir_nas->fs->fsi = fsi;
 	vfs_get_path_by_node(dir_node, fsi->mntto);
 	vfs_get_path_by_node(dev_node, fsi->mntfrom);
+	fsi->block_per_file = MAX_FILE_SIZE;
+	fsi->block_size = PAGE_SIZE();
+	fsi->numblocks = block_dev(dev_fi->privdata)->size / PAGE_SIZE();
 
 	/* allocate this directory info */
 	if(NULL == (fi = pool_alloc(&tmpfs_file_pool))) {
 		return -ENOMEM;
 	}
 	memset(fi, 0, sizeof(struct tmpfs_file_info));
+	fi->index = fi->mode = 0;
+	fi->pointer = 0;
 	dir_nas->fi->privdata = (void *) fi;
 
 	return 0;
