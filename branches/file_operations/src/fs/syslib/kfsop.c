@@ -143,9 +143,11 @@ int kunlink(const char *pathname) {
 	struct nas *nas;
 
 	node = vfs_find_node(pathname, NULL);
+	/*
 	if(0 == (node->type & S_IWRITE)) {
 		return -EPERM;
 	}
+	*/
 	nas = node->nas;
 	drv = nas->fs->drv;
 
@@ -167,6 +169,36 @@ int krmdir(const char *pathname) {
 
 int klstat(const char *path, stat_t *buf) {
 	return 0;
+}
+
+int kformat(const char *pathname, const char *fs_type) {
+	node_t *node;
+	fs_drv_t *drv;
+
+	if(0 != fs_type) {
+		drv = fs_driver_find_drv((const char *) fs_type);
+		if(NULL == drv) {
+			return -EINVAL;
+		}
+		if (NULL == drv->fsop->format) {
+			return  -ENOSYS;
+		}
+	}
+	else {
+		return -EINVAL;
+	}
+
+	node = vfs_find_node(pathname, NULL);
+	if(NULL == node) {
+		return -ENODEV;
+	}
+	/*
+	if(0 == (node->type & S_IWRITE)) {
+		return -EPERM;
+	}
+	*/
+
+	return drv->fsop->format (node);
 }
 
 int kmount(char *dev, char *dir, char *fs_type) {

@@ -24,6 +24,8 @@ extern int krmdir(const char *pathname);
 
 extern int klstat(const char *path, struct stat *buf);
 
+extern int kformat(const char *pathname, const char *fs_type);
+
 extern int kmount(char *dev,  char *dir, char *fs_type);
 
 #endif /* FS_KFSOP_H_ */

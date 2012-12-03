@@ -1697,9 +1697,7 @@ static int fatfs_root_dir_record(void *bdev) {
 	vol_info_t volinfo;
 	uint32_t pstart, psize;
 	uint8_t pactive, ptype;
-	dir_info_t di;
 	dir_ent_t de;
-	struct nas nas;
 
 	/* Obtain pointer to first partition on first (only) unit */
 	pstart = fat_get_ptn_start(bdev, sector_buff, 0, &pactive, &ptype, &psize);
@@ -1709,12 +1707,6 @@ static int fatfs_root_dir_record(void *bdev) {
 
 	if (fat_get_vol_info(bdev, &volinfo, sector_buff, pstart)) {
 		return -1;
-	}
-	di.p_scratch = sector_buff;
-
-	/* Locate or create a directory entry for this file */
-	if (DFS_OK != fat_get_free_dir_ent(&nas, (uint8_t *)ROOT_DIR, &di, &de)) {
-		return DFS_ERRMISC;
 	}
 
 	/* put sane values in the directory entry */
@@ -1730,18 +1722,6 @@ static int fatfs_root_dir_record(void *bdev) {
 	de.startclus_l_h = (cluster & 0xff00) >> 8;
 	de.startclus_h_l = (cluster & 0xff0000) >> 16;
 	de.startclus_h_h = (cluster & 0xff000000) >> 24;
-
-	/* update file_info_t for our caller's sake
-	fi->volinfo = volinfo;
-	fi->pointer = 0;
-	fi->dirsector = volinfo->rootdir;
-
-	fi->diroffset = 0;
-	fi->cluster = cluster;
-	fi->firstcluster = cluster;
-	fi->ni.size = 0;
-	fi->mode = O_WRONLY;
-	*/
 
 	/*
 	 * write the directory entry
@@ -2134,20 +2114,18 @@ static int fatfs_init(void * par) {
 }
 
 static int fatfs_format(void *dev) {
-	node_t *dev_nod;
+	node_t *dev_node;
 	struct nas *dev_nas;
-	struct node_fi *fi;
 
-	if (NULL == (dev_nod = vfs_find_node((char *) dev, NULL))) {
+	if (NULL == (dev_node = dev)) {
 		return -ENODEV;/*device not found*/
 	}
 
-	dev_nas = dev_nod->nas;
-	fi = dev_nas->fi->privdata;
+	dev_nas = dev_node->nas;
 
 	/* private file_info for dev node is *bdev */
-	fatfs_create_partition(fi->privdata);
-	fatfs_root_dir_record(fi->privdata);
+	fatfs_create_partition(dev_nas->fi->privdata);
+	fatfs_root_dir_record(dev_nas->fi->privdata);
 
 	return 0;
 }

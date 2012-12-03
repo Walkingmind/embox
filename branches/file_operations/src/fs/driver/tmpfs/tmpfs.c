@@ -40,7 +40,6 @@ INDEX_DEF(tmpfs_file_idx,0,OPTION_GET(NUMBER,tmpfs_inode_quantity));
 #define TMPFS_NAME "tmpfs"
 #define TMPFS_DEV  "/dev/ram0"
 #define TMPFS_DIR  "/tmp"
-static ramdisk_create_params_t new_ramdisk;
 
 static char sector_buff[PAGE_SIZE()];/* TODO */
 
@@ -48,24 +47,13 @@ static int tmpfs_format(void *path);
 static int tmpfs_mount(void *dev, void *dir);
 
 static int tmpfs_init(void * par) {
-	ramdisk_create_params_t *new_ramdisk;
 	struct node *dev_node, *dir_node;
 
 	if(NULL == par) {
-		/* don't need init fs driver*/
-		//mkfs_params = &tmpfs_mkfs_params;
 		return 0;
 	}
-	else {
-		new_ramdisk = (ramdisk_create_params_t *) par;
-	}
 
-	new_ramdisk->size = FILESYSTEM_SIZE * PAGE_SIZE();
-	new_ramdisk->fs_type = 0;
-	new_ramdisk->fs_name = TMPFS_NAME;
-	new_ramdisk->path = TMPFS_DEV;
-
-	if (0 != ramdisk_create((void *)new_ramdisk)) {
+	if (0 != ramdisk_create(TMPFS_DEV, FILESYSTEM_SIZE * PAGE_SIZE())) {
 		return -1;
 	}
 
@@ -75,7 +63,7 @@ static int tmpfs_init(void * par) {
 	}
 
 	/* format filesystem */
-	if(0 != tmpfs_format((void *)TMPFS_DEV)) {
+	if(0 != tmpfs_format((void *)dev_node)) {
 		return -1;
 	}
 
@@ -84,8 +72,7 @@ static int tmpfs_init(void * par) {
 }
 
 static int tmp_ramdisk_fs_init(void) {
-
-	return tmpfs_init(&new_ramdisk);
+	return tmpfs_init(TMPFS_DEV);
 }
 EMBOX_UNIT_INIT(tmp_ramdisk_fs_init); /*TODO*/
 
@@ -514,7 +501,7 @@ static int tmpfs_format(void *dev) {
 	struct nas *dev_nas;
 	struct node_fi *dev_fi;
 
-	if (NULL == (dev_node = vfs_find_node((char *) dev, NULL))) {
+	if (NULL == (dev_node = dev)) {
 		return -ENODEV;/*device not found*/
 	}
 
@@ -525,7 +512,7 @@ static int tmpfs_format(void *dev) {
 	dev_fi = dev_nas->fi;
 
 	if(MAX_FILE_SIZE > block_dev(dev_fi->privdata)->size / PAGE_SIZE()) {
-		return -1;
+		return -ENOSPC;
 	}
 	return 0;
 }
