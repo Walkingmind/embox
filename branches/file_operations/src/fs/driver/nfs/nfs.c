@@ -70,7 +70,7 @@ static int nfsfs_open(struct node *nod, struct file_desc *desc, int flags) {
 	fi = (nfs_file_info_t *)nas->fi->privdata;
 
 	fi->mode = flags;
-	fi->offset = 0;
+	fi->offset = desc->cursor;
 
 	if(0 == nfs_lookup(nas)) {
 		return 0;
@@ -93,6 +93,7 @@ static size_t nfsfs_read(struct file_desc *desc, void *buf, size_t size) {
 	nas = desc->node->nas;
 	fi = (nfs_file_info_t *) nas->fi->privdata;
 	datalen = 0;
+	fi->offset = desc->cursor;
 
 	while(1) {
 		if (size > DIRCOUNT) {
@@ -136,6 +137,7 @@ static size_t nfsfs_write(struct file_desc *desc, void *buf, size_t size) {
 	size_to_write = size;
 	nas = desc->node->nas;
 	fi = (nfs_file_info_t *) nas->fi->privdata;
+	fi->offset = desc->cursor;
 
 	/* set read structure */
 	req.count = req.datalen = size_to_write;
@@ -415,7 +417,7 @@ static int nfs_create_dir_entry(char *parent) {
 
 		memset(rcv_buf, 0, sizeof(rcv_buf));
 
-		if(0 >  nfs_call_proc_nfs(nas, NFSPROC3_READDIRPLUS,
+		if(0 >  nfs_call_proc_nfs(parent_nas, NFSPROC3_READDIRPLUS,
 			(char *)fh, rcv_buf)) {
 			free(rcv_buf);
 			return -1;
