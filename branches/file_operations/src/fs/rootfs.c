@@ -7,11 +7,8 @@
  * @author Andrey Gazukin
  */
 
-#include <stdio.h>
-#include <string.h>
-#include <assert.h>
 #include <errno.h>
-#include <unistd.h>
+#include <unistd.h> /* now mount declaration in this header */
 
 #include <fs/fs_drv.h>
 #include <fs/node.h>
