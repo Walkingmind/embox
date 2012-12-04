@@ -105,7 +105,6 @@ static int tmpfs_open(struct node *node, struct file_desc *desc, int flags) {
 	nas = node->nas;
 	fi = (tmpfs_file_info_t *)nas->fi->privdata;
 
-	fi->pointer = 0;
 	fi->mode = flags;
 	if (O_WRONLY == fi->mode) {
 		nas->fi->ni.size = 0;
@@ -165,6 +164,8 @@ static size_t tmpfs_read(struct file_desc *desc, void *buf, size_t size) {
 	fi = nas->fi->privdata;
 	fsi = nas->fs->fsi;
 
+	fi->pointer = desc->cursor;
+
 	len = size;
 
 	/* Don't try to read past EOF */
@@ -222,6 +223,8 @@ static size_t tmpfs_read(struct file_desc *desc, void *buf, size_t size) {
 			break;
 		}
 	}
+
+	desc->cursor = fi->pointer;
 	return bytecount;
 }
 
@@ -248,6 +251,7 @@ static size_t tmpfs_write(struct file_desc *desc, void *buf, size_t size) {
 		return 0;
 	}
 
+	fi->pointer = desc->cursor;
 	len = size;
 	end_pointer = fi->pointer + len;
 	start_block = fi->index * fsi->block_per_file;
@@ -306,6 +310,7 @@ static size_t tmpfs_write(struct file_desc *desc, void *buf, size_t size) {
 		nas->fi->ni.size = fi->pointer;
 	}
 
+	desc->cursor = fi->pointer;
 	return bytecount;
 }
 
@@ -445,10 +450,6 @@ static int tmpfs_create(struct node *parent_node, struct node *node) {
 			}
 		}
 	}
-	/* cut /.. from end of PATH, if need
-	if (1 < node_quantity) {
-		path[strlen(path) - 3] = '\0';
-	} */
 
 	return 0;
 }

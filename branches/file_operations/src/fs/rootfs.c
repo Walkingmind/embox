@@ -8,7 +8,7 @@
  */
 
 #include <errno.h>
-#include <unistd.h> /* now mount declaration in this header */
+#include <fs/sys/fsop.h>/* now mount declaration in this header */
 
 #include <fs/fs_drv.h>
 #include <fs/node.h>

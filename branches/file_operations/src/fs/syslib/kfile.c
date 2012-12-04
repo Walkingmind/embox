@@ -178,7 +178,7 @@ int kseek(struct file_desc *desc, long int offset, int origin) {
 	    	break;
 
 	  }
-	if(ni->size < desc->cursor) {
+	if(desc->cursor > ni->size) {
 		desc->cursor = ni->size;
 	}
 	return desc->cursor;

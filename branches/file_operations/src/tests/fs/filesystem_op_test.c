@@ -8,7 +8,7 @@
 
 #include <fcntl.h>
 #include <stdio.h>
-#include <unistd.h>
+#include <fs/sys/fsop.h>/* now mount declaration in this header */
 
 #include <cmd/mkfs.h>
 #include <fs/vfs.h>

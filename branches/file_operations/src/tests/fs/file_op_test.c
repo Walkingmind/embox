@@ -10,16 +10,13 @@
 #include <unistd.h>
 #include <stdio.h>
 
-#include <cmd/mkfs.h>
 #include <fs/vfs.h>
 #include <fs/fs_drv.h>
-
+#include <fs/sys/fsop.h>/* now mount declaration in this header */
 #include <embox/block_dev.h>
 #include <drivers/ramdisk.h>
 
 #include <mem/page.h>
-#include <mem/page.h>
-
 #include <embox/test.h>
 
 EMBOX_TEST_SUITE("fs/file test");

@@ -54,10 +54,6 @@ extern int unlink(const char *pathname);
 
 extern int rmdir(const char *pathname);
 
-extern int format(const char *pathname, const char *fs_type);
-
-extern int mount(char *dev, char *dir, char *fs_type);
-
 extern pid_t getpid(void);
 
 extern int isatty(int fd);

@@ -2061,11 +2061,15 @@ static int fatfs_close(struct file_desc *desc) {
 static size_t fatfs_read(struct file_desc *desc, void *buf, size_t size) {
 	size_t rezult;
 	struct nas *nas;
+	struct fat_file_info *fi;
 
 	nas = desc->node->nas;
+	fi = nas->fi->privdata;
+	fi->pointer = desc->cursor;
 
 	rezult = fat_read_file(nas, sector_buff, buf, &bytecount, size);
 	if (DFS_OK == rezult) {
+		desc->cursor = fi->pointer;
 		return bytecount;
 	}
 	return rezult;
@@ -2074,12 +2078,16 @@ static size_t fatfs_read(struct file_desc *desc, void *buf, size_t size) {
 static size_t fatfs_write(struct file_desc *desc, void *buf, size_t size) {
 	size_t rezult;
 	struct nas *nas;
+	struct fat_file_info *fi;
 
 	nas = desc->node->nas;
+	fi = nas->fi->privdata;
+	fi->pointer = desc->cursor;
 
 	rezult = fat_write_file(nas, sector_buff, (uint8_t *)buf,
 			&bytecount, size);
 	if (DFS_OK == rezult) {
+		desc->cursor = fi->pointer;
 		return bytecount;
 	}
 	return rezult;

@@ -30,3 +30,11 @@ int krmdir(const char *pathname) {
 int klstat(const char *path, stat_t *buf) {
 	return -1;
 }
+
+int kmount(char *dev, char *dir, char *fs_type) {
+	return -1;
+}
+
+int kformat(const char *pathname, const char *fs_type) {
+	return -1;
+}

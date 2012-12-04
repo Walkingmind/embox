@@ -178,11 +178,3 @@ int lstat(const char *path, struct stat *buf) {
 int stat(const char *path, struct stat *buf) {
 	return lstat(path, buf);
 }
-
-int mount(char *dev,  char *dir, char *fs_type) {
-	return kmount(dev, dir, fs_type);
-}
-
-int format(const char *pathname, const char *fs_type) {
-	return kformat(pathname, fs_type);
-}
