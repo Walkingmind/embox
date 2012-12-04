@@ -125,11 +125,12 @@ def trigger_handle(cont, scope, trig):
     raise CutConflictException(opt)
 
 class Module(Option, Inherit, BaseScope):
-    def __init__(self, name, options={}, super=None, implements=(), depends=(), include_trigger=None):
+    def __init__(self, name, sources=[], options={}, super=None, implements=(), depends=(), include_trigger=None):
 	self.parent = super
 	self.name = name
 	self.id = name + ".__include_mod" # actually, this is option
 	self.include_trigger = include_trigger
+	self.sources = sources
 
 	if not isiter(depends):
 	    self.depends = ((depends, {}),)
@@ -145,8 +146,9 @@ class Module(Option, Inherit, BaseScope):
 
 	dict.__setitem__(self, self, Domain([True, False]))
 
-	for o, d in options.items():
-	    dict.__setitem__(self, o, d)
+	if options:
+	    for o, d in options.items():
+		dict.__setitem__(self, o, d)
 
     def trigger(self, cont, scope, domain):
 	v = domain.value()
