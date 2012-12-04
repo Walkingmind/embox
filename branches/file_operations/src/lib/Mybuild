@@ -1,5 +1,6 @@
 package embox.lib
 
+/* 
 static module LibElf {
 	source "elf/elf_object_list.c"
 	source "elf/elf_object.c"
@@ -16,6 +17,25 @@ static module LibElf {
 	source "elf/elf_rel.c"
 	// source "elf/elf_rel_array.c"
 	source "elf/elf_base_address.c"
+}*/
+
+static module Fdlibm {
+	source "fdlibm/w_pow.c"
+	source "fdlibm/w_powl.c"
+	source "fdlibm/w_powf.c"
+	source "fdlibm/e_pow.c"
+	source "fdlibm/k_standard.c"
+	source "fdlibm/s_lib_version.c"
+	source "fdlibm/s_matherr.c"
+	source "fdlibm/s_rint.c"
+	source "fdlibm/s_scalbn.c"
+}
+
+static module LibElf {
+	source "new_elf/elf_header.c"
+	source "new_elf/elf_ph_table.c"
+	source "new_elf/elf_segment.c"
+	source "new_elf/elf_interp.c"
 }
 
 static module LibDl {
@@ -33,6 +53,13 @@ static module LibElfloader {
 	
 	depends embox.mem.mmap_api
 	depends LibElf, LibDl
+}
+
+static module LibExec {
+	source "exec/exec.c"
+		
+	depends embox.mem.mmap_api
+	depends LibElf
 }
 
 static module LibCDiagnostic {
@@ -109,17 +136,18 @@ static module LibCStdio {
 	option boolean stdio_lf_crlf_map = true
 	option number file_quantity = 16
 
-	source "stdio/file_ops.c"
 	source "stdio/fgetc.c"
+	source "stdio/file_ops.c"
 	source "stdio/fputc.c"
 	source "stdio/gets.c"
-	source "stdio/sprintf.c"
+	source "stdio/perror.c"
 	source "stdio/printf.c"
 	source "stdio/printf_impl.c"
+	source "stdio/fprintf.c"
+	source "stdio/sprintf.c"
 	source "stdio/printk.c"
 	source "stdio/puts.c"
 	source "stdio/scanf.c"
-	source "stdio/perror.c"
 	depends LibCMath
 	depends LibCString
 	depends embox.compat.posix.file

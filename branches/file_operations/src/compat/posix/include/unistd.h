@@ -49,12 +49,15 @@ extern int fsync(int);
 extern pid_t fork(void);
 
 extern int execv(const char *path, char *const argv[]);
+extern int execve(const char *filename, char *const argv[], char *const envp[]);
 
 extern int unlink(const char *pathname);
 
 extern int rmdir(const char *pathname);
 
-extern pid_t getpid(void);
+static inline pid_t getpid(void) {
+	return -1;
+}
 
 extern int isatty(int fd);
 

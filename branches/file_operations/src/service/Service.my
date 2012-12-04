@@ -1,13 +1,7 @@
-package embox.sevice
+package embox.service
 
 module SrvLib {
 	source "srv_lib.c"
-}
-
-module Index_service {
-	source "index_service.c"
-	
-	depends SrvLib
 }
 
 module Test_service {
@@ -16,4 +10,10 @@ module Test_service {
 	
 	depends SrvLib
 	depends embox.third_party.expat.expat_lib
+}
+
+module New_service {
+	source "new_service.c" 
+	depends SrvLib
+	depends lib.service.service
 }

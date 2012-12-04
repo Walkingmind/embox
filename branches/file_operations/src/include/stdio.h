@@ -57,20 +57,26 @@ extern int ungetc(int c, FILE *stream);
 /* ungetc() for stdin */
 int ungetchar(int ch);
 
+extern void perror(const char *s);
+
 /**
  * Write formatted output to stdout from the format string FORMAT.
  */
 extern int printf(const char *format, ...);
-extern void perror(const char *s);
-
-#define fprintf(stream, ...) printf(__VA_ARGS__)
-
-/**
- * Write formatted output into S, according to the format string FORMAT.
- */
-extern int sprintf(char *s, const char *format, ...);
 
 extern int vprintf(const char *format, va_list args);
+
+/**
+ * Write formatted output to file stream from the format string FORMAT.
+ */
+extern int fprintf(FILE *f, const char *format, ...);
+
+extern int vfprintf(FILE *f, const char *format, va_list args);
+
+/**
+ * Write formatted output to string, according to the format string FORMAT.
+ */
+extern int sprintf(char *s, const char *format, ...);
 
 extern int vsprintf(char *s, const char *format, va_list args);
 
@@ -153,7 +159,10 @@ extern int feof(FILE *stream);
 
 extern int ferror(FILE *stream);
 
-extern int fileno(FILE *stream);
+static inline int fileno(FILE *stream) {
+	/* assert */
+	return stream->fd;
+}
 
 __END_DECLS
 

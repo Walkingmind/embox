@@ -1,34 +1,25 @@
-/*
- * web_server.c
- *
- *  Created on: Nov 23, 2012
- *      Author: vita
+/**
+ * @file
+ * @brief Simple HTTP server
+ * @date 23.11.12
+ * @author Vita Loginova
  */
 
-
-#include <stdio.h>
-#include <fcntl.h>
-#include <unistd.h>
 #include <string.h>
-#include <stdlib.h>
 #include <net/ip.h>
-#include <net/socket.h>
-#include <net/util/request_parser.h>
-#include <net/in.h>
-#include <embox/cmd.h>
-#include <err.h>
-#include <errno.h>
-#include <net/inetdevice.h>
-#include <arpa/inet.h>
 #include <embox/web_service.h>
-#include <cmd/servd.h>
 #include <lib/url_parser.h>
+#include <lib/service/service.h>
+#include <stdlib.h>
 
 #define DEFAULT_PAGE  "index.html"
 #define MAX_SERVICES_COUNT  10
 
+struct params test_params;
+
+
 /* Status code */
-static const char *http_stat_str[HTTP_STAT_MAX] = { [HTTP_STAT_200] = "200 OK",
+const char *http_stat_str[HTTP_STAT_MAX] = { [HTTP_STAT_200] = "200 OK",
 		[HTTP_STAT_400] = "400 Bad Request", [HTTP_STAT_404] = "404 Not Found",
 		[HTTP_STAT_405] = "405 Method Not Allowed", [HTTP_STAT_408
 				] = "408 Request Timeout", /* TODO */
@@ -36,14 +27,46 @@ static const char *http_stat_str[HTTP_STAT_MAX] = { [HTTP_STAT_200] = "200 OK",
 				] = "414 Request-URI Too Long", };
 
 /* Content type */
-static const char *http_content_type_str[HTTP_CONTENT_TYPE_MAX] = {
+const char *http_content_type_str[HTTP_CONTENT_TYPE_MAX] = {
 		[HTTP_CONTENT_TYPE_HTML] = "text/html", [HTTP_CONTENT_TYPE_JPEG
 				] = "image/jpeg", [HTTP_CONTENT_TYPE_PNG] = "image/png",
 		[HTTP_CONTENT_TYPE_GIF] = "image/gif", [HTTP_CONTENT_TYPE_ICO
 				] = "image/vnd.microsoft.icon", [HTTP_CONTENT_TYPE_UNKNOWN
 				] = "application/unknown" };
 
-struct params test_params;
+int get_content_type(char *file_name) {
+	char* ext;
+	ext = strchr(file_name, '.');
+	if (ext == NULL) {
+		return HTTP_CONTENT_TYPE_UNKNOWN;
+	}
+	if ((strcmp(ext, ".htm") == 0) || (strcmp(ext, ".html") == 0)) {
+		return HTTP_CONTENT_TYPE_HTML;
+	}
+	if ((strcmp(ext, ".jpg") == 0) || (strcmp(ext, ".jpeg") == 0)) {
+		return HTTP_CONTENT_TYPE_JPEG;
+	}
+	if (strcmp(ext, ".png") == 0) {
+		return HTTP_CONTENT_TYPE_PNG;
+	}
+	if (strcmp(ext, ".gif") == 0) {
+		return HTTP_CONTENT_TYPE_GIF;
+	}
+	if (strcmp(ext, ".ico") == 0) {
+		return HTTP_CONTENT_TYPE_ICO;
+	}
+	return HTTP_CONTENT_TYPE_UNKNOWN;
+}
+
+int get_method(char *method) {
+	if (strcmp(method, "GET") == 0) {
+		return HTTP_METHOD_GET;
+	}
+	if (strcmp(method, "POST") == 0) {
+		return HTTP_METHOD_POST;
+	}
+	return HTTP_METHOD_UNKNOWN; /* method unknown or unsupported */
+}
 
 //TODO it's work if buffer contains full starting line and headers
 static int receive_and_parse_request(struct client_info *info) {
@@ -116,12 +139,6 @@ static int http_hnd_starting_line(struct client_info *info) {
 
 		test_params.info = info;
 		test_params.query = info->parsed_request->parsed_url->query;
-		event_init(&info->unlock_sock_event, "socket_lock");
-		info->lock_status = 1;
-		if (0 > web_service_send_message(info->file, &test_params)) {
-			info->lock_status = 0;
-		}
-
 	} else if (strcmp(info->parsed_request->method, "POST") == 0) {
 		info->method = HTTP_METHOD_POST;
 	} else {
@@ -165,7 +182,7 @@ static int http_req_get(struct client_info *info) {
 	char *ext;
 
 	if (info->lock_status) {
-		event_wait(&info->unlock_sock_event, EVENT_TIMEOUT_INFINITE);
+
 		info->lock_status = 0;
 	}
 
@@ -218,15 +235,14 @@ static int set_ops(char *buff, struct client_info *ci) {
 	return res;
 }
 
-static void send_data(struct client_info *ci, int res) {
+static void send_data(struct client_info *ci, int stat) {
 	char *curr;
 	size_t bytes, bytes_need;
 
 	/* Make header: */
 	curr = ci->buff;
 	/* 1. set title */
-	assert((0 <= res) && (res < HTTP_STAT_MAX));
-	curr += set_starting_line(curr, res);
+	curr += set_starting_line(curr, stat);
 	/* 2. set ops */
 	curr += set_ops(curr, ci);
 	/* 3. set mesaage bode and send respone */
@@ -235,10 +251,11 @@ static void send_data(struct client_info *ci, int res) {
 		curr += sprintf(curr, "<html>"
 				"<head><title>%s</title></head>"
 				"<body><center><h1>Oops...</h1></center></body>"
-				"</html>", http_stat_str[res]);
+				"</html>", http_stat_str[stat]);
 		bytes_need = curr - ci->buff;
 		assert(bytes_need <= sizeof ci->buff); /* TODO remove this and make normal checks */
 		bytes = sendto(ci->sock, ci->buff, bytes_need, 0, NULL, 0);
+
 		if (bytes != bytes_need) {
 			printf("http error: send() error\n");
 		}
@@ -249,6 +266,7 @@ static void send_data(struct client_info *ci, int res) {
 			bytes = fread(curr, 1, bytes_need, ci->fp);
 			if (bytes < 0) {
 				break;
+
 			}
 			bytes_need = sizeof ci->buff - bytes_need + bytes;
 			bytes = sendto(ci->sock, ci->buff, bytes_need, 0, NULL, 0);
@@ -257,7 +275,6 @@ static void send_data(struct client_info *ci, int res) {
 				break;
 			}
 			curr = ci->buff;
-			printf(".");
 		} while (bytes_need == sizeof ci->buff);
 	}
 }
@@ -269,8 +286,7 @@ void close_connection(struct client_info *ci) {
 	close(ci->sock); /* close connection */
 }
 
-void client_process(int sock, struct sockaddr_in addr,
-		socklen_t addr_len) {
+void client_process(int sock, struct sockaddr_in addr, socklen_t addr_len) {
 	int res;
 	struct client_info ci;
 
@@ -278,13 +294,30 @@ void client_process(int sock, struct sockaddr_in addr,
 
 	/* fill struct client_info */
 	ci.sock = sock;
-
 	/* request heandler for first */
 	res = process_request(&ci);
+	// Get rid of static pages and services that is not started
+	// Others have to be dispatched to responding service instance
+	// according to serv_desc table
 	switch (res) {
 	case HTTP_RET_OK:
-		res = process_response(&ci);
-		break;
+		//Start the responding service instance thread
+		if (is_service_started(ci.file)) {
+			struct service_data* srv_data = malloc(sizeof(struct service_data));
+			struct http_request request;
+			*(&request) = *(ci.parsed_request);
+			//ToDo move it to web_service_start_service
+			srv_data->sock = ci.sock;
+			srv_data->request = request;
+			srv_data->query = request.parsed_url->query;
+			if (web_service_start_service(ci.file, srv_data) < 0) {
+				printf("client_process: start service error");
+			}
+			return;
+		} else {
+			res = process_response(&ci);
+			break;
+		}
 	case HTTP_RET_ABORT:
 		close_connection(&ci);
 		return;
@@ -292,6 +325,8 @@ void client_process(int sock, struct sockaddr_in addr,
 
 	printf("%s:%d -- upload %s ", inet_ntoa(addr.sin_addr),
 			ntohs(addr.sin_port), ci.file);
+
+	assert((0 <= res) && (res < HTTP_STAT_MAX));
 	send_data(&ci, res);
 	printf(" done\n");
 

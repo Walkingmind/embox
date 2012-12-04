@@ -63,8 +63,7 @@ struct client_info {
 	char *data; /* pointer to current chunk */
 	char *next_data; /* pointer to next piece of data in buffer */
 	size_t next_len; /* length of the next chunk */
-	http_request * parsed_request; /* parsed request */
-	struct event unlock_sock_event;
+	http_request *parsed_request; /* parsed request */
 	int lock_status;
 };
 
@@ -72,5 +71,8 @@ struct params {
 	struct client_info* info;
 	char *query; /*query string*/
 };
+
+
+extern int get_content_type(char *file_name);
 
 #endif /* SERVD_H_ */
