@@ -17,7 +17,9 @@
 #include <fs/vfs.h>
 #include <fs/path.h>
 #include <fs/fs_drv.h>
+#include <fs/kfsop.h>
 
+#if 0
 static node_t *create_filechain(const char *name, uint8_t node_type) {
 	int newnode_cnt;
 	fs_drv_t *drv;
@@ -71,43 +73,138 @@ static node_t *create_filechain(const char *name, uint8_t node_type) {
 
 	return node;
 }
+#endif
 
-int kcreate(const char *pathname, mode_t mode) {
-	node_t *nod;
+static int create_new_node(struct node * parent, char *node_name, uint8_t node_type) {
+	struct node *new_node;
+	struct nas *nas;
+	fs_drv_t *drv;
+
+	if( NULL == (new_node = vfs_add_path(node_name, parent))) {
+		return -1;
+	}
+	new_node->type = node_type;
+	/* check drv of parents */
+	nas = parent->nas;
+	drv = nas->fs->drv;
+	if ((NULL == drv) || (NULL == drv->fsop->create_node)) {
+		return -1;
+	}
+
+	if(0 > drv->fsop->create_node(parent, new_node)) {
+		vfs_del_leaf(new_node);
+		return -1;
+	}
+	return 0;
+}
+
+int kcreat(struct node *root_node, const char *pathname, mode_t mode) {
+	char tpath[MAX_LENGTH_PATH_NAME];
+	char path[MAX_LENGTH_PATH_NAME];
+	int path_offset;
+	char node_name[MAX_LENGTH_FILE_NAME];
+	struct node *node;
 
 	/* if node already exist return error */
-	if (NULL != (nod = vfs_find_node(pathname, NULL))) {
+	if (NULL != (node = vfs_find_node(pathname, root_node))) {
 		errno = EBUSY;
 		return -1;
 	}
 
+	if(NULL != root_node) {
+		vfs_get_path_by_node(root_node, path);
+		strncat(path, "/", sizeof(path));
+	} else {
+		path[0] = '\0';
+	}
+
+	strncat(path, pathname, sizeof(path));
+
 	/* get last exist node */
+	node = vfs_get_exist_path(path, tpath, sizeof(tpath));
+	if(NULL == node) {
+		return -1;
+	}
+
+	path_offset = strlen(tpath);
+
+	do {
+		path_get_next_name(&path[path_offset], node_name, sizeof(node_name));
+		if((path_offset + strlen(node_name) + 1) >= strlen(path)) {
+			if(0 == strlen(node_name)) {
+				path_get_next_name(&path[path_offset], node_name, sizeof(node_name));
+			}
+			/* this is a file */
+			return create_new_node(node, node_name, NODE_TYPE_FILE);
+		} else {
+			if(-1 == kmkdir(node, node_name, mode)) {
+				return -1;
+			}
+
+			node = vfs_get_child(node_name, node);
+			path_offset += (strlen(node_name) + 1);
+		}
+	} while (NULL != node);
+
 
 	/* set permission */
-
+#if 0
 	if (NULL == (nod = create_filechain(pathname, NODE_TYPE_FILE))) {
 		errno = EINVAL;
 		return -1;
 	}
+#endif
 
 	return 0;
 }
 
-int kmkdir(const char *pathname, mode_t mode) {
-	node_t *nod;
+int kmkdir(struct node *root_node, const char *pathname, mode_t mode) {
+	char tpath[MAX_LENGTH_PATH_NAME];
+	char path[MAX_LENGTH_PATH_NAME];
+	int path_offset;
+	char node_name[MAX_LENGTH_FILE_NAME];
+	struct node *node;
 
-	if (NULL != (nod = vfs_find_node(pathname, NULL))) {
+	if (NULL != (node = vfs_find_node(pathname, root_node))) {
 		errno = EBUSY;
 		return -1;
 	}
 
-	/* set permission */
+	if (NULL != root_node) {
+		vfs_get_path_by_node(root_node, path);
+		strncat(path, "/", sizeof(path));
+	} else {
+		path[0] = '\0';
+	}
 
 
+	strncat(path, pathname, sizeof(path));
+
+	/* get last exist node */
+	node = vfs_get_exist_path(path, tpath, sizeof(tpath));
+	if(NULL == node) {
+		return -1;
+	}
+
+	path_offset = strlen(tpath);
+
+	do {
+		path_get_next_name(&path[path_offset], node_name, sizeof(tpath));
+		if(0 == strlen(node_name)) {
+			return 0; /* we create all directory */
+		}
+		create_new_node(node, node_name, NODE_TYPE_DIRECTORY);
+		path_offset += (strlen(node_name) + 1);
+
+		node = vfs_get_child(node_name, node);
+	} while (NULL != node);
+
+#if 0
 	if (NULL == (nod = create_filechain(pathname, NODE_TYPE_DIRECTORY))) {
 		errno = EINVAL;
 		return -1;
 	}
+#endif
 
 	return 0;
 }

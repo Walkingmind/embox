@@ -5,12 +5,14 @@
  * @author: Anton Bondarev
  */
 
+#include <types.h>
+#include <fs/kfsop.h>
 
-int kcreate(const char *pathname, mode_t mode) {
+int kcreat(struct node *node, const char *pathname, mode_t mode) {
 	return -1;
 }
 
-int kmkdir(const char *pathname, mode_t mode) {
+int kmkdir(struct node *node, const char *pathname, mode_t mode) {
 	return -1;
 }
 

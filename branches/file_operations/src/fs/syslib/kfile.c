@@ -20,6 +20,7 @@
 #include <fs/file_operation.h>
 #include <fs/file_desc.h>
 #include <fs/kfile.h>
+#include <fs/kfsop.h>
 
 
 struct file_desc *kopen(const char *path, int flag) {
@@ -28,21 +29,31 @@ struct file_desc *kopen(const char *path, int flag) {
 	struct file_desc *desc;
 	struct kfile_operations *ops;
 	int res;
+	int path_len;
+
+	path_len = strlen(path);
+
+	if('/' == path[path_len]) {
+		return NULL; /* this can't be a directory */
+	}
 
 
 	if (NULL == (node = vfs_find_node(path, NULL))) {
+		/* we try create file */
+		/* check the mode */
 		if ((O_WRONLY != flag) && (O_APPEND != flag)) {
 			errno = ENOENT;
 			return NULL;
 		}
 
-		if (create(path, 0) < 0) {
+		/* create file */
+		if (kcreat(NULL, path, 0) < 0) {
 			return NULL;
 		}
+	}
 
-		if (NULL == (node = vfs_find_node(path, NULL))) {
-			return NULL;
-		}
+	if (NULL == (node = vfs_find_node(path, NULL))) {
+		return NULL;
 	}
 
 	if (node_is_directory(node)) {

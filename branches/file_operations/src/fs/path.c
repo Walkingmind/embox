@@ -9,6 +9,8 @@
 #include <string.h>
 
 #include <fs/path.h>
+#include <assert.h>
+
 
 /*
  * remove the top directory name from path
@@ -96,11 +98,6 @@ char *path_get_next_name(const char *path, char *node_name, int buff_len) {
 
 	/* if we found some symbols it's a correct node_name  */
 	if (nm != node_name) {
-#if 0
-		while ('/' == *p) {
-			p++;
-		}
-#endif
 		return p;
 	}
 
