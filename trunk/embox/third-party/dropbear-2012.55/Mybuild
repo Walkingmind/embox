@@ -396,6 +396,10 @@ module dropbearkey {
 	"gendss.c",
 	"genrsa.c"
 	//"embox.c"
+	@InitFS
+	source "dropbear_rsa_host_key",
+	"random"
+	
 		
 	depends libtommath
 	depends libtomcrypt
