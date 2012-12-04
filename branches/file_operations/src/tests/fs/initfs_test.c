@@ -52,6 +52,7 @@ TEST_CASE("Call stat from a file") {
 	struct stat stat_buff;
 
 	test_assert_zero(stat(TEST_FILE_NAME, &stat_buff));
+	test_assert_equal(SIZE_OF_FILE, stat_buff.st_size);
 }
 
 TEST_CASE("Call fstat from a file") {

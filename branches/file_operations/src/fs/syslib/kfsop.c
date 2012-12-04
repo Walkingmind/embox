@@ -247,6 +247,9 @@ int kunlink(const char *pathname) {
 	*/
 	nas = node->nas;
 	drv = nas->fs->drv;
+	if(NULL == drv->fsop->delete_node) {
+		return -1;
+	}
 
 	return drv->fsop->delete_node (node);
 }
@@ -260,11 +263,29 @@ int krmdir(const char *pathname) {
 	nas = node->nas;
 	drv = nas->fs->drv;
 
+	if(NULL == drv->fsop->delete_node) {
+		return -1;
+	}
+
 	return drv->fsop->delete_node(node);
 }
 
 
-int klstat(const char *path, stat_t *buf) {
+int klstat(const char *path, struct stat *buf) {
+	node_t *node;
+	struct nas *nas;
+	struct node_info *ni;
+
+	if(NULL == (node = vfs_find_node(path, NULL))) {
+		return -1;
+	}
+
+	nas = node->nas;
+	ni = &nas->fi->ni;
+
+
+	buf->st_size = ni->size;
+
 	return 0;
 }
 
