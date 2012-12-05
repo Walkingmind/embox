@@ -7,33 +7,64 @@ import traceback
 
 from functools import partial
 
-def get_all_options(obj):
-    option_set = set()
-    for mod in [obj] + obj.supers():
-	option_set |= set(mod.options.keys())
-    return option_set
-
-def isiter(obj):
-    if isinstance(obj, BaseScope):
-	return False
-
-    try:
-	t = [e for e in obj]
+def tup_or_list(obj):
+    if isinstance(obj, tuple) or isinstance(obj, list):
 	return True
-    except TypeError:
-	return False
+
+    return False
 
 def one_or_many(obj):
-    return obj if isiter(obj) else [obj]
+    return obj if tup_or_list(obj) else [obj]
+
+class Package(dict):
+    def __init__(self, name, parent=None):
+	self.name = name
+	self.parent = parent
+    def __getitem__(self, key):
+	splt = key.split('.', 1)
+	obj = dict.__getitem__(self, splt[0])
+
+	if len(splt) > 1:
+	    return obj[splt[1]]
+
+	return obj
+
+def module_package(package, name, *args, **kargs):
+    #if kargs.has_key('depends'):
+	#kargs['depends'] = map(lambda x: ModuleProxy(x), kargs['depends'])
+    kargs['root_package'] = package
+    package[name] = Module(name, *args, **kargs)
 
 class Option:
-    def __init__(self, name='', mod=None, value=None):
+    def __init__(self, name='', value=None):
 	self.name = name
 	self.value = value
-	self.mod = mod
 
     def trigger(self, cont, scope, domain):
 	return cont(scope)
+
+class Integer(Option):
+    def __init__(self, name='', domain=None, default=None):
+	self.name = name
+	if domain == None:
+	    domain = range(0,32000)
+	self.domain = Domain(domain)
+	self.default = default 
+
+class String(Option):
+    def __init__(self, name='', value=None):
+	self.name = name
+	self.value = value
+	pass
+
+class Boolean(Option):
+    def __init__(self, name='', domain=None, value=None):
+	self.name = name
+	if domain == None:
+	    domain = [False, True]
+	self.domain = Domain(domain)
+	self.value = value
+    pass
 
 class Domain(frozenset):
     def value(self):
@@ -97,18 +128,15 @@ class Scope(BaseScope):
 	return 'Scope {' + \
 	    reduce (operator.add, map(lambda x: "\t%s: %s" % x, self.items()), "")
 
-def trig_body_handle(cont, scope, trig):
-    trig_ret = trig(scope)
-
-    if isinstance(trig_ret, Scope):
-	return cont(trig_ret)
-
-    return cont(scope)
-
 def trigger_handle(cont, scope, trig):
     opt = None
     try:
-	return trig_body_handle(cont, scope, trig)
+	trig_ret = trig(scope)
+
+	if isinstance(trig_ret, Scope):
+	    return cont(trig_ret)
+
+	return cont(scope)
     except MultiValueException, excp:
 	opt = excp.opt
 
@@ -118,37 +146,42 @@ def trigger_handle(cont, scope, trig):
 
 	try:
 	    return trigger_handle(cont, value_scope, trig)
-	except Exception, excp:
-	    if not isinstance(excp, CutConflictException) and not isinstance(excp, MultiValueException):
-		raise excp
+	except CutConflictException or MultiValueException, excp:
+	    pass
 
     raise CutConflictException(opt)
 
-class Module(Option, Inherit, BaseScope):
-    def __init__(self, name, sources=[], options={}, super=None, implements=(), depends=(), include_trigger=None):
+class Module(Boolean, Inherit, BaseScope):
+    def __init__(self, modname, root_package=None, sources=[], options=[], super=None, implements=(), depends=(), include_trigger=None):
 	self.parent = super
-	self.name = name
-	self.id = name + ".__include_mod" # actually, this is option
+	self.modname = modname
+	self.name = 'self'
 	self.include_trigger = include_trigger
 	self.sources = sources
 
-	if not isiter(depends):
+	self.root_package = root_package
+
+	self.domain = Domain([True, False])
+
+	self.options = [self]
+	self.options += options
+	self.hash_value = (modname + '.include_module').__hash__()
+
+
+	if not tup_or_list(depends):
 	    self.depends = ((depends, {}),)
 	else:
 	    self.depends = []
 	    for d in depends:
-		if not isiter(d):
+		if not tup_or_list(d):
 		    self.depends.append((d, {}))
 		else:
 		    self.depends.append(d)
 
 	self.implements = one_or_many(implements)
 
-	dict.__setitem__(self, self, Domain([True, False]))
-
-	if options:
-	    for o, d in options.items():
-		dict.__setitem__(self, o, d)
+	for o in self.options:
+	    dict.__setitem__(self, o.name, o)
 
     def trigger(self, cont, scope, domain):
 	v = domain.value()
@@ -156,9 +189,9 @@ class Module(Option, Inherit, BaseScope):
 	    return cont(scope)
 
 	for dep, opts in self.depends:
-	    scope = incut(scope, dep, Domain([True]))
+	    scope = incut(scope, self.root_package[dep], Domain([True]))
 	    for opt, d in opts.items():
-		scope = incut(scope, opt, d)
+		scope = incut(scope, self.root_package[dep + '.' + opt], d)
 
 	if self.include_trigger:
 	    return trigger_handle(cont, scope, self.include_trigger)
@@ -171,20 +204,14 @@ class Module(Option, Inherit, BaseScope):
 
 	return get_impl(self)[1:]	
 
-    def option_val(self, scope, option_name):
-	try:
-	    return scope[self[option_name]]
-	except:
-	    return self[option_name].value
-	    
     def is_list(self):
 	return self.implements
 
     def __repr__(self):
-	return "<Module %s, depends %s>" % (self.name, self.depends)
+	return "<Module %s, depends %s>" % (self.modname, self.depends)
 
     def __hash__(self):
-	return self.id.__hash__()
+	return self.hash_value
 
 class Interface(Inherit):
     def __init__(self, name, super=()):
@@ -205,10 +232,10 @@ class CutConflictException(Exception):
 
 def add_many(scope, ents):
     for ent in ents:
-	for o, d in ent.items():
-	    if scope.has_key(o):
+	for name, opt in ent.items():
+	    if scope.has_key(opt):
 		raise Exception
-	    scope[o] = d 
+	    scope[opt] = opt.domain
 
 def cut_many(scope, opts):
     has_no_trigger = filter(lambda m: not isinstance(m, Module) or not m.include_trigger, [m for m, d in opts])
@@ -258,93 +285,97 @@ def fixate(scope):
 
 class TestCase(unittest.TestCase):
     def test_recursive_feature_add(self):
-	blck = Module('module block')
-	stdio = Module('module stdio')
-	fs = Module('module FS', depends=(blck, stdio))
-	test = Module('test')
-	test2 = Module('test2', depends=test)
-	test3 = Module('test3')
+	package = Package('root')
+	module_package(package, 'blck')
+	module_package(package, 'stdio')
+	module_package(package, 'fs', depends = ['blck', 'stdio'])
+	module_package(package, 'test')
+	module_package(package, 'test2', depends = 'test')
+	module_package(package, 'test3')
 
 	scope = Scope()
-	add_many(scope, [blck, stdio, fs, test2, test, test3])
+	add_many(scope, map(lambda s: package[s], ['blck', 'stdio', 'fs', 'test', 'test2', 'test3']))
 
-	scope = cut_many(scope, [(fs, Domain([True])), (test2, Domain([True]))])
+	scope = cut_many(scope, [(package['fs'], Domain([True])), (package['test2'], Domain([True]))])
 
 	final = fixate(scope)
 	
-	self.assertTrue(final[blck])
-	self.assertTrue(final[stdio])
-	self.assertTrue(final[fs])
-	self.assertTrue(final[test])
-	self.assertTrue(final[test2])
-	self.assertFalse(final[test3])
+	self.assertTrue(final[package['blck']])
+	self.assertTrue(final[package['stdio']])
+	self.assertTrue(final[package['fs']])
+	self.assertTrue(final[package['test']])
+	self.assertTrue(final[package['test2']])
+	self.assertFalse(final[package['test3']])
 
     def test_depends_with_options(self):
-	stack_sz_opt = Option('stack_sz')
-	stack_lds = Module("stack", options = {stack_sz_opt : Domain(range(8192,1000000))})
-	thread_core = Module("thread_core", depends = (
-	    (stack_lds, {stack_sz_opt : Domain([16000])}),))
+	package = Package('root')
+	module_package(package, 'stack', options = [Integer('stack_sz', domain = range(8192,1000000))])
+	module_package(package, 'thread_core', depends = [ ('stack', {'stack_sz' : Domain([16000])}) ])
 
 	scope = Scope()
-	add_many(scope, [stack_lds, thread_core])
+	add_many(scope, map(lambda s: package[s], ['stack', 'thread_core']))
 
-	scope = cut_many(scope, [(thread_core, Domain([True]))])
+	scope = cut_many(scope, [(package['stack'], Domain([True])), (package['thread_core'], Domain([True]))])
 
 	final = fixate(scope)
 
-	self.assertTrue(final[thread_core])
-	self.assertTrue(final[stack_lds])
-	self.assertEqual(final[stack_sz_opt], 16000)
+	self.assertTrue(final[package['thread_core']])
+	self.assertTrue(final[package['stack']])
+	self.assertEqual(final[package['stack.stack_sz']], 16000)
 
     def test_depends_with_options2(self):
-	stack_sz_opt = Option('stack_sz')
-	stack_lds = Module("stack", options = {stack_sz_opt : Domain(range(8192,12000))})
-	thread_core = Module("thread_core", depends = (
-	    (stack_lds, {stack_sz_opt : Domain([16000])}),))
+	package = Package('root')
+	module_package(package, 'stack', options = [Integer('stack_sz', domain = range(8192,12000))])
+	module_package(package, 'thread_core', depends = [ ('stack', {'stack_sz' : Domain([16000])}) ])
 
 	scope = Scope()
-	add_many(scope, [stack_lds, thread_core])
+	add_many(scope, map(lambda s: package[s], ['stack', 'thread_core']))
 
-	self.assertRaises(CutConflictException, cut, scope, thread_core, Domain([True]))
+
+	self.assertRaises(CutConflictException, cut, scope, package['thread_core'], Domain([True]))
 
     def test_optional_include(self):
-	amba_pp_opt = Option('amba_pp')
-	amba = Module("amba")
+	package = Package('root')
+	module_package(package, 'amba')
 
 	def uart_trigger(scope):
-	    if scope.value(amba_pp_opt):
-		return cut(scope, amba, Domain([True]))
+	    if scope.value(package['uart.amba_pp']):
+		return cut(scope, package['amba'], Domain([True]))
 	    return scope
 
-	uart = Module("uart", options = {amba_pp_opt : Domain([False, True])}, include_trigger=uart_trigger)
-
+	module_package(package, 'uart', options = [Boolean('amba_pp')] , include_trigger=uart_trigger)
+	
 	scope = Scope()
-	add_many(scope, [uart, amba])
+	add_many(scope, [package['uart'], 
+			 package['amba']])
 
-	scope = cut_many(scope, [(uart, Domain([True])), (amba_pp_opt, Domain([True]))])
+	scope = cut_many(scope, [(package['uart'], Domain([True])), 
+				 (package['uart.amba_pp'], Domain([True]))])
 
 	self.assertTrue(scope != False)
 
 	final = fixate(scope)
 
-	self.assertTrue(final[amba])
+	self.assertTrue(final[package['amba']])
 
     def test_optional_include2(self):
-	amba_pp_opt = Option('amba_pp')
-	bad_module = Module("Bad module")
-	amba = Module("amba", depends=bad_module)
+	package = Package('root')
+	module_package(package, 'amba', depends = 'bad_module')
+	module_package(package, 'bad_module')
 
 	def uart_trigger(scope):
-	    if scope.value(amba_pp_opt):
-		return cut(scope, amba, Domain([True]))
-	    return cut(scope, bad_module, Domain([True]))
+	    if scope.value(package['uart.amba_pp']):
+		return cut(scope, package['amba'], Domain([True]))
+	    return cut(scope, package['bad_module'], Domain([True]))
 
-	uart = Module("uart", options = {amba_pp_opt : Domain([False, True])}, include_trigger=uart_trigger)
+	module_package(package, 'uart', options = [Boolean('amba_pp')] , include_trigger=uart_trigger)
 
 	scope = Scope()
-	add_many(scope, [uart, amba, bad_module])
+	add_many(scope, map(lambda s: package[s], ['uart', 'amba', 'bad_module']))
 
-	self.assertRaises(CutConflictException, cut_many, scope, [(uart, Domain([True])), (bad_module, Domain([False]))])
+	self.assertRaises(CutConflictException, 
+		cut_many, scope, [(package['uart'],	  Domain([True])), 
+				  (package['bad_module'], Domain([False]))])
 
     @unittest.expectedFailure 
     def test_interface(self):
