@@ -1,48 +1,53 @@
 
 import mybuild_prot
+from mybuild_prot import one_or_many
+from mybuild_prot import Integer, Boolean, String
 
-class Package:
-    def __init__(self, name, parent):
-	self.name = name
-	self.parent = parent
-
-class Annotated():
-    def __init__(self, obj, anns):
+class Annotation():
+    def __init__(self, obj):
 	self.obj = obj
-	self.anns = anns
 
-def annotated(obj, anns):
-    if isinstance(obj, Annotated):
-	obj.anns += anns
-	return obj
-    return Annotated(obj, anns)
+    def get_obj(self):
+	if isinstance(self.obj, Annotation):
+	    return self.obj.get_obj()
+	return self.obj
 
-def NoRuntime(obj):
-    return annotated(obj, ['NoRuntime'])
+    def test(self, annot_class):
+	if isinstance(self, annot_class):
+	    return self
+	elif isinstance(self.obj, Annotation):
+	    return self.obj.test(annot_class)
+	else:
+	    return None
+
+class NoRuntime(Annotation):
+    pass
+
+class Empty(Annotation):
+    pass
 
 def package(name):
     global __package_tree, __package
-    last_pkg = None 
+    __package = __package_tree
     for pkg in name.split('.'):
-	if not __package_tree.has_key(pkg):
-	    __package_tree[pkg] = Package(pkg, last_pkg)
-	last_pkg = __package_tree[pkg]
-    __package = last_pkg
+	if not __package.has_key(pkg):
+	    __package[pkg] = mybuild_prot.Package(pkg, __package)
+	__package = __package[pkg]
 
 def module(name, *args, **kargs):
     global __package
-    __package.__dict__[name] = mybuild_prot.Module(name, *args, **kargs)
+    mybuild_prot.module_package(__package, name, *args, **kargs)
 
 if __name__ == '__main__':
     global __package_tree
-    __package_tree = {}
+    __package_tree = mybuild_prot.Package('root', None)
 
     import sys
     for arg in sys.argv[1:]:
 	glob = globals()
 	locl = {}
 	execfile(arg, glob)
-	#print glob
+	print glob['__package_tree']
 	#print locl
 
 
