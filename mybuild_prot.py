@@ -30,8 +30,6 @@ class Package(dict):
 	return obj
 
 def module_package(package, name, *args, **kargs):
-    #if kargs.has_key('depends'):
-	#kargs['depends'] = map(lambda x: ModuleProxy(x), kargs['depends'])
     kargs['root_package'] = package
     package[name] = Module(name, *args, **kargs)
 
@@ -208,7 +206,7 @@ class Module(Boolean, Inherit, BaseScope):
 	return self.implements
 
     def __repr__(self):
-	return "<Module %s, depends %s>" % (self.modname, self.depends)
+	return "<Module %s, depends %s, sources %s>" % (self.modname, self.depends, self.sources)
 
     def __hash__(self):
 	return self.hash_value
