@@ -1,0 +1,6 @@
+package embox.net
+
+module util {
+	source "inet_addr.c", "misc.c"
+	depends embox.lib.LibC
+}
