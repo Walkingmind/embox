@@ -48,8 +48,12 @@ class Source:
     def __init__(self, dirname, filename):
 	self.dirname = dirname
 	self.filename = filename
+
     def __repr__(self):
 	return "Source('%s/%s')" % (self.dirname, self.filename)
+
+    def fullpath(self):
+	return os.path.join(self.dirname, self.filename)
 
 def package(name):
     global __package_tree, __package
@@ -92,17 +96,17 @@ def mybuild_main(argv):
 		    glob['__dirname'] = dirpath
 		    execfile(os.path.join(dirpath, file), glob)
 
-    print rootpkg
-    print
-    print glob['__modlist']
+    #print rootpkg
+    #print
+    #print glob['__modlist']
 
     conf = 'pyconf/conf.py'
 
     glob['__scope'] = scope
 
     modlst = map(lambda name: glob['__package_tree'][name], glob['__modlist'])
-    print 
-    print modlst
+    #print 
+    #print modlst
     mybuild_prot.add_many(scope, modlst)
 
     glob['__modconstr'] = []
@@ -111,20 +115,38 @@ def mybuild_main(argv):
 
     modconstr = map(lambda (name, dom): (rootpkg[name], dom), glob['__modconstr'])
 
-    print 
-    print modconstr
+    #print 
+    #print modconstr
 
     cut_scope = mybuild_prot.cut_many(scope, modconstr)
     final = mybuild_prot.fixate(cut_scope)
-    print
-    print final
+    #print
+    #print final
 
     return final
 
-def waf_layer(bld):
-    final = mybuild_main(['src'])
+from waflib.TaskGen import feature
 
+@feature('module_header')
+def header_gen(self):
+    def rule_process(self):
+	self.outputs[0].write("#error Havent generated anything yet!")
+    self.rule = rule_process
 
+def waf_layer(bld, env):
+
+    final = mybuild_main(['src'])   
+
+    for opt, dom in final.items():
+	if isinstance(opt, mybuild_prot.Module) and dom == mybuild_prot.Domain([True]):
+	    for src in opt.sources:
+		bld(features = 'module_header',
+		    target = 'include/module%s.h' % (opt.qualified_name().replace('.','/'),),
+		    mod = opt)
+		bld(features = 'c', 
+		    source = src.fullpath(),
+		    defines = ['__EMBUILD_MOD__'],
+		    includes = env.includes)
     
 if __name__ == '__main__':
     import sys
