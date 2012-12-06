@@ -1,0 +1,2 @@
+
+include('embox.kernel.softirq')
