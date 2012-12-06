@@ -1,26 +1,22 @@
 
 import pyconf.build
 import pybuild.flags
+
 top = '.'
 out = 'build'
 
 def options(ctx):
     pass
 
-def it_or_zero(obj, key):
-    if obj.__dict__.has_key(key):
-	return obj.__dict__[key]
-    return []
-
 def configure(ctx):
     ctx.env.CC = pyconf.build.CROSS_COMPILE + "gcc"
     ctx.env.AR = pyconf.build.CROSS_COMPILE + "ar"
 
-    user_CFLAGS = it_or_zero(pyconf.build, 'CFLAGS')
-    user_CXXFLAGS = it_or_zero(pyconf.build, 'CXXFLAGS')
-    user_CPPFLAGS = it_or_zero(pyconf.build, 'CPPFLAGS')
-    user_LDFLAGS = it_or_zero(pyconf.build, 'LDFLAGS')
-    user_ARFLAGS = it_or_zero(pyconf.build, 'ARFLAGS')
+    user_CFLAGS = getattr(pyconf.build, 'CFLAGS', [])
+    user_CXXFLAGS = getattr(pyconf.build, 'CXXFLAGS', [])
+    user_CPPFLAGS = getattr(pyconf.build, 'CPPFLAGS', [])
+    user_LDFLAGS = getattr(pyconf.build, 'LDFLAGS', [])
+    user_ARFLAGS = getattr(pyconf.build, 'ARFLAGS', [])
 
     ctx.env.CFLAGS = pybuild.flags.CFLAGS + user_CFLAGS + ctx.env.CFLAGS
     ctx.env.CPPFLAGS = pybuild.flags.CPPFLAGS + user_CPPFLAGS + ctx.env.CPPFLAGS
@@ -31,12 +27,11 @@ def configure(ctx):
     ctx.load('gcc c ar')
 
 def build(ctx):
-    ctx(features = 'c', 
-	source = 'src/kernel/init.c',
-	includes = ['src/include',
-		    'src/arch/{ARCH}/include'.format(ARCH=pyconf.build.ARCH),
-		    'src/compat/posix/include',
-		    'src/compat/linux/include']
-    )
+    includes = ['src/include',
+		'src/arch/{ARCH}/include'.format(ARCH=pyconf.build.ARCH),
+		'src/compat/posix/include',
+		'src/compat/linux/include']
 
+    import pybuild.core
 
+    pybuild.core.waf_layer(ctx) 
