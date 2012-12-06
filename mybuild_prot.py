@@ -29,9 +29,23 @@ class Package(dict):
 
 	return obj
 
-def module_package(package, name, *args, **kargs):
+    def built_subpack(self, key):
+	splt = key.split('.', 1)
+	obj = self
+
+	if not self.has_key(splt[0]):
+	    dict.__setitem__(self, splt[0], Package(splt[0], self))
+
+	if len(splt) > 1:
+	    self[splt[0]].built_subpack(splt[1])
+
+
+def obj_package(cls, package, name, *args, **kargs): 
     kargs['root_package'] = package
-    package[name] = Module(name, *args, **kargs)
+    package[name] = cls(name, *args, **kargs)
+
+def module_package(package, name, *args, **kargs):
+    obj_package(Module, package, name, *args, **kargs)
 
 class Option:
     def __init__(self, name='', value=None):
@@ -211,14 +225,15 @@ class Module(Boolean, Inherit, BaseScope):
     def __hash__(self):
 	return self.hash_value
 
-class Interface(Inherit):
-    def __init__(self, name, super=()):
-	self.name = name
-	self.id = name + ".__include_mod" 
+class Interface(Boolean, Inherit, BaseScope):
+    def __init__(self, intname, root_package, super=()):
+	self.intname = intname
+	self.name = 'self'
+	self.id = intname + ".include_interface" 
 	self.super = one_or_many(super)
 
     def __repr__(self):
-	return "Interface '" + self.name + "'"
+	return "Interface '" + self.intname + "'"
 
 class MultiValueException(Exception):
     def __init__(self, opt):
@@ -277,7 +292,13 @@ def fixate(scope):
     new_scope = Scope(scope)
 
     for k, v in scope.items():
-	new_scope[k] = v.force_value()
+	opt = k
+	value = v.force_value()
+
+	if hasattr(opt, 'default') and opt.default in v:
+	    value = opt.default
+
+	new_scope[k] = value
 
     return new_scope
 
@@ -375,13 +396,18 @@ class TestCase(unittest.TestCase):
 		cut_many, scope, [(package['uart'],	  Domain([True])), 
 				  (package['bad_module'], Domain([False]))])
 
-    @unittest.expectedFailure 
     def test_interface(self):
-	timer_api = Interface("Timer api")
-	head_timer = Module("Head timer", implements=timer_api)
+	package = Package('root')
+	obj_package(Interface, 'timer_api')
+	module_package('head_timer', implements='timer_api')
 
-	scope = try_add_step(Scope(), head_timer)
-	self.assertEqual(scope[timer_api], scope[head_timer])
+	add_many(scope, map(lambda s: package[s], ['timer_api', 'head_timer']))
+
+	cut_many(scope, [(head_timer, Domain([True]))])
+
+	final = fixate(scope)
+
+	self.assertEqual(scope[package['timer_api']], scope[head_timer])
 
     @unittest.expectedFailure 
     def test_options(self):

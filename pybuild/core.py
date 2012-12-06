@@ -49,33 +49,69 @@ class Source:
 
 def package(name):
     global __package_tree, __package
-    __package = __package_tree
-    for pkg in name.split('.'):
-	if not __package.has_key(pkg):
-	    __package[pkg] = mybuild_prot.Package(pkg, __package)
-	__package = __package[pkg]
+    __package = name
+
+    __package_tree.built_subpack(name)
 
 def module(name, *args, **kargs):
     global __package
     global __dirname
+    global __modlist
     if kargs.has_key('sources'):
 	kargs['sources'] = map (lambda s: Source(__dirname, s), kargs['sources'])
-    mybuild_prot.module_package(__package, name, *args, **kargs)
+    __modlist.append('.'.join ((__package, name)))
+    mybuild_prot.module_package(__package_tree[__package], name, *args, **kargs)
+
+
+def include(name):
+    global __modconstr
+    __modconstr.append((name, mybuild_prot.Domain([True])))
+
+def exclude(name):
+    pass
 
 if __name__ == '__main__':
-    global __package_tree
-    __package_tree = mybuild_prot.Package('root', None)
 
     import sys, os
+    rootpkg = mybuild_prot.Package('root', None)
+    allmodlist = []
+    scope = mybuild_prot.Scope()
+
+    glob = globals()
+
+    glob['__package_tree'] = rootpkg
+    glob['__modlist'] = allmodlist
+
     for arg in sys.argv[1:]:
 	for dirpath, dirnames, filenames in os.walk(arg):
 	    for file in filenames:
 		if file.endswith('.py') or file == 'Pybuild':
-		    glob = globals()
 		    glob['__dirname'] = dirpath
-		    locl = {}
 		    execfile(os.path.join(dirpath, file), glob)
-		    print glob['__package_tree']
-		    #print locl
 
+    print rootpkg
+    print
+    print glob['__modlist']
 
+    conf = 'pyconf/conf.py'
+
+    glob['__scope'] = scope
+
+    modlst = map(lambda name: glob['__package_tree'][name], glob['__modlist'])
+    print 
+    print modlst
+    mybuild_prot.add_many(scope, modlst)
+
+    glob['__modconstr'] = []
+
+    execfile(conf, glob)
+
+    modconstr = map(lambda (name, dom): (rootpkg[name], dom), glob['__modconstr'])
+
+    print 
+    print modconstr
+
+    cut_scope = mybuild_prot.cut_many(scope, modconstr)
+    final = mybuild_prot.fixate(cut_scope)
+    print
+    print final
