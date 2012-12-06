@@ -17,9 +17,10 @@ def one_or_many(obj):
     return obj if tup_or_list(obj) else [obj]
 
 class Package(dict):
-    def __init__(self, name, parent=None):
+    def __init__(self, name, pkg=None):
 	self.name = name
-	self.parent = parent
+	self.pkg = pkg  
+
     def __getitem__(self, key):
 	splt = key.split('.', 1)
 	obj = dict.__getitem__(self, splt[0])
@@ -39,9 +40,13 @@ class Package(dict):
 	if len(splt) > 1:
 	    self[splt[0]].built_subpack(splt[1])
 
+    def qualified_name(self):
+	if self.pkg == None:
+	    return ""
+	return '%s.%s' % (self.pkg.qualified_name(), self.name)
 
 def obj_package(cls, package, name, *args, **kargs): 
-    kargs['root_package'] = package
+    kargs['pkg'] = package
     package[name] = cls(name, *args, **kargs)
 
 def module_package(package, name, *args, **kargs):
@@ -59,9 +64,10 @@ class Domain(frozenset):
 	    return v
 
 class Option:
-    def __init__(self, name='', domain=None):
+    def __init__(self, name='', domain=None, pkg=None):
 	self.name = name
 	self.domain = domain 
+	self.pkg = pkg
 
     def cut_trigger(self, cont, scope, domain):
 	return cont(scope)
@@ -74,17 +80,20 @@ class Option:
 	scope[self] = Domain([domain.force_value()])
 	return scope
 
+    def qualified_name(self):
+	return '%s.%s' % (self.pkg.qualified_name(), self.name)
 
 class Integer(Option):
     domain = range(0, 32000)
 
-    def __init__(self, name='', domain=None, default=None):
+    def __init__(self, name, domain=None, default=None, pkg=None):
 	self.name = name
 	if domain == None:
 	    self.domain = Integer.domain
 	else: 
 	    self.domain = Domain(domain)
 	self.default = default 
+	self.pkg = pkg
 
     def fix_trigger(self, scope):
 	domain = scope[self]
@@ -97,13 +106,14 @@ class Integer(Option):
 	return scope
 
 class String(Option):
-    def __init__(self, name='', value=None):
+    def __init__(self, name='', default=None, pkg=None):
 	self.name = name
-	self.value = value
+	self.default = default 
+	self.pkg = pkg
 
 class Boolean(Option):
     domain = Domain([True, False])
-    def __init__(self, name='', domain=None, default=None):
+    def __init__(self, name='', domain=None, default=None, pkg=None):
 	self.name = name
 
 	if domain == None:
@@ -112,6 +122,7 @@ class Boolean(Option):
 	    self.domain = Domain(domain)
 
 	self.default = default 
+	self.pkg = pkg
 
 class Inherit():
     def __init__(self, super=None):
@@ -188,20 +199,18 @@ def trigger_handle(cont, scope, trig):
     raise CutConflictException(opt)
 
 class Module(Boolean, Inherit, BaseScope):
-    def __init__(self, modname, root_package=None, sources=[], options=[], super=None, implements=(), depends=(), include_trigger=None):
+    def __init__(self, name, pkg=None, sources=[], options=[], super=None, implements=(), depends=(), include_trigger=None):
 	self.parent = super
-	self.modname = modname
-	self.name = 'self'
+	self.name = name
 	self.include_trigger = include_trigger
 	self.sources = sources
 
 	self.domain = Boolean.domain
-	self.root_package = root_package
+	self.pkg = pkg 
 
 	self.options = []
 	self.options += options
-	self.hash_value = (modname + '.include_module').__hash__()
-
+	self.hash_value = (name + '.include_module').__hash__()
 
 	if not tup_or_list(depends):
 	    self.depends = ((depends, {}),)
@@ -216,24 +225,25 @@ class Module(Boolean, Inherit, BaseScope):
 	self.implements = one_or_many(implements)
 
 	for o in self.options:
+	    o.pkg = self
 	    dict.__setitem__(self, o.name, o)
 
     def add_trigger(self, scope):
 	for impl in self.implements:
-	    scope[self.root_package[impl]] |= Domain([self])
+	    scope[self.pkg[impl]] |= Domain([self])
 	return scope
 
     def cut_trigger(self, cont, scope, domain):
 	v = domain.value()
 	if None == v or not v:
 	    for impl in self.implements:
-		scope = cut(scope, self.root_package[impl], Domain([self]))
+		scope = cut(scope, self.pkg[impl], Domain([self]))
 	    return cont(scope)
 
 	for dep, opts in self.depends:
-	    scope = incut(scope, self.root_package[dep], Domain([True]))
+	    scope = incut(scope, self.pkg[dep], Domain([True]))
 	    for opt, d in opts.items():
-		scope = incut(scope, self.root_package[dep + '.' + opt], d)
+		scope = incut(scope, self.pkg[dep + '.' + opt], d)
 
 	if self.include_trigger:
 	    return trigger_handle(cont, scope, self.include_trigger)
@@ -250,16 +260,15 @@ class Module(Boolean, Inherit, BaseScope):
 	return self.implements
 
     def __repr__(self):
-	return "<Module %s, depends %s, sources %s>" % (self.modname, self.depends, self.sources)
+	return "<Module %s, depends %s, sources %s>" % (self.name, self.depends, self.sources)
 
     def __hash__(self):
 	return self.hash_value
 
 class Interface(Boolean, Inherit):
-    def __init__(self, intname, root_package, super=()):
-	self.intname = intname
-	self.name = 'self'
-	self.id = intname + ".include_interface" 
+    def __init__(self, name, pkg, super=()):
+	self.name = name
+	self.id = name + ".include_interface" 
 	self.super = one_or_many(super)
 	self.domain = Domain([])
 
@@ -269,16 +278,15 @@ class Interface(Boolean, Inherit):
 	return cont(scope)
 
     def __repr__(self):
-	return "Interface '" + self.intname + "'"
+	return "Interface '" + self.name + "'"
 
 class Feature(Option):
-    def __init__(self, ftname, root_package):
-	self.name = 'self'
-	self.ftname = ftname
-	self.root_package = root_package
+    def __init__(self, name, pkg):
+	self.name = name
+	self.pkg = pkg 
 
     def __repr__(self):
-	return "Feature '" + self.intname + "'"
+	return "Feature '" + self.name + "'"
 
 class MultiValueException(Exception):
     def __init__(self, opt):

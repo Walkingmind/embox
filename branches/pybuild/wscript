@@ -2,7 +2,9 @@
 import pyconf.build
 import pybuild.flags
 
-top = '.'
+import os
+
+top = os.getcwd()
 out = 'build'
 
 def options(ctx):
@@ -27,11 +29,21 @@ def configure(ctx):
     ctx.load('gcc c ar')
 
 def build(ctx):
-    includes = ['src/include',
+    includes = ['include',
+	        'src/include',
 		'src/arch/{ARCH}/include'.format(ARCH=pyconf.build.ARCH),
 		'src/compat/posix/include',
 		'src/compat/linux/include']
 
+    class Env():
+	pass
+    
+    env = Env()
+    env.includes = includes
+
     import pybuild.core
 
-    pybuild.core.waf_layer(ctx) 
+    pybuild.core.waf_layer(ctx, env) 
+
+
+
