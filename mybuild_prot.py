@@ -47,37 +47,6 @@ def obj_package(cls, package, name, *args, **kargs):
 def module_package(package, name, *args, **kargs):
     obj_package(Module, package, name, *args, **kargs)
 
-class Option:
-    def __init__(self, name='', value=None):
-	self.name = name
-	self.value = value
-
-    def trigger(self, cont, scope, domain):
-	return cont(scope)
-
-class Integer(Option):
-    def __init__(self, name='', domain=None, default=None):
-	self.name = name
-	if domain == None:
-	    domain = range(0,32000)
-	self.domain = Domain(domain)
-	self.default = default 
-
-class String(Option):
-    def __init__(self, name='', value=None):
-	self.name = name
-	self.value = value
-	pass
-
-class Boolean(Option):
-    def __init__(self, name='', domain=None, value=None):
-	self.name = name
-	if domain == None:
-	    domain = [False, True]
-	self.domain = Domain(domain)
-	self.value = value
-    pass
-
 class Domain(frozenset):
     def value(self):
 	if len(self) == 1:
@@ -88,6 +57,61 @@ class Domain(frozenset):
     def force_value(self):
 	for v in sorted(self):
 	    return v
+
+class Option:
+    def __init__(self, name='', domain=None):
+	self.name = name
+	self.domain = domain 
+
+    def cut_trigger(self, cont, scope, domain):
+	return cont(scope)
+
+    def add_trigger(self, scope):
+	return scope
+
+    def fix_trigger(self, scope):
+	domain = scope[self]
+	scope[self] = Domain([domain.force_value()])
+	return scope
+
+
+class Integer(Option):
+    domain = range(0, 32000)
+
+    def __init__(self, name='', domain=None, default=None):
+	self.name = name
+	if domain == None:
+	    self.domain = Integer.domain
+	else: 
+	    self.domain = Domain(domain)
+	self.default = default 
+
+    def fix_trigger(self, scope):
+	domain = scope[self]
+
+	if self.default in domain:
+	    scope[self] = Domain([self.default])
+	else:
+	    scope[self] = Domain([domain.force_value()])
+
+	return scope
+
+class String(Option):
+    def __init__(self, name='', value=None):
+	self.name = name
+	self.value = value
+
+class Boolean(Option):
+    domain = Domain([True, False])
+    def __init__(self, name='', domain=None, default=None):
+	self.name = name
+
+	if domain == None:
+	    domain = [False, True]
+	else:
+	    self.domain = Domain(domain)
+
+	self.default = default 
 
 class Inherit():
     def __init__(self, super=None):
@@ -171,11 +195,10 @@ class Module(Boolean, Inherit, BaseScope):
 	self.include_trigger = include_trigger
 	self.sources = sources
 
+	self.domain = Boolean.domain
 	self.root_package = root_package
 
-	self.domain = Domain([True, False])
-
-	self.options = [self]
+	self.options = []
 	self.options += options
 	self.hash_value = (modname + '.include_module').__hash__()
 
@@ -195,9 +218,16 @@ class Module(Boolean, Inherit, BaseScope):
 	for o in self.options:
 	    dict.__setitem__(self, o.name, o)
 
-    def trigger(self, cont, scope, domain):
+    def add_trigger(self, scope):
+	for impl in self.implements:
+	    scope[self.root_package[impl]] |= Domain([self])
+	return scope
+
+    def cut_trigger(self, cont, scope, domain):
 	v = domain.value()
 	if None == v or not v:
+	    for impl in self.implements:
+		scope = cut(scope, self.root_package[impl], Domain([self]))
 	    return cont(scope)
 
 	for dep, opts in self.depends:
@@ -225,15 +255,30 @@ class Module(Boolean, Inherit, BaseScope):
     def __hash__(self):
 	return self.hash_value
 
-class Interface(Boolean, Inherit, BaseScope):
+class Interface(Boolean, Inherit):
     def __init__(self, intname, root_package, super=()):
 	self.intname = intname
 	self.name = 'self'
 	self.id = intname + ".include_interface" 
 	self.super = one_or_many(super)
+	self.domain = Domain([])
+
+    def cut_trigger(self, cont, scope, domain):
+	if len(domain) == 1:
+	    return cont(cut(scope, domain.value, Domain([True])))
+	return cont(scope)
 
     def __repr__(self):
 	return "Interface '" + self.intname + "'"
+
+class Feature(Option):
+    def __init__(self, ftname, root_package):
+	self.name = 'self'
+	self.ftname = ftname
+	self.root_package = root_package
+
+    def __repr__(self):
+	return "Feature '" + self.intname + "'"
 
 class MultiValueException(Exception):
     def __init__(self, opt):
@@ -245,10 +290,18 @@ class CutConflictException(Exception):
 
 def add_many(scope, ents):
     for ent in ents:
-	for name, opt in ent.items():
-	    if scope.has_key(opt):
-		raise Exception
-	    scope[opt] = opt.domain
+	scope[ent] = ent.domain
+	if hasattr(ent,'items'):
+	    for name, opt in ent.items():
+		scope[opt] = opt.domain
+
+    for ent in ents:
+	scope = ent.add_trigger(scope)
+	if hasattr(ent,'items'):
+	    for name, opt in ent.items():
+		scope = opt.add_trigger(scope)
+    
+    return scope
 
 def cut_many(scope, opts):
     has_no_trigger = filter(lambda m: not isinstance(m, Module) or not m.include_trigger, [m for m, d in opts])
@@ -263,8 +316,10 @@ def cut_many(scope, opts):
 def incut_cont(cont, scope, opt, domain):
     strict_domain = scope[opt] & domain
     if strict_domain:
+	differ = strict_domain != scope
 	scope[opt] = strict_domain
-	scope = opt.trigger(cont, scope, strict_domain)
+	if differ:
+	    scope = opt.cut_trigger(cont, scope, strict_domain)
     else:
 	raise CutConflictException(opt)
 
@@ -289,18 +344,12 @@ def cut_iter(scope, opts):
     return incut_cont(partial(cut_iter,opts=opts[1:]), scope, opt, domain)
 
 def fixate(scope):
-    new_scope = Scope(scope)
+    scope = Scope(scope)
 
-    for k, v in scope.items():
-	opt = k
-	value = v.force_value()
+    for opt, domain in scope.items():
+	scope = opt.fix_trigger(scope)
 
-	if hasattr(opt, 'default') and opt.default in v:
-	    value = opt.default
-
-	new_scope[k] = value
-
-    return new_scope
+    return scope
 
 class TestCase(unittest.TestCase):
     def test_recursive_feature_add(self):
@@ -313,18 +362,18 @@ class TestCase(unittest.TestCase):
 	module_package(package, 'test3')
 
 	scope = Scope()
-	add_many(scope, map(lambda s: package[s], ['blck', 'stdio', 'fs', 'test', 'test2', 'test3']))
+	scope = add_many(scope, map(lambda s: package[s], ['blck', 'stdio', 'fs', 'test', 'test2', 'test3']))
 
 	scope = cut_many(scope, [(package['fs'], Domain([True])), (package['test2'], Domain([True]))])
 
 	final = fixate(scope)
 	
-	self.assertTrue(final[package['blck']])
-	self.assertTrue(final[package['stdio']])
-	self.assertTrue(final[package['fs']])
-	self.assertTrue(final[package['test']])
-	self.assertTrue(final[package['test2']])
-	self.assertFalse(final[package['test3']])
+	self.assertEqual(final[package['blck']],  Domain([True]))
+	self.assertEqual(final[package['stdio']], Domain([True]))
+	self.assertEqual(final[package['fs']],    Domain([True]))
+	self.assertEqual(final[package['test']],  Domain([True]))
+	self.assertEqual(final[package['test2']], Domain([True]))
+	self.assertEqual(final[package['test3']], Domain([False]))
 
     def test_depends_with_options(self):
 	package = Package('root')
@@ -332,7 +381,7 @@ class TestCase(unittest.TestCase):
 	module_package(package, 'thread_core', depends = [ ('stack', {'stack_sz' : Domain([16000])}) ])
 
 	scope = Scope()
-	add_many(scope, map(lambda s: package[s], ['stack', 'thread_core']))
+	scope = add_many(scope, map(lambda s: package[s], ['stack', 'thread_core']))
 
 	scope = cut_many(scope, [(package['stack'], Domain([True])), (package['thread_core'], Domain([True]))])
 
@@ -340,7 +389,7 @@ class TestCase(unittest.TestCase):
 
 	self.assertTrue(final[package['thread_core']])
 	self.assertTrue(final[package['stack']])
-	self.assertEqual(final[package['stack.stack_sz']], 16000)
+	self.assertEqual(final[package['stack.stack_sz']], Domain([16000]))
 
     def test_depends_with_options2(self):
 	package = Package('root')
@@ -348,7 +397,7 @@ class TestCase(unittest.TestCase):
 	module_package(package, 'thread_core', depends = [ ('stack', {'stack_sz' : Domain([16000])}) ])
 
 	scope = Scope()
-	add_many(scope, map(lambda s: package[s], ['stack', 'thread_core']))
+	scope = add_many(scope, map(lambda s: package[s], ['stack', 'thread_core']))
 
 
 	self.assertRaises(CutConflictException, cut, scope, package['thread_core'], Domain([True]))
@@ -365,7 +414,7 @@ class TestCase(unittest.TestCase):
 	module_package(package, 'uart', options = [Boolean('amba_pp')] , include_trigger=uart_trigger)
 	
 	scope = Scope()
-	add_many(scope, [package['uart'], 
+	scope = add_many(scope, [package['uart'], 
 			 package['amba']])
 
 	scope = cut_many(scope, [(package['uart'], Domain([True])), 
@@ -390,7 +439,7 @@ class TestCase(unittest.TestCase):
 	module_package(package, 'uart', options = [Boolean('amba_pp')] , include_trigger=uart_trigger)
 
 	scope = Scope()
-	add_many(scope, map(lambda s: package[s], ['uart', 'amba', 'bad_module']))
+	scope = add_many(scope, map(lambda s: package[s], ['uart', 'amba', 'bad_module']))
 
 	self.assertRaises(CutConflictException, 
 		cut_many, scope, [(package['uart'],	  Domain([True])), 
@@ -398,16 +447,17 @@ class TestCase(unittest.TestCase):
 
     def test_interface(self):
 	package = Package('root')
-	obj_package(Interface, 'timer_api')
-	module_package('head_timer', implements='timer_api')
+	obj_package(Interface, package, 'timer_api')
+	module_package(package, 'head_timer', implements='timer_api')
 
-	add_many(scope, map(lambda s: package[s], ['timer_api', 'head_timer']))
+	scope = Scope()
+	scope = add_many(scope, map(lambda s: package[s], ['timer_api', 'head_timer']))
 
-	cut_many(scope, [(head_timer, Domain([True]))])
+	cut_many(scope, [(package['head_timer'], Domain([True]))])
 
 	final = fixate(scope)
 
-	self.assertEqual(scope[package['timer_api']], scope[head_timer])
+	self.assertEqual(scope[package['timer_api']], Domain([package['head_timer']]))
 
     @unittest.expectedFailure 
     def test_options(self):
