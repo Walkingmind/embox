@@ -1,4 +1,8 @@
 
+import sys
+import os
+sys.path.append(os.getcwd())
+
 import mybuild_prot
 from mybuild_prot import one_or_many
 from mybuild_prot import Integer, Boolean, String
@@ -70,9 +74,8 @@ def include(name):
 def exclude(name):
     pass
 
-if __name__ == '__main__':
-
-    import sys, os
+def mybuild_main(argv):
+    import os
     rootpkg = mybuild_prot.Package('root', None)
     allmodlist = []
     scope = mybuild_prot.Scope()
@@ -82,7 +85,7 @@ if __name__ == '__main__':
     glob['__package_tree'] = rootpkg
     glob['__modlist'] = allmodlist
 
-    for arg in sys.argv[1:]:
+    for arg in argv:
 	for dirpath, dirnames, filenames in os.walk(arg):
 	    for file in filenames:
 		if file.endswith('.py') or file == 'Pybuild':
@@ -115,3 +118,14 @@ if __name__ == '__main__':
     final = mybuild_prot.fixate(cut_scope)
     print
     print final
+
+    return final
+
+def waf_layer(bld):
+    final = mybuild_main(['src'])
+
+
+    
+if __name__ == '__main__':
+    import sys
+    mybuild_main(sys.argv[1:])
