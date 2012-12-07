@@ -72,9 +72,11 @@ def module(name, *args, **kargs):
     mybuild_prot.module_package(__package_tree[__package], name, *args, **kargs)
 
 
-def include(name):
+def include(name, opts={}):
     global __modconstr
     __modconstr.append((name, mybuild_prot.Domain([True])))
+    for opt_name, value in opts.items():
+	__modconstr.append(("%s.%s" % (name, opt_name), mybuild_prot.Domain([value])))
 
 def exclude(name):
     pass
@@ -134,6 +136,8 @@ def header_gen(self):
 #ifndef {GUARD}
 #define {GUARD}
 
+{INCLUDES}
+
 {OPTIONS}
 
 #endif /* {GUARD} */
@@ -154,7 +158,8 @@ def header_gen(self):
 	    self.scope[opt].value()))
 
     hdr = header.format(GUARD=self.mod.qualified_name().replace('.', '_').upper(),
-	    OPTIONS=''.join(map(lambda str: '#define %s\n\n' %(str,), options)))
+	    OPTIONS=''.join(map(lambda str: '#define %s\n\n' %(str,), options)),
+	    INCLUDES='')
 
     def rule_process(self):
 	self.outputs[0].write(hdr)
