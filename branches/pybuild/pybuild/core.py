@@ -170,18 +170,29 @@ def waf_layer(bld, env):
 
     final = mybuild_main(['src'])   
 
+    objs = []
+
     for opt, dom in final.items():
 	if isinstance(opt, mybuild_prot.Module) and dom == mybuild_prot.Domain([True]):
+	    bld(features = 'module_header',
+		target = 'include/module/%s.h' % (opt.qualified_name().replace('.','/'),),
+		mod = opt,
+		scope = final)
 	    for src in opt.sources:
-		bld(features = 'module_header',
-		    target = 'include/module/%s.h' % (opt.qualified_name().replace('.','/'),),
-		    mod = opt,
-		    scope = final)
+
+
 		bld(features = 'c', 
 		    source = src.fullpath(),
 		    defines = ['__EMBUILD_MOD__'],
 		    includes = env.includes)
-    
+
+		#objs.append(target)
+    bld(
+	features = 'c cprogram',
+	target = env.target,
+	use = objs,
+	linkflags = bld.env.LDFLAGS,
+    )
 if __name__ == '__main__':
     import sys
     mybuild_main(sys.argv[1:])
