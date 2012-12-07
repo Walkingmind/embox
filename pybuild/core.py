@@ -1,6 +1,7 @@
 
 import sys
 import os
+
 sys.path.append(os.getcwd())
 
 import mybuild_prot
@@ -129,8 +130,35 @@ from waflib.TaskGen import feature
 
 @feature('module_header')
 def header_gen(self):
+    header = '''
+#ifndef {GUARD}
+#define {GUARD}
+
+{OPTIONS}
+
+#endif /* {GUARD} */
+'''
+    options = []
+    for name, opt in self.mod.items():
+	repr = ''
+	if isinstance(opt, mybuild_prot.Integer):
+	    repr = 'NUMBER'
+	elif isinstance(opt, mybuild_prot.Boolean):
+	    repr = 'BOOLEAN'
+	elif isinstance(opt, mybuild_prot.String):
+	    repr = 'STRING'
+	else:
+	   continue
+
+	options.append('OPTION_%s_%s %s' % (repr, opt.qualified_name().replace('.', '__'),
+	    self.scope[opt].value()))
+
+    hdr = header.format(GUARD=self.mod.qualified_name().replace('.', '_').upper(),
+	    OPTIONS=''.join(map(lambda str: '#define %s\n\n' %(str,), options)))
+
     def rule_process(self):
-	self.outputs[0].write("#error Havent generated anything yet!")
+	self.outputs[0].write(hdr)
+
     self.rule = rule_process
 
 def waf_layer(bld, env):
@@ -141,8 +169,9 @@ def waf_layer(bld, env):
 	if isinstance(opt, mybuild_prot.Module) and dom == mybuild_prot.Domain([True]):
 	    for src in opt.sources:
 		bld(features = 'module_header',
-		    target = 'include/module%s.h' % (opt.qualified_name().replace('.','/'),),
-		    mod = opt)
+		    target = 'include/module/%s.h' % (opt.qualified_name().replace('.','/'),),
+		    mod = opt,
+		    scope = final)
 		bld(features = 'c', 
 		    source = src.fullpath(),
 		    defines = ['__EMBUILD_MOD__'],

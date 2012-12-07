@@ -43,7 +43,10 @@ class Package(dict):
     def qualified_name(self):
 	if self.pkg == None:
 	    return ""
-	return '%s.%s' % (self.pkg.qualified_name(), self.name)
+	parent = self.pkg.qualified_name()
+	if parent:
+		return '%s.%s' % (parent, self.name)
+	return self.name
 
 def obj_package(cls, package, name, *args, **kargs): 
     kargs['pkg'] = package
