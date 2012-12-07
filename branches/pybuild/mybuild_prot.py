@@ -48,6 +48,24 @@ class Package(dict):
 		return '%s.%s' % (parent, self.name)
 	return self.name
 
+    def root(self):
+	if self.pkg == None:
+	    return self
+	return self.pkg.root()
+
+    def find_with_imports(self, imports, name):
+	for impt in imports:
+	    if impt:
+		pkg = self[impt]
+	    else:
+		pkg = self
+
+	    try:
+		return pkg[name]
+	    except KeyError:
+		pass
+	raise KeyError
+
 def obj_package(cls, package, name, *args, **kargs): 
     kargs['pkg'] = package
     package[name] = cls(name, *args, **kargs)
@@ -244,7 +262,8 @@ class Module(Boolean, Inherit, BaseScope):
 	    return cont(scope)
 
 	for dep, opts in self.depends:
-	    scope = incut(scope, self.pkg[dep], Domain([True]))
+	    depmod = self.pkg.root().find_with_imports([self.pkg.qualified_name(), ''], dep)
+	    scope = incut(scope, depmod, Domain([True]))
 	    for opt, d in opts.items():
 		scope = incut(scope, self.pkg[dep + '.' + opt], d)
 
