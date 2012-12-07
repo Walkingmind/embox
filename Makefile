@@ -15,7 +15,7 @@
 .PHONY: all
 
 all:
-	python2 waf/waf configure build
+	python2 waf/waf -v -v distclean configure build
 	
 
 #export ROOT_DIR       := .

@@ -9,24 +9,8 @@ from mybuild_prot import one_or_many
 from mybuild_prot import Integer, Boolean, String
 
 class Annotation():
-    def __init__(self, obj):
-	self.obj = obj
-
-    def get_obj(self):
-	if isinstance(self.obj, Annotation):
-	    return self.obj.get_obj()
-	return self.obj
-
-    def test(self, annot_class):
-	if isinstance(self, annot_class):
-	    return self
-	elif isinstance(self.obj, Annotation):
-	    return self.obj.test(annot_class)
-	else:
-	    return None
-
-    def __repr__(self):
-	return "%s('%s')" % (self.__class__.__name__, self.obj)
+    def __init__(self):
+	pass
 
 def annotated(obj, annot):
     try:
@@ -38,12 +22,25 @@ def annotated(obj, annot):
 	new_obj.annots = annot
 	return new_obj
 
-class NoRuntimeAnnotation:
-    def __init__(self):
-	pass
+class NoRuntimeAnnotation(Annotation):
+    pass
 
-def NoRuntime(obj, **kwargs):
-    return annotated(obj, [NoRuntimeAnnotation(**kwargs)])
+class SourceAnnotation(Annotation):
+    pass
+
+class LDScriptAnnotation(SourceAnnotation):
+    def build(self, bld, source):
+	bld(
+	    features = 'includes',
+	    source = source.fullpath(),
+	    includes = bld.env.includes,
+	)
+
+def NoRuntime(obj):
+    return annotated(obj, [NoRuntimeAnnotation()])
+
+def LDScript(obj):
+    return annotated(obj, [LDScriptAnnotation()])
 
 class Source:
     def __init__(self, dirname, filename):
@@ -55,6 +52,20 @@ class Source:
 
     def fullpath(self):
 	return os.path.join(self.dirname, self.filename)
+
+    def annotations(self):
+	return getattr(self.filename, 'annots', [])
+
+    def build(self, bld):
+	for ann in self.annotations():
+	    ann.build(bld, self)
+	    break
+	else:
+	    bld(features = 'c', 
+		source = self.fullpath(),
+		defines = ['__EMBUILD_MOD__'],
+		includes = bld.env.includes)
+
 
 def package(name):
     global __package_tree, __package
@@ -129,6 +140,16 @@ def mybuild_main(argv):
     return final
 
 from waflib.TaskGen import feature
+from waflib import TaskGen, Task
+
+@TaskGen.extension('.lds.S')
+def lds_s_hook(self, node):
+    tgtnode = node.change_ext('.lds', '.lds.S')
+    return self.create_task('lds_s', node, tgtnode)
+
+class lds_s(Task.Task):
+    run_str = '${CC} ${ARCH_ST:ARCH} ${CFLAGS} ${CPPFLAGS} ${FRAMEWORKPATH_ST:FRAMEWORKPATH} ${CPPPATH_ST:INCPATHS} ${DEFINES_ST:DEFINES} ${CC_SRC_F}${SRC} -E -P -o ${TGT}'
+    ext_out = ['.lds'] # set the build order easily by using ext_out=['.h']
 
 @feature('module_header')
 def header_gen(self):
@@ -166,11 +187,11 @@ def header_gen(self):
 
     self.rule = rule_process
 
-def waf_layer(bld, env):
+def waf_layer(bld):
 
     final = mybuild_main(['src'])   
 
-    objs = []
+    srcs = []
 
     for opt, dom in final.items():
 	if isinstance(opt, mybuild_prot.Module) and dom == mybuild_prot.Domain([True]):
@@ -178,21 +199,17 @@ def waf_layer(bld, env):
 		target = 'include/module/%s.h' % (opt.qualified_name().replace('.','/'),),
 		mod = opt,
 		scope = final)
+
 	    for src in opt.sources:
-
-
-		bld(features = 'c', 
-		    source = src.fullpath(),
-		    defines = ['__EMBUILD_MOD__'],
-		    includes = env.includes)
-
-		#objs.append(target)
+		src.build(bld)
     bld(
 	features = 'c cprogram',
-	target = env.target,
-	use = objs,
+	source = srcs,
+	target = bld.env.target,
+	includes = bld.env.includes,
 	linkflags = bld.env.LDFLAGS,
     )
+
 if __name__ == '__main__':
     import sys
     mybuild_main(sys.argv[1:])
