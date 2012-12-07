@@ -40,6 +40,7 @@ def build(ctx):
     
     env = Env()
     env.includes = includes
+    env.target = pyconf.build.TARGET
 
     import pybuild.core
 
