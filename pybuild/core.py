@@ -1,6 +1,7 @@
 
 import sys
 import os
+import re
 
 sys.path.append(os.getcwd())
 
@@ -31,7 +32,6 @@ class SourceAnnotation(Annotation):
 class LDScriptAnnotation(SourceAnnotation):
     def build(self, bld, source):
 	tgt = source.fullpath().replace('.lds.S', '.lds')
-	print bld.env._ld_defs
 	bld.env.append_value('LINKFLAGS', '-Wl,-T,%s' % (tgt,))
 	bld(
 	    name = 'ldscripts',
@@ -84,15 +84,21 @@ def package(name):
 
     __package_tree.built_subpack(name)
 
-def module(name, *args, **kargs):
+
+def _build_obj(cls, name, args, kargs):
     global __package
     global __dirname
     global __modlist
+    __modlist.append('.'.join ((__package, name)))
+    mybuild_prot.obj_package(cls, __package_tree[__package], name, *args, **kargs)
+
+def module(name, *args, **kargs):
     if kargs.has_key('sources'):
 	kargs['sources'] = map (lambda s: Source(__dirname, s), kargs['sources'])
-    __modlist.append('.'.join ((__package, name)))
-    mybuild_prot.module_package(__package_tree[__package], name, *args, **kargs)
+    _build_obj(mybuild_prot.Module, name, args, kargs)
 
+def interface(name, *args, **kargs):
+    _build_obj(mybuild_prot.Interface, name, args, kargs)
 
 def include(name, opts={}):
     global __modconstr
@@ -205,14 +211,19 @@ def header_gen(self):
 	options.append('OPTION_%s_%s %s' % (repr, opt.qualified_name().replace('.', '__'),
 	    self.scope[opt].value()))
 
+    includes = []
+    
+    if isinstance(self.mod, mybuild_prot.Interface):
+	for impl in self.scope[self.mod]:
+	    for src in impl.sources:
+		if re.match('.*\.h', src.filename):
+		    includes.append(src.fullpath())
+
     hdr = header.format(GUARD=self.mod.qualified_name().replace('.', '_').upper(),
-	    OPTIONS=''.join(map(lambda str: '#define %s\n\n' %(str,), options)),
-	    INCLUDES='')
+	OPTIONS=''.join(map(lambda str: '#define %s\n\n' %(str,), options)),
+	INCLUDES=''.join(map(lambda str: '#include __impl_x(%s)\n\n' % (str,), includes)))
 
-    def rule_process(self):
-	self.outputs[0].write(hdr)
-
-    self.rule = rule_process
+    self.rule = lambda self: self.outputs[0].write(hdr)
 
 def waf_layer(bld):
 
@@ -229,21 +240,27 @@ def waf_layer(bld):
     bld.env._ld_defs = glob['__ld_defs']
 
     for opt, dom in final.items():
-	if isinstance(opt, mybuild_prot.Module) and dom == mybuild_prot.Domain([True]):
+	need_header = isinstance(opt, mybuild_prot.Interface)
+
+	if (isinstance(opt, mybuild_prot.Module) and dom == mybuild_prot.Domain([True])):
+	    need_header |= True
+
+	    for src in opt.sources:
+		src.build(bld)
+
+	if need_header:
 	    bld(features = 'module_header',
 		target = 'include/module/%s.h' % (opt.qualified_name().replace('.','/'),),
 		mod = opt,
 		scope = final)
 
-	    for src in opt.sources:
-		src.build(bld)
 
     bld(
 	features = 'c cprogram',
 	target = bld.env.target,
 	includes = bld.env.includes,
 	linkflags = bld.env.LDFLAGS,
-	use = 'objects ',
+	use = 'objects ldscripts',
     )
 
 if __name__ == '__main__':

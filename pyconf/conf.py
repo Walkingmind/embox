@@ -29,5 +29,6 @@
 #include('embox.util.num_alloc_array')
 #include('embox.init.make_term')
 
-include ('embox.example.hello')
+#include ('embox.example.hello')
 include ('embox.arch.arm.lds')
+include ('embox.kernel.kernel')
