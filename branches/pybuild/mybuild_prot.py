@@ -64,7 +64,7 @@ class Package(dict):
 		return pkg[name]
 	    except KeyError:
 		pass
-	raise KeyError
+	raise KeyError(name)
 
 def obj_package(cls, package, name, *args, **kargs): 
     kargs['pkg'] = package
@@ -83,6 +83,18 @@ class Domain(frozenset):
     def force_value(self):
 	for v in sorted(self):
 	    return v
+	raise CutConflictException(self)
+
+class ModDom(Domain):
+    def __and__(self, other):
+	if isinstance(other, BoolDom):
+	    if True in other:
+		return ModDom(self)
+	    return ModDom([])
+	return Domain.__and__(self, other)
+
+class BoolDom(Domain):
+    pass
 
 class Option:
     def __init__(self, name='', domain=None, pkg=None):
@@ -105,14 +117,16 @@ class Option:
 	return '%s.%s' % (self.pkg.qualified_name(), self.name)
 
 class Integer(Option):
-    domain = range(0, 32000)
+    domain = Domain(range(0, 0x10000))
 
     def __init__(self, name, domain=None, default=None, pkg=None):
 	self.name = name
+
 	if domain == None:
 	    self.domain = Integer.domain
 	else: 
 	    self.domain = Domain(domain)
+
 	self.default = default 
 	self.pkg = pkg
 
@@ -133,12 +147,13 @@ class String(Option):
 	self.pkg = pkg
 
 class Boolean(Option):
-    domain = Domain([True, False])
+    domain = BoolDom([True, False])
+
     def __init__(self, name='', domain=None, default=None, pkg=None):
 	self.name = name
 
 	if domain == None:
-	    domain = [False, True]
+	    domain = Boolean.domain
 	else:
 	    self.domain = Domain(domain)
 
@@ -190,6 +205,8 @@ class Scope(BaseScope):
 	d = self[opt]
 	if len(d) > 1:
 	    raise MultiValueException(opt)
+	elif len(d) < 1:
+	    raise CutConflictException(opt)
 	return d.force_value()
 
     def __repr__(self):
@@ -231,7 +248,7 @@ class Module(Boolean, Inherit, BaseScope):
 
 	self.options = []
 	self.options += options
-	self.hash_value = (name + '.include_module').__hash__()
+	self.hash_value = hash(name + '.include_module')
 
 	if not tup_or_list(depends):
 	    self.depends = ((depends, {}),)
@@ -251,19 +268,21 @@ class Module(Boolean, Inherit, BaseScope):
 
     def add_trigger(self, scope):
 	for impl in self.implements:
-	    scope[self.pkg[impl]] |= Domain([self])
+	    implmod = self.pkg.root().find_with_imports([self.pkg.qualified_name(), ''], impl)
+	    scope[implmod] |= ModDom([self])
 	return scope
 
     def cut_trigger(self, cont, scope, domain):
 	v = domain.value()
 	if None == v or not v:
 	    for impl in self.implements:
-		scope = cut(scope, self.pkg[impl], Domain([self]))
+		implmod = self.pkg.root().find_with_imports([self.pkg.qualified_name(), ''], impl)
+		scope = cut(scope, implmod, Domain([self]))
 	    return cont(scope)
 
 	for dep, opts in self.depends:
 	    depmod = self.pkg.root().find_with_imports([self.pkg.qualified_name(), ''], dep)
-	    scope = incut(scope, depmod, Domain([True]))
+	    scope = incut(scope, depmod, BoolDom([True]))
 	    for opt, d in opts.items():
 		scope = incut(scope, self.pkg[dep + '.' + opt], d)
 
@@ -287,20 +306,25 @@ class Module(Boolean, Inherit, BaseScope):
     def __hash__(self):
 	return self.hash_value
 
-class Interface(Boolean, Inherit):
-    def __init__(self, name, pkg, super=()):
+class Interface(Boolean, Inherit, BaseScope):
+    def __init__(self, name, pkg, super=None):
 	self.name = name
-	self.id = name + ".include_interface" 
+	self.hash_value = hash(name + ".include_interface")
 	self.super = one_or_many(super)
-	self.domain = Domain([])
+	self.pkg = pkg
+	self.parent = super
+	self.domain = ModDom([])
 
     def cut_trigger(self, cont, scope, domain):
 	if len(domain) == 1:
-	    return cont(cut(scope, domain.value, Domain([True])))
+	    return cont(cut(scope, domain.value(), BoolDom([True])))
 	return cont(scope)
 
     def __repr__(self):
 	return "Interface '" + self.name + "'"
+
+    def __hash__(self):
+	return self.hash_value
 
 class Feature(Option):
     def __init__(self, name, pkg):
@@ -394,16 +418,16 @@ class TestCase(unittest.TestCase):
 	scope = Scope()
 	scope = add_many(scope, map(lambda s: package[s], ['blck', 'stdio', 'fs', 'test', 'test2', 'test3']))
 
-	scope = cut_many(scope, [(package['fs'], Domain([True])), (package['test2'], Domain([True]))])
+	scope = cut_many(scope, [(package['fs'], BoolDom([True])), (package['test2'], BoolDom([True]))])
 
 	final = fixate(scope)
 	
-	self.assertEqual(final[package['blck']],  Domain([True]))
-	self.assertEqual(final[package['stdio']], Domain([True]))
-	self.assertEqual(final[package['fs']],    Domain([True]))
-	self.assertEqual(final[package['test']],  Domain([True]))
-	self.assertEqual(final[package['test2']], Domain([True]))
-	self.assertEqual(final[package['test3']], Domain([False]))
+	self.assertEqual(final[package['blck']],  BoolDom([True]))
+	self.assertEqual(final[package['stdio']], BoolDom([True]))
+	self.assertEqual(final[package['fs']],    BoolDom([True]))
+	self.assertEqual(final[package['test']],  BoolDom([True]))
+	self.assertEqual(final[package['test2']], BoolDom([True]))
+	self.assertEqual(final[package['test3']], BoolDom([False]))
 
     def test_depends_with_options(self):
 	package = Package('root')
@@ -413,7 +437,7 @@ class TestCase(unittest.TestCase):
 	scope = Scope()
 	scope = add_many(scope, map(lambda s: package[s], ['stack', 'thread_core']))
 
-	scope = cut_many(scope, [(package['stack'], Domain([True])), (package['thread_core'], Domain([True]))])
+	scope = cut_many(scope, [(package['stack'], BoolDom([True])), (package['thread_core'], BoolDom([True]))])
 
 	final = fixate(scope)
 
@@ -430,7 +454,7 @@ class TestCase(unittest.TestCase):
 	scope = add_many(scope, map(lambda s: package[s], ['stack', 'thread_core']))
 
 
-	self.assertRaises(CutConflictException, cut, scope, package['thread_core'], Domain([True]))
+	self.assertRaises(CutConflictException, cut, scope, package['thread_core'], BoolDom([True]))
 
     def test_optional_include(self):
 	package = Package('root')
@@ -438,7 +462,7 @@ class TestCase(unittest.TestCase):
 
 	def uart_trigger(scope):
 	    if scope.value(package['uart.amba_pp']):
-		return cut(scope, package['amba'], Domain([True]))
+		return cut(scope, package['amba'], BoolDom([True]))
 	    return scope
 
 	module_package(package, 'uart', options = [Boolean('amba_pp')] , include_trigger=uart_trigger)
@@ -447,8 +471,8 @@ class TestCase(unittest.TestCase):
 	scope = add_many(scope, [package['uart'], 
 			 package['amba']])
 
-	scope = cut_many(scope, [(package['uart'], Domain([True])), 
-				 (package['uart.amba_pp'], Domain([True]))])
+	scope = cut_many(scope, [(package['uart'], BoolDom([True])), 
+				 (package['uart.amba_pp'], BoolDom([True]))])
 
 	self.assertTrue(scope != False)
 
@@ -463,8 +487,8 @@ class TestCase(unittest.TestCase):
 
 	def uart_trigger(scope):
 	    if scope.value(package['uart.amba_pp']):
-		return cut(scope, package['amba'], Domain([True]))
-	    return cut(scope, package['bad_module'], Domain([True]))
+		return cut(scope, package['amba'], BoolDom([True]))
+	    return cut(scope, package['bad_module'], BoolDom([True]))
 
 	module_package(package, 'uart', options = [Boolean('amba_pp')] , include_trigger=uart_trigger)
 
@@ -472,8 +496,8 @@ class TestCase(unittest.TestCase):
 	scope = add_many(scope, map(lambda s: package[s], ['uart', 'amba', 'bad_module']))
 
 	self.assertRaises(CutConflictException, 
-		cut_many, scope, [(package['uart'],	  Domain([True])), 
-				  (package['bad_module'], Domain([False]))])
+		cut_many, scope, [(package['uart'],	  BoolDom([True])), 
+				  (package['bad_module'], BoolDom([False]))])
 
     def test_interface(self):
 	package = Package('root')
@@ -483,11 +507,26 @@ class TestCase(unittest.TestCase):
 	scope = Scope()
 	scope = add_many(scope, map(lambda s: package[s], ['timer_api', 'head_timer']))
 
-	cut_many(scope, [(package['head_timer'], Domain([True]))])
+	cut_many(scope, [(package['head_timer'], BoolDom([True]))])
 
 	final = fixate(scope)
 
 	self.assertEqual(scope[package['timer_api']], Domain([package['head_timer']]))
+
+    def test_interface2(self):
+	package = Package('root')
+	obj_package(Interface, package, 'timer_api')
+	module_package(package, 'head_timer', implements='timer_api')
+	module_package(package, 'timer_exmp', depends = ['timer_api'])
+
+	scope = Scope()
+	scope = add_many(scope, map(lambda s: package[s], ['timer_api', 'head_timer', 'timer_exmp']))
+
+	cut_many(scope, [(package['timer_exmp'], BoolDom([True]))])
+
+	final = fixate(scope)
+
+	self.assertEqual(scope[package['timer_api']], ModDom([package['head_timer']]))
 
     @unittest.expectedFailure 
     def test_options(self):
