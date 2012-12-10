@@ -1,11 +1,12 @@
 
-import pyconf.build
-import pybuild.flags
-
 import os
 
-top = os.getcwd()
+#top = os.getcwd()
+top = '.'
 out = 'build'
+
+import pyconf.build
+import pybuild.flags
 
 def options(ctx):
     pass

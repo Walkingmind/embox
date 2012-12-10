@@ -110,20 +110,23 @@ class Option:
 
     def fix_trigger(self, scope):
 	domain = scope[self]
-	scope[self] = Domain([domain.force_value()])
+	try:
+	    scope[self] = Domain([domain.force_value()])
+	except CutConflictException, excp:
+	    excp.opt = self
+	    raise excp
+
 	return scope
 
     def qualified_name(self):
 	return '%s.%s' % (self.pkg.qualified_name(), self.name)
 
-class Integer(Option):
-    domain = Domain(range(0, 0x10000))
-
+class DefaultOption(Option):
     def __init__(self, name, domain=None, default=None, pkg=None):
 	self.name = name
 
 	if domain == None:
-	    self.domain = Integer.domain
+	    self.domain = self.__class__.domain
 	else: 
 	    self.domain = Domain(domain)
 
@@ -132,13 +135,16 @@ class Integer(Option):
 
     def fix_trigger(self, scope):
 	domain = scope[self]
-
-	if self.default in domain:
+	if hasattr(self, 'default') and self.default in domain:
 	    scope[self] = Domain([self.default])
 	else:
-	    scope[self] = Domain([domain.force_value()])
+	    return Option.fix_trigger(self, scope)
 
 	return scope
+
+
+class Integer(DefaultOption):
+    domain = Domain(range(0, 0x10000))
 
 class String(Option):
     def __init__(self, name='', default=None, pkg=None):
@@ -146,19 +152,8 @@ class String(Option):
 	self.default = default 
 	self.pkg = pkg
 
-class Boolean(Option):
+class Boolean(DefaultOption):
     domain = BoolDom([True, False])
-
-    def __init__(self, name='', domain=None, default=None, pkg=None):
-	self.name = name
-
-	if domain == None:
-	    domain = Boolean.domain
-	else:
-	    self.domain = Domain(domain)
-
-	self.default = default 
-	self.pkg = pkg
 
 class Inherit():
     def __init__(self, super=None):
@@ -264,7 +259,7 @@ class Module(Boolean, Inherit, BaseScope):
 
 	for o in self.options:
 	    o.pkg = self
-	    dict.__setitem__(self, o.name, o)
+	    self[o.name] = o
 
     def add_trigger(self, scope):
 	for impl in self.implements:
@@ -306,14 +301,14 @@ class Module(Boolean, Inherit, BaseScope):
     def __hash__(self):
 	return self.hash_value
 
-class Interface(Boolean, Inherit, BaseScope):
+class Interface(DefaultOption, Inherit, BaseScope):
     def __init__(self, name, pkg, super=None):
 	self.name = name
 	self.hash_value = hash(name + ".include_interface")
 	self.super = one_or_many(super)
 	self.pkg = pkg
 	self.parent = super
-	self.domain = ModDom([])
+	self.domain = ModDom([Module('def impl', implements=[self])])
 
     def cut_trigger(self, cont, scope, domain):
 	if len(domain) == 1:
@@ -341,6 +336,8 @@ class MultiValueException(Exception):
 class CutConflictException(Exception):
     def __init__(self, opt):
 	self.opt = opt 
+    def __str__(self):
+	return self.opt
 
 def add_many(scope, ents):
     for ent in ents:
