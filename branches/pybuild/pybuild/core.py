@@ -29,14 +29,16 @@ class SourceAnnotation(Annotation):
     pass
 
 class LDScriptAnnotation(SourceAnnotation):
-    def build(self, bld, source, objs):
+    def build(self, bld, source):
 	tgt = source.fullpath().replace('.lds.S', '.lds')
-	objs['ldscripts'].append(tgt)
+	print bld.env._ld_defs
+	bld.env.append_value('LINKFLAGS', '-Wl,-T,%s' % (tgt,))
 	bld(
 	    name = 'ldscripts',
 	    features = 'includes',
 	    source = source.fullpath(),
 	    includes = bld.env.includes,
+	    defines = bld.env._ld_defs,
 	)
 	return tgt
 
@@ -46,7 +48,7 @@ def NoRuntime(obj):
 def LDScript(obj):
     return annotated(obj, [LDScriptAnnotation()])
 
-class Source:
+class Source(object):
     def __init__(self, dirname, filename):
 	self.dirname = dirname
 	self.filename = filename
@@ -60,9 +62,9 @@ class Source:
     def annotations(self):
 	return getattr(self.filename, 'annots', [])
 
-    def build(self, bld, objs):
+    def build(self, bld):
 	for ann in self.annotations():
-	    return ann.build(bld, self, objs)
+	    return ann.build(bld, self)
 	    break
 	else:
 	    tgt = self.fullpath().replace('.c', '.o')
@@ -100,6 +102,20 @@ def include(name, opts={}):
 
 def exclude(name):
     pass
+
+def lds_region(name, base, size):
+    global __ld_defs
+    __ld_defs.append('LDS_REGION_BASE_%s=%s' % (name, base))
+    __ld_defs.append('LDS_REGION_SIZE_%s=%s' % (name, size))
+
+def lds_section_load(name, vma, lma):
+    global __ld_defs
+    __ld_defs.append('LDS_SECTION_VMA_%s=%s' % (name, vma))
+    __ld_defs.append('LDS_SECTION_LMA_%s=%s' % (name, lma))
+
+def lds_section(name, reg):
+    lds_section_load(name, reg, reg)
+
 
 def mybuild_main(argv):
     import os
@@ -155,28 +171,12 @@ from waflib import Utils
 @TaskGen.extension('.lds.S')
 def lds_s_hook(self, node):
     tgtnode = node.change_ext('.lds', '.lds.S')
+    self.env['DEFINES'] = self.defines
     return self.create_task('lds_s', node, tgtnode)
 
 class lds_s(Task.Task):
     run_str = '${CC} ${ARCH_ST:ARCH} ${CFLAGS} ${CPPFLAGS} ${FRAMEWORKPATH_ST:FRAMEWORKPATH} ${CPPPATH_ST:INCPATHS} ${DEFINES_ST:DEFINES} ${CC_SRC_F}${SRC} -E -P -o ${TGT}'
     ext_out = ['.lds'] # set the build order easily by using ext_out=['.h']
-
-@after('apply_link')
-@feature('cprogram', 'cshlib')
-def process_ldscript(self):
-	if not getattr(self, 'ldscript', None) or self.env.CC_NAME != 'gcc':
-		return
-
-	node = self.path.find_resource(self.ldscript)
-	#print self.bld.path
-	#task_gen = self.bld.get_tgen_by_name(self.ldscript)
-
-	#print task_gen
-
-	if not node:
-		raise Utils.Errors.WafError('could not find %r' % self.ldscript)
-	self.link_task.env.append_value('LINKFLAGS', '-Wl,-T,%s' % node.abspath())
-	self.link_task.dep_nodes.append(node)
 
 @feature('module_header')
 def header_gen(self):
@@ -218,9 +218,15 @@ def waf_layer(bld):
 
     final = mybuild_main(['src'])   
 
-    objs = {'sources' : [],
-	    'ldscripts' : [],
-    }
+    lds_conf = 'pyconf/lds.py'
+
+    glob = globals()
+
+    glob['__ld_defs'] = []
+
+    execfile(lds_conf, glob)
+
+    bld.env._ld_defs = glob['__ld_defs']
 
     for opt, dom in final.items():
 	if isinstance(opt, mybuild_prot.Module) and dom == mybuild_prot.Domain([True]):
@@ -230,15 +236,14 @@ def waf_layer(bld):
 		scope = final)
 
 	    for src in opt.sources:
-		src.build(bld, objs)
-    print objs
+		src.build(bld)
+
     bld(
 	features = 'c cprogram',
 	target = bld.env.target,
 	includes = bld.env.includes,
 	linkflags = bld.env.LDFLAGS,
 	use = 'objects ',
-	ldscript = objs['ldscripts'],
     )
 
 if __name__ == '__main__':
