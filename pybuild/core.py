@@ -67,15 +67,16 @@ class Source(object):
 	    return ann.build(bld, self)
 	    break
 	else:
-	    tgt = self.fullpath().replace('.c', '.o')
-	    bld.objects(
-		source = self.fullpath(),
-		target = 'objects',
-		defines = ['__EMBUILD_MOD__'],
-		includes = bld.env.includes,
-	    )
+	    if re.match('.*\.c', self.filename):	
+		tgt = self.fullpath().replace('.c', '.o')
+		bld.objects(
+		    source = self.fullpath(),
+		    target = 'objects',
+		    defines = ['__EMBUILD_MOD__'],
+		    includes = bld.env.includes,
+		)
 	
-	return tgt
+		return tgt
 
 
 def package(name):
