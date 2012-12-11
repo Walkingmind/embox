@@ -85,6 +85,14 @@ class Domain(frozenset):
 	    return v
 	raise CutConflictException(self)
 
+class ListDom(Domain):
+    def __nonzero__(self):
+	return True
+
+class IntegerDom(Domain):
+    def __repr__(self):
+	return '<IntegerDom: [%d-%d]' % (min(self), max(self))
+
 class ModDom(Domain):
     def __and__(self, other):
 	if isinstance(other, BoolDom):
@@ -144,7 +152,7 @@ class DefaultOption(Option):
 
 
 class Integer(DefaultOption):
-    domain = Domain(range(0, 0x10000))
+    domain = IntegerDom(range(0, 0x10000))
 
 class String(Option):
     def __init__(self, name='', default=None, pkg=None):
@@ -194,6 +202,9 @@ class BaseScope(dict):
 
     def has_key(self, k):
 	return k in self.keys()
+
+    def __nonzero__(self):
+	return True
 
 class Scope(BaseScope):
     def value(self, opt):
@@ -267,24 +278,39 @@ class Module(Boolean, Inherit, BaseScope):
 	    scope[implmod] |= ModDom([self])
 	return scope
 
-    def cut_trigger(self, cont, scope, domain):
+    def cut_trigger(self, cont, scope, old_domain):
+	domain = scope[self]
 	v = domain.value()
-	if None == v or not v:
-	    for impl in self.implements:
-		implmod = self.pkg.root().find_with_imports([self.pkg.qualified_name(), ''], impl)
-		scope = cut(scope, implmod, Domain([self]))
+	if len(domain) > 1: 
 	    return cont(scope)
 
-	for dep, opts in self.depends:
-	    depmod = self.pkg.root().find_with_imports([self.pkg.qualified_name(), ''], dep)
-	    scope = incut(scope, depmod, BoolDom([True]))
-	    for opt, d in opts.items():
-		scope = incut(scope, self.pkg[dep + '.' + opt], d)
+	if v:
+	    for impl in self.implements:
+		implmod = self.pkg.root().find_with_imports([self.pkg.qualified_name(), ''], impl)
+		scope = incut(scope, implmod, ModDom([self]))
 
-	if self.include_trigger:
-	    return trigger_handle(cont, scope, self.include_trigger)
+	    for dep, opts in self.depends:
+		depmod = self.pkg.root().find_with_imports([self.pkg.qualified_name(), ''], dep)
+		scope = incut(scope, depmod, BoolDom([True]))
+		for opt, d in opts.items():
+		    scope = incut(scope, self.pkg[dep + '.' + opt], d)
+
+	    if self.include_trigger:
+		return trigger_handle(cont, scope, self.include_trigger)
+	else:
+	    for impl in self.implements:
+		implmod = self.pkg.root().find_with_imports([self.pkg.qualified_name(), ''], impl)
+		scope = incut(scope, implmod, scope[implmod] - ModDom([self]))
 
 	return cont(scope)
+
+    def fix_trigger(self, scope):
+	for v in scope[self]:
+	    try:
+		return cut(scope, self, BoolDom([v]))
+	    except CutConflictException:
+		pass
+	raise CutConflictException(self)
 
     def implements(self):
 	def get_impl(obj):
@@ -301,6 +327,17 @@ class Module(Boolean, Inherit, BaseScope):
     def __hash__(self):
 	return self.hash_value
 
+class DefImplMod(Module):
+    def add_trigger(self, scope):
+	return scope
+
+    def cut_trigger(self, cont, scope, old_domain):
+	domain = scope[self]
+	if domain.force_value():
+	    raise CutConflictException(self)
+
+	return cont(scope)
+
 class Interface(DefaultOption, Inherit, BaseScope):
     def __init__(self, name, pkg, super=None):
 	self.name = name
@@ -308,12 +345,31 @@ class Interface(DefaultOption, Inherit, BaseScope):
 	self.super = one_or_many(super)
 	self.pkg = pkg
 	self.parent = super
-	self.domain = ModDom([Module('def impl', implements=[self])])
+	self.def_impl = DefImplMod(self.qualified_name() + "_def_impl", pkg=pkg, implements=[self])
+	self.domain = ModDom([self.def_impl])
 
-    def cut_trigger(self, cont, scope, domain):
+    def items(self):
+	return [('Default Impl', self.def_impl)]
+
+    def cut_trigger(self, cont, scope, old_domain):
+	domain = scope[self]
+	cant_be = old_domain - domain
+	for old_impl in cant_be:
+	    scope = cont(incut(scope, old_impl, BoolDom([False])))
+
 	if len(domain) == 1:
-	    return cont(cut(scope, domain.value(), BoolDom([True])))
+	    return cont(incut(scope, domain.value(), BoolDom([True])))
+
 	return cont(scope)
+
+    def fix_trigger(self, scope):
+	for impl in scope[self]:
+	    try:
+		return cut(scope, self, ModDom([impl]))
+	    except CutConflictException:
+		pass
+	
+	raise CutConflictException(self)
 
     def __repr__(self):
 	return "Interface '" + self.name + "'"
@@ -366,11 +422,13 @@ def cut_many(scope, opts):
 
 def incut_cont(cont, scope, opt, domain):
     strict_domain = scope[opt] & domain
+    old_domain = scope[opt]
+    print 'cut %s for %s' % (opt, domain)
     if strict_domain:
-	differ = strict_domain != scope
+	differ = strict_domain != old_domain
 	scope[opt] = strict_domain
 	if differ:
-	    scope = opt.cut_trigger(cont, scope, strict_domain)
+	    scope = opt.cut_trigger(cont, scope, old_domain)
     else:
 	raise CutConflictException(opt)
 
@@ -398,6 +456,7 @@ def fixate(scope):
     scope = Scope(scope)
 
     for opt, domain in scope.items():
+	print 'fixing %s within %s' %(opt, domain)
 	scope = opt.fix_trigger(scope)
 
     return scope
@@ -508,7 +567,7 @@ class TestCase(unittest.TestCase):
 
 	final = fixate(scope)
 
-	self.assertEqual(scope[package['timer_api']], Domain([package['head_timer']]))
+	self.assertEqual(final[package['timer_api']], Domain([package['head_timer']]))
 
     def test_interface2(self):
 	package = Package('root')
@@ -523,7 +582,7 @@ class TestCase(unittest.TestCase):
 
 	final = fixate(scope)
 
-	self.assertEqual(scope[package['timer_api']], ModDom([package['head_timer']]))
+	self.assertEqual(final[package['timer_api']], ModDom([package['head_timer']]))
 
     @unittest.expectedFailure 
     def test_options(self):
