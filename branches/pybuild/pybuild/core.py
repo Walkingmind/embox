@@ -7,7 +7,7 @@ sys.path.append(os.getcwd())
 
 import mybuild_prot
 from mybuild_prot import one_or_many
-from mybuild_prot import Integer, Boolean, String
+from mybuild_prot import Integer, Boolean, String, List
 
 class Annotation():
     def __init__(self):
@@ -15,12 +15,13 @@ class Annotation():
 
 def annotated(obj, annot):
     try:
-	obj.annots += annot
+	obj.annots.append(annot)
+	return obj
     except Exception, ex:
 	class AnnotHolder(obj.__class__):
 	    pass
 	new_obj = AnnotHolder(obj)
-	new_obj.annots = annot
+	new_obj.annots = [annot]
 	return new_obj
 
 class NoRuntimeAnnotation(Annotation):
@@ -31,22 +32,37 @@ class SourceAnnotation(Annotation):
 
 class LDScriptAnnotation(SourceAnnotation):
     def build(self, bld, source):
-	tgt = source.fullpath().replace('.lds.S', '.lds')
+	tgt = source.replace('.lds.S', '.lds')
 	bld.env.append_value('LINKFLAGS', '-Wl,-T,%s' % (tgt,))
 	bld(
 	    name = 'ldscripts',
 	    features = 'includes',
-	    source = source.fullpath(),
+	    source = source,
 	    includes = bld.env.includes,
 	    defines = bld.env._ld_defs,
 	)
 	return tgt
 
+class GeneratedAnnotation(SourceAnnotation):
+    def __init__(self, rule):
+	self.rule = rule
+    def build(self, bld, source):
+	print 'generate %s' % (source, )
+	tgt = source
+	bld(
+	    rule = lambda f: f.outputs[0].write(self.rule(None)),
+	    target = tgt
+	)
+	return tgt
+
 def NoRuntime(obj):
-    return annotated(obj, [NoRuntimeAnnotation()])
+    return annotated(obj, NoRuntimeAnnotation())
 
 def LDScript(obj):
-    return annotated(obj, [LDScriptAnnotation()])
+    return annotated(obj, LDScriptAnnotation())
+
+def Generated(obj, rule):
+    return annotated(obj, GeneratedAnnotation(rule))
 
 class Source(object):
     def __init__(self, dirname, filename):
@@ -60,23 +76,26 @@ class Source(object):
 	return os.path.join(self.dirname, self.filename)
 
     def annotations(self):
-	return getattr(self.filename, 'annots', [])
+	anns = getattr(self.filename, 'annots', [])
+	print 'annotations of %s is %s' % (self, anns)
+	return anns
 
     def build(self, bld):
+	f = self.fullpath()
+	cnt = 0
 	for ann in self.annotations():
-	    return ann.build(bld, self)
-	    break
-	else:
-	    if re.match('.*\.c', self.filename):	
-		tgt = self.fullpath().replace('.c', '.o')
-		bld.objects(
-		    source = self.fullpath(),
-		    target = 'objects',
-		    defines = ['__EMBUILD_MOD__'],
-		    includes = bld.env.includes,
-		)
-	
-		return tgt
+	    f = ann.build(bld, f)
+
+	if re.match('.*\.c', f):	
+	    bld.objects(
+		source = f,
+		target = 'objects',
+		defines = ['__EMBUILD_MOD__'],
+		includes = bld.env.includes,
+	    )
+	    f = f.replace('.c', '.o')
+    
+	return f
 
 
 def package(name):
@@ -261,7 +280,7 @@ def waf_layer(bld):
 	target = bld.env.target,
 	includes = bld.env.includes,
 	linkflags = bld.env.LDFLAGS,
-	use = 'objects ldscripts',
+	use = 'generated objects ldscripts',
     )
 
 if __name__ == '__main__':
