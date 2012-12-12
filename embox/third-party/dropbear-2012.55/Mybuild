@@ -372,6 +372,7 @@ module dropbear {
     
 	depends libtommath
 	depends libtomcrypt
+	depends embox.compat.posix.util.All
 	depends embox.kernel.time.timekeeper /* TODO */
 }
 
