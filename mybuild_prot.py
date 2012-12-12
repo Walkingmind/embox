@@ -89,6 +89,9 @@ class ListDom(Domain):
     def __nonzero__(self):
 	return True
 
+    def force_value(self):
+	return self
+
 class IntegerDom(Domain):
     def __repr__(self):
 	return '<IntegerDom: [%d-%d]' % (min(self), max(self))
@@ -107,7 +110,12 @@ class BoolDom(Domain):
 class Option:
     def __init__(self, name='', domain=None, pkg=None):
 	self.name = name
-	self.domain = domain 
+
+	if domain == None:
+	    self.domain = self.__class__.domain
+	else: 
+	    self.domain = Domain(domain)
+
 	self.pkg = pkg
 
     def cut_trigger(self, cont, scope, domain):
@@ -118,11 +126,7 @@ class Option:
 
     def fix_trigger(self, scope):
 	domain = scope[self]
-	try:
-	    scope[self] = Domain([domain.force_value()])
-	except CutConflictException, excp:
-	    excp.opt = self
-	    raise excp
+	scope[self] = Domain([domain.force_value()])
 
 	return scope
 
@@ -131,15 +135,8 @@ class Option:
 
 class DefaultOption(Option):
     def __init__(self, name, domain=None, default=None, pkg=None):
-	self.name = name
-
-	if domain == None:
-	    self.domain = self.__class__.domain
-	else: 
-	    self.domain = Domain(domain)
-
+	Option.__init__(self, name, domain, pkg)
 	self.default = default 
-	self.pkg = pkg
 
     def fix_trigger(self, scope):
 	domain = scope[self]
@@ -150,7 +147,9 @@ class DefaultOption(Option):
 
 	return scope
 
-
+class List(Option):
+    domain = ListDom([])
+    
 class Integer(DefaultOption):
     domain = IntegerDom(range(0, 0x10000))
 
