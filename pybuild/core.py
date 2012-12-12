@@ -7,7 +7,8 @@ sys.path.append(os.getcwd())
 
 import mybuild_prot
 from mybuild_prot import one_or_many
-from mybuild_prot import Integer, Boolean, String, List
+#from mybuild_prot import Integer, Boolean, String, List
+from mybuild_prot import *
 
 class Annotation():
     def __init__(self):
@@ -31,7 +32,7 @@ class SourceAnnotation(Annotation):
     pass
 
 class LDScriptAnnotation(SourceAnnotation):
-    def build(self, bld, source):
+    def build(self, bld, source, mod, scope):
 	tgt = source.replace('.lds.S', '.lds')
 	bld.env.append_value('LINKFLAGS', '-Wl,-T,%s' % (tgt,))
 	bld(
@@ -46,11 +47,11 @@ class LDScriptAnnotation(SourceAnnotation):
 class GeneratedAnnotation(SourceAnnotation):
     def __init__(self, rule):
 	self.rule = rule
-    def build(self, bld, source):
+    def build(self, bld, source, mod, scope):
 	print 'generate %s' % (source, )
 	tgt = source
 	bld(
-	    rule = lambda f: f.outputs[0].write(self.rule(None)),
+	    rule = lambda f: f.outputs[0].write(self.rule(mod, scope)),
 	    target = tgt
 	)
 	return tgt
@@ -80,11 +81,11 @@ class Source(object):
 	print 'annotations of %s is %s' % (self, anns)
 	return anns
 
-    def build(self, bld):
+    def build(self, bld, opt, scope):
 	f = self.fullpath()
 	cnt = 0
 	for ann in self.annotations():
-	    f = ann.build(bld, f)
+	    f = ann.build(bld, f, opt, scope)
 
 	if re.match('.*\.c', f):	
 	    bld.objects(
@@ -266,7 +267,7 @@ def waf_layer(bld):
 	    need_header |= True
 
 	    for src in opt.sources:
-		src.build(bld)
+		src.build(bld, opt, final) 
 
 	if need_header:
 	    bld(features = 'module_header',
