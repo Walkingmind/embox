@@ -85,11 +85,24 @@ class Domain(frozenset):
 	    return v
 	raise CutConflictException(self)
 
-class ListDom(Domain):
+class ListDom():
+    def __init__(self, it):
+	self.it = tuple(it)
+
     def __nonzero__(self):
 	return True
 
     def force_value(self):
+	return tuple(self.it)
+
+    def __and__(self, other):
+	return other
+
+    def __len__(self):
+	return 1
+
+    def __add__(self, other):
+	self.it = self.it + tuple(other)
 	return self
 
 class IntegerDom(Domain):
@@ -218,10 +231,10 @@ class Scope(BaseScope):
 	return 'Scope {' + \
 	    reduce (operator.add, map(lambda x: "\t%s: %s" % x, self.items()), "")
 
-def trigger_handle(cont, scope, trig):
+def trigger_handle(cont, scope, trig, *args, **kwargs):
     opt = None
     try:
-	trig_ret = trig(scope)
+	trig_ret = trig(scope, *args, **kwargs)
 
 	if isinstance(trig_ret, Scope):
 	    return cont(trig_ret)
@@ -231,11 +244,15 @@ def trigger_handle(cont, scope, trig):
 	opt = excp.opt
 
     dom = scope[opt]
+
+    if hasattr(opt, 'default') and opt.default in dom:
+	dom = itertools.chain((opt.default,), dom)
+
     for value in dom:
 	value_scope = cut(scope, opt, Domain([value]))
 
 	try:
-	    return trigger_handle(cont, value_scope, trig)
+	    return trigger_handle(cont, value_scope, trig, *args, **kwargs)
 	except CutConflictException or MultiValueException, excp:
 	    pass
 
@@ -295,7 +312,8 @@ class Module(Boolean, Inherit, BaseScope):
 		    scope = incut(scope, self.pkg[dep + '.' + opt], d)
 
 	    if self.include_trigger:
-		return trigger_handle(cont, scope, self.include_trigger)
+		return trigger_handle(cont, scope, self.include_trigger, 
+			lambda name: self.pkg.root().find_with_imports([self.pkg.qualified_name(), ''], name))
 	else:
 	    for impl in self.implements:
 		implmod = self.pkg.root().find_with_imports([self.pkg.qualified_name(), ''], impl)
@@ -500,6 +518,27 @@ class TestCase(unittest.TestCase):
 	self.assertTrue(final[package['stack']])
 	self.assertEqual(final[package['stack.stack_sz']], Domain([16000]))
 
+    def test_depends_with_list(self):
+	package = Package('root')
+
+	def incl_trigger(scope, find_fn):
+	    opt = find_fn('lds.sections')
+	    return cut(scope, opt, ListDom(['test']))
+
+	module_package(package, 'lds', options = [List('sections')])
+	module_package(package, 'stack_lds', depends = [ 'lds' ], include_trigger=incl_trigger)
+
+	scope = Scope()
+	scope = add_many(scope, map(lambda s: package[s], ['lds', 'stack_lds']))
+
+	scope = cut_many(scope, [(package['stack_lds'], BoolDom([True]))])
+
+	final = fixate(scope)
+
+	self.assertTrue(final[package['lds']])
+	self.assertTrue(final[package['stack_lds']])
+	self.assertEqual(len(final[package['lds.sections']]), 1)
+
     def test_depends_with_options2(self):
 	package = Package('root')
 	module_package(package, 'stack', options = [Integer('stack_sz', domain = range(8192,12000))])
@@ -515,8 +554,8 @@ class TestCase(unittest.TestCase):
 	package = Package('root')
 	module_package(package, 'amba')
 
-	def uart_trigger(scope):
-	    if scope.value(package['uart.amba_pp']):
+	def uart_trigger(scope, find_fn):
+	    if scope.value(find_fn('uart.amba_pp')):
 		return cut(scope, package['amba'], BoolDom([True]))
 	    return scope
 
@@ -540,10 +579,10 @@ class TestCase(unittest.TestCase):
 	module_package(package, 'amba', depends = 'bad_module')
 	module_package(package, 'bad_module')
 
-	def uart_trigger(scope):
-	    if scope.value(package['uart.amba_pp']):
-		return cut(scope, package['amba'], BoolDom([True]))
-	    return cut(scope, package['bad_module'], BoolDom([True]))
+	def uart_trigger(scope, find_fn):
+	    if scope.value(find_fn('uart.amba_pp')):
+		return cut(scope, find_fn('amba'), BoolDom([True]))
+	    return cut(scope, find_fn('bad_module'), BoolDom([True]))
 
 	module_package(package, 'uart', options = [Boolean('amba_pp')] , include_trigger=uart_trigger)
 
