@@ -11,8 +11,6 @@ from util import isvector
 
 from ops  import *
 
-
-
 def trigger_handle(cont, scope, trig, *args, **kwargs):
     opt = None
     try:
