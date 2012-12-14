@@ -42,9 +42,9 @@ def build(ctx):
     ctx.env.target   = pyconf.build.TARGET
     ctx.env.includes = includes
 
-    import pybuild.core
+    import pybuild.build
 
-    pybuild.core.waf_layer(ctx) 
+    pybuild.build.waf_layer(ctx) 
 
 
 
