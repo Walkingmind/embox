@@ -5,10 +5,15 @@ import re
 
 sys.path.append(os.getcwd())
 
-import mybuild_prot
-from mybuild_prot import one_or_many
-#from mybuild_prot import Integer, Boolean, String, List
-from mybuild_prot import *
+from package   import Package, obj_in_pkg
+from scope     import Scope
+from ops       import add_many, cut_many, cut, fixate
+
+from option    import Boolean, List, Integer, String
+from domain    import BoolDom, ListDom, IntegerDom, Domain, ModDom
+
+from module    import Module
+from interface import Interface
 
 class Annotation():
     def __init__(self):
@@ -111,21 +116,21 @@ def _build_obj(cls, name, args, kargs):
     global __dirname
     global __modlist
     __modlist.append('.'.join ((__package, name)))
-    mybuild_prot.obj_package(cls, __package_tree[__package], name, *args, **kargs)
+    obj_in_pkg(cls, __package_tree[__package], name, *args, **kargs)
 
 def module(name, *args, **kargs):
     if kargs.has_key('sources'):
 	kargs['sources'] = map (lambda s: Source(__dirname, s), kargs['sources'])
-    _build_obj(mybuild_prot.Module, name, args, kargs)
+    _build_obj(Module, name, args, kargs)
 
 def interface(name, *args, **kargs):
-    _build_obj(mybuild_prot.Interface, name, args, kargs)
+    _build_obj(Interface, name, args, kargs)
 
 def include(name, opts={}):
     global __modconstr
-    __modconstr.append((name, mybuild_prot.Domain([True])))
+    __modconstr.append((name, Domain([True])))
     for opt_name, value in opts.items():
-	__modconstr.append(("%s.%s" % (name, opt_name), mybuild_prot.Domain([value])))
+	__modconstr.append(("%s.%s" % (name, opt_name), Domain([value])))
 
 def exclude(name):
     pass
@@ -146,9 +151,9 @@ def lds_section(name, reg):
 
 def mybuild_main(argv):
     import os
-    rootpkg = mybuild_prot.Package('root', None)
+    rootpkg = Package('root', None)
     allmodlist = []
-    scope = mybuild_prot.Scope()
+    scope = Scope()
 
     glob = globals()
 
@@ -173,7 +178,7 @@ def mybuild_main(argv):
     modlst = map(lambda name: glob['__package_tree'][name], glob['__modlist'])
     #print 
     #print modlst
-    mybuild_prot.add_many(scope, modlst)
+    add_many(scope, modlst)
 
     glob['__modconstr'] = []
 
@@ -184,8 +189,8 @@ def mybuild_main(argv):
     #print 
     #print modconstr
 
-    cut_scope = mybuild_prot.cut_many(scope, modconstr)
-    final = mybuild_prot.fixate(cut_scope)
+    cut_scope = cut_many(scope, modconstr)
+    final = fixate(cut_scope)
     #print
     #print final
 
@@ -220,11 +225,11 @@ def header_gen(self):
     options = []
     for name, opt in self.mod.items():
 	repr = ''
-	if isinstance(opt, mybuild_prot.Integer):
+	if isinstance(opt, Integer):
 	    repr = 'NUMBER'
-	elif isinstance(opt, mybuild_prot.Boolean):
+	elif isinstance(opt, Boolean):
 	    repr = 'BOOLEAN'
-	elif isinstance(opt, mybuild_prot.String):
+	elif isinstance(opt, String):
 	    repr = 'STRING'
 	else:
 	   continue
@@ -234,7 +239,7 @@ def header_gen(self):
 
     includes = []
     
-    if isinstance(self.mod, mybuild_prot.Interface):
+    if isinstance(self.mod, Interface):
 	for impl in self.scope[self.mod]:
 	    for src in impl.sources:
 		if re.match('.*\.h', src.filename):
@@ -261,9 +266,9 @@ def waf_layer(bld):
     bld.env._ld_defs = glob['__ld_defs']
 
     for opt, dom in final.items():
-	need_header = isinstance(opt, mybuild_prot.Interface)
+	need_header = isinstance(opt, Interface)
 
-	if (isinstance(opt, mybuild_prot.Module) and dom == mybuild_prot.Domain([True])):
+	if (isinstance(opt, Module) and dom == Domain([True])):
 	    need_header |= True
 
 	    for src in opt.sources:
