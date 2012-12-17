@@ -9,9 +9,11 @@ import pyconf.build
 import mybuild.pybuild.flags
 
 def options(ctx):
-    pass
+    ctx.add_option('--method', choices=['A', 'E'], default='A',
+	    help='Model method, either A (for Anton\'s) or E (for Eldar\'s')
 
 def configure(ctx):
+    ctx.env.METHOD = ctx.options.method
     ctx.env.CC = pyconf.build.CROSS_COMPILE + "gcc"
     ctx.env.AR = pyconf.build.CROSS_COMPILE + "ar"
 
@@ -42,9 +44,9 @@ def build(ctx):
     ctx.env.target   = pyconf.build.TARGET
     ctx.env.includes = includes
 
-    import mybuild.pybuild.build
+    import mybuild.build
 
-    mybuild.pybuild.build.waf_layer(ctx) 
+    mybuild.build.waf_layer(ctx) 
 
 
 
