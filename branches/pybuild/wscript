@@ -6,7 +6,7 @@ top = '.'
 out = 'build'
 
 import pyconf.build
-import pybuild.flags
+import mybuild.pybuild.flags
 
 def options(ctx):
     pass
@@ -21,11 +21,11 @@ def configure(ctx):
     user_LDFLAGS = getattr(pyconf.build, 'LDFLAGS', [])
     user_ARFLAGS = getattr(pyconf.build, 'ARFLAGS', [])
 
-    ctx.env.CFLAGS = pybuild.flags.CFLAGS + user_CFLAGS + ctx.env.CFLAGS
-    ctx.env.CPPFLAGS = pybuild.flags.CPPFLAGS + user_CPPFLAGS + ctx.env.CPPFLAGS
-    ctx.env.CXXFLAGS = pybuild.flags.CXXFLAGS + user_CXXFLAGS + ctx.env.CXXFLAGS
-    ctx.env.LDFLAGS = pybuild.flags.LDFLAGS + user_LDFLAGS + ctx.env.LDFLAGS
-    ctx.env.ARFLAGS = pybuild.flags.ARFLAGS + user_ARFLAGS + ctx.env.ARFLAGS
+    ctx.env.CFLAGS = mybuild.pybuild.flags.CFLAGS + user_CFLAGS + ctx.env.CFLAGS
+    ctx.env.CPPFLAGS = mybuild.pybuild.flags.CPPFLAGS + user_CPPFLAGS + ctx.env.CPPFLAGS
+    ctx.env.CXXFLAGS = mybuild.pybuild.flags.CXXFLAGS + user_CXXFLAGS + ctx.env.CXXFLAGS
+    ctx.env.LDFLAGS = mybuild.pybuild.flags.LDFLAGS + user_LDFLAGS + ctx.env.LDFLAGS
+    ctx.env.ARFLAGS = mybuild.pybuild.flags.ARFLAGS + user_ARFLAGS + ctx.env.ARFLAGS
 
     ctx.load('gcc c ar')
 
@@ -42,9 +42,9 @@ def build(ctx):
     ctx.env.target   = pyconf.build.TARGET
     ctx.env.includes = includes
 
-    import pybuild.build
+    import mybuild.pybuild.build
 
-    pybuild.build.waf_layer(ctx) 
+    mybuild.pybuild.build.waf_layer(ctx) 
 
 
 
