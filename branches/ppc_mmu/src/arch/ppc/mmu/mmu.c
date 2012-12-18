@@ -11,12 +11,48 @@
 #include <hal/mmu.h>
 #include <types.h>
 
-#define MMU_PAGE_PRESENT        (1UL)
-#define MMU_PAGE_WRITABLE       (1UL << 11)
-#define MMU_PAGE_USERMODE       (1UL << 9)
-#define MMU_PAGE_CACHEABLE      (1UL << 10)
-#define MMU_PAGE_4MB            (1UL << 3)
-#define MMU_PMD_FLAG            (MMU_PAGE_WRITABLE | MMU_PAGE_USERMODE)
+#define MMU_PAGE_SIZE_1KB      0
+#define MMU_PAGE_SIZE_4KB      1
+#define MMU_PAGE_SIZE_16KB     2
+#define MMU_PAGE_SIZE_64KB     3
+#define MMU_PAGE_SIZE_256KB    4
+#define MMU_PAGE_SIZE_1MB      5
+#define MMU_PAGE_SIZE_16MB     6
+#define MMU_PAGE_SIZE_256MB    7
+
+#define MMU_TLB_SIZE 64
+
+/**
+ * TLB Entry Fields
+ */
+	/* Page Identification Fields */
+#define MMU_TLB0_EPN_MASK  0x00000000 /* Effective Page Number[0:21] */
+#define MMU_TBL0_V         0x00000000 /* Vaild[22] */
+#define MMU_TBL0_TS        0x00000000 /* Translation Address Spase[23] */
+#define MMU_TLB0_SIZE_MASK 0x00000000 /* Page Size[24:27] */
+#define MMU_TLB0_TPAR_MASK 0x00000000 /* Tag Party[28:31] */
+#define MMU_TLB0_TID_MASK  0x00000000 /* Translation ID[32:39] */
+	/* Address Translation Fields */
+#define MMU_TBL1_RPN_MASK  0x00000000 /* Real Page Number[0:21] */
+#define MMU_TBL1_PAR1_MASK 0x00000000 /* Parity for TLB word 1[22:23] */
+#define MMU_TBL1_ERPN_MASK 0x00000000 /* Extended Real Page Number[28:31] */
+	/* Storage Attribute Fields */
+#define MMU_TLB2_PAR2_MASK 0x00000000 /* Parity for TLB word 2[0:1] */
+#define MMU_TLB2_U0        0x00000000 /* User-Definable Storage Attribute 0[16] */
+#define MMU_TLB2_U1        0x00000000 /* User-Definable Storage Attribute 1[17] */
+#define MMU_TLB2_U2        0x00000000 /* User-Definable Storage Attribute 2[18] */
+#define MMU_TLB2_U3        0x00000000 /* User-Definable Storage Attribute 3[19] */
+#define MMU_TLB2_W         0x00000000 /* Write-Through[20] */
+#define MMU_TLB2_I         0x00000000 /* Caching Inhibited[21] */
+#define MMU_TLB2_M         0x00000000 /* Memory Coherence Required[22] */
+#define MMU_TLB2_G         0x00000000 /* Guarded[23] */
+#define MMU_TLB2_E         0x00000000 /* Endian[24] */
+#define MMU_TLB2_UX        0x00000000 /* User State Execute Enable[26] */
+#define MMU_TLB2_UW        0x00000000 /* User State Write Enable[27] */
+#define MMU_TLB2_UR        0x00000000 /* User State Read Enable[28] */
+#define MMU_TLB2_UX        0x00000000 /* Supervisor State Execute Enable[29] */
+#define MMU_TLB2_UW        0x00000000 /* Supervisor State Write Enable[30] */
+#define MMU_TLB2_UR        0x00000000 /* Supervisor State Read Enable[31] */
 
 void mmu_on(void) {
 	__set_msr(__get_msr() | MSR_IS | MSR_DS);
