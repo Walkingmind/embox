@@ -30,6 +30,6 @@
 #include('embox.init.make_term')
 
 #include ('embox.example.hello')
-include ('embox.arch.arm.lds')
+#include ('embox.arch.arm.lds')
 include ('embox.kernel.kernel')
 include ('embox.arch.arm.libarch')
