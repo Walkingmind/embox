@@ -1,0 +1,8 @@
+package('embox.arch.arm')
+
+library (
+	'libarch',
+
+	sources = ['setjmp.S', 'arm_eabi.c'],
+	)
+
