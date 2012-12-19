@@ -5,8 +5,8 @@ from string import Template
 
 def incl_trigger(scope, find_fn):
     sects = find_fn('embox.arch.arm.lds.sections')
-    sz = scope.value(find_fn('stack.stack_size'))
-    alignment = scope.value(find_fn('stack.alignment'))
+    sz = find_fn('stack.stack_size').value(scope)
+    alignment = find_fn('stack.alignment').value(scope)
 
     tmpl = '''
 	.stack (NOLOAD): {
