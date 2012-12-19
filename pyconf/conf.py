@@ -31,5 +31,6 @@
 
 #include ('embox.example.hello')
 #include ('embox.arch.arm.lds')
+include ('embox.framework.mod')
 include ('embox.kernel.kernel')
 include ('embox.arch.arm.libarch')
