@@ -7,9 +7,9 @@ module (
     sources = ['irq.c'],
 
     depends = [
-	'embox.mem.objalloc',
-	'embox.driver.interrupt.irqctrl_api',
-	'embox.profiler.trace'
+	#'embox.mem.objalloc',
+	#'embox.driver.interrupt.irqctrl_api',
+	#'embox.profiler.trace'
     ]
 )
 

@@ -8,7 +8,7 @@ module(
 
 	sources = ["prom_printf.c", "prom_printf.h"],
 
-	depends = ['embox.driver.diag_api'],
+	#depends = ['embox.driver.diag_api'],
 )
 
 module(

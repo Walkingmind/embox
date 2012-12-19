@@ -3,8 +3,8 @@ package('embox.arch.arm')
 
 from string import Template
 
-def embox_lds_gen(module, scope):
-    sections = scope[module['sections']].value()
+def embox_lds_gen(src, mod, ctx):
+    sections = mod['sections'].value(ctx.model)
     ld = '''
 #include <asm-generic/embox.lds.h>
 #include <framework/mod/options.h>
@@ -14,45 +14,45 @@ OUTPUT_ARCH(arm)
 ENTRY(start)
 
 MEMORY {
-	MEMORY_REGION(sdram)
-	MEMORY_REGION(flash)
+        MEMORY_REGION(sdram)
+        MEMORY_REGION(flash)
 }
 
 SECTIONS {
-	.text : {
-		*(.trap_table)
-		*(.text)
-		*(.text.*)
-		*(.glue_7t) *(.glue_7)
-		ALIGNMENT();
-	} SECTION_REGION(text)
-	SECTION_SYMBOLS(text)
+        .text : {
+                *(.trap_table)
+                *(.text)
+                *(.text.*)
+                *(.glue_7t) *(.glue_7)
+                ALIGNMENT();
+        } SECTION_REGION(text)
+        SECTION_SYMBOLS(text)
 
-	.rodata : {
-		LDS_INPUT_RODATA
-	} SECTION_REGION(rodata)
-	SECTION_SYMBOLS(rodata)
+        .rodata : {
+                LDS_INPUT_RODATA
+        } SECTION_REGION(rodata)
+        SECTION_SYMBOLS(rodata)
 
-	.data : {
-		ALIGNMENT();
-		*(.data)
-	} SECTION_REGION(data)
-	SECTION_SYMBOLS(data)
+        .data : {
+                ALIGNMENT();
+                *(.data)
+        } SECTION_REGION(data)
+        SECTION_SYMBOLS(data)
 
-	.bss : {
-		ALIGNMENT();
-		*(.bss)
-		ALIGNMENT();
-	} SECTION_REGION(bss)
-	SECTION_SYMBOLS(bss)
+        .bss : {
+                ALIGNMENT();
+                *(.bss)
+                ALIGNMENT();
+        } SECTION_REGION(bss)
+        SECTION_SYMBOLS(bss)
 
-	.reserve (NOLOAD): {
-		LDS_INPUT_RESERVE
-	/* TODO memory region for reserve output section. */
-	} SECTION_REGION(bss)
-	SECTION_SYMBOLS(reserve)
+        .reserve (NOLOAD): {
+                LDS_INPUT_RESERVE
+        /* TODO memory region for reserve output section. */
+        } SECTION_REGION(bss)
+        SECTION_SYMBOLS(reserve)
 
-	$ADDITIONAL_SECTIONS
+        $ADDITIONAL_SECTIONS
 
 }
 
@@ -62,12 +62,12 @@ _mem_length = LDS_REGION_SIZE_sdram;
     return Template(ld).substitute(ADDITIONAL_SECTIONS='\n'.join(sections))
 
 module (
-	"lds", 
-	#implements = 'embox.arch.lds',
+        "lds", 
+        #implements = 'embox.arch.lds',
 
-	sources = [LDScript(Generated('embox.gen.lds.S', embox_lds_gen))],
+        sources = [LDScript(Generated('embox.gen.lds.S', embox_lds_gen))],
 
-	options = [
-	    List('sections'),
-	],
+        options = [
+            List('sections'),
+        ],
 )
