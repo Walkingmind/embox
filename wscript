@@ -71,7 +71,7 @@ def build(ctx):
     includes = [
 		'.',
 		'include',
-	        'src/include',
+		'src/include',
 		'src/arch/{ARCH}/include'.format(ARCH=pyconf.build.ARCH),
 		'src/compat/posix/include',
 		'src/compat/linux/include']
