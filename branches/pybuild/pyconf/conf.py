@@ -29,9 +29,10 @@
 #include('embox.util.num_alloc_array')
 #include('embox.init.make_term')
 
-#include ('embox.example.hello')
-#include ('embox.arch.arm.lds')
+include ('embox.kernel.stack')
+include ('embox.arch.x86.lds')
+include ('embox.arch.x86.kernel.arch')
 include ('embox.framework.mod')
 include ('embox.framework.runlevel')
 include ('embox.kernel.kernel', runlevel=0)
-include ('embox.arch.arm.libarch')
+#include ('embox.arch.arm.libarch')

@@ -28,7 +28,7 @@ module (
 
     #sources = [LDScript("stack.lds.S")],
 
-    depends = ['embox.arch.arm.lds'],
+    depends = ['embox.arch.x86.lds'],
 
     include_trigger = incl_trigger,
 
