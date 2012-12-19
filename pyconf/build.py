@@ -1,13 +1,9 @@
 
 TARGET = 'embox'
 
-PLATFORM = 'stm32vl'
-
-ARCH = 'arm'
-
-CROSS_COMPILE = 'arm-none-eabi-'
+ARCH = 'x86'
 
 CFLAGS = ['-O0', '-g']
-CFLAGS += ['-mthumb', '-mlittle-endian', '-mcpu=cortex-m3', '-ffreestanding']
+CFLAGS += ['-m32', '-march=i386', '-fno-stack-protector', '-Wno-array-bounds']
 
-LDFLAGS = ['-N', '-g']
+LDFLAGS = ['-N', '-g' ]

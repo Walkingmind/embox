@@ -14,9 +14,10 @@ def options(ctx):
 
 def configure(ctx):
     ctx.env.METHOD = ctx.options.method
-    ctx.env.CC = pyconf.build.CROSS_COMPILE + "gcc"
-    ctx.env.AR = pyconf.build.CROSS_COMPILE + "ar"
-    ctx.env.AS = pyconf.build.CROSS_COMPILE + "gcc"
+    crosstool = getattr(pyconf.build, 'CROSS_COMPILE', '')
+    ctx.env.CC = crosstool + "gcc"
+    ctx.env.AR = crosstool + "ar"
+    ctx.env.AS = crosstool + "gcc"
 
     user_CFLAGS = getattr(pyconf.build, 'CFLAGS', [])
     user_CXXFLAGS = getattr(pyconf.build, 'CXXFLAGS', [])
@@ -24,6 +25,7 @@ def configure(ctx):
     user_LDFLAGS = getattr(pyconf.build, 'LDFLAGS', [])
     user_ARFLAGS = getattr(pyconf.build, 'ARFLAGS', [])
     user_ASFLAGS = getattr(pyconf.build, 'ASFLAGS', [])
+    user_ASFLAGS += user_CFLAGS
 
     ctx.env.CFLAGS = mybuild.pybuild.flags.CFLAGS + user_CFLAGS + ctx.env.CFLAGS
     ctx.env.CPPFLAGS = mybuild.pybuild.flags.CPPFLAGS + user_CPPFLAGS + ctx.env.CPPFLAGS
