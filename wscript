@@ -17,7 +17,6 @@ def configure(ctx):
     crosstool = getattr(pyconf.build, 'CROSS_COMPILE', '')
     ctx.env.CC = crosstool + "gcc"
     ctx.env.AR = crosstool + "ar"
-    ctx.env.AS = crosstool + "gcc"
 
     user_CFLAGS = getattr(pyconf.build, 'CFLAGS', [])
     user_CXXFLAGS = getattr(pyconf.build, 'CXXFLAGS', [])
@@ -34,11 +33,15 @@ def configure(ctx):
     ctx.env.ARFLAGS = mybuild.pybuild.flags.ARFLAGS + user_ARFLAGS + ctx.env.ARFLAGS
     ctx.env.ASFLAGS = mybuild.pybuild.flags.ASFLAGS + user_ASFLAGS + ctx.env.ASFLAGS
 
-    ctx.load('gcc c ar gas')
+    ctx.load('gcc c ar')
 
 from waflib.TaskGen import feature, after
 from waflib import TaskGen, Task
 from waflib import Utils
+
+@TaskGen.extension('.S','.asm','.ASM','.spp','.SPP')
+def asm_hook(self,node):
+	return self.create_compiled_task('c',node)
 
 @TaskGen.extension('.lds.S')
 def lds_s_hook(self, node):
@@ -62,12 +65,15 @@ def header_gen(self):
 
 #endif /* {GUARD} */
 '''
+
     hdr = header.format(GUARD=self.mod_name.replace('.', '_').upper(),
 	OPTIONS=''.join(map(lambda str: '#define %s\n\n' %(str,), self.header_opts)),
 	INCLUDES=''.join(map(lambda str: '#include<%s>\n\n' % (str,), self.header_inc)))
 
     self.target = 'include/module/%s.h' % (self.mod_name.replace('.','/'),)
     self.rule = lambda self: self.outputs[0].write(hdr)
+
+    self.ext_out = ['.h']
 
 def build(ctx):
     includes = [
