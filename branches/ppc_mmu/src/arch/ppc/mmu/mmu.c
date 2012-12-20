@@ -26,33 +26,40 @@
  * TLB Entry Fields
  */
 	/* Page Identification Fields */
-#define MMU_TLB0_EPN_MASK  0x00000000 /* Effective Page Number[0:21] */
-#define MMU_TBL0_V         0x00000000 /* Vaild[22] */
-#define MMU_TBL0_TS        0x00000000 /* Translation Address Spase[23] */
-#define MMU_TLB0_SIZE_MASK 0x00000000 /* Page Size[24:27] */
-#define MMU_TLB0_TPAR_MASK 0x00000000 /* Tag Party[28:31] */
-#define MMU_TLB0_TID_MASK  0x00000000 /* Translation ID[32:39] */
+#define MMU_TLB0_EPN_MASK   0xFFFFFC00 /* Effective Page Number[0:21] */
+#define MMU_TBL0_V          0x00000200 /* Vaild[22] */
+#define MMU_TBL0_TS         0x00000100 /* Translation Address Spase[23] */
+#define MMU_TLB0_SIZE_1KB   0x00000000 /* Page Size[24:27] */
+#define MMU_TLB0_SIZE_4KB   0x00000010
+#define MMU_TLB0_SIZE_16KB  0x00000020
+#define MMU_TLB0_SIZE_64KB  0x00000030
+#define MMU_TLB0_SIZE_256KB 0x00000040
+#define MMU_TLB0_SIZE_1KB   0x00000050
+#define MMU_TLB0_SIZE_16KB  0x00000060
+#define MMU_TLB0_SIZE_256KB 0x00000070
+#define MMU_TLB0_TPAR_MASK  0x00000008 /* Tag Party[28:31] */
+#define MMU_TLB0_TID_MASK   0x00000000 /* Translation ID[32:39] */
 	/* Address Translation Fields */
-#define MMU_TBL1_RPN_MASK  0x00000000 /* Real Page Number[0:21] */
-#define MMU_TBL1_PAR1_MASK 0x00000000 /* Parity for TLB word 1[22:23] */
-#define MMU_TBL1_ERPN_MASK 0x00000000 /* Extended Real Page Number[28:31] */
+#define MMU_TBL1_RPN_MASK   0xFFFFFC00 /* Real Page Number[0:21] */
+#define MMU_TBL1_PAR1_MASK  0x00000300 /* Parity for TLB word 1[22:23] */
+#define MMU_TBL1_ERPN_MASK  0x00000008 /* Extended Real Page Number[28:31] */
 	/* Storage Attribute Fields */
-#define MMU_TLB2_PAR2_MASK 0x00000000 /* Parity for TLB word 2[0:1] */
-#define MMU_TLB2_U0        0x00000000 /* User-Definable Storage Attribute 0[16] */
-#define MMU_TLB2_U1        0x00000000 /* User-Definable Storage Attribute 1[17] */
-#define MMU_TLB2_U2        0x00000000 /* User-Definable Storage Attribute 2[18] */
-#define MMU_TLB2_U3        0x00000000 /* User-Definable Storage Attribute 3[19] */
-#define MMU_TLB2_W         0x00000000 /* Write-Through[20] */
-#define MMU_TLB2_I         0x00000000 /* Caching Inhibited[21] */
-#define MMU_TLB2_M         0x00000000 /* Memory Coherence Required[22] */
-#define MMU_TLB2_G         0x00000000 /* Guarded[23] */
-#define MMU_TLB2_E         0x00000000 /* Endian[24] */
-#define MMU_TLB2_UX        0x00000000 /* User State Execute Enable[26] */
-#define MMU_TLB2_UW        0x00000000 /* User State Write Enable[27] */
-#define MMU_TLB2_UR        0x00000000 /* User State Read Enable[28] */
-#define MMU_TLB2_UX        0x00000000 /* Supervisor State Execute Enable[29] */
-#define MMU_TLB2_UW        0x00000000 /* Supervisor State Write Enable[30] */
-#define MMU_TLB2_UR        0x00000000 /* Supervisor State Read Enable[31] */
+#define MMU_TLB2_PAR2_MASK  0x00000000 /* Parity for TLB word 2[0:1] */
+#define MMU_TLB2_U0         0x00008000 /* User-Definable Storage Attribute 0[16] */
+#define MMU_TLB2_U1         0x00004000 /* User-Definable Storage Attribute 1[17] */
+#define MMU_TLB2_U2         0x00002000 /* User-Definable Storage Attribute 2[18] */
+#define MMU_TLB2_U3         0x00001000 /* User-Definable Storage Attribute 3[19] */
+#define MMU_TLB2_W          0x00000800 /* Write-Through[20] */
+#define MMU_TLB2_I          0x00000400 /* Caching Inhibited[21] */
+#define MMU_TLB2_M          0x00000200 /* Memory Coherence Required[22] */
+#define MMU_TLB2_G          0x00000100 /* Guarded[23] */
+#define MMU_TLB2_E          0x00000080 /* Endian[24] */
+#define MMU_TLB2_UX         0x00000020 /* User State Execute Enable[26] */
+#define MMU_TLB2_UW         0x00000010 /* User State Write Enable[27] */
+#define MMU_TLB2_UR         0x00000008 /* User State Read Enable[28] */
+#define MMU_TLB2_UX         0x00000004 /* Supervisor State Execute Enable[29] */
+#define MMU_TLB2_UW         0x00000002 /* Supervisor State Write Enable[30] */
+#define MMU_TLB2_UR         0x00000001 /* Supervisor State Read Enable[31] */
 
 void mmu_on(void) {
 	__set_msr(__get_msr() | MSR_IS | MSR_DS);
