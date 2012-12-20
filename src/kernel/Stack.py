@@ -4,7 +4,7 @@ package('embox.kernel')
 from string import Template
 
 def incl_trigger(scope, find_fn):
-    sects = find_fn('embox.arch.arm.lds.sections')
+    sects = find_fn('embox.arch.x86.lds.sections')
     sz = find_fn('stack.stack_size').value(scope)
     alignment = find_fn('stack.alignment').value(scope)
 
