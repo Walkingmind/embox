@@ -1,12 +1,7 @@
 
 package('embox.mem')
 
-interface(
-    'heap_api',
-    options = [
-        Integer('heap_size', default = 0x100000)
-    ]
-)
+interface('heap_api')
 
 module (
     'base_heap',
@@ -17,14 +12,14 @@ module (
 )
 
 module (
-    'heap_bm'
-    implements = 'heap_api', 
+    'heap_bm',
+    implements = ['heap_api'], 
 
     sources = ["heap_bm.c"],
 
     depends = [
         'page_api', 
-	'heap_lds'
+	#'heap_lds'
     ]
 
 )
@@ -35,6 +30,6 @@ module (
 
     sources = ["heap_simple.c"],
     
-    depends = ['heap_lds'],
+    #depends = ['heap_lds'],
 
 ) 
