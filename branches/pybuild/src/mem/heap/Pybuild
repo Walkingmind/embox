@@ -22,7 +22,7 @@ module (
 
     depends = [
         'page_api', 
-	#'heap_lds'
+	'heap_lds'
     ]
 
 )
@@ -36,6 +36,6 @@ module (
 
     sources = ["heap_simple.c"],
     
-    #depends = ['heap_lds'],
+    depends = ['heap_lds'],
 
 ) 

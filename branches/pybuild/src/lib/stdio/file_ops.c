@@ -18,6 +18,8 @@
 #include <fs/kfile.h>
 #include <stdio.h>
 
+#include <module/embox/lib/LibCStdio.h>
+
 #define FILE_QUANTITY OPTION_GET(NUMBER,file_quantity)
 
 POOL_DEF(file_pool, FILE, FILE_QUANTITY);

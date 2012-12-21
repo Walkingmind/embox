@@ -20,7 +20,7 @@ def incl_trigger(scope, find_fn):
 	SECTION_SYMBOLS(stack)
 '''
     out = Template(tmpl).substitute(align = alignment, sz = sz) 
-    new_dom = scope[sects] + [out]
+    new_dom = scope[sects] + [(99, out)]
     return cut(scope, sects, new_dom)
 
 module (

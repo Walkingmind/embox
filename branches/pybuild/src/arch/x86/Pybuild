@@ -76,8 +76,9 @@ _mem_begin = LDS_REGION_BASE_sdram;
 _mem_length = LDS_REGION_SIZE_sdram;
 '''
 
+    print sections
     return Template(ld).substitute(
-            ADDITIONAL_SECTIONS='\n'.join(sections),
+            ADDITIONAL_SECTIONS='\n'.join([sect[1] for sect in sorted(sections)]),
             align = mod['align'].value(ctx.model))
 
 module (
