@@ -14,7 +14,7 @@ package('embox.framework')
 module (
     'runlevel',
     sources = [
-        DefMacro('__FRAMEWORK__',
+        DefMacro(['__FRAMEWORK__'],
             ["runlevel.c", "unit.c"])
         ],
 
