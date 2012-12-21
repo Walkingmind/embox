@@ -7,6 +7,7 @@ module (
     sources = ['irq.c'],
 
     depends = [
+        'irq_lock',
 	#'embox.mem.objalloc',
 	#'embox.driver.interrupt.irqctrl_api',
 	#'embox.profiler.trace'
@@ -16,7 +17,7 @@ module (
 module (
     'irq_lock',
 
-    sources = ['irq.c'],
+    sources = ['irq_lock.c'],
 
     depends = [
 	NoRuntime('critical'),
