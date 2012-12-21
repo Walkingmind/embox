@@ -8,8 +8,21 @@ package('embox.mem')
 interface('page_api')
 
 module (
+    'base_page',
+
+    options = [
+        Integer('page_size', default = 4096)
+    ]
+)
+
+module (
     'bitmask',
+    
+    super = 'base_page',
+
     implements = ['page_api'],
+
     sources = ["bitmask.c"],
+
     #depends = ['heap_lds'],
 )
