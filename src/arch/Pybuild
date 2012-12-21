@@ -11,8 +11,8 @@ module(
 interface('cpu')
 
 #@Mandatory
-#@DefaultImpl(embox.arch.generic.interrupt_stub)
-interface('interrupt')
+interface('interrupt',
+        default = 'embox.arch.generic.interrupt_stub')
 
 interface('clock')
 interface('context')
@@ -23,17 +23,17 @@ interface('boot')
 interface('lds')
 
 #@Mandatory
-#@DefaultImpl(embox.arch.generic.nommu)
-interface('mmu')
+interface('mmu',
+        default = 'embox.arch.generic.nommu')
 
 #@Mandatory
-#@DefaultImpl(embox.arch.generic.syscall_stub)
-interface('syscall')
+interface('syscall',
+        default = 'embox.arch.generic.syscall_stub')
 
 interface('syscall_caller')
 
 #@Mandatory
-#@DefaultImpl(embox.arch.generic.nousermode)
-interface('usermode')
+interface('usermode',
+        default = 'embox.arch.generic.nousermode')
 
 interface('stackframe')
