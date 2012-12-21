@@ -10,6 +10,6 @@
 #ifndef PROM_PRINTF_H_
 #define PROM_PRINTF_H_
 
-#include <module/embox/prom/printf.h>
+#include <module/embox/prom/prom_printf.h>
 
 #endif /* PROM_PRINTF_H_ */
