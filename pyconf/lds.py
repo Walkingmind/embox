@@ -1,13 +1,14 @@
 
 #/* memory region*/
-lds_region('sdram', '0x20000000', '8K')
-lds_region('flash', '0x8000000', '128K')
+lds_region('sdram', '0x00100000', '64M')
+lds_region('flash', '0x0', '0M')
 
 #/*section placement*/
-lds_section('text', 'flash')
-lds_section('rodata', 'flash')
-lds_section_load('data', 'sdram', 'flash')
+lds_section('text', 'sdram')
+lds_section('rodata', 'sdram')
+lds_section('data', 'sdram')
 lds_section('bss', 'sdram')
 lds_section('stack', 'sdram')
 
+lds_section('heap', 'sdram')
 

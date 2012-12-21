@@ -12,6 +12,7 @@
 
 #include <embox/unit.h>
 
+#include <module/embox/driver/diag/i8250.h>
 
 /** Default I/O addresses
  * NOTE: The actual I/O addresses used are stored

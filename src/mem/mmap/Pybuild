@@ -16,7 +16,7 @@ module (
 
     depends = [
         'embox.mem.page_api',
-	#'embox.mem.phymem'
+        'embox.mem.phymem'
     ]
 )
 

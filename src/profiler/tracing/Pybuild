@@ -1,0 +1,21 @@
+
+package('embox.profiler')
+
+interface (
+    'trace',
+    default = 'no_tracing'
+)
+
+module (
+    'no_tracing',
+    implements = ['trace'], 
+
+    sources = ["no_trace_impl.h"]
+)
+
+module (
+    'tracing',
+    implements = ['trace'], 
+
+    sources = ["trace.c", "trace_impl.h"]
+)
