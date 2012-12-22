@@ -1,0 +1,8 @@
+package embox.example
+
+module hello {
+	source "hello.c"
+
+	depends embox.lib.LibC
+	depends embox.framework.LibFramework
+}

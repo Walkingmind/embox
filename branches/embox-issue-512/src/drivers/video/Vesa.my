@@ -1,0 +1,11 @@
+package embox.driver.video
+
+abstract module vesa { }
+
+module vesadrv extends vesa {
+	source "vesa.c"
+	source "fonts.c"
+	source "display.c"
+	
+	@NoRuntime depends embox.driver.video.vga.vga_ctrl
+}
