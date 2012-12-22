@@ -64,6 +64,7 @@
     * [TheoryMultitasking Multitasking]
     * [TheoryVirtualMemory VirtualMemory]
   * [Contributing For Developers]
+    * [ParticipationFaq Participation FAQ]
     * [Community Community]
     * [CodeStyle Code Style]
     * [EmboxArchPorting Porting Embox to a new cpu architecture]
