@@ -1,9 +1,10 @@
 
 package('embox.kernel')
 
-from string import Template
-
 def incl_trigger(scope, find_fn):
+    from string import Template
+    from pybuild.ops import *
+
     sects = find_fn('embox.arch.x86.lds.sections')
     sz = find_fn('stack.stack_size').value(scope)
     alignment = find_fn('stack.alignment').value(scope)

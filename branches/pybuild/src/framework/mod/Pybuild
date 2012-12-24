@@ -1,18 +1,6 @@
 
 package('embox.framework')
 
-tmpl = '''
-
-#include <framework/mod/embuild.h>
-
-{PKG_DEFS}
-
-{MOD_DEFS}
-
-{DEP_DEF}
-
-'''
-
 def depsinject_gen(src, mod, ctx):
     pkglist = set()
     modlist = set()
@@ -30,6 +18,19 @@ def depsinject_gen(src, mod, ctx):
 
     def bname(obj):
         return obj.qualified_name().replace(".", "__")
+
+    tmpl = '''
+
+#include <framework/mod/embuild.h>
+
+{PKG_DEFS}
+
+{MOD_DEFS}
+
+{DEP_DEF}
+
+'''
+
 
     return tmpl.format(
         PKG_DEFS='\n'.join(['MOD_PACKAGE_DEF({pkgname}, "{pkgstr}");'.

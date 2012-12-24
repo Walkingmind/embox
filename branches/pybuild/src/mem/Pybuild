@@ -2,6 +2,9 @@
 package('embox.mem')
 
 def incl_trigger(scope, find_fn):
+    from string import Template
+    from pybuild.ops import *
+
     sects = find_fn('embox.arch.x86.lds.sections')
     heap_impl = find_fn('embox.mem.heap_api').value(scope)
     page_impl = find_fn('embox.mem.page_api').value(scope)
