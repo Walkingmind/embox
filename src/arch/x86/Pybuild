@@ -1,9 +1,10 @@
 
 package('embox.arch.x86')
 
-from string import Template
 
 def embox_lds_gen(src, mod, ctx):
+    from string import Template
+
     sections = mod['sections'].value(ctx.model)
     ld = '''
 #include <asm-generic/embox.lds.h>
@@ -76,7 +77,6 @@ _mem_begin = LDS_REGION_BASE_sdram;
 _mem_length = LDS_REGION_SIZE_sdram;
 '''
 
-    print sections
     return Template(ld).substitute(
             ADDITIONAL_SECTIONS='\n'.join([sect[1] for sect in sorted(sections)]),
             align = mod['align'].value(ctx.model))
