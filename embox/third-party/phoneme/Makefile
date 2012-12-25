@@ -35,7 +35,7 @@ checkout: $(TOOLS_DIR) $(JAVACALL_DIR) $(PCSL_DIR) $(CLDC_DIR)
 TOOLS_URL = $(word 1,$(shell grep tools $(SPECFILE_TXT)))
 $(TOOLS_DIR):
 	$(AT)svn co -q $(TOOLS_URL) $@
-	
+
 $(JAVACALL_DIR) $(PCSL_DIR) $(CLDC_DIR):
 	$(AT)(cd $(PHONEME_DIR) && tools/svntools/checkout.sh $(abspath $(SPECFILE_TXT)))
 	$(AT)patch -p0 -d $(PHONEME_DIR) -N --input=$(abspath $(PATCH_TXT)) 
@@ -54,7 +54,7 @@ pcsl: javacall checkout
 		PCSL_PLATFORM=javacall_i386_gcc \
 		PCSL_OUTPUT_DIR=$(PCSL_OUTPUT_DIR) \
 		JAVACALL_OUTPUT_DIR=$(JAVACALL_OUTPUT_DIR)
-		
+
 cldc: pcsl javacall checkout
 	$(AT) \
 	(export LINK_FLAGS=$(JAVACALL_OUTPUT_DIR)/lib/libjavacall$(DEBUG_SUFFIX).a \
@@ -71,3 +71,17 @@ cldc: pcsl javacall checkout
 		JDK_DIR=$(JDK_DIR) \
 	)
 
+MIDP_DIR            := $(PHONEME_DIR)/midp
+MIDP_OUTPUT_DIR     := $(PHONEME_BUILD_DIR)/midp
+midp: cldc pcsl javacall checkout
+	$(AT)$(MAKE) -C $(MIDP_DIR)/build/javacall \
+		TOOLS_DIR=$(TOOLS_DIR) \
+		JDK_DIR=$(JDK_DIR) \
+		USE_DEBUG=$(USE_DEBUG) \
+		USE_VERBOSE_MAKE=true \
+		LD_END_GROUP=" -Xlinker --end-group " \
+		JAVACALL_OUTPUT_DIR=$(JAVACALL_OUTPUT_DIR) \
+		PCSL_OUTPUT_DIR=$(PCSL_OUTPUT_DIR) \
+		MIDP_OUTPUT_DIR=$(MIDP_OUTPUT_DIR) \
+		CLDC_DIST_DIR=$(CLDC_OUTPUT_DIR)/javacall_i386_gcc/dist \
+		JAVACALL_PLATFORM=linux_i386_gcc
