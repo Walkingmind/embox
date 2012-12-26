@@ -1,6 +1,6 @@
 
-#include('embox.kernel.softirq')
-#include('embox.arch.arm.lds')
+include('embox.kernel.softirq')
+include('embox.arch.x86.lds', {'sections' : ()})
 #include('embox.arch.arm.kernel.arch')
 #include('embox.arch.arm.cortexm3.kernel.locore')
 #include('embox.arch.system', {'core_freq' : 8000000} )
@@ -30,7 +30,6 @@
 #include('embox.init.make_term')
 
 include ('embox.kernel.stack', {'stack_size' : 1, 'alignment' : 2})
-include ('embox.arch.x86.lds')
 include ('embox.arch.x86.kernel.arch')
 include ('embox.framework.mod')
 include ('embox.driver.interrupt.i8259')
