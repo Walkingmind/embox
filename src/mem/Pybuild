@@ -6,6 +6,7 @@ def incl_trigger(scope, find_fn):
     from pybuild.ops import *
 
     sects = find_fn('embox.arch.x86.lds.sections')
+    print sects
     heap_impl = find_fn('embox.mem.heap_api').value(scope)
     page_impl = find_fn('embox.mem.page_api').value(scope)
     #sz = find_fn('stack.stack_size').value(scope)
@@ -25,8 +26,8 @@ def incl_trigger(scope, find_fn):
 '''
     out = Template(tmpl)
     new_dom = scope[sects] + [(70, out.substitute(
-        align=page_impl['page_size'].value(scope),
-        heap_size=heap_impl['heap_size'].value(scope)))]
+        align=page_impl.page_size.value(scope),
+        heap_size=heap_impl.heap_size.value(scope)))]
     return cut(scope, sects, new_dom)
 
 module (

@@ -7,7 +7,7 @@ def depsinject_gen(src, mod, ctx):
     moddeps = []
 
     for modname in ctx.modlist:
-        modlist.add(ctx.root[modname])
+        modlist.add(getattr(ctx.root, modname))
     for mod in modlist:
         pkglist.add(mod.pkg)
 
