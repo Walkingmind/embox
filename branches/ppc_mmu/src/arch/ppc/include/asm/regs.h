@@ -32,13 +32,13 @@
 /**
  * Memory Management Unit Control Register (MMUCR) definations
  */
-#define MMUCR_SWOA    0x00000000 /* store without allocate */
-#define MMUCR_U1TE    0x00000000 /* U1 transient enable */
-#define MMUCR_U2SWOAE 0x00000000 /* U2 store without allocate enable */
-#define MMUCR_DULXE   0x00000000 /* data cache unlock exception enable */
-#define MMUCR_IULXE   0x00000000 /* instruction cache unlock exception enable */
-#define MMUCR_STS     0x00000000 /* search translation space */
-#define MMUCR_STID    0x00000000 /* search translation id */
+#define MMUCR_SWOA    0x01000000 /* store without allocate */
+#define MMUCR_U1TE    0x00400000 /* U1 transient enable */
+#define MMUCR_U2SWOAE 0x00200000 /* U2 store without allocate enable */
+#define MMUCR_DULXE   0x00080000 /* data cache unlock exception enable */
+#define MMUCR_IULXE   0x00040000 /* instruction cache unlock exception enable */
+#define MMUCR_STS     0x00010000 /* search translation space */
+#define MMUCR_STID    0x000000FF /* search translation id */
 
 /**
  * Timer Control Register (TCR) definations

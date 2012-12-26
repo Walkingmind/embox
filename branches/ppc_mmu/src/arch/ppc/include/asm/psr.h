@@ -41,6 +41,18 @@ PPC_REG_GET(msr)
 PPC_REG_SET(msr)
 
 /**
+ * Save/Restore Register 0 (SRR0)
+ */
+PPC_REG_GET(srr0)
+PPC_REG_SET(srr0)
+
+/**
+ * Memory Management Unit Control Register (MMUCR)
+ */
+PPC_REG_GET(mmucr)
+PPC_REG_SET(mmucr)
+
+/**
  * Decrementer Register (DEC)
  */
 PPC_REG_GET(dec)

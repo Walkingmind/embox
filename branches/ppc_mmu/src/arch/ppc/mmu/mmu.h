@@ -11,9 +11,9 @@
 
 #include <types.h>
 
-#define __MMU_PGD_SHIFT         22
-#define __MMU_PMD_SHIFT         22
-#define __MMU_PTE_SHIFT         12
+#define __MMU_PGD_SHIFT         0
+#define __MMU_PMD_SHIFT         0
+#define __MMU_PTE_SHIFT         0
 
 typedef uint32_t __mmu_paddr_t;
 typedef uint32_t __mmu_vaddr_t;
