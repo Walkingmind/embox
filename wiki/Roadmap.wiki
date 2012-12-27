@@ -18,7 +18,7 @@ Plans:
   * Added NTP client
 
  == File System  ==
-  * Added FS ISO9006 (DCROM)
+  * Added FS ISO9660 (CDROM)
 
  == Others ==
   * Added stacktrace for x86 and SPARC architectures
