@@ -153,6 +153,7 @@ typedef u_int16_t uint16_t;
 # define UNUSED(x) x 
 #endif
 
+#include <pwd.h>
 #include "embox.h"
 
 #endif /* _INCLUDES_H_ */
