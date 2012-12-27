@@ -1,6 +1,6 @@
 = Participation FAQ =
 
-===What are desireable skill to participate in project?===
+===What are desireable skills to participate in project?===
 
 Desire to explore and learn operating systems and minimal experience in IT enough.
 
@@ -35,7 +35,6 @@ Request for code review could be created using web-interface on project page.
 
 Tests starts while system booting (you could provide runlevel). Test command allows to run tests manually.
 
-===Раньше не сталкивался с подобной системой сборки, это надстройка поверх make написанная вами?===
 ===I've never seen before such kind of build systme, does it "make" wrapper written inside this project?===
 
 Build system written on Python mostly by Eldar ((eldar.abusali...@gmail.com). You could read description in Russian here - http://habrahabr.ru/post/144935/. At the moment the system in under heavy development. New version will have more features to help us to resolve problems we met in this project.
