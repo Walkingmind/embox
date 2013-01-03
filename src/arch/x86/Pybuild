@@ -83,7 +83,7 @@ _mem_length = LDS_REGION_SIZE_sdram;
 
 module (
         "lds", 
-        #implements = 'embox.arch.lds',
+ 	implements = ['embox.arch.lds'],
 
         sources = [LDScript(Generated('embox.gen.lds.S', embox_lds_gen))],
 
@@ -92,3 +92,13 @@ module (
             Integer('align', default = 0x1000)
         ],
 )
+module(
+	'cpu',
+
+ 	implements = ['embox.arch.cpu'],
+
+  	sources = [
+		'include/asm/hal/ipl.h',
+	],
+
+) 
