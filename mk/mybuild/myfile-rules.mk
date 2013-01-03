@@ -4,19 +4,18 @@
 
 include mk/mybuild/common-rules.mk
 
+printf_escape = $(eval __TMP := $(subst $(\t),\t,$(subst $(\n),\n,$(subst \,\\,$1))))$(__TMP)
+
 # Rule: <MyFile> ::= <Package> <Imports> <Entities>
 # Args: 1..3 - Symbols in the RHS.
 define $(gold_grammar)_produce-MyFile
-	$(for root <- $(new MyFileContentRoot),
-		$(set root->name,$1)
-		$(set root->imports,$2)
-		$(set root->types,$3)
-		$(root))
+	#$(error $1$3)
+	$(shell printf $(call printf_escape,"$1$3") > $(gold_file).notready)
 endef
 
 # Rule: <Package> ::= package <QualifiedName>
 # Args: 1..2 - Symbols in the RHS.
-$(gold_grammar)_produce-Package_package  = $2
+$(gold_grammar)_produce-Package_package  = $(\n)package('$2')$(\n)
 
 # Rule: <Package> ::= 
 # Args: 1..0 - Symbols in the RHS.
@@ -32,9 +31,8 @@ $(gold_grammar)_produce-Import_import = $2
 # Rule: <AnnotatedType> ::= <Annotations> <Type>
 # Args: 1..2 - Symbols in the RHS.
 define $(gold_grammar)_produce-AnnotatedType
-	$(for target <- $2,
-		$(set+ target->annotations,$1)
-		$(target))
+	$(if $1,raise Exception('AnnotatedType not supported, do it manually')$(\n))
+	$2
 endef
 
 # Rule: <AnnotationType> ::= annotation Identifier '{' <AnnotationMembers> '}'
@@ -98,27 +96,24 @@ endef
 # Args: 1..2 - Symbols in the RHS.
 $(gold_grammar)_produce-SuperFeatures_extends = $2
 
+
+filter_n_subst = $(addprefix $(\t)$(\t),$(addsuffix $(\comma)$(\n),$(patsubst $1/%,%,$(filter $1/%,$2))))
+
+notempty_str = $(if $(strip $2),$1$2$3)
+
 # Rule: <ModuleType> ::= <ModuleModifiers> module Identifier <SuperModule> '{' <ModuleMembers> '}'
 # Args: 1..7 - Symbols in the RHS.
 define $(gold_grammar)_produce-ModuleType_module_Identifier_LBrace_RBrace
-	$(foreach module,$(new MyModuleType),
-		$(set module->name,$3)
-		$(set module->origin,$(call gold_location_of,3))
-
-		$(set module->modifiers,$1)
-
-		$(set module->superType_link,$4)
-
-		$(silent-foreach attr, \
-				sourcesMembers \
-				optionsMembers \
-				dependsMembers \
-				requiresMembers \
-				providesMembers,
-				$(set module->$(attr),
-					$(filter-patsubst $(attr)/%,%,$6)))
-		
-		$(module)
+	$(\n)
+	$(if $(filter abstract,$1),
+	interface$['$3'$(\comma)$]$(\n)$(\n),
+	module$[$(\n)
+		$(\t)'$3'$(\comma)$(\n)$(\n) \
+		$(if $(strip $4),$(\t)implements = [$4]$(\comma)$(\n)$(\n))
+		$(if $(filter static,$1),$(\t)static = True$(\comma)$(\n)$(\n)) \
+		$(call notempty_str,$(\t)options = [$(\n),$(call filter_n_subst,optionsMembers,$6),$(\t)]$(\comma)$(\n)$(\n)) \
+		$(call notempty_str,$(\t)sources = [$(\n),$(call filter_n_subst,sourcesMembers,$6),$(\t)]$(\comma)$(\n)$(\n)) \
+		$(call notempty_str,$(\t)depends = [$(\n),$(call filter_n_subst,dependsMembers,$6),$(\t)]$(\comma)$(\n)$(\n))$]
 	)
 endef
 
@@ -135,90 +130,71 @@ endef
 
 # Rule: <SuperModule> ::= extends <Reference>
 # Args: 1..2 - Symbols in the RHS.
-$(gold_grammar)_produce-SuperModule_extends = $2
+$(gold_grammar)_produce-SuperModule_extends = '$2'
+
+define rec_a 
+	$(if $(strip $1),
+		$(firstword $1)$(call rec_a,$(nofirstword $1),$2)$],
+		$2)
+endef
 
 # Rule: <AnnotatedModuleMember> ::= <Annotations> <ModuleMember>
 # Args: 1..2 - Symbols in the RHS.
 define $(gold_grammar)_produce-AnnotatedModuleMember
-	$(for target <- $2,
-		$(set target->annotations,$1)
-		$(target))
+	$(addprefix $(sort $(dir $2)),$(call rec_a,$1,$(notdir $2)))
 endef
 
 # Rule: <ModuleMember> ::= depends <ReferenceList>
 $(gold_grammar)_produce-ModuleMember_depends = \
-	$(for member <- $(new MyDependsMember),\
-		$(set member->modules_links,$2)\
-		dependsMembers/$(member))
+	$(addprefix dependsMembers/',$(addsuffix ',$2))
 
 # Rule: <ModuleMember> ::= provides <ReferenceList>
 $(gold_grammar)_produce-ModuleMember_provides = \
-	$(for member <- $(new MyProvidesMember),\
-		$(set member->features_links,$2)\
-		providesMembers/$(member))
+	$(addprefix providesMembers/,$2)
 
 # Rule: <ModuleMember> ::= requires <ReferenceList>
 $(gold_grammar)_produce-ModuleMember_requires = \
-	$(for member <- $(new MyRequiresMember),\
-		$(set member->features_links,$2)\
-		requiresMembers/$(member))
+	$(addprefix requiresMembers/,$2)
 
 # Rule: <ModuleMember> ::= source <FilenameList>
 $(gold_grammar)_produce-ModuleMember_source = \
-	$(for member <- $(new MySourceMember),\
-		$(set member->files,$2)\
-		sourcesMembers/$(member))
+	$(addprefix sourcesMembers/,$2)
 
 # Rule: <ModuleMember> ::= object <FilenameList>
 $(gold_grammar)_produce-ModuleMember_object = \
-	$(for member <- $(new MyObjectMember),\
-		$(set member->files,$2)\
-		objectsMembers/$(member))
+	$(addprefix objectsMembers/,$2)
 
 # Rule: <ModuleMember> ::= option <Option>
 # Args: 1..2 - Symbols in the RHS.
 $(gold_grammar)_produce-ModuleMember_option = \
-	$(for member <- $(new MyOptionMember),\
-		$(set member->options,$2)\
-		optionsMembers/$(member))
+	$(addprefix optionsMembers/,$2)
 
 # Rule: <Option> ::= <OptionType> Identifier <OptionDefaultValue>
 define $(gold_grammar)_produce-Option_Identifier
-	# Here $1 is a newly created instance of MyXxxOption.
-	$(for option <- $1,
-		$(set option->name,$2)
-		$(if $3,
-			$(if $(invoke option->validateValue,$3),
-				$(set option->defaultValue,$3),
-				$(call gold_report_error_at,$(call gold_location_of,3),
-					Option value has wrong type)))
-		
-		$(option))
+	$1$['$2'$(if $(strip $3), $(\comma)$3)$]
 endef
 
 # Rule: <OptionType> ::= string
-$(gold_grammar)_produce-OptionType_string  = $(new MyStringOption)
+$(gold_grammar)_produce-OptionType_string  = String
 # Rule: <OptionType> ::= number
-$(gold_grammar)_produce-OptionType_number  = $(new MyNumberOption)
+$(gold_grammar)_produce-OptionType_number  = Integer
 # Rule: <OptionType> ::= boolean
-$(gold_grammar)_produce-OptionType_boolean = $(new MyBooleanOption)
+$(gold_grammar)_produce-OptionType_boolean = Boolean
 # Rule: <OptionType> ::= <Reference>
-$(gold_grammar)_produce-OptionType         = $(new MyTypeReferenceOption,$1)
+$(gold_grammar)_produce-OptionType         = '$1'
 
 # Rule: <OptionDefaultValue> ::= '=' <Value>
-$(gold_grammar)_produce-OptionDefaultValue_Eq = $2
+$(gold_grammar)_produce-OptionDefaultValue_Eq = default=$2
 
 # Rule: <Filename> ::= StringLiteral
 # Args: 1..1 - Symbols in the RHS.
 define $(gold_grammar)_produce-Filename_StringLiteral
-	$(for file <- $(new MyFileName),
-		$(set file->fileName,$1)
-				$(file))
+	'$1'
 endef
 
 # Rule: <ReferenceList> ::= <Reference> ',' <ReferenceList>
 # Args: 1..3 - Symbols in the RHS.
-$(gold_grammar)_produce-ReferenceList_Comma = $1 $3
+$(gold_grammar)_produce-ReferenceList_Comma = $1, $3
 
 # Rule: <FilenameList> ::= <Filename> ',' <FilenameList>
 # Args: 1..3 - Symbols in the RHS.

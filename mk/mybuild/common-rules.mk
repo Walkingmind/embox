@@ -31,10 +31,7 @@
 
 # Rule: <Annotation> ::= '@' <Reference> <AnnotationInitializer>
 define $(gold_grammar)_produce-Annotation_At
-	$(for annotation <- $(new MyAnnotation),
-		$(set annotation->type_link,$2)
-		$(set annotation->bindings,$3)
-		$(annotation))
+	$2$[$(if $3,$3$(\comma))
 endef
 
 # Rule: <AnnotationInitializer> ::= '(' <ParametersList> ')'
@@ -42,40 +39,36 @@ $(gold_grammar)_produce-AnnotationInitializer_LParan_RParan = $2
 
 # Rule: <AnnotationInitializer> ::= '(' <Value> ')'
 define $(gold_grammar)_produce-AnnotationInitializer_LParan_RParan2
-	$(for binding<-$(new MyOptionBinding),
-		$(set binding->option_link,$(new ELink,value,$(gold_location)))
-		$(set binding->value,$2)
-		$(binding))
+	$2
+endef
+
+define $(gold_grammar)_produce-AnnotationInitializer
+	
 endef
 
 # Rule: <ParametersList> ::= <Parameter> ',' <ParametersList>
-$(gold_grammar)_produce-ParametersList_Comma = $1 $3
+$(gold_grammar)_produce-ParametersList_Comma = $1, $3
 
 # Rule: <Parameter> ::= <SimpleReference> '=' <Value>
 define $(gold_grammar)_produce-Parameter_Eq
-	$(for binding<-$(new MyOptionBinding),
-		$(set binding->option_link,$1)
-		$(set binding->value,$3)
-		$(binding))
+	$1 = $3
 endef
 
 # Rule: <Value> ::= StringLiteral
-$(gold_grammar)_produce-Value_StringLiteral  = $(new MyStringLiteral,$1)
+$(gold_grammar)_produce-Value_StringLiteral  = $1
 # Rule: <Value> ::= NumberLiteral
-$(gold_grammar)_produce-Value_NumberLiteral  = $(new MyNumberLiteral,$1)
+$(gold_grammar)_produce-Value_NumberLiteral  = $1
 # Rule: <Value> ::= BooleanLiteral
-$(gold_grammar)_produce-Value_BooleanLiteral = $(new MyBooleanLiteral,$1)
+$(gold_grammar)_produce-Value_BooleanLiteral = $1
 # Rule: <Value> ::= <Reference>
 define $(gold_grammar)_produce-Value 
-	$(for value<-$(new MyTypeReferenceLiteral),
-		$(set value->value_link,$1)
-		$(value))
+	$1
 endef
 
 # Rule: <Reference> ::= <QualifiedName>
-$(gold_grammar)_produce-Reference                  = $(new ELink,$1,$(gold_location))
+$(gold_grammar)_produce-Reference                  = $1
 # Rule: <SimpleReference> ::= Identifier
-$(gold_grammar)_produce-SimpleReference_Identifier = $(new ELink,$1,$(gold_location))
+$(gold_grammar)_produce-SimpleReference_Identifier = $1
 
 # <QualifiedName> ::= Identifier '.' <QualifiedName>
 $(gold_grammar)_produce-QualifiedName_Identifier_Dot         = $1.$3
