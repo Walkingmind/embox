@@ -1,0 +1,49 @@
+
+package('embox.driver.bluetooth.lego')
+
+module(
+	'usart',
+
+  	options = [
+		Type(pin,Unique(Integer('rx_pin',
+ 		,default=21))),
+ 		Type(pin,Unique(Integer('tx_pin',
+ 		,default=22))),
+ 		Type(pin,Unique(Integer('sck_pin',
+ 		,default=14))),
+ 		Type(pin,Unique(Integer('rts_pin',
+ 		,default=24))),
+ 		Type(pin,Unique(Integer('cts_pin',
+ 		,default=25))),
+ 		Type(pin,Unique(Integer('cmd_pin',
+ 		,default=27))),
+ 		Type(pin,Unique(Integer('rst_pin',
+ 		,default=11))),
+	],
+
+ 	sources = [
+		'nxt_bluetooth_usart.c',
+	],
+
+ 	depends = [
+		'embox.kernel.timer.sleep_api',
+ 		'embox.kernel.irq',
+ 		'embox.driver.gpio.at91_pins',
+	],
+
+) 
+module(
+	'blue_core',
+
+ 	implements = ['embox.driver.Bluetooth'],
+
+  	sources = [
+		'blue_core4.c',
+	],
+
+ 	depends = [
+		'usart',
+ 		'embox.lib.LibC',
+	],
+
+) 

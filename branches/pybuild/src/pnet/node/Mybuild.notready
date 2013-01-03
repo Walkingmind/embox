@@ -1,0 +1,66 @@
+
+package('embox.pnet.node')
+
+module(
+	'match',
+
+   	sources = [
+		'match.c',
+	],
+
+ 	depends = [
+		'embox.pnet.core',
+	],
+
+) 
+module(
+	'null',
+
+   	sources = [
+		'null.c',
+	],
+
+ ) 
+module(
+	'linux_dev',
+
+   	sources = [
+		'dev_linux.c',
+	],
+
+ 	depends = [
+		'embox.pnet.dev',
+ 		'embox.pnet.net_entry',
+	],
+
+) 
+module(
+	'linux_layer',
+
+   	sources = [
+		'linux_layer.c',
+	],
+
+ 	depends = [
+		'embox.pnet.pack.PnetPackSkbuff',
+ 		'embox.pnet.node.skbuff.matcher',
+ 		'linux_dev',
+	],
+
+) 
+module(
+	'info_printer',
+
+   	sources = [
+		'info_printer.c',
+	],
+
+ ) 
+module(
+	'skb_printer',
+
+   	sources = [
+		'skb_printer.c',
+	],
+
+ ) 

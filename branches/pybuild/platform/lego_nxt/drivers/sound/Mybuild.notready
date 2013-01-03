@@ -1,0 +1,15 @@
+
+package('lego_nxt.driver')
+
+module(
+	'nxt_sound',
+
+   	sources = [
+		IncludePath(./platform/lego_nxt/include,'sound.c'),
+	],
+
+ 	depends = [
+		'embox.kernel.irq',
+	],
+
+) 

@@ -1,0 +1,25 @@
+
+package('embox.xwnd')
+
+module(
+	'window_allocator',
+
+   	sources = [
+		'xwnd_window_alloc.c',
+	],
+
+ ) 
+module(
+	'window',
+
+   	sources = [
+		IncludePath(./src/compat/linux/include,IncludePath(./src/compat/posix/include,IncludePath(./src/include/drivers,'window.c'))),
+	],
+
+ 	depends = [
+		'embox.driver.video.vesadrv',
+ 		'embox.xwnd.draw_helpers',
+ 		'window_allocator',
+	],
+
+) 

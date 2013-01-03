@@ -1,0 +1,135 @@
+
+package('embox.driver.diag')
+
+interface('diag_api',)
+
+ 
+module(
+	'apbuart',
+
+ 	implements = ['diag_api'],
+
+ 	options = [
+		Integer('baud_rate'),
+	],
+
+ 	sources = [
+		'apbuart.c',
+	],
+
+ ) 
+module(
+	'at91_uart',
+
+ 	implements = ['diag_api'],
+
+ 	options = [
+		Integer('baud_rate'),
+	],
+
+ 	sources = [
+		'at91_uart.c',
+	],
+
+ ) 
+module(
+	'mem_diag',
+
+ 	implements = ['diag_api'],
+
+  	sources = [
+		'mem_diag.c',
+	],
+
+ 	depends = [
+		'embox.lib.LibC',
+	],
+
+) 
+module(
+	'no_diag',
+
+ 	implements = ['diag_api'],
+
+  	sources = [
+		'no_diag.c',
+	],
+
+ ) 
+module(
+	'i8250',
+
+ 	implements = ['diag_api'],
+
+ 	options = [
+		Integer('baud_rate'),
+	],
+
+ 	sources = [
+		'8250.c',
+	],
+
+ ) 
+module(
+	'vga',
+
+ 	implements = ['diag_api'],
+
+  	sources = [
+		'vga.c',
+	],
+
+ 	depends = [
+		'embox.driver.video.vga',
+ 		'embox.driver.keyboard',
+	],
+
+) 
+module(
+	'xuartlite',
+
+ 	implements = ['diag_api'],
+
+ 	options = [
+		Integer('xuartlite_base'),
+	],
+
+ 	sources = [
+		'xuartlite.c',
+	],
+
+ ) 
+module(
+	'stm32_usart',
+
+ 	implements = ['diag_api'],
+
+  	sources = [
+		'stm32_usart.c',
+	],
+
+ 	depends = [
+		'embox.driver.gpio.stm32',
+	],
+
+) 
+module(
+	'pic32mx_uart',
+
+ 	implements = ['diag_api'],
+
+  	sources = [
+		'pic32mx_uart.c',
+	],
+
+ ) 
+module(
+	'ns16550',
+
+ 	implements = ['diag_api'],
+
+  	sources = [
+		'ns16550.c',
+	],
+
+ ) 

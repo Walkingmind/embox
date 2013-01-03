@@ -1,0 +1,11 @@
+
+package('embox.kernel')
+
+module(
+	'critical',
+
+   	sources = [
+		'critical.c',
+	],
+
+ ) 

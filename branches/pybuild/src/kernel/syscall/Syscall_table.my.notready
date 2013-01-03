@@ -1,0 +1,11 @@
+
+package('embox.kernel.syscall')
+
+module(
+	'syscall_table',
+
+   	sources = [
+		'syscall_table.c',
+	],
+
+ ) 

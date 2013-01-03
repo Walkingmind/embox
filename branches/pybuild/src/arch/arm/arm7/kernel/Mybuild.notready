@@ -1,0 +1,44 @@
+
+package('embox.arch.arm.arm7.kernel')
+
+module(
+	'locore',
+
+ 	implements = ['embox.arch.locore'],
+
+  	sources = [
+		'exception_table.S',
+ 		'entry.S',
+	],
+
+ 	depends = [
+		'embox.arch.arm.kernel.head',
+	],
+
+) 
+module(
+	'interrupt',
+
+ 	implements = ['embox.arch.interrupt'],
+
+  	sources = [
+		'ipl_impl.h',
+	],
+
+ 	depends = [
+		'locore',
+	],
+
+) 
+module(
+	'arch',
+
+   	sources = [
+		'arch.c',
+	],
+
+ 	depends = [
+		'embox.driver.watchdog.at91_wdtc',
+	],
+
+) 

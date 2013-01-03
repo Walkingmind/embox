@@ -1,0 +1,20 @@
+
+package('embox.kernel')
+
+module(
+	'softirq',
+
+  	options = [
+		Integer('nrs_total',
+ 		,default=32),
+	],
+
+ 	sources = [
+		'softirq.c',
+	],
+
+ 	depends = [
+		NoRuntime('critical'),
+	],
+
+) 

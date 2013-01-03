@@ -1,0 +1,19 @@
+
+package('embox.cmd')
+raise Exception('AnnotatedType not supported, do it manually')
+
+module(
+	'trace_blocks',
+
+   	sources = [
+		'trace_blocks.c',
+	],
+
+ 	depends = [
+		'embox.lib.LibC',
+ 		'embox.profiler.tracing',
+ 		'embox.util.LibUtil',
+ 		'embox.framework.LibFramework',
+	],
+
+) 

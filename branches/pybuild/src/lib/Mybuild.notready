@@ -1,0 +1,215 @@
+
+package('embox.lib')
+
+module(
+	'LibElf',
+
+ 	static = True,
+
+  	sources = [
+		'elf/elf_object_list.c',
+ 		'elf/elf_object.c',
+ 		'elf/elf_header.c',
+ 		'elf/elf_sh_table.c',
+ 		'elf/elf_ph_table.c',
+ 		'elf/elf_sections.c',
+ 		'elf/elf_symbols.c',
+ 		'elf/elf_sym_table.c',
+ 		'elf/elf_sym_names.c',
+ 		'elf/elf_sym.c',
+ 		'elf/elf_rel.c',
+ 		'elf/elf_base_address.c',
+	],
+
+ ) 
+module(
+	'LibDl',
+
+ 	static = True,
+
+  	sources = [
+		'dl/dl.c',
+ 		'dl/dl_global_symbols.c',
+ 		'dl/dl_relocs.c',
+	],
+
+ 	depends = [
+		'LibElf',
+ 		'embox.arch.x86.LibDl',
+	],
+
+) 
+module(
+	'LibElfloader',
+
+ 	static = True,
+
+  	sources = [
+		'elfloader/elfloader.c',
+ 		'elfloader/elfloader_placement.c',
+	],
+
+ 	depends = [
+		'embox.mem.mmap_api',
+ 		'LibElf,',
+ 		'LibDl',
+	],
+
+) 
+module(
+	'LibCDiagnostic',
+
+ 	static = True,
+
+  	sources = [
+		'assert.c',
+	],
+
+ 	depends = [
+		'LibCStdio',
+	],
+
+) 
+module(
+	'LibCMisc',
+
+ 	static = True,
+
+  	sources = [
+		'crypt/crc32.c',
+ 		'crypt/md5.c',
+ 		'ctype/ctype.c',
+	],
+
+ ) 
+module(
+	'LibCStdlib',
+
+ 	static = True,
+
+  	sources = [
+		'stdlib/bsearch.c',
+ 		'stdlib/qsort.c',
+ 		'stdlib/rand.c',
+ 		'stdlib/strtod.c',
+ 		'stdlib/strtol.c',
+ 		'stdlib/strtoul.c',
+ 		'stdlib/abort.c',
+	],
+
+ ) 
+module(
+	'LibCString',
+
+ 	static = True,
+
+  	sources = [
+		'string/memchr.c',
+ 		'string/memcmp.c',
+ 		'string/memmove.c',
+ 		'string/memset.c',
+ 		'string/strcat.c',
+ 		'string/strchr.c',
+ 		'string/strcmp.c',
+ 		'string/strcpy.c',
+ 		'string/strcspn.c',
+ 		'string/strerror.c',
+ 		'string/strlen.c',
+ 		'string/strlwr.c',
+ 		'string/strncat.c',
+ 		'string/strncmp.c',
+ 		'string/strncpy.c',
+ 		'string/strpbrk.c',
+ 		'string/strrchr.c',
+ 		'string/strspn.c',
+ 		'string/strstr.c',
+ 		'string/strupr.c',
+	],
+
+ ) 
+module(
+	'LibCMath',
+
+ 	static = True,
+
+  	sources = [
+		'math/floor.c',
+ 		'math/pow.c',
+ 		'math/div.c',
+ 		'math/ldiv.c',
+ 		'math/blog2.c',
+ 		'math/sqrt.c',
+ 		'soft-fp/df3.c',
+ 		'soft-fp/sf3.c',
+ 		'soft-fp/softfloat.c',
+ 		'soft-fp/softfloat-macros.c',
+ 		'soft-fp/softfloat-spec.c',
+ 		'gcc/clzsi2.c',
+ 		'gcc/lshrdi3.c',
+ 		'gcc/divdi3.c',
+ 		'gcc/divsi3.c',
+ 		'gcc/moddi3.c',
+ 		'gcc/modsi3.c',
+ 		'gcc/udivdi3.c',
+ 		'gcc/udivsi3.c',
+ 		'gcc/umoddi3.c',
+ 		'gcc/umodsi3.c',
+ 		'gcc/muldi3.c',
+	],
+
+ ) 
+module(
+	'LibCStdio',
+
+ 	static = True,
+
+ 	options = [
+		Boolean('stdio_lf_crlf_map',
+ 		,default=1),
+ 		Integer('file_quantity',
+ 		,default=16),
+	],
+
+ 	sources = [
+		'stdio/file_ops.c',
+ 		'stdio/fgetc.c',
+ 		'stdio/fputc.c',
+ 		'stdio/gets.c',
+ 		'stdio/sprintf.c',
+ 		'stdio/printf.c',
+ 		'stdio/printf_impl.c',
+ 		'stdio/printk.c',
+ 		'stdio/puts.c',
+ 		'stdio/scanf.c',
+ 		'stdio/perror.c',
+	],
+
+ 	depends = [
+		'LibCMath',
+ 		'LibCString',
+ 		'embox.compat.posix.file',
+	],
+
+) 
+module(
+	'LibC',
+
+ 	static = True,
+
+  	sources = [
+		'time/ctime.c',
+ 		'time/strftime.c',
+ 		'shell/tokenizer.c',
+ 		'readline/readline.c',
+	],
+
+ 	depends = [
+		'LibCDiagnostic',
+ 		'LibCMisc',
+ 		'LibCStdlib',
+ 		'LibCString',
+ 		'LibCMath',
+ 		'LibCStdio',
+	],
+
+) 

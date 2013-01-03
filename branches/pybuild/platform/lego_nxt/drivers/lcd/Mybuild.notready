@@ -1,0 +1,26 @@
+
+package('lego_nxt.driver')
+
+module(
+	'nxt_lcd',
+
+   	sources = [
+		'../../lib/IncludePath(./platform/lego_nxt/include,'nxt_lcd.c',
+ 		'../../lib/display.c'),
+	],
+
+ ) 
+module(
+	'nxt_diag_lcd',
+
+ 	implements = ['embox.driver.diag.diag_api'],
+
+  	sources = [
+		IncludePath(./platform/lego_nxt/include,'diag.c'),
+	],
+
+ 	depends = [
+		'lego_nxt.driver.nxt_lcd',
+	],
+
+) 

@@ -1,0 +1,17 @@
+
+package('embox.example.fs')
+
+module(
+	'devfs',
+
+   	sources = [
+		'devfs.c',
+	],
+
+ 	depends = [
+		'embox.lib.LibC',
+ 		'embox.compat.posix.LibPosix',
+ 		'embox.framework.LibFramework',
+	],
+
+) 

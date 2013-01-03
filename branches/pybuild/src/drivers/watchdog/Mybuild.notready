@@ -1,0 +1,11 @@
+
+package('embox.driver.watchdog')
+
+module(
+	'at91_wdtc',
+
+   	sources = [
+		'at91_wdtc.c',
+	],
+
+ ) 

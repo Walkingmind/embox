@@ -1,0 +1,15 @@
+
+package('embox.framework.net')
+
+module(
+	'proto',
+
+   	sources = [
+		DefineMacro(__FRAMEWORK__,'core.c'),
+	],
+
+ 	depends = [
+		'embox.prom.printf',
+	],
+
+) 

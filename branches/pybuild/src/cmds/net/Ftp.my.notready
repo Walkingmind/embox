@@ -1,0 +1,25 @@
+
+package('embox.cmd.net')
+raise Exception('AnnotatedType not supported, do it manually')
+
+module(
+	'ftp',
+
+  	options = [
+		Integer('cmd_buff_sz',
+ 		,default=128),
+ 		Integer('data_buff_sz',
+ 		,default=1024),
+	],
+
+ 	sources = [
+		'ftp.c',
+	],
+
+ 	depends = [
+		'embox.lib.LibC',
+ 		'embox.net.socket',
+ 		'embox.framework.LibFramework',
+	],
+
+) 

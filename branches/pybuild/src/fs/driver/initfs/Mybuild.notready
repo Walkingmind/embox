@@ -1,0 +1,24 @@
+
+package('embox.fs.driver')
+
+module(
+	'initfs',
+
+  	options = [
+		Integer('fdesc_quantity',
+ 		,default=32),
+	],
+
+ 	sources = [
+		'cpio.c',
+ 		'initfs_drv.c',
+ 		'initfs_cpio.S',
+ 		'initfs_lds.lds.S',
+	],
+
+ 	depends = [
+		'embox.fs.core',
+ 		'embox.mem.pool',
+	],
+
+) 

@@ -1,0 +1,31 @@
+
+package('embox.prom')
+
+interface('printf',)
+
+ 
+module(
+	'prom_printf',
+
+ 	implements = ['printf'],
+
+  	sources = [
+		'prom_printf.c',
+ 		'prom_printf.h',
+	],
+
+ 	depends = [
+		'embox.driver.diag.diag_api',
+	],
+
+) 
+module(
+	'noprom_printf',
+
+ 	implements = ['printf'],
+
+  	sources = [
+		'noprom_printf.h',
+	],
+
+ ) 

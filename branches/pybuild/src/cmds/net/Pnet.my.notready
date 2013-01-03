@@ -1,0 +1,24 @@
+
+package('embox.cmd.net')
+raise Exception('AnnotatedType not supported, do it manually')
+
+module(
+	'pnet',
+
+   	sources = [
+		IncludePath(./src/compat/linux/include,IncludePath(./src/compat/posix/include,'pnet.c')),
+	],
+
+ 	depends = [
+		'embox.lib.LibC',
+ 		'embox.pnet.core',
+ 		'embox.pnet.node.linux_dev',
+ 		'embox.mem.heap_api',
+ 		'embox.pnet.node.skbuff.matcher',
+ 		'embox.net.util',
+ 		'embox.compat.posix.LibPosix',
+ 		'embox.net.dev',
+ 		'embox.framework.LibFramework',
+	],
+
+) 

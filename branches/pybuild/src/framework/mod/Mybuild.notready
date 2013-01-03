@@ -1,0 +1,12 @@
+
+package('embox.framework')
+
+module(
+	'mod',
+
+   	sources = [
+		DefineMacro(__FRAMEWORK__,'core.c'),
+ 		DefineMacro(__EMBUILD__,Generated(script=make-fmk/script/c-runtime-inject.mk,'depsinject.c')))))),
+	],
+
+ ) 

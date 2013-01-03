@@ -1,0 +1,18 @@
+
+package('embox.cmd')
+raise Exception('AnnotatedType not supported, do it manually')
+
+module(
+	'example',
+
+   	sources = [
+		'example.c',
+	],
+
+ 	depends = [
+		'embox.lib.LibC',
+ 		'embox.compat.posix.util.getopt',
+ 		'embox.framework.LibFramework',
+	],
+
+) 

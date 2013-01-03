@@ -1,0 +1,17 @@
+
+package('embox.xwnd')
+
+module(
+	'fonts',
+
+   	sources = [
+		IncludePath(./src/compat/linux/include,IncludePath(./src/compat/posix/include,IncludePath(./src/include/drivers,'fonts.c'))),
+	],
+
+ 	depends = [
+		'embox.lib.LibC',
+ 		'embox.driver.video.vesadrv',
+ 		'embox.xwnd.draw_helpers',
+	],
+
+) 
