@@ -1,0 +1,11 @@
+
+package('embox.pnet.pack')
+
+module(
+	'PnetPackSimple',
+
+   	sources = [
+		'pack_alone.c',
+	],
+
+ ) 

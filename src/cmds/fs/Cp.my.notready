@@ -1,0 +1,18 @@
+
+package('embox.cmd.fs')
+raise Exception('AnnotatedType not supported, do it manually')
+
+module(
+	'cp',
+
+   	sources = [
+		'cp.c',
+	],
+
+ 	depends = [
+		'embox.lib.LibC',
+ 		'embox.compat.posix.LibPosix',
+ 		'embox.framework.LibFramework',
+	],
+
+) 

@@ -1,0 +1,11 @@
+
+package('embox.pnet.pack')
+
+module(
+	'PnetPackFactory',
+
+   	sources = [
+		'pnet_pack_factory.c',
+	],
+
+ ) 

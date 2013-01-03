@@ -1,0 +1,74 @@
+
+package('embox.pnet')
+
+module(
+	'core',
+
+   	sources = [
+		'node.c',
+ 		'repo.c',
+ 		'graph.c',
+	],
+
+ 	depends = [
+		'prior_path',
+ 		'pack.PnetPackFactory',
+	],
+
+) 
+module(
+	'dev',
+
+   	sources = [
+		'dev.c',
+	],
+
+ 	depends = [
+		'embox.pnet.node.null',
+ 		'embox.pnet.net_entry',
+	],
+
+) 
+module(
+	'prior_path',
+
+   	sources = [
+		'prior_path.c',
+	],
+
+ ) 
+interface('rx_worker_api',)
+
+ 
+module(
+	'rx_thread',
+
+ 	implements = ['rx_worker_api'],
+
+ 	options = [
+		Integer('pnet_priority_count',
+ 		,default=4),
+	],
+
+ 	sources = [
+		'rx_thread.c',
+ 		'process.c',
+	],
+
+ 	depends = [
+		'embox.kernel.thread.core',
+ 		'embox.kernel.thread.event',
+	],
+
+) 
+module(
+	'rx_simple',
+
+ 	implements = ['rx_worker_api'],
+
+  	sources = [
+		'rx_simple.c',
+ 		'process.c',
+	],
+
+ ) 

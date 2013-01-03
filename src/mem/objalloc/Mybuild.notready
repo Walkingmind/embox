@@ -1,0 +1,36 @@
+
+package('embox.mem')
+
+interface('objalloc',)
+
+ 
+module(
+	'pool_adapter',
+
+ 	implements = ['objalloc'],
+
+  	sources = [
+		IncludePath(./src/compat/posix/include,'pool_adapter.c',
+ 		'pool_adapter.h'),
+	],
+
+ 	depends = [
+		'embox.mem.pool',
+	],
+
+) 
+module(
+	'slab_adapter',
+
+ 	implements = ['objalloc'],
+
+  	sources = [
+		IncludePath(./src/compat/posix/include,'slab_adapter.c',
+ 		'slab_adapter.h'),
+	],
+
+ 	depends = [
+		'embox.mem.slab',
+	],
+
+) 

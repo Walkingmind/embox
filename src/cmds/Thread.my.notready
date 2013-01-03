@@ -1,0 +1,20 @@
+
+package('embox.cmd')
+raise Exception('AnnotatedType not supported, do it manually')
+
+module(
+	'thread',
+
+   	sources = [
+		'thread.c',
+	],
+
+ 	depends = [
+		'embox.lib.LibC',
+ 		'embox.kernel.thread.core',
+ 		'embox.kernel.thread.sched',
+ 		'embox.compat.posix.util.getopt',
+ 		'embox.framework.LibFramework',
+	],
+
+) 

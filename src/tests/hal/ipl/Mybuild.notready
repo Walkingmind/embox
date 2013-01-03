@@ -1,0 +1,17 @@
+
+package('embox.test.hal')
+
+module(
+	'ipl_test',
+
+   	sources = [
+		'ipl_test.c',
+	],
+
+ 	depends = [
+		'embox.kernel.irq',
+ 		'embox.arch.interrupt',
+ 		'embox.framework.LibFramework',
+	],
+
+) 

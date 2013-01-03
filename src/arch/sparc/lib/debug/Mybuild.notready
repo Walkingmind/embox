@@ -1,0 +1,14 @@
+
+package('embox.arch.sparc')
+
+module(
+	'stackframe',
+
+ 	implements = ['embox.arch.stackframe'],
+
+  	sources = [
+		'stack_iter.h',
+ 		'stack_iter.c',
+	],
+
+ ) 

@@ -1,0 +1,26 @@
+
+package('embox.driver.lcd')
+
+module(
+	'hd44780',
+
+  	options = [
+		String('control_port'),
+ 		Integer('reg_select_pin'),
+ 		Integer('rw_pin'),
+ 		Integer('clock_pin'),
+ 		String('data_port'),
+ 		Integer('data_pins_offset'),
+ 		Integer('line_n'),
+ 		Integer('line_width'),
+	],
+
+ 	sources = [
+		'hd44780.c',
+	],
+
+ 	depends = [
+		'embox.driver.gpio.api',
+	],
+
+) 

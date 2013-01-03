@@ -1,0 +1,15 @@
+
+package('embox.example.kernel.time')
+
+module(
+	'itimer',
+
+   	sources = [
+		'itimer.c',
+	],
+
+ 	depends = [
+		'embox.framework.LibFramework',
+	],
+
+) 

@@ -1,0 +1,31 @@
+
+package('embox.pnet')
+
+module(
+	'pnet_entry',
+
+   	sources = [
+		IncludePath(./src/compat/linux/include,IncludePath(./src/compat/posix/include,'pnet_entry.c')),
+	],
+
+ 	depends = [
+		'embox.pnet.core',
+	],
+
+) 
+module(
+	'net_entry',
+
+ 	implements = ['embox.net.entry_api'],
+
+  	sources = [
+		IncludePath(./src/compat/linux/include,IncludePath(./src/compat/posix/include,'net_entry.c')),
+	],
+
+ 	depends = [
+		'embox.pnet.core,',
+ 		'pnet_entry,',
+ 		'embox.kernel.softirq',
+	],
+
+) 

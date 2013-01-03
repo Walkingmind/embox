@@ -1,0 +1,14 @@
+
+package('embox.arch.sparc')
+
+module(
+	'mmu',
+
+ 	implements = ['embox.arch.mmu'],
+
+  	sources = [
+		'mmu.c',
+ 		'mmu.h',
+	],
+
+ ) 

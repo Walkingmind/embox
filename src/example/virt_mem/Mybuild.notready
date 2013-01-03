@@ -1,0 +1,18 @@
+
+package('embox.example.vmem')
+
+module(
+	'mmuprobe',
+
+   	sources = [
+		'mmu_probe.c',
+	],
+
+ 	depends = [
+		'embox.mem.vmem',
+ 		'embox.lib.LibC',
+ 		'embox.compat.posix.util.getopt',
+ 		'embox.framework.LibFramework',
+	],
+
+) 

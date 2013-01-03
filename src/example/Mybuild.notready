@@ -1,0 +1,16 @@
+
+package('embox.example')
+
+module(
+	'hello',
+
+   	sources = [
+		'hello.c',
+	],
+
+ 	depends = [
+		'embox.lib.LibC',
+ 		'embox.framework.LibFramework',
+	],
+
+) 

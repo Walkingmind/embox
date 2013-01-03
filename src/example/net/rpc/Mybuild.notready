@@ -1,0 +1,15 @@
+
+package('embox.example.net.rpc')
+
+module(
+	'msg_clnt',
+
+   	sources = [
+		'msg_clnt.c',
+	],
+
+ 	depends = [
+		'embox.net.rpc',
+	],
+
+) 

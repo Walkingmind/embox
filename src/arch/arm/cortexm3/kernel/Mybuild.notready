@@ -1,0 +1,36 @@
+
+package('embox.arch.arm.cortexm3.kernel')
+
+module(
+	'locore',
+
+ 	implements = ['embox.arch.locore'],
+
+  	sources = [
+		'exception_table.S',
+	],
+
+ 	depends = [
+		'embox.arch.arm.kernel.head',
+ 		'embox.arch.arm.cortexm3.cpu',
+	],
+
+) 
+module(
+	'interrupt',
+
+ 	implements = ['embox.arch.interrupt'],
+
+  	sources = [
+		'ipl_impl.h',
+	],
+
+ 	depends = [
+		'locore',
+	],
+
+) 
+module(
+	'arch',
+
+    ) 

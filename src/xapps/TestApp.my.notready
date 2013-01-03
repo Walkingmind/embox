@@ -1,0 +1,18 @@
+
+package('embox.xwnd')
+
+module(
+	'test_app',
+
+   	sources = [
+		IncludePath(./src/compat/linux/include,IncludePath(./src/compat/posix/include,IncludePath(./src/include/drivers,'test_app.c'))),
+	],
+
+ 	depends = [
+		'embox.lib.LibC',
+ 		'embox.xwnd.bmp',
+ 		'embox.xwnd.xwndapp',
+ 		'embox.xwnd.fonts',
+	],
+
+) 

@@ -1,0 +1,18 @@
+
+package('embox.example.net')
+
+module(
+	'loopback',
+
+   	sources = [
+		'loopback.c',
+	],
+
+ 	depends = [
+		'embox.net.socket',
+ 		'embox.lib.LibC',
+ 		'embox.compat.posix.LibPosix',
+ 		'embox.framework.LibFramework',
+	],
+
+) 

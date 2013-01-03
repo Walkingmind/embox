@@ -1,0 +1,23 @@
+
+package('embox.cmd')
+raise Exception('AnnotatedType not supported, do it manually')
+
+module(
+	'xwnd',
+
+   	sources = [
+		IncludePath(./src/compat/linux/include,IncludePath(./src/compat/posix/include,IncludePath(./src/include/drivers,'xwnd.c'))),
+	],
+
+ 	depends = [
+		'embox.lib.LibC',
+ 		'embox.driver.video.vesadrv',
+ 		'embox.xwnd.app_registry',
+ 		'embox.xwnd.bmp',
+ 		'embox.xwnd.draw_helpers',
+ 		'embox.xwnd.xwndapp',
+ 		'embox.xwnd.term',
+ 		'embox.xwnd.unit_test',
+	],
+
+) 

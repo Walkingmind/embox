@@ -1,0 +1,16 @@
+
+package('embox.net')
+
+module(
+	'util',
+
+   	sources = [
+		'inet_addr.c',
+ 		'misc.c',
+	],
+
+ 	depends = [
+		'embox.lib.LibC',
+	],
+
+) 

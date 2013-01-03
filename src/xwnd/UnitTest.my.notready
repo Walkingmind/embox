@@ -1,0 +1,15 @@
+
+package('embox.xwnd')
+
+module(
+	'unit_test',
+
+   	sources = [
+		IncludePath(./src/compat/linux/include,IncludePath(./src/compat/posix/include,IncludePath(./src/include/drivers,'unit_test.c'))),
+	],
+
+ 	depends = [
+		'embox.lib.LibC',
+	],
+
+) 

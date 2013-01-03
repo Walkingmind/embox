@@ -1,0 +1,55 @@
+
+package('embox.arch.ppc.kernel')
+
+module(
+	'boot',
+
+ 	implements = ['embox.arch.boot'],
+
+  	sources = [
+		'boot.S',
+	],
+
+ ) 
+module(
+	'context',
+
+ 	implements = ['embox.arch.context'],
+
+  	sources = [
+		'context.c',
+ 		'context_switch.S',
+ 		'context.h',
+	],
+
+ ) 
+module(
+	'locore',
+
+ 	implements = ['embox.arch.locore'],
+
+  	sources = [
+		'exception_table.S',
+ 		'entry.S',
+ 		'trap_handle.c',
+	],
+
+ ) 
+module(
+	'interrupt',
+
+ 	implements = ['embox.arch.interrupt'],
+
+  	sources = [
+		'ipl_impl.h',
+	],
+
+ ) 
+module(
+	'arch',
+
+   	sources = [
+		'arch.c',
+	],
+
+ ) 

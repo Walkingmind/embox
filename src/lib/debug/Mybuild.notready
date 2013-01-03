@@ -1,0 +1,43 @@
+
+package('embox.lib.debug')
+
+module(
+	'Symbol',
+
+ 	static = True,
+
+  	sources = [
+		'symbol.c',
+	],
+
+ ) raise Exception('AnnotatedType not supported, do it manually')
+
+interface('backtrace_api',)
+
+ 
+module(
+	'Backtrace',
+
+ 	implements = ['backtrace_api'],
+
+  	sources = [
+		'backtrace.c',
+ 		'backtrace.h',
+	],
+
+ 	depends = [
+		'embox.arch.stackframe',
+ 		'embox.lib.debug.Symbol',
+	],
+
+) 
+module(
+	'Nobacktrace',
+
+ 	implements = ['backtrace_api'],
+
+  	sources = [
+		'nobacktrace.h',
+	],
+
+ ) 

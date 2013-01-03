@@ -1,0 +1,23 @@
+
+package('embox.arch.x86')
+
+module(
+	'lds',
+
+ 	implements = ['embox.arch.lds'],
+
+  	sources = [
+		'embox.lds.S',
+	],
+
+ ) 
+module(
+	'cpu',
+
+ 	implements = ['embox.arch.cpu'],
+
+  	sources = [
+		'include/asm/hal/ipl.h',
+	],
+
+ ) 

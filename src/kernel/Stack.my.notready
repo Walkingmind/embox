@@ -1,0 +1,18 @@
+
+package('embox.kernel')
+
+module(
+	'stack',
+
+  	options = [
+		Integer('stack_size',
+ 		,default=65536),
+ 		Integer('alignment',
+ 		,default=4096),
+	],
+
+ 	sources = [
+		'stack.lds.S',
+	],
+
+ ) 

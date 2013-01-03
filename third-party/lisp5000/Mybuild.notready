@@ -1,0 +1,19 @@
+
+package('third_party.lisp')
+
+module(
+	'lisp5000',
+
+   	sources = [
+		'lisp500.c',
+ 		InitFS('init500lite.lisp',
+ 		'fib.lisp'),
+	],
+
+ 	depends = [
+		'embox.mem.heap_api',
+ 		'embox.arch.libarch',
+ 		'embox.lib.LibC',
+	],
+
+) 

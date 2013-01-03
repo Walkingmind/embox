@@ -1,0 +1,11 @@
+
+package('embox.arch.x86.test')
+
+module(
+	'testtrap',
+
+   	sources = [
+		'testtraps_core.c',
+	],
+
+ ) 

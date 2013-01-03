@@ -1,0 +1,16 @@
+
+package('embox.test.profiler.tracing')
+
+module(
+	'trace_test',
+
+   	sources = [
+		'trace_test.c',
+	],
+
+ 	depends = [
+		'embox.profiler.tracing',
+ 		'embox.framework.LibFramework',
+	],
+
+) 
