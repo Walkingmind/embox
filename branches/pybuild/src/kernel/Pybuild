@@ -1,19 +1,20 @@
 #/*FIXME mybuild libarch is bad packet*/
 package ('embox.kernel')
 
-#@Mandatory
 module (
     "kernel",
+    
+    mandatory = True,
 
     sources = ["init.c"],
 
     depends = [
         'embox.kernel.stack',
-        'embox.driver.diag.diag_api'
+        'embox.driver.diag.diag_api',
+	'embox.arch.libarch',
+	'embox.arch.locore',
+	'embox.arch.cpu',
+        'embox.driver.diag.diag_api',
     ]
     
-    #depends embox.arch.libarch
-    #depends embox.arch.locore
-    #depends embox.arch.cpu
-    #depends embox.driver.diag.diag_api
 )
