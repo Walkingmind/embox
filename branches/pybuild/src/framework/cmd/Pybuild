@@ -5,7 +5,8 @@ module(
 	'cmd',
 
    	sources = [
-		DefineMacro(__FRAMEWORK__,'core.c'),
+		DefMacro(['__FRAMEWORK__'],
+                    ['core.c']),
 	],
 
  	depends = [

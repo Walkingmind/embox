@@ -1,15 +1,15 @@
 
 package('embox.framework')
 
-#library(
-    #'LibFrameworkNet',
-    #depends = ['net,pack', 'net.proto', 'net.sock']
-#)
+library(
+    'LibFrameworkNet',
+    depends = ['net.pack', 'net.proto', 'net.sock']
+)
 
-#library(
-    #'LibFramework',
-    #depends = ['cmd', 'example', 'mod', 'service', 'test', 'runlevel']
-#)
+library(
+    'LibFramework',
+    depends = ['cmd', 'example', 'mod', 'service', 'test', 'runlevel']
+)
 
 module (
     'runlevel',
@@ -18,9 +18,10 @@ module (
             ["runlevel.c", "unit.c"])
         ],
 
-    #depends = ['mod', 
-        #'embox.prom.printf',
-        #'embox.lib.LibC',
-    #],
+    depends = [
+        'mod', 
+        'embox.prom.printf',
+        'embox.lib.LibC',
+    ],
 )
 
