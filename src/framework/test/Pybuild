@@ -5,9 +5,11 @@ module(
 	'test',
 
    	sources = [
-		DefineMacro(__FRAMEWORK__,'emit.c',
- 		'registry.c',
- 		'run.c'),
+		DefMacro(['__FRAMEWORK__'], [
+                    'emit.c',
+                    'registry.c',
+                    'run.c',
+                ]),
 	],
 
  	depends = [

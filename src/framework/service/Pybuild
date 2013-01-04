@@ -5,7 +5,8 @@ module(
 	'service',
 
    	sources = [
-		DefineMacro(__FRAMEWORK__,'callback.c'),
+		DefMacro(['__FRAMEWORK__'],
+                    ['callback.c']),
 	],
 
  ) 

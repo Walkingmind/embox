@@ -2,10 +2,11 @@
 package('embox.framework.net')
 
 module(
-	'pack',
+	'proto',
 
    	sources = [
-		DefineMacro(__FRAMEWORK__,'core.c'),
+		DefMacro(['__FRAMEWORK__'],
+                    ['core.c']),
 	],
 
  	depends = [
