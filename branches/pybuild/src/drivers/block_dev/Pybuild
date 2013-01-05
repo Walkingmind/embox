@@ -5,8 +5,7 @@ module(
 	'block',
 
   	options = [
-		Integer('dev_quantity',
- 		,default=16),
+		Integer('dev_quantity', default=16),
 	],
 
  	sources = [

@@ -5,8 +5,7 @@ module(
 	'pci',
 
   	options = [
-		Integer('dev_quantity',
- 		,default=32),
+		Integer('dev_quantity', default=32),
 	],
 
  	sources = [

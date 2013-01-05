@@ -5,8 +5,7 @@ module(
 	'ramdisk',
 
   	options = [
-		Integer('ramdisk_quantity',
- 		,default=4),
+		Integer('ramdisk_quantity', default=4),
 	],
 
  	sources = [

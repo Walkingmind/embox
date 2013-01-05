@@ -22,10 +22,8 @@ module(
  	implements = ['embox.arch.clock'],
 
  	options = [
-		Integer('gptimer_base',
- 		,default=2147484416),
- 		Integer('irq_num',
- 		,default=8),
+		Integer('gptimer_base', default=2147484416),
+ 		Integer('irq_num', default=8),
 	],
 
  	sources = [

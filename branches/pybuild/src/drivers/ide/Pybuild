@@ -5,8 +5,7 @@ module(
 	'ide',
 
   	options = [
-		Integer('dev_quantity',
- 		,default=4),
+		Integer('dev_quantity', default=4),
 	],
 
  	sources = [

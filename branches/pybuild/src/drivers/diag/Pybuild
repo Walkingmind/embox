@@ -59,8 +59,8 @@ module (
     sources = ["vga.c"],
 
     depends = [
-	#'embox.driver.video.vga',
-	#'embox.driver.keyboard'
+	'embox.driver.video.vga',
+	'embox.driver.keyboard'
     ]
 )
 

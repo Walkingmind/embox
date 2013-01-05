@@ -5,14 +5,12 @@ module(
 	'core',
 
   	options = [
-		Integer('thread_stack_size',
- 		,default=8192),
- 		Integer('thread_pool_size',
- 		,default=16),
+		Integer('thread_stack_size', default=8192),
+ 		Integer('thread_pool_size', default=16),
 	],
 
  	sources = [
-		IncludePath(./src/compat/posix/include,'core.c'),
+		IncludePath('src/compat/posix/include','core.c'),
 	],
 
  	depends = [
@@ -27,8 +25,10 @@ module(
 	'sched',
 
    	sources = [
-		IncludePath(./src/compat/posix/include,'sched.c',
- 		'startq.c'),
+		IncludePath('src/compat/posix/include', [
+                    'sched.c',
+                    'startq.c'
+                ]),
 	],
 
  	depends = [

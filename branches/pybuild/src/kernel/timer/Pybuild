@@ -65,7 +65,7 @@ module(
 
  	depends = [
 		'timer_api',
- 		'embox.kernel.thread.core,',
+ 		'embox.kernel.thread.core',
  		'embox.kernel.thread.event',
 	],
 
