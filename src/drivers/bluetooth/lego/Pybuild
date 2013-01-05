@@ -1,0 +1,43 @@
+
+package('embox.driver.bluetooth.lego')
+
+module(
+	'usart',
+
+        #TODO Type & Uniqeu restore
+  	options = [
+		Integer('rx_pin',  default=21),
+ 		Integer('tx_pin',  default=22),
+ 		Integer('sck_pin', default=14),
+ 		Integer('rts_pin', default=24),
+ 		Integer('cts_pin', default=25),
+ 		Integer('cmd_pin', default=27),
+ 		Integer('rst_pin', default=11),
+	],
+
+ 	sources = [
+		'nxt_bluetooth_usart.c',
+	],
+
+ 	depends = [
+		'embox.kernel.timer.sleep_api',
+ 		'embox.kernel.irq',
+ 		'embox.driver.gpio.at91_pins',
+	],
+
+) 
+module(
+	'blue_core',
+
+ 	implements = ['embox.driver.Bluetooth'],
+
+  	sources = [
+		'blue_core4.c',
+	],
+
+ 	depends = [
+		'usart',
+ 		'embox.lib.LibC',
+	],
+
+) 

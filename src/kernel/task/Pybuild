@@ -1,8 +1,7 @@
 
 package('embox.kernel.task')
-raise Exception('AnnotatedType not supported, do it manually')
 
-interface('api',)
+interface('api', default = 'single')
 
  
 module(
@@ -23,8 +22,7 @@ module(
  	implements = ['api'],
 
  	options = [
-		Integer('tasks_quantity',
- 		,default=20),
+		Integer('tasks_quantity', default=20),
 	],
 
  	sources = [
@@ -54,7 +52,7 @@ module(
 	'std_signal',
 
    	sources = [
-		IncludePath(./src/compat/posix/include,'std_signal.c'),
+		IncludePath('src/compat/posix/include','std_signal.c'),
 	],
 
  	depends = [
@@ -66,7 +64,7 @@ module(
 	'rt_signal',
 
    	sources = [
-		IncludePath(./src/compat/posix/include,'rt_signal.c'),
+		IncludePath('src/compat/posix/include','rt_signal.c'),
 	],
 
  	depends = [
@@ -89,7 +87,7 @@ module(
  	implements = ['api'],
 
   	sources = [
-		IncludePath(./src/compat/posix/include,'single.c'),
+		IncludePath('src/compat/posix/include','single.c'),
 	],
 
  	depends = [
@@ -103,8 +101,7 @@ module(
  	implements = ['task_environment'],
 
  	options = [
-		Integer('task_res_quantity',
- 		,default=64),
+		Integer('task_res_quantity', default=64),
 	],
 
  	sources = [

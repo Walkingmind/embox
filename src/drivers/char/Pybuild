@@ -5,7 +5,8 @@ module(
 	'terminal',
 
    	sources = [
-		IncludePath(./src/compat/posix/include,'terminal.c'),
+		IncludePath(['src/compat/posix/include'],
+                    'terminal.c'),
  		'vtbuild.c',
  		'vtparse.c',
  		'vtparse_state.c',

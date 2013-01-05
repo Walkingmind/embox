@@ -40,10 +40,8 @@ module(
 	'hashtable',
 
   	options = [
-		Integer('hashtables_quantity',
- 		,default=16),
- 		Integer('item_quntity',
- 		,default=64),
+		Integer('hashtables_quantity', default=16),
+ 		Integer('item_quntity', default=64),
 	],
 
  	sources = [
@@ -56,10 +54,9 @@ module(
  		'embox.mem.objalloc',
 	],
 
-) raise Exception('AnnotatedType not supported, do it manually')
+) 
 
-interface('num_alloc',)
-
+interface('num_alloc', default = 'num_alloc_array')
  
 module(
 	'num_alloc_array',
@@ -71,7 +68,8 @@ module(
  		'num_alloc_array.h',
 	],
 
- ) 
+)
+ 
 module(
 	'idx_table',
 
@@ -80,6 +78,7 @@ module(
 	],
 
 ) 
+
 module(
 	'indexator',
 

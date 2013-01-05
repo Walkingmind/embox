@@ -1,8 +1,7 @@
 
 package('embox.driver.video')
 
-interface('vesa',)
-
+interface('vesa')
  
 module(
 	'vesadrv',

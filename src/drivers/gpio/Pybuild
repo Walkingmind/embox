@@ -1,11 +1,9 @@
 
 package('embox.driver.gpio')
 
-interface('pins',)
-
+interface('pins')
  
-interface('api',)
-
+interface('api')
  
 module(
 	'at91_pins',
@@ -22,6 +20,7 @@ module(
 	],
 
 ) 
+
 module(
 	'rdc_gpio',
 
@@ -32,7 +31,8 @@ module(
  		'rdc_gpio.h',
 	],
 
- ) 
+) 
+
 module(
 	'stm32',
 
@@ -43,4 +43,4 @@ module(
  		'stm32_gpio.h',
 	],
 
- ) 
+) 

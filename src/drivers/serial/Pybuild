@@ -11,10 +11,8 @@ module(
 
  	options = [
 		Integer('baud_rate'),
- 		Integer('apbuart_base',
- 		,default=2147483904),
- 		Integer('irq_num',
- 		,default=2),
+ 		Integer('apbuart_base', default=2147483904),
+ 		Integer('irq_num', default=2),
 	],
 
  	sources = [
@@ -52,7 +50,8 @@ module(
 	],
 
  	sources = [
-		IncludePath(./src/compat/posix/include,'8250.c'),
+		IncludePath(['src/compat/posix/include'],
+                    '8250.c'),
 	],
 
  	depends = [

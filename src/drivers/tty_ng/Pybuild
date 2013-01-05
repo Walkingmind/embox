@@ -5,7 +5,9 @@ module(
 	'core',
 
    	sources = [
-		IncludePath(./third-party/include/,IncludePath(./src/compat/posix/include,'tty_ng.c')),
+		IncludePath(['third-party/include/', 
+                        'src/compat/posix/include'],
+                    'tty_ng.c'),
 	],
 
  	depends = [
