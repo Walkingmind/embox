@@ -13,14 +13,15 @@ module(
  		'snmp_mib',
 	],
 
-) raise Exception('AnnotatedType not supported, do it manually')
+) 
 
+#@Cmd def here
+#raise Exception('AnnotatedType not supported, do it manually')
 module(
 	'snmp_mib',
 
   	options = [
-		Integer('max_obj_count',
- 		,default=64),
+		Integer('max_obj_count', default=64),
 	],
 
  	sources = [

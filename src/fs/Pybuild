@@ -5,8 +5,7 @@ module(
 	'node',
 
   	options = [
-		Integer('fnode_quantity',
- 		,default=64),
+		Integer('fnode_quantity', default=64),
 	],
 
  	sources = [
@@ -18,8 +17,7 @@ module(
 	'file_desc',
 
   	options = [
-		Integer('fdesc_quantity',
- 		,default=32),
+		Integer('fdesc_quantity', default=32),
 	],
 
  	sources = [
@@ -31,10 +29,8 @@ module(
 	'core',
 
   	options = [
-		Integer('file_name_length',
- 		,default=32),
- 		Integer('path_length',
- 		,default=256),
+		Integer('file_name_length', default=32),
+ 		Integer('path_length', default=256),
 	],
 
  	sources = [
@@ -45,7 +41,7 @@ module(
 
  	depends = [
 		'embox.compat.posix.fs',
- 		'file_desc,',
+ 		'file_desc',
  		'node',
  		'embox.fs.driver.repo',
 	],
@@ -55,7 +51,8 @@ module(
 	'posix_compat',
 
    	sources = [
-		IncludePath(./src/compat/posix/include,'posix_compat.c'),
+		IncludePath('src/compat/posix/include',
+		    'posix_compat.c'),
 	],
 
  	depends = [
@@ -68,14 +65,10 @@ module(
 	'rootfs',
 
   	options = [
-		String('fstype',
- 		,default=ramfs),
- 		String('src',
- 		,default=),
- 		,default=/String('dst',
- 		,default=/),
- 		String('mntscript',
- 		,default=),
+		String('fstype', default='ramfs'),
+ 		String('src', default=''),
+ 		String('dst', default='/'),
+ 		String('mntscript', default=''),
 	],
 
  	sources = [
@@ -83,7 +76,7 @@ module(
 	],
 
  	depends = [
-		'node,',
+		'node',
  		'driver.repo',
  		'embox.mem.heap_bm',
 	],

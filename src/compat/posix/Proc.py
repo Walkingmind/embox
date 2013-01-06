@@ -5,9 +5,9 @@ module(
 	'All',
 
     	depends = [
-		'exec,',
- 		'fork,',
- 		'wait,',
+		'exec',
+ 		'fork',
+ 		'wait',
  		'signal',
 	],
 
@@ -18,7 +18,8 @@ module(
  	static = True,
 
   	sources = [
-		IncludePath(./src/compat/posix/include,'exec.c'),
+		IncludePath('src/compat/posix/include',
+                    'exec.c'),
 	],
 
  	depends = [
@@ -32,7 +33,8 @@ module(
  	static = True,
 
   	sources = [
-		IncludePath(./src/compat/posix/include,'fork.c'),
+		IncludePath('src/compat/posix/include',
+                    'fork.c'),
 	],
 
  	depends = [
@@ -46,7 +48,8 @@ module(
  	static = True,
 
   	sources = [
-		IncludePath(./src/compat/posix/include,'wait.c'),
+		IncludePath('src/compat/posix/include',
+                    'wait.c'),
 	],
 
  	depends = [
@@ -60,7 +63,8 @@ module(
  	static = True,
 
   	sources = [
-		IncludePath(./src/compat/posix/include,'signal.c'),
+		IncludePath('src/compat/posix/include',
+                    'signal.c'),
 	],
 
  	depends = [

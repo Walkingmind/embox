@@ -6,7 +6,6 @@ def incl_trigger(scope, find_fn):
     from pybuild.ops import *
 
     sects = find_fn('embox.arch.x86.lds.sections')
-    print sects
     heap_impl = find_fn('embox.mem.heap_api').value(scope)
     page_impl = find_fn('embox.mem.page_api').value(scope)
     #sz = find_fn('stack.stack_size').value(scope)
@@ -34,6 +33,12 @@ module (
     'heap_lds',
 
     include_trigger = incl_trigger,
+
+    depends = [
+        'embox.mem.heap_api',
+        'embox.mem.page_api',
+    ],
+
 )
 
 module (

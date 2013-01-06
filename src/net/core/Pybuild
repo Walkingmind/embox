@@ -8,10 +8,8 @@ module(
 	'dev',
 
   	options = [
-		Integer('netdev_quantity',
- 		,default=8),
- 		Integer('netdev_table_sz',
- 		,default=3),
+		Integer('netdev_quantity', default=8),
+ 		Integer('netdev_table_sz', default=3),
 	],
 
  	sources = [
@@ -32,7 +30,8 @@ module(
 	'network_layer',
 
    	sources = [
-		IncludePath(./src/compat/linux/include,'network_layer.c'),
+		IncludePath('src/compat/linux/include',
+		    'network_layer.c'),
 	],
 
  	depends = [
@@ -47,14 +46,10 @@ module(
 	'skbuff',
 
   	options = [
-		Integer('amount_skb',
- 		,default=500),
- 		Integer('amount_skb_buff',
- 		,default=500),
- 		Integer('skb_buff_size',
- 		,default=1514),
- 		Integer('amount_skb_queue',
- 		,default=16),
+		Integer('amount_skb', default=500),
+ 		Integer('amount_skb_buff', default=500),
+ 		Integer('skb_buff_size', default=1514),
+ 		Integer('amount_skb_queue', default=16),
 	],
 
  	sources = [
@@ -72,16 +67,14 @@ module(
 	'core',
 
   	options = [
-		Integer('net_callback_quantity',
- 		,default=16),
- 		Integer('net_interfaces_quantity',
- 		,default=4),
- 		Integer('min_amount_sock',
- 		,default=1),
+		Integer('net_callback_quantity', default=16),
+ 		Integer('net_interfaces_quantity', default=4),
+ 		Integer('min_amount_sock', default=1),
 	],
 
  	sources = [
-		IncludePath(./src/compat/linux/include,'inetdev.c'),
+		IncludePath('src/compat/linux/include',
+		    'inetdev.c'),
  		'sock.c',
 	],
 
@@ -101,10 +94,8 @@ module(
 	'neighbour',
 
   	options = [
-		Integer('neighbour_quantity',
- 		,default=10),
- 		Integer('neighbour_expire',
- 		,default=60),
+		Integer('neighbour_quantity', default=10),
+ 		Integer('neighbour_expire', default=60),
 	],
 
  	sources = [

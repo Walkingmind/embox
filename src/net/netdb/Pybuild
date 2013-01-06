@@ -5,18 +5,12 @@ module(
 	'netdb',
 
   	options = [
-		Integer('max_name_len',
- 		,default=256),
- 		Integer('max_aliases_num',
- 		,default=40),
- 		Integer('max_addr_len',
- 		,default=16),
- 		Integer('max_addrs_num',
- 		,default=40),
- 		,default=/String('path_to_hosts',
- 		,default=/hosts),
- 		String('dns_nameserver',
- 		,default=10.0.0.11),
+		Integer('max_name_len', default=256),
+ 		Integer('max_aliases_num', default=40),
+ 		Integer('max_addr_len', default=16),
+ 		Integer('max_addrs_num', default=40),
+ 		String('path_to_hosts', default='/hosts'),
+ 		String('dns_nameserver', default='10.0.0.11'),
 	],
 
  	sources = [

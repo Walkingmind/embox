@@ -16,6 +16,8 @@
 #include <framework/mod/options.h>
 #include <lib/list.h>
 
+#include <module/embox/net/skbuff.h>
+
 #define MODOPS_AMOUNT_SKB      OPTION_GET(NUMBER, amount_skb)
 #define MODOPS_AMOUNT_SKB_BUFF OPTION_GET(NUMBER, amount_skb_buff)
 #define MODOPS_SKB_BUFF_SIZE   OPTION_GET(NUMBER, skb_buff_size)

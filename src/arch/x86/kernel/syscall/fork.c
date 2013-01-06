@@ -13,7 +13,7 @@
 #include <string.h>
 
 #include <kernel/irq.h>
-#include <kernel/thread/sched.h>
+#include <kernel/thread/sched_lock.h>
 #include <kernel/task.h>
 #include <mem/misc/pool.h>
 

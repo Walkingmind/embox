@@ -1,5 +1,5 @@
 
-package('embox.kernel.syscall')
+package('embox.kernel')
 
 module(
 	'syscall_table',

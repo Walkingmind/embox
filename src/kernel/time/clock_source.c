@@ -13,6 +13,8 @@
 #include <errno.h>
 #include <embox/unit.h>
 
+#include <module/embox/kernel/time/clock_source.h>
+
 ARRAY_SPREAD_DEF(const struct time_event_device *, __event_devices);
 ARRAY_SPREAD_DEF(const struct time_counter_device *, __counter_devices);
 

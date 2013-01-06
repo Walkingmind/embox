@@ -19,7 +19,8 @@ module(
  	static = True,
 
   	sources = [
-		IncludePath(./src/compat/posix/include,'fs.c'),
+		IncludePath('src/compat/posix/include',
+		    'fs.c'),
 	],
 
  	depends = [
@@ -33,7 +34,8 @@ module(
  	static = True,
 
   	sources = [
-		IncludePath(./src/compat/posix/include,'file_ops.c'),
+		IncludePath('src/compat/posix/include',
+		    'file_ops.c'),
 	],
 
  	depends = [
@@ -53,10 +55,9 @@ module(
  		'open_api',
 	],
 
-) raise Exception('AnnotatedType not supported, do it manually')
+) 
 
-interface('open_api',)
-
+interface('open_api', default = 'open')
  
 module(
 	'open',
@@ -91,7 +92,8 @@ module(
 	'posix_env',
 
    	sources = [
-		'env/IncludePath(./src/compat/posix/include,bs_posix_env.c'),
+		IncludePath('src/compat/posix/include',
+		    'env/bs_posix_env.c'),
 	],
 
  	depends = [
@@ -99,10 +101,9 @@ module(
  		'embox.compat.posix.idx.dup',
 	],
 
-) raise Exception('AnnotatedType not supported, do it manually')
+) 
 
-interface('io_sync_api',)
-
+interface('io_sync_api', default = 'io_sync_api')
  
 module(
 	'io_sync_simple',

@@ -6,8 +6,8 @@ interface('api', default = 'single')
  
 module(
 	'task_environment',
+) 
 
-    ) 
 module(
 	'kernel_task',
 
@@ -15,9 +15,14 @@ module(
 		'common.c',
 	],
 
- ) 
+        options = [
+            Integer('max_resource_size', default = 1024)
+        ],
+) 
 module(
 	'multi',
+
+        super = 'kernel_task',
 
  	implements = ['api'],
 
@@ -31,7 +36,6 @@ module(
 
  	depends = [
 		'task_table',
- 		'kernel_task',
  		'embox.kernel.thread.core',
 	],
 
@@ -86,12 +90,10 @@ module(
 
  	implements = ['api'],
 
+        super = 'kernel_task',
+
   	sources = [
 		IncludePath('src/compat/posix/include','single.c'),
-	],
-
- 	depends = [
-		'kernel_task',
 	],
 
 ) 
