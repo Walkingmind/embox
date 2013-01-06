@@ -6,7 +6,7 @@ module(
 
     	depends = [
 		'embox.arch.syscall',
- 		'embox.kernel.syscall.syscall_table',
+ 		'embox.kernel.syscall_table',
 	],
 
 ) 

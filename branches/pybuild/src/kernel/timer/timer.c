@@ -12,6 +12,8 @@
 
 #include <kernel/time/timer.h>
 
+#include <module/embox/kernel/timer/sys_timer.h>
+
 POOL_DEF(timer_pool, sys_timer_t, OPTION_GET(NUMBER,timer_quantity));
 
 int timer_init(struct sys_timer *tmr, unsigned int flags, uint32_t ticks,

@@ -5,8 +5,7 @@ module(
 	'tcp_sock',
 
   	options = [
-		Integer('amount_tcp_sock',
- 		,default=20),
+		Integer('amount_tcp_sock', default=20),
 	],
 
  	sources = [
@@ -27,8 +26,7 @@ module(
 	'udp_sock',
 
   	options = [
-		Integer('amount_udp_sock',
- 		,default=20),
+		Integer('amount_udp_sock', default=20),
 	],
 
  	sources = [
@@ -50,8 +48,7 @@ module(
 	'raw_sock',
 
   	options = [
-		Integer('amount_raw_sock',
- 		,default=20),
+		Integer('amount_raw_sock', default=20),
 	],
 
  	sources = [
@@ -90,8 +87,7 @@ module(
 	'af_packet',
 
   	options = [
-		Integer('amount_sockets',
- 		,default=20),
+		Integer('amount_sockets', default=20),
 	],
 
  	sources = [
@@ -122,14 +118,13 @@ module(
 	'socket',
 
   	options = [
-		Integer('amount_socket',
- 		,default=20),
- 		Integer('protocol_ports_quantity',
- 		,default=128),
+		Integer('amount_socket', default=20),
+ 		Integer('protocol_ports_quantity', default=128),
 	],
 
  	sources = [
-		IncludePath(./src/compat/linux/include,'kernel_socket.c'),
+		IncludePath('src/compat/linux/include',
+                    'kernel_socket.c'),
  		'socket_allocator.c',
  		'socket_options.c',
  		'socket_registry.c',

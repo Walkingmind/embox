@@ -5,10 +5,10 @@ module(
 	'All',
 
     	depends = [
-		'isatty,',
- 		'select,',
- 		'dup,',
- 		'pipe',
+		'isatty',
+ 		'select',
+ 		'dup',
+                'pipe',
 	],
 
 ) 
@@ -18,7 +18,8 @@ module(
  	static = True,
 
   	sources = [
-		IncludePath(./src/compat/posix/include,'isatty.c'),
+		IncludePath('src/compat/posix/include',
+                    'isatty.c'),
 	],
 
  	depends = [
@@ -32,7 +33,8 @@ module(
  	static = True,
 
   	sources = [
-		IncludePath(./src/compat/posix/include,'select.c'),
+		IncludePath('src/compat/posix/include',
+                    'select.c'),
 	],
 
  	depends = [
@@ -47,7 +49,8 @@ module(
  	static = True,
 
   	sources = [
-		IncludePath(./src/compat/posix/include,'dup.c'),
+		IncludePath('src/compat/posix/include',
+                    'dup.c'),
 	],
 
  	depends = [
@@ -61,14 +64,13 @@ module(
  	static = True,
 
  	options = [
-		Integer('pipe_buffer_size',
- 		,default=256),
- 		Integer('max_pipe_buffer_size',
- 		,default=1024),
+		Integer('pipe_buffer_size', default=256),
+ 		Integer('max_pipe_buffer_size', default=1024),
 	],
 
  	sources = [
-		IncludePath(./src/compat/posix/include,'pipe.c'),
+		IncludePath('src/compat/posix/include',
+                    'pipe.c'),
 	],
 
  	depends = [

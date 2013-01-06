@@ -5,12 +5,9 @@ module(
 	'arp_queue',
 
   	options = [
-		Integer('amount_package',
- 		,default=20),
- 		Integer('htable_width',
- 		,default=3),
- 		Integer('package_timeout',
- 		,default=1000),
+		Integer('amount_package', default=20),
+ 		Integer('htable_width', default=3),
+ 		Integer('package_timeout', default=1000),
 	],
 
  	sources = [
@@ -111,8 +108,7 @@ module(
 	'route',
 
   	options = [
-		Integer('route_table_size',
- 		,default=8),
+		Integer('route_table_size', default=8),
 	],
 
  	sources = [

@@ -1,0 +1,23 @@
+
+package('embox.compat.linux')
+
+module(
+	'LibLinux',
+
+  	options = [
+		Integer('nrs_total', default=32),
+	],
+
+ 	sources = [
+		IncludePath([
+			'src/compat/linux/include',
+			'src/compat/posix/include'
+		    ],
+		    'kernel/softirq.c'),
+	],
+
+ 	depends = [
+		'embox.kernel.softirq',
+	],
+
+) 
