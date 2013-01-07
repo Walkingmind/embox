@@ -5,8 +5,7 @@ module(
 	'initfs',
 
   	options = [
-		Integer('fdesc_quantity',
- 		,default=32),
+		Integer('fdesc_quantity', default=32),
 	],
 
  	sources = [

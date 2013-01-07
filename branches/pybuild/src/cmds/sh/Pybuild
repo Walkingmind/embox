@@ -9,32 +9,22 @@ module(
 	],
 
  ) 
-interface('shell_api',)
 
+interface('shell_api')
  
 module(
 	'tish',
 
   	options = [
-		Integer('prompt_len',
- 		,default=80),
- 		String('prompt',
- 		,default=embox>,
- 		),
- 		String('welcome_msg',
- 		,default=Welcome,
- 		to,
- 		Embox,
- 		and,
- 		have,
- 		a,
- 		lot,
- 		of,
- 		fun!),
+		Integer('prompt_len', default=80),
+ 		String('prompt', default='embox> '),
+ 		String('welcome_msg', default=
+                    'Welcome to Embox and have a lot of fun!'),
 	],
 
  	sources = [
-		IncludePath(./third-party/include,'tish.c'),
+		IncludePath('third-party/include',
+                    'tish.c'),
 	],
 
  	depends = [

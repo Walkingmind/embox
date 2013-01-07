@@ -5,10 +5,8 @@ module(
 	'nfs',
 
   	options = [
-		Integer('inode_quantity',
- 		,default=264),
- 		Integer('nfs_descriptor_quantity',
- 		,default=4),
+		Integer('inode_quantity', default=264),
+ 		Integer('nfs_descriptor_quantity', default=4),
 	],
 
  	sources = [
@@ -18,7 +16,7 @@ module(
 
  	depends = [
 		'embox.net.rpc',
- 		'embox.fs.node,',
+ 		'embox.fs.node',
  		'embox.fs.driver.repo',
  		'embox.fs.driver.devfs',
  		'embox.mem.page_api',

@@ -5,7 +5,8 @@ module(
 	'request_parser_test',
 
    	sources = [
-		IncludePath(./third-party/include,'request_parser_test.c'),
+		IncludePath('third-party/include',
+			'request_parser_test.c'),
 	],
 
  	depends = [
@@ -17,7 +18,8 @@ module(
 	'url_parser_test',
 
    	sources = [
-		IncludePath(./third-party/include,'url_parser_test.c'),
+		IncludePath('third-party/include',
+			'url_parser_test.c'),
 	],
 
  	depends = [

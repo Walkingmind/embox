@@ -5,10 +5,8 @@ module(
 	'cdfs',
 
   	options = [
-		Integer('inode_quantity',
- 		,default=2048),
- 		Integer('cdfs_descriptor_quantity',
- 		,default=2),
+		Integer('inode_quantity', default=2048),
+ 		Integer('cdfs_descriptor_quantity', default=2),
 	],
 
  	sources = [
@@ -16,7 +14,7 @@ module(
 	],
 
  	depends = [
-		'embox.fs.node,',
+		'embox.fs.node',
  		'embox.fs.driver.repo',
  		'embox.driver.block',
  		'embox.mem.page_api',

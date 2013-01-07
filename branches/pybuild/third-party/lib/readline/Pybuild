@@ -5,7 +5,8 @@ module(
 	'linenoise',
 
    	sources = [
-		IncludePath(./third-party/include,'linenoise.c'),
+		IncludePath('third-party/include',
+                    'linenoise.c'),
 	],
 
  	depends = [
