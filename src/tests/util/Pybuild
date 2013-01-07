@@ -5,7 +5,8 @@ module(
 	'array_test',
 
    	sources = [
-		IncludePath(./src/compat/posix/include,'array_test.c'),
+		IncludePath('src/compat/posix/include',
+			'array_test.c'),
 	],
 
  	depends = [
@@ -29,7 +30,8 @@ module(
 	'list_test',
 
    	sources = [
-		IncludePath(./src/compat/posix/include,'list_test.c'),
+		IncludePath('src/compat/posix/include',
+			'list_test.c'),
 	],
 
  	depends = [
@@ -42,7 +44,8 @@ module(
 	'slist_test',
 
    	sources = [
-		IncludePath(./src/compat/posix/include,'slist_test.c'),
+		IncludePath('src/compat/posix/include',
+			'slist_test.c'),
 	],
 
  	depends = [
@@ -56,7 +59,8 @@ module(
 	'tree_test',
 
    	sources = [
-		IncludePath(./src/compat/posix/include,'tree_test.c'),
+		IncludePath('src/compat/posix/include',
+			'tree_test.c'),
 	],
 
  	depends = [
@@ -68,7 +72,8 @@ module(
 	'tree_set_test',
 
    	sources = [
-		IncludePath(./src/compat/posix/include,'tree_set_test.c'),
+		IncludePath('src/compat/posix/include',
+			'tree_set_test.c'),
 	],
 
  	depends = [
@@ -120,7 +125,8 @@ module(
 	'priority_q_test',
 
    	sources = [
-		IncludePath(./src/compat/posix/include,'priority_q_test.c'),
+		IncludePath('src/compat/posix/include',
+			'priority_q_test.c'),
 	],
 
  	depends = [

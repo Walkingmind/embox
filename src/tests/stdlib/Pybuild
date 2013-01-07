@@ -5,7 +5,8 @@ module(
 	'math_test',
 
    	sources = [
-		IncludePath(./src/compat/posix/include,'math_test.c'),
+		IncludePath('src/compat/posix/include',
+			'math_test.c'),
 	],
 
  	depends = [
@@ -17,7 +18,8 @@ module(
 	'bsearch_test',
 
    	sources = [
-		IncludePath(./src/compat/posix/include,'bsearch_test.c'),
+		IncludePath('src/compat/posix/include',
+			'bsearch_test.c'),
 	],
 
  	depends = [
@@ -30,7 +32,8 @@ module(
 	'getopt_test',
 
    	sources = [
-		IncludePath(./src/compat/posix/include,'getopt_test.c'),
+		IncludePath('src/compat/posix/include',
+			'getopt_test.c'),
 	],
 
  	depends = [
@@ -43,7 +46,8 @@ module(
 	'qsort_test',
 
    	sources = [
-		IncludePath(./src/compat/posix/include,'qsort_test.c'),
+		IncludePath('src/compat/posix/include',
+			'qsort_test.c'),
 	],
 
  	depends = [
@@ -56,7 +60,8 @@ module(
 	'setjmp_test',
 
    	sources = [
-		IncludePath(./src/compat/posix/include,'setjmp_test.c'),
+		IncludePath('src/compat/posix/include',
+			'setjmp_test.c'),
 	],
 
  	depends = [

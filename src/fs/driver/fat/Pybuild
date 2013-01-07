@@ -5,10 +5,8 @@ module(
 	'fat',
 
   	options = [
-		Integer('inode_quantity',
- 		,default=64),
- 		Integer('fat_descriptor_quantity',
- 		,default=4),
+		Integer('inode_quantity', default=64),
+ 		Integer('fat_descriptor_quantity', default=4),
 	],
 
  	sources = [
@@ -17,7 +15,7 @@ module(
 	],
 
  	depends = [
-		'embox.fs.node,',
+		'embox.fs.node',
  		'embox.fs.driver.repo',
  		'embox.fs.driver.devfs',
  		'embox.mem.page_api',

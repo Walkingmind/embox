@@ -5,7 +5,8 @@ module(
 	'mutex_test',
 
    	sources = [
-		IncludePath(./src/compat/posix/include,'mutex_test.c'),
+		IncludePath('src/compat/posix/include',
+			'mutex_test.c'),
 	],
 
  	depends = [
@@ -21,7 +22,8 @@ module(
 	'priority_inheritance_test',
 
    	sources = [
-		IncludePath(./src/compat/posix/include,'priority_inheritance_test.c'),
+		IncludePath('src/compat/posix/include',
+			'priority_inheritance_test.c'),
 	],
 
  	depends = [
@@ -37,7 +39,8 @@ module(
 	'sem_test',
 
    	sources = [
-		IncludePath(./src/compat/posix/include,'sem_test.c'),
+		IncludePath('src/compat/posix/include',
+			'sem_test.c'),
 	],
 
  	depends = [
@@ -53,7 +56,8 @@ module(
 	'barrier_test',
 
    	sources = [
-		IncludePath(./src/compat/posix/include,'barrier_test.c'),
+		IncludePath('src/compat/posix/include',
+			'barrier_test.c'),
 	],
 
  	depends = [
@@ -69,7 +73,8 @@ module(
 	'cond_test',
 
    	sources = [
-		IncludePath(./src/compat/posix/include,'cond_test.c'),
+		IncludePath('src/compat/posix/include',
+			'cond_test.c'),
 	],
 
  	depends = [
@@ -85,7 +90,8 @@ module(
 	'rwlock_test',
 
    	sources = [
-		IncludePath(./src/compat/posix/include,'rwlock_test.c'),
+		IncludePath('src/compat/posix/include',
+			'rwlock_test.c'),
 	],
 
  	depends = [

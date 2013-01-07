@@ -13,6 +13,7 @@ module(
 	],
 
 ) 
+
 module(
 	'signal',
 
@@ -27,8 +28,9 @@ module(
  		'embox.framework.LibFramework',
 	],
 
-) raise Exception('AnnotatedType not supported, do it manually')
+)
 
+TestFor('embox.compat.posix.idx.pipe',
 module(
 	'pipe_test',
 
@@ -42,7 +44,8 @@ module(
  		'embox.framework.LibFramework',
 	],
 
-) 
+))
+
 module(
 	'select_test',
 
@@ -57,11 +60,13 @@ module(
 	],
 
 ) 
+
 module(
 	'rtsignal_test',
 
    	sources = [
-		IncludePath(./src/compat/posix/include,'rt_signal.c'),
+		IncludePath('src/compat/posix/include',
+			'rt_signal.c'),
 	],
 
  	depends = [

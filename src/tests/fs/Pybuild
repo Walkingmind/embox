@@ -10,7 +10,7 @@ module(
 
  	depends = [
 		'embox.driver.ramdisk',
- 		'embox.fs.node,',
+ 		'embox.fs.node',
  		'embox.fs.driver.repo',
  		'embox.fs.driver.devfs',
  		'embox.mem.page_api',
@@ -30,7 +30,7 @@ module(
 
  	depends = [
 		'embox.driver.ramdisk',
- 		'embox.fs.node,',
+ 		'embox.fs.node',
  		'embox.fs.driver.repo',
  		'embox.fs.driver.devfs',
  		'embox.mem.page_api',
@@ -50,7 +50,7 @@ module(
 
  	depends = [
 		'embox.driver.ramdisk',
- 		'embox.fs.node,',
+ 		'embox.fs.node',
  		'embox.fs.driver.repo',
  		'embox.fs.driver.devfs',
  		'embox.mem.page_api',

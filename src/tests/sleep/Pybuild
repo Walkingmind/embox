@@ -5,7 +5,8 @@ module(
 	'sleep_test',
 
    	sources = [
-		IncludePath(./src/compat/posix/include,'sleep_test.c'),
+		IncludePath('src/compat/posix/include',
+			'sleep_test.c'),
 	],
 
  	depends = [

@@ -5,7 +5,8 @@ module(
 	'trex_test',
 
    	sources = [
-		IncludePath(./third-party/include,'trex_test.c'),
+		IncludePath('third-party/include',
+			'trex_test.c'),
 	],
 
  	depends = [

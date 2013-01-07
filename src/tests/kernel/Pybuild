@@ -1,38 +1,43 @@
 
 package('embox.test.kernel')
-raise Exception('AnnotatedType not supported, do it manually')
 
+TestFor('embox.kernel.irq',
 module(
 	'irq_test',
 
    	sources = [
-		IncludePath(./src/compat/posix/include,'irq_test.c'),
+		IncludePath('src/compat/posix/include',
+			'irq_test.c'),
 	],
 
  	depends = [
 		'embox.kernel.irq',
 	],
 
-) raise Exception('AnnotatedType not supported, do it manually')
+))
 
+TestFor('embox.kernel.softirq',
 module(
 	'softirq_test',
 
    	sources = [
-		IncludePath(./src/compat/posix/include,'softirq_test.c'),
+		IncludePath('src/compat/posix/include',
+			'softirq_test.c'),
 	],
 
  	depends = [
 		'embox.kernel.softirq',
 	],
 
-) raise Exception('AnnotatedType not supported, do it manually')
+))
 
+TestFor('embox.kernel.timer.timer_api',
 module(
 	'timer_test',
 
    	sources = [
-		IncludePath(./src/compat/posix/include,'timer_test.c'),
+		IncludePath('src/compat/posix/include',
+			'timer_test.c'),
 	],
 
  	depends = [
@@ -40,13 +45,15 @@ module(
  		'embox.kernel.time.timer',
 	],
 
-) raise Exception('AnnotatedType not supported, do it manually')
+))
 
+TestFor('embox.kernel.timer.timer_api',
 module(
 	'periodic_timer_test',
 
    	sources = [
-		IncludePath(./src/compat/posix/include,'periodic_timer_test.c'),
+		IncludePath('src/compat/posix/include',
+			'periodic_timer_test.c'),
 	],
 
  	depends = [
@@ -54,13 +61,15 @@ module(
  		'embox.kernel.time.timer',
 	],
 
-) raise Exception('AnnotatedType not supported, do it manually')
+))
 
+TestFor('embox.kernel.timer.timer_api',
 module(
 	'oneshot_timer_test',
 
    	sources = [
-		IncludePath(./src/compat/posix/include,'oneshot_timer_test.c'),
+		IncludePath('src/compat/posix/include',
+			'oneshot_timer_test.c'),
 	],
 
  	depends = [
@@ -68,7 +77,8 @@ module(
  		'embox.kernel.time.timer',
 	],
 
-) 
+))
+
 module(
 	'syscall_test',
 
@@ -81,6 +91,7 @@ module(
 	],
 
 ) 
+
 module(
 	'usermode_test',
 
