@@ -21,6 +21,8 @@
 #include <mem/phymem.h>
 #include <util/indexator.h>
 
+#include <module/embox/driver/ide.h>
+
 #define MAX_DEV_QUANTITY OPTION_GET(NUMBER,dev_quantity)
 INDEX_DEF(idecd_idx,0,MAX_DEV_QUANTITY);
 

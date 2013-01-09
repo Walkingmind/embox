@@ -92,6 +92,7 @@ module (
             Integer('align', default = 0x1000)
         ],
 )
+
 module(
 	'cpu',
 
