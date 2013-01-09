@@ -11,10 +11,10 @@ module (
     depends = [
         'embox.kernel.stack',
         'embox.driver.diag.diag_api',
-	'embox.arch.libarch',
-	'embox.arch.locore',
-	'embox.arch.cpu',
+        'embox.arch.libarch',
+        'embox.arch.locore',
+        'embox.arch.cpu',
         'embox.driver.diag.diag_api',
-    ]
+    ],
     
 )

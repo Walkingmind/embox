@@ -15,6 +15,9 @@
 #include <time.h>
 
 #include <framework/mod/options.h>
+
+#include <module/embox/net/neighbour.h>
+
 #define MODOPS_NEIGHBOUR_QUANTITY OPTION_GET(NUMBER, neighbour_quantity)
 #define MODOPS_NEIGHBOUR_EXPIRE OPTION_GET(NUMBER, neighbour_expire)
 

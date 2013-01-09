@@ -15,7 +15,7 @@ module(
 		IncludePath(['src/compat/posix/include',
                         'conf'],
                     [
-                        'console/shell.c'
+                        'shell.c',
                         'console/console.c',
                         'console/cmdline.c',
                         'console/screen.c',
