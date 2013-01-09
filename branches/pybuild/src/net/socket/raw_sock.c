@@ -21,6 +21,8 @@
 
 #include <framework/mod/options.h>
 
+#include <module/embox/net/raw_sock.h>
+
 #define MODOPS_AMOUNT_RAW_SOCK OPTION_GET(NUMBER, amount_raw_sock)
 
 static struct proto raw_prot;

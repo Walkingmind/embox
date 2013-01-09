@@ -23,6 +23,7 @@
 #include <util/array.h>
 #include <embox/unit.h>
 
+#include <module/embox/fs/driver/initfs.h>
 
 /* file description pool */
 POOL_DEF (fdesc_pool, struct _ramfs_file_info,
