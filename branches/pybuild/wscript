@@ -2,7 +2,7 @@
 import os
 
 import logging
-#logging.basicConfig(level=logging.DEBUG)
+logging.basicConfig(level=logging.DEBUG)
 
 #top = os.getcwd()
 top = '.'

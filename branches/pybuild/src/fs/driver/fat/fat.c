@@ -28,6 +28,8 @@
 
 #include <framework/mod/options.h>
 
+#include <module/embox/fs/driver/fat.h>
+
 static uint8_t sector_buff[SECTOR_SIZE];
 static uint32_t bytecount;
 

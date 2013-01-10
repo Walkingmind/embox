@@ -15,6 +15,8 @@
 
 #include <mem/misc/pool.h>
 
+#include <module/embox/fs/node.h>
+
 POOL_DEF(node_pool, struct node, OPTION_GET(NUMBER,fnode_quantity));
 
 EMBOX_UNIT_INIT(node_init);

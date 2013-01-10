@@ -24,6 +24,7 @@
 #include <kernel/softirq_lock.h>
 #include <net/route.h>
 
+#include <module/embox/net/arp_queue.h>
 
 EMBOX_UNIT_INIT(arp_queue_init);
 

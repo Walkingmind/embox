@@ -13,6 +13,8 @@
 
 #include <embox/unit.h>
 
+#include <module/embox/cmd/shell.h>
+
 #define CMDLINE_MAX_LENGTH      OPTION_GET(NUMBER, prompt_len)
 #define CMDLINE_HISTORY_SIZE    8
 

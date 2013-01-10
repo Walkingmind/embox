@@ -18,6 +18,8 @@
 
 #include <drivers/pci.h>
 
+#include <module/embox/driver/pci.h>
+
 EMBOX_UNIT_INIT(pci_init);
 
 typedef struct pci_slot {

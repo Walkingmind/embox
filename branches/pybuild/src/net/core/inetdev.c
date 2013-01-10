@@ -18,6 +18,8 @@
 #include <lib/list.h>
 #include <err.h>
 
+#include <module/embox/net/core.h>
+
 struct callback_info {
 	struct list_head lnk;
 	unsigned short type;

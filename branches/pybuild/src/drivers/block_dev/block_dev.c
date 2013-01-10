@@ -18,6 +18,8 @@
 #include <util/array.h>
 #include <util/indexator.h>
 
+#include <module/embox/driver/block.h>
+
 #define MAX_DEV_QUANTITY OPTION_GET(NUMBER,dev_quantity)
 
 POOL_DEF(blockdev_pool, struct block_dev, MAX_DEV_QUANTITY);

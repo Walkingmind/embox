@@ -20,6 +20,7 @@
 
 #include <framework/mod/options.h>
 
+#include <module/embox/net/route.h>
 
 /**
  * NOTE: Linux route uses 3 structures for routing:

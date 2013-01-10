@@ -58,6 +58,8 @@
 #include <fcntl.h>
 #include <fs/path.h>
 
+#include <module/embox/fs/driver/cdfs.h>
+
 /* cdfs filesystem description pool */
 POOL_DEF(cdfs_fs_pool, struct cdfs_fs_description, OPTION_GET(NUMBER,cdfs_descriptor_quantity));
 

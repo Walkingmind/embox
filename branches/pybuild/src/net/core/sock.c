@@ -20,6 +20,8 @@
 
 #include <framework/mod/options.h>
 
+#include <module/embox/net/core.h>
+
 #include <io_sync.h>
 
 #define MODOPS_MIN_AMOUNT_SOCK OPTION_GET(NUMBER, min_amount_sock)

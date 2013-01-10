@@ -25,6 +25,8 @@
 #include <fs/mount.h>
 #include <drivers/ramdisk.h>
 
+#include <module/embox/fs/driver/tmpfs.h>
+
 /* tmpfs filesystem description pool */
 POOL_DEF(tmpfs_fs_pool, struct tmpfs_filesystem, OPTION_GET(NUMBER,tmpfs_descriptor_quantity));
 

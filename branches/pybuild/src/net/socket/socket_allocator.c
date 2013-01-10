@@ -14,6 +14,8 @@
 
 #include <framework/mod/options.h>
 
+#include <module/embox/net/socket.h>
+
 #define MODOPS_AMOUNT_SOCKET OPTION_GET(NUMBER, amount_socket)
 
 /* pool for allocate sockets */
