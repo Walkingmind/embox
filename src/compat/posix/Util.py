@@ -51,6 +51,7 @@ module(
 
  	depends = [
 		'embox.kernel.time.kernel_time',
+                'embox.lib.LibCMath',
 	],
 
 ) 
