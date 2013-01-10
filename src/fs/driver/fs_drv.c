@@ -17,6 +17,8 @@
 #include <util/array.h>
 #include <fs/fs_drv.h>
 
+#include <module/embox/fs/driver/repo.h>
+
 EMBOX_UNIT_INIT(unit_init);
 
 typedef struct fs_driver_head {

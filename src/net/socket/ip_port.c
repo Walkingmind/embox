@@ -13,6 +13,8 @@
 
 #include <framework/mod/options.h>
 
+#include <module/embox/net/socket.h>
+
 #define WORD_LENGTH       32
 #define AROUND_QUANTITY   (OPTION_GET(NUMBER,protocol_ports_quantity) + WORD_LENGTH - 1) \
 	- (OPTION_GET(NUMBER,protocol_ports_quantity) + WORD_LENGTH - 1) % WORD_LENGTH

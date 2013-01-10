@@ -19,6 +19,7 @@ module(
             Integer('max_resource_size', default = 1024)
         ],
 ) 
+
 module(
 	'multi',
 
@@ -40,6 +41,20 @@ module(
 	],
 
 ) 
+
+module(
+	'single',
+
+ 	implements = ['api'],
+
+        super = 'kernel_task',
+
+  	sources = [
+		IncludePath('src/compat/posix/include','single.c'),
+	],
+
+) 
+
 module(
 	'task_table',
 
@@ -85,18 +100,6 @@ module(
 	],
 
  ) 
-module(
-	'single',
-
- 	implements = ['api'],
-
-        super = 'kernel_task',
-
-  	sources = [
-		IncludePath('src/compat/posix/include','single.c'),
-	],
-
-) 
 module(
 	'idx_table',
 

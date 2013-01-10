@@ -14,9 +14,9 @@
 #include <lib/list.h>
 #include "common.h"
 
-#include <module/embox/kernel/task/api.h>
+#include <module/embox/kernel/task/kernel_task.h>
 
-#define MAX_RES_SUM_SIZE OPTION_MODULE_GET(embox__kernel__task__api, NUMBER, max_resource_size)
+#define MAX_RES_SUM_SIZE OPTION_GET(NUMBER, max_resource_size)
 
 static char kernel_task[sizeof(struct task) + MAX_RES_SUM_SIZE];
 

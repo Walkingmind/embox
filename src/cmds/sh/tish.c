@@ -17,6 +17,8 @@
 
 #include <framework/cmd/api.h>
 
+#include <module/embox/cmd/sh/tish.h>
+
 #include <cmd/shell.h>
 
 #define BUF_INP_SIZE OPTION_GET(NUMBER, prompt_len)

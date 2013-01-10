@@ -23,6 +23,8 @@
 
 #include <prom/prom_printf.h>
 
+#include <module/embox/init/start_script.h>
+
 #define BUF_INP_SIZE OPTION_GET(NUMBER,input_buffer)
 
 EMBOX_UNIT_INIT(run_script);

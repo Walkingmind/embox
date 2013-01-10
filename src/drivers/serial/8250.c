@@ -12,6 +12,7 @@
 #include <drivers/uart_device.h>
 #include <embox/unit.h>
 
+#include <module/embox/driver/serial/serial_port.h>
 
 /** Default I/O addresses
  * NOTE: The actual I/O addresses used are stored

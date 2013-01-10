@@ -25,6 +25,7 @@
 #include <net/rpc/clnt.h>
 #include <net/rpc/xdr.h>
 
+#include <module/embox/fs/driver/nfs.h>
 
 static int nfs_create_dir_entry(char *parent);
 

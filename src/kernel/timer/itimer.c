@@ -14,6 +14,8 @@
 #include <kernel/time/itimer.h>
 #include <hal/clock.h>
 
+#include <module/embox/kernel/timer/itimer.h>
+
 POOL_DEF(itimer_pool, struct itimer, OPTION_GET(NUMBER, itimer_quantity));
 
 struct itimer *itimer_alloc(void) {

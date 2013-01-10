@@ -21,6 +21,8 @@
 #include <embox/unit.h>
 #include <framework/mod/options.h>
 
+#include <module/embox/net/dev.h>
+
 EMBOX_UNIT_INIT(netdev_init);
 
 POOL_DEF(netdev_pool, struct net_device, OPTION_GET(NUMBER, netdev_quantity));

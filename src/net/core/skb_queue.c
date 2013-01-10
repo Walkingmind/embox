@@ -12,6 +12,8 @@
 #include <framework/mod/options.h>
 #include <lib/list.h>
 
+#include <module/embox/net/skbuff.h>
+
 #define MODOPS_AMOUNT_SKB_QUEUE OPTION_GET(NUMBER, amount_skb_queue)
 
 POOL_DEF(skb_queue_pool, struct sk_buff_head, MODOPS_AMOUNT_SKB_QUEUE);

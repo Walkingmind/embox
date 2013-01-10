@@ -18,8 +18,11 @@
 #include <mem/phymem.h>
 #include <util/indexator.h>
 
+#include <module/embox/driver/ramdisk.h>
+
 #define MAX_DEV_QUANTITY OPTION_GET(NUMBER,ramdisk_quantity)
 #define RAMDISK_BLOCK_SIZE  PAGE_SIZE()
+
 typedef struct dev_ramdisk_head {
 	ramdisk_t param;
 } dev_ramdisk_head_t;
