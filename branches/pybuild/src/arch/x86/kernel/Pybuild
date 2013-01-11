@@ -34,8 +34,9 @@ module (
         depends = [
             'embox.lib.LibC',
 	    'embox.kernel.critical',
-            'embox.arch.x86.mmu',
-            'embox.arch.x86.kernel.syscall',
+            # cycling now
+            #'embox.arch.x86.mmu',
+            #'embox.arch.x86.kernel.syscall',
         ],
 )
 
