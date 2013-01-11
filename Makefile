@@ -17,7 +17,7 @@ ifeq (1,1)
 .PHONY: all
 
 all:
-	python2 waf/waf -v -v build
+	python2 waf/waf distclean configure build
 
 else 
 
