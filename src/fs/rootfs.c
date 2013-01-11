@@ -19,6 +19,8 @@
 
 #include <embox/unit.h>
 
+#include <module/embox/fs/rootfs.h>
+
 EMBOX_UNIT_INIT(unit_init);
 
 static node_t *root_node;
