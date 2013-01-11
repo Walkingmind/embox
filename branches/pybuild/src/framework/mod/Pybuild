@@ -12,9 +12,10 @@ def depsinject_gen(src, mod, ctx):
         pkglist.add(mod.pkg)
 
     for mod in modlist:
-        if not hasattr(mod, 'depends'):
-            continue
-        moddeps += [(mod, mod.find_fn(dep[0])) for dep in mod.depends]
+        if hasattr(mod, 'depends'):
+            moddeps += [(mod, mod.find_fn(dep[0])) for dep in mod.depends]
+        if mod.isinterface() and mod.isbuilding(ctx.model):
+            moddeps.append((mod, mod.value(ctx.model)))
 
     def bname(obj):
         return obj.qualified_name().replace(".", "__")
