@@ -13,7 +13,11 @@ def depsinject_gen(src, mod, ctx):
 
     for mod in modlist:
         if hasattr(mod, 'depends'):
-            moddeps += [(mod, mod.find_fn(dep[0])) for dep in mod.depends]
+            for dep_name, opt_name in mod.depends:
+                lst = [a.get_name() for a in getattr(dep_name, 'annots', ())]
+                if 'NoRuntimeAnnotation' in lst :
+                    continue 
+                moddeps.append((mod, mod.find_fn(dep_name)))
         if mod.isinterface() and mod.isbuilding(ctx.model):
             moddeps.append((mod, mod.value(ctx.model)))
 
