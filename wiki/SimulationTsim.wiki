@@ -1,6 +1,6 @@
 == TSIM ==
 
- # Install the last version of [http://www.gaisler.com/cms/index.php?option=com_content&task=view&id=157&Itemid=105 TSIM2 LEON3 Evaluation]
+ # Install the last version of [http://gaisler.com/index.php/products/simulators/tsim TSIM2 LEON3 Evaluation] (Slackware package [https://github.com/sikmir/slackbuilds/tree/master/tsim-eval here])
  # tsim-leon3 -fast_uart -gdb embox
  # Connect to gdb server
    * if use eclipse see details [InstallToolchainEclipseDebug here]
