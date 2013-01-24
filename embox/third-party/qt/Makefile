@@ -9,7 +9,7 @@ QT_MD5 = 89c5ecba180cae74c66260ac732dc5cb  $(QT_BUNDLE)
 
 QT_CONF_FLAGS += -prefix $(QT_INSTALL_DIR)
 QT_CONF_FLAGS += -embedded-lite vnc -little-endian
-QT_CONF_FLAGS += -xplatform qws/embox-generic-g++ -static 
+QT_CONF_FLAGS += -xplatform qws/embox-generic-g++ -static
 QT_CONF_FLAGS += -opensource -confirm-license
 QT_CONF_FLAGS += -no-pch -fast
 QT_CONF_FLAGS += -no-largefile -no-qt3support
@@ -149,7 +149,7 @@ build_and_install: configure
 			echo Nothing to do - no rebuild is required.; \
 		else \
 			echo Building... && \
-			rm -r $(QT_APPS_DIR) && \
+			(rm -r $(QT_APPS_DIR) || true) && \
 			make MAKEFLAGS='$(EMBOX_DERIVED_MAKEFLAGS)' && \
 			make install; \
 		fi
@@ -210,6 +210,7 @@ QT_LINUX_INSTALL_DIR := $(QT_DIR)/install_linux
 QT_LINUX_CONF_FLAGS += -prefix $(QT_LINUX_INSTALL_DIR)
 QT_LINUX_CONF_FLAGS += -embedded-lite qvfb -little-endian
 QT_LINUX_CONF_FLAGS += -xplatform qws/linux-x86-g++
+# Static build has problems with linking with qpa platform by default
 # -static 
 QT_LINUX_CONF_FLAGS += -opensource -confirm-license
 QT_LINUX_CONF_FLAGS += -fast
