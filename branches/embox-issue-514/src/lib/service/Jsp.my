@@ -1,7 +1,0 @@
-package lib.service
-
-module jsp{
-	source "jsp.c"
-
-	depends lib.service.service
-}
