@@ -1,8 +1,8 @@
 /**
- * @file 
- * @brief 
+ * @file
+ * @brief
  *
- * @author  Anton Kozlov 
+ * @author  Anton Kozlov
  * @date    30.01.2013
  */
 
@@ -44,8 +44,13 @@ static int check_xattr_access(struct node *node) {
 
 int getxattr(const char *path, const char *name, char *value, size_t len) {
 	const struct fsop_desc *fsop;
+	struct node *node;
 	int err;
-	struct node *node = vfs_find_node(path, NULL);
+
+	node = vfs_lookup(NULL, path);
+	if (!node) {
+		return -ENOENT;
+	}
 
 	if ((err = check_xattr_access(node))) {
 		return err;
@@ -64,9 +69,14 @@ int getxattr(const char *path, const char *name, char *value, size_t len) {
 
 int setxattr(const char *path, const char *name, const char *value, size_t len, int flags) {
 	const struct fsop_desc *fsop;
+	struct node *node;
 	int err;
-	struct node *node = vfs_find_node(path, NULL);
-	
+
+	node = vfs_lookup(NULL, path);
+	if (!node) {
+		return -ENOENT;
+	}
+
 	if ((err = check_xattr_access(node))) {
 		return err;
 	}
@@ -84,9 +94,14 @@ int setxattr(const char *path, const char *name, const char *value, size_t len, 
 
 int listxattr(const char *path, char *list, size_t len) {
 	const struct fsop_desc *fsop;
+	struct node *node;
 	int err;
-	struct node *node = vfs_find_node(path, NULL);
-	
+
+	node = vfs_lookup(NULL, path);
+	if (!node) {
+		return -ENOENT;
+	}
+
 	if ((err = check_xattr_access(node))) {
 		return err;
 	}

@@ -511,13 +511,13 @@ static int ext2fs_mount(void *dev, void *dir);
 static int ext2fs_create(struct node *parent_node, struct node *node);
 static int ext2fs_delete(struct node *node);
 
-static fsop_desc_t ext2_fsop = { 
-	.init	     = ext2fs_init, 
-	.format	     = ext2fs_format, 
+static fsop_desc_t ext2_fsop = {
+	.init	     = ext2fs_init,
+	.format	     = ext2fs_format,
 	.mount	     = ext2fs_mount,
-	.create_node = ext2fs_create, 
+	.create_node = ext2fs_create,
 	.delete_node = ext2fs_delete,
-	
+
 	.getxattr    = ext2fs_getxattr,
 	.setxattr    = ext2fs_setxattr,
 	.listxattr   = ext2fs_listxattr,
@@ -570,7 +570,7 @@ static int ext2fs_create(struct node *parent_node, struct node *node) {
 
 static int ext2fs_delete(struct node *node) {
 	int rc;
-	node_t *pointnod, *parents;
+	node_t *dot_node, *parents;
 	struct nas *nas;
 	char path[MAX_LENGTH_PATH_NAME];
 	struct ext2_file_info *fi;
@@ -591,16 +591,15 @@ static int ext2fs_delete(struct node *node) {
 
 	/* need delete "." and ".." node for directory */
 	if (node_is_directory(node)) {
+		dot_node = vfs_lookup_child(node, ".");
+		if (dot_node) {
+			vfs_del_leaf(dot_node);
+		}
 
-		strcat(path, "/.");
-		pointnod = vfs_find_node(path, NULL );
-		vfs_del_leaf(pointnod);
-
-		strcat(path, ".");
-		pointnod = vfs_find_node(path, NULL );
-		vfs_del_leaf(pointnod);
-
-		path[strlen(path) - 3] = '\0';
+		dot_node = vfs_lookup_child(node, "..");
+		if (dot_node) {
+			vfs_del_leaf(dot_node);
+		}
 
 		pool_free(&ext2_file_pool, fi);
 	}
