@@ -327,6 +327,7 @@ module dropbear {
 	@IncludePath("$(THIRDPARTY_DIR)/dropbear-2012.55/libtomcrypt/src/headers")
 	@IncludePath("$(THIRDPARTY_DIR)/dropbear-2012.55/libtommath")
 	@IncludePath("$(SRC_DIR)/compat/posix/include")
+	@IncludePath("$(SRC_DIR)/compat/linux/include")
 	source
     "dbutil.c",
     "buffer.c",
