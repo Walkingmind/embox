@@ -9,9 +9,11 @@
 #ifndef KERNEL_CPU_H_
 #define KERNEL_CPU_H_
 
-#define NCPU 2
+#include <module/embox/arch/smp.h>
 
-#if defined(NCPU) && NCPU > 1
+#define NCPU __NCPU
+
+#if NCPU > 1
 # define SMP
 #endif
 

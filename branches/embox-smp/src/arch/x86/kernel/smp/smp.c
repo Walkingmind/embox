@@ -24,14 +24,11 @@ EMBOX_UNIT_INIT(unit_init);
 #define TRAMPOLINE_ADDR 0x20000UL
 
 void startup_ap(void) {
-	extern int lapic_enable(void);
-	extern void lapic_timer_init(struct time_dev_conf *conf);
 	extern void idt_load(void);
 
 	idt_load();
 
 	lapic_enable();
-	lapic_timer_init(NULL);
 
 	__asm__ __volatile__ ("sti");
 
@@ -83,5 +80,19 @@ static int unit_init(void)
     	cpu_start(i);
     }
 
+#if 1
+	for (int i = 0; i < 20000; i++) {
+		__asm__ __volatile__ ("nop");
+	}
+
+    lapic_send_ipi(0x50, 1, LAPIC_IPI_DEST);
+#endif
+
     return 0;
 }
+
+/* It is not an arch part */
+void resched(void) {
+	return;
+}
+

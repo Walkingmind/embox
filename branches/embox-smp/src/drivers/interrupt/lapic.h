@@ -24,6 +24,11 @@
 #define LAPIC_TIMER_CCR	(LOCAL_APIC_DEF_ADDR + 0x390)
 #define LAPIC_TIMER_DCR	(LOCAL_APIC_DEF_ADDR + 0x3E0)
 
+#define LAPIC_IPI_DEST             0
+#define LAPIC_IPI_SELF             1
+#define LAPIC_IPI_TO_ALL           2
+#define LAPIC_IPI_TO_ALL_BUT_SELF  3
+
 static inline uint32_t lapic_read(uint32_t reg) {
 	return *((volatile uint32_t *) reg);
 }
@@ -47,6 +52,7 @@ static inline void lapic_eoi(void) {
 }
 
 extern int lapic_enable(void);
+extern void lapic_send_ipi(unsigned int vector, unsigned int cpu, int type);
 extern void lapic_send_init_ipi(uint32_t apic_id);
 extern void lapic_send_startup_ipi(uint32_t apic_id, uint32_t trampoline);
 
