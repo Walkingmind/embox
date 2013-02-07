@@ -326,24 +326,6 @@ int sched_sleep_ms(struct sleepq *sq, unsigned long timeout) {
 	return sleep_res;
 }
 
-#if 0
-int sched_tryrun(struct thread *t) {
-	sched_lock();
-	{
-		if (thread_state_sleeping(t->state)) {
-			thread_wake_force(t, SCHED_SLEEP_INTERRUPT);
-		}
-		/*
-		if (thread_state_suspended(t->state)) {
-			do_thread_resume(t);
-		}
-		*/
-	}
-	sched_unlock();
-	return 0;
-}
-#endif
-
 void sched_post_switch(void) {
 	sched_lock();
 	{
