@@ -19,7 +19,11 @@
 
 #ifdef SMP
 
+#ifndef __ASSEMBLER__
+
 extern unsigned int cpu_get_id(void);
+
+#endif
 
 #endif
 

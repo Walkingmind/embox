@@ -1,0 +1,8 @@
+package embox.kernel
+
+module smp {
+	source "percpu.lds.S"
+	source "percpu.c"
+	
+	depends embox.arch.x86.kernel.smp
+}
