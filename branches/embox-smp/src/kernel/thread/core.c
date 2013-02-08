@@ -364,8 +364,8 @@ static int unit_init(void) {
 
 	/* Bootstrap thread allocated on the bottom of his stack */
 	bootstrap = (struct thread *) &_stack_vma;
-	bootstrap->stack = (void *) ((uint32_t) _stack_vma + (uint32_t) _stack_len);
-	bootstrap->stack_sz = (size_t) _stack_len;
+	bootstrap->stack = (void *) ((uint32_t) &_stack_vma + (uint32_t) &_stack_len);
+	bootstrap->stack_sz = (size_t) &_stack_len;
 
 	bootstrap->id = id_counter++;
 	list_add_tail(&bootstrap->thread_link, &__thread_list);
