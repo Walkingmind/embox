@@ -5,15 +5,13 @@
 #ifdef SMP
 
 SECTIONS {
-	.percpu : {
-		*(.percpu*)
+	.data : {
+		_percpu_vma = .;
+		*(.percpu)
+		_percpu_len = . - _percpu_vma;
+		. += _percpu_len * (NCPU - 1);
 	} SECTION_REGION(data)
-	SECTION_SYMBOLS(percpu)
-
-	.percpu_aps (NOLOAD) : {
-		. += SIZEOF(.percpu) * (NCPU - 1);
-	} SECTION_REGION(data)
-	SECTION_SYMBOLS(percpu_aps)
+	SECTION_SYMBOLS(data)
 }
 
 #endif
