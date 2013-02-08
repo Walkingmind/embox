@@ -91,19 +91,18 @@ static int unit_init(void)
     	spin_lock(&startup_lock);
     }
 
-#if 1
+#if 0
     lapic_send_ipi(0x50, 1, LAPIC_IPI_DEST);
 #endif
 
     return 0;
 }
 
-/* It is not an arch part */
 void resched(void) {
-	extern void sched_post_switch(void);
+	//extern void sched_post_switch(void);
 
-	/* Should we send EOI? */
+	lapic_send_eoi();
 
-	sched_post_switch();
+	//sched_post_switch();
 }
 

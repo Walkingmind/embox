@@ -156,5 +156,5 @@ int i8259_irq_pending(unsigned int irq) {
 
 void i8259_send_eoi(unsigned int irq) {
 	//TODO: irq >= 16
-	lapic_eoi();
+	lapic_send_eoi();
 }

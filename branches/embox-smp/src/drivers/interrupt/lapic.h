@@ -47,7 +47,7 @@ static inline uint32_t lapic_errstatus(void)
 	return lapic_read(LAPIC_ESR);
 }
 
-static inline void lapic_eoi(void) {
+static inline void lapic_send_eoi(void) {
 	lapic_write(LAPIC_EOI, 0);
 }
 
