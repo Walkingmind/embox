@@ -28,7 +28,7 @@ typedef unsigned long spinlock_t;
 	__asm__ __volatile__("" : : : "memory")
 
 static inline int spin_trylock(spinlock_t *lock) {
-	int val = SPIN_LOCKED;
+	unsigned long val = SPIN_LOCKED;
 
 	__asm__ __volatile__ (
 			"lock xchgb %0,(%2)"
@@ -51,6 +51,14 @@ static inline void spin_unlock(spinlock_t *lock) {
 }
 
 #else
+
+#define SPINLOCK_DEFINE(name)
+
+#define SPINLOCK_DECLARE(name)
+
+#define spin_lock(lock)   do { } while (0)
+
+#define spin_unlock(lock) do { } while (0)
 
 #endif
 

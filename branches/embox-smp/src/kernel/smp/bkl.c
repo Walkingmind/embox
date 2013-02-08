@@ -6,7 +6,6 @@
  * @author Anton Bulychev
  */
 
-#include <kernel/percpu.h>
 #include <kernel/spinlock.h>
 #include <hal/ipl.h>
 
@@ -19,9 +18,9 @@ void bkl_lock(void) {
 	int cpu_id, tmp;
 
 	while (1) {
-		spin_lock(&bkl);
-
 		ipl = ipl_save();
+
+		spin_lock(&bkl);
 
 		cpu_id = cpu_get_id();
 
@@ -32,17 +31,22 @@ void bkl_lock(void) {
 			tmp = 1;
 		}
 
-		ipl_restore(ipl);
 		spin_unlock(&bkl);
+
+		ipl_restore(ipl);
 
 		if (tmp) break;
 	}
 }
 
 void bkl_unlock(void) {
+	ipl_t ipl = ipl_save();
+
 	spin_lock(&bkl);
 
 	nested--;
 
 	spin_unlock(&bkl);
+
+	ipl_restore(ipl);
 }

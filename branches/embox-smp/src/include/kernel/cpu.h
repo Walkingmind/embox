@@ -23,8 +23,12 @@
 
 extern unsigned int cpu_get_id(void);
 
-#endif
+#endif /* __ASSEMBLER__ */
 
-#endif
+#else /* SMP */
+
+#define cpu_get_id() (0)
+
+#endif /* SMP */
 
 #endif /* KERNEL_CPU_H_ */

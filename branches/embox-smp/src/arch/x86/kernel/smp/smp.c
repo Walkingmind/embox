@@ -16,12 +16,18 @@
 #include <asm/ap.h>
 
 #include <kernel/cpu.h>
+#include <kernel/thread.h>
+#include <kernel/spinlock.h>
 
 #include <module/embox/driver/interrupt/lapic.h>
 
 EMBOX_UNIT_INIT(unit_init);
 
 #define TRAMPOLINE_ADDR 0x20000UL
+
+static SPINLOCK_DEFINE(startup_lock);
+
+char AP_STACK[THREAD_STACK_SIZE] __attribute__((aligned(THREAD_STACK_SIZE)));
 
 void startup_ap(void) {
 	extern void idt_load(void);
@@ -30,14 +36,17 @@ void startup_ap(void) {
 
 	lapic_enable();
 
+	thread_init_self(AP_STACK + THREAD_STACK_SIZE, THREAD_STACK_SIZE,
+			THREAD_PRIORITY_MIN);
+
 	__asm__ __volatile__ ("sti");
+
+	spin_unlock(&startup_lock);
 
 	while (1) {
 		;
 	}
 }
-
-char AP_STACK[2048];
 
 static inline void init_trampoline(void) {
 	/* Initialize gdt */
@@ -77,14 +86,12 @@ static int unit_init(void)
     		continue;
     	}
 
+    	spin_lock(&startup_lock);
     	cpu_start(i);
+    	spin_lock(&startup_lock);
     }
 
 #if 1
-	for (int i = 0; i < 20000; i++) {
-		__asm__ __volatile__ ("nop");
-	}
-
     lapic_send_ipi(0x50, 1, LAPIC_IPI_DEST);
 #endif
 
@@ -93,6 +100,10 @@ static int unit_init(void)
 
 /* It is not an arch part */
 void resched(void) {
-	return;
+	extern void sched_post_switch(void);
+
+	/* Should we send EOI? */
+
+	sched_post_switch();
 }
 
