@@ -9,12 +9,14 @@
 #include <assert.h>
 #include <stddef.h>
 
-#include <kernel/critical.h>
 #include <hal/ipl.h>
 
-critical_t __critical_count = 0;
+#include <kernel/percpu.h>
+#include <kernel/critical.h>
 
-static struct critical_dispatcher *dispatch_queue;
+critical_t __critical_count __PERCPU__ = 0;
+
+static struct critical_dispatcher *dispatch_queue __PERCPU__;
 
 void critical_dispatch_pending(void) {
 	struct critical_dispatcher *d;

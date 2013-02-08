@@ -124,6 +124,8 @@
 #ifndef KERNEL_CRITICAL_H_
 #define KERNEL_CRITICAL_H_
 
+#include <kernel/percpu.h>
+
 /* Critical levels mask. */
 
 #define CRITICAL_IRQ_LOCK         0x0000003f /**< 64 calls depth. */
@@ -165,10 +167,10 @@ struct critical_dispatcher {
 };
 
 #define CRITICAL_DISPATCHER_DEF(name, dispatch_fn, critical_mask) \
-	static struct critical_dispatcher name = {       \
-		.dispatch = (dispatch_fn),                   \
-		.mask = ~((critical_mask)                    \
-				| __CRITICAL_HARDER(critical_mask)), \
+	static struct critical_dispatcher name __PERCPU__ = { \
+		.dispatch = (dispatch_fn),                        \
+		.mask = ~((critical_mask)                         \
+				| __CRITICAL_HARDER(critical_mask)),      \
 	}
 
 /** Optimization barrier. TODO move somewhere */
