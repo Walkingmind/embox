@@ -17,26 +17,26 @@
 
 extern char _percpu_vma, _percpu_len;
 
-#define __PERCPU__     __attribute__((section(".percpu")))
+#define __percpu__     __attribute__((section(".percpu")))
 #define __PERCPU_START ((char *) &_percpu_vma)
 #define __PERCPU_LEN   ((size_t) &_percpu_len)
 
 #define __PERCPU_VAR_PTR(name) \
-		((typeof(&name)) (((char *) &name) + (cpu_get_id() * __PERCPU_LEN)))
+		((typeof(name)) (((char *) (name)) + (cpu_get_id() * __PERCPU_LEN)))
 
 #else
 
-#define __PERCPU__
+#define __percpu__
 
 #define __PERCPU_VAR_PTR(name) \
-		(&name)
+		(name)
 
 #endif /* SMP */
 
-#define percpu_get(name) \
-		(__PERCPU_VAR_PTR(name))
+#define percpu_ptr(name) \
+		__PERCPU_VAR_PTR(name)
 
-#define percpu_set(name, val) \
-		do { *(__PERCPU_VAR_PTR(name)) = val; } while (0)
+#define percpu_var(name) \
+		(*percpu_ptr(&(name)))
 
 #endif /* KERNEL_PERCPU_H_ */
