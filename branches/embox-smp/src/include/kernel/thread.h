@@ -96,6 +96,16 @@ extern struct thread *thread_lookup(thread_id_t id);
  */
 extern struct thread *thread_self(void);
 
+/*
+ * Initializes thread structure for current thread, adds it to list of threads
+ * and to kernel task. Use this ONLY for bootstrap threads.
+ *
+ * @param
+ *   TODO:
+ */
+extern struct thread *thread_init_self(void *stack, size_t stack_sz,
+		thread_priority_t priority);
+
 /**
  * Creates a new thread.
  *

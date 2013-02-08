@@ -354,6 +354,36 @@ static void *idle_run(void *arg) {
 	return NULL;
 }
 
+struct thread *thread_init_self(void *stack, size_t stack_sz,
+		thread_priority_t priority) {
+	struct task *kernel_task = task_kernel_task();
+	struct thread *thread = thread_self();
+
+	/*
+	 * Assertion: thread stack is between thread and
+	 * thread + THREAD_STACK_SIZE.
+	 */
+	assert((uint32_t) thread <= (uint32_t) (stack - stack_sz));
+	assert((uint32_t) thread + THREAD_STACK_SIZE >= (uint32_t) stack);
+
+	/* Stack setting up */
+	thread->stack = stack;
+	thread->stack_sz = stack_sz;
+
+	/* Global list addition and id setting up */
+	thread->id = id_counter++;
+	list_add_tail(&thread->thread_link, &__thread_list);
+
+	/* General initialization and task setting up */
+	thread_init(thread, 0, NULL, NULL, kernel_task);
+	kernel_task->main_thread = thread;
+
+	/* Priority setting up */
+	thread->priority = priority;
+
+	return thread;
+}
+
 static int unit_init(void) {
 	struct thread *idle;
 	struct thread *bootstrap;
@@ -362,20 +392,9 @@ static int unit_init(void) {
 
 	id_counter = 0;
 
-	/* Bootstrap thread allocated on the bottom of his stack */
-	bootstrap = (struct thread *) &_stack_vma;
-	bootstrap->stack = (void *) ((uint32_t) &_stack_vma + (uint32_t) &_stack_len);
-	bootstrap->stack_sz = (size_t) &_stack_len;
-
-	bootstrap->id = id_counter++;
-	list_add_tail(&bootstrap->thread_link, &__thread_list);
-
-	thread_init(bootstrap, 0, NULL, NULL, kernel_task);
-
-	// TODO priority for bootstrap thread -- Eldar
-	bootstrap->priority = THREAD_PRIORITY_NORMAL;
-
-	kernel_task->main_thread = bootstrap;
+	/* TODO: priority */
+	bootstrap = thread_init_self(&_stack_vma + (uint32_t) &_stack_len,
+			(uint32_t) &_stack_len, THREAD_PRIORITY_NORMAL);
 
 	if (!(idle = thread_new())) {
 		return -ENOMEM;
@@ -383,7 +402,6 @@ static int unit_init(void) {
 	thread_init(idle, 0, idle_run, NULL, kernel_task);
 	thread_context_init(idle);
 
-	bootstrap->task = kernel_task;
 	idle->task = kernel_task;
 
 	idle->priority = THREAD_PRIORITY_MIN;
