@@ -15,6 +15,8 @@
 #include <asm/msr.h>
 #include <asm/ap.h>
 
+#include <hal/arch.h>
+
 #include <kernel/cpu.h>
 #include <kernel/thread.h>
 #include <kernel/spinlock.h>
@@ -43,8 +45,8 @@ void startup_ap(void) {
 
 	spin_unlock(&startup_lock);
 
-	while (1) {
-		;
+	while(1) {
+		arch_idle();
 	}
 }
 

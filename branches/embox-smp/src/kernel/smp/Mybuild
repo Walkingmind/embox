@@ -8,6 +8,5 @@ module smp {
 }
 
 module percpu {
-	source "percpu.lds.S"
 	source "percpu.c"
 }

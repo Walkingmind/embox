@@ -3,6 +3,8 @@
 #include <asm-generic/embox.lds.h>
 #include <framework/mod/options.h>
 
+#include <kernel/cpu.h>
+
 OUTPUT_FORMAT("elf32-i386", "elf32-i386", "elf32-i386")
 OUTPUT_ARCH(i386)
 ENTRY(_start)
@@ -35,6 +37,12 @@ SECTIONS {
 	.data : {
 		ALIGNMENT(); . = ALIGN(0x1000);
 		*(.data)
+
+		_percpu_vma = .;
+		*(.data.percpu)
+		_percpu_len = . - _percpu_vma;
+		. += _percpu_len * (NCPU - 1);
+
 		ALIGNMENT(); . = ALIGN(0x1000);
 	} SECTION_REGION(data)
 	SECTION_SYMBOLS(data)

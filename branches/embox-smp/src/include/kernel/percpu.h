@@ -17,7 +17,7 @@
 
 extern char _percpu_vma, _percpu_len;
 
-#define __percpu__     __attribute__((section(".percpu")))
+#define __percpu__     __attribute__((section(".data.percpu")))
 #define __PERCPU_START ((char *) &_percpu_vma)
 #define __PERCPU_LEN   ((size_t) &_percpu_len)
 
