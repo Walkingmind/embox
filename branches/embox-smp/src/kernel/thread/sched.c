@@ -84,10 +84,6 @@ int sched_init(struct thread* current, struct thread *idle) {
 	return 0;
 }
 
-struct thread *sched_current(void) {
-	return runq_current(&rq);
-}
-
 void sched_start(struct thread *t) {
 	assert(!in_harder_critical());
 
@@ -171,7 +167,7 @@ void do_wake_thread(struct thread *thread, int sleep_result) {
 }
 
 static void do_sleep_locked(struct sleepq *sq) {
-	struct thread *current = runq_current(&rq);
+	struct thread *current = sched_current();
 	assert(in_sched_locked() && !in_harder_critical());
 	assert(thread_state_running(current->state));
 
@@ -416,9 +412,9 @@ static void sched_switch(void) {
 
 		ipl_enable();
 
-		prev = runq_current(&rq);
+		prev = sched_current();
 
-		if (!runq_switch(&rq)) {
+		if (prev == (next = runq_switch(&rq))) {
 			ipl_disable();
 			goto out;
 		}
@@ -427,10 +423,7 @@ static void sched_switch(void) {
 		prev->running_time += new_clock - prev_clock;
 		prev_clock = new_clock;
 
-		next = runq_current(&rq);
-
 		assert(thread_state_running(next->state));
-		assert(next != prev);
 
 		trace_point("context switch");
 

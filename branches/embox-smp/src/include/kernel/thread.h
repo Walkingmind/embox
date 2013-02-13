@@ -83,7 +83,7 @@ extern struct thread *thread_lookup(thread_id_t id);
  * @return
  *   The currently executing thread.
  */
-#define thread_self() thread_get_current()
+#define thread_self() sched_current()
 
 /*
  * Initializes thread structure for current thread, adds it to list of threads
