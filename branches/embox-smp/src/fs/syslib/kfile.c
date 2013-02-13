@@ -21,9 +21,29 @@
 #include <fs/file_desc.h>
 #include <fs/kfile.h>
 #include <fs/kfsop.h>
+#include <fs/path.h>
 
+static int check_perm(struct node *node, int fd_flags) {
+	int perm = node->mode & S_IRWXA;
+	uid_t uid = getuid();
 
-struct file_desc *kopen(const char *path, int flag) {
+	if (uid == 0) {
+		/* super user */
+		return 0;
+	}
+
+	if (node->uid == uid) {
+		perm >>= 6;
+	} else if (node->gid == getgid()) {
+		perm >>= 3;
+	}
+	perm &= S_IRWXO;
+
+	/* Here, we rely on the fact that fd_flags correspond to OTH perm bits. */
+	return (fd_flags & ~perm) ? -EACCES : 0;
+}
+
+struct file_desc *kopen(const char *path, int flag, mode_t mode) {
 	struct node *node;
 	struct nas *nas;
 	struct file_desc *desc;
@@ -39,22 +59,73 @@ struct file_desc *kopen(const char *path, int flag) {
 		return NULL; /* this can't be a directory */
 	}
 
-	if (NULL == (node = vfs_find_node(path, NULL))) {
-		/* we try create file */
-		/* check the mode */
-		if ((O_WRONLY != flag) && (O_APPEND != flag)) {
+	if (NULL == (node = vfs_lookup(NULL, path))) {
+		char tpath[MAX_LENGTH_PATH_NAME];
+		char node_name[MAX_LENGTH_FILE_NAME];
+		fs_drv_t *drv;
+		size_t path_offset, path_len, name_len;
+		struct node *parent;
+
+		if (!(flag & O_CREAT)) {
 			SET_ERRNO(ENOENT);
 			return NULL;
 		}
 
-		/* create file */
-		if (kcreat(NULL, path, 0) < 0) {
+		/* get last exist node */
+		node = vfs_get_exist_path(path, tpath, sizeof(tpath));
+		if (NULL == node) {
+			SET_ERRNO(ENOENT);
 			return NULL;
 		}
-	}
 
-	if (NULL == (node = vfs_find_node(path, NULL))) {
-		return NULL;
+		mode &= S_IRWXU | S_IRWXG | S_IRWXO; /* leave only permission bits */
+
+		path_len = strlen(path);
+		path_offset = strlen(tpath);
+
+		while (1) {
+			path_get_next_name(path + path_offset, node_name, sizeof(node_name));
+			name_len = strlen(node_name);
+
+			if (path_offset + name_len + 1 < path_len) {
+				path_offset += name_len + 1;
+			} else {
+				break;
+			}
+
+			if (-1 == kmkdir(node, node_name, mode)) {
+				return NULL;
+			}
+
+			node = vfs_lookup_child(node, node_name);
+			assert(node);
+		}
+
+		parent = node;
+		node = vfs_create(node, node_name, S_IFREG | mode);
+
+		if (!node) {
+			SET_ERRNO(ENOMEM);
+			return NULL;
+		}
+
+		/* check drv of parents */
+		drv = parent->nas->fs->drv;
+		if (!drv || !drv->fsop->create_node) {
+			SET_ERRNO(EBADF);
+			vfs_del_leaf(node);
+			return NULL;
+		}
+
+		if (0 != (ret = drv->fsop->create_node(parent, node))) {
+			SET_ERRNO(-ret);
+			vfs_del_leaf(node);
+			return NULL;
+		}
+		
+	} else if (flag & O_CREAT && flag & O_EXCL) {
+			SET_ERRNO(EEXIST);
+			return NULL;
 	}
 
 	if (node_is_directory(node)) {
@@ -87,46 +158,90 @@ struct file_desc *kopen(const char *path, int flag) {
 
 	desc->node = node;
 	desc->ops = ops;
+	desc->flags = ((flag & O_WRONLY || flag & O_RDWR) ? FDESK_FLAG_WRITE : 0)
+		| ((flag & O_WRONLY) ? 0 : FDESK_FLAG_READ)
+		| ((flag & O_APPEND) ? FDESK_FLAG_APPEND : 0);
+	desc->cursor = 0;
 
-	if ((flag & O_APPEND) && node_is_file(node)) {
-		desc->cursor = kseek(desc, 0, SEEK_END);
-	} else {
-		desc->cursor = 0;
+	if (0 > (ret = check_perm(node, desc->flags))) {
+		goto free_out;
 	}
 
-	ret = desc->ops->open(node, desc, flag);
+	if (0 > (ret = desc->ops->open(node, desc, flag))) {
+		goto free_out;
+	}
+
+	if (flag & O_TRUNC) {
+		/*if (0 > (ret = ktruncate(desc->node, 0))) { }*/
+		ktruncate(desc->node, 0);
+	}
+
+free_out:
 	if (ret < 0) {
 		file_desc_free(desc);
 		SET_ERRNO(-ret);
 		return NULL;
 	}
 
+
 	return desc;
+}
+
+int ktruncate(struct node *node, off_t length) {
+	int ret;
+	struct nas *nas;
+	fs_drv_t *drv;
+
+	nas = node->nas;
+	drv = nas->fs->drv;
+
+	if (NULL == drv->fsop->truncate) {
+		errno = EPERM;
+		return -1;
+	}
+	
+	if (0 > (ret = check_perm(node, FDESK_FLAG_WRITE))) {
+		SET_ERRNO(-ret);
+		return -1;
+	}
+
+	if (node->mode & S_IFDIR) {
+		SET_ERRNO(EISDIR);
+		return -1;
+	}
+
+	if (0 > (ret = drv->fsop->truncate(node, length))) {
+		SET_ERRNO(-ret);
+		return -1;
+	}
+
+	return ret;
 }
 
 size_t kwrite(const void *buf, size_t size, struct file_desc *file) {
 	size_t ret;
-	struct node *node;
 
-	if (NULL == file) {
+	if (!file) {
 		SET_ERRNO(EBADF);
 		return -1;
 	}
 
-	node = file->node;
-	if ((node != NULL) && (node->type & S_IREAD)) {
-		SET_ERRNO(EPERM);
+	if (!(file->flags & FDESK_FLAG_WRITE)) {
+		SET_ERRNO(EBADF);
 		return -1;
 	}
-
 
 	if (NULL == file->ops->write) {
 		SET_ERRNO(EBADF);
 		return -1;
 	}
 
+	if (file->flags & FDESK_FLAG_APPEND) {
+		kseek(file, 0, SEEK_END);
+	}
+
 	ret = file->ops->write(file, (void *)buf, size);
-	if ((ssize_t)ret < 0) {
+	if ((ssize_t) ret < 0) {
 		SET_ERRNO(-(ssize_t)ret);
 		return -1;
 	}
@@ -142,13 +257,18 @@ size_t kread(void *buf, size_t size, struct file_desc *desc) {
 		return -1;
 	}
 
+	if (!(desc->flags & FDESK_FLAG_READ)) {
+		SET_ERRNO(EBADF);
+		return -1;
+	}
+
 	if (NULL == desc->ops->read) {
 		SET_ERRNO(EBADF);
 		return -1;
 	}
 
 	ret = desc->ops->read(desc, buf, size);
-	if ((ssize_t)ret < 0) {
+	if ((ssize_t) ret < 0) {
 		SET_ERRNO(-(ssize_t)ret);
 		return -1;
 	}

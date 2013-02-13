@@ -24,6 +24,7 @@
 
 #include <mem/objalloc.h>
 #include <embox/net/sock.h>
+#include <kernel/task/io_sync.h>
 
 
 
@@ -187,6 +188,10 @@ static int tcp_v4_listen(struct sock *sk, int backlog) {
 	return res;
 }
 
+#include <net/net.h>
+#include <kernel/task.h>
+#include <kernel/task/idx.h>
+
 static int tcp_v4_accept(struct sock *sk, struct sock **newsk,
 		struct sockaddr *addr, int *addr_len) {
 	union sock_pointer sock, newsock;
@@ -194,8 +199,6 @@ static int tcp_v4_accept(struct sock *sk, struct sock **newsk,
 	useconds_t started;
 
 	assert(sk != NULL);
-	assert(addr != NULL);
-	assert(addr_len != NULL);
 
 	sock.sk = sk;
 	debug_print(3, "tcp_v4_accept: sk 0x%p, st%d\n", sock.tcp_sk, sock.sk->sk_state);
@@ -206,22 +209,37 @@ static int tcp_v4_accept(struct sock *sk, struct sock **newsk,
 	case TCP_LISTEN:
 		/* waiting anyone */
 		if (list_empty(&sock.tcp_sk->conn_wait)) { /* TODO sync this */
+			if (sk->sk_socket->desc->flags & O_NONBLOCK) {
+				return -EAGAIN;
+			}
 			event_wait_ms(&sock.tcp_sk->new_conn, EVENT_TIMEOUT_INFINITE);
 		}
 		assert(!list_empty(&sock.tcp_sk->conn_wait));
 		/* get first socket from */
 		newsock.tcp_sk = list_entry(sock.tcp_sk->conn_wait.next, struct tcp_sock, conn_wait);
 		tcp_obj_lock(sock, TCP_SYNC_CONN_QUEUE);
+		/* Delete new socket from list and block listening socket if there are no connections. */
 		list_del_init(&newsock.tcp_sk->conn_wait);
+		softirq_lock();
+		{
+			if (list_empty(&sock.tcp_sk->conn_wait)) {
+				idx_io_disable(sk->sk_socket->desc, IDX_IO_READING);
+			}
+		}
+		softirq_unlock();
+
 		tcp_obj_unlock(sock, TCP_SYNC_CONN_QUEUE);
 		/* save remote address */
-		addr_in = (struct sockaddr_in *)addr;
-		addr_in->sin_family = AF_INET;
-		addr_in->sin_port = newsock.inet_sk->dport;
-		addr_in->sin_addr.s_addr = newsock.inet_sk->daddr;
-		*addr_len = sizeof *addr_in;
+		if (addr != NULL) {
+			assert(addr_len != NULL);
+			addr_in = (struct sockaddr_in *)addr;
+			addr_in->sin_family = AF_INET;
+			addr_in->sin_port = newsock.inet_sk->dport;
+			addr_in->sin_addr.s_addr = newsock.inet_sk->daddr;
+			*addr_len = sizeof *addr_in;
+		}
 		debug_print(3, "tcp_v4_accept: newsk 0x%p for %s:%d\n", newsock.tcp_sk,
-				inet_ntoa(addr_in->sin_addr), (int)ntohs(addr_in->sin_port));
+				inet_ntoa(*(struct in_addr *)&newsock.inet_sk->daddr), (int)ntohs(newsock.inet_sk->dport));
 		/* wait until something happened */
 		started = tcp_get_usec();
 		while (tcp_st_status(newsock) == TCP_ST_NONSYNC) {

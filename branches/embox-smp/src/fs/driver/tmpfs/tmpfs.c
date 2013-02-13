@@ -59,14 +59,18 @@ static int tmpfs_init(void * par) {
 		return -1;
 	}
 
-	if((NULL == (dev_node = vfs_find_node(TMPFS_DEV, NULL))) ||
-	  (NULL == (dir_node = vfs_add_path(TMPFS_DIR, NULL)))) {
+	dev_node = vfs_lookup(NULL, TMPFS_DEV);
+	if (!dev_node) {
 		return -1;
 	}
-	dir_node->type = NODE_TYPE_DIRECTORY;
 
 	/* format filesystem */
-	if(0 != tmpfs_format((void *)dev_node)) {
+	if (0 != tmpfs_format((void *) dev_node)) {
+		return -1;
+	}
+
+	dir_node = vfs_create(NULL, TMPFS_DIR, S_IFDIR);
+	if (!dir_node) {
 		return -1;
 	}
 
@@ -93,6 +97,7 @@ static struct kfile_operations tmpfs_fop = {
 		tmpfs_read,
 		tmpfs_write,
 		tmpfs_ioctl
+
 };
 
 /*
@@ -261,7 +266,7 @@ static size_t tmpfs_write(struct file_desc *desc, void *buf, size_t size) {
 
 	while(1) {
 		if(0 == fsi->block_size) {
-			return 0;
+			break;
 		}
 		blk = fi->pointer / fsi->block_size;
 		/* check if block over the file */
@@ -390,13 +395,16 @@ static int tmpfs_format(void *path);
 static int tmpfs_mount(void *dev, void *dir);
 static int tmpfs_create(struct node *parent_node, struct node *node);
 static int tmpfs_delete(struct node *node);
+static int tmpfs_truncate(struct node *node, off_t length);
 
 static fsop_desc_t tmpfs_fsop = {
 		tmpfs_init,
 		tmpfs_format,
 		tmpfs_mount,
 		tmpfs_create,
-		tmpfs_delete
+		tmpfs_delete,
+
+		.truncate = tmpfs_truncate,
 };
 
 static fs_drv_t tmpfs_drv = {
@@ -408,7 +416,8 @@ static fs_drv_t tmpfs_drv = {
 static tmpfs_file_info_t *tmpfs_create_file(struct nas *nas) {
 	tmpfs_file_info_t *fi;
 
-	if(NULL == (fi = pool_alloc(&tmpfs_file_pool))) {
+	fi = pool_alloc(&tmpfs_file_pool);
+	if (!fi) {
 		return NULL;
 	}
 
@@ -418,43 +427,38 @@ static tmpfs_file_info_t *tmpfs_create_file(struct nas *nas) {
 	return fi;
 }
 
-static int tmpfs_create(struct node *parent_node, struct node *node) {
-	struct nas *nas, *parents_nas;
-	int node_quantity;
-	char path[MAX_LENGTH_PATH_NAME];
+static node_t *tmpfs_create_dot(node_t *parent_node, const char *name) {
+	node_t *dot_node;
+	struct nas *parent_nas, *nas;
 
-	parents_nas = parent_node->nas;
+	parent_nas = parent_node->nas;
 
-	if (node_is_directory(node)) {
-		node_quantity = 3; /* need create . and .. directory */
-	}
-	else {
-		node_quantity = 1;
-	}
-	vfs_get_path_by_node(node, path);
-
-	for (int count = 0; count < node_quantity; count ++) {
-		if(0 < count) {
-			if(1 == count) {
-				strcat(path, "/.");
-			}
-			else if(2 == count) {
-				strcat(path, ".");
-			}
-			if(NULL == (node = vfs_add_path (path, NULL))) {
-				return -ENOMEM;
-			}
-		}
-
-		nas = node->nas;
-		nas->fs = parents_nas->fs;
+	dot_node = vfs_create_child(parent_node, name, S_IFDIR);
+	if (dot_node) {
+		nas = dot_node->nas;
+		nas->fs = parent_nas->fs;
 		/* don't need create fi for directory - take root node fi */
-		nas->fi->privdata = parents_nas->fi->privdata;
+		nas->fi->privdata = parent_nas->fi->privdata;
+	}
 
-		if((0 >= count) & (!node_is_directory(node))) {
-			if(NULL == (nas->fi->privdata = tmpfs_create_file(nas))) {
-				return -ENOMEM;
-			}
+	return dot_node;
+}
+
+static int tmpfs_create(struct node *parent_node, struct node *node) {
+	struct nas *nas;
+
+	nas = node->nas;
+
+	if (!node_is_directory(node)) {
+		if (!(nas->fi->privdata = tmpfs_create_file(nas))) {
+			return -ENOMEM;
+		}
+		nas->fs = parent_node->nas->fs;
+
+	} else {
+		if (!tmpfs_create_dot(node, ".") ||
+			!tmpfs_create_dot(node, "..")) {
+			return -ENOMEM;
 		}
 	}
 
@@ -464,7 +468,7 @@ static int tmpfs_create(struct node *parent_node, struct node *node) {
 static int tmpfs_delete(struct node *node) {
 	struct tmpfs_file_info *fi;
 	struct tmpfs_fs_info *fsi;
-	node_t *pointnod;
+	node_t *dot_node;
 	struct nas *nas;
 	char path [MAX_LENGTH_PATH_NAME];
 
@@ -476,18 +480,17 @@ static int tmpfs_delete(struct node *node) {
 
 	/* need delete "." and ".." node for directory */
 	if (node_is_directory(node)) {
+		dot_node = vfs_lookup_child(node, ".");
+		if (dot_node) {
+			vfs_del_leaf(dot_node);
+		}
 
-		strcat(path, "/.");
-		pointnod = vfs_find_node(path, NULL);
-		vfs_del_leaf(pointnod);
+		dot_node = vfs_lookup_child(node, "..");
+		if (dot_node) {
+			vfs_del_leaf(dot_node);
+		}
 
-		strcat(path, ".");
-		pointnod = vfs_find_node(path, NULL);
-		vfs_del_leaf(pointnod);
-
-		path[strlen(path) - 3] = '\0';
-	}
-	else {
+	} else {
 		index_free(&tmpfs_file_idx, fi->index);
 		pool_free(&tmpfs_file_pool, fi);
 	}
@@ -498,6 +501,18 @@ static int tmpfs_delete(struct node *node) {
 	}
 
 	vfs_del_leaf(node);
+
+	return 0;
+}
+
+static int tmpfs_truncate(struct node *node, off_t length) {
+	struct nas *nas = node->nas;
+
+	if (length > MAX_FILE_SIZE) {
+		return -EFBIG;
+	}
+
+	nas->fi->ni.size = length;
 
 	return 0;
 }

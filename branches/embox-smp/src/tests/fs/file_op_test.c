@@ -53,7 +53,7 @@ TEST_CASE("Copy file") {
 	int bytesread;
 
 	test_assert(0 <=  (src_file = open(FS_FILE1, O_RDONLY)));
-	test_assert(0 <=  (dst_file = open(FS_FILE2, O_WRONLY)));
+	test_assert(0 <=  (dst_file = open(FS_FILE2, O_WRONLY | O_CREAT, S_IRUSR | S_IWUSR)));
 	test_assert_zero(lseek(dst_file, 0, SEEK_SET));
 
 	bytesread = 0;
@@ -73,10 +73,12 @@ TEST_CASE("Read file") {
 	int file;
 	char buf[PAGE_SIZE()];
 
-	test_assert(0 <=  (file = open(FS_FILE2, O_RDONLY)));
+	memset(buf, 0, PAGE_SIZE());
+
+	test_assert(0 <=  (file = open(FS_FILE2, O_RDONLY, S_IRUSR)));
 	test_assert_zero(lseek(file, 0, SEEK_SET));
 
-	test_assert(0 <= read(file, buf, PAGE_SIZE()));
+	test_assert_equal(strlen(FS_TESTDATA), read(file, buf, PAGE_SIZE()));
 	test_assert_zero(strcmp(FS_TESTDATA, buf));
 
 	test_assert_zero(close(file));
@@ -100,6 +102,7 @@ TEST_CASE("stat and fstat should return same stats") {
 */
 
 static int setup_suite(void) {
+	int fd;
 
 	if (0 != ramdisk_create(FS_DEV, FS_BLOCKS * PAGE_SIZE())) {
 		return -1;
@@ -115,7 +118,13 @@ static int setup_suite(void) {
 		return -1;
 	}
 
-	return creat(FS_FILE1, 0);
+	if (-1 == (fd = creat(FS_FILE1, S_IRUSR | S_IWUSR))) {
+		return -1;
+	}
+
+	close(fd);
+
+	return 0;
 }
 
 static int teardown_suite(void) {

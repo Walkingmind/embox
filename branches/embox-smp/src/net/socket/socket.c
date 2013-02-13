@@ -67,6 +67,13 @@ int socket(int domain, int type, int protocol) {
 
 	sock->desc = task_self_idx_get(res);
 
+	assert(sock->state != SS_CONNECTED);
+	/* Block stream socket on writing while it is unconnected.
+	 * Otherwise unblock it. */
+	if (type != SOCK_STREAM) {
+		idx_io_enable(sock->desc, IDX_IO_WRITING);
+	}
+
 	return res;
 }
 
@@ -90,6 +97,10 @@ int connect(int sockfd, const struct sockaddr *daddr, socklen_t daddrlen) {
 		SET_ERRNO(-res);
 		return -1;
 	}
+
+	/* If connection established, than we can write in this socket always. */
+	idx_io_enable(sock->desc, IDX_IO_WRITING);
+
 	return ENOERR;
 }
 
@@ -166,6 +177,8 @@ int accept(int sockfd, struct sockaddr *addr, socklen_t *addrlen) {
 	}
 
 	new_sock->desc = task_self_idx_get(res);
+	/* If connection established, than we can write in this socket always. */
+	idx_io_enable(new_sock->desc, IDX_IO_WRITING);
 
 	return res;
 }
@@ -412,9 +425,11 @@ static ssize_t this_read(struct idx_desc *data, void *buf, size_t nbyte) {
 
 	len = recvfrom_sock(task_idx_desc_data(data), buf, nbyte, * task_idx_desc_flags_ptr(data), NULL, 0);
 
+	softirq_lock();
 	if (NULL == skb_queue_front(sock->sk->sk_receive_queue)) {
-		io_op_block(&data->data->read_state);
+		idx_io_disable(data, IDX_IO_READING);
 	}
+	softirq_unlock();
 
 	return len;
 }

@@ -33,10 +33,12 @@ static uint8_t sector_buff[SECTOR_SIZE];
 static uint32_t bytecount;
 
 /* fat filesystem description pool */
-POOL_DEF(fat_fs_pool, struct fat_fs_info, OPTION_GET(NUMBER,fat_descriptor_quantity));
+POOL_DEF(fat_fs_pool, struct fat_fs_info,
+	OPTION_GET(NUMBER, fat_descriptor_quantity));
 
 /* fat file description pool */
-POOL_DEF(fat_file_pool, struct fat_file_info, OPTION_GET(NUMBER,inode_quantity));
+POOL_DEF(fat_file_pool, struct fat_file_info,
+	OPTION_GET(NUMBER, inode_quantity));
 
 #define LABEL "EMBOX_DISK\0"
 #define SYSTEM "FAT12"
@@ -65,6 +67,20 @@ static int fat_read_sector(void *bdev, uint8_t *buffer,
 static uint32_t fat_get_next(struct nas *nas,
 		p_dir_info_t dirinfo, p_dir_ent_t dirent);
 static int fat_create_dir_entry (struct nas *parent_nas);
+
+
+static fat_file_info_t *fat_fi_alloc(struct nas *nas, void *fs) {
+	struct fat_file_info *fi;
+
+	fi = pool_alloc(&fat_file_pool);
+	if (fi) {
+		memset(fi, 0, sizeof(*fi));
+		nas->fi->privdata = fi;
+		nas->fs = fs;
+	}
+
+	return fi;
+}
 
 
 static int fatfs_create_partition(void *bdev) {
@@ -707,8 +723,7 @@ static uint32_t fat_open_dir(struct nas *nas,
 				result = fat_get_next(nas, dirinfo, &de);
 			} while (!result && memcmp(de.name, tmpfn, MSDOS_NAME));
 
-			if (!memcmp(de.name, tmpfn, MSDOS_NAME) &&
-					((de.attr & ATTR_DIRECTORY) == ATTR_DIRECTORY)) {
+			if (!memcmp(de.name, tmpfn, MSDOS_NAME) && (de.attr & ATTR_DIRECTORY)) {
 				if (volinfo->filesystem == FAT32) {
 					dirinfo->currentcluster = (uint32_t) de.startclus_l_l |
 					  ((uint32_t) de.startclus_l_h) << 8 |
@@ -984,7 +999,7 @@ static void fatfs_set_direntry (uint32_t dir_cluster, uint32_t cluster) {
  * Returns various DFS_* error states. If the result is DFS_OK, file
  * was created and can be used.
  */
-static int fatfs_create_file(struct node * parant_node, struct node *node) {
+static int fatfs_create_file(struct node * parent_node, struct node *node) {
 	char tmppath[MAX_LENGTH_PATH_NAME];
 	uint8_t filename[12];
 	dir_info_t di;
@@ -1028,7 +1043,7 @@ static int fatfs_create_file(struct node * parant_node, struct node *node) {
 	/* put sane values in the directory entry */
 	memset(&de, 0, sizeof(de));
 	memcpy(de.name, filename, MSDOS_NAME);
-	de.attr = node->type;
+	de.attr = S_ISDIR(node->mode) ? ATTR_DIRECTORY : 0;
 	fat_set_filetime(&de);
 
 	/* allocate a starting cluster for the directory entry */
@@ -1762,6 +1777,7 @@ static int fat_mount_files(struct nas *dir_nas) {
 	uint8_t name[MSDOS_NAME + 2];
 	struct fat_file_info *fi;
 	struct fat_fs_info *fsi;
+	mode_t mode;
 
 	fsi = dir_nas->fs->fsi;
 
@@ -1780,22 +1796,26 @@ static int fat_mount_files(struct nas *dir_nas) {
 	/* move out from first root directory entry table*/
 	cluster = fat_get_next(dir_nas, &di, &de);
 
-	while(DFS_EOF != (cluster = fat_get_next(dir_nas, &di, &de))) {
+	while (DFS_EOF != (cluster = fat_get_next(dir_nas, &di, &de))) {
 		/* after fat_get_next de.name[0]=0, if it is not a valid name */
-		if(0 != de.name[0]) {
+		if (0 != de.name[0]) {
 			path_dir_to_canonical((char *) name, (char *) de.name,
 								  de.attr & ATTR_DIRECTORY);
 			/* Create node and file descriptor*/
 			memset(full_path, 0, sizeof(full_path));
 			vfs_get_path_by_node(dir_nas->node, full_path);
 			strcat(full_path, "/");
-			strcat (full_path, (const char *) name);
+			strcat(full_path, (const char *) name);
 
-			if(NULL == (node = vfs_add_path (full_path, NULL))) {
+			mode = (de.attr & ATTR_DIRECTORY) ? S_IFDIR : S_IFREG;
+
+			fi = pool_alloc(&fat_file_pool);
+			if (!fi) {
 				return -ENOMEM;
 			}
-			if(NULL == (fi = pool_alloc(&fat_file_pool))) {
-				vfs_del_leaf(node);
+			node = vfs_create_child(dir_nas->node, (const char *) name, mode);
+			if (!node) {
+				pool_free(&fat_file_pool, fi);
 				return -ENOMEM;
 			}
 
@@ -1805,15 +1825,11 @@ static int fat_mount_files(struct nas *dir_nas) {
 			nas->fs = dir_nas->fs;
 			nas->fi->privdata = (void *)fi;
 
-			if ((ATTR_DIRECTORY & de.attr) == ATTR_DIRECTORY) {
-				node->type = NODE_TYPE_DIRECTORY;
+			if (de.attr & ATTR_DIRECTORY) {
 				if ((0 != strncmp((char *) de.name, ".  ", 3)) &&
 					(0 != strncmp((char *) de.name, ".. ", 3))) {
 					fat_create_dir_entry(nas);
 				}
-			}
-			else {
-				node->type = NODE_TYPE_FILE;
 			}
 		}
 	}
@@ -1825,66 +1841,71 @@ static int fat_create_dir_entry(struct nas *parent_nas) {
 	dir_info_t di;
 	dir_ent_t de;
 	uint8_t *rcv_buf;
-	uint8_t name[MSDOS_NAME + 2];
+	char name[MSDOS_NAME + 2];
 	char full_path[MAX_LENGTH_PATH_NAME];
 	struct nas *nas;
 	struct fat_file_info  *fi;
 	struct fat_fs_info *fsi;
 	node_t *node;
+	mode_t mode;
+	int rc = 0;
 
 	fsi = parent_nas->fs->fsi;
 
-	if(NULL == (rcv_buf = page_alloc(__phymem_allocator, 1))) {
-		return -ENOMEM;
+	if (NULL == (rcv_buf = page_alloc(__phymem_allocator, 1))) {
+		rc = -ENOMEM;
+		goto out;
 	}
 	memset(rcv_buf, 0, sizeof(rcv_buf));
 	di.p_scratch = rcv_buf;
 
-	vfs_get_path_by_node(parent_nas->node, full_path);
 	/* set relative path in this file system */
-	path_cut_mount_dir(full_path, (char *)fsi->mntto);
+	vfs_get_path_by_node(parent_nas->node, full_path);
+	path_cut_mount_dir(full_path, (char *) fsi->mntto);
+
 	if (fat_open_dir(parent_nas, (uint8_t *) full_path, &di)) {
-		page_free(__phymem_allocator, rcv_buf, 1);
-		return -ENODEV;
+		rc = -ENODEV;
+		goto out;
 	}
 
-	while(DFS_EOF != (cluster = fat_get_next(parent_nas, &di, &de))) {
-		if(0 != de.name[0]) {
-			path_dir_to_canonical((char *) name, (char *) de.name,
+	while (DFS_EOF != (cluster = fat_get_next(parent_nas, &di, &de))) {
+		if (*de.name) {
+			path_dir_to_canonical(name, (char *) de.name,
 								  de.attr & ATTR_DIRECTORY);
+
 			/* Create node and file descriptor*/
-			vfs_get_path_by_node(parent_nas->node, full_path);
-			strcat(full_path, "/");
-			strncat (full_path, (const char *) name, MSDOS_NAME);
-
-			if(NULL == (node = vfs_add_path (full_path, NULL))) {
-				return -ENOMEM;
-			}
-			if(NULL == (fi = pool_alloc(&fat_file_pool))) {
-				vfs_del_leaf(node);
-				return -ENOMEM;
+			fi = pool_alloc(&fat_file_pool);
+			if (!fi) {
+				rc = -ENOMEM;
+				goto out;
 			}
 
-			memset(fi, 0, sizeof(struct fat_file_info));
+			mode = (de.attr & ATTR_DIRECTORY) ? S_IFDIR : S_IFREG;
+
+			node = vfs_create_child(parent_nas->node, name, mode);
+			if (!node) {
+				pool_free(&fat_file_pool, fi);
+				rc = -ENOMEM;
+				goto out;
+			}
+
+			memset(fi, 0, sizeof(*fi));
 
 			nas = node->nas;
 			nas->fs = parent_nas->fs;
-			nas->fi->privdata = (void *)fi;
+			nas->fi->privdata = fi;
 
-			if ((ATTR_DIRECTORY & de.attr) == ATTR_DIRECTORY) {
-				node->type = NODE_TYPE_DIRECTORY;
+			if (de.attr & ATTR_DIRECTORY) {
 				if ((0 != strncmp((char *) de.name, ".  ", 3)) &&
 					(0 != strncmp((char *) de.name, ".. ", 3))) {
 					fat_create_dir_entry(nas);
 				}
 			}
-			else {
-				node->type = NODE_TYPE_FILE;
-			}
 		}
 	}
-	page_free(__phymem_allocator, rcv_buf, 1);
-	return 0;
+
+out: page_free(__phymem_allocator, rcv_buf, 1);
+	return rc;
 }
 
 /* File operations */
@@ -2179,6 +2200,7 @@ static int fatfs_mount(void *dev, void *dir) {
 	return fat_mount_files(dir_nas);
 }
 
+#if 0
 static int fatfs_create(struct node *parent_node, struct node *node) {
 	struct fat_file_info *fi;
 	struct nas *nas, *parents_nas;
@@ -2197,13 +2219,13 @@ static int fatfs_create(struct node *parent_node, struct node *node) {
 	}
 
 	for (int count = 0; count < node_quantity; count ++) {
-		if(0 < count) {
-			if(1 == count) {
+		if (0 < count) {
+			if (1 == count) {
 				strcat(path, "/.");
-			}
-			else if(2 == count) {
+			} else if (2 == count) {
 				strcat(path, ".");
 			}
+
 			if(NULL == (node = vfs_add_path (path, NULL))) {
 				return -ENOMEM;
 			}
@@ -2234,6 +2256,41 @@ static int fatfs_create(struct node *parent_node, struct node *node) {
 
 	return 0;
 }
+#endif
+
+// XXX this is shit, rewrite it.
+static int fatfs_create(struct node *parent_node, struct node *node) {
+	struct fat_file_info *fi;
+	struct nas *parent_nas, *nas;
+	struct node *dot_node;
+
+	assert(parent_node && node);
+
+	nas = node->nas;
+	parent_nas = parent_node->nas;
+
+	fi = fat_fi_alloc(nas, parent_nas->fs);
+	if (!fi) {
+		return -ENOMEM;
+	}
+
+	fatfs_create_file(parent_node, node);
+
+	if (node_is_directory(node)) {
+		/* Create . and .. directories. */
+		// XXX do we need to setup file info here? -- Eldar
+		dot_node = vfs_create_child(node, ".", S_IFDIR);
+		if (!dot_node) {
+			return -ENOMEM;
+		}
+		dot_node = vfs_create_child(node, "..", S_IFDIR);
+		if (!dot_node) {
+			return -ENOMEM;
+		}
+	}
+
+	return 0;
+}
 
 static int fatfs_delete(struct node *node) {
 	struct node *dot_node;
@@ -2250,20 +2307,15 @@ static int fatfs_delete(struct node *node) {
 
 	/* need delete "." and ".." node for directory */
 	if (node_is_directory(node)) {
-
-		strcat(path, "/.");
-		dot_node = vfs_find_node(path, NULL);
+		dot_node = vfs_lookup_child(node, ".");
 		if (dot_node) {
 			vfs_del_leaf(dot_node);
 		}
 
-		strcat(path, ".");
-		dot_node = vfs_find_node(path, NULL);
+		dot_node = vfs_lookup_child(node, "..");
 		if (dot_node) {
 			vfs_del_leaf(dot_node);
 		}
-
-		path[strlen(path) - 3] = '\0';
 	}
 
 	/*

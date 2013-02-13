@@ -60,7 +60,7 @@ int path_increase_tail(char *head, char *tail) {
 		strcat(head, tail);
 
 		do {
-			if('\0' == *p_tail) {
+			if ('\0' == *p_tail) {
 				break;
 			}
 			p_tail++;
@@ -83,7 +83,7 @@ char *path_get_next_name(const char *path, char *node_name, int buff_len) {
 	*nm = '\0'; /* empty node_name */
 
 	/* we must pass '/' symbol */
-	if('/' == *p) {
+	if ('/' == *p) {
 		p++;
 	}
 
@@ -102,6 +102,29 @@ char *path_get_next_name(const char *path, char *node_name, int buff_len) {
 	}
 
 	return NULL;
+}
+
+const char *path_next(const char *path, size_t *p_len) {
+	/* Skip leading slashes. */
+	while (*path == '/') {
+		++path;
+	}
+
+	if (!*path) {
+		return NULL;
+	}
+
+	if (p_len) {
+		const char *end = path;
+
+		while (*end && *end != '/') {
+			++end;
+		}
+
+		*p_len = end - path;
+	}
+
+	return path;
 }
 
 #include <fs/fat.h>
