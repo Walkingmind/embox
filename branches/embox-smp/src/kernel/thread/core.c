@@ -357,14 +357,7 @@ static void *idle_run(void *arg) {
 struct thread *thread_init_self(void *stack, size_t stack_sz,
 		thread_priority_t priority) {
 	struct task *kernel_task = task_kernel_task();
-	struct thread *thread = thread_self();
-
-	/*
-	 * Assertion: thread stack is between thread and
-	 * thread + THREAD_STACK_SIZE.
-	 */
-	assert((uint32_t) thread <= (uint32_t) (stack - stack_sz));
-	assert((uint32_t) thread + THREAD_STACK_SIZE >= (uint32_t) stack);
+	struct thread *thread = stack - stack_sz; /* Allocating at the bottom */
 
 	/* Stack setting up */
 	thread->stack = stack;

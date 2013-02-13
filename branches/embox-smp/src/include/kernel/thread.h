@@ -17,9 +17,10 @@
 
 #include <framework/mod/options.h>
 
-#include <kernel/thread/sched.h> /* sched_current */
-
 #include <module/embox/kernel/thread/core.h>
+
+#include <kernel/thread/current.h>
+#include <kernel/thread/sched.h>
 
 #define THREAD_STACK_SIZE OPTION_MODULE_GET(embox__kernel__thread__core, \
 			NUMBER,thread_stack_size)
@@ -34,18 +35,6 @@
  * Thread control block.
  */
 struct thread;
-
-/*
- * Returns pointer to current thread.
- */
-static inline struct thread *thread_self(void) {
-	/*
-	 * Thread structure allocated on the top of the stack.
-	 * Get current stack pointer and apply mask.
-	 */
-	return (struct thread *) (((uint32_t)__builtin_frame_address(0))
-			& (~(THREAD_STACK_SIZE - 1)));
-}
 
 /**
  * Every thread can be identified using a number which is unique across the
@@ -94,7 +83,7 @@ extern struct thread *thread_lookup(thread_id_t id);
  * @return
  *   The currently executing thread.
  */
-extern struct thread *thread_self(void);
+#define thread_self() thread_get_current()
 
 /*
  * Initializes thread structure for current thread, adds it to list of threads

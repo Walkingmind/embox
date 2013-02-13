@@ -21,6 +21,7 @@
 #include <kernel/critical.h>
 #include <kernel/irq_lock.h>
 #include <kernel/thread/sched.h>
+#include <kernel/thread/current.h>
 #include <kernel/thread/sched_strategy.h>
 #include <kernel/thread/state.h>
 #include <kernel/time/timer.h>
@@ -74,6 +75,8 @@ int sched_init(struct thread* current, struct thread *idle) {
 	prev_clock = clock();
 
 	runq_init(&rq, current, idle);
+
+	thread_set_current(current);
 
 	assert(thread_state_started(current->state));
 	assert(thread_state_started(idle->state));
@@ -434,6 +437,8 @@ static void sched_switch(void) {
 		ipl_disable();
 
 		task_notify_switch(prev, next);
+
+		thread_set_current(next);
 		context_switch(&prev->context, &next->context);
 	}
 
