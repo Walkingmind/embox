@@ -401,7 +401,6 @@ static void sched_switch(void) {
 	assert(!in_sched_locked());
 
 	sched_lock();
-
 	{
 		startq_flush();
 

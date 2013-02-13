@@ -25,7 +25,6 @@ void critical_dispatch_pending(void) {
 	critical_t mask;
 	ipl_t ipl;
 
-	bkl_lock();
 	ipl = ipl_save();
 
 	while ((d = *pp) && !((mask = d->mask) & count)) {
@@ -37,7 +36,6 @@ void critical_dispatch_pending(void) {
 	}
 
 	ipl_restore(ipl);
-	bkl_unlock();
 }
 
 void critical_request_dispatch(struct critical_dispatcher *d) {

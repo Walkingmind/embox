@@ -26,6 +26,7 @@
 #include <kernel/thread/sched_strategy.h>
 #include <kernel/thread/state.h>
 
+#include <kernel/cpu.h>
 #include <kernel/time/timer.h>
 
 #include <stdio.h>
@@ -76,7 +77,7 @@ static void sched_tick(sys_timer_t *timer, void *param) {
 	extern void smp_send_resched(int cpu_id);
 	sched_post_switch();
 
-#if 1
+#ifdef SMP
 	smp_send_resched(1);
 #endif
 }

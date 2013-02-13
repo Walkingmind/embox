@@ -11,11 +11,11 @@
 
 static SPINLOCK_DEFINE(bkl);
 
-static unsigned int owner_id, nested;
+static unsigned int owner_id, nested = 0;
 
 void bkl_lock(void) {
 	ipl_t ipl;
-	int cpu_id, tmp;
+	int cpu_id, tmp = 0;
 
 	while (1) {
 		ipl = ipl_save();
