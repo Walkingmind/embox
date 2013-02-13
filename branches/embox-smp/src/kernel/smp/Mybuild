@@ -5,6 +5,8 @@ module smp {
 	
 	depends embox.arch.x86.kernel.smp
 	depends percpu
+	
+	depends embox.kernel.thread.core
 }
 
 module percpu {

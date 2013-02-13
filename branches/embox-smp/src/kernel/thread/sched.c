@@ -459,6 +459,16 @@ int sched_tryrun(struct thread *thread) {
 	return res;
 }
 
+int sched_cpu_init(struct thread *current) {
+	extern int runq_cpu_init(struct runq *rq, struct thread *current);
+
+	runq_cpu_init(&rq, current);
+
+	thread_set_current(current);
+
+	return 0;
+}
+
 static int unit_init(void) {
 	return 0;
 }

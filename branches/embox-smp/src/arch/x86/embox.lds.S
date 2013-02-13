@@ -16,26 +16,26 @@ MEMORY {
 
 SECTIONS {
 	.text : {
-		ALIGNMENT(); . = ALIGN(0x1000);
+		ALIGNMENT();
 		*(.multiboot)
 		_traps_text_start = .;
 		*(.traps.*)
 		_traps_text_end = .;
 		*(.text)
 		*(.text.*)
-		ALIGNMENT(); . = ALIGN(0x1000);
+		ALIGNMENT();
 	} SECTION_REGION(text)
 	SECTION_SYMBOLS(text)
 
 	.rodata : {
-		ALIGNMENT(); . = ALIGN(0x1000);
+		ALIGNMENT();
 		LDS_INPUT_RODATA
-		ALIGNMENT(); . = ALIGN(0x1000);
+		ALIGNMENT();
 	} SECTION_REGION(rodata)
 	SECTION_SYMBOLS(rodata)
 
 	.data : {
-		ALIGNMENT(); . = ALIGN(0x1000);
+		ALIGNMENT();
 		*(.data)
 
 		_percpu_vma = .;
@@ -43,21 +43,21 @@ SECTIONS {
 		_percpu_len = . - _percpu_vma;
 		. += _percpu_len * (NCPU - 1);
 
-		ALIGNMENT(); . = ALIGN(0x1000);
+		ALIGNMENT();
 	} SECTION_REGION(data)
 	SECTION_SYMBOLS(data)
 
 	.bss : {
-		ALIGNMENT(); . = ALIGN(0x1000);
+		ALIGNMENT();
 		*(.bss)
-		ALIGNMENT(); . = ALIGN(0x1000);
+		ALIGNMENT();
 	} SECTION_REGION(bss)
 	SECTION_SYMBOLS(bss)
 
 	.reserve (NOLOAD): {
-		ALIGNMENT(); . = ALIGN(0x1000);
+		ALIGNMENT();
 		LDS_INPUT_RESERVE
-		ALIGNMENT(); . = ALIGN(0x1000);
+		ALIGNMENT();
 	/* TODO memory region for reserve output section. */
 	} SECTION_REGION(bss)
 	SECTION_SYMBOLS(reserve)

@@ -14,4 +14,5 @@ module smp extends embox.arch.smp {
 	
 	depends embox.driver.interrupt.lapic
 	depends embox.driver.interrupt.ioapic
+	depends embox.kernel.thread.core
 }

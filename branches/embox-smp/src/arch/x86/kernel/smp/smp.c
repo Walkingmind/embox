@@ -33,13 +33,18 @@ char AP_STACK[THREAD_STACK_SIZE] __attribute__((aligned(THREAD_STACK_SIZE)));
 
 void startup_ap(void) {
 	extern void idt_load(void);
+	extern int sched_cpu_init(struct thread *thread);
+
+	struct thread *bootstrap;
 
 	idt_load();
 
 	lapic_enable();
 
-	thread_init_self(AP_STACK + THREAD_STACK_SIZE, THREAD_STACK_SIZE,
+	bootstrap = thread_init_self(AP_STACK + THREAD_STACK_SIZE, THREAD_STACK_SIZE,
 			THREAD_PRIORITY_MIN);
+
+	sched_cpu_init(bootstrap);
 
 	__asm__ __volatile__ ("sti");
 
@@ -93,18 +98,18 @@ static int unit_init(void)
     	spin_lock(&startup_lock);
     }
 
-#if 0
-    lapic_send_ipi(0x50, 1, LAPIC_IPI_DEST);
-#endif
-
     return 0;
 }
 
+void smp_send_resched(int cpu_id) {
+	lapic_send_ipi(0x50, cpu_id, LAPIC_IPI_DEST);
+}
+
 void resched(void) {
-	//extern void sched_post_switch(void);
+	extern void sched_post_switch(void);
 
 	lapic_send_eoi();
 
-	//sched_post_switch();
+	sched_post_switch();
 }
 

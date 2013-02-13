@@ -27,13 +27,27 @@ typedef unsigned long spinlock_t;
 #define __barrier() \
 	__asm__ __volatile__("" : : : "memory")
 
+
+#if 0
+#define __xchg_op(ptr, arg, op, lock)                                    \
+         ({                                                              \
+                 __typeof__ (*(ptr)) __ret = (arg);                      \
+                 asm volatile (lock #op "b %0, %1\n"             \
+                		 : "+r" (__ret), "+m" (*(ptr))     \
+                		 : : "memory", "cc");              \
+                 __ret;                                                  \
+         })
+
+
+#define xchg(ptr, v)    __xchg_op((ptr), (v), xchg, "")
+#endif
+
 static inline int spin_trylock(spinlock_t *lock) {
 	unsigned long val = SPIN_LOCKED;
 
 	__asm__ __volatile__ (
-			"lock xchgb %0,(%2)"
-			: "=r" (val)
-			: "" (val), "r" (lock)
+			"lock xchgb %0, %1"
+			: "+r" (val), "+m" (*(lock))
 	);
 
 	__barrier();

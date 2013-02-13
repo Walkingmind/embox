@@ -61,12 +61,24 @@ void runq_init(struct runq *rq, struct thread *current, struct thread *idle) {
 	}
 }
 
+void runq_cpu_init(struct runq *rq, struct thread *current) {
+	assert(rq && current);
+
+	current->runq = rq;
+	current->state = thread_state_do_activate(current->state);
+}
+
 void runq_fini(struct runq *rq) {
 	timer_close(rq->tick_timer);
 }
 
 static void sched_tick(sys_timer_t *timer, void *param) {
+	extern void smp_send_resched(int cpu_id);
 	sched_post_switch();
+
+#if 1
+	smp_send_resched(1);
+#endif
 }
 
 int runq_start(struct runq *rq, struct thread *t) {

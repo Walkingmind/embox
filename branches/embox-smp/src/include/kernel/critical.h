@@ -125,6 +125,7 @@
 #define KERNEL_CRITICAL_H_
 
 #include <kernel/percpu.h>
+#include <kernel/bkl.h>
 
 /* Critical levels mask. */
 
@@ -198,11 +199,13 @@ static inline int critical_inside(critical_t level) {
 }
 
 static inline void critical_enter(critical_t level) {
+	bkl_lock();
 	__critical_count_add(__CRITICAL_COUNT(level));
 }
 
 static inline void critical_leave(critical_t level) {
 	__critical_count_sub(__CRITICAL_COUNT(level));
+	bkl_unlock();
 }
 
 static inline int critical_pending(struct critical_dispatcher *d) {
