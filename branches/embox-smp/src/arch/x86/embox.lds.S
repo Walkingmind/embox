@@ -3,8 +3,6 @@
 #include <asm-generic/embox.lds.h>
 #include <framework/mod/options.h>
 
-#include <kernel/cpu.h>
-
 OUTPUT_FORMAT("elf32-i386", "elf32-i386", "elf32-i386")
 OUTPUT_ARCH(i386)
 ENTRY(_start)
@@ -12,6 +10,12 @@ ENTRY(_start)
 MEMORY {
 	MEMORY_REGION(sdram)
 	MEMORY_REGION(flash)
+}
+
+PHDRS {
+	text PT_LOAD FLAGS(5);  /* R_E */
+	data PT_LOAD FLAGS(7);  /* RWE */
+	//note PT_NOTE FLAGS(0);  /* ___ */
 }
 
 SECTIONS {
@@ -24,46 +28,41 @@ SECTIONS {
 		*(.text)
 		*(.text.*)
 		ALIGNMENT();
-	} SECTION_REGION(text)
+	} SECTION_REGION(text) :text
 	SECTION_SYMBOLS(text)
 
 	.rodata : {
 		ALIGNMENT();
 		LDS_INPUT_RODATA
 		ALIGNMENT();
-	} SECTION_REGION(rodata)
+	} SECTION_REGION(rodata) :text
 	SECTION_SYMBOLS(rodata)
 
 	.data : {
 		ALIGNMENT();
 		*(.data)
-
-		_percpu_vma = .;
-		*(.data.percpu)
-		_percpu_len = . - _percpu_vma;
-		. += _percpu_len * (NCPU - 1);
-
 		ALIGNMENT();
-	} SECTION_REGION(data)
+	} SECTION_REGION(data) :data
 	SECTION_SYMBOLS(data)
 
 	.bss : {
 		ALIGNMENT();
 		*(.bss)
 		ALIGNMENT();
-	} SECTION_REGION(bss)
+	} SECTION_REGION(bss) :data
 	SECTION_SYMBOLS(bss)
 
-	.reserve (NOLOAD): {
+	.reserve (NOLOAD) : {
 		ALIGNMENT();
 		LDS_INPUT_RESERVE
 		ALIGNMENT();
 	/* TODO memory region for reserve output section. */
-	} SECTION_REGION(bss)
+	} SECTION_REGION(bss) :data
 	SECTION_SYMBOLS(reserve)
 
 	/* Sections to be discarded */
 	/DISCARD/ : {
+		*(.comment)
 		*(.eh_frame)
 	}
 }

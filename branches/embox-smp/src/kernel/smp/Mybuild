@@ -10,5 +10,6 @@ module smp {
 }
 
 module percpu {
-	source "percpu.c"
+	source "percpu.lds.S"
+	source "percpu.c"	
 }

@@ -43,7 +43,7 @@ struct pool {
 	static union {                       \
 		typeof(object_type) object;                 \
 		struct slist_link free_link;      \
-	} __pool_storage ## name[size] /* __attribute__((section(".reserve.pool"))) */;  \
+	} __pool_storage ## name[size] __attribute__((section(".reserve.pool")));  \
 	static struct pool name = { \
 			.memory = __pool_storage ## name, \
 			.bound_free = __pool_storage ## name, \
