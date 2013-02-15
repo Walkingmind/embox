@@ -70,13 +70,9 @@ void lapic_send_ipi(unsigned int vector, unsigned int cpu, int type) {
 		panic("Not implemented\n");
 	}
 
-	icr1 = 0;
-	icr2 = 0;
-
-#if 0
+	/* I don't know why this masks. */
 	icr1 = lapic_read_icr1() & 0xFFF0F800;
 	icr2 = lapic_read_icr2() & 0xFFFFFF;
-#endif
 
 	switch (type) {
 		case LAPIC_IPI_DEST:
