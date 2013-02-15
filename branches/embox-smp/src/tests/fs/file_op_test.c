@@ -9,6 +9,7 @@
 #include <fcntl.h>
 #include <unistd.h>
 #include <stdio.h>
+#include <errno.h>
 
 #include <fs/vfs.h>
 #include <fs/fs_drv.h>
@@ -24,7 +25,6 @@ EMBOX_TEST_SUITE("fs/file test");
 TEST_SETUP_SUITE(setup_suite);
 
 TEST_TEARDOWN_SUITE(teardown_suite);
-
 
 #define FS_NAME  "vfat"
 #define FS_DEV  "/dev/ramdisk"
@@ -101,25 +101,43 @@ TEST_CASE("stat and fstat should return same stats") {
 }
 */
 
+#define MKDIR_PERM 0700
+
 static int setup_suite(void) {
-	int fd;
+	int fd, res;
 
 	if (0 != ramdisk_create(FS_DEV, FS_BLOCKS * PAGE_SIZE())) {
 		return -1;
 	}
 
 	/* format filesystem */
-	if(0 != format(FS_DEV, FS_NAME)) {
-		return -1;
+	if (0 != (res = format(FS_DEV, FS_NAME))) {
+		return res;
+	}
+
+	if (0 != (res = mkdir(FS_DIR, MKDIR_PERM))) {
+		return res;
 	}
 
 	/* mount filesystem */
-	if(mount(FS_DEV, FS_DIR, FS_NAME)) {
-		return -1;
+	if (0 != (res = mount(FS_DEV, FS_DIR, FS_NAME))) {
+		return res;
+	}
+
+	if (0 != (res = mkdir(FS_DIR1, MKDIR_PERM))) {
+		return res;
+	}
+
+	if (0 != (res = mkdir(FS_DIR2, MKDIR_PERM))) {
+		return res;
+	}
+
+	if (0 != (res = mkdir(FS_DIR3, 0777))) {
+		return res;
 	}
 
 	if (-1 == (fd = creat(FS_FILE1, S_IRUSR | S_IWUSR))) {
-		return -1;
+		return -errno;
 	}
 
 	close(fd);
