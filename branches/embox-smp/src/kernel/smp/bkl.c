@@ -1,6 +1,6 @@
 /**
  * @file
- * @brief TODO
+ * @brief Implementation of Big Kernel Lock
  *
  * @date 08.02.2012
  * @author Anton Bulychev
