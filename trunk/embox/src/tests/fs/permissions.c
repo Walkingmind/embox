@@ -1,8 +1,8 @@
 /**
- * @file 
+ * @file
  * @brief Test with http://embox.googlecode.com/files/ext2_perm.img
  *
- * @author  Anton Kozlov 
+ * @author  Anton Kozlov
  * @date    12.02.2013
  */
 
@@ -10,7 +10,7 @@
 #include <fcntl.h>
 #include <errno.h>
 
-#include <fs/sys/fsop.h>/* now mount declaration in this header */
+#include <fs/sys/fsop.h>
 
 #include <embox/test.h>
 
