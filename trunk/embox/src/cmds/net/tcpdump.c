@@ -9,7 +9,7 @@
 #include <embox/cmd.h>
 #include <getopt.h>
 #include <net/etherdevice.h>
-#include <net/socket.h>
+#include <sys/socket.h>
 #include <net/ip.h>
 
 EMBOX_CMD(exec);
