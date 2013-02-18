@@ -79,7 +79,11 @@ Index: workspace/embox-qt/templates/x86/nonvga_debug/lds.conf
  
  lds_section(text,   sdram)
   }}}
-  * Конфигурируем Embox под x86 {{{ make PROJECT=x86 PROFILE=nonvga_debug }}} и добавляем в conf/mods_config следующие модули
+  * Конфигурируем Embox под x86 
+  {{{
+  make PROJECT=x86 PROFILE=nonvga_debug
+  }}}
+  и добавляем в conf/mods_config следующие модули
     {{{
     include embox.cmd.cxxapp
     include third_party.qt.example
@@ -87,10 +91,18 @@ Index: workspace/embox-qt/templates/x86/nonvga_debug/lds.conf
     include embox.lib.cxx.DestructionStatic(table_size=256)
     }}}
   * Собираем Embox - {{{ make -j 9 all }}}
-  * Запускаемся с поддержкой сети - 
+  * Запускаемся с поддержкой сети
   {{{ 
   cd scripts/qemu && ./auto_qemu 
   }}}
-  * В Embox исполняем команду cxxapp.
-  * На хосте запускаем VNC клиент remmina. В нем создаем новое подключение для хоста 10.0.2.16 (Embox), в соответствующей вкладке выбрать VNC вместо RDP.
-  * Подключаемся к Embox через созданное подключение. Enjoy!
+  * В Embox выполняем команду cxxapp.
+  * Запуск VNC клиента
+       * Для remmina. 
+           * Выбираем "Создать новое подключение к удаленному рабочему столу". 
+           * В поле "протокол" выбираем "VNC - Virtual Network Computing". 
+           * В поле "сервер" пишем 10.0.2.16.
+           * Нажимаем "Подключиться".
+       * Для xvncviewer. Для подключения на хосте выполняем команду
+         {{{
+         xvncviewer 10.0.2.16
+         }}}
