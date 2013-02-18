@@ -90,7 +90,10 @@ Index: workspace/embox-qt/templates/x86/nonvga_debug/lds.conf
     include embox.lib.cxx.ConstructionSingleApp
     include embox.lib.cxx.DestructionStatic(table_size=256)
     }}}
-  * Собираем Embox - {{{ make -j 9 all }}}
+  * Собираем Embox
+  {{{
+  make -j 9 all
+  }}}
   * Запускаемся с поддержкой сети
   {{{ 
   cd scripts/qemu && ./auto_qemu 
@@ -100,9 +103,9 @@ Index: workspace/embox-qt/templates/x86/nonvga_debug/lds.conf
        * Для remmina. 
            * Выбираем "Создать новое подключение к удаленному рабочему столу". 
            * В поле "протокол" выбираем "VNC - Virtual Network Computing". 
-           * В поле "сервер" пишем 10.0.2.16.
+           * В поле "cервер" пишем 10.0.2.16.
            * Нажимаем "Подключиться".
        * Для xvncviewer. Для подключения на хосте выполняем команду
-         {{{
-         xvncviewer 10.0.2.16
-         }}}
+       {{{
+       xvncviewer 10.0.2.16
+       }}}
