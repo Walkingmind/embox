@@ -36,48 +36,6 @@
  
  $(IMAGE_SREC): $(IMAGE)
  	@$(OBJCOPY) -O srec $< $@
-Index: workspace/embox-qt/src/net/core/Mybuild
-===================================================================
---- workspace/embox-qt/src/net/core/Mybuild	(revision 8568)
-+++ workspace/embox-qt/src/net/core/Mybuild	(working copy)
-@@ -29,9 +29,9 @@
- 
- module skbuff {
- 	source "skb.c"
--	option number amount_skb=500
--	option number amount_skb_buff=500
--	option number skb_buff_size=1514 /* for example */
-+	option number amount_skb=2000
-+	option number amount_skb_buff=2000
-+	option number skb_buff_size=3000 /* for example */
- 
- 	source "skb_queue.c"
- 	option number amount_skb_queue=16
-Index: workspace/embox-qt/templates/x86/nonvga_debug/mods.config
-===================================================================
---- workspace/embox-qt/templates/x86/nonvga_debug/mods.config	(revision 8568)
-+++ workspace/embox-qt/templates/x86/nonvga_debug/mods.config	(working copy)
-@@ -148,8 +148,8 @@
- 	@Runlevel(2) include embox.kernel.task.multi
- 	@Runlevel(2) include embox.prom.prom_printf
- 	@Runlevel(2) include embox.mem.bitmask
--	@Runlevel(2) include embox.mem.static_heap(heap_size=16777216)
--	@Runlevel(2) include embox.mem.heap_bm(heap_size=8388608)
-+	@Runlevel(2) include embox.mem.static_heap(heap_size=67108864)
-+	@Runlevel(2) include embox.mem.heap_bm(heap_size=33554432)
- 	
- 	@Runlevel(2) include embox.util.LibUtil
- 	@Runlevel(2) include embox.framework.LibFramework
-Index: workspace/embox-qt/templates/x86/nonvga_debug/lds.conf
-===================================================================
---- workspace/embox-qt/templates/x86/nonvga_debug/lds.conf	(revision 8568)
-+++ workspace/embox-qt/templates/x86/nonvga_debug/lds.conf	(working copy)
-@@ -1,4 +1,4 @@
--lds_region(sdram, 0x00100000, 64M)
-+lds_region(sdram, 0x00100000, 128M)
- lds_region(flash, 0x00000000, 0M)
- 
- lds_section(text,   sdram)
   }}}
   * Конфигурируем Embox под x86 
   {{{
@@ -96,7 +54,7 @@ Index: workspace/embox-qt/templates/x86/nonvga_debug/lds.conf
   }}}
   * Запускаемся с поддержкой сети
   {{{ 
-  cd scripts/qemu && ./auto_qemu 
+  cd scripts/qemu && ./auto_qemu
   }}}
   * В Embox выполняем команду cxxapp.
   * Запуск VNC клиента
