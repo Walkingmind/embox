@@ -19,11 +19,11 @@ typedef int (fsop_create_ft)(struct node *parent_node, struct node *new_node);
 typedef int (fsop_delete_ft)(struct node *node);
 
 /* TODO: consider following to accept nas * as first arg (Anton Kozlov) */
-typedef int (fsop_getxattr_ft)(struct node *node, const char *name, 
+typedef int (fsop_getxattr_ft)(struct node *node, const char *name,
                 char *value, size_t len);
-typedef int (fsop_setxattr_ft)(struct node *node, const char *name, 
+typedef int (fsop_setxattr_ft)(struct node *node, const char *name,
                 const char *value, size_t len, int flags);
-typedef int (fsop_listxattr_ft)(struct node *node, char *list, 
+typedef int (fsop_listxattr_ft)(struct node *node, char *list,
                 size_t len);
 
 typedef int (fsop_truncate_ft)(struct node *node, off_t length);
@@ -43,6 +43,7 @@ typedef struct fsop_desc {
 } fsop_desc_t;
 
 struct kfile_operations;
+
 /**
  * Structure of file system driver.
  * We can mount some file system with name of FS which has been registered in
@@ -53,7 +54,6 @@ typedef struct fs_drv {
         const struct kfile_operations *file_op;
         const fsop_desc_t             *fsop;
 } fs_drv_t;
-
 
 extern const fs_drv_t * __fs_drivers_registry[];
 
