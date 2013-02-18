@@ -1,0 +1,2 @@
+#summary Description process running Embox with VN server.
+
