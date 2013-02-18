@@ -78,7 +78,7 @@ struct file_desc *kopen(const char *path, int flag, mode_t mode) {
 		}
 
 		node = child;
-		
+
 	} else if (-EACCES == ret) {
 		SET_ERRNO(EACCES);
 		return NULL;
@@ -104,7 +104,7 @@ struct file_desc *kopen(const char *path, int flag, mode_t mode) {
 			SET_ERRNO(ENOSUPP);
 			return NULL;
 		}
-		ops = (struct kfile_operations *)nas->fs->drv->file_op;
+		ops = (struct kfile_operations *) nas->fs->drv->file_op;
 	} else {
 		ops = nas->fs->file_op;
 	}
@@ -158,7 +158,7 @@ int ktruncate(struct node *node, off_t length) {
 		errno = EPERM;
 		return -1;
 	}
-	
+
 	if (0 > (ret = fs_perm_check(node, FDESK_FLAG_WRITE))) {
 		SET_ERRNO(-ret);
 		return -1;
