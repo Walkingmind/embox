@@ -1,0 +1,93 @@
+#summary Запуск приложений Qt на VNC сервере
+
+Собираем под Embox приложение, использующее библиотеку Qt, и запускаем его на VNC сервере:
+  * Устанавливаем на хост VNC клиент - remmina или xvncviewer. Для Ubuntu это делается командой
+    {{{
+    sudo apt-get install remmina (или xvnc4viewer)
+    }}}
+  * Патчим Embox
+  {{{
+  Index: workspace/embox-qt/mk/image2.mk
+===================================================================
+--- workspace/embox-qt/mk/image2.mk	(revision 8568)
++++ workspace/embox-qt/mk/image2.mk	(working copy)
+@@ -169,9 +169,13 @@
+ endif
+ $(image_files): ldflags_all = $(LDFLAGS) $(call fmt_line,$(ld_scripts_flag))
+ 
+-$(image_nosymbols_o): | $$(@D)/. $(dir $(IMAGE).map).
++#QT_APP_NAME := $(ROOT_DIR)/build/qt/apps_embox/animatedtiles/animatedtiles
++QT_APP_NAME := $(ROOT_DIR)/build/qt/apps_embox/moveblocks/moveblocks
++
++$(image_nosymbols_o): $(QT_APP_NAME) | $$(@D)/. $(dir $(IMAGE).map).
+ 	$(LD) --relocatable $(ldflags) \
+ 	$(call fmt_line,$(ld_objs)) \
++	$(QT_APP_NAME) \
+ 	$(call fmt_line,$(ld_libs)) \
+ 	--cref -Map $(IMAGE)_nosymbols.map \
+ 	-o $@
+@@ -193,7 +197,7 @@
+ 	-o $@
+ 
+ $(IMAGE_DIS): $(IMAGE)
+-	$(OBJDUMP) -S $< > $@
++	#$(OBJDUMP) -S $< > $@
+ 
+ $(IMAGE_SREC): $(IMAGE)
+ 	@$(OBJCOPY) -O srec $< $@
+Index: workspace/embox-qt/src/net/core/Mybuild
+===================================================================
+--- workspace/embox-qt/src/net/core/Mybuild	(revision 8568)
++++ workspace/embox-qt/src/net/core/Mybuild	(working copy)
+@@ -29,9 +29,9 @@
+ 
+ module skbuff {
+ 	source "skb.c"
+-	option number amount_skb=500
+-	option number amount_skb_buff=500
+-	option number skb_buff_size=1514 /* for example */
++	option number amount_skb=2000
++	option number amount_skb_buff=2000
++	option number skb_buff_size=3000 /* for example */
+ 
+ 	source "skb_queue.c"
+ 	option number amount_skb_queue=16
+Index: workspace/embox-qt/templates/x86/nonvga_debug/mods.config
+===================================================================
+--- workspace/embox-qt/templates/x86/nonvga_debug/mods.config	(revision 8568)
++++ workspace/embox-qt/templates/x86/nonvga_debug/mods.config	(working copy)
+@@ -148,8 +148,8 @@
+ 	@Runlevel(2) include embox.kernel.task.multi
+ 	@Runlevel(2) include embox.prom.prom_printf
+ 	@Runlevel(2) include embox.mem.bitmask
+-	@Runlevel(2) include embox.mem.static_heap(heap_size=16777216)
+-	@Runlevel(2) include embox.mem.heap_bm(heap_size=8388608)
++	@Runlevel(2) include embox.mem.static_heap(heap_size=67108864)
++	@Runlevel(2) include embox.mem.heap_bm(heap_size=33554432)
+ 	
+ 	@Runlevel(2) include embox.util.LibUtil
+ 	@Runlevel(2) include embox.framework.LibFramework
+Index: workspace/embox-qt/templates/x86/nonvga_debug/lds.conf
+===================================================================
+--- workspace/embox-qt/templates/x86/nonvga_debug/lds.conf	(revision 8568)
++++ workspace/embox-qt/templates/x86/nonvga_debug/lds.conf	(working copy)
+@@ -1,4 +1,4 @@
+-lds_region(sdram, 0x00100000, 64M)
++lds_region(sdram, 0x00100000, 128M)
+ lds_region(flash, 0x00000000, 0M)
+ 
+ lds_section(text,   sdram)
+  }}}
+  * Конфигурируем Embox под x86 {{{ make PROJECT=x86 PROFILE=nonvga_debug }}} и добавляем в conf/mods_config следующие модули
+    {{{
+    include embox.cmd.cxxapp
+    include third_party.qt.example
+    include embox.lib.cxx.ConstructionSingleApp
+    include embox.lib.cxx.DestructionStatic(table_size=256)
+    }}}
+  * Собираем Embox - {{{ make -j 9 all }}}
+  * Запускаемся с поддержкой сети - {{{ cd scripts/qemu && ./auto_qemu }}}
+  * В Embox исполняем команду cxxapp.
+  * На хосте запускаем VNC клиент remmina. В нем создаем новое подключение для хоста 10.0.2.16 (Embox),
+    в соответствующей вкладке выбрать VNC вместо RDP.
+  * Подключаемся к Embox через созданное подключение. Enjoy!
