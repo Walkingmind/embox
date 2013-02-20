@@ -2,14 +2,14 @@ package embox.lib
 
 static module LibElf {
 	source "elf/elf.c"
-	
+
 	depends LibCStdio
 	depends LibCString
 }
 
 static module LibExec {
 	source "exec/exec.c"
-		
+
 	depends embox.mem.mmap_api
 	depends LibElf
 }
@@ -50,6 +50,7 @@ static module LibCStdlib {
 static module LibCString {
 	source "string/memchr.c"
 	source "string/memcmp.c"
+	source "string/memcpy.c"
 	source "string/memmove.c"
 	source "string/memset.c"
 	source "string/strcat.c"
@@ -94,7 +95,7 @@ static module LibCMath {
 	source "math/blog2.c"
 	source "math/sqrt.c"
 	depends third_party.lib.Fdlibm
-	
+
 	@IncludePath("$(THIRDPARTY_DIR)/include")
 	source "soft-fp/sf.c", "soft-fp/df.c", "soft-fp/tf.c"
 	depends third_party.lib.softfloat
@@ -113,7 +114,7 @@ static module LibCMath {
 }
 
 static module LibCStdio {
-	
+
 	option boolean stdio_lf_crlf_map = true
 	option number file_quantity = 16
 	option number support_floating = 1
