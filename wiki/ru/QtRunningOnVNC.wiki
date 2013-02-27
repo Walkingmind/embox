@@ -6,19 +6,18 @@
     sudo apt-get install xvnc4viewer
     sudo apt-get install remmina
     }}}
-  * Конфигурируем Embox под x86 
+  * Заходим в папку проекта. Конфигурируем и собираем Embox под x86
   {{{
-  make PROJECT=x86 PROFILE=qt config
-  }}}
-  * Собираем Embox
-  {{{
-  make -j 9 all
+  make PROJECT=x86 PROFILE=qt config && make -j 9 all
   }}}
   * Запускаемся с поддержкой сети
   {{{ 
   cd scripts/qemu && ./auto_qemu
   }}}
-  * В Embox выполняем команду cxxapp.
+  * В Embox выполняем команду 
+  {{{
+  cxxapp
+  }}}
   * Запуск VNC клиента
        * Для xvncviewer. Для подключения на хосте выполняем команду
        {{{
