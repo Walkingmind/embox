@@ -6,6 +6,10 @@
     sudo apt-get install xvnc4viewer
     sudo apt-get install remmina
     }}}
+    Устанавливаем макропроцессор m4
+    {{{
+    sudo apt-get install m4
+    }}}
   * Заходим в папку проекта. Конфигурируем и собираем Embox под x86
   {{{
   make PROJECT=x86 PROFILE=qt config
