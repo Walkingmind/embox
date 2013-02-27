@@ -8,7 +8,15 @@
     }}}
   * Заходим в папку проекта. Конфигурируем и собираем Embox под x86
   {{{
-  make PROJECT=x86 PROFILE=qt config && make -j 9 all
+  make PROJECT=x86 PROFILE=qt config
+  }}}
+  * В файле third-party/qt/Mybuild содержатся приложения, которые можно включить в conf/mods.config. По умолчанию в сборку включено приложение
+  {{{
+  include third_party.qt.animatedtiles
+  }}}
+  * Собираем проект
+  {{{
+  make -j 9 all
   }}}
   * Запускаемся с поддержкой сети
   {{{ 
