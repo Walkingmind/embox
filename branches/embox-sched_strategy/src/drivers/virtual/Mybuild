@@ -1,0 +1,50 @@
+package embox.driver.virtual
+
+module tty_device {
+	source "tty_device.c"
+
+	depends embox.driver.video.fb
+}
+
+module fb_device {
+	source "fb_device.c"
+
+	depends embox.driver.video.fb
+}
+
+module diag_device {
+	source "diag_device.c"
+
+	depends embox.fs.driver.devfs
+	depends embox.driver.diag.diag_api
+}
+
+module null {
+	source "null.c"
+
+	depends embox.fs.driver.devfs
+}
+
+module zero {
+	source "zero.c"
+
+	depends embox.lib.LibC
+	depends embox.fs.driver.devfs
+}
+
+module uart {
+	source "uart.c"
+
+	depends embox.kernel.irq
+	@NoRuntime depends embox.fs.driver.devfs
+	@NoRuntime depends embox.driver.char_dev
+}
+
+module input_dev {
+	source "input_devfs.c"
+	
+	depends embox.mem.objalloc
+	depends embox.mem.heap_api
+	depends embox.fs.rootfs
+	@NoRuntime depends embox.fs.driver.devfs
+}
