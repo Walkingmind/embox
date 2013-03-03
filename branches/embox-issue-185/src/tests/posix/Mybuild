@@ -1,0 +1,8 @@
+
+package embox.test.posix
+
+module passwd {
+	source "passwd.c"
+
+	depends embox.compat.posix.passwd
+}

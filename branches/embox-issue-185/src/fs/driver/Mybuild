@@ -1,0 +1,6 @@
+package embox.fs.driver
+
+module repo {
+	option number drivers_quantity = 12
+	source "fs_driver.c"
+}

@@ -1,0 +1,56 @@
+package embox.init
+
+@DefaultImpl(TextMode)
+abstract module Display {
+	
+}
+
+module GraphicMode extends Display {
+	option string fb_name="fb0"
+	option number vesa_mode=3
+	source "graphic_init.c"
+
+	depends embox.driver.video.fb
+	depends embox.driver.iodev.core
+	depends embox.driver.iodev.iodev_video
+}
+
+module TextMode extends Display {
+}
+
+
+module start_script {
+	@IncludePath("$(CONF_DIR)")
+
+
+	source "start_script.c"
+	
+	depends embox.compat.posix.file
+	depends embox.compat.posix.idx.dup
+
+	requires embox.cmd.Shell.commandLine
+	
+	option string shell_name=""
+	option string tty_dev=""
+	option number input_buffer = 80	
+	
+}
+
+module make_term {
+	option boolean lf_crlf_map = true
+
+	source "make_term.c"
+
+	depends embox.compat.posix.idx.dup
+	depends diag_index_desc
+	depends embox.kernel.task.idx_table
+}
+
+module diag_index_desc {
+	source "bs_posix_env.c"
+
+	depends embox.kernel.thread.thread_mode
+	
+	//depends embox.kernel.task.api
+	depends embox.compat.posix.idx.dup
+}
