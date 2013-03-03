@@ -1,0 +1,46 @@
+
+package embox.compat.posix.util
+
+module All {
+	depends Time,
+		getopt,
+		utsname
+}
+
+module Time {
+		depends time,
+		sleep,
+		gettimeofday
+}
+
+static module getopt {
+	source "getopt.c"
+
+	depends embox.lib.LibC
+}
+
+static module utsname {
+	option string release="0.3.3"
+	option string platform
+	source "utsname.c"
+
+	depends embox.lib.LibC
+}
+
+static module time {
+	source "time.c"
+
+	depends embox.kernel.time.kernel_time
+}
+
+static module sleep {
+	source "sleep.c"
+
+	depends embox.kernel.timer.sleep_api
+}
+
+static module gettimeofday {
+	source "gettimeofday.c"
+
+	depends embox.kernel.time.timekeeper
+}
