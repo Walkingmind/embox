@@ -28,12 +28,6 @@
 	((unsigned int) irq_nr < IRQ_NRS_TOTAL)
 
 /**
- * IRQ flags
- */
-/* Sharing supported flag */
-#define IF_SHARESUP	(0x1 << 0)
-
-/**
  * IRQ handler return type.
  */
 typedef enum {
