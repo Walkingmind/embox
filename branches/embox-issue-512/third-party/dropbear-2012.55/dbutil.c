@@ -551,7 +551,7 @@ int spawn_command(void(*exec_fn)(void *user_data), void *exec_data,
 	data.ret_errfd = ret_errfd;
 	data.exec_fn = exec_fn;
 	data.exec_data = exec_data;
-	pid = new_task(child_handler, NULL);
+	pid = new_task("", child_handler, NULL);
 #endif
 
 	if (pid < 0) {
