@@ -62,7 +62,7 @@
 //#define HAVE_CLEARENV 1
 
 /* Define if gai_strerror() returns const char * */
-#define HAVE_CONST_GAI_STRERROR_PROTO 1
+//#define HAVE_CONST_GAI_STRERROR_PROTO 1
 
 /* Define to 1 if you have the <crypt.h> header file. */
 //#define HAVE_CRYPT_H 1
