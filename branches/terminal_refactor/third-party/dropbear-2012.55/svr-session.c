@@ -42,8 +42,8 @@
 
 static void svr_remoteclosed(void);
 
-static char *a = "user_environ";
-char **environ = &a;
+//static char *a = "user_environ";
+//char **environ = &a;
 
 struct serversession svr_ses; /* GLOBAL */
 

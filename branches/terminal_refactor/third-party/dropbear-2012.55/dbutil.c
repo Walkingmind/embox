@@ -236,7 +236,7 @@ int dropbear_listen(const char* address, const char* port,
 	if (err) {
 		if (errstring != NULL && *errstring == NULL) {
 			int len;
-			len = 20 + strlen(gai_strerror(err));
+			len = 20 + strlen((char*)gai_strerror(err));
 			*errstring = (char*)m_malloc(len);
 			snprintf(*errstring, len, "Error resolving: %s", gai_strerror(err));
 		}
@@ -507,7 +507,7 @@ static void *child_handler(void *arg) {
 #ifdef EMBOX_FULL
 	exec_fn(exec_data);
 #else
-	shell_lookup("tish")->exec();
+	shell_run(shell_lookup("tish"));
 #endif
 	/* not reached */
 	return NULL;
@@ -663,7 +663,7 @@ void run_shell_command(const char* cmd, unsigned int maxfd, char* usershell) {
 
 	execv(usershell, argv);
 #else
-	shell_lookup("tish")->exec();
+	shell_run(shell_lookup("tish"));
 #endif
 }
 
