@@ -9,19 +9,19 @@ module Array {
 }
 
 module Bit {
-	source "bit_impl.h"		
+	source "bit_impl.h"
 }
 
 @DefaultImpl(SListDebug)
-abstract module SList {	
+abstract module SList {
 }
 module SListDebug extends SList {
-	source "slist_debug.c"
-	source "slist_impl.h"
+//	source "slist_debug.c"
+//	source "slist_impl.h"
 }
 module SListNDebug extends SList {
-	source "slist_ndebug.h"
-	source "slist_impl.h"
+//	source "slist_ndebug.h"
+//	source "slist_impl.h"
 }
 
 @DefaultImpl(ListNDebug)
@@ -47,9 +47,9 @@ module DListNDebug extends DList {
 }
 
 static module LibUtil {
-	source "slist_debug.c"
+//	source "slist_debug.c"
 	source "list_debug.c"
-	
+
 	source "tree_set.c"
 	source "tree.c"
 	source "priority_q.c"
@@ -57,7 +57,7 @@ static module LibUtil {
 	source "sys_log.c"
 
 	depends embox.lib.LibC
-	
+
 	depends Prioq
 	depends Array
 	depends DList
@@ -85,7 +85,7 @@ module indexator {
 //TODO move in from here it depends on kernel modules
 static module LibSync {
 	source "async_ring_buff.c"
-	
+
 	depends LibUtil
 	depends embox.kernel.thread.sync
 }
