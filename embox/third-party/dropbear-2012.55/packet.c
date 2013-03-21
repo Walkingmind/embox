@@ -67,13 +67,8 @@ void write_packet(void) {
 	len = writebuf->len - 1 - writebuf->pos;
 	dropbear_assert(len > 0);
 	{
-		static int K;
-		printf("    write begin (%d)\n", K);
 		/* Try to write as much as possible */
 		written = write(ses.sock_out, buf_getptr(writebuf, len), len);
-
-		printf("write sock_out %d (%d)\n", written, K);
-		K++;
 	}
 
 	if (written < 0) {
