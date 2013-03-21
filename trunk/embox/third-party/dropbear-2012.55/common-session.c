@@ -196,7 +196,6 @@ void session_loop(void(*loophandler)(void)) {
 		if (ses.sock_in != -1) {
 			if (FD_ISSET(ses.sock_in, &readfd)) {
 				read_packet();
-				printf("%s\n","read sock_in");
 			}
 			
 			/* Process the decrypted packet. After this, the read buffer

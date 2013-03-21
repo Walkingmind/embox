@@ -420,7 +420,6 @@ static void writechannel(struct Channel* channel, int fd, circbuffer *cbuf) {
 
 	/* Write the data out */
 	len = write(fd, cbuf_readptr(cbuf, maxlen), maxlen);
-	printf("write pipe len %d\n", len );
 	if (len <= 0) {
 		TRACE(("errno %d len %d", errno, len))
 		if (len < 0 && errno != EINTR) {
@@ -644,7 +643,6 @@ static void send_msg_channel_data(struct Channel *channel, int isextended) {
 
 	/* read the data */
 	len = read(fd, buf_getwriteptr(ses.writepayload, maxlen), maxlen);
-	printf("read pipe len %d\n", len );
 	if (len <= 0) {
 		if (len == 0 || errno != EINTR) {
 			/* This will also get hit in the case of EAGAIN. The only
