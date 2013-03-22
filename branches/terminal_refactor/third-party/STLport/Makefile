@@ -10,8 +10,9 @@ STLPORT_CMAKE_DIR = $(STLPORT_DIR)/cmake
 STLPORT_LIB       = $(ROOT_DIR)/lib/libstlportg.a
 STLPORT_FLAGS     = $(STLPORT_CMAKE_DIR)/flags
 
-
-EMBOX_IMPORTED_CPPFLAGS += $(filter -I%,$(EMBOX_CPPFLAGS)) 
+EMBOX_IMPORTED_CPPFLAGS += -I../../stlport
+EMBOX_IMPORTED_CPPFLAGS += -include $(abspath .)/stlport_embox_compat.h
+EMBOX_IMPORTED_CPPFLAGS += $(filter -I%,$(EMBOX_CPPFLAGS))
 EMBOX_IMPORTED_CPPFLAGS += $(filter -nostdinc,$(EMBOX_CPPFLAGS))
 EMBOX_IMPORTED_CPPFLAGS += $(filter -D__EMBOX__,$(EMBOX_CPPFLAGS))
 
@@ -31,6 +32,7 @@ EMBOX_IMPORTED_CXXFLAGS += $(filter -fno-stack-protector,$(EMBOX_CXXFLAGS))
 EMBOX_IMPORTED_CXXFLAGS += $(filter -fno-rtti,$(EMBOX_CXXFLAGS))
 EMBOX_IMPORTED_CXXFLAGS += $(filter -fno-exceptions,$(EMBOX_CXXFLAGS))
 
+EMBOX_IMPORTED_CXXFLAGS += -I$(abspath .)/include
 
 EMBOX_IMPORTED_MAKEFLAGS += $(filter -j,$(EMBOX_MAKEFLAGS))
 ifneq ($(filter -j,$(EMBOX_MAKEFLAGS)),)
@@ -53,9 +55,10 @@ $(STLPORT_CMAKE_DIR):
 
 $(STLPORT_FLAGS): | $(STLPORT_CMAKE_DIR)
 	-$(AT)rm $@
-	$(AT)echo EMBOX_DERIVED_CFLAGS=\"$(EMBOX_DERIVED_CFLAGS)\" >> $@ 
-	$(AT)echo EMBOX_DERIVED_CXXFLAGS=\"$(EMBOX_DERIVED_CXXFLAGS)\" >> $@ 
-	$(AT)echo EMBOX_DERIVED_MAKEFLAGS=\"$(EMBOX_DERIVED_MAKEFLAGS)\" >> $@ 
+	$(AT)echo EMBOX_DERIVED_CFLAGS=\"$(EMBOX_DERIVED_CFLAGS)\" >> $@
+	$(AT)echo EMBOX_DERIVED_CXXFLAGS=\"$(EMBOX_DERIVED_CXXFLAGS)\" >> $@
+	$(AT)echo EMBOX_DERIVED_MAKEFLAGS=\"$(EMBOX_DERIVED_MAKEFLAGS)\" >> $@
+	$(AT)echo EMBOX_ROOT=\"$(ROOT_DIR)\" >> $@
 
 $(STLPORT_CMAKE_DIR)/Makefile: CMakeLists.txt $(STLPORT_FLAGS) | $(STLPORT_CMAKE_DIR) 
 	$(AT)cd $(STLPORT_CMAKE_DIR) && $(shell cat $(STLPORT_FLAGS)) cmake $(shell pwd) 
@@ -63,5 +66,5 @@ $(STLPORT_CMAKE_DIR)/Makefile: CMakeLists.txt $(STLPORT_FLAGS) | $(STLPORT_CMAKE
 $(STLPORT_LIB): $(STLPORT_CMAKE_DIR)/Makefile
 	$(AT)cd $(STLPORT_CMAKE_DIR) && $(MAKE) # -j `nproc`
 
-all: $(STLPORT_LIB)
+all: $(STLPORT_LIB)	
 
