@@ -21,5 +21,3 @@
 "smac_adm -R secret -o service  -a r",
 
 "smac_adm -R service -o unclassified  -a r",
-
-"serial_screens 3",
