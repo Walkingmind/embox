@@ -38,7 +38,7 @@
 #include <sys/time.h>
 //#include <sys/un.h>
 #include <sys/wait.h>
-//#include <sys/resource.h>
+#include <sys/resource.h>
 
 #include <stdio.h>
 #include <errno.h>
@@ -132,6 +132,7 @@
 #include "compat.h"
 #include "fake-rfc2553.h"
 
+#define HAVE_UINT16_T /* we have this type */
 #ifndef HAVE_UINT16_T
 #ifndef HAVE_U_INT16_T
 typedef unsigned short u_int16_t;
