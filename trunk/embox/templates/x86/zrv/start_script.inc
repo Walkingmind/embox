@@ -5,19 +5,4 @@
 "ifconfig eth0 10.0.2.16 netmask 255.255.255.0 hw ether AA:BB:CC:DD:EE:02 up",
 "route add 10.0.2.0 netmask 255.255.255.0 eth0",
 "route add default gw 10.0.2.10 eth0",
-"mkdir /tmp/hda",
-"mount -t ext2 /dev/hda /tmp/hda",
-"mkdir /mnt",
 
-"smac_adm -R high_label -o low_label  -a r",
-"smac_adm -R low_label  -o high_label -a w",
-"smac_adm -R _  	-o smac_admin -a r",
-
-"smac_adm -R confidentally -o unclassified  -a r",
-"smac_adm -R confidentally -o service  -a r",
-"smac_adm -R confidentally -o secret  -a r",
-
-"smac_adm -R secret -o unclassified  -a r",
-"smac_adm -R secret -o service  -a r",
-
-"smac_adm -R service -o unclassified  -a r",
