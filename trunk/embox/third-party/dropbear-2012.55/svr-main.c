@@ -389,7 +389,7 @@ void main_noinetd(void) {
 		}
 	}
 #else
-	new_task("", main_daemon, NULL);
+	new_task("sshd daemon", main_daemon, NULL);
 
 	/* daemonized and exited */
 	return;

@@ -467,6 +467,8 @@ static struct task_data {
 	int errfds[2];
 } data;
 
+extern int pipe_pty(int pipe[2]);
+
 static void *child_handler(void *arg) {
 	int *infds = data.infds;
 	int *outfds = data.outfds;
@@ -477,6 +479,10 @@ static void *child_handler(void *arg) {
 
 	const int FDIN = 0;
 	const int FDOUT = 1;
+
+	pipe_pty(infds);
+	pipe_pty(outfds);
+	pipe_pty(errfds);
 
 #ifdef EMBOX_FULL
 	TRACE(("back to normal sigchld"))
@@ -551,7 +557,7 @@ int spawn_command(void(*exec_fn)(void *user_data), void *exec_data,
 	data.ret_errfd = ret_errfd;
 	data.exec_fn = exec_fn;
 	data.exec_data = exec_data;
-	pid = new_task("", child_handler, NULL);
+	pid = new_task("sshd srv", child_handler, NULL);
 #endif
 
 	if (pid < 0) {
