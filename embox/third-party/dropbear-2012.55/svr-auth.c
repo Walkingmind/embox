@@ -339,7 +339,7 @@ void send_msg_userauth_failure(int partial, int incrfail) {
 		genrandom((unsigned char*)&delay, sizeof(delay));
 		/* We delay for 300ms +- 50ms, 0.1ms granularity */
 		delay = 250000 + (delay % 1000)*100;
-		msleep(delay);
+		usleep(delay);
 		ses.authstate.failcount++;
 	}
 
