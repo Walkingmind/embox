@@ -1,0 +1,20 @@
+
+package embox.cmd
+
+@Cmd(name = "crash_test",
+	help = "crash_test",
+	man = '''
+		NAME
+			crash_test - 
+		SYNOPSIS
+			crash_test
+		DESCRIPTION
+			
+		AUTHORS
+			Anton Kozlov
+	''')
+module crash_test {
+	source "crash_test.c"
+
+	depends embox.lib.LibC
+}
