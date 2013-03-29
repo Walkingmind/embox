@@ -1,5 +1,5 @@
 
-package embox.cmd
+package zrv.cmd
 
 @Cmd(name = "crash_test",
 	help = "crash_test",
