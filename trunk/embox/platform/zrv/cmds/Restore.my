@@ -1,0 +1,22 @@
+
+package zrv.cmd
+
+@Cmd(name = "restore",
+	help = "restore - preforms restore from file to selected directory",
+	man = '''
+		NAME
+			restore - preform restore from file to selected directory
+		SYNOPSIS
+			restore SRC DST
+		DESCRIPTION
+			
+		AUTHORS
+			Anton Kozlov
+	''')
+module restore {
+	source "restore.c"
+
+	depends embox.lib.LibC
+	depends embox.compat.posix.dirent
+	depends embox.cmd.shell
+}

@@ -1,0 +1,22 @@
+
+package zrv.cmd
+
+@Cmd(name = "backup",
+	help = "backup - preforms backup of selected directory to file",
+	man = '''
+		NAME
+			backup - preform backup of selected directory to file
+		SYNOPSIS
+			backup SRC DST
+		DESCRIPTION
+			
+		AUTHORS
+			Anton Kozlov
+	''')
+module backup {
+	source "backup.c"
+
+	depends embox.lib.LibC
+	depends embox.compat.posix.dirent
+	depends embox.cmd.shell
+}
