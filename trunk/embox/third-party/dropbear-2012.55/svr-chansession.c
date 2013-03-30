@@ -68,8 +68,10 @@ static void get_termmodes(struct ChanSess *chansess);
 #endif
 
 
+#if 0
 /* required to clear environment */
 extern char** environ;
+#endif
 
 static int sesscheckclose(struct Channel *channel) {
 	struct ChanSess *chansess = (struct ChanSess*)channel->typedata;
@@ -896,6 +898,7 @@ static void execchild(void *user_data) {
 	clearenv();
 #else /* don't HAVE_CLEARENV */
 	/* Yay for posix. */
+#error "invalid operation"
 	if (environ) {
 		environ[0] = NULL;
 	}
