@@ -59,7 +59,7 @@
 //#define HAVE_BASENAME 1
 
 /* Define to 1 if you have the `clearenv' function. */
-//#define HAVE_CLEARENV 1
+#define HAVE_CLEARENV 1
 
 /* Define if gai_strerror() returns const char * */
 //#define HAVE_CONST_GAI_STRERROR_PROTO 1
@@ -335,7 +335,7 @@
 //#define HAVE_UINT16_T 1
 
 /* Define to 1 if you have the <unistd.h> header file. */
-//#define HAVE_UNISTD_H 1
+#define HAVE_UNISTD_H 1
 
 /* Define to 1 if you have the `updwtmp' function. */
 //#define HAVE_UPDWTMP 1
