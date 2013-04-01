@@ -1,0 +1,99 @@
+package embox.util
+
+module Prioq {
+	source "prioq_impl.h"
+}
+
+module Array {
+	source "array_impl.h"
+}
+
+module Bit {
+	source "bit_impl.h"
+}
+
+@DefaultImpl(SListDebug)
+abstract module SList {
+}
+module SListDebug extends SList {
+//	source "slist_debug.c"
+//	source "slist_impl.h"
+}
+module SListNDebug extends SList {
+//	source "slist_ndebug.h"
+//	source "slist_impl.h"
+}
+
+@DefaultImpl(ListNDebug)
+abstract module List {
+	
+}
+
+module ListDebug extends List {
+	source "list_debug.h"
+	source "list_impl.h"
+}
+module ListNDebug extends List {
+	source "list_ndebug.h"
+	//source "list_impl.h"
+}
+
+@DefaultImpl(DListDebug)
+abstract module DList {}
+
+module DListDebug extends DList {
+	source "dlist_debug.h"
+}
+module DListNDebug extends DList {
+	source "dlist_ndebug.h"
+}
+
+static module LibUtil {
+//	source "slist_debug.c"
+//	source "list_debug.c"
+
+	source "tree_set.c"
+	source "tree.c"
+	source "priority_q.c"
+	source "ring.c"
+	source "ring_buff.c"
+	source "sys_log.c"
+
+	depends embox.lib.LibC
+
+	depends Prioq
+	depends Array
+	depends DList
+	depends SList
+	depends List
+	depends Bit
+}
+
+module hashtable {
+	option number hashtables_quantity=16
+	option number item_quntity=64
+
+	source "hashtable.c"
+
+	depends embox.lib.LibC
+	depends embox.mem.heap_bm
+	depends embox.mem.objalloc
+}
+
+module indexator {
+	source "indexator.c"
+}
+
+//TODO this is too abstract in my mind
+@DefaultImpl(num_alloc_array)
+abstract module num_alloc { }
+
+module num_alloc_array extends num_alloc {
+	source "num_alloc_array.c", "num_alloc_array.h"
+}
+
+module idx_table {
+	depends num_alloc
+}
+
+
