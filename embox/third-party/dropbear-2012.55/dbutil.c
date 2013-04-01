@@ -94,7 +94,7 @@ void dropbear_exit(const char* format, ...) {
 	va_list param;
 
 	va_start(param, format);
-	//_dropbear_exit(EXIT_FAILURE, format, param);
+	_dropbear_exit(EXIT_FAILURE, format, param);
 	printf("%s: %s\n","ERROR", format);
 	va_end(param);
 }
