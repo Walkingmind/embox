@@ -7,5 +7,5 @@ module pci {
 	depends embox.mem.pool
 	depends embox.kernel.irq
 	depends embox.util.LibUtil
+	@NoRuntime depends embox.driver.pci_chip.pci_chip
 }
-
