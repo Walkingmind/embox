@@ -20,6 +20,7 @@
 #include <fs/kfsop.h>
 #include <fs/perm.h>
 #include <security/security.h>
+#include <limits.h>
 
 static int create_new_node(struct node *parent, const char *name, mode_t mode) {
 	struct node *node;
@@ -122,8 +123,8 @@ int kunlink(const char *pathname) {
 	struct fs_driver *drv;
 	int res;
 
-	if (0 != fs_perm_lookup(vfs_get_leaf(), pathname, NULL, &node)) {
-		errno = EACCES;
+	if (0 != (res = fs_perm_lookup(vfs_get_leaf(), pathname, NULL, &node))) {
+		errno = -res;
 		return -1;
 	}
 
@@ -349,8 +350,8 @@ int krename(const char *oldpath, const char *newpath) {
 	 * get success with tree_foreach_children */
 	struct tree_link *link, *end_link;
 
-	if (MAX_LENGTH_PATH_NAME < strlen(oldpath) ||
-			MAX_LENGTH_PATH_NAME < strlen(newpath)) {
+	if (PATH_MAX < strlen(oldpath) ||
+			PATH_MAX < strlen(newpath)) {
 		SET_ERRNO(ENAMETOOLONG);
 		return -1;
 	}
@@ -378,7 +379,7 @@ int krename(const char *oldpath, const char *newpath) {
 			/* Directory was passed as destination */
 			name = strrchr(oldpath, '/') + 1;
 			newpathlen = strlen(newpath) + strlen(name);
-			if (newpathlen > MAX_LENGTH_PATH_NAME) {
+			if (newpathlen > PATH_MAX) {
 				SET_ERRNO(ENAMETOOLONG);
 				return -1;
 			}

@@ -9,36 +9,38 @@
  */
 
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 
 #include <fs/path.h>
 #include <fs/vfs.h>
+#include <limits.h>
 
 #define ROOT_MODE 0755
 
 int vfs_get_path_by_node(node_t *nod, char *path) {
 	node_t *parent, *node;
-	char buff[MAX_LENGTH_PATH_NAME];
+	char buff[PATH_MAX];
 
 	*path = *buff= 0;
 	node = nod;
-	strncpy((char *) buff, (const char *) &node->name, MAX_LENGTH_FILE_NAME);
-	strncpy(path, (const char *) &node->name, MAX_LENGTH_FILE_NAME);
+	strncpy((char *) buff, (const char *) &node->name, NAME_MAX);
+	strncpy(path, (const char *) &node->name, NAME_MAX);
 
 	while(NULL !=
 			(parent = vfs_get_parent(node))) {
 		strncpy((char *) path,
-				(const char *) &parent->name, MAX_LENGTH_FILE_NAME);
+				(const char *) &parent->name, NAME_MAX);
 		if('/' != *path) {
 			strcat((char *) path, (const char *) "/");
 		}
 		strcat((char *) path, (const char *) buff);
 		node = parent;
-		strncpy((char *) buff, (const char *) path, MAX_LENGTH_PATH_NAME);
+		strncpy((char *) buff, (const char *) path, PATH_MAX);
 	}
 
-	strncpy((char *) buff, (char *) path, MAX_LENGTH_PATH_NAME);
-	buff[MAX_LENGTH_PATH_NAME - 1] = 0;
+	strncpy((char *) buff, (char *) path, PATH_MAX);
+	buff[PATH_MAX - 1] = 0;
 	if (strcmp((char *) path,(char *) buff)) {
 		return -1;
 	}
@@ -219,10 +221,16 @@ node_t *vfs_get_parent(node_t *child) {
 	return tree_element(tlink->par, struct node, tree_link);
 }
 
-#include <linux/limits.h>
 node_t *vfs_get_leaf(void) {
-	extern char current_dir[PATH_MAX];
-	return vfs_lookup(vfs_get_root(), &current_dir[0]);
+	char *leaf_name;
+	node_t *leaf;
+
+	if ((NULL == (leaf_name = getenv("PWD")))
+			|| (NULL == (leaf = vfs_lookup(NULL, leaf_name)))) {
+		leaf = vfs_get_root();
+	}
+
+	return leaf;
 }
 
 node_t *vfs_get_root(void) {
@@ -241,7 +249,7 @@ node_t *vfs_get_root(void) {
 node_t *vfs_get_exist_path(const char *path, char *exist_path, size_t buff_len) {
 	struct node *node;
 	struct node *parent;
-	char cname[MAX_LENGTH_FILE_NAME]; /* child name buffer*/
+	char cname[NAME_MAX]; /* child name buffer*/
 	char *p_path;
 
 	if(path[0] != '/') { /* we can operate only with full path now */
