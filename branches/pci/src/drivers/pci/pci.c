@@ -18,6 +18,7 @@
 #include <embox/unit.h>
 
 #include <drivers/pci/pci.h>
+#include <drivers/pci/pci_driver.h>
 
 EMBOX_UNIT_INIT(pci_init);
 

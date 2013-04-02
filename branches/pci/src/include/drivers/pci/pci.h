@@ -12,9 +12,9 @@
 #include <stdint.h>
 #include <drivers/pci/pci_id.h>
 #include <util/slist.h>
-#include <util/array.h>
+//#include <util/array.h>
 #include <drivers/pci/pci_utils.h>
-#include <drivers/pci/pci_driver.h>
+//#include <drivers/pci/pci_driver.h>
 
 
 /**
@@ -169,8 +169,6 @@ struct pci_slot_dev {
 	uint8_t irq;
 	uint32_t bar[6];
 };
-
-//extern struct pci_slot_dev *pci_find_dev(uint16_t ven_id, uint16_t dev_id);
 
 #define pci_foreach_dev(pci_dev) \
 	slist_foreach(pci_dev, __extension__ ({   \

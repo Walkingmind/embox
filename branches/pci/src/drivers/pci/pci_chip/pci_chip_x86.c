@@ -9,10 +9,8 @@
 #include <stdint.h>
 #include <drivers/pci/pci.h>
 
-//TODO separate common and architecture pci's part
+
 #include <asm/io.h>
-
-
 
 /**
  * PCI access via x86 I/O address space

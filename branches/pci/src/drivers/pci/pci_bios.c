@@ -18,14 +18,14 @@ EMBOX_UNIT_INIT(pci_bios_init);
 
 static int pci_bios_init(void) {
 	struct page_allocator *pci_allocator;
+	void *mem;
 
 	pci_allocator = page_allocator_init(MEMORY, MEMORY_SZ, PAGE_SIZE());
 	if (pci_allocator == NULL) {
 		return -ENOMEM;
 	}
 
-	void *mem = page_alloc_zero(pci_allocator, PAGE_SIZE());
-	mem = mem;
+	mem = page_alloc(pci_allocator, PAGE_SIZE());
 
 	return 0;
 }
