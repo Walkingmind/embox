@@ -27,23 +27,6 @@
 #define MAX_DEVFN               0xff
 
 /**
- * PCI access via x86 I/O address space
- */
-enum {
-	/**
-	 * Address of the device's register
-	 * +------+--------+-----+------+----+---------+-+-+
-	 * |31    |30    24|23 16|15  11|10 8|7       2|1|0|
-	 * +------+--------+-----+------+----+---------+-+-+
-	 * |access|reserved|bus  |device|func|reg index|0|0|
-	 * +------+--------+-----+------+----+---------+-+-+
-	 */
-	PCI_CONFIG_ADDRESS    = 0xCF8,
-	/** Data that is supposed to be written to the device */
-	PCI_CONFIG_DATA       = 0xCFC
-};
-
-/**
  * The slot/func address of each device is encoded in a single byte as follows:
  *   7:3 = slot, 2:0 = function
  */
