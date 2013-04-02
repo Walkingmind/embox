@@ -42,6 +42,7 @@ int pci_is_supported(void) {
 	}
 	return 0;
 }
+
 uint32_t pci_read_config8(uint32_t bus, uint32_t dev_fn,
 				uint32_t where, uint8_t *value) {
 	out32(CONFIG_CMD(bus, dev_fn, where), PCI_CONFIG_ADDRESS);

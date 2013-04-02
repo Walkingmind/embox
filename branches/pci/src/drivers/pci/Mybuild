@@ -9,3 +9,11 @@ module pci {
 	depends embox.util.LibUtil
 	@NoRuntime depends embox.driver.pci_chip.pci_chip
 }
+
+module pci_bios {
+	option number memory
+	option number memory_sz
+	source "pci_bios.c"
+
+	depends embox.mem.page_api
+}
