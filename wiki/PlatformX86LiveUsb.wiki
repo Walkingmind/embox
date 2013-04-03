@@ -1,12 +1,23 @@
 #summary Building USB live flash
 
 = Details =
-
  * Choose flash drive. Let it be, for example, `/dev/sdb`
  * Build embox with some of x86 tempaltes
- * Staying in embox root dir, run `./scripts/live-flash` with arguments of bootloader and flash. Bootloader could be `grub` or `syslinux`. As more common, consider `grub` at first. Example:
+
+== grub ==
+Staying in embox root dir, run `./scripts/live-flash` with arguments of bootloader and flash. Bootloader could be `grub` or `syslinux`. As more common, consider `grub` at first. Example:
 {{{
 # ./scripts/live-flash grub /dev/sdb
 }}}
 This script automatically installs grub and embox on specified flash. When it done, the flash is ready for boot.
 
+== syslinux == 
+Syslinux a bit more complicated. At first, you need special version of syslinux, where multiboot module correctly handles video mode parameter.
+Download [https://embox.googlecode.com/files/syslinux.tar.gz] and extract it to `scripts/syslinux` so that full path to `extlinux` be like `scripts/syslinux/sbin/extlinux`
+
+Then, assuming usb is on `/dev/sdb` type
+{{{
+# ./scripts/live-flash syslinux /dev/sdb
+}}}
+
+When it done, flash is prepared.
