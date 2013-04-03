@@ -1,0 +1,8 @@
+package embox
+
+module x_event {
+	@IncludePath("$(SRC_DIR)/include/drivers")
+	source "x_event.c"
+	
+	depends embox.lib.LibC
+}

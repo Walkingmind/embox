@@ -1,0 +1,30 @@
+package embox.cmd.sh
+
+module shell {
+	source "shell.c"
+}
+
+abstract module shell_api { }
+
+module tish {
+	option number input_buf_size = 80 
+	option number rich_prompt_support = 0
+	option number amp_support = 1
+
+	option string prompt = "embox> " 
+	option string welcome_msg = "Welcome to Embox and have a lot of fun!"
+
+	provides embox.cmd.Shell.commandLine
+
+	@IncludePath("$(THIRDPARTY_DIR)/include")
+	source "tish.c"
+
+	depends embox.lib.LibC
+	depends third_party.lib.linenoise
+	depends embox.framework.LibFramework
+	depends embox.cmd.sh.shell
+	depends embox.kernel.task.api
+	depends embox.compat.posix.proc.uid
+	depends embox.compat.posix.passwd
+	depends embox.kernel.task.waitpid
+}

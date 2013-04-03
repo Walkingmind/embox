@@ -1,0 +1,101 @@
+package embox.kernel.task
+
+@DefaultImpl(single)
+abstract module api { 
+	option number max_resource_size = 1024
+}
+
+module single extends api {
+	source "single.c"
+	depends kernel_task
+}
+
+
+module multi extends api {
+	source "multi.c"
+	depends kernel_task
+	
+	option number tasks_quantity = 20
+	
+	depends task_table
+
+	/* uses task_self() to initialize resources, which implies
+	   to thread be already loaded, as task_self uses thread_self
+	   to determ current thread
+	*/
+	depends embox.kernel.thread.core
+}
+
+module task_environment { }
+
+module kernel_task {
+	source "common.c"
+}
+
+
+
+module task_table {
+	source "task_table.c"
+	depends embox.util.idx_table
+}
+
+module std_signal { 
+	source "std_signal.c"
+	source "sighnd_impl.h"
+	depends signal_common
+}
+
+module rt_signal { 
+	source "rt_signal.c"
+	depends signal_common
+	depends embox.mem.objalloc
+}
+
+module signal_common {
+	source "signal.c"
+}
+
+
+module idx_table extends task_environment {
+
+	option number task_res_quantity = 64
+	source "index_desc.c"
+	depends embox.util.idx_table
+	depends api
+}
+
+module errno {
+	source "errno.c"
+	depends api
+}
+
+module env {
+	option number env_per_task=8
+	option number env_str_len=32
+	source "env.c"
+
+	depends kernel_task
+}
+
+module u_area {
+	source "u_area.c"
+}
+
+@DefaultImpl(io_sync_simple)
+abstract module io_sync_api { }
+
+module io_sync_simple extends io_sync_api {
+	source "io_sync_simple.c"
+}
+
+module io_sync extends io_sync_api {
+	source "io_sync.c"
+	depends embox.kernel.thread.event
+}
+
+module waitpid {
+	source "waitpid.c"
+	
+	depends task_table
+	depends embox.kernel.thread.core
+}
