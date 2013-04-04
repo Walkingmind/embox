@@ -233,10 +233,6 @@ static int checkusername(unsigned char *username, unsigned int userlen) {
 			ses.authstate.username = m_strdup((const char *)username);
 	}
 
-#ifndef EMBOX_FULL
-	return DROPBEAR_SUCCESS;
-#endif
-
 	/* check that user exists */
 	if (!ses.authstate.pw_name) {
 		TRACE(("leave checkusername: user '%s' doesn't exist", username))
