@@ -54,9 +54,6 @@
 #define PCI_CACHE_LINE_SIZE     0x0C   /* 8 bits  */
 #define PCI_LATENCY_TIMER       0x0D   /* 8 bits  */
 #define PCI_HEADER_TYPE         0x0e   /* 8 bits  */
-#define   PCI_HEADER_TYPE_NORMAL  0x0
-#define   PCI_HEADER_TYPE_BRIDGE  0x1
-#define   PCI_HEADER_TYPE_CARDBUS 0x2
 #define PCI_BIST                0x0f   /* 8 bits  */
 
 #define PCI_VENDOR_WRONG        0xFFFFFFFF /* device is not found in the slot */
@@ -98,6 +95,10 @@
 #define PCI_INTERRUPT_PIN       0x3D   /* 8 bits  */
 #define PCI_MIN_GNT             0x3E   /* 8 bits  */
 #define PCI_MAX_LAT             0x3F   /* 8 bits  */
+
+#define PCI_PRIMARY_BUS         0x18
+#define PCI_SECONDARY_BUS       0x19
+#define PCI_SUBORDINATE_BUS     0x1a
 
 /** Device classes and subclasses */
 
@@ -162,12 +163,18 @@ struct pci_slot_dev {
 	uint8_t slot;
 	uint8_t func;
 	uint8_t rev;
+	uint8_t is_bridge;
+	uint8_t is_multi;
 	uint16_t vendor;
 	uint16_t device;
 	uint8_t baseclass;
 	uint8_t subclass;
 	uint8_t irq;
 	uint32_t bar[6];
+	uint8_t primary;
+	uint8_t secondary;
+	uint8_t subordinate;
+	uint32_t membaselimit;
 };
 
 #define pci_foreach_dev(pci_dev) \
