@@ -2,7 +2,7 @@ package embox.driver
 
 module pci {
 	option number dev_quantity = 32
-	source "pci.c", "pci_repo.c", "pci_utils.c", "pci_driver.c"
+	source "pci.c", "pci_repo.c", "pci_driver.c"
 
 	depends embox.mem.pool
 	depends embox.kernel.irq
@@ -11,8 +11,9 @@ module pci {
 }
 
 module pci_bios {
-	option number memory
-	option number memory_sz
+	option number pci_space_base
+	option number pci_space_size
+	option number pci_window_size
 	source "pci_bios.c"
 
 	depends embox.mem.page_api
