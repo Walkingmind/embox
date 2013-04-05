@@ -41,7 +41,7 @@ POOL_DEF(devs_pool, struct pci_slot_dev, OPTION_GET(NUMBER,dev_quantity));
 struct slist __pci_devs_list = SLIST_INIT(&__pci_devs_list);
 
 /* check whether correct pci device in the slot bus */
-static uint32_t pci_get_vendor_id(uint32_t bus, uint32_t devfn) {
+uint32_t pci_get_vendor_id(uint32_t bus, uint32_t devfn) {
 	uint32_t vendor;
 	pci_read_config32(bus, devfn, PCI_VENDOR_ID, &vendor);
 	if ((vendor == PCI_VENDOR_NONE) || (vendor == PCI_VENDOR_WRONG)) {
