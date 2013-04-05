@@ -8,7 +8,7 @@
 
 #include <errno.h>
 #include <embox/unit.h>
-#include <mem/page.h>
+#include <stddef.h>
 #include <framework/mod/options.h>
 
 #define PCI_SPACE_BASE  OPTION_GET(NUMBER, pci_space_base)
@@ -23,12 +23,12 @@ struct space_allocator {
 };
 
 static struct space_allocator  pci_allocator = {
-		.space_base = PCI_SPACE_BASE,
+		.space_base = (void *)PCI_SPACE_BASE,
 		.space_size = PCI_SPACE_SIZE,
 };
 
 void *space_alloc(struct space_allocator *allocator, size_t window, size_t align) {
-	return (void *)((size_t)allocator->space_base + PCI_WINDOW_SIZE;
+	return (void *)((size_t)allocator->space_base + PCI_WINDOW_SIZE);
 }
 
 static int pci_bios_init(void) {
