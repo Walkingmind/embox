@@ -466,6 +466,7 @@ static size_t ext2fs_read(struct file_desc *desc, void *buff, size_t size) {
 
 	nas = desc->node->nas;
 	fi = nas->fi->privdata;
+	fi->f_pointer = desc->cursor;
 
 	while (size != 0) {
 		/* XXX should handle LARGEFILE */
@@ -1221,7 +1222,7 @@ static size_t ext2_write_file(struct nas *nas, char *buf, size_t size) {
 	buff = buf;
 	end_pointer = fi->f_pointer + len;
 
-	if (0 != ext2_new_block(nas, end_pointer)) {
+	if (0 != ext2_new_block(nas, end_pointer - 1)) {
 		return 0;
 	}
 

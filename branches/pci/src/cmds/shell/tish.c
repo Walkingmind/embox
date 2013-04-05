@@ -1,7 +1,7 @@
 /**
  * @file
  * @brief Tiny Shell
- * @details New shell build around tiny readline impl called linenoise.
+ * @details New shell build around tiny readline impl.
  *	    Supports history and completions and tends to be extremely small.
  *
  * @date 13.09.11
@@ -14,11 +14,15 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <ctype.h>
+#include <termios.h>
 #include <kernel/task.h>
-#include <lib/linenoise_1.h>
 #include <cmd/cmdline.h>
 #include <embox/unit.h>
 #include <pwd.h>
+
+#include <lib/linenoise_1.h>
+#include <readline/readline.h>
+#include <readline/history.h>
 
 #include <framework/cmd/api.h>
 
@@ -32,6 +36,9 @@
 #define RICH_PROMPT_SUPPORT OPTION_GET(NUMBER, rich_prompt_support)
 
 #define PROMPT_BUF_LEN 32
+
+static struct cmdtask_data *get_task_data(int argc, char *argv[]);
+static void *cmdtask(void *data);
 
 struct cmdtask_data {
 	int argc;
@@ -58,7 +65,7 @@ static int cmd_compl(char *buf, char *out_buf) {
 }
 #endif
 
-void completion(const char *buf, struct linenoiseCompletions *lc) {
+void completion_hnd(const char *buf, linenoiseCompletions_t *lc) {
 	const struct cmd *cmd = NULL;
 	int buf_len = strlen(buf);
 
@@ -67,7 +74,7 @@ void completion(const char *buf, struct linenoiseCompletions *lc) {
 			continue;
 		}
 		if (strncmp(buf, cmd_name(cmd), buf_len) == 0) {
-			linenoiseAddCompletion(lc, (char*)cmd_name(cmd));
+			linenoiseAddCompletion(lc, (char *)cmd_name(cmd));
 		}
 	}
 }
@@ -89,9 +96,31 @@ static int run_cmd(int argc, char *argv[]) {
 }
 
 #if AMP_SUPPORT
+static int process_amp(int argc, char *argv[]) {
+	struct cmdtask_data *m = get_task_data(argc - 1, argv);
+
+	if (!m) {
+		return -ENOMEM;
+	}
+
+	new_task(argv[0], cmdtask, m);
+
+	return 0;
+}
+
+#else
+static int process_amp(int argc, char *argv[]) {
+	return -EINVAL;
+}
+#endif
+
 static void *cmdtask(void *data) {
 	struct cmdtask_data *m = (struct cmdtask_data *) data;
 	char *argv[(BUF_INP_SIZE + 1) / 2], **pp, *p;
+	pid_t pid;
+
+	pid = getpid();
+	tcsetpgrp(STDIN_FILENO, pid);
 
 	pp = argv;
 	p = m->buf;
@@ -109,32 +138,41 @@ static void *cmdtask(void *data) {
 
 }
 
-static int process_amp(int argc, char *argv[]) {
+static struct cmdtask_data *get_task_data(int argc, char *argv[]) {
 	struct cmdtask_data *m = malloc(sizeof(struct cmdtask_data));
 	char *p = m->buf;
 
 	if (!m) {
-		return -ENOMEM;
+		return m;
 	}
 
-	m->argc = argc - 1;
-	for (int i = 0; i < argc - 1; i++) {
+	m->argc = argc;
+	for (int i = 0; i < argc; i++) {
 		strcpy(p, argv[i]);
 		p += strlen(p) + 1;
 	}
 
 	*p = '\0';
 
-	new_task(argv[0], cmdtask, m);
+	return m;
+}
+
+static int process_new_task_cmd(int argc, char *argv[]) {
+	pid_t pid;
+	struct cmdtask_data *m = get_task_data(argc, argv);
+
+	if (!m) {
+		return -ENOMEM;
+	}
+
+	pid = new_task(argv[0], cmdtask, m);
+	if (pid < 0) {
+		return pid;
+	}
+	task_waitpid(pid);
 
 	return 0;
 }
-#else
-static int process_amp(int argc, char *argv[]) {
-	return -EINVAL;
-}
-#endif
-
 
 static int process(int argc, char *argv[]) {
 	if (argc == 0) {
@@ -142,20 +180,18 @@ static int process(int argc, char *argv[]) {
 	}
 
 	if (!strcmp(argv[0], "exit")) {
-		return -1;
+		return -ENOSYS;
 	}
 
 	if (!strcmp(argv[0], "logout")) {
-		return -1;
+		return -ENOSYS;
 	}
 
 	if (!strcmp(argv[argc - 1], "&")) {
 		return process_amp(argc, argv);
 	}
 
-	run_cmd(argc, argv);
-
-	return 0;
+	return process_new_task_cmd(argc, argv);
 }
 
 int shell_line_input(const char *cmdline) {
@@ -243,20 +279,25 @@ static void tish_run(void) {
 	char prompt_buf[PROMPT_BUF_LEN];
 	const char *prompt;
 
-	/* Set the completion callback. This will be called every time the
-	* user uses the <tab> key. */
-	linenoiseSetCompletionCallback(completion);
+	/**
+	 * Set the completion callback. This will be called every time the
+	 * user uses the <tab> key.
+	 */
+	linenoiseSetCompletionCallback(completion_hnd);
 
-	/* Load history from file. The history file is just a plain text file
-	* where entries are separated by newlines. */
-	//linenoiseHistoryLoad("history.txt"); /* Load the history at startup */
+#if 0
+	/**
+	 * Load history from file. The history file is just a plain text file
+	 * where entries are separated by newlines.
+	 */
+	read_history("history.txt"); /* Load the history at startup */
+#endif
 
-	/* Now this is the main loop of the typical linenoise-based application.
-	* The call to linenoise() will block as long as the user types something
-	* and presses enter.
-	*
-	* The typed string is returned as a malloc() allocated string by
-	* linenoise, so the user needs to free() it. */
+	/**
+	 * Now this is the main loop of the typical readline-based application.
+	 * The call to readline will block as long as the user types something
+	 * and presses enter.
+	 */
 	while (1) {
 		if (RICH_PROMPT_SUPPORT) {
 			prompt = 0 == rich_prompt(PROMPT_FMT, prompt_buf,
@@ -266,15 +307,15 @@ static void tish_run(void) {
 			prompt = PROMPT_FMT;
 		}
 
-		line = linenoise(prompt);
+		line = readline(prompt);
 		if (line == NULL) {
-			break;
+			continue;
 		}
 
 		/* Do something with the string. */
 		if (line[0] != '\0' && line[0] != '/') {
-			linenoiseHistoryAdd(line); /* Add to the history. */
-			if (0 > shell_line_input(line)) {
+			add_history(line); /* Add to the history. */
+			if (0 != shell_line_input(line)) {
 				free(line);
 				return;
 			}
