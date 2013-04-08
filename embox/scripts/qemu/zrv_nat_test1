@@ -5,6 +5,8 @@ IMAGE=../../build/base/bin/embox
 EMBOX_MODS_CONF=../../conf/mods.config
 SMP=" "
 
+cd "$(dirname "$0")"
+
 grep "include embox.kernel.smp" $EMBOX_MODS_CONF > /dev/null
 if [ $? -eq 0 ]; then
 SMP="-smp 2,cores=2"
