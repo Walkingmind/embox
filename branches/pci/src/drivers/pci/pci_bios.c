@@ -24,19 +24,24 @@ struct space_allocator {
 	size_t space_size;
 };
 
-static struct space_allocator  pci_allocator = {
+static struct space_allocator pci_allocator = {
 		.space_base = (void *)PCI_SPACE_BASE,
 		.space_size = PCI_SPACE_SIZE,
 };
 
 void *space_alloc(struct space_allocator *allocator, size_t win, size_t align) {
-	return (void *)((size_t)allocator->space_base + win);
+	void *ret = allocator->space_base;
+
+	allocator->space_base = (void *)((size_t)(allocator->space_base) + win);
+
+	return ret;
 }
 
-static int pci_slot_configure(uint32_t busn, uint32_t devfn){
+int pci_slot_configure(uint32_t busn, uint32_t devfn){
 	int bar_num;
 	uint32_t length;
 	uint32_t bar[6];
+	void *window;
 
 	for(bar_num = 0; bar_num < 6; bar_num ++) {
 		// Write all '1'
@@ -45,18 +50,14 @@ static int pci_slot_configure(uint32_t busn, uint32_t devfn){
 		pci_read_config32(busn, devfn, PCI_BASE_ADDR_REG_0 + (bar_num << 2), &bar[bar_num]);
 		if (bar[bar_num] == 0)
 			continue;
+		if(bar[bar_num] & 0x1F) {
+			continue;
+		}
 		length = 1 + ~(bar[bar_num] & 0xFFFFFFF0);
-#if 0
-		//printk("bar%d, value: %x, length=%x\n", bar_num, dev->bar[bar_num], length);
-		// Calculate memory base address
-		next_memory_address = (next_memory_address + length - 1)&bar[bar_num]&0xFFFFFFF0;
-		// Assign memory size
-		pci_write_config32(dev->busn, devfn, PCI_BASE_ADDR_REG_0 + (bar_num << 2), next_memory_address);
-		next_memory_address += length;
-		// Read back actual address base
-		pci_read_config32(dev->busn, devfn, PCI_BASE_ADDR_REG_0 + (bar_num << 2), &dev->bar[bar_num]);
-		//printk("bar%d, assigned value: %x\n", bar_num, dev->bar[bar_num]);
-#endif
+
+		window = space_alloc(&pci_allocator, length, length);
+		pci_write_config32(busn, devfn, PCI_BASE_ADDR_REG_0 + (bar_num << 2), (uint32_t)window);
+		prom_printf("pci bus %d fn = %d bar_num %d bar = 0x%X win = 0x%X len = 0x%X\n", busn, devfn, bar_num, bar[bar_num], (uint32_t)window, (uint32_t)length);
 	}
 	return 0;
 }
@@ -76,7 +77,7 @@ static int pci_bios_init(void) {
 				/* Not a multiple function device */
 				continue;
 			}
-
+#if 0
 			pci_read_config8(bus, devfn, PCI_HEADER_TYPE, &hdr_type);
 			if (!PCI_FUNC(devfn)) {
 				/* If bit 7 of this register is set, the device
@@ -84,11 +85,15 @@ static int pci_bios_init(void) {
 				 * otherwise, it is a single function device */
 				is_multi = hdr_type & (1 << 7);
 			}
+#endif
 
 			if (-1 == (vendor_reg = pci_get_vendor_id(bus, devfn))) {
+				//prom_printf("not_found\n");
 				is_multi = 0;
 				continue;
 			}
+			prom_printf("hdr_type = 0x%X, vendor = 0x%X\n", hdr_type, vendor_reg);
+
 			/*The header type is devided into two sections.
 			 * Bits 6..0 comprise the header type. Bit 7 is the single/multi
 			 * funtion device flag (0=single 1=multi). The header type specifies
@@ -96,16 +101,14 @@ static int pci_bios_init(void) {
 			 * the standard header type (pictured above), and 0x01,
 			 * PCI-PCI bridge.*/
 			if((hdr_type & 0x7F) == 1) { /* PCI-PCI bridge */
+				/* reserve space */
 				space_alloc(&pci_allocator, PCI_WINDOW_SIZE, PCI_WINDOW_SIZE);
 			} else { /* not bridge */
 				pci_slot_configure(bus,devfn);
 
 			}
-
 		}
 	}
-
-
 
 	return 0;
 }
