@@ -1,0 +1,11 @@
+#!/bin/bash
+
+QEMU=qemu-system-i386
+IMAGE=../../embox-nat3
+#IMAGE=../../build/base/bin/embox
+
+cd "$(dirname "$0")"
+
+sudo $QEMU -kernel $IMAGE \
+ -net nic,model=e1000,macaddr=AA:BB:CC:DD:EE:21 \
+ -net socket,connect=:12346 -nographic $@
