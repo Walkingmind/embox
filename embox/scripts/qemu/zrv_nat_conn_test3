@@ -1,8 +1,8 @@
 #!/bin/bash
 
 QEMU=qemu-system-i386
-IMAGE=../../embox-nat3
-#IMAGE=../../build/base/bin/embox
+#IMAGE=../../embox-nat3
+IMAGE=../../build/base/bin/embox
 
 cd "$(dirname "$0")"
 
