@@ -62,53 +62,49 @@ int pci_slot_configure(uint32_t busn, uint32_t devfn){
 	return 0;
 }
 
-extern uint32_t pci_get_vendor_id(uint32_t bus, uint32_t devfn) ;
-static int pci_bios_init(void) {
-	uint32_t bus, devfn;
+static void pci_bus_configure(uint32_t busn) {
+	uint32_t bus=busn, devfn;
 	uint8_t hdr_type, is_multi = 0;
 
-	for (bus = 0; bus < PCI_BUS_QUANTITY; ++bus) {
-		for (devfn = MIN_DEVFN; devfn < MAX_DEVFN; ++devfn) {
-			uint32_t vendor_reg;
+	for (devfn = MIN_DEVFN; devfn < MAX_DEVFN; ++devfn) {
+		/* Devices are required to implement function 0, so if
+		 * it's missing then there is no device here. */
+		if (PCI_FUNC(devfn) && !is_multi) {
+			/* Not a multiple function device */
+			continue;
+		}
 
-			/* Devices are required to implement function 0, so if
-			 * it's missing then there is no device here. */
-			if (PCI_FUNC(devfn) && !is_multi) {
-				/* Not a multiple function device */
-				continue;
-			}
-#if 0
-			pci_read_config8(bus, devfn, PCI_HEADER_TYPE, &hdr_type);
-			if (!PCI_FUNC(devfn)) {
-				/* If bit 7 of this register is set, the device
-				 * has multiple functions;
-				 * otherwise, it is a single function device */
-				is_multi = hdr_type & (1 << 7);
-			}
-#endif
+		pci_read_config8(bus, devfn, PCI_HEADER_TYPE, &hdr_type);
+		if (!PCI_FUNC(devfn)) {
+			/* If bit 7 of this register is set, the device
+			 * has multiple functions;
+			 * otherwise, it is a single function device */
+			is_multi = hdr_type & (1 << 7);
+		}
 
-			if (-1 == (vendor_reg = pci_get_vendor_id(bus, devfn))) {
-				//prom_printf("not_found\n");
-				is_multi = 0;
-				continue;
-			}
-			prom_printf("hdr_type = 0x%X, vendor = 0x%X\n", hdr_type, vendor_reg);
+		/*The header type is devided into two sections.
+		 * Bits 6..0 comprise the header type. Bit 7 is the single/multi
+		 * funtion device flag (0=single 1=multi). The header type specifies
+		 * the format of bytes 0x10 to 0x3f. The two defined types are 0x00,
+		 * the standard header type (pictured above), and 0x01,
+		 * PCI-PCI bridge.*/
+		if((hdr_type & 0x7F) == 1) { /* PCI-PCI bridge */
+			/* align space at 1Mb */
+			space_alloc(&pci_allocator, PCI_WINDOW_SIZE, PCI_WINDOW_SIZE);
+			pci_write_config32(busn, (dev->slot << 3) | devfn, PCI_PRIMARY_BUS, (dev->primary) | (dev->secondary << 8) | (dev->subordinate << 16));
+			//pci_write_config32(busn, (slot << 3) | func, PCI_PRIMARY_BUS, (new_dev->primary) | (new_dev->secondary << 8) | (new_dev->subordinate << 16));
+			prom_printf("\nbridge start configure bus %d\n*******\n", busn+1);
+			pci_bus_configure(busn + 1);
 
-			/*The header type is devided into two sections.
-			 * Bits 6..0 comprise the header type. Bit 7 is the single/multi
-			 * funtion device flag (0=single 1=multi). The header type specifies
-			 * the format of bytes 0x10 to 0x3f. The two defined types are 0x00,
-			 * the standard header type (pictured above), and 0x01,
-			 * PCI-PCI bridge.*/
-			if((hdr_type & 0x7F) == 1) { /* PCI-PCI bridge */
-				/* reserve space */
-				space_alloc(&pci_allocator, PCI_WINDOW_SIZE, PCI_WINDOW_SIZE);
-			} else { /* not bridge */
-				pci_slot_configure(bus,devfn);
-
-			}
+		} else { /* not bridge */
+			pci_slot_configure(bus, devfn);
 		}
 	}
+	/* Enable bus mastering and memory requests processing */
+	pci_write_config32(busn, devfn, PCI_COMMAND, 6);
+}
 
+static int pci_bios_init(void) {
+	pci_bus_configure(0);
 	return 0;
 }
