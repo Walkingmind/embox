@@ -7,8 +7,9 @@
  */
 
 #include <errno.h>
-#include <embox/unit.h>
 #include <stddef.h>
+#include <util/indexator.h>
+#include <embox/unit.h>
 #include <framework/mod/options.h>
 #include <prom/prom_printf.h>
 #include <drivers/pci/pci.h>
@@ -18,6 +19,8 @@
 #define PCI_WINDOW_SIZE OPTION_GET(NUMBER, pci_window_size)
 
 EMBOX_UNIT_INIT(pci_bios_init);
+
+#include <util/binalign.h>
 
 struct space_allocator {
 	void *space_base;
@@ -30,40 +33,82 @@ static struct space_allocator pci_allocator = {
 };
 
 void *space_alloc(struct space_allocator *allocator, size_t win, size_t align) {
-	void *ret = allocator->space_base;
+	void *ret;
+	allocator->space_base = (void*)binalign_bound((size_t)allocator->space_base, align);
 
+	ret = allocator->space_base;
 	allocator->space_base = (void *)((size_t)(allocator->space_base) + win);
 
 	return ret;
 }
 
-int pci_slot_configure(uint32_t busn, uint32_t devfn){
+void *space_current(struct space_allocator *allocator) {
+	return allocator->space_base;
+}
+
+static void pci_bus_configure(uint32_t busn);
+
+static int pci_slot_configure(uint32_t busn, uint32_t devfn){
 	int bar_num;
 	uint32_t length;
-	uint32_t bar[6];
+	uint32_t bar;
 	void *window;
 
 	for(bar_num = 0; bar_num < 6; bar_num ++) {
-		// Write all '1'
+		/* Write all '1' */
 		pci_write_config32(busn, devfn, PCI_BASE_ADDR_REG_0 + (bar_num << 2), 0xFFFFFFFF);
-		// Read back size
-		pci_read_config32(busn, devfn, PCI_BASE_ADDR_REG_0 + (bar_num << 2), &bar[bar_num]);
-		if (bar[bar_num] == 0)
+		/* Read back size */
+		pci_read_config32(busn, devfn, PCI_BASE_ADDR_REG_0 + (bar_num << 2), &bar);
+		/* if no bar available */
+		if (bar == 0)
 			continue;
-		if(bar[bar_num] & 0x1F) {
+		/* TODO fix check the pci standard */
+		if(bar & 0x1F) {
 			continue;
 		}
-		length = 1 + ~(bar[bar_num] & 0xFFFFFFF0);
+		length = 1 + ~(bar & 0xFFFFFFF0);
 
 		window = space_alloc(&pci_allocator, length, length);
 		pci_write_config32(busn, devfn, PCI_BASE_ADDR_REG_0 + (bar_num << 2), (uint32_t)window);
-		prom_printf("pci bus %d fn = %d bar_num %d bar = 0x%X win = 0x%X len = 0x%X\n", busn, devfn, bar_num, bar[bar_num], (uint32_t)window, (uint32_t)length);
+		prom_printf("pci bus %d fn = %d bar_num %d bar = 0x%X win = 0x%X len = 0x%X\n", busn, devfn, bar_num, bar, (uint32_t)window, (uint32_t)length);
 	}
 	return 0;
 }
 
+INDEX_DEF(bus_indexator, 0, 32);
+static int pci_bridge_configure(int busn, int devfn) {
+	int newbusn, subord;
+	uint32_t memconf;
+	void *space_base, *space_end;
+
+	/* align space at 1Mb */
+	space_base = space_alloc(&pci_allocator, 0, PCI_WINDOW_SIZE);
+	newbusn = index_alloc(&bus_indexator, INDEX_ALLOC_MIN);
+	/* enable new bus with all subordinate
+	 * primary = busn
+	 * secondary = newbusn
+	 * subordinate = 0xFF
+	 */
+	pci_write_config32(busn, devfn, PCI_PRIMARY_BUS,
+			(busn) | (newbusn << 8) | (0xFF << 16));
+	prom_printf("\nbridge start configure busn %d newbus %d\n*******\n", busn, newbusn);
+	pci_bus_configure(newbusn);
+	subord = index_find(&bus_indexator, INDEX_ALLOC_MIN) - 1;
+	pci_write_config32(busn, devfn, PCI_PRIMARY_BUS,
+			(busn) | (newbusn << 8) | (subord << 16));
+	prom_printf("\nbridge start configure subordinate %d\n*******\n", subord);
+
+	space_end = space_alloc(&pci_allocator, 0, 0);
+	memconf = ((uint32_t)(space_base) >> 16) & 0xFFF0;
+	memconf |= ((uint32_t)(space_end)-1) & 0xFFF00000;
+
+	pci_write_config32(busn, devfn, 0x20, memconf);
+
+	return 0;
+}
+extern uint32_t pci_get_vendor_id(uint32_t bus, uint32_t devfn) ;
 static void pci_bus_configure(uint32_t busn) {
-	uint32_t bus=busn, devfn;
+	uint32_t  devfn, vendor_reg;
 	uint8_t hdr_type, is_multi = 0;
 
 	for (devfn = MIN_DEVFN; devfn < MAX_DEVFN; ++devfn) {
@@ -73,8 +118,11 @@ static void pci_bus_configure(uint32_t busn) {
 			/* Not a multiple function device */
 			continue;
 		}
+		if (-1 == (vendor_reg = pci_get_vendor_id(busn, devfn))) {
+			continue;
+		}
 
-		pci_read_config8(bus, devfn, PCI_HEADER_TYPE, &hdr_type);
+		pci_read_config8(busn, devfn, PCI_HEADER_TYPE, &hdr_type);
 		if (!PCI_FUNC(devfn)) {
 			/* If bit 7 of this register is set, the device
 			 * has multiple functions;
@@ -82,29 +130,29 @@ static void pci_bus_configure(uint32_t busn) {
 			is_multi = hdr_type & (1 << 7);
 		}
 
-		/*The header type is devided into two sections.
+
+		/*The header type is divided into two sections.
 		 * Bits 6..0 comprise the header type. Bit 7 is the single/multi
-		 * funtion device flag (0=single 1=multi). The header type specifies
+		 * function device flag (0=single 1=multi). The header type specifies
 		 * the format of bytes 0x10 to 0x3f. The two defined types are 0x00,
 		 * the standard header type (pictured above), and 0x01,
 		 * PCI-PCI bridge.*/
-		if((hdr_type & 0x7F) == 1) { /* PCI-PCI bridge */
-			/* align space at 1Mb */
-			space_alloc(&pci_allocator, PCI_WINDOW_SIZE, PCI_WINDOW_SIZE);
-			pci_write_config32(busn, (dev->slot << 3) | devfn, PCI_PRIMARY_BUS, (dev->primary) | (dev->secondary << 8) | (dev->subordinate << 16));
-			//pci_write_config32(busn, (slot << 3) | func, PCI_PRIMARY_BUS, (new_dev->primary) | (new_dev->secondary << 8) | (new_dev->subordinate << 16));
-			prom_printf("\nbridge start configure bus %d\n*******\n", busn+1);
-			pci_bus_configure(busn + 1);
-
+		if((hdr_type & 0x7F) == 1) { /* bridge */
+			/*		    new_dev->baseclass == PCI_BASE_CLASS_BRIDGE &&
+		    new_dev->subclass == PCI_CLASS_BRIDGE_PCI)
+		     */
+			pci_bridge_configure(busn, devfn);
 		} else { /* not bridge */
-			pci_slot_configure(bus, devfn);
+			pci_slot_configure(busn, devfn);
 		}
+		/* Enable bus mastering and memory requests processing */
+		pci_write_config32(busn, devfn, PCI_COMMAND, 6);
 	}
-	/* Enable bus mastering and memory requests processing */
-	pci_write_config32(busn, devfn, PCI_COMMAND, 6);
 }
 
 static int pci_bios_init(void) {
-	pci_bus_configure(0);
+	int busn;
+	busn = index_alloc(&bus_indexator, INDEX_ALLOC_MIN);
+	pci_bus_configure(busn);
 	return 0;
 }
