@@ -22,64 +22,6 @@
 
 EMBOX_CMD(su_exec);
 
-static char *passw_prompt(const char *prompt, char *buf, int buflen) {
-	int ch;
-	char *ret = buf;
-	printf("%s", prompt);
-
-	ch = fgetc(stdin);
-
-	while ('\n' != ch && '\r' != ch) {
-
-		/* Avoid strange symbols in stdin.
-		 * Actually, telnet sends \r as \r\0,
-		 * so trying bypass it.
-		 */
-		if (ch == '\0') {
-			ch = fgetc(stdin);
-			continue;
-		}
-
-		if (buflen-- <= 0) {
-			return NULL;
-		}
-
-		*buf++ = ch;
-		ch = fgetc(stdin);
-	}
-
-	if (buflen-- <= 0) {
-		return NULL;
-	}
-
-	*buf++ = '\0';
-
-	printf("\n");
-
-	return ret;
-}
-
-static struct spwd *spwd_find(const char *spwd_path, const char *name) {
-	struct spwd *spwd;
-	FILE *shdwf;
-
-	if (NULL == (shdwf = fopen(spwd_path, "r"))) {
-		return NULL;
-	}
-
-	while (NULL != (spwd = fgetspent(shdwf))) {
-		if (0 == strcmp(spwd->sp_namp, name)) {
-			break;
-		}
-	}
-
-	fclose(shdwf);
-
-	return spwd;
-}
-
-#define SHADOW_FILE "/shadow"
-
 #define PASSBUF_LEN 64
 
 extern char *getpass_r(const char *prompt, char *buf, size_t buflen);
@@ -94,19 +36,20 @@ static int su_exec(int argc, char *argv[]) {
 
 	uarea->reuid = uarea->euid = 0;
 
-	spwd = spwd_find(SHADOW_FILE, "root");
+	spwd = getspnam_f("root");
 
 	if (!spwd) {
 		ret = -EIO;
 		goto out_err;
 	}
 
-	if (NULL == (pass = passw_prompt("Password: ", passwd, PASSBUF_LEN))) {
+	if (NULL == (pass = getpass_r("Password: ", passwd, PASSBUF_LEN))) {
 		goto out_err;
 	}
 
 	if (strcmp(spwd->sp_pwdp, pass)) {
-		ret = -EACCES;
+		fprintf(stderr, "%s: incorrect password\n", argv[0]);
+		ret = 0;
 		goto out_err;
 	}
 

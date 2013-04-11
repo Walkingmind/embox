@@ -41,31 +41,37 @@ POOL_DEF(socks_pool, sock_info_t, CONFIG_MAX_KERNEL_SOCKETS);
 
 
 /* allocates proto structure for specified protocol*/
-static struct sock * sk_prot_alloc(struct proto *prot, gfp_t priority) {
+static struct sock * sk_prot_alloc(struct proto *prot) {
 	struct sock *sk;
 	ipl_t sp;
 
 	assert(prot != NULL);
 
 	sk = NULL;
+
 	sp = ipl_save();
-	if (prot->sock_alloc != NULL) {
-		assert(prot->sock_free != NULL);
-		sk = prot->sock_alloc();
-	}
-	else {
-		if (prot->cachep == NULL) {
-			prot->cachep = cache_create(prot->name, prot->obj_size,
-					MODOPS_MIN_AMOUNT_SOCK);
+	{
+		if (prot->sock_alloc != NULL) {
+			assert(prot->sock_free != NULL);
+			sk = prot->sock_alloc();
 		}
-		if (prot->cachep != NULL) {
-			sk = cache_alloc(prot->cachep);
+		else {
+			if (prot->cachep == NULL) {
+				prot->cachep = cache_create(prot->name, prot->obj_size,
+						MODOPS_MIN_AMOUNT_SOCK);
+			}
+			if (prot->cachep != NULL) {
+				sk = cache_alloc(prot->cachep);
+			}
 		}
 	}
-
-	memset(&sk->sk_lock, 0, sizeof(socket_lock_t));
-
 	ipl_restore(sp);
+
+	if (sk == NULL) {
+		return NULL;
+	}
+
+	memset(&sk->sk_lock, 0, sizeof sk->sk_lock);
 
 	return sk;
 }
@@ -88,12 +94,12 @@ static void sk_prot_free(const struct proto *prot, struct sock *sk) {
 	ipl_restore(sp);
 }
 
-struct sock * sk_alloc(int family, gfp_t priority, struct proto *prot) {
+struct sock * sk_alloc(int family, struct proto *prot) {
 	struct sock *sk;
 
 	assert(prot != NULL);
 
-	sk = sk_prot_alloc(prot, 0);
+	sk = sk_prot_alloc(prot);
 	if (sk == NULL) {
 		return NULL;
 	}

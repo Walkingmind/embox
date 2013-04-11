@@ -157,18 +157,14 @@ int getpwnam_r(const char *name, struct passwd *pwd,
 
 struct passwd *getpwnam(const char *name) {
 	static struct passwd getpwnam_buffer;
-	char buff[0x80];
+	static char buff[0x80];
 	struct passwd *res;
 
 	if (0 != getpwnam_r(name, &getpwnam_buffer, buff, 0x80,  &res)) {
-		return 0;
-	}
-
-	if (res == 0) {
 		return NULL;
 	}
 
-	return &getpwnam_buffer;
+	return res;
 }
 
 int getpwuid_r(uid_t uid, struct passwd *pwd,
@@ -199,18 +195,15 @@ int getpwuid_r(uid_t uid, struct passwd *pwd,
 
 struct passwd *getpwuid(uid_t uid) {
 	static struct passwd getpwuid_buffer;
-	char buff[0x80];
+	static char buff[0x80];
 	struct passwd *res;
 
 	if (0 != getpwuid_r(uid, &getpwuid_buffer, buff, 80, &res)) {
 		//TODO errno must be set
 		return NULL;
 	}
-	if (res == 0) {
-		return NULL;
-	}
 
-	return &getpwuid_buffer;
+	return res;
 }
 
 int fgetgrent_r(FILE *fp, struct group *gbuf, char *tbuf,
@@ -319,6 +312,8 @@ int getgrgid_r(gid_t gid, struct group *grp,
 #define SHADOW_NAME_BUF_LEN 64
 #define SHADOW_PSWD_BUF_LEN 128
 
+static const char *shadow_file = "/shadow";
+
 static struct spwd spwd;
 static char spwd_buf[SHADOW_NAME_BUF_LEN + SHADOW_PSWD_BUF_LEN];
 
@@ -365,4 +360,29 @@ struct spwd *fgetspent(FILE *file) {
 
 	return &spwd;
 }
+
+static struct spwd *spwd_find(const char *spwd_path, const char *name) {
+	struct spwd *spwd;
+	FILE *shdwf;
+
+	if (NULL == (shdwf = fopen(spwd_path, "r"))) {
+		return NULL;
+	}
+
+	while (NULL != (spwd = fgetspent(shdwf))) {
+		if (0 == strcmp(spwd->sp_namp, name)) {
+			break;
+		}
+	}
+
+	fclose(shdwf);
+
+	return spwd;
+}
+
+struct spwd *getspnam_f(const char *name) {
+	return spwd_find(shadow_file, name);
+}
+
+
 

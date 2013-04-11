@@ -1,6 +1,9 @@
 /* config.h.  Generated from config.h.in by configure.  */
 /* config.h.in.  Generated from configure.in by autoheader.  */
 
+#ifndef DROPBEAR_CONFIG_H_
+#define DROPBEAR_CONFIG_H_
+
 /* Using AIX */
 /* #undef AIX */
 
@@ -215,7 +218,7 @@
 //#define HAVE_SETUTXENT 1
 
 /* Define to 1 if you have the <shadow.h> header file. */
-/* #undef HAVE_SHADOW_H */
+#define HAVE_SHADOW_H 1
 
 /* Define to 1 if you have the `socket' function. */
 //#define HAVE_SOCKET 1
@@ -423,3 +426,5 @@
 
 /* Define to `int' if <sys/types.h> doesn't define. */
 /* #undef uid_t */
+
+#endif /* DROPBEAR_CONFIG_H_ */

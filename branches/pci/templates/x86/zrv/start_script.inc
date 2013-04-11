@@ -8,7 +8,8 @@
 "telnetd &",
 "dropbear &",
 "httpd &",
-"snmpd &"
+"snmpd &",
+"login",
 
 
 
