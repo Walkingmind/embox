@@ -40,4 +40,6 @@
 /* Bochs */
 { PCI_VENDOR_ID_BOCHS,    PCI_DEV_ID_BOCHS_VGA,              "Bochs VGA"},
 /* PLX Technology */
-{ PCI_VENDOR_ID_PLX,      PCI_DEV_ID_PLX_PEX8619,            "PCI Express Switch"}
+{ PCI_VENDOR_ID_PLX,      PCI_DEV_ID_PLX_PEX8619,            "PCI Express Switch"},
+/* XILINX */
+{PCI_VENDOR_ID_XILINX,    PCI_DEV_ID_XILINX_SPARTAN6,        "Spartan 6 PCI interface"}
