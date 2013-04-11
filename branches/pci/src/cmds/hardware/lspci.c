@@ -234,8 +234,6 @@ static int exec(int argc, char **argv) {
 	int full = 0;
 	int dump = 0;
 	int names = 0;
-	int mem_test = 0;
-	int is_read = 0;
 
 	uint32_t busn;
 	int busn_set = 0;
@@ -281,14 +279,6 @@ static int exec(int argc, char **argv) {
 			case 'h':
 				print_usage();
 				return 0;
-			case 'r':
-				mem_test = strtoul(optarg, &endptr, 0);
-				is_read = 1;
-				break;
-			case 'w':
-				mem_test = strtoul(optarg, &endptr, 0);
-				is_read = 0;
-				break;
 			default:
 				print_error();
 				return 0;
