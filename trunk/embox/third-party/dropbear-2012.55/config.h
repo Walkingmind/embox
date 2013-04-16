@@ -251,10 +251,10 @@
 //#define HAVE_STRUCT_ADDRINFO
 
 /* Have struct in6_addr */
-//#define HAVE_STRUCT_IN6_ADDR
+#define HAVE_STRUCT_IN6_ADDR
 
 /* Have struct sockaddr_in6 */
-//#define HAVE_STRUCT_SOCKADDR_IN6
+#define HAVE_STRUCT_SOCKADDR_IN6
 
 /* Define to 1 if the system has the type `struct sockaddr_storage'. */
 //#define HAVE_STRUCT_SOCKADDR_STORAGE 1
