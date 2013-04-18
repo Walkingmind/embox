@@ -6,7 +6,7 @@
 "route add 192.168.51.0 netmask 255.255.255.0 eth0",
 "date -s 201304161719.20",
 "telnetd &",
-"dropbear &",
+"dropbear",
 "httpd &",
 "snmpd &",
 "export QT_QPA_FONTDIR=/",
