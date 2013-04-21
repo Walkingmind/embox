@@ -44,6 +44,16 @@ Usage: $(MAKE) build-<template>
   you have to configure the project first. See configuration targets.
 endef # build
 
+.PHONY : rootfs
+rootfs :
+	+@$(make_mybuild) build __REBUILD_ROOTFS=1
+
+define help-rootfs
+Usage: $(MAKE) rootfs
+
+  Forces rootfs image to be rebuilt unconditionally.
+endef # rootfs
+
 .PHONY : dot
 dot :
 	+@$(make_mybuild) $@
@@ -165,7 +175,7 @@ menuconfig  xconfig   :
 define help-menubuild
 Usage: $(MAKE) menubuild
    Or: $(MAKE) mb
-  
+
   Display pseudo-graphic menu with list of templates, allows you
   to build the selected one immediatelly.
 
@@ -269,7 +279,7 @@ Building targets:
   build-<t>      - Build a given configuration template
   menubuild (mb) - Interactively select a configuration to build a menu based
                    program (requires 'dialog')
-  xbuild (xb)    - Interactively select a configuration to build using GTK 
+  xbuild (xb)    - Interactively select a configuration to build using GTK
                    client (requires 'Xdialog')
 
 Configuration targets:
