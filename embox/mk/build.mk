@@ -12,7 +12,7 @@ include mk/codegen-dot.mk
 
 include mk/help-module.mk
 
-.PHONY : build image prepare docsgen dot
+.PHONY : build prepare docsgen dot
 
 build_gen_ts := $(MKGEN_DIR)/build-gen.timestamp
 
@@ -30,16 +30,16 @@ docsgen:
 
 MODULE_LIST := $(strip $(call mod_list))
 
-mod-list : 
+mod-list :
 	$(info --- Module list --- )
 	@$(info $(addsuffix $(\n),$(MODULE_LIST)))#
 
-$(MODULE_LIST:%=mod-include-reason-%) : mod-include-reason-% : 
+$(MODULE_LIST:%=mod-include-reason-%) : mod-include-reason-% :
 	@$(info $(call mod_include_reason,$*))#
 
-$(MODULE_LIST:%=mod-brief-%) : mod-brief-% : 
+$(MODULE_LIST:%=mod-brief-%) : mod-brief-% :
 	@$(info $(call mod_brief,$*))#
 
 
-mod-brief-% mod-include-reason-%: 
+mod-brief-% mod-include-reason-%:
 	@echo There is no $* module in build
