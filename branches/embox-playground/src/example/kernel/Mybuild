@@ -17,3 +17,10 @@ module syscall_example {
 	depends embox.arch.syscall_caller
 	depends embox.framework.LibFramework
 }
+
+module user_example {
+	source "user_example.c"
+
+	depends embox.lib.LibC
+	depends embox.framework.LibFramework
+}
