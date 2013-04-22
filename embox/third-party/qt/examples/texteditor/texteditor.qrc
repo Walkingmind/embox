@@ -1,6 +1,8 @@
 <!DOCTYPE RCC><RCC version="1.0">
 <qresource>
-    <file>default.png</file>
-    <file>icon.png</file>
+    <file>images/default.png</file>
+    <file>images/icon.png</file>
+    <file>images/cats.jpg</file>
+    <file>images/abstract.jpg</file>
 </qresource>
 </RCC>
