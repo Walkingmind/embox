@@ -1,0 +1,55 @@
+package embox.test.kernel
+
+@TestFor(embox.kernel.irq)
+module irq_test {
+	source "irq_test.c"
+
+	depends embox.kernel.irq
+	/*depends embox.framework.LibFramework*/
+}
+
+@TestFor(embox.kernel.softirq)
+module softirq_test {
+	source "softirq_test.c"
+
+	depends embox.kernel.softirq
+	/*depends embox.framework.LibFramework*/
+}
+
+@TestFor(embox.kernel.timer.strategy.api)
+module timer_test {
+	source "timer_test.c"
+
+	depends embox.kernel.timer.strategy.api
+	/*depends embox.framework.LibFramework*/
+	depends embox.kernel.time.timer
+}
+
+@TestFor(embox.kernel.timer.strategy.api)
+module periodic_timer_test {
+	source "periodic_timer_test.c"
+
+	depends embox.kernel.timer.strategy.api
+	depends embox.kernel.time.timer
+}
+
+@TestFor(embox.kernel.timer.strategy.api)
+module oneshot_timer_test {
+	source "oneshot_timer_test.c"
+
+	depends embox.kernel.timer.strategy.api
+	depends embox.kernel.time.timer
+}
+
+//@TestFor(embox.kernel.syscall)
+module syscall_test {
+	source "syscall_test.c"
+
+	depends embox.arch.syscall_caller
+}
+
+module usermode_test {
+	source "usermode_test.c"
+	
+	depends embox.arch.syscall_caller
+}

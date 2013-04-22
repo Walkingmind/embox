@@ -1,0 +1,20 @@
+package embox.driver.gpio
+
+abstract module pins { }
+
+abstract module api { }
+
+module at91_pins extends pins {
+	source "at91_pins.c", "pins.c"
+
+	depends embox.kernel.irq
+}
+
+module rdc_gpio extends api {
+	source "rdc_gpio.c", "rdc_gpio.h"
+}
+
+module stm32 extends api {
+	source "stm32_gpio.c", "stm32_gpio.h"
+
+}
