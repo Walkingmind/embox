@@ -1,3 +1,4 @@
+#!/bin/bash
 
 SYSLINUX_ROOT=$(dirname $0)/syslinux
 EXTLINUX=${SYSLINUX_ROOT}/sbin/extlinux
@@ -71,7 +72,7 @@ mount $PARTITION $MOUNT_POINT
 
 if [ z"$1" == zgrub ]; then 
 	if [ z"$(grub-install --version | grep 2.0)" == z ]; then
-		grub1_do $DRIVE $MOUNT_POINT
+		grub2_do $DRIVE $MOUNT_POINT
 	else
 		grub2_do $DRIVE $MOUNT_POINT
 	fi

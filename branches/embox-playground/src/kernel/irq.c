@@ -29,6 +29,7 @@
 #include <mem/objalloc.h>
 #include <profiler/tracing/trace.h>
 #include <util/dlist.h>
+#include <prom/prom_printf.h>
 
 struct irq_entry {
 	irq_handler_t handler;
@@ -88,7 +89,8 @@ int irq_attach(unsigned int irq_nr, irq_handler_t handler, unsigned int flags,
 		dlist_init(&action->entry_list);
 		dlist_add_next(dlist_head_init(&(action->entry.action_link)),
 				&(irq_table[irq_nr]->entry_list));
-		irqctrl_enable(irq_nr);
+		//irqctrl_enable(irq_nr);
+		prom_printf("##!!##\n");
 	}
 
 	out_unlock: irq_unlock();

@@ -24,7 +24,10 @@ EMBOX_EXAMPLE(run);
 static struct event e;
 
 static struct clock_source *cs;
-static time64_t f, s, total;
+//static time64_t f, s, d;
+//static time64_t total, min, max;
+static unsigned int f, s, d;
+static unsigned int total, min, max;
 static struct itimer it;
 
 static void *thread2_handler(void *arg) {
@@ -33,7 +36,17 @@ static void *thread2_handler(void *arg) {
 	for (int i = 0; i < SLEEP_COUNT; i++) {
 		event_wait(&e, EVENT_TIMEOUT_INFINITE);
 		s = itimer_read(&it);
-		total += s - f;
+
+		d = s - f;
+
+		if (i == 0) {
+			min = d; max = d;
+		} else {
+			if (min > d) min = d;
+			if (max < d) max = d;
+		}
+
+		total += d;
 	}
 
 	return NULL;
@@ -45,7 +58,9 @@ static int run(int argc, char **argv) {
 	cs = clock_source_get_best(CS_ANY);
 	itimer_init(&it, cs, 0);
 
-	total = 0;
+	printf("Clock source: %s\n", cs->name);
+
+	total = 0; min = 0; max = 0;
 
 	thread_create(&t, THREAD_FLAG_DETACHED | THREAD_FLAG_PRIORITY_HIGHER, &thread2_handler, NULL);
 
@@ -54,7 +69,9 @@ static int run(int argc, char **argv) {
 		event_notify(&e);
 	}
 
-	printf("TOTAL: %d\n", (int) total);
+	printf("TOTAL: %d\n", total);
+	printf("MIN: %d\n", min);
+	printf("MAX: %d\n", max);
 
 	return ENOERR;
 }
