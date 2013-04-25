@@ -24,6 +24,16 @@ EMBOX_EXAMPLE(run);
 
 static unsigned long long f, s, d;
 
+static inline void set_cr0(unsigned int val) {
+	asm ("mov %0, %%cr0" : :"r" (val));
+}
+
+static inline unsigned int get_cr0(void) {
+	unsigned int _cr0;
+	asm ("mov %%cr0, %0":"=r" (_cr0));
+	return _cr0;
+}
+
 static inline unsigned long long rdtsc(void) {
 	unsigned hi, lo;
 	__asm__ __volatile__("rdtsc" : "=a"(lo), "=d"(hi));
@@ -32,6 +42,9 @@ static inline unsigned long long rdtsc(void) {
 
 static int run(int argc, char **argv) {
 	ipl_t ipl;
+
+//	set_cr0(get_cr0() | (1UL << 30)); /* Disable caching */
+
 	for (int i = 1; ; i++) {
 		ipl = ipl_save();
 		{
