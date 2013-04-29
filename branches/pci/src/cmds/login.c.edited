@@ -157,8 +157,13 @@ static int login_cmd(int argc, char **argv) {
 			}
 
 
+<<<<<<< .working
+			if (NULL == getpass_r(PASSW_PROMPT, passbuf, BUF_LEN)) {
+				continue;
+=======
 			if (NULL == getpass_r(PASSW_PROMPT, passbuf, BUF_LEN)) {
 				goto sleep;
+>>>>>>> .merge-right.r9666
 			}
 
 			if (0 == (res = strcmp(passbuf, spwd->sp_pwdp))) {
