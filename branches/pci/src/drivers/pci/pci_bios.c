@@ -98,14 +98,19 @@ static int pci_bridge_configure(int busn, int devfn) {
 			(busn) | (newbusn << 8) | (subord << 16));
 	prom_printf("\nbridge start configure subordinate %d\n*******\n", subord);
 
-	space_end = space_alloc(&pci_allocator, 0, 0);
-	memconf = ((uint32_t)(space_base) >> 16) & 0xFFF0;
-	memconf |= ((uint32_t)(space_end)-1) & 0xFFF00000;
+	/* align space at 1Mb and check the difference */
+	space_end = space_alloc(&pci_allocator, 0, PCI_WINDOW_SIZE);
+	if (space_base < space_end)
+	{
+		memconf = ((uint32_t)(space_base) >> 16) & 0xFFF0;
+		memconf |= ((uint32_t)(space_end)-1) & 0xFFF00000;
 
-	pci_write_config32(busn, devfn, 0x20, memconf);
+		pci_write_config32(busn, devfn, 0x20, memconf);
+	}
 
 	return 0;
 }
+
 extern uint32_t pci_get_vendor_id(uint32_t bus, uint32_t devfn) ;
 static void pci_bus_configure(uint32_t busn) {
 	uint32_t  devfn, vendor_reg;
