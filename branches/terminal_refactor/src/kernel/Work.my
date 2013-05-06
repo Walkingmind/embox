@@ -1,6 +1,0 @@
-package embox.kernel
-
-module work {
-	source "work.c"
-	depends softirq
-}
