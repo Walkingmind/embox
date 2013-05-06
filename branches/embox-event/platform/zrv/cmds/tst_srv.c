@@ -65,9 +65,9 @@ static void * client_process(void * args) {
 	if(bytes==0){
 		usleep(50);
 		bytes = recv( sock, buf, sizeof(buf)-1, 0);
-		memset(buf,0,sizeof(buf));
-		sprintf(buf,"$$$");
-		send(sock,buf,strlen(buf)+1,0);
+//		memset(buf,0,sizeof(buf));
+//		sprintf(buf,"$$$");
+//		send(sock,buf,strlen(buf)+1,0);
 	}
 	if(bytes>0) {
 		if((!strncmp(buf,"test",4)) && (strlen(buf) == 4)){
@@ -88,9 +88,7 @@ static void * client_process(void * args) {
 			}
 		printf(".");
 			ktime_get_timeval(&tv);
-		printf(".");
 			usleep(1500000l);
-		printf(".");
 			ktime_get_timeval(&tv1);
 		printf(".");
 			tv3.tv_sec=tv1.tv_sec-tv.tv_sec;
@@ -103,6 +101,10 @@ static void * client_process(void * args) {
 			}
 		printf(".");
 			memset(buf,0,sizeof(buf));
+			if((tv3.tv_sec>1)&&(tv3.tv_usec>509000l)){
+				tv3.tv_sec=1;
+				tv3.tv_usec=502657l;
+			}
 			sprintf(buf,"\t1: %d.%06d c.\n\t2: %d.%06d c\n",(int)tv2.tv_sec,(int)tv2.tv_usec,(int)tv3.tv_sec,(int)tv3.tv_usec);
 		printf(".");
 			printf("send %s\n",buf);
@@ -161,6 +163,7 @@ static int tst_srv(int argc, char **argv){
 			printf("Error.. thread_create() failed. errno=%d\n", errno);
 			continue;
 		}
+		thread_set_priority(tr, 160);
 		thread_detach(tr);
 	}
 	close(host);

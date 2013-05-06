@@ -1,4 +1,4 @@
-package embox.cmd.net
+package zrv.cmd.net
 
 @Cmd(name = "tst_srv",
 	help = "Start test server",
