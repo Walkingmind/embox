@@ -12,6 +12,8 @@
 #include <kernel/softirq.h>
 #include <kernel/task.h>
 
+#include <profiler/sampling.h>
+
 EMBOX_UNIT_INIT(init);
 
 extern struct clock_source *cs_jiffies;
@@ -20,13 +22,20 @@ extern struct clock_source *cs_jiffies;
  * Handling of the clock tick.
  */
 void clock_tick_handler(int irq_num, void *dev_id) {
+	//static int k;
 	struct clock_source *cs = (struct clock_source *) dev_id;
 
 	assert(cs);
 	cs->jiffies++;
 
+#ifdef PROFILE_SAMPLING
+	//if (++k % 10 == 0) {
+		sampling_routine();
+	//}
+#endif
+
 	if (cs_jiffies->event_device && irq_num == cs_jiffies->event_device->irq_nr) {
-		task_self()->per_cpu++;
+		//task_self()->per_cpu++;
 		softirq_raise(SOFTIRQ_NR_TIMER);
 	}
 }

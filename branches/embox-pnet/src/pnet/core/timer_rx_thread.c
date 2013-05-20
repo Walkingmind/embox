@@ -12,10 +12,12 @@
 #include <kernel/thread.h>
 #include <framework/cmd/api.h>
 #include <stdlib.h>
-#include <profiler/tracing/trace.h>
 #include <pnet/core.h>
 #include <pnet/pnet_pack.h>
 #include <pnet/timer.h>
+
+#include <profiler/tracing/trace.h>
+#include <profiler/sampling.h>
 
 #define MAX_PNET_PRIORITY_COUNT 64
 #define TESTING_PRIO_CNT    1
@@ -45,6 +47,8 @@ static int pnet_test_save_result(int prio, int test_nr, const char *testname, in
 	return 0;
 }
 
+time64_t trace_block_get_total_time(struct __trace_block *tb);
+
 void pnet_timer_hnd_stopped(struct pnet_pack *pack) {
 	struct timespec ts;
 	unsigned int elapsed_time;
@@ -64,9 +68,6 @@ void pnet_timer_hnd_stopped(struct pnet_pack *pack) {
 	}
 
 	ktime_get_timespec(&ts);
-
-	//printf("%d:%d, cl - %d, (abs - %d)\n", (int)ts.tv_sec, (int)ts.tv_nsec, (int)clock()
-	//		, abs(ts.tv_nsec/1000000 - clock()));
 
 	/* total time */
 	ktime_get_timespec(&ts);
@@ -98,10 +99,9 @@ void pnet_timer_hnd_enter(struct pnet_pack *pack) {
 	{
 		pack->stat.thread_last_sync = clock_to_timespec(jiffies_freq, thread_self()->last_sync);
 		pack->stat.thread_run_time = clock_to_timespec(jiffies_freq, thread_self()->running_time);
+		ktime_get_timespec(&pack->stat.last_sync);
 	}
 	sched_unlock();
-
-	ktime_get_timespec(&pack->stat.last_sync);
 }
 
 void pnet_timer_hnd_leave(struct pnet_pack *pack) {
@@ -128,7 +128,7 @@ struct thread *pnet_rx_get_thread(int prio);
 #include <prom/prom_printf.h>
 
 static bool cond_handler(void *data) {
-	return (thread_self() == pnet_rx_get_thread(2));
+	return (thread_self() == pnet_rx_get_thread(1));
 }
 
 int pnet_timer_init(const char *output_file) {

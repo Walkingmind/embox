@@ -24,6 +24,7 @@ module jiffies {
 
 module timer {
 	source "timer.c"
+	@NoRuntime  depends embox.profiler.sampling
 	depends jiffies
 	depends embox.arch.clock
 	depends embox.kernel.softirq

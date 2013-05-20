@@ -1,0 +1,17 @@
+package embox.cmd
+
+@Cmd(name = "sampling",
+	help = "sample current system state",
+	man = '''
+		NAME
+			sampling - sample current system state
+		DESCRIPTION
+			Print current sample of count of function calls
+		AUTHORS
+			Alexander Kalmuk
+	''')
+	
+module sampling {
+	source "sampling.c"
+	depends embox.profiler.sampling
+}

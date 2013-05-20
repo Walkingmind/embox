@@ -18,11 +18,21 @@
 #include <kernel/irq.h>
 #include <profiler/tracing/trace.h>
 
+#include <kernel/printk.h>
+
 fastcall void irq_handler(pt_regs_t *regs) {
+//	static int k;
+//	int n;
 	TRACE_BLOCK_DEF(irq_handler_tb);
 
-	//if (regs->trapno - 0x20 != 0)
-		trace_block_enter(&irq_handler_tb);
+//	if (regs->trapno - 0x20 != 0) {
+//		n = k++;
+//		printk("irq %d enter (%d)\n", regs->trapno - 0x20, n);
+//	}
+
+//	printk("INTERRUPT\n");
+
+	trace_block_enter(&irq_handler_tb);
 
 	assert(!critical_inside(CRITICAL_IRQ_LOCK));
 
@@ -41,6 +51,9 @@ fastcall void irq_handler(pt_regs_t *regs) {
 	critical_leave(CRITICAL_IRQ_HANDLER);
 	critical_dispatch_pending();
 
-	//if (regs->trapno - 0x20 != 0)
-		trace_block_leave(&irq_handler_tb);
+	trace_block_leave(&irq_handler_tb);
+
+//	if (regs->trapno - 0x20 != 0) {
+//		printk("irq %d leave (%d)\n", regs->trapno - 0x20, n);
+//	}
 }

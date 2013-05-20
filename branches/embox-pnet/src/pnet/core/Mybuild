@@ -4,6 +4,7 @@ module core {
 	source "node.c", "repo.c", "graph.c"
 	depends prior_path
 	depends pack.PnetPackFactory
+	depends embox.mem.objalloc
 }
 
 module dev {

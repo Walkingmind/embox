@@ -113,4 +113,6 @@ extern int timer_set(struct sys_timer **ptimer, unsigned int flags, uint32_t tic
  */
 extern int timer_close(struct sys_timer *ptimer);
 
+#define PROFILE_SAMPLING
+
 #endif /* KERNEL_TIMER_H_ */

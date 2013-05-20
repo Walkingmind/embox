@@ -48,7 +48,7 @@ void trace_block_leave(struct __trace_block *tb) {
 		if (hnd && hnd(tb->end->target)) {
 			tb->time = (int) (itimer_read(tb->tc));
 			// FIXME
-			if (tb->time > 1000000) {
+			while (tb->time > 1000000) {
 				tb->time -= 1000000;
 			}
 			tb->total_time += tb->time; /* usec */

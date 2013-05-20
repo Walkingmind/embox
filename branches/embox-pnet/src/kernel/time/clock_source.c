@@ -95,13 +95,13 @@ time64_t clock_source_read(struct clock_source *cs) {
 }
 
 static time64_t cs_full_read(struct clock_source *cs) {
-	//static cycle_t prev_cycles, cycles, cycles_all;
-	cycle_t cycles;
+	static cycle_t prev_cycles, cycles, cycles_all;
+	//cycle_t cycles;
 	int old_jiffies, safe;
 	struct time_event_device *ed = cs->event_device;
 	struct time_counter_device *cd = cs->counter_device;
 
-	//int cycles_per_jiff = cd->resolution / ed->resolution;
+	int cycles_per_jiff = cd->resolution / ed->resolution;
 	safe = 0;
 
 	do {
@@ -114,19 +114,20 @@ static time64_t cs_full_read(struct clock_source *cs) {
 		old_jiffies++;
 	}
 
-//	cycles_all = cycles + (time64_t)old_jiffies * cycles_per_jiff;
-//
-//	/* TODO cheat. read() will miss for one jiff sometimes. */
-//	if (cycles_all < prev_cycles) {
-//		cycles_all += cycles_per_jiff;
-//	}
+	cycles_all = cycles + (time64_t)old_jiffies * cycles_per_jiff;
 
-//	prev_cycles = cycles_all;
+	/* TODO cheat. read() will miss for one jiff sometimes. */
+	while (cycles_all < prev_cycles) {
+		cycles_all += cycles_per_jiff;
+	}
 
-	return cycles_to_ns(cs->event_device->resolution, old_jiffies) +
-			cycles_to_ns(cs->counter_device->resolution, cycles);
+	prev_cycles = cycles_all;
 
-	//return cycles_to_ns(cd->resolution, cycles_all);
+//	return cycles_to_ns(cs->event_device->resolution, old_jiffies) +
+//			cycles_to_ns(cs->counter_device->resolution, cycles);
+
+	return cycles_to_ns(cd->resolution, cycles_all);
+	//return cycles_all;
 }
 
 static time64_t cs_event_read(struct clock_source *cs) {
@@ -134,8 +135,8 @@ static time64_t cs_event_read(struct clock_source *cs) {
 }
 
 static time64_t cs_counter_read(struct clock_source *cs) {
-	return cycles_to_ns(cs->counter_device->resolution, cs->counter_device->read());
-	//return cs->counter_device->read();
+	//return cycles_to_ns(cs->counter_device->resolution, cs->counter_device->read());
+	return cs->counter_device->read();
 }
 
 struct clock_source *clock_source_get_best(enum clock_source_property pr) {

@@ -13,6 +13,7 @@ struct __trace_point;
 struct __trace_block;
 
 #include <module/embox/profiler/trace.h>
+#include <stdbool.h>
 
 #define TRACE_POINT_DEF(name, tp_name) \
 	  __TRACE_POINT_DEF(name, tp_name)
@@ -37,7 +38,7 @@ extern int trace_block_diff(struct __trace_block *tb);
 
 extern int trace_block_get_time(struct __trace_block *tb);
 
-extern time64_t trace_block_get_total_time(struct __trace_block *tb);
+//extern time64_t trace_block_get_total_time(struct __trace_block *tb);
 
 extern int trace_point_get_value(struct __trace_point *tp);
 

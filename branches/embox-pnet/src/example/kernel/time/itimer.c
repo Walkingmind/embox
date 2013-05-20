@@ -21,32 +21,33 @@ EMBOX_EXAMPLE(run);
 
 static struct clock_source *cs;
 
+#include <hal/ipl.h>
+
 static int measured_loop(int cycles_loop) {
 	volatile int i;
-	clock_t cl, thread_clock;
-	int interrupts;
-	struct __trace_point *p = trace_point_get_by_name("interrupt");
+	time64_t t;
 
-	cl = clock();
-	thread_clock = thread_self()->running_time;
-	interrupts = trace_point_get_value(p);
+	t = cs->read(cs);
 
 	for (i = 0; i < cycles_loop; i++) {
 	}
 
-	interrupts = trace_point_get_value(p) - interrupts;
+	t = cs->read(cs) - t;
 
-	printf("spent = %d (%d, int - %d)\n", (int) (clock() - cl),
-			(int) (thread_self()->running_time - thread_clock), interrupts);
+	printf("spent %lld\n", t);
 
 	return 0;
 }
 
 static int run(int argc, char **argv) {
-	cs = clock_source_get_best(CS_ANY);
+	//ipl_t ipl;
+	//cs = clock_source_get_best(CS_ANY);
+
+	cs = ktime_get_clock_source();
+	printf("%s\n", cs->name);
 
 	for (int i = 0; i < 100; i++) {
-		measured_loop(100000);
+		measured_loop(1000);
 	}
 
 	return ENOERR;

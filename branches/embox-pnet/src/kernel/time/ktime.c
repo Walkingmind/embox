@@ -36,6 +36,12 @@ struct timespec *ktime_get_timespec(struct timespec *ts) {
 	return ts;
 }
 
+struct clock_source *ktime_get_clock_source(void) {
+	return kernel_clock_source;
+}
+
+#include <kernel/printk.h>
+
 static int module_init(void) {
 	extern struct clock_source *cs_jiffies;
 	clock_t old_jiffies;
@@ -51,6 +57,8 @@ static int module_init(void) {
 
 	cs_jiffies->jiffies = 0;
 	itimer_init(&sys_timecounter, kernel_clock_source, 0);
+
+	printk("\n%s\n", kernel_clock_source->name);
 
 	return 0;
 }

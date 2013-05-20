@@ -14,6 +14,8 @@
 #include <pnet/core.h>
 #include <pnet/node.h>
 
+time64_t trace_block_get_total_time(struct __trace_block *tb);
+
 int pnet_entry(struct pnet_pack *pack) {
 	struct __trace_point *p;
 	struct __trace_block *tb;

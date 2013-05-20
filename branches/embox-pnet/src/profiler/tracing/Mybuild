@@ -11,3 +11,9 @@ module tracing extends trace {
 	source "trace.c", "trace_impl.h"
 	depends embox.kernel.timer.itimer
 }
+
+module sampling {
+	source "sampling.c"
+	depends embox.arch.stackframe
+	depends embox.lib.debug.Symbol
+}

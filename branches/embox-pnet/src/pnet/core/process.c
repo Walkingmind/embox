@@ -20,6 +20,8 @@ static int step_process(struct pnet_pack *pack, net_hnd hnd, net_node_t next_nod
 	net_node_t node;
 	net_id_t res = NET_HND_FORWARD_DEFAULT;
 
+	pnet_timer_hnd_enter(pack);
+
 	assert(pack);
 	assert(pack->node);
 
@@ -32,7 +34,6 @@ static int step_process(struct pnet_pack *pack, net_hnd hnd, net_node_t next_nod
 
 	if (node->proto != NULL) {
 		if(NULL != hnd) {
-			pnet_timer_hnd_enter(pack);
 			res = hnd(pack);
 			pnet_timer_hnd_leave(pack);
 		}
