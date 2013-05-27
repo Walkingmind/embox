@@ -7,7 +7,7 @@ module node {
 
 module filesystem {
 	source "file_system.c"
-	source "mount_table.c"
+	source "mount_table.c"	
 	option number fs_quantity=32
 
 	depends embox.fs.driver.repo
@@ -55,6 +55,6 @@ module rootfs {
 	option string src = ""
 	option string dst = "/"
 	depends node, driver.repo
-	depends embox.fs.sys.fsop
+	depends embox.fs.filesystem
 	depends embox.lib.LibC
 }
