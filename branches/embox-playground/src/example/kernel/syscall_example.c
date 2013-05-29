@@ -12,62 +12,98 @@
 #include <kernel/thread.h>
 #include <kernel/syscall_caller.h>
 #include <kernel/printk.h>
+#include <kernel/irq.h>
 
 EMBOX_EXAMPLE(run);
 
-#define NRS 10000000
+#define NRS 100000000
 
 SYSCALL1(1,int,syscall_1,int,arg1);
 extern int sys_1(int arg1);
 
-SYSCALL0(6,clock_t,syscall_thread_running_time);
-SYSCALL1(7,int,syscall_thread_exit,void*,res);
+long long total1, total2;
+long long min1, min2;
+long long max1, max2;
+long long avg1, avg2;
+
+static inline unsigned long long rdtsc(void) {
+	unsigned hi, lo;
+	__asm__ __volatile__(
+			"cpuid\n\t"
+			"rdtsc"
+		: "=a"(lo), "=d"(hi)
+		: "a"(0)
+//		: "%ebx", "%ecx"
+	);
+	return ((unsigned long long) lo) | (((unsigned long long) hi) << 32);
+}
+
 
 static void *thread_syscall(void *arg) {
-	clock_t end;
-	clock_t start = syscall_thread_running_time();
+	long long end, start, d, total = 0, min, max;
 
+	irq_lock();
 	for (int i = 0; i < NRS; i++) {
+		start = rdtsc();
 		syscall_1(i);
+		end = rdtsc();
+
+		d = end - start;
+		total += d;
+		if (i == 0 || min > d) min = d;
+		if (i == 0 || max < d) max = d;
 	}
+	irq_unlock();
 
-	end = syscall_thread_running_time();
-	printf("Start: %d. End: %d. Time: %d.\n", (int)start, (int)end, (int)(end-start));
-	syscall_thread_exit((void *)(end - start));
-
+	total1 = total;
+	min1 = min;
+	max1 = max;
+	avg1 = total / NRS;
 	return NULL;
 }
 
 static void *thread_nosyscall(void *arg) {
-	clock_t end;
-	clock_t start = thread_get_running_time(thread_self());
+	long long end, start, d, total = 0, min, max;
 
+	irq_lock();
 	for (int i = 0; i < NRS; i++) {
+		start = rdtsc();
 		sys_1(i);
-	}
+		end = rdtsc();
 
-	end = thread_get_running_time(thread_self());
-	printf("Start: %d. End: %d. Time: %d.\n", (int)start, (int)end, (int)(end-start));
-	return (void *)(end - start);
+		d = end - start;
+		total += d;
+		if (i == 0 || min > d) min = d;
+		if (i == 0 || max < d) max = d;
+	}
+	irq_unlock();
+
+	total2 = total;
+	min2 = min;
+	max2 = max;
+	avg2 = total / NRS;
+	return NULL;
 }
 
 static int run(int argc, char **argv) {
 	struct thread *thread;
-	void *r1, *r2;
-	clock_t c1, c2;
+
+	printf("Total calls: %d\n", NRS);
 
 	printf("Running syscall thread.\n");
-	thread_create(&thread, THREAD_FLAG_USERMODE, thread_syscall, NULL);
-	thread_join(thread, &r1);
+	thread_create(&thread, 0, thread_syscall, NULL);
+	thread_join(thread, NULL);
+
+	printf("Total time: %lld, min: %lld, max: %lld: avg: %lld\n", total1, min1, max1, avg1);
 
 	printf("Running nosyscall thread.\n");
 	thread_create(&thread, 0, thread_nosyscall, NULL);
-	thread_join(thread, &r2);
+	thread_join(thread, NULL);
 
-	c1 = (clock_t) r1;
-	c2 = (clock_t) r2;
+	printf("Total time: %lld, min: %lld, max: %lld, avg: %lld\n", total2, min2, max2, avg2);
 
-	printf("Total calls: %d. Time diff: %d\n", NRS, (int) (c1-c2));
+
+	printf("Diff total: %lld, min: %lld, max: %lld, avg: %lld\n", total1 - total2, min1 - min2, max1 - max2, avg1 - avg2);
 
 	return ENOERR;
 }
