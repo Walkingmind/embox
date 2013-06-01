@@ -1,7 +1,9 @@
 #summary Embox development roadmap
 #labels Phase-Requirements,Featured
 
-= 2012/12/15 v0.3.4 [http://code.google.com/p/embox/issues/list?can=1&q=milestone=v0.3.4 [issues]] [http://code.google.com/p/embox/issues/list?q=milestone=v0.3.4 [open issues]] =
+= 2013/12/01 v0.3.5 [http://code.google.com/p/embox/issues/list?can=1&q=milestone=v0.3.5 [issues]] [http://code.google.com/p/embox/issues/list?q=milestone=v0.3.5 [open issues]] =
+
+= 2013/06/01 v0.3.4 [http://code.google.com/p/embox/issues/list?can=1&q=milestone=v0.3.4 [issues]] =
 Plans:
   * Support PowerPC
   * Support User mode 
