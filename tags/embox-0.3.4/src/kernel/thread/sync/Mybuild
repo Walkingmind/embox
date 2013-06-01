@@ -1,0 +1,48 @@
+package embox.kernel.thread
+
+module sync {
+	depends mutex
+	depends sem
+	depends barrier
+	depends cond
+	depends rwlock
+	//depends mqueue	
+}
+
+module mutex {
+	source "mutex.c"
+	
+	depends embox.kernel.thread.sched
+}
+
+module sem {
+	source "sem.c"
+	
+	depends embox.kernel.thread.sched
+}
+
+module barrier {
+	source "barrier.c"
+	
+	depends embox.kernel.thread.sched
+}
+
+module cond {
+	source "cond.c"
+	
+	depends mutex
+	
+	depends embox.kernel.thread.sched
+}
+
+module rwlock {
+	source "rwlock.c"
+	
+	depends embox.kernel.thread.sched
+}
+
+module mqueue {
+	source "mqueue.c"
+	
+	depends embox.kernel.thread.sched
+}
