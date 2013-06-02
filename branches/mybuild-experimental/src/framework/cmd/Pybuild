@@ -1,0 +1,16 @@
+
+package('embox.framework')
+
+module(
+	'cmd',
+
+   	sources = [
+		DefMacro(['__FRAMEWORK__'],
+                    ['core.c']),
+	],
+
+ 	depends = [
+		'embox.lib.LibC',
+	],
+
+) 

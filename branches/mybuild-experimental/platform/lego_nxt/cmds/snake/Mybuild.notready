@@ -1,0 +1,16 @@
+
+package('lego_nxt.cmd')
+
+module(
+	'nxt_snake',
+
+   	sources = [
+		'snake.c',
+	],
+
+ 	depends = [
+		'nxt_lcd,',
+ 		'nxt_avr_init',
+	],
+
+) 

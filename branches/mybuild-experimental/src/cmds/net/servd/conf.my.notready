@@ -1,0 +1,11 @@
+
+package('embox.cmd.net.wserver')
+
+module(
+	'conf',
+
+   	sources = [
+		InitFS('servd.conf'),
+	],
+
+ ) 

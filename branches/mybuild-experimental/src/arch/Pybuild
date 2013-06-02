@@ -1,0 +1,39 @@
+
+package('embox.arch')
+
+module(
+	'system',
+	options = [
+	    Integer('core_freq')
+	],
+)
+
+interface('cpu')
+
+#@Mandatory
+interface('interrupt',
+        default = 'embox.arch.generic.interrupt_stub')
+
+interface('clock')
+interface('context')
+interface('libarch')
+interface('locore')
+interface('entry')
+interface('boot')
+interface('lds')
+
+#@Mandatory
+interface('mmu',
+        default = 'embox.arch.generic.nommu')
+
+#@Mandatory
+interface('syscall',
+        default = 'embox.arch.generic.syscall_stub')
+
+interface('syscall_caller')
+
+#@Mandatory
+interface('usermode',
+        default = 'embox.arch.generic.nousermode')
+
+interface('stackframe')

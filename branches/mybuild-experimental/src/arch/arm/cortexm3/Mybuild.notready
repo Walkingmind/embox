@@ -1,0 +1,13 @@
+
+package('embox.arch.arm.cortexm3')
+
+module(
+	'cpu',
+
+ 	implements = ['embox.arch.cpu'],
+
+  	sources = [
+		'include/asm/hal/ipl.h',
+	],
+
+ ) 

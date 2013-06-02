@@ -1,0 +1,12 @@
+
+package('third_party.lib')
+
+module(
+	'trex',
+
+   	sources = [
+		IncludePath('third-party/include',
+                    'trex.c'),
+	],
+
+ ) 

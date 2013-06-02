@@ -1,0 +1,39 @@
+
+package('embox.mem')
+raise Exception('AnnotatedType not supported, do it manually')
+
+interface('mmap_api',)
+
+ 
+module(
+	'mmap_nommu',
+
+ 	implements = ['mmap_api'],
+
+  	sources = [
+		'mmap_nommu.h',
+ 		'mmap_nommu.c',
+	],
+
+ 	depends = [
+		'embox.mem.page_api',
+ 		'embox.mem.phymem',
+	],
+
+) 
+module(
+	'mmap_mmu',
+
+ 	implements = ['mmap_api'],
+
+  	sources = [
+		'mmap_mmu.h',
+ 		'mmap_mmu.c',
+	],
+
+ 	depends = [
+		'embox.arch.mmu',
+ 		'embox.mem.vmem',
+	],
+
+) 

@@ -1,0 +1,16 @@
+
+package('embox.cmd.net')
+raise Exception('AnnotatedType not supported, do it manually')
+
+module(
+	'bootp',
+
+   	sources = [
+		'bootp.c',
+	],
+
+ 	depends = [
+		'embox.net.bootp',
+	],
+
+) 

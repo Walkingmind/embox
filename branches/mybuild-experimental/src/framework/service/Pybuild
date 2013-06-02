@@ -1,0 +1,12 @@
+
+package('embox.framework')
+
+module(
+	'service',
+
+   	sources = [
+		DefMacro(['__FRAMEWORK__'],
+                    ['callback.c']),
+	],
+
+ ) 

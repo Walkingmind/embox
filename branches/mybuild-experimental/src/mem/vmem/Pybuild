@@ -1,0 +1,20 @@
+
+package('embox.mem')
+
+module(
+	'vmem',
+
+   	sources = [
+		'vmem.c',
+ 		'vmem_alloc.c',
+ 		'vmem_mapper.c',
+ 		'vmem_unmapper.c',
+	],
+
+ 	depends = [
+		'embox.arch.mmu',
+ 		'embox.mem.page_api',
+ 		'embox.mem.phymem',
+	],
+
+) 

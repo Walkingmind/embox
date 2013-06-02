@@ -1,0 +1,25 @@
+
+package('embox.driver')
+
+module(
+	'ide',
+
+  	options = [
+		Integer('dev_quantity', default=4),
+	],
+
+ 	sources = [
+		'ide_drive.c',
+ 		'cdrom.c',
+ 		'harddisk_pio.c',
+ 		'harddisk_dma.c',
+ 		'partition.c',
+	],
+
+ 	depends = [
+		'embox.util.LibUtil',
+ 		'embox.driver.block',
+ 		'embox.util.indexator',
+	],
+
+) 

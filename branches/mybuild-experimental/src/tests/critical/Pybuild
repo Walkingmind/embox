@@ -1,0 +1,16 @@
+
+package('embox.test')
+
+module(
+	'critical',
+
+   	sources = [
+		IncludePath('src/compat/posix/include',
+                    'critical.c'),
+	],
+
+ 	depends = [
+		'embox.kernel.critical',
+	],
+
+) 

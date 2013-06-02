@@ -1,0 +1,55 @@
+
+package('embox.kernel.thread')
+
+module(
+	'core',
+
+  	options = [
+		Integer('thread_stack_size', default=8192),
+ 		Integer('thread_pool_size', default=16),
+	],
+
+ 	sources = [
+		IncludePath('src/compat/posix/include','core.c'),
+	],
+
+ 	depends = [
+		'sched',
+ 		'event',
+ 		'embox.arch.context',
+ 		'embox.kernel.task.kernel_task',
+	],
+
+) 
+module(
+	'sched',
+
+   	sources = [
+		IncludePath('src/compat/posix/include', [
+                    'sched.c',
+                    'startq.c'
+                ]),
+	],
+
+ 	depends = [
+		'embox.kernel.timer.timer_api',
+ 		'embox.arch.context',
+ 		'embox.kernel.thread.sched_policy.api',
+ 		'embox.compat.posix.util.time',
+ 		NoRuntime('embox.kernel.critical'),
+	],
+
+) 
+module(
+	'event',
+
+   	sources = [
+		'event.c',
+	],
+
+ 	depends = [
+		'sched',
+ 		'embox.mem.objalloc',
+	],
+
+) 

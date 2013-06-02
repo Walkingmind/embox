@@ -1,0 +1,17 @@
+
+package('embox.example.kernel.softirq')
+
+module(
+	'softirq',
+
+   	sources = [
+		'softirq.c',
+	],
+
+ 	depends = [
+		'embox.lib.LibC',
+ 		'embox.kernel.softirq',
+ 		'embox.framework.LibFramework',
+	],
+
+) 

@@ -1,0 +1,19 @@
+
+package('embox.xwnd')
+
+module(
+	'app_registry',
+
+   	sources = [
+		IncludePath(./src/compat/linux/include,IncludePath(./src/compat/posix/include,IncludePath(./src/include/drivers,'app_registry.c'))),
+ 		'xwnd_message.c',
+	],
+
+ 	depends = [
+		'embox.lib.LibC',
+ 		'embox.xwnd.event',
+ 		'embox.xwnd.window',
+ 		'embox.xwnd.test_app',
+	],
+
+) 

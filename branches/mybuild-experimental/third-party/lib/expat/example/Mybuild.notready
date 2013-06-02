@@ -1,0 +1,16 @@
+
+package('embox.third_party.expat')
+
+module(
+	'expat_example',
+
+   	sources = [
+		IncludePath(./third-party/lib/expat,'expat_test.c'),
+ 		InitFS('expat.html'),
+	],
+
+ 	depends = [
+		'embox.third_party.expat.expat_lib',
+	],
+
+) 

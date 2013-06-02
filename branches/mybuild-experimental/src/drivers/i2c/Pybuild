@@ -1,0 +1,11 @@
+
+package('embox.driver')
+
+module(
+	'at91_twi',
+
+   	sources = [
+		'at91_twi.c',
+	],
+
+ ) 

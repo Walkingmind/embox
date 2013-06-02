@@ -1,0 +1,12 @@
+
+package('embox.cmd')
+raise Exception('AnnotatedType not supported, do it manually')
+
+module(
+	'time',
+
+   	sources = [
+		'time.c',
+	],
+
+ ) 

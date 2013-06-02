@@ -1,0 +1,141 @@
+package embox.lib
+
+static module LibElf {
+	source "elf/elf_object_list.c"
+	source "elf/elf_object.c"
+	source "elf/elf_header.c"
+	source "elf/elf_sh_table.c"
+	source "elf/elf_ph_table.c"
+	source "elf/elf_sections.c"
+	// source "elf/elf_string_table.c"
+	source "elf/elf_symbols.c"
+	source "elf/elf_sym_table.c"
+	source "elf/elf_sym_names.c"
+	source "elf/elf_sym.c"
+	// source "elf/elf_dyn_section.c"
+	source "elf/elf_rel.c"
+	// source "elf/elf_rel_array.c"
+	source "elf/elf_base_address.c"
+}
+
+static module LibDl {
+	source "dl/dl.c"
+	source "dl/dl_global_symbols.c"
+	source "dl/dl_relocs.c"
+	
+	depends LibElf
+	depends embox.arch.x86.LibDl
+}
+
+static module LibElfloader {
+	source "elfloader/elfloader.c"
+	source "elfloader/elfloader_placement.c"
+	
+	depends embox.mem.mmap_api
+	depends LibElf, LibDl
+}
+
+static module LibCDiagnostic {
+	source "assert.c"
+	depends LibCStdio
+}
+
+static module LibCMisc {
+	source "crypt/crc32.c"
+	source "crypt/md5.c"
+	source "ctype/ctype.c"
+}
+
+static module LibCStdlib {
+	source "stdlib/bsearch.c"
+	source "stdlib/qsort.c"
+	source "stdlib/rand.c"
+	source "stdlib/strtod.c"
+	source "stdlib/strtol.c"
+	source "stdlib/strtoul.c"
+	source "stdlib/abort.c"
+}
+
+static module LibCString {
+	source "string/memchr.c"
+	source "string/memcmp.c"
+	source "string/memmove.c"
+	source "string/memset.c"
+	source "string/strcat.c"
+	source "string/strchr.c"
+	source "string/strcmp.c"
+	source "string/strcpy.c"
+	source "string/strcspn.c"
+	source "string/strerror.c"
+	source "string/strlen.c"
+	source "string/strlwr.c"
+	source "string/strncat.c"
+	source "string/strncmp.c"
+	source "string/strncpy.c"
+	source "string/strpbrk.c"
+	source "string/strrchr.c"
+	source "string/strspn.c"
+	source "string/strstr.c"
+	source "string/strupr.c"
+}
+
+static module LibCMath {
+	source "math/floor.c"
+	source "math/pow.c"
+	source "math/div.c"
+	source "math/ldiv.c"
+	source "math/blog2.c"
+	source "math/sqrt.c"
+	source "soft-fp/df3.c"
+	source "soft-fp/sf3.c"
+	source "soft-fp/softfloat.c"
+	source "soft-fp/softfloat-macros.c"
+	source "soft-fp/softfloat-spec.c"
+	source "gcc/clzsi2.c"
+	source "gcc/lshrdi3.c"
+	source "gcc/divdi3.c"
+	source "gcc/divsi3.c"
+	source "gcc/moddi3.c"
+	source "gcc/modsi3.c"
+	source "gcc/udivdi3.c"
+	source "gcc/udivsi3.c"
+	source "gcc/umoddi3.c"
+	source "gcc/umodsi3.c"
+	source "gcc/muldi3.c"
+}
+
+static module LibCStdio {
+	
+	option boolean stdio_lf_crlf_map = true
+	option number file_quantity = 16
+
+	source "stdio/file_ops.c"
+	source "stdio/fgetc.c"
+	source "stdio/fputc.c"
+	source "stdio/gets.c"
+	source "stdio/sprintf.c"
+	source "stdio/printf.c"
+	source "stdio/printf_impl.c"
+	source "stdio/printk.c"
+	source "stdio/puts.c"
+	source "stdio/scanf.c"
+	source "stdio/perror.c"
+	depends LibCMath
+	depends LibCString
+	depends embox.compat.posix.file
+}
+
+static module LibC {
+	source "time/ctime.c"
+	source "time/strftime.c"
+
+	depends LibCDiagnostic
+	depends LibCMisc
+	depends LibCStdlib
+	depends LibCString
+	depends LibCMath
+	depends	LibCStdio
+/* not here */
+	source "shell/tokenizer.c"
+	source "readline/readline.c"
+}

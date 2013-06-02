@@ -1,0 +1,32 @@
+#FIXME mybuild libarch is bad packet
+package('embox.arch.x86')
+
+module (
+    'libarch',
+    static = True,
+
+    implements = ['embox.arch.libarch'],
+
+    sources = ["setjmp.S"]
+)
+
+module (
+    'LibDl',
+
+    sources = ["dl/dl_relocate.c"]
+)
+
+module (
+    'LibM',
+
+    static = True,
+
+    sources = [
+        "math/sin.S",
+	"math/cos.S",
+	"math/acos.S",
+	"math/asin.S",
+	"math/sqrt.S",
+	"math/log10.S"
+    ]
+)

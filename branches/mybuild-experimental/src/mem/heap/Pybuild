@@ -1,0 +1,43 @@
+
+package('embox.mem')
+
+interface('heap_api')
+
+module (
+    'base_heap',
+
+    options = [
+        Integer('heap_size', default = 0x100000)
+    ]
+)
+
+module (
+    'heap_bm',
+
+    super = 'base_heap',
+
+    implements = ['heap_api'], 
+
+    sources = ["heap_bm.c"],
+
+    depends = [
+        'page_api', 
+	NoRuntime('heap_lds'),
+    ]
+
+)
+
+module (
+    'heap_simple',
+
+    super = 'base_heap',
+
+    implements = ['heap_api'],
+
+    sources = ["heap_simple.c"],
+    
+    depends = [
+        NoRuntime('heap_lds'),
+    ],
+
+) 

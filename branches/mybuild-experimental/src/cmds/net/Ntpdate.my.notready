@@ -1,0 +1,17 @@
+
+package('embox.cmd.net')
+raise Exception('AnnotatedType not supported, do it manually')
+
+module(
+	'ntpdate',
+
+   	sources = [
+		IncludePath(./src/compat/posix/include,'ntpdate.c'),
+	],
+
+ 	depends = [
+		'embox.net.ntp',
+ 		'embox.kernel.time.timekeeper',
+	],
+
+) 

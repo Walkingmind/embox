@@ -1,0 +1,50 @@
+
+package('embox.kernel.thread.sched_policy')
+
+interface('api')
+ 
+module(
+	'priority_based',
+
+ 	implements = ['api'],
+
+ 	options = [
+		Integer('tick_interval', default=100),
+	],
+
+ 	sources = [
+		'priority_based.c',
+ 		'priority_based.h',
+	],
+
+ ) 
+module(
+	'trivial',
+
+ 	implements = ['api'],
+
+  	sources = [
+		IncludePath('src/compat/posix/include', [
+                    'trivial.c',
+                    'trivial.h'
+                ]),
+	],
+
+ ) 
+module(
+	'fixedtime',
+
+ 	implements = ['api'],
+
+ 	options = [
+		Integer('msec_priority_multiplier', default=1),
+	],
+
+ 	sources = [
+		IncludePath('src/compat/posix/include', [
+                    'fixedtime_sched.c',
+                    'fixedtime_sched.h'
+                ]),
+	],
+
+ ) 

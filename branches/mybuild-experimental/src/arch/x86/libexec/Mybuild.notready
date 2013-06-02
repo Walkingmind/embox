@@ -1,0 +1,11 @@
+
+package('embox.arch.x86')
+
+module(
+	'libexec',
+
+   	sources = [
+		'elf_start.S',
+	],
+
+ ) 

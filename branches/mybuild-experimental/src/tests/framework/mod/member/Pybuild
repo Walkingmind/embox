@@ -1,0 +1,12 @@
+
+package('embox.test.framework.mod.member')
+
+module(
+	'ops_test',
+
+   	sources = [
+		IncludePath('src/compat/posix/include',
+                    'ops_test.c'),
+	],
+
+ ) 

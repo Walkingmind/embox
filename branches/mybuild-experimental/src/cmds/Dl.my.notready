@@ -1,0 +1,19 @@
+
+package('embox.cmd')
+raise Exception('AnnotatedType not supported, do it manually')
+
+module(
+	'dl',
+
+   	sources = [
+		IncludePath(./src/compat/linux/include,IncludePath(./src/compat/posix/include,'dl.c')),
+	],
+
+ 	depends = [
+		'embox.lib.LibC',
+ 		'embox.fs.core',
+ 		'embox.lib.LibElfloader',
+ 		'embox.framework.LibFramework',
+	],
+
+) 

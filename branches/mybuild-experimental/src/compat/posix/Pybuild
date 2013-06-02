@@ -1,0 +1,131 @@
+
+package('embox.compat.posix')
+
+module(
+	'LibPosix',
+
+    	depends = [
+		'embox.compat.posix.util.All',
+ 		'embox.compat.posix.proc.All',
+ 		'embox.compat.posix.idx.All',
+ 		'file',
+ 		'fs',
+	],
+
+) 
+module(
+	'fs',
+
+ 	static = True,
+
+  	sources = [
+		IncludePath('src/compat/posix/include',
+		    'fs.c'),
+	],
+
+ 	depends = [
+		'embox.kernel.task.errno',
+	],
+
+) 
+module(
+	'file_ops',
+
+ 	static = True,
+
+  	sources = [
+		IncludePath('src/compat/posix/include',
+		    'file_ops.c'),
+	],
+
+ 	depends = [
+		'embox.kernel.task.api',
+ 		'embox.kernel.task.idx_table',
+ 		'embox.kernel.task.errno',
+ 		'posix_env',
+ 		'io_sync_api',
+	],
+
+) 
+module(
+	'file',
+
+    	depends = [
+		'file_ops',
+ 		'open_api',
+	],
+
+) 
+
+interface('open_api', default = 'open')
+ 
+module(
+	'open',
+
+ 	implements = ['open_api'],
+
+	static = True,
+
+  	sources = [
+		'open.c',
+	],
+
+ 	depends = [
+		'embox.fs.posix_compat',
+ 		'embox.kernel.task.errno',
+	],
+
+) 
+module(
+	'no_open',
+
+ 	implements = ['open'],
+
+	static = True,
+
+  	sources = [
+		'no_open.c',
+	],
+
+ ) 
+module(
+	'posix_env',
+
+   	sources = [
+		IncludePath('src/compat/posix/include',
+		    'env/bs_posix_env.c'),
+	],
+
+ 	depends = [
+		'embox.kernel.task.api',
+ 		'embox.compat.posix.idx.dup',
+	],
+
+) 
+
+interface('io_sync_api', default = 'io_sync_api')
+ 
+module(
+	'io_sync_simple',
+
+ 	implements = ['io_sync_api'],
+
+  	sources = [
+		'io_sync_simple.c',
+	],
+
+ ) 
+module(
+	'io_sync',
+
+ 	implements = ['io_sync_api'],
+
+  	sources = [
+		'io_sync.c',
+	],
+
+ 	depends = [
+		'embox.kernel.thread.event',
+	],
+
+) 

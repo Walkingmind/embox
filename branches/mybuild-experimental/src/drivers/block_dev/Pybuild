@@ -1,0 +1,21 @@
+
+package('embox.driver')
+
+module(
+	'block',
+
+  	options = [
+		Integer('dev_quantity', default=16),
+	],
+
+ 	sources = [
+		'block_dev.c',
+ 		'block_dev_namer.c',
+	],
+
+ 	depends = [
+		'embox.util.LibUtil',
+ 		'embox.util.indexator',
+	],
+
+) 

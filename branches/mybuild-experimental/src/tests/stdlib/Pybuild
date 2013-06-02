@@ -1,0 +1,72 @@
+
+package('embox.test.stdlib')
+
+module(
+	'math_test',
+
+   	sources = [
+		IncludePath('src/compat/posix/include',
+			'math_test.c'),
+	],
+
+ 	depends = [
+		'embox.framework.LibFramework',
+	],
+
+) 
+module(
+	'bsearch_test',
+
+   	sources = [
+		IncludePath('src/compat/posix/include',
+			'bsearch_test.c'),
+	],
+
+ 	depends = [
+		'embox.lib.LibC',
+ 		'embox.framework.LibFramework',
+	],
+
+) 
+module(
+	'getopt_test',
+
+   	sources = [
+		IncludePath('src/compat/posix/include',
+			'getopt_test.c'),
+	],
+
+ 	depends = [
+		'embox.compat.posix.LibPosix',
+ 		'embox.framework.LibFramework',
+	],
+
+) 
+module(
+	'qsort_test',
+
+   	sources = [
+		IncludePath('src/compat/posix/include',
+			'qsort_test.c'),
+	],
+
+ 	depends = [
+		'embox.lib.LibC',
+ 		'embox.framework.LibFramework',
+	],
+
+) 
+module(
+	'setjmp_test',
+
+   	sources = [
+		IncludePath('src/compat/posix/include',
+			'setjmp_test.c'),
+	],
+
+ 	depends = [
+		'embox.arch.libarch',
+ 		'embox.framework.LibFramework',
+	],
+
+) 

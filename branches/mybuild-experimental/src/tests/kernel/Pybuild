@@ -1,0 +1,106 @@
+
+package('embox.test.kernel')
+
+TestFor('embox.kernel.irq',
+module(
+	'irq_test',
+
+   	sources = [
+		IncludePath('src/compat/posix/include',
+			'irq_test.c'),
+	],
+
+ 	depends = [
+		'embox.kernel.irq',
+	],
+
+))
+
+TestFor('embox.kernel.softirq',
+module(
+	'softirq_test',
+
+   	sources = [
+		IncludePath('src/compat/posix/include',
+			'softirq_test.c'),
+	],
+
+ 	depends = [
+		'embox.kernel.softirq',
+	],
+
+))
+
+TestFor('embox.kernel.timer.timer_api',
+module(
+	'timer_test',
+
+   	sources = [
+		IncludePath('src/compat/posix/include',
+			'timer_test.c'),
+	],
+
+ 	depends = [
+		'embox.kernel.timer.timer_api',
+ 		'embox.kernel.time.timer',
+	],
+
+))
+
+TestFor('embox.kernel.timer.timer_api',
+module(
+	'periodic_timer_test',
+
+   	sources = [
+		IncludePath('src/compat/posix/include',
+			'periodic_timer_test.c'),
+	],
+
+ 	depends = [
+		'embox.kernel.timer.timer_api',
+ 		'embox.kernel.time.timer',
+	],
+
+))
+
+TestFor('embox.kernel.timer.timer_api',
+module(
+	'oneshot_timer_test',
+
+   	sources = [
+		IncludePath('src/compat/posix/include',
+			'oneshot_timer_test.c'),
+	],
+
+ 	depends = [
+		'embox.kernel.timer.timer_api',
+ 		'embox.kernel.time.timer',
+	],
+
+))
+
+module(
+	'syscall_test',
+
+   	sources = [
+		'syscall_test.c',
+	],
+
+ 	depends = [
+		'embox.arch.syscall_caller',
+	],
+
+) 
+
+module(
+	'usermode_test',
+
+   	sources = [
+		'usermode_test.c',
+	],
+
+ 	depends = [
+		'embox.arch.syscall_caller',
+	],
+
+) 

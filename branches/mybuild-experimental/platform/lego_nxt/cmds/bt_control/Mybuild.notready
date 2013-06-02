@@ -1,0 +1,18 @@
+
+package('lego_nxt.cmd')
+
+module(
+	'bt_control',
+
+   	sources = [
+		IncludePath(./platform/lego_nxt/include,'bt_control.c'),
+	],
+
+ 	depends = [
+		'lego_nxt.pnet.node.direct_comm.formation',
+ 		'lego_nxt.pnet.node.direct_comm.executer_embox',
+ 		'embox.pnet.core',
+ 		'embox.pnet.pack.PnetPackSimple',
+	],
+
+) 

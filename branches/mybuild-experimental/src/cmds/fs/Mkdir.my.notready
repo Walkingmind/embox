@@ -1,0 +1,19 @@
+
+package('embox.cmd.fs')
+raise Exception('AnnotatedType not supported, do it manually')
+
+module(
+	'mkdir',
+
+   	sources = [
+		IncludePath(./src/compat/linux/include,IncludePath(./src/compat/posix/include,'mkdir.c')),
+	],
+
+ 	depends = [
+		'embox.lib.LibC',
+ 		'embox.compat.posix.util.getopt',
+ 		'embox.fs.core',
+ 		'embox.framework.LibFramework',
+	],
+
+) 

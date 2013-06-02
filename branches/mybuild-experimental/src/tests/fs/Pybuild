@@ -1,0 +1,63 @@
+
+package('embox.test.fs')
+
+module(
+	'ramdisk_test',
+
+   	sources = [
+		'ramdisk_test.c',
+	],
+
+ 	depends = [
+		'embox.driver.ramdisk',
+ 		'embox.fs.node',
+ 		'embox.fs.driver.repo',
+ 		'embox.fs.driver.devfs',
+ 		'embox.mem.page_api',
+ 		'embox.mem.pool',
+ 		'embox.mem.phymem',
+ 		'embox.compat.posix.fs',
+ 		'embox.framework.LibFramework',
+	],
+
+) 
+module(
+	'filesystem_test',
+
+   	sources = [
+		'filesystem_op_test.c',
+	],
+
+ 	depends = [
+		'embox.driver.ramdisk',
+ 		'embox.fs.node',
+ 		'embox.fs.driver.repo',
+ 		'embox.fs.driver.devfs',
+ 		'embox.mem.page_api',
+ 		'embox.mem.pool',
+ 		'embox.mem.phymem',
+ 		'embox.compat.posix.LibPosix',
+ 		'embox.framework.LibFramework',
+	],
+
+) 
+module(
+	'file_test',
+
+   	sources = [
+		'file_op_test.c',
+	],
+
+ 	depends = [
+		'embox.driver.ramdisk',
+ 		'embox.fs.node',
+ 		'embox.fs.driver.repo',
+ 		'embox.fs.driver.devfs',
+ 		'embox.mem.page_api',
+ 		'embox.mem.pool',
+ 		'embox.mem.phymem',
+ 		'embox.compat.posix.LibPosix',
+ 		'embox.framework.LibFramework',
+	],
+
+) 

@@ -1,0 +1,24 @@
+
+package('embox.driver')
+
+module(
+	'pci',
+
+  	options = [
+		Integer('dev_quantity', default=32),
+	],
+
+ 	sources = [
+		'pci.c',
+ 		'pci_repo.c',
+ 		'pci_utils.c',
+ 		'pci_driver.c',
+	],
+
+ 	depends = [
+		'embox.mem.pool',
+ 		'embox.kernel.irq',
+ 		'embox.util.LibUtil',
+	],
+
+) 

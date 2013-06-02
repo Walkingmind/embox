@@ -1,0 +1,15 @@
+
+package('embox.arch.sparc')
+
+module(
+	'libarch',
+
+ 	implements = ['embox.arch.libarch'],
+
+	static = True,
+
+  	sources = [
+		'setjmp.S',
+	],
+
+ ) 

@@ -1,0 +1,42 @@
+
+package('embox.test.kernel.thread.sched_strategy')
+
+module(
+	'general_test',
+
+   	sources = [
+		'general_test.c',
+	],
+
+ 	depends = [
+		'embox.kernel.thread.sched_policy.api',
+ 		'embox.framework.LibFramework',
+	],
+
+) 
+module(
+	'trivial_test',
+
+   	sources = [
+		'trivial_test.c',
+	],
+
+ 	depends = [
+		'embox.kernel.thread.sched_policy.trivial',
+ 		'embox.framework.LibFramework',
+	],
+
+) 
+module(
+	'priority_based_test',
+
+   	sources = [
+		'priority_based_test.c',
+	],
+
+ 	depends = [
+		'embox.kernel.thread.sched_policy.priority_based',
+ 		'embox.framework.LibFramework',
+	],
+
+) 

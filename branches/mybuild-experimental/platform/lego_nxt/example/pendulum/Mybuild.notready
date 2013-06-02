@@ -1,0 +1,44 @@
+
+package('lego_nxt.example.pendulum')
+
+module(
+	'without_sensors',
+
+   	sources = [
+		'without_sensors.c',
+	],
+
+ 	depends = [
+		'nxt_motor',
+	],
+
+) 
+module(
+	'with_light_sensor',
+
+   	sources = [
+		'pen_light.c',
+	],
+
+ 	depends = [
+		'nxt_motor,',
+ 		'nxt_avr_init',
+ 		'embox.driver.gpio.at91_pins',
+	],
+
+) 
+module(
+	'with_angle_sensor',
+
+   	sources = [
+		'pen_angle.c',
+	],
+
+ 	depends = [
+		'soft_i2c,',
+ 		'angle_sensor,',
+ 		'nxt_motor,',
+ 		'angle_sensor',
+	],
+
+) 

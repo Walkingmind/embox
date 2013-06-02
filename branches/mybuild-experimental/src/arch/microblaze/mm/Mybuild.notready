@@ -1,0 +1,11 @@
+
+package('embox.arch.microblaze.mm')
+
+module(
+	'mmu',
+
+   	sources = [
+		'mmu_core.c',
+	],
+
+ ) 

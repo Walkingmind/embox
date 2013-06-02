@@ -1,0 +1,89 @@
+
+package('embox.util')
+
+module(
+	'LibUtil',
+
+ 	static = True,
+
+  	sources = [
+		'slist_debug.c',
+ 		'list_debug.c',
+ 		'tree_set.c',
+ 		'tree.c',
+ 		'priority_q.c',
+ 		'ring_buff.c',
+ 		'sys_log.c',
+	],
+
+ 	depends = [
+		'embox.lib.LibC',
+	],
+
+) 
+module(
+	'LibSync',
+
+ 	static = True,
+
+  	sources = [
+		'async_ring_buff.c',
+	],
+
+ 	depends = [
+		'LibUtil',
+ 		'embox.kernel.thread.sync',
+	],
+
+) 
+module(
+	'hashtable',
+
+  	options = [
+		Integer('hashtables_quantity', default=16),
+ 		Integer('item_quntity', default=64),
+	],
+
+ 	sources = [
+		'hashtable.c',
+	],
+
+ 	depends = [
+		'embox.lib.LibC',
+ 		'embox.mem.heap_bm',
+ 		'embox.mem.objalloc',
+	],
+
+) 
+
+interface('num_alloc', default = 'num_alloc_array')
+ 
+module(
+	'num_alloc_array',
+
+ 	implements = ['num_alloc'],
+
+  	sources = [
+		'num_alloc_array.c',
+ 		'num_alloc_array.h',
+	],
+
+)
+ 
+module(
+	'idx_table',
+
+    	depends = [
+		'num_alloc',
+	],
+
+) 
+
+module(
+	'indexator',
+
+   	sources = [
+		'indexator.c',
+	],
+
+ ) 

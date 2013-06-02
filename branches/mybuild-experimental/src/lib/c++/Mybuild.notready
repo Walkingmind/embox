@@ -1,0 +1,20 @@
+
+package('embox.lib')
+
+module(
+	'LibCXX',
+
+   	sources = [
+		'new.cpp',
+ 		'exception.cpp',
+ 		'unwind.c',
+ 		'eh_routines.cpp',
+ 		'cxx.lds.S',
+ 		'cxx_init.c',
+	],
+
+ 	depends = [
+		'embox.lib.LibC',
+	],
+
+) 

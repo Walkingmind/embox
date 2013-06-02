@@ -1,0 +1,12 @@
+
+package('embox.fs.driver')
+
+module(
+	'devfs',
+
+   	sources = [
+		IncludePath('src/compat/posix/include',
+                    'devfs.c'),
+	],
+
+ ) 

@@ -1,0 +1,82 @@
+
+package('embox.kernel.time')
+
+module(
+	'clock_source',
+
+  	options = [
+		Integer('clocks_quantity', default=1),
+	],
+
+ 	sources = [
+		'clock_source.c',
+	],
+
+ 	depends = [
+		'embox.mem.pool',
+	],
+
+) 
+module(
+	'kernel_time',
+
+   	sources = [
+		IncludePath('src/compat/posix/include',
+                    'ktime.c'),
+	],
+
+ 	depends = [
+		'embox.kernel.timer.itimer',
+ 		'embox.arch.clock',
+ 		'time',
+	],
+
+) 
+module(
+	'jiffies',
+
+   	sources = [
+		'jiffies.c',
+	],
+
+ 	depends = [
+		'embox.arch.clock',
+	],
+
+) 
+module(
+	'timer',
+
+   	sources = [
+		'timer.c',
+	],
+
+ 	depends = [
+		'jiffies',
+ 		'embox.arch.clock',
+ 		'embox.kernel.softirq',
+	],
+
+) 
+module(
+	'time',
+
+   	sources = [
+		IncludePath('src/compat/posix/include',
+                    'time.c'),
+	],
+
+) 
+module(
+	'timekeeper',
+
+   	sources = [
+		IncludePath('src/compat/posix/include',
+                    'timekeeping.c'),
+	],
+
+ 	depends = [
+		'kernel_time',
+	],
+
+) 

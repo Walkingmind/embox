@@ -1,0 +1,192 @@
+
+package('embox.example.net')
+
+module(
+	'gethostbyname',
+
+   	sources = [
+		'gethostbyname.c',
+	],
+
+ 	depends = [
+		'embox.net.netdb',
+	],
+
+) 
+module(
+	'gethostent',
+
+   	sources = [
+		'gethostent.c',
+	],
+
+ 	depends = [
+		'embox.net.netdb',
+	],
+
+) 
+module(
+	'checkopts',
+
+   	sources = [
+		'checkopts.c',
+	],
+
+ 	depends = [
+		'embox.net.socket',
+ 		'embox.lib.LibC',
+ 		'embox.framework.LibFramework',
+	],
+
+) 
+module(
+	'httpd',
+
+   	sources = [
+		'httpd.c',
+ 		InitFS('hello.html'),
+	],
+
+ 	depends = [
+		'embox.lib.LibC',
+ 		'embox.net.socket',
+ 		'embox.compat.posix.LibPosix',
+ 		'embox.framework.LibFramework',
+	],
+
+) 
+module(
+	'r6040_example',
+
+   	sources = [
+		'r6040_example.c',
+	],
+
+ 	depends = [
+		'embox.lib.LibC',
+ 		'embox.driver.net.r6040',
+ 		'embox.framework.LibFramework',
+	],
+
+) 
+module(
+	'receiver',
+
+   	sources = [
+		'receiver.c',
+	],
+
+ 	depends = [
+		'embox.net.socket',
+ 		'embox.prom.printf',
+ 		'embox.framework.LibFramework',
+	],
+
+) 
+module(
+	'sender',
+
+   	sources = [
+		'sender.c',
+	],
+
+ 	depends = [
+		'embox.net.socket',
+ 		'embox.compat.posix.LibPosix',
+ 		'embox.framework.LibFramework',
+	],
+
+) 
+module(
+	'tcp_accepter',
+
+   	sources = [
+		'tcp_accepter.c',
+	],
+
+ 	depends = [
+		'embox.net.socket',
+ 		'embox.prom.printf',
+ 		'embox.compat.posix.LibPosix',
+ 		'embox.framework.LibFramework',
+	],
+
+) 
+module(
+	'tcp_connect',
+
+   	sources = [
+		'tcp_connect.c',
+	],
+
+ 	depends = [
+		'embox.net.socket',
+ 		'embox.prom.printf',
+ 		'embox.compat.posix.LibPosix',
+ 		'embox.framework.LibFramework',
+	],
+
+) 
+module(
+	'tcp_echo',
+
+   	sources = [
+		'tcp_echo.c',
+	],
+
+ 	depends = [
+		'embox.net.socket',
+ 		'embox.prom.printf',
+ 		'embox.lib.LibC',
+ 		'embox.compat.posix.LibPosix',
+ 		'embox.framework.LibFramework',
+	],
+
+) 
+module(
+	'tcp_receiver',
+
+   	sources = [
+		'tcp_receiver.c',
+	],
+
+ 	depends = [
+		'embox.net.socket',
+ 		'embox.lib.LibC',
+ 		'embox.compat.posix.LibPosix',
+ 		'embox.prom.printf',
+ 		'embox.framework.LibFramework',
+	],
+
+) 
+module(
+	'tcp_sender',
+
+   	sources = [
+		'tcp_sender.c',
+	],
+
+ 	depends = [
+		'embox.net.socket',
+ 		'embox.lib.LibC',
+ 		'embox.compat.posix.LibPosix',
+ 		'embox.prom.printf',
+ 		'embox.framework.LibFramework',
+	],
+
+) 
+module(
+	'udp_echo',
+
+   	sources = [
+		'udp_echo.c',
+	],
+
+ 	depends = [
+		'embox.net.socket',
+ 		'embox.compat.posix.LibPosix',
+ 		'embox.prom.printf',
+ 		'embox.framework.LibFramework',
+	],
+
+) 

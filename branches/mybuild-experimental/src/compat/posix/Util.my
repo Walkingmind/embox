@@ -1,0 +1,28 @@
+
+package embox.compat.posix.util
+
+module All {
+	depends getopt,
+		utsname,
+		time
+}
+
+static module getopt {
+	source "getopt.c"
+
+	depends embox.lib.LibC
+}
+
+static module utsname {
+	@IncludePath("$(SRC_DIR)/compat/posix/include")
+	source "utsname.c"
+
+	depends embox.lib.LibC
+}
+
+static module time {
+	source "time.c"
+
+	depends embox.kernel.time.kernel_time
+}
+

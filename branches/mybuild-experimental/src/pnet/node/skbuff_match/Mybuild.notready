@@ -1,0 +1,25 @@
+
+package('embox.pnet.node.skbuff')
+
+module(
+	'matcher',
+
+   	sources = [
+		'skbuff_match.c',
+ 		'skbuff_rule.c',
+	],
+
+ 	depends = [
+		'embox.pnet.core',
+ 		'embox.pnet.node.match',
+	],
+
+) 
+module(
+	'static_rules',
+
+   	sources = [
+		IncludePath(./conf,'skbuff_rules_init.c'),
+	],
+
+ ) 

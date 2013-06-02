@@ -1,0 +1,21 @@
+
+package('embox.kernel.thread')
+
+module(
+	'sync',
+
+   	sources = [
+		'mutex.c',
+ 		'message.c',
+ 		'sem.c',
+ 		'barrier.c',
+ 		'cond.c',
+ 		'rwlock.c',
+ 		'mqueue.c',
+	],
+
+ 	depends = [
+		'embox.kernel.thread.sched',
+	],
+
+) 

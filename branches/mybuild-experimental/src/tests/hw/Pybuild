@@ -1,0 +1,20 @@
+
+package('embox.test.hw')
+
+module(
+	'memtest',
+
+  	options = [
+		Integer('base'),
+ 		Integer('offset'),
+	],
+
+ 	sources = [
+		'memory.c',
+	],
+
+ 	depends = [
+		'embox.framework.LibFramework',
+	],
+
+) 

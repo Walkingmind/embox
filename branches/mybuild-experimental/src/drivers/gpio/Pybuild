@@ -1,0 +1,46 @@
+
+package('embox.driver.gpio')
+
+interface('pins')
+ 
+interface('api')
+ 
+module(
+	'at91_pins',
+
+ 	implements = ['pins'],
+
+  	sources = [
+		'at91_pins.c',
+ 		'pins.c',
+	],
+
+ 	depends = [
+		'embox.kernel.irq',
+	],
+
+) 
+
+module(
+	'rdc_gpio',
+
+ 	implements = ['api'],
+
+  	sources = [
+		'rdc_gpio.c',
+ 		'rdc_gpio.h',
+	],
+
+) 
+
+module(
+	'stm32',
+
+ 	implements = ['api'],
+
+  	sources = [
+		'stm32_gpio.c',
+ 		'stm32_gpio.h',
+	],
+
+) 

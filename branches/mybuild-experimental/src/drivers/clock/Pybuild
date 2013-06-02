@@ -1,0 +1,145 @@
+
+package('embox.driver.clock')
+
+module(
+	'at91_pitc',
+
+ 	implements = ['embox.arch.clock'],
+
+  	sources = [
+		'at91_pitc.c',
+	],
+
+ 	depends = [
+		'embox.kernel.irq',
+ 		'embox.kernel.time.clock_source',
+	],
+
+) 
+module(
+	'gptimer',
+
+ 	implements = ['embox.arch.clock'],
+
+ 	options = [
+		Integer('gptimer_base', default=2147484416),
+ 		Integer('irq_num', default=8),
+	],
+
+ 	sources = [
+		'gptimer.c',
+	],
+
+ 	depends = [
+		'embox.kernel.irq',
+ 		'embox.kernel.time.clock_source',
+ 		'embox.driver.ambapp_api',
+	],
+
+) 
+module(
+	'mb_timer',
+
+ 	implements = ['embox.arch.clock'],
+
+ 	options = [
+		Integer('mbtimer_base'),
+ 		Integer('irq_num'),
+	],
+
+ 	sources = [
+		'mb_timer.c',
+	],
+
+ 	depends = [
+		'embox.kernel.irq',
+	],
+
+) 
+module(
+	'pit',
+
+ 	implements = ['embox.arch.clock'],
+
+  	sources = [
+		'pit.c',
+	],
+
+ 	depends = [
+		'embox.kernel.irq',
+ 		'embox.kernel.time.clock_source',
+	],
+
+) 
+module(
+	'stm32_systick',
+
+ 	implements = ['embox.arch.clock'],
+
+  	sources = [
+		'stm32_systick.c',
+	],
+
+ 	depends = [
+		'embox.kernel.irq',
+ 		'embox.kernel.time.clock_source',
+	],
+
+) 
+module(
+	'omap3_clk',
+
+ 	implements = ['embox.arch.clock'],
+
+  	sources = [
+		'omap3_clk.c',
+	],
+
+ 	depends = [
+		'embox.kernel.irq',
+ 		'embox.kernel.time.clock_source',
+	],
+
+) 
+module(
+	'ppc_clk',
+
+ 	implements = ['embox.arch.clock'],
+
+  	sources = [
+		'ppc_clk.c',
+	],
+
+ 	depends = [
+		'embox.kernel.irq',
+ 		'embox.kernel.time.clock_source',
+	],
+
+) 
+module(
+	'tsc',
+
+   	sources = [
+		'tsc.c',
+	],
+
+ 	depends = [
+		'embox.kernel.time.clock_source',
+	],
+
+) 
+module(
+	'mips_clk',
+
+ 	implements = ['embox.arch.clock'],
+
+  	sources = [
+		'mips_clk.c',
+	],
+
+ 	depends = [
+		'embox.kernel.irq',
+ 		'embox.kernel.time.clock_source',
+	],
+
+) 

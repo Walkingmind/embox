@@ -1,0 +1,20 @@
+
+package('embox.mem')
+
+interface('kmalloc',)
+
+ 
+module(
+	'slab_fit',
+
+ 	implements = ['kmalloc'],
+
+  	sources = [
+		'slab_fit.c',
+	],
+
+ 	depends = [
+		'embox.mem.slab',
+	],
+
+) 

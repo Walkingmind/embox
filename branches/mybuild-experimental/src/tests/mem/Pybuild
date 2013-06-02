@@ -1,0 +1,71 @@
+
+package('embox.test.mem')
+
+module(
+	'objalloc',
+
+   	sources = [
+		'objalloc.c',
+	],
+
+ 	depends = [
+		'embox.mem.objalloc',
+ 		'embox.framework.LibFramework',
+	],
+
+) 
+module(
+	'page',
+
+   	sources = [
+		'page.c',
+	],
+
+ 	depends = [
+		'embox.mem.page_api',
+ 		'embox.mem.heap_lds',
+ 		'embox.mem.phymem',
+ 		'embox.framework.LibFramework',
+	],
+
+) 
+module(
+	'heap',
+
+   	sources = [
+		'heap.c',
+	],
+
+ 	depends = [
+		'embox.lib.LibC',
+ 		'embox.mem.heap_api',
+ 		'embox.framework.LibFramework',
+	],
+
+) 
+module(
+	'pool',
+
+   	sources = [
+		'pool.c',
+	],
+
+ 	depends = [
+		'embox.mem.pool',
+ 		'embox.framework.LibFramework',
+	],
+
+) 
+module(
+	'slab',
+
+   	sources = [
+		'slab.c',
+	],
+
+ 	depends = [
+		'embox.mem.slab',
+ 		'embox.framework.LibFramework',
+	],
+
+) 

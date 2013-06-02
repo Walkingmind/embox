@@ -1,0 +1,12 @@
+
+package('third_party.lib')
+
+module(
+	'url_parser',
+
+   	sources = [
+		IncludePath('third-party/include',
+                    'url_parser.c'),
+	],
+
+ ) 

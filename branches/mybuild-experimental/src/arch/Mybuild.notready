@@ -1,0 +1,58 @@
+
+package('embox.arch')
+raise Exception('AnnotatedType not supported, do it manually')
+
+module(
+	'system',
+
+  	options = [
+		Integer('core_freq'),
+	],
+
+  ) 
+interface('cpu',)
+
+ raise Exception('AnnotatedType not supported, do it manually')
+
+interface('interrupt',)
+
+ 
+interface('clock',)
+
+ 
+interface('context',)
+
+ 
+interface('libarch',)
+
+ 
+interface('locore',)
+
+ 
+interface('entry',)
+
+ 
+interface('boot',)
+
+ 
+interface('lds',)
+
+ raise Exception('AnnotatedType not supported, do it manually')
+
+interface('mmu',)
+
+ raise Exception('AnnotatedType not supported, do it manually')
+
+interface('syscall',)
+
+ 
+interface('syscall_caller',)
+
+ raise Exception('AnnotatedType not supported, do it manually')
+
+interface('usermode',)
+
+ 
+interface('stackframe',)
+
+ 

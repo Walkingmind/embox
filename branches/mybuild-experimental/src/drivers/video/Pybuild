@@ -1,0 +1,16 @@
+
+package('embox.driver.video')
+
+interface('vga',)
+
+ 
+module(
+	'vga_console',
+
+ 	implements = ['vga'],
+
+  	sources = [
+		'vga_console.c',
+	],
+
+ ) 

@@ -1,0 +1,58 @@
+
+package('embox.example.util')
+
+module(
+	'priority_q',
+
+   	sources = [
+		'priority_q.c',
+	],
+
+ 	depends = [
+		'embox.util.LibUtil',
+ 		'embox.lib.LibC',
+ 		'embox.framework.LibFramework',
+	],
+
+) 
+module(
+	'readline',
+
+   	sources = [
+		IncludePath(./third-party/include,'readline.c'),
+	],
+
+ 	depends = [
+		'embox.lib.LibC',
+ 		'third_party.lib.linenoise',
+ 		'embox.framework.LibFramework',
+	],
+
+) 
+module(
+	'ring_buff',
+
+   	sources = [
+		'ring_buff.c',
+	],
+
+ 	depends = [
+		'embox.util.LibUtil',
+ 		'embox.framework.LibFramework',
+	],
+
+) 
+module(
+	'tree_set',
+
+   	sources = [
+		'tree_set.c',
+	],
+
+ 	depends = [
+		'embox.util.LibUtil',
+ 		'embox.lib.LibC',
+ 		'embox.framework.LibFramework',
+	],
+
+) 

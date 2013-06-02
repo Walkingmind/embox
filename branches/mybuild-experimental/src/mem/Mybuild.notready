@@ -1,0 +1,23 @@
+
+package('embox.mem')
+
+module(
+	'heap_lds',
+
+   	sources = [
+		'heap.lds.S',
+	],
+
+ ) 
+module(
+	'phymem',
+
+   	sources = [
+		'phymem.c',
+	],
+
+ 	depends = [
+		'heap_lds',
+	],
+
+) 

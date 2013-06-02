@@ -1,0 +1,126 @@
+
+package('embox.net')
+
+interface('entry_api',)
+
+ 
+module(
+	'dev',
+
+  	options = [
+		Integer('netdev_quantity', default=8),
+ 		Integer('netdev_table_sz', default=3),
+	],
+
+ 	sources = [
+		'netdev.c',
+ 		'netdev_process.c',
+	],
+
+ 	depends = [
+		'skbuff',
+ 		'embox.lib.LibC',
+ 		'embox.mem.pool',
+ 		'embox.util.hashtable',
+ 		'network_layer',
+	],
+
+) 
+module(
+	'network_layer',
+
+   	sources = [
+		IncludePath('src/compat/linux/include',
+		    'network_layer.c'),
+	],
+
+ 	depends = [
+		'skbuff',
+ 		'embox.lib.LibC',
+ 		'embox.compat.linux.LibLinux',
+ 		'embox.framework.LibFrameworkNet',
+	],
+
+) 
+module(
+	'skbuff',
+
+  	options = [
+		Integer('amount_skb', default=500),
+ 		Integer('amount_skb_buff', default=500),
+ 		Integer('skb_buff_size', default=1514),
+ 		Integer('amount_skb_queue', default=16),
+	],
+
+ 	sources = [
+		'skb.c',
+ 		'skb_queue.c',
+	],
+
+ 	depends = [
+		'embox.mem.pool',
+ 		'embox.lib.LibC',
+	],
+
+) 
+module(
+	'core',
+
+  	options = [
+		Integer('net_callback_quantity', default=16),
+ 		Integer('net_interfaces_quantity', default=4),
+ 		Integer('min_amount_sock', default=1),
+	],
+
+ 	sources = [
+		IncludePath('src/compat/linux/include',
+		    'inetdev.c'),
+ 		'sock.c',
+	],
+
+ 	depends = [
+		'dev',
+ 		'embox.mem.pool',
+ 		'embox.lib.LibC',
+ 		'skbuff',
+ 		'embox.mem.slab',
+ 		'embox.lib.LibC',
+ 		'embox.kernel.thread.event',
+ 		'embox.compat.posix.io_sync_api',
+	],
+
+) 
+module(
+	'neighbour',
+
+  	options = [
+		Integer('neighbour_quantity', default=10),
+ 		Integer('neighbour_expire', default=60),
+	],
+
+ 	sources = [
+		'neighbour.c',
+	],
+
+ 	depends = [
+		'embox.compat.posix.util.time',
+ 		'embox.mem.pool',
+ 		'embox.lib.LibC',
+	],
+
+) 
+module(
+	'net_entry',
+
+ 	implements = ['entry_api'],
+
+  	sources = [
+		'net_entry.c',
+	],
+
+ 	depends = [
+		'network_layer',
+ 		'embox.lib.LibC',
+	],
+
+) 

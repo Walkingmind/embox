@@ -1,0 +1,28 @@
+
+package('embox.arch.mips')
+
+module(
+	'lds',
+
+ 	implements = ['embox.arch.lds'],
+
+ 	options = [
+		String('output_format',
+ 		,default=elf32-bigmips),
+	],
+
+ 	sources = [
+		'embox.lds.S',
+	],
+
+ ) 
+module(
+	'cpu',
+
+ 	implements = ['embox.arch.cpu'],
+
+  	sources = [
+		'include/asm/hal/ipl.h',
+	],
+
+ ) 

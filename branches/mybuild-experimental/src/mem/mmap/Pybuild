@@ -1,0 +1,36 @@
+
+package('embox.mem')
+
+interface('mmap_api',
+       default = 'mmap_nommu')
+
+module (
+    'mmap_nommu',
+    implements = ['mmap_api'],
+
+    sources = [
+        "mmap_nommu.h", 
+        "mmap_nommu.c",
+	"mmap_common.c"
+    ],
+
+    depends = [
+        'embox.mem.page_api',
+        'embox.mem.phymem'
+    ]
+)
+
+module (
+    'mmap_mmu',
+    implements = ['mmap_api'],
+    sources = [
+        "mmap_mmu.h", 
+        "mmap_mmu.c",
+	"mmap_common.c"
+    ],
+	
+    depends = [
+        #'embox.arch.mmu',
+        #'embox.mem.vmem'
+    ]
+)

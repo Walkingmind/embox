@@ -1,0 +1,11 @@
+
+package('embox.driver')
+
+module(
+	'keyboard',
+
+   	sources = [
+		'keyboard.c',
+	],
+
+ ) 

@@ -1,0 +1,49 @@
+
+package('embox.mem')
+
+def incl_trigger(scope, find_fn):
+    from string import Template
+    from pybuild.ops import *
+
+    sects = find_fn('embox.arch.x86.lds.sections')
+    heap_impl = find_fn('embox.mem.heap_api').value(scope)
+    page_impl = find_fn('embox.mem.page_api').value(scope)
+    #sz = find_fn('stack.stack_size').value(scope)
+    #alignment = find_fn('stack.alignment').value(scope)
+
+    #page_sz = 
+
+    tmpl = '''
+	.heap (NOLOAD): {
+		. = ALIGN($align);
+		_heap_start = .;
+		. += $heap_size;
+		. = ALIGN($align);
+		_heap_end = .;
+	} SECTION_REGION(heap)
+	SECTION_SYMBOLS(heap)
+'''
+    out = Template(tmpl)
+    new_dom = scope[sects] + [(70, out.substitute(
+        align=page_impl.page_size.value(scope),
+        heap_size=heap_impl.heap_size.value(scope)))]
+    return cut(scope, sects, new_dom)
+
+module (
+    'heap_lds',
+
+    include_trigger = incl_trigger,
+
+    depends = [
+        'embox.mem.heap_api',
+        'embox.mem.page_api',
+    ],
+
+)
+
+module (
+    'phymem',
+
+    sources = ["phymem.c"],
+    depends = ['heap_lds'], #this for label end of busy memory
+)

@@ -1,0 +1,13 @@
+
+package('embox.arch.sparc')
+
+module(
+	'lds',
+
+ 	implements = ['embox.arch.lds'],
+
+  	sources = [
+		'embox.lds.S',
+	],
+
+ ) 

@@ -1,0 +1,15 @@
+
+package('embox.net.lib')
+
+module(
+	'parser',
+
+   	sources = [
+		IncludePath(./third-party/include,'request_parser.c'),
+	],
+
+ 	depends = [
+		'third_party.lib.url_parser',
+	],
+
+) 

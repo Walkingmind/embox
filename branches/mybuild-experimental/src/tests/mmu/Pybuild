@@ -1,0 +1,18 @@
+
+package('embox.test')
+
+module(
+	'mmu_core',
+
+   	sources = [
+		'mmu_core.c',
+	],
+
+ 	depends = [
+		'embox.framework.LibFramework',
+ 		'embox.mem.vmem',
+ 		'embox.arch.x86.mmu',
+ 		'embox.arch.x86.test.testtrap',
+	],
+
+) 

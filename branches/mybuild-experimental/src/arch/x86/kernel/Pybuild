@@ -1,0 +1,67 @@
+
+package('embox.arch.x86.kernel')
+
+# FIXME:
+# Unused files: multiboot.c
+#
+
+module (
+        'context',
+
+        implements = ['embox.arch.context'],
+
+	sources = [ "context.c", "context_switch.S", "context.h"],
+        
+        depends = ['embox.arch.usermode'],
+)
+
+#/*FIXME mybuild may be split this to differernt modules */
+module (
+        'locore',
+
+        implements = ['embox.arch.locore'],
+
+	#/* FIXME:
+	 #* 1.it use multiboot.c (called from boot.S)
+	 #* 2.it depends from arch (called from exception_handler.c)
+	 #*/
+	sources = [ 
+            IncludePath(['src/compat/posix/include'],
+                ["boot.S", "idt.c", "exception_entry.S", "irq_handler.c"]),
+            "gdt.c", "gdt_flush.S",
+            "ipl.c", "exception_handler.c", "traps_core.c"],
+
+        depends = [
+            'embox.lib.LibC',
+	    'embox.kernel.critical',
+            # cycling now
+            #'embox.arch.x86.mmu',
+            #'embox.arch.x86.kernel.syscall',
+        ],
+)
+
+module (
+        'interrupt',
+
+        implements = ['embox.arch.interrupt'],
+	sources = [ "irq_entry.S", "ipl_impl.h" ],
+	depends = ['locore'],
+)
+
+module (
+        'usermode',
+        implements = ['embox.arch.usermode'],
+	sources = ["usermode_entry.S"],
+) 
+
+#/*FIXME mybuild arch module what is it */
+module (
+        'arch',
+	#/* FIXME:
+	 #* 1.it not depends from embox.arch.x86.cpu
+	 #*/
+	sources = ["arch.c"],
+
+	depends = ['locore'],
+        #depends embox.arch.x86.cpu
+)

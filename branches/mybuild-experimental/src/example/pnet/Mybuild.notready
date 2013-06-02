@@ -1,0 +1,18 @@
+
+package('embox.example.pnet')
+
+module(
+	'match',
+
+   	sources = [
+		'match.c',
+	],
+
+ 	depends = [
+		'embox.pnet.core',
+ 		'embox.pnet.node.skbuff.matcher',
+ 		'embox.prom.printf',
+ 		'embox.framework.LibFramework',
+	],
+
+) 

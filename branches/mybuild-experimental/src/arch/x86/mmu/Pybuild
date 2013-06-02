@@ -1,0 +1,14 @@
+
+package('embox.arch.x86')
+
+module(
+	'mmu',
+
+ 	implements = ['embox.arch.mmu'],
+
+  	sources = [
+		'mmu.c',
+ 		'mmu.h',
+	],
+
+ ) 

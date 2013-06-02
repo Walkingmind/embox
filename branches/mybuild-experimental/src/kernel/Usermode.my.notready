@@ -1,0 +1,16 @@
+
+package('embox.kernel')
+
+module(
+	'usermode',
+
+   	sources = [
+		'usermode.c',
+	],
+
+ 	depends = [
+		'embox.arch.usermode',
+ 		'embox.kernel.thread.core',
+	],
+
+) 

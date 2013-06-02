@@ -1,0 +1,15 @@
+
+package('embox.test')
+
+module(
+	'recursion',
+
+   	sources = [
+		'stack_recursion.c',
+	],
+
+ 	depends = [
+		'embox.framework.LibFramework',
+	],
+
+) 

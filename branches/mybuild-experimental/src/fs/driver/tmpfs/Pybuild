@@ -1,0 +1,26 @@
+
+package('embox.fs.driver')
+
+module(
+	'tmpfs',
+
+  	options = [
+		Integer('tmpfs_inode_quantity', default=64),
+ 		Integer('tmpfs_descriptor_quantity', default=4),
+ 		Integer('tmpfs_file_size', default=32),
+ 		Integer('tmpfs_filesystem_size', default=4000),
+	],
+
+ 	sources = [
+		'tmpfs.c',
+	],
+
+ 	depends = [
+		'embox.fs.node',
+ 		'embox.fs.driver.repo',
+ 		'embox.driver.block',
+ 		'embox.mem.page_api',
+ 		'embox.mem.pool',
+	],
+
+) 

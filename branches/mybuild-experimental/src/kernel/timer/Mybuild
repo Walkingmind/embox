@@ -1,0 +1,44 @@
+package embox.kernel.timer
+
+abstract module sleep_api { }
+
+@DefaultImpl(head_timer)
+abstract module timer_api { }
+
+module sys_timer {
+	option number timer_quantity=20
+	source "timer.c"
+
+	depends embox.kernel.time.clock_source
+	depends embox.arch.clock
+}
+
+module timer extends timer_api {
+	source "list_timer.c","list_timer.h"	
+	depends sys_timer
+	depends embox.kernel.softirq
+}
+
+module head_timer extends timer_api {
+	source "head_timer.c", "head_timer.h"
+	depends sys_timer
+}
+
+module sleep extends sleep_api {
+	@IncludePath("$(SRC_DIR)/compat/posix/include")
+	source "sleep.c"
+	depends timer_api, embox.kernel.thread.core, embox.kernel.thread.event
+}
+
+module sleep_nosched extends sleep_api {
+	@IncludePath("$(SRC_DIR)/compat/posix/include")
+	source "sleep_nosched.c"
+	depends timer_api
+}
+
+module itimer {
+	option number itimer_quantity = 10
+	source "itimer.c"
+}
+
+

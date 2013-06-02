@@ -1,0 +1,17 @@
+
+package('embox.third_party.expat')
+
+module(
+	'expat_lib',
+
+   	sources = [
+		IncludePath('third-party/include', [
+                    'xmlparse.c',
+                    'xmltok_impl.c',
+                    'xmltok.c',
+                    'xmltok_ns.c',
+                    'xmlrole.c'
+                ]),
+	],
+
+ ) 

@@ -1,0 +1,16 @@
+
+package('embox.fs.driver')
+
+module(
+	'repo',
+
+  	options = [
+            Integer('drivers_quantity', default=12),
+	],
+
+ 	sources = [
+            IncludePath('src/compat/posix/include',
+                'fs_drv.c'),
+	],
+
+ ) 

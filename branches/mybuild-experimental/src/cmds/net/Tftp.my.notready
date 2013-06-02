@@ -1,0 +1,20 @@
+
+package('embox.cmd.net')
+raise Exception('AnnotatedType not supported, do it manually')
+
+module(
+	'tftp',
+
+   	sources = [
+		IncludePath(./src/compat/linux/include,IncludePath(./src/compat/posix/include,'tftp.c')),
+	],
+
+ 	depends = [
+		'embox.lib.LibC',
+ 		'embox.net.socket',
+ 		'embox.compat.posix.util.getopt',
+ 		'embox.fs.core',
+ 		'embox.framework.LibFramework',
+	],
+
+) 

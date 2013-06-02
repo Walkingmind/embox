@@ -1,0 +1,19 @@
+
+package('embox.cmd.net')
+raise Exception('AnnotatedType not supported, do it manually')
+
+module(
+	'rlogin',
+
+   	sources = [
+		'rlogin.c',
+	],
+
+ 	depends = [
+		'embox.lib.LibC',
+ 		'embox.net.socket',
+ 		'embox.compat.posix.LibPosix',
+ 		'embox.framework.LibFramework',
+	],
+
+) 

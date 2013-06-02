@@ -1,0 +1,18 @@
+
+package('embox.cmd.tty')
+
+module(
+	'serial_screens',
+
+   	sources = [
+		'serial.c',
+	],
+
+ 	depends = [
+		'embox.driver.diag.diag_api',
+ 		'embox.lib.LibC',
+ 		'embox.driver.tty_ng.core',
+ 		'embox.framework.LibFramework',
+	],
+
+) 

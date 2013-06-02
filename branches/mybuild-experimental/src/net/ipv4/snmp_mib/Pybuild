@@ -1,0 +1,46 @@
+
+package('embox.net.mib')
+
+module(
+	'mac',
+
+   	sources = [
+		'mac.c',
+	],
+
+ 	depends = [
+		'embox.net.core',
+ 		'snmp_mib',
+	],
+
+) 
+
+#@Cmd def here
+#raise Exception('AnnotatedType not supported, do it manually')
+module(
+	'snmp_mib',
+
+  	options = [
+		Integer('max_obj_count', default=64),
+	],
+
+ 	sources = [
+		'snmp_mib.c',
+	],
+
+ 	depends = [
+		'embox.mem.objalloc',
+ 		'embox.util.LibUtil',
+ 		NoRuntime('embox.init.start_script'),
+	],
+
+) 
+module(
+	'all_mibs',
+
+    	depends = [
+		'snmp_mib',
+ 		'mac',
+	],
+
+) 
