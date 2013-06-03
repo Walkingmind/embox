@@ -1,14 +1,28 @@
 #summary Embox development roadmap
 #labels Phase-Requirements,Featured
 
-= 2013/12/01 v0.3.5 [http://code.google.com/p/embox/issues/list?can=1&q=milestone=v0.3.5 [issues]] [http://code.google.com/p/embox/issues/list?q=milestone=v0.3.5 [open issues]] =
+= 2013/09/01 v0.4.1 [http://code.google.com/p/embox/issues/list?can=1&q=milestone=v0.4.1 [issues]] =
+  * Switch all modules to the new build system
+  * Support MSP430 cpu architecture
+  * Support USB
+  * Rework file subsystem
+  * Rework memory subsystem
+  * Improve terminal subsystem (pty, ttyS, etc)
+
+= 2013/07/01 v0.4.0 [http://code.google.com/p/embox/issues/list?can=1&q=milestone=v0.4.0 [issues]] [http://code.google.com/p/embox/issues/list?q=milestone=v0.4.0 [open issues]] =
+  * New build system
+  * Cleaning source code
 
 = 2013/06/01 v0.3.4 [http://code.google.com/p/embox/issues/list?can=1&q=milestone=v0.3.4 [issues]] =
-Plans:
-  * Support PowerPC
-  * Support User mode 
-  * Support USB
-  * Support Ext2/3
+  * Support PowerPC architecture
+  * Support multiuser mode
+  * Support jvm (MontyVM)
+  * Support video card drivers (framebuffer)
+  * Support Qt embedded  
+  * Support Ext2
+  * Reworked terminal subsystem
+  * Reworked scheduler
+  * Added lightweight threads for kernel using (workers)
 
 = 2012/10/23 v0.3.3 [http://code.google.com/p/embox/issues/list?can=1&q=milestone=v0.3.3 [issues]] =
   * Added MIPS architecture support

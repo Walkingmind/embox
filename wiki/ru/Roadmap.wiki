@@ -1,14 +1,29 @@
 #summary Embox development roadmap
 #labels Phase-Requirements,Featured
 
-= 2013/12/01 v0.3.5 [http://code.google.com/p/embox/issues/list?can=1&q=milestone=v0.3.5 [issues]] [http://code.google.com/p/embox/issues/list?q=milestone=v0.3.5 [open issues]] =
+= 2013/09/01 v0.4.1 [http://code.google.com/p/embox/issues/list?can=1&q=milestone=v0.4.1 [issues]] =
+  * Перевод всех модулей на новую систему сборки
+  * Поддержка архитектуры MSP430
+  * Поддержка USB
+  * Переработка структуры файловой подсистемы
+  * Переработка подсистемы памяти
+  * Улучшение подсистемы терминала (pty, ttyS и так далее)
+
+= 2013/07/01 v0.4.0 [http://code.google.com/p/embox/issues/list?can=1&q=milestone=v0.4.0 [issues]] [http://code.google.com/p/embox/issues/list?q=milestone=v0.4.0 [open issues]] =
+  * Чистка проекта
+  * Новая система сборки
+
 
 = 2013/06/01 v0.3.4 [http://code.google.com/p/embox/issues/list?can=1&q=milestone=v0.3.4 [issues]] =
- Планируется:
   * Поддержка архитектуры PowerPC
-  * Работа с виртуальной памятью в пользовательском режиме
-  * Поддержка USB
-  * Поддержка Ext2/3 файловых систем
+  * Поддержка многопользовательского режима
+  * Поддержка виртуальной машины java (MontyVM)
+  * Поддержка драйверов для видеокарт (framebuffer)
+  * Поддержка Qt embedded  
+  * Поддержка Файловой системы Ext2
+  * Переработана подсистема терминала
+  * Переработан планировщик
+  * Добавлена работа на основе облегченных потоков в ядре (workers)
 
 = 2012/10/23 v0.3.3 [http://code.google.com/p/embox/issues/list?can=1&q=milestone=v0.3.3 [issues]] =
   * Добавлена поддержка MIPS архитектуры
