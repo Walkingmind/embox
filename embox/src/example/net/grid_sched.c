@@ -360,7 +360,7 @@ static void *client_handler(void *args) {
 				task_mask |= 1 << buf[1];
 
 				if (task_mask == 0x7) {
-					printk("Result is %d\n", task_res[1] + task_res[2] + task_res[3]);
+					printk("Result is %d\n", task_res[0] + task_res[1] + task_res[2]);
 				}
 
 				break;
