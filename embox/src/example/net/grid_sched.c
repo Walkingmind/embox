@@ -303,9 +303,25 @@ static void *grid_mainloop_hnd(void* args) {
 	return NULL;
 }
 
+static int A(void) {
+	return 0;
+}
+
+static int B(void) {
+	return 0;
+}
+
+static int C(void) {
+	return 0;
+}
+
 typedef int (*grid_fn_t)(void);
 
-extern grid_fn_t __grid_fn_table[];
+grid_fn_t __grid_fn_table[] = {
+		A,
+		B,
+		C
+};
 
 static void write_buf(int sock, enum grid_msg_type type, int num) {
 	char buf[3];
