@@ -24,7 +24,6 @@
 #include <util/ring_buff.h>
 #include <util/math.h>
 
-
 #include <kernel/task.h>
 
 #include <embox/cmd.h>
@@ -68,7 +67,7 @@ struct grid_task {
 };
 
 static DLIST_DEFINE(grid_pending_task_list);
-static DLIST_DEFINE(grid_running_task_list);
+/*static DLIST_DEFINE(grid_running_task_list);*/
 POOL_DEF(grid_task_pool, struct grid_task, GRID_TASK_MAX_COUNT);
 
 static cond_t pending_cond;
@@ -81,7 +80,6 @@ static void gtask_free(struct grid_task *task) {
 static void *grid_connection_handler(void* args) {
 	fd_set readfds;
 	struct timeval timeout;
-	int res;
 	int client_num = (int) args;
 	int sock = clients[client_num].fd;
 
@@ -94,6 +92,9 @@ static void *grid_connection_handler(void* args) {
 
 	while(1) {
 		int fd_cnt;
+		int buf[3], inbuf[3];
+		int fd;
+		struct grid_task *gtask;
 
 		FD_ZERO(&readfds);
 
@@ -102,41 +103,37 @@ static void *grid_connection_handler(void* args) {
 		fd_cnt = select(sock + 1, &readfds, NULL, NULL, &timeout);
 
 		if (fd_cnt < 0) {
-			// notify about grid task error completion
+			continue;
 		}
 
-		if (FD_ISSET(sock, &readfds)) {
-			int buf[3], inbuf[3];
-			int fd;
-			struct grid_task *gtask = clients[client_num].grid_task;
+		gtask = clients[client_num].grid_task;
 
-			read(sock, &inbuf, sizeof(inbuf));
+		read(sock, &inbuf, sizeof(inbuf));
 
-			switch(inbuf[0]) {
-			case GRID_MSG_CALC:
+		switch(inbuf[0]) {
+		case GRID_MSG_CALC:
 
-				grid_do_int(inbuf[1], client_num);
+			grid_do_int(inbuf[1], client_num);
 
-				break;
-			case GRID_MSG_INTERMEDIATE_RESULT:
+			break;
+		case GRID_MSG_INTERMEDIATE_RESULT:
 
-				read(sock, &res, sizeof(int));
+			gtask->res = inbuf[1];
 
-				gtask->res = res;
+			fd = clients[gtask->client_num].fd;
 
-				fd = clients[gtask->client_num].fd;
+			buf[0] = GRID_MSG_FINISH_RESULT;
+			buf[1] = gtask->task_num;
+			buf[2] = gtask->res;
 
-				buf[0] = GRID_MSG_FINISH_RESULT;
-				buf[1] = gtask->task_num;
-				buf[2] = res;
+			write(fd, buf, sizeof(buf));
 
-				write(fd, buf, sizeof(buf));
+			clients[client_num].grid_task = NULL;
 
-				gtask_free(gtask);
-				break;
-			default:
-				break;
-			}
+			gtask_free(gtask);
+			break;
+		default:
+			break;
 		}
 	}
 
@@ -278,14 +275,20 @@ static void *grid_mainloop_hnd(void* args) {
 				mutex_unlock(&clients[i].mutex);
 
 				if (!check) {
+					thread_yield();
 					continue;
 				}
 
-				dlist_move(&gtask->link, &grid_running_task_list);
+				dlist_del(&gtask->link);
+
+				clients[i].grid_task = gtask;
+
+				printk("Going to do %d task on %d\n", gtask->task_num, i);
+
 				{
 					int buf[3];
 					buf[0] = GRID_MSG_CALC;
-					buf[1] = clients[i].grid_task->task_num;
+					buf[1] = gtask->task_num;
 					write(clients[i].fd, buf, sizeof(buf));
 				}
 
@@ -304,15 +307,15 @@ static void *grid_mainloop_hnd(void* args) {
 }
 
 static int A(void) {
-	return 0;
+	return 111111;
 }
 
 static int B(void) {
-	return 0;
+	return 2222222;
 }
 
 static int C(void) {
-	return 0;
+	return 3333333;
 }
 
 typedef int (*grid_fn_t)(void);
@@ -324,11 +327,54 @@ grid_fn_t __grid_fn_table[] = {
 };
 
 static void write_buf(int sock, enum grid_msg_type type, int num) {
-	char buf[3];
+	int buf[3];
 	buf[0] = type;
 	buf[1] = num;
 
 	write(sock, buf, sizeof(buf));
+}
+
+char task_mask;
+int task_res[3];
+
+static void *client_handler(void *args) {
+	int sock = * (int *) args;
+	while (1) {
+		fd_set readfds;
+		int res;
+		int buf[3];
+
+		FD_ZERO(&readfds);
+		FD_SET(sock, &readfds);
+
+		select(sock + 1, &readfds, NULL, NULL, NULL );
+
+		if (FD_ISSET(sock, &readfds)) {
+			read(sock, buf, sizeof(buf));
+
+			switch(buf[0]) {
+			case GRID_MSG_FINISH_RESULT:
+
+				task_res[buf[1]] = buf[2];
+
+				task_mask |= 1 << buf[1];
+
+				if (task_mask == 0x7) {
+					printk("Result is %d\n", task_res[1] + task_res[2] + task_res[3]);
+				}
+
+				break;
+			case GRID_MSG_CALC:
+				printk("Doing %d task here\n", buf[1]);
+				res = __grid_fn_table[buf[1]]();
+				buf[0] = GRID_MSG_INTERMEDIATE_RESULT;
+				buf[1] = res;
+				write(sock, buf, sizeof(buf));
+			}
+		}
+	}
+
+	return NULL;
 }
 
 static int exec(int argc, char *argv[]) {
@@ -337,6 +383,8 @@ static int exec(int argc, char *argv[]) {
 	int sock = 0;
 	const int port = 40000;
 	char *addr = argv[1];
+	char *uline;
+	struct thread *client_thd;
 
 	struct sockaddr_in dst;
 
@@ -347,6 +395,8 @@ static int exec(int argc, char *argv[]) {
 		thread_create(&thread, 0, grid_server_hnd, NULL);
 		thread_create(&thread, 0, grid_mainloop_hnd, NULL);
 		addr = "127.0.0.1";
+
+		sleep(0);
 	}
 
 	if (!inet_aton(addr, &dst.sin_addr)) {
@@ -372,33 +422,14 @@ static int exec(int argc, char *argv[]) {
 
 	printk("Connection established\n");
 
-	write_buf(sock, GRID_MSG_CALC, 1);
-	write_buf(sock, GRID_MSG_CALC, 2);
-	write_buf(sock, GRID_MSG_CALC, 3);
+	thread_create(&client_thd, 0, client_handler, &sock);
 
-	while (1) {
-		fd_set readfds;
-		int res;
-		int buf[3];
-
-		FD_ZERO(&readfds);
-		FD_SET(sock, &readfds);
-
-		select(sock + 1, &readfds, NULL, NULL, NULL );
-
-		if (FD_ISSET(sock, &readfds)) {
-			read(sock, buf, 2 * sizeof(int));
-
-			switch(buf[0]) {
-			case GRID_MSG_FINISH_RESULT:
-				printk("Result of %d is %d\n",buf[1], buf[2]);
-				break;
-			case GRID_MSG_CALC:
-				res = __grid_fn_table[buf[1]]();
-				buf[0] = GRID_MSG_INTERMEDIATE_RESULT;
-				buf[1] = res;
-				write(sock, buf, sizeof(buf));
-			}
+	while ((uline = readline("grid> "))) {
+		if (!strcmp(uline, "calc")) {
+			task_mask = 0;
+			write_buf(sock, GRID_MSG_CALC, 0);
+			write_buf(sock, GRID_MSG_CALC, 1);
+			write_buf(sock, GRID_MSG_CALC, 2);
 		}
 	}
 
