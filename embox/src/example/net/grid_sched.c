@@ -480,6 +480,7 @@ static int exec(int argc, char *argv[]) {
 	while ((uline = readline("grid> "))) {
 		if (!strcmp(uline, "calc")) {
 			task_mask = 0;
+			list_print = 0;
 			ktime_get_timespec(&calc_time);
 
 			write_buf(sock, GRID_MSG_CALC, 0);
