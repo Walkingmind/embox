@@ -48,7 +48,7 @@ struct grid_task;
 	/* Upper limit of concurent telnet connections.
 	 * ToDo: move those into config files
 	 */
-#define MD(x) x
+#define MD(x) 
 #define GRID_MAX_CONNECTIONS 5
 static struct {
 	int fd;
@@ -252,19 +252,19 @@ static int grid_do_int(int num, int client_num) {
 
 static void grid_do_info(int client_num) {
 	char *info = malloc(201);
-	int off = 0, ind = 1;
+	int off = 0;
 	int buf[3];
 	if (info == NULL) {
 		printk("malloc() failed\n");
 		return;
 	}
 	off = sizeof(buf);
-	off += sprintf(info+off, "PEERS:\n");
-	for (int i = 0; i < GRID_MAX_CONNECTIONS; i++) {
+	off += sprintf(info+off, "host %s", inet_ntoa(clients[0].addr_in.sin_addr));
+	for (int i = 1; i < GRID_MAX_CONNECTIONS; i++) {
 		if (clients[i].fd != -1) {
-			off += sprintf(info+off, "\t%d. %s:%d\n", ind++,
-					inet_ntoa(clients[i].addr_in.sin_addr),
-					ntohs(clients[i].addr_in.sin_port));
+			off += sprintf(info+off, ", client %s", /*ind++,*/
+					inet_ntoa(clients[i].addr_in.sin_addr));
+					/*ntohs(clients[i].addr_in.sin_port));*/
 		}
 	}
 	assert(off < 200);
@@ -305,7 +305,7 @@ static void *grid_mainloop_hnd(void* args) {
 
 				clients[i].grid_task = gtask;
 
-				printk("Going to do %d task on %d\n", gtask->task_num, i);
+				MD(printk("Going to do %d task on %d\n", gtask->task_num, i));
 
 				{
 					int buf[3];
@@ -358,8 +358,11 @@ static void write_buf(int sock, enum grid_msg_type type, int num) {
 	write(sock, buf, sizeof(buf));
 }
 
-char task_mask;
-int task_res[3];
+static char task_mask;
+static int task_res[3];
+
+static char client_list[200];
+static char list_print;
 
 static void *client_handler(void *args) {
 	int sock = * (int *) args;
@@ -367,7 +370,6 @@ static void *client_handler(void *args) {
 		fd_set readfds;
 		int res;
 		int buf[3];
-		char *info;
 
 		FD_ZERO(&readfds);
 		FD_SET(sock, &readfds);
@@ -384,33 +386,35 @@ static void *client_handler(void *args) {
 
 				task_mask |= 1 << buf[1];
 
-				if (task_mask == 0x7) {
+				if (task_mask == 0xf) {
 					struct timespec curtime;
 
 					ktime_get_timespec(&curtime);
 					calc_time = timespec_sub(curtime, calc_time);
 
-					printk("Result is %d, calculation time - %d s %d ms\n",
-							task_res[0] + task_res[1] + task_res[2], (int)calc_time.tv_sec, (int)(calc_time.tv_nsec / 1000000));
+					printk("a+b+c = %d; time=%d,%03d; %s\ngrid> ",
+							task_res[0] + task_res[1] + task_res[2], 
+							(int)calc_time.tv_sec, (int)(calc_time.tv_nsec / 1000000),
+							client_list);
+
 				}
 
 				break;
 			case GRID_MSG_CALC:
-				printk("Doing %d task here\n", buf[1]);
 				res = __grid_fn_table[buf[1]]();
 				buf[0] = GRID_MSG_INTERMEDIATE_RESULT;
 				buf[1] = res;
 				write(sock, buf, sizeof(buf));
 				break;
 			case GRID_MSG_PRINT:
-				info = malloc(buf[1]);
-				if (info == NULL) {
-					printk("malloc() failed\n");
-					break;
+				read(sock, client_list, buf[1]);
+
+				if (list_print) {
+					write(1, client_list, buf[1]);
+					printk("\ngrid> ");
 				}
-				read(sock, info, buf[1]);
-				write(1, info, buf[1]);
-				free(info);
+
+				task_mask |= 0x8;
 				break;
 			}
 		}
@@ -421,7 +425,6 @@ static void *client_handler(void *args) {
 
 static int exec(int argc, char *argv[]) {
 	struct thread *thread;
-	//char *ustr;
 	int sock = 0;
 	const int port = 40000;
 	char *addr = argv[1];
@@ -482,11 +485,13 @@ static int exec(int argc, char *argv[]) {
 			write_buf(sock, GRID_MSG_CALC, 0);
 			write_buf(sock, GRID_MSG_CALC, 1);
 			write_buf(sock, GRID_MSG_CALC, 2);
+			write_buf(sock, GRID_MSG_INFO, 0);
 		} else if (!strcmp(uline, "exit")) {
 			free(uline);
 			break;
 		}
 		else if (!strcmp(uline, "info")) {
+			list_print = 1;
 			write_buf(sock, GRID_MSG_INFO, 0);
 		}
 		free(uline);
