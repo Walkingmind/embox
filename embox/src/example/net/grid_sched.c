@@ -259,10 +259,10 @@ static void grid_do_info(int client_num) {
 		return;
 	}
 	off = sizeof(buf);
-	off += sprintf(info+off, "host %s", inet_ntoa(clients[0].addr_in.sin_addr));
+	off += sprintf(info+off, "node %s", "10.0.2.16");
 	for (int i = 1; i < GRID_MAX_CONNECTIONS; i++) {
 		if (clients[i].fd != -1) {
-			off += sprintf(info+off, ", client %s", /*ind++,*/
+			off += sprintf(info+off, ", node %s", /*ind++,*/
 					inet_ntoa(clients[i].addr_in.sin_addr));
 					/*ntohs(clients[i].addr_in.sin_port));*/
 		}
