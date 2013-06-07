@@ -35,8 +35,10 @@
 #include <readline/readline.h>
 #include <kernel/time/ktime.h>
 #include "grid_types.h"
+#include <stdlib.h>
 
 static int grid_do_int(int num, int client_num);
+static void grid_do_info(int client_num);
 
 EMBOX_CMD(exec);
 
@@ -113,6 +115,9 @@ static void *grid_connection_handler(void* args) {
 		read(sock, &inbuf, sizeof(inbuf));
 
 		switch(inbuf[0]) {
+		case GRID_MSG_INFO:
+			grid_do_info(client_num);
+			break;
 		case GRID_MSG_CALC:
 
 			grid_do_int(inbuf[1], client_num);
@@ -142,7 +147,7 @@ static void *grid_connection_handler(void* args) {
 	close(sock);
 	clients[client_num].fd = -1;
 
-	MD(printk("exiting from telnet_thread_handler\n"));
+	MD(printk("exiting from grid_connection_handler\n"));
 
 	return NULL;
 }
@@ -178,7 +183,7 @@ static void *grid_server_hnd(void* args) {
 		goto listen_failed;
 	}
 
-	MD(printk("telnetd is ready to accept connections\n"));
+	MD(printk("grid_sched is ready to accept connections\n"));
 	while (1) {
 		struct sockaddr_in client_socket;
 		int client_socket_len = sizeof(client_socket);
@@ -201,11 +206,11 @@ static void *grid_server_hnd(void* args) {
 			}
 		}
 
-//		if (i >= TELNETD_MAX_CONNECTIONS) {
-//			telnet_cmd(client_descr, T_INTERRUPT, 0);
-//			MD(printk("limit of connections exceded\n"));
-//			continue;
-//		}
+		if (i >= GRID_MAX_CONNECTIONS) {
+			MD(printk("limit of connections exceded\n"));
+			close(client_descr);
+			continue;
+		}
 
 		clients[i].fd = client_descr;
 		memcpy(&clients[i].addr_in, &client_socket, sizeof(struct sockaddr_in));
@@ -255,6 +260,31 @@ static int grid_do_int(int num, int client_num) {
 	return 0;
 }
 
+static void grid_do_info(int client_num) {
+	char *info = malloc(201);
+	int off = 0, ind = 1;
+	int buf[3];
+	if (info == NULL) {
+		printk("malloc() failed\n");
+		return;
+	}
+	off = sizeof(buf);
+	off += sprintf(info+off, "PEERS:\n");
+	for (int i = 0; i < GRID_MAX_CONNECTIONS; i++) {
+		if (clients[i].fd != -1) {
+			off += sprintf(info+off, "\t%d. %s:%d\n", ind++,
+					inet_ntoa(clients[i].addr_in.sin_addr),
+					ntohs(clients[i].addr_in.sin_port));
+		}
+	}
+	assert(off < 200);
+	buf[0] = GRID_MSG_PRINT;
+	buf[1] = off;
+	memcpy(info, buf, sizeof buf);
+	send(clients[client_num].fd, info, off, 0);
+	free(info);
+}
+
 static void *grid_mainloop_hnd(void* args) {
 	struct grid_task *gtask;
 	struct dlist_head *gtask_link;
@@ -298,7 +328,6 @@ static void *grid_mainloop_hnd(void* args) {
 			}
 
 			if (i >= GRID_MAX_CONNECTIONS) {
-				//cond_wait(any_done_cond, any_done_mutex);
 				//assert(0);
 			}
 		}
@@ -309,17 +338,17 @@ static void *grid_mainloop_hnd(void* args) {
 }
 
 static int A(void) {
-	//sleep(1);
+	sleep(7);
 	return 111111;
 }
 
 static int B(void) {
-	//sleep(1);
+	sleep(12);
 	return 2222222;
 }
 
 static int C(void) {
-	//sleep(1);
+	sleep(10);
 	return 3333333;
 }
 
@@ -348,6 +377,7 @@ static void *client_handler(void *args) {
 		fd_set readfds;
 		int res;
 		int buf[3];
+		char *info;
 
 		FD_ZERO(&readfds);
 		FD_SET(sock, &readfds);
@@ -381,6 +411,17 @@ static void *client_handler(void *args) {
 				buf[0] = GRID_MSG_INTERMEDIATE_RESULT;
 				buf[1] = res;
 				write(sock, buf, sizeof(buf));
+				break;
+			case GRID_MSG_PRINT:
+				info = malloc(buf[1]);
+				if (info == NULL) {
+					printk("malloc() failed\n");
+					break;
+				}
+				read(sock, info, buf[1]);
+				write(1, info, buf[1]);
+				free(info);
+				break;
 			}
 		}
 	}
@@ -407,7 +448,7 @@ static int exec(int argc, char *argv[]) {
 		thread_create(&thread, 0, grid_mainloop_hnd, NULL);
 		addr = "127.0.0.1";
 
-		sleep(0);
+		sleep(1);
 	}
 
 	if (!inet_aton(addr, &dst.sin_addr)) {
@@ -443,6 +484,9 @@ static int exec(int argc, char *argv[]) {
 			write_buf(sock, GRID_MSG_CALC, 0);
 			write_buf(sock, GRID_MSG_CALC, 1);
 			write_buf(sock, GRID_MSG_CALC, 2);
+		}
+		else if (!strcmp(uline, "info")) {
+			write_buf(sock, GRID_MSG_INFO, 0);
 		}
 	}
 
