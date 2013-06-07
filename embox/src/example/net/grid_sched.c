@@ -33,6 +33,7 @@
 #include <kernel/thread/sync/cond.h>
 #include <mem/misc/pool.h>
 #include <readline/readline.h>
+#include <kernel/time/ktime.h>
 #include "grid_types.h"
 
 static int grid_do_int(int num, int client_num);
@@ -72,6 +73,7 @@ POOL_DEF(grid_task_pool, struct grid_task, GRID_TASK_MAX_COUNT);
 
 static cond_t pending_cond;
 static struct mutex pending_mutex;
+static struct timespec calc_time;
 
 static void gtask_free(struct grid_task *task) {
 	pool_free(&grid_task_pool, task);
@@ -307,14 +309,17 @@ static void *grid_mainloop_hnd(void* args) {
 }
 
 static int A(void) {
+	//sleep(1);
 	return 111111;
 }
 
 static int B(void) {
+	//sleep(1);
 	return 2222222;
 }
 
 static int C(void) {
+	//sleep(1);
 	return 3333333;
 }
 
@@ -360,7 +365,13 @@ static void *client_handler(void *args) {
 				task_mask |= 1 << buf[1];
 
 				if (task_mask == 0x7) {
-					printk("Result is %d\n", task_res[0] + task_res[1] + task_res[2]);
+					struct timespec curtime;
+
+					ktime_get_timespec(&curtime);
+					calc_time = timespec_sub(curtime, calc_time);
+
+					printk("Result is %d, calculation time - %d s %d ms\n",
+							task_res[0] + task_res[1] + task_res[2], (int)calc_time.tv_sec, (int)(calc_time.tv_nsec / 1000000));
 				}
 
 				break;
@@ -427,6 +438,8 @@ static int exec(int argc, char *argv[]) {
 	while ((uline = readline("grid> "))) {
 		if (!strcmp(uline, "calc")) {
 			task_mask = 0;
+			ktime_get_timespec(&calc_time);
+
 			write_buf(sock, GRID_MSG_CALC, 0);
 			write_buf(sock, GRID_MSG_CALC, 1);
 			write_buf(sock, GRID_MSG_CALC, 2);
