@@ -65,7 +65,6 @@ static struct {
 struct grid_task {
 	struct dlist_head link;
 	int task_num;
-	int res;
 	int client_num;
 };
 
@@ -106,7 +105,7 @@ static void *grid_connection_handler(void* args) {
 
 		fd_cnt = select(sock + 1, &readfds, NULL, NULL, &timeout);
 
-		if (fd_cnt < 0) {
+		if (fd_cnt <= 0) {
 			continue;
 		}
 
@@ -125,13 +124,11 @@ static void *grid_connection_handler(void* args) {
 			break;
 		case GRID_MSG_INTERMEDIATE_RESULT:
 
-			gtask->res = inbuf[1];
-
 			fd = clients[gtask->client_num].fd;
 
 			buf[0] = GRID_MSG_FINISH_RESULT;
 			buf[1] = gtask->task_num;
-			buf[2] = gtask->res;
+			buf[2] = inbuf[1];
 
 			write(fd, buf, sizeof(buf));
 
@@ -156,12 +153,6 @@ static void *grid_server_hnd(void* args) {
 	int res;
 	int listening_descr;
 	struct sockaddr_in listening_socket;
-
-	for (res = 0; res < GRID_MAX_CONNECTIONS; res++) {
-		clients[res].fd = -1;
-		mutex_init(&clients[res].mutex);
-		clients[res].grid_task = NULL;
-	}
 
 	listening_socket.sin_family = AF_INET;
 	listening_socket.sin_port= htons(GRID_PORT);
@@ -249,7 +240,6 @@ static int grid_do_int(int num, int client_num) {
 	}
 
 	new_task->task_num = num;
-	new_task->res = 0;
 	new_task->client_num = client_num;
 
 	dlist_head_init(&new_task->link);
@@ -279,7 +269,7 @@ static void grid_do_info(int client_num) {
 	}
 	assert(off < 200);
 	buf[0] = GRID_MSG_PRINT;
-	buf[1] = off;
+	buf[1] = off - sizeof(buf);
 	memcpy(info, buf, sizeof buf);
 	send(clients[client_num].fd, info, off, 0);
 	free(info);
@@ -338,17 +328,17 @@ static void *grid_mainloop_hnd(void* args) {
 }
 
 static int A(void) {
-	sleep(7);
+	sleep(1);
 	return 111111;
 }
 
 static int B(void) {
-	sleep(12);
+	sleep(1);
 	return 2222222;
 }
 
 static int C(void) {
-	sleep(10);
+	sleep(1);
 	return 3333333;
 }
 
@@ -441,14 +431,22 @@ static int exec(int argc, char *argv[]) {
 	struct sockaddr_in dst;
 
 	if (argc == 1) {
+		int i;
 		mutex_init(&pending_mutex);
 		cond_init(&pending_cond);
+
+		for (i = 0; i < GRID_MAX_CONNECTIONS; i++) {
+			clients[i].fd = -1;
+			mutex_init(&clients[i].mutex);
+			clients[i].grid_task = NULL;
+		}
 
 		thread_create(&thread, 0, grid_server_hnd, NULL);
 		thread_create(&thread, 0, grid_mainloop_hnd, NULL);
 		addr = "127.0.0.1";
 
 		sleep(1);
+
 	}
 
 	if (!inet_aton(addr, &dst.sin_addr)) {
@@ -484,10 +482,14 @@ static int exec(int argc, char *argv[]) {
 			write_buf(sock, GRID_MSG_CALC, 0);
 			write_buf(sock, GRID_MSG_CALC, 1);
 			write_buf(sock, GRID_MSG_CALC, 2);
+		} else if (!strcmp(uline, "exit")) {
+			free(uline);
+			break;
 		}
 		else if (!strcmp(uline, "info")) {
 			write_buf(sock, GRID_MSG_INFO, 0);
 		}
+		free(uline);
 	}
 
 	close(sock);
