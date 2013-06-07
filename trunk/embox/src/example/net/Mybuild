@@ -135,7 +135,7 @@ module udp_echo {
 	depends embox.framework.LibFramework
 }
 
-module grid_sched {
+module grid {
 	source "grid_sched.c"
 
 	depends embox.kernel.thread.core
