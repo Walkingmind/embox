@@ -5,51 +5,43 @@ Types used on a per-build basis.
 __author__ = "Eldar Abusalimov"
 __date__ = "2012-11-09"
 
-__all__ = ["Domain"]
+__all__ = ["Context"]
 
 
 from collections import defaultdict
 from collections import deque
 from collections import MutableSet
 from contextlib import contextmanager
-from functools import partial
 from itertools import chain
-from itertools import izip
-from itertools import izip_longest
 from itertools import product
+from operator import attrgetter
 
 from core import *
-from constraints import *
-from expr import *
-from util import singleton
+from instance import Instance
+from instance import InstanceError
+from instance import InstanceNode
+from pgraph import *
 from util import NotifyingMixin
-import pdag
+from util import pop_iter
 
+from compat import *
 import logs as log
 
+# from mybuild.common.module import ModuleBuildOps
+ModuleBuildOps = object
 
-class Domain(object):
-    """docstring for Domain"""
+class Context(object):
+    """docstring for Context"""
 
     def __init__(self):
-        super(Domain, self).__init__()
-        self._modules = {}
+        super(Context, self).__init__()
+        self.modules = {}
         self._job_queue = deque()
         self._reent_locked = False
 
-    def freeze(self):
-        if hasattr(self, '_pdag'):
-            raise RuntimeError("'freeze' must be called only once.")
-
-        # def iter_atoms():
-        #     for module_domain in self._module.itervalues():
-
-
-        self._pdag = pdag.Pdag(*iter_atoms())
-
-    def post(self, fxn):
-        with self.reent_lock(): # to flush the queue on block exit
-            self._job_queue.append(fxn)
+    def post(self, job_func):
+        with self.reent_lock():  # to flush the queue on block exit
+            self._job_queue.append(job_func)
 
     @contextmanager
     def reent_lock(self):
@@ -64,68 +56,112 @@ class Domain(object):
             self._reent_locked = was_locked
 
     def _job_queue_flush(self):
-        queue = self._job_queue
-
-        while queue:
-            fxn = queue.popleft()
-            fxn()
+        for job_func in pop_iter(self._job_queue, pop_meth='popleft'):
+            job_func()
 
     def consider(self, module, option=None, value=Ellipsis):
         domain = self.domain_for(module)
         if option is not None:
             domain.consider_option(option, value)
 
-    def register(self, instance):
-        self.domain_for(instance._module).register(instance)
-
     def domain_for(self, module, option=None):
         try:
-            domain = self._modules[module]
+            domain = self.modules[module]
         except KeyError:
             with self.reent_lock():
-                domain = self._modules[module] = ModuleDomain(self, module)
+                domain = self.modules[module] = ModuleDomain(self, module)
 
         if option is not None:
             domain = domain.domain_for(option)
 
         return domain
 
+    def create_pgraph(self):
+        g = ContextPgraph()
+
+        for domain in itervalues(self.modules):
+            domain.init_pgraph(g)
+
+        return g
+
+
+class ContextPgraph(Pgraph):
+
+    def __init__(self):
+        super(ContextPgraph, self).__init__()
+
     def atom_for(self, module, option=None, value=Ellipsis):
-        domain = self.domain_for(module, option)
-        return domain.atom if option is None else domain.atom_for(value)
+        if option is None:
+            return self.new_node(ModuleAtom, module)
+        else:
+            return self.new_node(OptionValueAtom, module, option, value)
+
+    def pnode_for(self, mslice):
+        # TODO should accept arbitrary expr as well.
+
+        return self.new_node(And, *self._mslice_to_conjunction(mslice))
+
+    def _mslice_to_conjunction(self, mslice):
+        mslice = mslice._to_optuple()
+        module = mslice._module
+
+        option_atoms = [self.atom_for(module, option, value)
+                        for option, value in mslice._iterpairs()]
+
+        return option_atoms or [self.atom_for(module)]
 
 
-class ModuleDomain(object):
+@ContextPgraph.node_type
+class ModuleAtom(Atom):
+
+    def __init__(self, module):
+        super(ModuleAtom, self).__init__()
+        self.module = module
+
+    def __repr__(self):
+        return self.module._name
+
+
+@ContextPgraph.node_type
+class OptionValueAtom(Atom):
+
+    def __init__(self, module, option, value):
+        super(OptionValueAtom, self).__init__()
+        self.module = module
+        self.option = option
+        self.value  = value
+
+    def __repr__(self):
+        return '(%s.%s==%r)' % (self.module._name, self.option, self.value)
+
+
+class DomainBase(object):
+    """docstring for DomainBase"""
+
+    def __init__(self, context):
+        super(DomainBase, self).__init__()
+        self.context = context
+
+
+class ModuleDomain(DomainBase):
     """docstring for ModuleDomain"""
 
-    def __init__(self, domain, module):
-        super(ModuleDomain, self).__init__()
+    def __init__(self, context, module):
+        super(ModuleDomain, self).__init__(context)
 
-        self.domain = domain
-        self._module = module
+        self.module = module
 
-        self.atom = module._atom_type()
-
-        self._instances = defaultdict(set) # { optuple : { instances... } }
-        self._options = module._options._make(OptionDomain(option)
-                                              for option in module._options)
+        self._instances = []
+        self._options = module._options._mapwith(OptionDomain)
 
         self._instantiate_product(self._options)
 
-    def init_pnode(self):
-        presence_pnode = pdag.EqGroup(self.atom,
-            *(option_domain.pnode for option_domain in self._options))
-        instances_pnode = pdag.And(
-            *(instance.pnode
-              for instance_set in self._instances.itervalues()
-              for instance in instance_set))
-
     def _instantiate_product(self, iterables):
-        instantiate = self._module._instance_type._post_new
         make_optuple = self._options._make
 
         for new_tuple in product(*iterables):
-            instantiate(self.domain, make_optuple(new_tuple))
+            self._instances.append(InstanceDomain(self.context,
+                                                  make_optuple(new_tuple)))
 
     def consider_option(self, option, value):
         domain_to_extend = getattr(self._options, option)
@@ -135,47 +171,36 @@ class ModuleDomain(object):
         log.debug('mybuild: extending %r with %r', domain_to_extend, value)
         domain_to_extend.add(value)
 
-        self._instantiate_product(
-            option_domain if option_domain is not domain_to_extend else (value,)
+        self._instantiate_product(option_domain
+            if option_domain is not domain_to_extend else (value,)
             for option_domain in self._options)
-
-    def register(self, instance):
-        self._instances[instance._optuple].add(instance)
 
     def domain_for(self, option):
         return getattr(self._options, option)
 
-@Module.register_attr('_atom_type')
-class ModuleAtom(pdag.Atom):
-    __slots__ = ()
+    def init_pgraph(self, g):
+        AllEqual(g, g.atom_for(self.module),
+              *(option.create_pnode(g) for option in self._options))
 
-    def __str__(self):
-        return self._module_name
-
-    @classmethod
-    def _new_type(cls, module_type, *ignored):
-        return type('ModuleAtom_M%s' % (module_type._module_name,),
-                    (cls, module_type),
-                    dict(__slots__=()))
+        for instance in self._instances:
+            instance.init_pgraph(g)
 
 
 class NotifyingSet(MutableSet, NotifyingMixin):
-    """Set with notification support. Backed by a dictionary."""
+    """Set with notification support."""
 
-    def __init__(self, values):
+    def __init__(self, values=()):
         super(NotifyingSet, self).__init__()
-        self._dict = {}
+        self._set = set()
 
-        self |= values
-
-    def _create_value_for(self, key):
-        pass
+        for value in values:
+            self.add(value)
 
     def add(self, value):
         if value in self:
             return
-        self._dict[value] = self._create_value_for(value)
 
+        self._set.add(value)
         self._notify(value)
 
     def discard(self, value):
@@ -184,352 +209,143 @@ class NotifyingSet(MutableSet, NotifyingMixin):
         raise NotImplementedError
 
     def __iter__(self):
-        return iter(self._dict)
+        return iter(self._set)
     def __len__(self):
-        return len(self._dict)
+        return len(self._set)
     def __contains__(self, value):
-        return value in self._dict
+        return value in self._set
 
-    def __str__(self):
-        return '<%s: %s>' % (type(self).__name__, self._dict.keys())
+    def __repr__(self):
+        return '%s(%r)' % (type(self).__name__, list(self))
 
 
 class OptionDomain(NotifyingSet):
     """docstring for OptionDomain"""
 
     def __init__(self, option):
-        self._option = option
-        self.pnode = pdag.AtMostOne()
+        super(OptionDomain, self).__init__()
+        self.option = option
+        self |= option._values
 
-        super(OptionDomain, self).__init__(option._values)
+    def create_pnode(self, g):
+        module = self.option._module
+        option = self.option._name
 
-    def atom_for(self, value):
-        if value not in self:
-            self.add(value)
-        return self._dict[value]
-
-    def _create_value_for(self, value):
-        atom = self._option._atom_type(value)
-        return self.pnode._new_operand(atom)
-
-@Option.register_attr('_atom_type')
-class OptionValueAtom(pdag.Atom):
-    __slots__ = '_value'
-
-    def __init__(self, value):
-        super(OptionValueAtom, self).__init__()
-        self._value = value
-
-    def __str__(self):
-        return '(%s==%s)' % (self._option_name, self._value)
-
-    @classmethod
-    def _new_type(cls, option_type):
-        return type('OptionAtom_M%s_O%s' % (option_type._module_name,
-                                            option_type._option_name),
-                    (cls, option_type),
-                    dict(__slots__=()))
+        return AtMostOne(g, *(g.atom_for(module, option, value)
+                              for value in self))
 
 
-@Module.register_attr('_instance_type')
-class Instance(Module.Type):
-    """docstring for Instance"""
+class InstanceDomain(DomainBase):
 
-    class _InstanceProxy(object):
-        """docstring for _InstanceProxy"""
-        __slots__ = '_owner_instance', '_optuple'
+    module     = property(attrgetter('optuple._module'))
+    _init_func = property(attrgetter('module._init_func'))
 
-        def __init__(self, owner_instance, optuple):
-            super(Instance._InstanceProxy, self).__init__()
-            self._owner_instance = owner_instance
-            self._optuple = optuple
+    def __init__(self, context, optuple):
+        super(InstanceDomain, self).__init__(context)
 
-        def __nonzero__(self):
-            return self._owner_instance._decide(self._optuple)
+        self.optuple = optuple
 
-        def __getattr__(self, attr):
-            return self._owner_instance._decide_option(self._optuple, attr)
+        self._instances = []
+        self._node = root_node = InstanceNode()
 
-    def __init__(self, domain, optuple, constraints):
-        """Private constructor. Use '_post_new' instead."""
-        super(Instance, self).__init__()
+        self.post_new(root_node)
 
-        self._domain = domain
-        self._optuple = optuple
-        self._constraints = constraints
+    def post_new(self, node):
+        instance = Instance(self, node)
 
-        with log.debug("mybuild: new %r", self):
-            try:
-                self._init_fxn(*optuple)
-            except InstanceError as e:
-                log.debug("mybuild: unviable %r: %s", self, e)
-                raise e
-            else:
-                log.debug("mybuild: succeeded %r", self)
-
-    @classmethod
-    def _post_new(cls, domain, optuple, _constraints=None):
-        if _constraints is None:
-            _constraints = Constraints()
-            # _constraints.constrain_mslice(optuple)
-
-        def new():
-            try:
-                instance = cls(domain, optuple, _constraints)
-            except InstanceError:
-                pass
-            else:
-                domain.register(instance)
-
-        domain.post(new)
-
-    def ask(self, mslice):
-        optuple = mslice._to_optuple()
-        exprify_eval(optuple, self._domain.consider)
-        return self._InstanceProxy(self, optuple)
-
-    @singleton
-    class _build_visitor(ExprVisitor):
-
-        def visit(self, expr, constraints):
-            expr = exprify(expr)
-            # log.debug('mybuild: visit [%r] %r with %r',
-            #           type(expr), expr, constraints)
-            return ExprVisitor.visit(self,
-                exprify_eval(expr, constraints.check), constraints)
-
-        def visit_bool(self, expr, constraints):
-            return (constraints,) if expr else ()
-
-        def visit_Atom(self, expr, constraints, negated=False):
-            try:
-                expr.eval(constraints.constrain, negated=negated)
-            except ConstraintError:
-                return self.visit_bool(False, constraints)
-            else:
-                return self.visit_bool(True, constraints)
-
-        def visit_Not(self, expr, constraints):
-            return self.visit_Atom(expr.atom, constraints, negated=True)
-
-        def visit_Or(self, expr, constraints):
-            # disjuncion of disjunctions: (C1|C2) | ... | (CK|...|CN)
-            # nothing special to do here, expand parens by flattening the list
-            return tuple(chain.from_iterable(
-                self.visit(e, constraints.new_branch()) for e in expr.operands))
-
-        def visit_And(self, expr, constraints):
-            # Important assumption:
-            # 'expr.operands' first yields atomic expressions (atoms and
-            # negations), and then compounds (disjunctions in this case).
-            # This allows us to defer branching the 'constraints' as much as
-            # possible, until it becomes really necessary.
-
-            # conjuction of disjunctions: (C1|C2) & ... & (CK|...|CN)
-            cj_of_djs = (self.visit(e, constraints) for e in expr.operands)
-
-            # expand parens by merging constraint dicts to get the resulting
-            # disjunction: C1&...&CK | C1&...&CN | C2&...&CK | C2&...&CN | ...
-            def iter_multiply(djs):
-                def uniquify_filter(djs):
-                    """
-                    Removes duplicates, filters out the parent constraints,
-                    and yields non-empty iterables.
-                    """
-                    for dj in djs:
-                        if not dj:
-                            raise ConstraintError
-                        if len(dj) == 1:
-                            if dj[0] is not constraints:
-                                yield dj
-                        else:
-                            constraints_by_id = dict((id(c), c) for c in dj)
-                            del constraints_by_id[constraints]
-                            if constraints_by_id:
-                                yield constraints_by_id.itervalues()
-
+        def init_instance():
+            with log.debug("mybuild: new %s", instance):
                 try:
-                    djs_list = sorted(uniquify_filter(djs), key=len)
-                except ConstraintError:
-                    return
+                    self._init_func(instance, *self.optuple)
+                except InstanceError as e:
+                    log.debug("mybuild: unviable %s: %s", instance, e)
+                else:
+                    log.debug("mybuild: succeeded %s", instance)
+                    self._instances.append(instance)
 
-                if not djs_list:
-                    yield constraints
-                    return
+        self.context.post(init_instance)
 
-                for new_cj in product(*djs_list):
-                    try:
-                        yield constraints.merge_children(new_cj)
-                    except ConstraintError:
-                        pass
+    def init_pgraph(self, g):
+        atoms = [InstanceAtom(g, instance) for instance in self._instances]
 
-            return tuple(iter_multiply(cj_of_djs))
+        for atom in atoms:
+            atom.implies(atom.instance._node.create_decisions_pnode(g))
 
-    def _log_build_choices(self, name, choices):
-        length = len(choices)
-        log.debug('mybuild: got %d %s choice%s: %r',
-            length, name, 's' if length != 1 else '', choices)
+        optuple_instance = g.pnode_for(self.optuple)
+        optuple_instance.equivalent(AtMostOne(g, *atoms))
+        optuple_instance.implies(self._node.create_pnode(g))
 
-    def constrain(self, expr):
-        expr = exprify_eval(expr, self._domain.consider)
 
-        with log.debug('mybuild: constrain %r', expr):
-            choices = self._build_visitor.visit(expr, self._constraints)
-            self._log_build_choices('constrain', choices)
+@ContextPgraph.node_type
+class InstanceAtom(Atom, ModuleBuildOps):
 
-            self._constraints = self._take_one_spawn_rest(choices)
-
-    def _decide(self, expr):
-        expr = exprify(expr)
-
-        with log.debug('mybuild: deciding bool(%r)', expr):
-            visit = self._build_visitor.visit
-
-            yes_choices = visit(expr, self._constraints.new_branch())
-            self._log_build_choices('"yes"', yes_choices)
-
-            no_choices = visit(~expr, self._constraints.new_branch())
-            self._log_build_choices('"no"', no_choices)
-
-            ret = bool(yes_choices)
-            choices = no_choices, yes_choices
-
-            self._constraints = self._take_one_spawn_rest(choices[ret])
-            self._spawn_all(choices[not ret])
-
-            log.debug('mybuild: return %s', ret)
-            return ret
-
-    def _decide_option(self, optuple, option):
-        module = optuple._module
-
-        with log.debug('mybuild: deciding %r.%s', optuple, option):
-            if not hasattr(optuple, option):
-                raise AttributeError("'%s' module has no attribute '%s'" %
-                    (module._name, option))
-
-            try:# to get an already constrained exact value (if any).
-                # This is the way of how spawned instances get an option
-                # which caused the spawning.
-                ret_value = self._constraints.get(module, option)
-            except ConstraintError:
-                pass
-            else:
-                log.debug('mybuild: return %r', ret_value)
-                return ret_value
-
-            # Option without the module itself is meaningless. Fail-fast way
-            # for case when the whole module has been previously excluded.
-            self.constrain(module)
-
-            octx = self._domain.domain_for(module, option)
-
-            octx.subscribe(partial(self._branch_and_spawn,
-                                   self._constraints, module, option))
-            # after that one shouldn't touch self._constraints anymore
-            self._constraints.freeze()
-
-            def constrain_all(values):
-                constrain = self._constraints.constrain
-                for value in values:
-                    try:
-                        yield constrain(module, option, value, branch=True)
-                    except ConstraintError:
-                        pass
-
-            self._constraints = self._take_one_spawn_rest(constrain_all(octx))
-
-            ret_value = self._constraints.get(module, option) # must not throw
-
-            log.debug('mybuild: return %r', ret_value)
-            return ret_value
-
-    def _branch_and_spawn(self, constraints, module, option, value):
-        log.debug('mybuild: branch %r with %r by %r.%s = %r',
-            self._optuple, constraints, module, option, value)
-
-        try:
-            constraints = constraints.constrain(module, option, value,
-                branch=True)
-        except ConstraintError as e:
-            log.debug('mybuild: branch error: %s', e)
-            pass
-        else:
-            log.debug('mybuild: branch OK')
-            self._spawn(constraints)
-
-    def _take_one_spawn_rest(self, constraints_iterable):
-        constraints_it = iter(constraints_iterable)
-
-        try: # Retrieve the first one (if any) to return it.
-            ret_constraints = constraints_it.next()
-        except StopIteration:
-            raise InstanceError('No viable choice to take')
-        else:
-            log.debug('mybuild: take %r', ret_constraints)
-
-        # Spawn for the rest ones.
-        self._spawn_all(constraints_it)
-
-        return ret_constraints
-
-    def _spawn_all(self, constraints_iterable):
-        for constraints in constraints_iterable:
-            self._spawn(constraints)
-
-    def _spawn(self, constraints):
-        log.debug('mybuild: spawn %r', constraints)
-        self._post_new(self._domain, self._optuple, constraints)
+    def __init__(self, instance):
+        super(InstanceAtom, self).__init__()
+        self.instance = instance
 
     def __repr__(self):
-        return '<Instance %r with %r>' % (self._optuple, self._constraints)
+        return repr(self.instance)
 
-    @classmethod
-    def _new_type(cls, module_type, fxn):
-        return type('Instance_M%s' % (module_type._module_name,),
-                    (cls, module_type),
-                    dict(__slots__=(), _init_fxn=fxn))
+    def is_building(self, model):
+        #return model[self]
+        return True
 
+    def get_sources(self):
+        return getattr(self.instance, 'sources', [])
 
-def build(conf_module):
-    domain = Domain()
-    conf_domain = domain.domain_for(conf_module)
+    def get_options(self):
+        return []
 
-    assert len(conf_domain._instances) == 1
-    conf_instance_set = conf_domain._instances.itervalues().next()
+    def qualified_name(self):
+        return getattr(self.instance, 'qualified_name', '')
 
-    assert len(conf_instance_set) == 1
-    conf_instance = iter(conf_instance_set).next()
+    def islib(self):
+        return False
 
-    constraints = conf_instance._constraints # XXX
-
-    # flat_constr = constraints.branch().flatten()
-    # for m in flat_constr._dict:
-    #     ctx = self._modules[m]
-    #     for mslice, inst_set in ctx._instances:
-    #         if flat_constr.check_mslice(mslice) is not False:
-
-
-    # try:
-    #     constraints = Constraints.merge(instance._constraints
-    #                                     for instance in domain._instances)
-    # except Exception, e:
-    #     raise e
+    def __getattr__(self, attr):
+        return getattr(self.instance, attr)
 
 if __name__ == '__main__':
     from mybuild import module, option
+    from solver import solve
 
-    log.zones = {'mybuild'}
+    log.zones = ['mybuild', 'dtree']
     log.verbose = True
     log.init_log()
 
     @module
     def conf(self):
         self.constrain(m1)
+        self.constrain(iface)
+        self.sources = 'test.c'
 
     @module
     def m1(self):
+        if self._decide(m3):
+            self.constrain(m2(foo=17))
+
+    @module
+    def m2(self, foo=42):
+        self.provides(iface)
+
+    @module
+    def iface(self):
         pass
 
-    build(conf)
+    @module
+    def m3(self):
+        pass
+
+    context = Context()
+    context.consider(conf)
+
+    g = context.create_pgraph()
+
+    solution = solve(g, {g.atom_for(conf):True})
+
+    for pnode, value in iteritems(solution):
+        if isinstance(pnode, InstanceAtom):
+            print '>>>', value, pnode
+            srcs = getattr(pnode.instance, 'sources', '')
+            # print srcs
 

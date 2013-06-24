@@ -12,37 +12,31 @@ __all__ = [
     "Option",
     "Optuple",
     "Error",
-    "InstanceError",
     "InternalError",
 ]
 
 
 from collections import namedtuple
 from inspect import getargspec
-from itertools import chain
-from itertools import izip
-from itertools import repeat
 from operator import attrgetter
 
-import expr
-from util import DynamicAttrsMixin
+from compat import *
 from util import InstanceBoundTypeMixin
 
-class Module(DynamicAttrsMixin):
+
+class Module(object):
     """A basic building block of Mybuild."""
 
-    class Type(InstanceBoundTypeMixin):
-        pass
+    def __init__(self, func):
+        self._init_func = func
+        self._name = func.__name__
 
-    def __init__(self, fxn):
-        self._name = fxn.__name__
-        module_type = type('Module_M%s' % (self._name,),
-                           (self.Type,),
-                           dict(__slots__=(),
-                                _module=self,
-                                _module_name=self._name))
+        class ModuleType(object):
+            __slots__ = ()
+            _module = self
+            _module_name = self._name
 
-        self._init_attrs(module_type, fxn)
+        self._options = Optuple._new_type_options(ModuleType, func)
 
     def __call__(self, **kwargs):
         return self._options._ellipsis._replace(**kwargs)
@@ -50,35 +44,11 @@ class Module(DynamicAttrsMixin):
     def _to_optuple(self):
         return self._options._ellipsis
 
-    def _to_expr(self):
-        return self._atom
-
     def __repr__(self):
-        return '%s(%s)' % (self._name, ', '.join(self._options._fields))
-
-@Module.register_attr('_atom', factory_method='_new_instance')
-class ModuleAtom(expr.Atom):
-    """Module-bound atom."""
-    __slots__ = '_module'
-
-    def __init__(self, module):
-        super(ModuleAtom, self).__init__()
-        self._module = module
-
-    def eval(self, fxn, *args, **kwargs):
-        ret = fxn(self._module, *args, **kwargs)
-        return self if ret is None else ret
-
-    def __repr__(self):
-        return '%s' % (self._module._name,)
-
-    @classmethod
-    def _new_instance(cls, module_type, *args):
-        return cls(module_type._module)
+        return '%s(%r)' % (self._name, ', '.join(self._options._fields))
 
 
-@Module.register_attr('_options')
-class Optuple(Module.Type):
+class Optuple(InstanceBoundTypeMixin):
     """Option tuple mixin type."""
     __slots__ = ()
 
@@ -87,13 +57,16 @@ class Optuple(Module.Type):
                 (v for v in self if v is not Ellipsis))
 
     def _iterpairs(self, with_ellipsis=False):
-        return self._izipwith(self._fields, with_ellipsis, swap=True)
+        return self._zipwith(self._fields, with_ellipsis, swap=True)
 
-    def _izipwith(self, other, with_ellipsis=False, swap=False):
-        it = izip(self, other) if not swap else izip(other, self)
+    def _zipwith(self, other, with_ellipsis=False, swap=False):
+        it = zip(self, other) if not swap else zip(other, self)
         self_idx = int(bool(swap))
         return (it if with_ellipsis else
                 (pair for pair in it if pair[self_idx] is not Ellipsis))
+
+    def _mapwith(self, func):
+        return self._make(map(func, self))
 
     def _to_optuple(self):
         return self
@@ -108,52 +81,49 @@ class Optuple(Module.Type):
     def __hash__(self):
         return self._type_hash() ^ tuple.__hash__(self)
 
-    def _to_expr(self):
-        atoms = tuple(o._atom(v) for v,o in self._izipwith(self._options))
-        return (expr.And._from_iterable(atoms) if atoms else
-                self._module._to_expr())
-
     @classmethod
-    def _options_from_fxn(cls, fxn):
-        """Converts a function argspec into a (options, defaults) tuple."""
+    def _options_from_func(cls, func):
+        """Converts a function argspec into a list of Option objects."""
 
-        args, va, kw, defaults = getargspec(fxn)
+        args, va, kw, defaults = getargspec(func)
         defaults = defaults or ()
 
         if va is not None:
             raise TypeError(
-                'Arbitrary arguments are not supported: *%r' % va)
+                'Arbitrary arguments are not supported: *%s' % va)
         if kw is not None:
             raise TypeError(
-                'Arbitrary keyword arguments are not supported: **%r' % kw)
+                'Arbitrary keyword arguments are not supported: **%s' % kw)
 
         if not args:
             raise TypeError(
                 'Module function must accept at least one argument')
         if len(args) == len(defaults):
             raise TypeError(
-                'The first argument cannot have a default value: %r' % args[0])
+                'The first argument cannot have a default value: %s' % args[0])
 
         option_args = args[1:]
-        for a in option_args:
-            if not isinstance(a, basestring):
+        for arg in option_args:
+            if not isinstance(arg, basestring):
                 raise TypeError(
-                    'Tuple parameter unpacking is not supported: %r' % a)
-            if a.startswith('_'):
+                    'Tuple parameter unpacking is not supported: %s' % arg)
+            if arg.startswith('_'):
                 raise TypeError(
-                    'Option name cannot start with an underscore: %r' % a)
+                    'Option name cannot start with an underscore: %s' % arg)
 
-        head = (Option() for _ in xrange(len(defaults), len(option_args)))
-        tail = (o if isinstance(o, Option) else Option(o) for o in defaults)
+        head = [Option() for _ in xrange(len(option_args) - len(defaults))]
+        tail = [option if isinstance(option, Option) else Option(option)
+                for option in defaults]
 
-        return tuple(o.set(_name=a)
-                     for o,a in izip(chain(head, tail), option_args))
+        return [option.set(_name=name)
+                for option, name in zip(head + tail, option_args)]
 
     @classmethod
-    def _new_type(cls, module_type, fxn):
-        options = cls._options_from_fxn(fxn)
+    def _new_type_options(cls, module_type, func):
+        options = cls._options_from_func(func)
 
-        optuple_base = namedtuple('OptupleBase', (o._name for o in options))
+        optuple_base = namedtuple('OptupleBase',
+                                  (option._name for option in options))
 
         bogus_attrs = set(a for a in dir(optuple_base)
                           if not a.startswith('_'))
@@ -161,106 +131,86 @@ class Optuple(Module.Type):
         for attr in bogus_attrs:
             setattr(optuple_base, attr, property())
 
-        new_type = type('Optuple_M%s' % (module_type._module_name,),
+        new_type = type('Optuple_M%s' % module_type._module_name,
                         (cls, optuple_base, module_type),
                         dict(__slots__=()))
 
         optuple_base._fields = new_type._make(optuple_base._fields)
-        new_type._ellipsis = new_type._make(repeat(Ellipsis, len(options)))
-        new_type._options = new_type._make(o.set(_module=module_type._module)
-                                            ._init_types(module_type)
-                                           for o in options)
+        new_type._ellipsis = new_type._make(Ellipsis for _ in options)
+        new_type._options = new_type._make(
+            option.set(_module=module_type._module) for option in options)
 
         return new_type._options
 
 
-class Option(DynamicAttrsMixin):
-
-    class Type(Module.Type):
-        pass
+class Option(object):
 
     def __init__(self, *values, **setup_flags):
         super(Option, self).__init__()
 
-        self._default = values[0] if values else Ellipsis
-        self._allow_others = True
+        self.default = values[0] if values else Ellipsis
+        self.extendable = True
 
-        self._values = frozenset(values)
+        self._values = set(values)
         if Ellipsis in self._values:
             raise ValueError('Ellipsis value is not permitted')
 
         self.set(**setup_flags)
 
-    def _init_types(self, module_type):
-        option_type = type('Option_M%s_O%s' % (module_type._module_name,
-                                               self._name),
-                           (self.Type, module_type),
-                           dict(__slots__=(),
-                                _option=self,
-                                _option_name=self._name))
-        self._init_attrs(option_type)
-        return self
-
     def set(self, **flags):
         if 'default' in flags:
-            default = flags.pop('default')
-            self._default = default
-            if default is not Ellipsis and default not in self._values:
-                self._values |= {default}
+            default = flags['default']
+            if flags.pop('_check_default', False):
+                if default not in self._values:
+                    raise ValueError('default value (%r) not in values' %
+                                     default)
+            elif default is not Ellipsis:
+                self._values.add(default)
 
-        for attr in 'allow_others', '_name', '_module':
+        for attr in 'default', 'extendable', '_check_func', '_name', '_module':
             if attr in flags:
                 setattr(self, attr, flags.pop(attr))
 
         if flags:
-            raise TypeError('Unrecognized flags: %s' % ', '.join(flags.keys()))
+            raise TypeError('Unrecognized flag(s): %s' % ', '.join(flags))
 
         return self
 
+    def _check(self, *values):
+        if not self.extendable and set(values)-self._values:
+            return False
+
+        if all(map(getattr(self, '_check_func', lambda: True), values)):
+            return False
+
+        return True
+
     @classmethod
     def enum(cls, *values):
-        return cls(*values, allow_others=False)
+        return cls(*values, extendable=False)
 
     @classmethod
     def bool(cls, default=False):
-        return cls(True, False, default=default, allow_others=False)
-
-@Option.register_attr('_atom')
-class OptionAtom(Option.Type, expr.Atom):
-    """A single bound option."""
-    __slots__ = '_value'
-
-    value  = property(attrgetter('_value'))
-    option = property(attrgetter('_option'))
-
-    def __init__(self, value):
-        super(OptionAtom, self).__init__()
-        self._value = value
-
-    def __eq__(self, other):
-        return self._type_eq(other) and self._value == other._value
-    def __hash__(self):
-        return self._type_hash() ^ hash(self._value)
-
-    def eval(self, fxn, *args, **kwargs):
-        ret = fxn(self._module, option=self._option_name, value=self.value,
-                *args, **kwargs)
-        return self if ret is None else ret
+        return cls(False, True, default=default,
+                   extendable=False, _check_default=True)
 
     @classmethod
-    def _replace(cls, new_value):
-        return cls(new_value)
+    def tristate(cls, default=None):
+        return cls(None, False, True, default=default,
+                   extendable=False, _check_default=True)
 
     @classmethod
-    def _new_type(cls, option_type):
-        return type('OptionAtom_M%s_O%s' % (option_type._module_name,
-                                            option_type._option_name),
-                    (cls, option_type),
-                    dict(__slots__=()))
+    def str(cls, default=Ellipsis):
+        return cls.of_type(str, default)
 
-    def __repr__(self):
-        return '%s(%s=%r)' % (self._module_name,
-                              self._option_name, self._value)
+    @classmethod
+    def of_type(cls, types, default=Ellipsis):
+        ret = cls(_check_func=partial(isinstance, classinfo=types))
+
+        if default is not Ellipsis:
+            ret.set(default=default)
+
+        return ret
 
 
 class Error(Exception):
@@ -290,12 +240,9 @@ class Error(Exception):
                                  '**' if isinstance(fmt_args, dict) else '*',
                                  fmt_args)
 
-class InstanceError(Error):
-    """
-    Throwing this kind of errors from inside a module function indicates that
-    instance is not viable anymore and thus shouldn't be considered.
-    """
-
 class InternalError(Exception):
-    """Unrecoverable application errors indicating that goes really wrong."""
+    """
+    Unrecoverable application errors indicating that something goes really
+    wrong.
+    """
 

@@ -8,6 +8,7 @@ __date__ = "2012-11-30"
 __all__ = [
     "Dtree",
     "DtreeNode",
+    "DtreeError",
 ]
 
 
@@ -17,7 +18,8 @@ from operator import attrgetter
 from operator import methodcaller
 
 from chaindict import ChainDict
-from pdag import PdagContext
+import pdag
+from pdag import DictBasedPdagContext
 from pdag import PdagContextError
 from util import filter_bypass
 from util import map_bypass
@@ -35,24 +37,24 @@ class Dtree(object):
 
     def solve(self, initial_values):
         nodes = self.pdag.nodes
-        atoms = self.pdag.atoms
+        # atoms = self.pdag.atoms
 
         root = DtreeNode()
-        root.solve(atoms, initial_values)
+        root.solve(nodes, initial_values)
 
         ret = dict.fromkeys(nodes)
         ret.update(root._dict)
         return ret
 
-class DtreeNode(PdagContext):
-    __slots__ = '_dict', '_cost', '_branchmap'
+class DtreeNode(DictBasedPdagContext):
+    __slots__ = '_cost', '_branchmap', '_unset_pnodes'
 
     def __init__(self, base=None):
-        super(DtreeNode, self).__init__()
-
-        self._dict = ChainDict(base._dict) if base is not None else {}
+        super(DtreeNode, self).__init__(ChainDict(base._dict)
+                                        if base is not None else {})
         self._cost = 0
         self._branchmap = {}
+        self._unset_pnodes = set()
 
     def _new_branch(self):
         cls = type(self)
@@ -71,38 +73,65 @@ class DtreeNode(PdagContext):
             branch._dict.update(diffitems)
 
             for pnode, value in diffitems:
-                pnode.context_setting(branch, value)
                 branch._cost += pnode.costs[value]
+                pnode.context_setting(branch, value)
 
         return branch
 
-    def store(self, pnode, value, notify_pnode=True):
-        old_value = super(DtreeNode, self).store(pnode, value, notify_pnode)
+    def __contains__(self, pnode):
+        # Override because of using ChainDict.
+        try:
+            self._dict[pnode]
+        except KeyError:
+            return False
+        else:
+            return True
+
+    def _check_and_set(self, pnode, value):
+        old_value = super(DtreeNode, self)._check_and_set(pnode, value)
 
         if old_value is None:
             if not self._branchmap:
                 self._cost += pnode.costs[value]
             else:
-                # Not sure if it is even possible...
+                # TODO test this logic.
                 del self._dict[pnode]
-                self._merge_changeset({pnode:value}.items())
+                self._merge_changeset(set([(pnode, value)]))
+
+            self._unset_pnodes.discard(pnode)
 
         return old_value
+
+    def _do_eval_unset(self, pnodes):
+        self._unset_pnodes.update(pnodes)
 
     def solve(self, pnodes, initial_values):
         with log.debug("dtree: solving %d nodes", len(pnodes)):
 
-            for pnode, value in initial_values.iteritems():
-                if not isinstance(value, bool):
-                    raise TypeError
+            unset_pnodes = self._unset_pnodes
 
-                self[pnode] = value
+            # We must evaluate constraining nodes in order to enforce
+            # constraint checks.
+            unset_pnodes.update(pnode
+                for pnode in pnodes if isinstance(pnode, pdag.ConstraintNode))
 
-            for pnode in pnodes:
-                if self[pnode] is None:
-                    self._create_branches_on(pnode)
+            # Prepare and commit initial changeset:
+            #   values from arguments and nodes which have constant values.
+            initial_changeset = set(initial_values.iteritems())
+            initial_changeset.update((pnode, pnode.const_value)
+                for pnode in pnodes if isinstance(pnode, pdag.ConstNode))
 
-            self._master_merge()
+            try:
+                self._merge_changeset(initial_changeset)
+
+                # Loop until all reachable nodes get evaluated.
+                while unset_pnodes:
+                    self._create_branches_on(unset_pnodes.pop())
+
+                self._master_merge()
+
+            except PdagContextError:
+                raise DtreeSolveError
 
     def _create_branches_on(self, pnode):
         """Attempt to use proof of contradiction."""
@@ -212,6 +241,7 @@ class DtreeNode(PdagContext):
                                  for pnode, value in self._dict.iteritems())
 
         branchmap = self._branchmap
+        unset_pnodes = self._unset_pnodes
 
         for pnode, value in diffitems:
             # If the pnode has been used for branching then prune a bad one.
@@ -220,6 +250,8 @@ class DtreeNode(PdagContext):
                                                    if b[pnode] == value)
                 if not branches:
                     raise PdagContextError
+
+            unset_pnodes.discard(pnode)
 
             # This may still throw, I think...
             pnode.context_setting(self, value)
@@ -236,7 +268,7 @@ class DtreeNode(PdagContext):
             if len(branches) == 1:
                 resolved_pnodes.add(pnode)
 
-    def _diff_for(self, changeset, cost=None):
+    def _diff_for(self, changeset):
         selfitems = self._itemset()
 
         # Contains _different_ pairs found in either dict, bot not in both.
@@ -255,4 +287,10 @@ class DtreeNode(PdagContext):
     def _itemset(self):
         return set(self._dict.iteritems())
 
+
+class DtreeError(Exception):
+    pass
+
+class DtreeSolveError(DtreeError):
+    pass
 
