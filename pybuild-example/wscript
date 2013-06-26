@@ -4,6 +4,9 @@ build_dir = 'build'
 import os
 import sys
 
+sys.path.insert(0, './tools')
+import mybuild.mywaf
+
 
 def options(ctx):
     ctx.add_option('--template', type='string', default='', action='store',
@@ -11,15 +14,14 @@ def options(ctx):
 
 
 def configure(ctx):
-    print('→ configuring the project in ' + ctx.path.abspath())
-    template_path = './templates/' + ctx.options.template
-    print('→ template path is ' + template_path)
+    template_path = 'templates/' + ctx.options.template
     sys.path.insert(0, template_path)
     import build
 
     crosstool = getattr(build, 'CROSS_COMPILE', '')
     ctx.env.CC = crosstool + "gcc"
     ctx.env.LD = crosstool + "ld"
+    ctx.env.TEMPLATE = template_path
 
     for flag in ['CFLAGS', 'CXXFLAGS', 'CPPFLAGS', 'LDFLAGS', 'ARFLAGS', 'ASFLAGS']:
         setattr(ctx.env, 'user_' + flag, getattr(build, flag, []))
@@ -35,5 +37,7 @@ def configure(ctx):
 
 def build(bld):
     print('CC ' + str(bld.env.CC))
-    print('AR ' + str(bld.env.AR))
     print('LD ' + str(bld.env.LD))
+    print(bld.env.TEMPLATE + '/conf.py')
+    bld.load_myfiles(bld.path.ant_glob('**/Mybuild'), None)
+    bld.load_myfiles(bld.path.ant_glob(bld.env.TEMPLATE + '/conf.py'), None)
