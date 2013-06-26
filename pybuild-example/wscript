@@ -1,5 +1,38 @@
 root_dir = '.'
 build_dir = 'build'
 
+import os
+import sys
+
+
+def options(ctx):
+        ctx.add_option('--template', action='store', default=True, help='using template')
+        
+        
 def configure(ctx):
-        print('→ configuring the project in ' + ctx.path.abspath())
+	print('→ configuring the project in ' + ctx.path.abspath())
+	template_path = './templates/' + ctx.options.template 
+	print('→ template path is ' + template_path)
+	sys.path.insert(0, template_path)
+	import build
+	
+	crosstool = getattr(build, 'CROSS_COMPILE', '')
+	ctx.env.CC = crosstool + "gcc"
+	ctx.env.LD = crosstool + "ld"
+	
+	for flag in ['CFLAGS', 'CXXFLAGS', 'CPPFLAGS', 'LDFLAGS', 'ARFLAGS', 'ASFLAGS']:
+		setattr(ctx.env, 'user_' + flag, getattr(build, flag, []))
+		#setattr(ctx.env, 'system_' + flag, getattr(mybuild.pybuild.flags, flag, []))
+		#setattr(ctx.env, flag, getattr(ctx.env, 'system_' + flag) +
+		#getattr(ctx.env, 'user_' + flag) +
+		#getattr(ctx.env, flag))
+	
+
+	ctx.find_program(ctx.env.CC, var='CC')
+	ctx.find_program(ctx.env.LD, var='LD')
+	    
+        
+def build(bld):
+  	print('CC ' + str(bld.env.CC))
+  	print('AR ' + str(bld.env.AR))
+  	print('LD ' + str(bld.env.LD))
