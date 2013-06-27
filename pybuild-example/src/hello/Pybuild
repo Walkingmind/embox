@@ -1,0 +1,4 @@
+
+@module
+def foo_mod(self):
+	pass
