@@ -39,5 +39,5 @@ def build(bld):
     print('CC ' + str(bld.env.CC))
     print('LD ' + str(bld.env.LD))
     print(bld.env.TEMPLATE + '/conf.py')
-    bld.load_myfiles(bld.path.ant_glob('**/Mybuild'), None)
-    bld.load_myfiles(bld.path.ant_glob(bld.env.TEMPLATE + '/conf.py'), None)
+    bld.load_myfiles('Mybuild')
+    bld.load_myfiles('conf.py', bld.path.find_node(bld.env.TEMPLATE))
