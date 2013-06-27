@@ -39,5 +39,11 @@ def build(bld):
     print('CC ' + str(bld.env.CC))
     print('LD ' + str(bld.env.LD))
     print(bld.env.TEMPLATE + '/conf.py')
+
+    sys.path.insert(0, './src')
+    from prj import hello
+
+    print hello.foo_mod
+
     bld.load_myfiles('Mybuild')
     bld.load_myfiles('conf.py', bld.path.find_node(bld.env.TEMPLATE))
