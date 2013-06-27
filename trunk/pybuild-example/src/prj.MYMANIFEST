@@ -1,0 +1,8 @@
+"""
+Every variable/function defined here is available in each Pybuild file.
+"""
+
+print('executind manifest')
+
+from mybuild import *
+
