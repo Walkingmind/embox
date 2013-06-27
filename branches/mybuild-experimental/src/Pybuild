@@ -1,7 +1,0 @@
-
-package('generic')
-
-runlevel(0)
-runlevel(1)
-runlevel(2)
-runlevel(3)

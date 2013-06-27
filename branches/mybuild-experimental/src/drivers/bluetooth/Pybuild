@@ -1,6 +1,0 @@
-
-package('embox.driver')
-
-interface('Bluetooth')
-
- 
