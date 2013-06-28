@@ -5,7 +5,7 @@ import os
 import sys
 
 sys.path.insert(0, './tools')
-import mybuild.mywaf
+from mybuild import mywaf
 
 
 def options(ctx):
@@ -40,10 +40,32 @@ def build(bld):
     print('LD ' + str(bld.env.LD))
     print(bld.env.TEMPLATE + '/conf.py')
 
-    sys.path.insert(0, './src')
+    def get_defaults():
+        from mybuild import module, option
+        return locals()
+
+    mywaf.my_file_importer.register_namespace('prj', ['src'], get_defaults())
     from prj import hello
 
     print hello.foo_mod
 
     # bld.load_myfiles('Mybuild')
     # bld.load_myfiles('conf.py', bld.path.find_node(bld.env.TEMPLATE))
+
+
+# useful, but not used now
+def _load_defaults_from_file(filename):
+    globals_ = {}
+    execfile(filename, globals_)
+
+    try:
+        attrs = globals_['__all__']
+    except KeyError:
+        attrs = [attr for attr in globals_ if not attr.startswith('_')]
+
+    defaults = {}
+    for attr in attrs:
+        defaults[attr] = globals_[attr]
+
+    return defaults
+
