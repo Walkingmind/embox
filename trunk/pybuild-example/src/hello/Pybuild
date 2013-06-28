@@ -1,4 +1,4 @@
 
 @module
 def foo_mod(self):
-	pass
+	self.source('hello.c')
