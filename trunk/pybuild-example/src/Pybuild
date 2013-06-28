@@ -1,0 +1,6 @@
+
+print 'executing [src/Pybuild]', __name__
+
+@module
+def hello_mod(self, iteration=42):
+    self.source('hello.c')

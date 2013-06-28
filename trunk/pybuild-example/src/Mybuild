@@ -1,4 +1,0 @@
-
-@module
-def hello(self, iteration=42):
-    self.source('hello.c')
