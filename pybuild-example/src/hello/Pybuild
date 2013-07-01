@@ -3,4 +3,5 @@ print 'executing [src/hello/Pybuild]', __name__
 
 @module
 def foo_mod(self):
-	self.source('hello.c')
+    # self.source('hello.c')
+    pass
