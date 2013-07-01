@@ -1,0 +1,5 @@
+print 'executing [template/x86/Debug/Pybuild]', __name__
+
+@module
+def conf(self):
+    self.constrain(prj.hello)
