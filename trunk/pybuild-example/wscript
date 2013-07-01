@@ -6,8 +6,10 @@ import sys
 
 sys.path.insert(0, './tools')
 from mybuild import mywaf
-from mybuild.context import Context
-from mybuild.solver import solve 
+from mybuild.context import Context, InstanceAtom
+from mybuild.solver import solve
+
+from mybuild.compat import *
 
 
 def options(ctx):
@@ -38,24 +40,18 @@ def build(bld):
     print(bld.env.TEMPLATE + '/conf.py')
 
     print(bld.path.find_node(bld.env.TEMPLATE).abspath())
-	
+
     def get_defaults():
         from mybuild import module, option
         return locals()
-    
+
     prj = bld.my_load('prj', ['src', bld.env.TEMPLATE], get_defaults(), ['Pybuild'])
-    print prj.hello.foo_mod
-    
-    prj = __import__('prj')
-    packet_name = 'hello'
-    __import__('prj.' + packet_name)
-    __import__('prj.' + 'conf')
-    
-    
+
     ################################
+    conf = prj.conf.conf
 
     context = Context()
-    context.consider(prj.conf.conf)
+    context.consider(conf)
 
     g = context.create_pgraph()
 
@@ -64,9 +60,8 @@ def build(bld):
     for pnode, value in iteritems(solution):
         if isinstance(pnode, InstanceAtom):
             print '>>>', value, pnode
-            srcs = getattr(pnode.instance, 'sources', '')
-            
-    
+
+
 
 
 # useful, but not used now
