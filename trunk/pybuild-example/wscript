@@ -6,6 +6,8 @@ import sys
 
 sys.path.insert(0, './tools')
 from mybuild import mywaf
+from mybuild.context import Context
+from mybuild.solver import solve 
 
 
 def options(ctx):
@@ -25,11 +27,6 @@ def configure(ctx):
 
     for flag in ['CFLAGS', 'CXXFLAGS', 'CPPFLAGS', 'LDFLAGS', 'ARFLAGS', 'ASFLAGS']:
         setattr(ctx.env, 'user_' + flag, getattr(build, flag, []))
-        #setattr(ctx.env, 'system_' + flag, getattr(mybuild.pybuild.flags, flag, []))
-        #setattr(ctx.env, flag, getattr(ctx.env, 'system_' + flag) +
-        #getattr(ctx.env, 'user_' + flag) +
-        #getattr(ctx.env, flag))
-
 
     ctx.find_program(ctx.env.CC, var='CC')
     ctx.find_program(ctx.env.LD, var='LD')
@@ -40,12 +37,36 @@ def build(bld):
     print('LD ' + str(bld.env.LD))
     print(bld.env.TEMPLATE + '/conf.py')
 
+    print(bld.path.find_node(bld.env.TEMPLATE).abspath())
+	
     def get_defaults():
         from mybuild import module, option
         return locals()
-
-    prj = bld.my_load('prj', ['src'], get_defaults(), ['Pybuild'])
+    
+    prj = bld.my_load('prj', ['src', bld.env.TEMPLATE], get_defaults(), ['Pybuild'])
     print prj.hello.foo_mod
+    
+    prj = __import__('prj')
+    packet_name = 'hello'
+    __import__('prj.' + packet_name)
+    __import__('prj.' + 'conf')
+    
+    
+    ################################
+
+    context = Context()
+    context.consider(prj.conf.conf)
+
+    g = context.create_pgraph()
+
+    solution = solve(g, {g.atom_for(conf):True})
+
+    for pnode, value in iteritems(solution):
+        if isinstance(pnode, InstanceAtom):
+            print '>>>', value, pnode
+            srcs = getattr(pnode.instance, 'sources', '')
+            
+    
 
 
 # useful, but not used now
