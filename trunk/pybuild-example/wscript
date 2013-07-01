@@ -44,13 +44,8 @@ def build(bld):
         from mybuild import module, option
         return locals()
 
-    mywaf.my_file_importer.register_namespace('prj', ['src'], get_defaults())
-    from prj import hello
-
-    print hello.foo_mod
-
-    # bld.load_myfiles('Mybuild')
-    # bld.load_myfiles('conf.py', bld.path.find_node(bld.env.TEMPLATE))
+    prj = bld.my_load('prj', ['src'], get_defaults(), ['Pybuild'])
+    print prj.hello.foo_mod
 
 
 # useful, but not used now
