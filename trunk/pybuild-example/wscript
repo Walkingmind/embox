@@ -5,11 +5,9 @@ import os
 import sys
 
 sys.path.insert(0, './tools')
-from mybuild import mywaf
-from mybuild.context import Context, InstanceAtom
-from mybuild.solver import solve
 
-from mybuild.compat import *
+from mywaf.model import create_model
+
 
 
 def options(ctx):
@@ -41,26 +39,7 @@ def build(bld):
 
     print(bld.path.find_node(bld.env.TEMPLATE).abspath())
 
-    def get_defaults():
-        from mybuild import module, option
-        return locals()
-
-    prj = bld.my_load('prj', ['src', bld.env.TEMPLATE], get_defaults(), ['Pybuild'])
-
-    ################################
-    conf = prj.conf.conf
-
-    context = Context()
-    context.consider(conf)
-
-    g = context.create_pgraph()
-
-    solution = solve(g, {g.atom_for(conf):True})
-
-    for pnode, value in iteritems(solution):
-        if isinstance(pnode, InstanceAtom):
-            print '>>>', value, pnode
-
+    create_model(bld)
 
 
 
