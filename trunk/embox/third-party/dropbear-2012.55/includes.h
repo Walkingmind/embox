@@ -50,7 +50,7 @@
 #include <string.h>
 #include <termios.h>
 #include <unistd.h>
-#include <syslog.h>
+#include "syslog.h"
 
 #include <netdb.h>
 #include <ctype.h>
