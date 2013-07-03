@@ -2,6 +2,6 @@
 print 'executing [src/hello/Pybuild]', __name__
 
 @module
-def foo_mod(self):
-    # self.source('hello.c')
-    pass
+def main(self):
+    self.sources = 'hello.c'
+    #pass
