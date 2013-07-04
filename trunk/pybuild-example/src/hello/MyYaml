@@ -1,0 +1,4 @@
+
+!module
+    id: yaml_module
+    sources: hello.c
