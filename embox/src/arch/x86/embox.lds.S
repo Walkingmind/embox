@@ -41,6 +41,9 @@ SECTIONS {
 	.data : {
 		REGION_ALIGN();
 		*(.data)
+		*(.data.*)
+		*(.got.*)
+		*(.got)
 		REGION_ALIGN();
 	} SECTION_REGION(data) :data
 	SECTION_SYMBOLS(data)
@@ -48,6 +51,7 @@ SECTIONS {
 	.bss : {
 		REGION_ALIGN();
 		*(.bss)
+		*(.bss.*)
 		REGION_ALIGN();
 	} SECTION_REGION(bss) :data
 	SECTION_SYMBOLS(bss)
@@ -64,6 +68,7 @@ SECTIONS {
 	/DISCARD/ : {
 		*(.comment)
 		*(.eh_frame)
+		*(.note.*)
 	}
 }
 
