@@ -153,6 +153,7 @@ static int tst_srv(int argc, char **argv){
 	}
 
 	while (1) {
+		addr_len = sizeof addr;
 		res = accept(host,(struct sockaddr *)&addr, &addr_len);
 		if (res <= 0) {
 			/* error code in client, now */
