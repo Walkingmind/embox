@@ -86,8 +86,6 @@
 #include <netinet/in_systm.h>
 #endif
 
-#include <net/ip.h>
-
 #ifdef HAVE_NETINET_TCP_H
 #include <netinet/tcp.h>
 #endif
