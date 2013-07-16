@@ -20,6 +20,11 @@
 #include <embox/cmd.h>
 #include <kernel/thread.h>
 
+#include <net/netfilter.h>
+#include <util/hashtable.h>
+#include <mem/misc/pool.h>
+#include <kernel/time/timer.h>
+
 #define MAX_ITER_COUNT 	LLONG_MAX
 
 EMBOX_CMD(tst_srv);
@@ -122,6 +127,106 @@ static void * client_process(void * args) {
 	return (void*)0;
 }
 
+#define PKT_HT_SZ        10
+#define PKT_POOL_SZ      10
+#define PKT_LIMIT        5
+#define PKT_TMR_INTERVAL 3000
+
+struct pkt_ht_item {
+	unsigned char sha[ETH_ALEN];
+	size_t cnt;
+};
+
+POOL_DEF(pkt_ht_item_pool, struct pkt_ht_item, PKT_POOL_SZ);
+static struct sys_timer pkt_tmr;
+
+static int pkt_counter_callback(const struct nf_rule *test_r,
+		struct hashtable *pkt_ht) {
+	struct pkt_ht_item *item;
+
+	if (test_r->not_hwaddr_src) {
+		return 0; /* ok: mac addres not specify */
+	}
+
+	item = hashtable_get(pkt_ht, (void *)&test_r->hwaddr_src[0]);
+	if (item == NULL) {
+		item = pool_alloc(&pkt_ht_item_pool);
+		if (item == NULL) {
+			return 1; /* drop: error: no memory */
+		}
+		memcpy(item->sha, test_r->hwaddr_src, ETH_ALEN);
+		item->cnt = 0;
+	}
+
+	++item->cnt;
+
+	printf("pkt_cnt for %x:%x:%x:%x:%x:%x is %zu%s",
+			item->sha[0], item->sha[1], item->sha[2],
+			item->sha[3], item->sha[4], item->sha[5],
+			item->cnt,
+			item->cnt > PKT_LIMIT ? "(dropped)" : "");
+
+	if (item->cnt > PKT_LIMIT) {
+		return 1; /* drop: flood from this host */
+	}
+
+	return 0; /* ok */
+}
+
+static size_t pkt_ht_key_hash(void *key_) {
+	unsigned short *key = key_;
+	return key[0] + key[1] + key[2];
+}
+
+static int pkt_ht_key_cmp(void *key1, void *key2) {
+	return memcmp(key1, key2, ETH_ALEN);
+}
+
+static void pkt_tmr_hnd(struct sys_timer *tmr, struct hashtable *ht) {
+	unsigned char **key;
+	struct pkt_ht_item *item;
+
+	while ((key = hashtable_get_key_first(ht)) != NULL) {
+		item = hashtable_get(ht, *key);
+		assert(item != NULL);
+		hashtable_del(ht, *key);
+		pool_free(&pkt_ht_item_pool, item);
+	}
+}
+
+static int pkt_counter_init(void) {
+	int ret;
+	struct nf_rule rule;
+	struct hashtable *pkt_ht;
+
+	pkt_ht = hashtable_create(PKT_HT_SZ, pkt_ht_key_hash,
+			pkt_ht_key_cmp);
+	if (pkt_ht == NULL) {
+		return -ENOMEM;
+	}
+
+	ret = timer_init(&pkt_tmr, TIMER_PERIODIC, PKT_TMR_INTERVAL,
+			(sys_timer_handler_t)pkt_tmr_hnd, pkt_ht);
+	if (ret != 0) {
+		hashtable_destroy(pkt_ht);
+		return ret;
+	}
+
+	nf_rule_init(&rule);
+	rule.target = NF_TARGET_ACCEPT;
+	rule.test_hnd = (nf_test_hnd)pkt_counter_callback;
+	rule.test_hnd_data = (void *)pkt_ht;
+
+	ret = nf_add_rule(NF_CHAIN_INPUT, &rule);
+	if (ret != 0) {
+		timer_close(&pkt_tmr);
+		hashtable_destroy(pkt_ht);
+		return ret;
+	}
+
+	return 0;
+}
+
 static int tst_srv(int argc, char **argv){
 	int res, host;
 	socklen_t addr_len;
@@ -130,6 +235,11 @@ static int tst_srv(int argc, char **argv){
 	addr.sin_family = AF_INET;
 	addr.sin_port= htons(7770);
 	addr.sin_addr.s_addr = htonl(INADDR_ANY);
+
+	res = pkt_counter_init();
+	if (res != 0) {
+		return res;
+	}
 
 	pi_test(6);
 
