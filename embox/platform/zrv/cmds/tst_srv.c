@@ -25,6 +25,8 @@
 #include <mem/misc/pool.h>
 #include <kernel/time/timer.h>
 
+#include <kernel/softirq.h>
+
 #define MAX_ITER_COUNT 	LLONG_MAX
 
 EMBOX_CMD(tst_srv);
@@ -44,9 +46,6 @@ static void pi_test(int accuracy) {
 		if (s1-s2 < acc_delta ) break;
 		}
 }
-
-
-
 
 static void * client_process(void * args) {
 
@@ -129,7 +128,7 @@ static void * client_process(void * args) {
 
 #define PKT_HT_SZ        10
 #define PKT_POOL_SZ      10
-#define PKT_LIMIT        5
+#define PKT_LIMIT        300
 #define PKT_TMR_INTERVAL 3000
 
 struct pkt_ht_item {
@@ -148,7 +147,9 @@ static int pkt_counter_callback(const struct nf_rule *test_r,
 		return 0; /* ok: mac addres not specify */
 	}
 
-	item = hashtable_get(pkt_ht, (void *)&test_r->hwaddr_src[0]);
+	softirq_lock();
+	item = hashtable_get(pkt_ht, (void *) test_r->hwaddr_src);
+	softirq_unlock();
 	if (item == NULL) {
 		item = pool_alloc(&pkt_ht_item_pool);
 		if (item == NULL) {
@@ -156,15 +157,13 @@ static int pkt_counter_callback(const struct nf_rule *test_r,
 		}
 		memcpy(item->sha, test_r->hwaddr_src, ETH_ALEN);
 		item->cnt = 0;
+
+		softirq_lock();
+		hashtable_put(pkt_ht, item->sha, item);
+		softirq_unlock();
 	}
 
 	++item->cnt;
-
-	printf("pkt_cnt for %x:%x:%x:%x:%x:%x is %zu%s",
-			item->sha[0], item->sha[1], item->sha[2],
-			item->sha[3], item->sha[4], item->sha[5],
-			item->cnt,
-			item->cnt > PKT_LIMIT ? "(dropped)" : "");
 
 	if (item->cnt > PKT_LIMIT) {
 		return 1; /* drop: flood from this host */
@@ -186,12 +185,14 @@ static void pkt_tmr_hnd(struct sys_timer *tmr, struct hashtable *ht) {
 	unsigned char **key;
 	struct pkt_ht_item *item;
 
+	softirq_lock();
 	while ((key = hashtable_get_key_first(ht)) != NULL) {
 		item = hashtable_get(ht, *key);
 		assert(item != NULL);
 		hashtable_del(ht, *key);
 		pool_free(&pkt_ht_item_pool, item);
 	}
+	softirq_unlock();
 }
 
 static int pkt_counter_init(void) {
