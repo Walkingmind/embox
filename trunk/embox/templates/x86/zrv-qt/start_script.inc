@@ -26,5 +26,7 @@
 "dropbear",
 "httpd &",
 "snmpd &",
+"mkpart -b /dev/hda -n hda0 -o 461280 -l 3701772",
+"mount -t ext2 /dev/hda0 /mnt",
 "export QT_QPA_FONTDIR=/fonts",
 "cxxapp -platform emboxvc",
