@@ -45,6 +45,7 @@
       * [KernelCritical Critical API]
       * [KernelMultitasking Multitasking]
         * [KernelThreads Threads]
+        * [EmboxKernelThread Thread package]
         * [KernelTasks Tasks]
         * [Scheduler Scheduler]
         * [SchedulerStrategy SchedulerStrategy]
