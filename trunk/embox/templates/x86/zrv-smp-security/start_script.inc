@@ -10,7 +10,7 @@
 
 "smac_adm -R high_label -o low_label  -a r",
 "smac_adm -R low_label  -o high_label -a w",
-"smac_adm -R _  	-o smac_admin -a r",
+"smac_adm -R _  	-o smac_admin -a rw",
 
 "smac_adm -R confidentially -o unclassified  -a r",
 "smac_adm -R confidentially -o service  -a r",
@@ -21,3 +21,12 @@
 
 "smac_adm -R service -o unclassified  -a r",
 
+"smac_adm -R high_label		-o default   -a rwx",
+"smac_adm -R low_label		-o default   -a rwx",
+"smac_adm -R confidentially  	-o default   -a rwx",
+"smac_adm -R secret  		-o default   -a rwx",
+"smac_adm -R service    	-o default   -a rwx",
+"smac_adm -R unclassified    	-o default   -a rwx",
+"smac_adm -R _			-o default   -a rwx",
+
+"login",

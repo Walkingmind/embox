@@ -37,11 +37,20 @@ static struct test_res ref_write = {
 	},
 	.tr_pos = NFILES * NUSERS,
 };
+
+static void init_test(struct test_res *tr) {
+	tr->tr_pos = 0;
+
+}
+
 static int smac_test(int argc, char *argv[]) {
 	const struct shell *sh = shell_lookup("tish");
 	int cmp;
 
 	printf("\nStarting mandatory testsuite\n");
+
+	init_test(&__zrv_smac_write);
+	init_test(&__zrv_smac_read);
 
 	shell_exec(sh, "su -c smac_test_piece unclassified");
 	shell_exec(sh, "su -c smac_test_piece service");
