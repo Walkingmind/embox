@@ -134,3 +134,12 @@ module udp_echo {
 	depends embox.compat.posix.LibPosix
 	depends embox.framework.LibFramework
 }
+
+module grid {
+	source "grid_sched.c"
+
+	depends embox.kernel.thread.core
+	depends embox.compat.posix.net.socket
+	depends embox.compat.posix.LibPosix
+	depends embox.framework.LibFramework
+}

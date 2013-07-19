@@ -38,12 +38,13 @@ define myfile_create_resource_set
 		$(call myfile_resources_check_optionbind,$(get rs->resources))
 
 		$(silent-for \
-			res <- $1, 
+			res <- $1,
 			obj <- $(get res->contents),
 			$(if $(invoke MyFile_AnnotationTarget->isInstance,$(obj)),
 				$(call mybuild_annotation_process,MyLink,$(obj),$(res)))
-			$(if $(invoke MyFile_ModuleType->isInstance,$(obj)),
-				$(call check_cyclic_dependency,$(obj),,$(rs))))
+#			$(if $(invoke MyFile_ModuleType->isInstance,$(obj)),
+#				$(call check_cyclic_dependency,$(obj),,$(rs)))
+			)
 
 		$(for r <- $(get rs->resources),
 			$(invoke r->printIssues))
@@ -51,6 +52,7 @@ define myfile_create_resource_set
 		$(rs))
 endef
 
+# this crap works very sloooooooooow, consider avoiding recursion here.
 define check_cyclic_dependency
 	$(if $(filter $1, $2),
 		$(warning $(for mod <- $1 $2, $(get mod->qualifiedName)):

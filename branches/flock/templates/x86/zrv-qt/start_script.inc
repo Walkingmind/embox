@@ -1,9 +1,32 @@
-/* Setup loopback interface */
 "ifconfig lo 127.0.0.1 netmask 255.0.0.0 up",
 "route add 127.0.0.0 netmask 255.0.0.0 lo",
 /* Setup eth0 interface */
-"ifconfig eth0 10.0.2.16 netmask 255.255.255.0 hw ether AA:BB:CC:DD:EE:02 up",
-"route add 10.0.2.0 netmask 255.255.255.0 eth0",
-"route add default gw 10.0.2.10 eth0",
-"export QT_QPA_FONTDIR=/",
-"cxxapp -platform emboxvc"
+"ifconfig eth0 up",
+"ifconfig eth0 192.168.51.191 netmask 255.255.255.0 hw ether AA:BB:CC:DD:EE:02",
+"route add 192.168.51.0 netmask 255.255.255.0 eth0",
+"date -s 201304161719.20",
+"mkdir /mnt",
+"mkdir /mandatory_test",
+"mount -t ext2 /dev/hda /mandatory_test",
+
+"smac_adm -R high_label -o low_label  -a r",
+"smac_adm -R low_label  -o high_label -a w",
+"smac_adm -R _  	-o smac_admin -a r",
+
+"smac_adm -R confidentially -o unclassified  -a r",
+"smac_adm -R confidentially -o service  -a r",
+"smac_adm -R confidentially -o secret  -a r",
+
+"smac_adm -R secret -o unclassified  -a r",
+"smac_adm -R secret -o service  -a r",
+
+"smac_adm -R service -o unclassified  -a r",
+
+"telnetd &",
+"dropbear",
+"httpd &",
+"snmpd &",
+"mkpart -b /dev/hda -n hda0 -o 461280 -l 3701772",
+"mount -t ext2 /dev/hda0 /mnt",
+"export QT_QPA_FONTDIR=/fonts",
+"cxxapp -platform emboxvc",

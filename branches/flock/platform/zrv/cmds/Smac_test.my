@@ -1,0 +1,15 @@
+
+package zrv.cmd
+
+module smac_test {
+	@IncludePath("$(PLATFORM_DIR)/zrv/include")
+	source "smac_test.c"
+	depends smac_test_piece
+}
+
+module smac_test_piece {
+	@IncludePath("$(PLATFORM_DIR)/zrv/include")
+	source "smac_test_piece.c"
+}
+
+

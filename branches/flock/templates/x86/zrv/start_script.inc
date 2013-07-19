@@ -5,10 +5,12 @@
 "ifconfig eth0 up",
 "ifconfig eth0 192.168.51.191 netmask 255.255.255.0 hw ether AA:BB:CC:DD:EE:02",
 "route add 192.168.51.0 netmask 255.255.255.0 eth0",
+"date -s 201304161719.20",
 "telnetd &",
 "dropbear &",
 "httpd &",
-"snmpd &"
+"snmpd &",
+"login",
 
 
 

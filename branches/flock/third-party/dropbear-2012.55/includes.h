@@ -50,7 +50,7 @@
 #include <string.h>
 #include <termios.h>
 #include <unistd.h>
-#include <syslog.h>
+#include "syslog.h"
 
 #include <netdb.h>
 #include <ctype.h>
@@ -85,8 +85,6 @@
 #ifdef HAVE_NETINET_IN_SYSTM_H
 #include <netinet/in_systm.h>
 #endif
-
-#include <net/ip.h>
 
 #ifdef HAVE_NETINET_TCP_H
 #include <netinet/tcp.h>

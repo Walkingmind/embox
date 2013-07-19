@@ -474,8 +474,8 @@ static void *child_handler(void *arg) {
 	int *outfds = data.outfds;
 	int *errfds = data.errfds;
 	int *ret_errfd = data.ret_errfd;
-	//void(*exec_fn)(void *user_data) = data.exec_fn;
-	//void *exec_data = data.exec_data;
+	void(*exec_fn)(void *user_data) = data.exec_fn;
+	void *exec_data = data.exec_data;
 
 	const int FDIN = 0;
 	const int FDOUT = 1;
@@ -510,10 +510,12 @@ static void *child_handler(void *arg) {
 		close(errfds[FDOUT]);
 	}
 
-#ifdef EMBOX_FULL
 	exec_fn(exec_data);
+#if 0
+#ifdef EMBOX_FULL
 #else
 	shell_run(shell_lookup("tish"));
+#endif
 #endif
 	/* not reached */
 	return NULL;
