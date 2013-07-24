@@ -6,8 +6,6 @@
 "route add 192.168.51.0 netmask 255.255.255.0 eth0",
 "date -s 201304161719.20",
 "mkdir /mnt",
-"mkdir /mandatory_test",
-"mount -t ext2 /dev/hda /mandatory_test",
 
 "smac_adm -R high_label -o low_label  -a r",
 "smac_adm -R low_label  -o high_label -a w",
@@ -26,7 +24,6 @@
 "dropbear",
 "httpd &",
 "snmpd &",
-"mkpart -b /dev/hda -n hda0 -o 461280 -l 3701772",
-"mount -t ext2 /dev/hda0 /mnt",
+"mount -t ext2 /dev/hda /mnt",
 "export QT_QPA_FONTDIR=/fonts",
 "cxxapp -platform emboxvc",
