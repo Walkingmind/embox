@@ -50,6 +50,7 @@
         * [Scheduler Scheduler]
         * [SchedulerStrategy SchedulerStrategy]
         * [TrivialScheduler TrivialScheduler]
+        * [EmboxKernelCpu CPU package]
     * [Hal Hardware Abstraction Layer]
     * [MemoryAllocation Memory allocation]
       * [AlgorithmAllocationMemory Allocation algorithms]
