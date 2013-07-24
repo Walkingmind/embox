@@ -1,5 +1,5 @@
 
-package embox.cmd
+package embox.cmd.user
 
 @Cmd(name = "login",
 	help = "Prompts user name and password and login that user",
@@ -18,10 +18,9 @@ module login {
 	@IncludePath("$(THIRDPARTY_DIR)/include")
 	source "login.c"
 
-	depends embox.lib.LibC
 	depends embox.compat.posix.passwd
 	depends embox.compat.posix.utmp_api
-	depends embox.kernel.task.waitpid 
+	depends embox.kernel.task.waitpid
 	depends embox.security.smac 
 	depends third_party.lib.linenoise
 
