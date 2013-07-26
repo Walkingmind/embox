@@ -55,14 +55,22 @@ static void * client_process(void * args) {
 	fd_set fds;
 	int bytes;
 
-	int sock;
+	int sock, actn;
 
 	sock=(int)args;
 	FD_ZERO(&fds);
 	FD_SET(sock,&fds);
 	printf("Wait request...\n");
 
-	usleep(10);
+	tv.tv_sec = 1;
+	tv.tv_usec = 0;
+
+	actn = select(sock + 1, &fds, NULL, NULL, &tv);
+	if (actn <= 0) {
+		close(sock);
+		return NULL;
+	}
+
 	bytes=0;
 	memset(buf,0,sizeof(buf));
 	bytes = recv( sock, buf, sizeof(buf)-1, 0);
@@ -270,7 +278,10 @@ static int tst_srv(int argc, char **argv){
 			/* error code in client, now */
 			printf("Error.. accept() failed. errno=%d\n", errno);
 			continue;
+		} else {
+			printf("accept ok\n");
 		}
+
 		if(thread_create(&tr, 0, client_process, (void *) res)){
 			printf("Error.. thread_create() failed. errno=%d\n", errno);
 			continue;
