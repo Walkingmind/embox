@@ -1,0 +1,28 @@
+package embox.cmd.net
+
+@Cmd(name = "ntpd",
+	help = "Network Time Protocol (NTP) daemon",
+	man = '''
+		NAME
+			ntpd - Network Time Protocol (NTP) daemon
+		SYNOPSIS
+			ntpd server
+		DESCRIPTION
+			TODO
+		AUTHORS
+			Alexander Kalmuk
+			Ilia Vaprol
+	''')
+module ntpd {
+	source "ntpd.c"
+	
+	depends embox.compat.posix.fs.file_ops
+	depends embox.compat.posix.net.inet_addr
+	depends embox.compat.posix.net.socket
+	depends embox.compat.posix.util.getopt
+	depends embox.framework.LibFramework
+	depends embox.kernel.time.timekeeper
+	depends embox.kernel.timer.sys_timer
+	depends embox.lib.LibC
+	depends embox.net.lib.ntp
+}
