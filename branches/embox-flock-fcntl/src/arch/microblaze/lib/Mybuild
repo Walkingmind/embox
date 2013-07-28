@@ -1,0 +1,6 @@
+package embox.arch.microblaze
+
+static module libarch extends embox.arch.libarch {
+	source "setjmp.S"
+	source "cmpxchg_impl.h"
+}

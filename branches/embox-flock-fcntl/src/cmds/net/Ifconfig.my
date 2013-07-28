@@ -1,0 +1,69 @@
+package embox.cmd.net
+
+@Cmd(name = "ifconfig",
+	help = "Configure a network interface",
+	man = '''
+		NAME
+			ifconfig - configure a network interface
+		SYNOPSIS
+			ifconfig [-v] [-a] [-s] [interface]
+			ifconfig [-v] interface [aftype] options | address ...
+		DESCRIPTION
+			Ifconfig is used to configure the kernel-resident
+			network interfaces. If no arguments are given, ifconfig
+			displays the status of the currently active interfaces.
+			command changes ip/mac addresses of specified interface.
+		OPTIONS
+			-a		display all interfaces which are currently available, even if down
+			-s		display a short list
+			-v		be more verbose for some error conditions
+			interface
+					the name of the interface
+			up		activate interface
+			down	shutdown interface
+			[-]arp	enable or disable ARP protocol on this interface
+			[-]promisc
+					enable or disable promiscuous mode on this interface
+			[-]allmulti
+					enable or disable all-multicast mode
+			metric N
+					set the interface metric
+			mtu N	set the MTU for this interface
+			dstaddr addr
+					set the remote IP address for a point-to-point link
+			netmask addr
+					set the network mask for this interface
+			irq N	set the interrupt number for interface device
+			io_addr N
+					set the base address for interface device
+			[-]broadcast [addr]
+					if addr is given, set protocol broadcast address; otherwise set (or clear)
+					IFF_BROADCAST flag for interface
+			[-]pointopoint [addr]
+					enable point-to-point mode on this interface
+			hw class address
+					set the hardware address of this interface
+			multicast
+					set the multicast flag on this iterface
+			address
+					the IP address to be assigned to this interface
+			txqueuelen
+					set the length of the transmit queue of this device
+		EXAMPLES
+			ifconfig eth0 10.0.2.16 netmask 255.255.255.0 up
+				This will setup new interface eth0.
+		SEE ALSO
+			route, arp
+		AUTHORS
+			Anton Bondarev, Alexandr Batyukov, Ilia Vaprol
+	''')
+module ifconfig {
+	source "ifconfig.c"
+
+	depends embox.lib.LibC
+	depends embox.compat.posix.net.inet_addr
+	depends embox.net.core
+	depends embox.net.util.macaddr
+	depends embox.net.af_inet
+	depends embox.framework.LibFramework
+}
