@@ -1,0 +1,5 @@
+
+module mybuild_module (opt = option.str) {
+	"Example"
+	files: "hello.c"
+}
