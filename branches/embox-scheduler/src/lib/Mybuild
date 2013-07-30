@@ -1,0 +1,176 @@
+package embox.lib
+
+@DefaultImpl(rl_linenoise)
+abstract module readline_api { }
+
+module rl_linenoise extends readline_api {
+	@IncludePath("$(THIRDPARTY_DIR)/include")
+	source "readline/rl_linenoise.c"
+
+	depends embox.compat.posix.fs.dirent
+	depends embox.lib.LibC
+	depends third_party.lib.linenoise
+}
+
+static module LibCurses {
+	source "curses.c"
+
+	depends embox.compat.posix.termios
+	depends embox.mem.pool
+}
+
+static module LibElf {
+	source "elf/elf.c"
+
+	depends LibCStdio
+	depends LibCString
+}
+
+static module LibExec {
+	source "exec/exec.c"
+
+	depends embox.mem.mmap_api
+	depends LibElf
+}
+
+static module LibCDiagnostic {
+	source "assert.c"
+	source "assert_impl.h"
+	depends LibCStdio
+}
+
+static module LibCMisc {
+	source "crypt/crc32.c"
+	source "crypt/md5.c"
+	source "crypt/b64.c"
+	source "ctype/ctype.c"
+}
+
+static module LibCStdlib {
+	source "stdlib/bsearch.c"
+	source "stdlib/qsort.c"
+	source "stdlib/rand.c"
+	source "stdlib/random.c"
+	source "stdlib/random_r.c"
+	source "stdlib/strtod.c"
+	source "stdlib/strtol.c"
+	source "stdlib/strtoul.c"
+	source "stdlib/abort.c"
+	source "stdlib/system.c"
+}
+
+static module LibCString {
+	source "string/memchr.c"
+	source "string/memcmp.c"
+	source "string/memcpy.c"
+	source "string/memmove.c"
+	source "string/memset.c"
+	source "string/strcat.c"
+	source "string/strchr.c"
+	source "string/strcmp.c"
+	source "string/strcpy.c"
+	source "string/strcspn.c"
+	source "string/strerror.c"
+	source "string/strlen.c"
+	source "string/strlwr.c"
+	source "string/strncat.c"
+	source "string/strncmp.c"
+	source "string/strncpy.c"
+	source "string/strpbrk.c"
+	source "string/strrchr.c"
+	source "string/strspn.c"
+	source "string/strstr.c"
+	source "string/strupr.c"
+
+	source "string/strdup.c"
+	depends embox.mem.heap_api
+}
+
+static module LibCMath {
+	source "math/fabs.c"
+	source "math/round.c"
+	source "math/lround.c"
+	source "math/llround.c"
+	source "math/floor.c"
+	source "math/ceil.c"
+	source "math/trunc.c"
+	source "math/copysign.c"
+	source "math/signbit.c"
+	source "math/isnan.c"
+	source "math/isinf.c"
+	source "math/finite.c"
+	source "math/fmod.c"
+	source "math/modf.c"
+	source "math/pow.c"
+	source "math/log10.c"
+	source "math/div.c"
+	source "math/ldiv.c"
+	source "math/blog2.c"
+	source "math/sqrt.c"
+	depends third_party.lib.Fdlibm
+
+	@IncludePath("$(THIRDPARTY_DIR)/include")
+	source "soft-fp/sf.c", "soft-fp/df.c", "soft-fp/tf.c"
+	depends third_party.lib.softfloat
+
+	source "gcc/clzsi2.c"
+	source "gcc/lshrdi3.c"
+	source "gcc/divdi3.c"
+	source "gcc/divsi3.c"
+	source "gcc/moddi3.c"
+	source "gcc/modsi3.c"
+	source "gcc/udivdi3.c"
+	source "gcc/udivsi3.c"
+	source "gcc/umoddi3.c"
+	source "gcc/umodsi3.c"
+	source "gcc/muldi3.c"
+}
+
+static module LibCStdio {
+
+	option boolean stdio_lf_crlf_map = true
+	option number file_quantity = 16
+	option number support_floating = 1
+
+	source "stdio/fgetc.c"
+
+	source "stdio/file_ops.c"
+	depends embox.compat.posix.fs.open
+
+	source "stdio/fputc.c"
+	source "stdio/gets.c"
+	source "stdio/perror.c"
+	source "stdio/printf.c"
+	source "stdio/printf_impl.c"
+	source "stdio/fprintf.c"
+	source "stdio/sprintf.c"
+	source "stdio/snprintf.c"
+	source "stdio/printk.c"
+	source "stdio/puts.c"
+	source "stdio/rename.c"
+	source "stdio/scanf.c"
+
+	depends LibCMath
+	depends LibCString
+	//depends embox.driver.iodev.core
+	depends embox.compat.posix.fs.file
+
+	/**
+	 * XXX
+	 * putchar depends from embox.kernel.task.task_table
+	 */
+}
+
+static module LibC {
+	source "time/ctime.c"
+	source "time/strftime.c"
+
+	depends LibCDiagnostic
+	depends LibCMisc
+	depends LibCStdlib
+	depends LibCString
+	depends LibCMath
+	depends	LibCStdio
+/* not here */
+	source "shell/tokenizer.c"
+}
