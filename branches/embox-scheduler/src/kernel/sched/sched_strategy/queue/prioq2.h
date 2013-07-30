@@ -10,7 +10,6 @@
 #define KERNEL_THREAD_QUEUE_PRIOQ2_H_
 
 #include <util/dlist.h>
-#include <util/prioq.h>
 
 #include <kernel/sched/sched_priority.h>
 
@@ -20,14 +19,8 @@ struct runq_queue {
 
 };
 
-#if 0
-struct sched_strategy_data {
-	struct dlist_head link;     /* If thread is in runq */
-	struct prioq_link pq_link;  /* If thread is in sleepq */
-};
-#endif
 
-typedef struct prioq_link runq_item_t;
+typedef struct dlist_head runq_item_t;
 
 typedef struct runq_queue runq_queue_t;
 
