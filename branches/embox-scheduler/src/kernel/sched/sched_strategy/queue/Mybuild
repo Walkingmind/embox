@@ -1,4 +1,4 @@
-package embox.kernel.sched.sched_policy.queue
+package embox.kernel.sched.strategy.queue
 
 @DefaultImpl(prioq)
 abstract module api { }

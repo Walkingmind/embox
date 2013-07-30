@@ -14,17 +14,20 @@
 
 #include <kernel/sched/sched_priority.h>
 
+
 struct runq_queue {
 	struct dlist_head list[SCHED_PRIORITY_TOTAL];
 
-/* TODO: */
-//	int mask[MASK_LEN];
 };
 
+#if 0
 struct sched_strategy_data {
 	struct dlist_head link;     /* If thread is in runq */
 	struct prioq_link pq_link;  /* If thread is in sleepq */
 };
+#endif
+
+typedef struct prioq_link runq_item_t;
 
 typedef struct runq_queue runq_queue_t;
 

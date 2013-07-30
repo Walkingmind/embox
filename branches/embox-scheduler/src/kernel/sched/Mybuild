@@ -5,7 +5,7 @@ module sched {
 
 	depends embox.kernel.timer.sys_timer /* for timeslices support */
 	depends embox.arch.context /* context_switch */
-	depends sched_policy.api
+	depends strategy.api
 	
 	@NoRuntime depends embox.kernel.task.std_signal
 	@NoRuntime depends embox.kernel.thread.current.api
@@ -27,3 +27,4 @@ module wait_queue {
 
 	depends embox.util.DList
 }
+

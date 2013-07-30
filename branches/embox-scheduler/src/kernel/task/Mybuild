@@ -10,7 +10,7 @@ module single extends api {
 	depends kernel_task
 	
 	depends embox.kernel.thread.current.api
-	depends embox.kernel.sched.sched_policy.api
+	depends embox.kernel.sched.strategy.api
 }
 
 module multi extends api {
