@@ -19,7 +19,7 @@
 
 #include <kernel/task.h>
 
-#include "simple_queue.h"
+#include <kernel/sched/runq.h>
 
 void runq_init(struct runq *rq) {
 	assert(rq);
