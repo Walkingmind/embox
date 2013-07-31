@@ -11,13 +11,12 @@
 /** Default thread affinity mask */
 #define THREAD_AFFINITY_NONE         ((unsigned int)-1)
 
-int sched_affinity_check(struct thread *t) {
-	unsigned int mask = 1 << cpu_get_id();
-
+int sched_affinity_check(struct thread *t , int mask) {
 	if ((t->sched_priv.affinity & mask)
 			&& (task_get_affinity(t->task) & mask)) {
 		return 1;
 	}
+
 	return 0;
 }
 

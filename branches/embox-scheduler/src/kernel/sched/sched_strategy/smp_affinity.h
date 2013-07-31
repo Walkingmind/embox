@@ -8,14 +8,6 @@
 #ifndef SMP_AFFINITY_H_
 #define SMP_AFFINITY_H_
 
-
-#define AFFINITY_DEFINE int affinity
-
-struct thread;
-
-extern int sched_affinity_check(struct thread *t);
-extern void sched_affinity_init(struct thread *t);
-extern void sched_affinity_set(struct thread *t, int mask);
-extern int sched_affinity_get(struct thread *t);
+typedef int __affinity_t;
 
 #endif /* SMP_AFFINITY_H_ */

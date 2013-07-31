@@ -59,8 +59,6 @@ struct thread {
 
 //TODO this field must be deleted
 	struct mutex      *mutex_waiting; /**< Mutex we are waiting for (if any). */
-
-	//unsigned int       affinity;      /**< CPU affinity of the thread. */
 };
 
 #endif /* KERNEL_THREAD_TYPES_H_ */

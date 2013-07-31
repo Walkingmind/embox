@@ -10,9 +10,9 @@
 
 struct thread;
 
-#define AFFINITY_DEFINE
+typedef struct { } __affinity_t;
 
-static inline int sched_affinity_check(struct thread *t) {
+static inline int sched_affinity_check(struct thread *t, int mask) {
 	return 1;
 }
 
