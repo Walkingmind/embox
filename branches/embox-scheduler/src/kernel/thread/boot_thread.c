@@ -30,11 +30,11 @@ struct thread *thread_init_self(void *stack, size_t stack_sz,
 
 	/* Priority setting up */
 	thread_priority_set(thread, priority);
-
+#if 0
 	/* running time */
 	thread->running_time = clock();
 	thread->last_sync = thread->running_time;
-
+#endif
 	return thread;
 }
 

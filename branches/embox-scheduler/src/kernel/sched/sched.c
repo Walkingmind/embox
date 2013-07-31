@@ -64,8 +64,10 @@ int sched_cpu_init(struct thread *current) {
 	current->state = thread_state_do_oncpu(current->state);
 	thread_set_current(current);
 
+#if 0
 	current->running_time = 0;
 	current->last_sync = clock();
+#endif
 
 	return 0;
 }
@@ -89,10 +91,11 @@ int sched_init(struct thread *idle, struct thread *current) {
 void sched_start(struct thread *t) {
 	assert(t);
 	assert(!in_harder_critical());
-
+#if 0
 	/* setup thread running time */
 	t->running_time = 0;
 	t->last_sync = clock();
+#endif
 
 	sched_lock();
 	{
@@ -302,8 +305,10 @@ static void sched_switch(void) {
 
 		/* Running time recalculation */
 		new_clock = clock();
-		prev->running_time += new_clock - prev->last_sync;
-		next->last_sync = new_clock;
+		//prev->running_time += new_clock - prev->last_sync;
+		sched_timing_stop(prev, new_clock);
+		//next->last_sync = new_clock;
+		sched_timing_start(next, new_clock);
 
 		assert(thread_state_running(next->state));
 

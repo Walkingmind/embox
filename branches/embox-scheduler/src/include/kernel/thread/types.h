@@ -48,8 +48,10 @@ struct thread {
 	struct task       *task;          /**< Task belong to. */
 	struct dlist_head  thread_link;   /**<list's link holding task threads. */
 
+#if 0
 	clock_t            running_time;  /**< Running time of thread in clocks. */
 	clock_t            last_sync;     /**< Last recalculation of running time.*/
+#endif
 
 	struct thread     *joined;        /**< Thread which joined to this. */
 

@@ -21,6 +21,13 @@
 
 #include <kernel/sched/runq.h>
 
+
+void sched_strategy_init(struct thread *t) {
+	runq_item_init(&t->sched_priv.runq_link);
+	sched_affinity_init(t);
+	sched_timing_init(t);
+}
+
 void runq_init(struct runq *rq) {
 	assert(rq);
 

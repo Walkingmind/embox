@@ -383,6 +383,7 @@ clock_t thread_get_running_time(struct thread *t) {
 
 	sched_lock();
 	{
+#if 0
 		/* if thread is executing now we have to add recent CPU time slice. */
 		if (thread_state_oncpu(t->state)) {
 			running = clock() - t->last_sync;
@@ -390,6 +391,9 @@ clock_t thread_get_running_time(struct thread *t) {
 		} else {
 			running = t->running_time;
 		}
+#endif
+		running = sched_timing_get(t);
+
 	}
 	sched_unlock();
 
