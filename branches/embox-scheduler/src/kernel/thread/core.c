@@ -214,9 +214,9 @@ void thread_init(struct thread *t, unsigned int flags,
 	 */
 	context_set_stack(&t->context, (char *) t->stack + t->stack_sz);
 
-	sched_strategy_init(&t->sched_priv);
+	sched_strategy_init(t);
 
-	t->affinity = THREAD_AFFINITY_NONE; /* TODO for smp */
+	//t->affinity = THREAD_AFFINITY_NONE; /* TODO for smp */
 
 	wait_data_init(&t->wait_data);
 }

@@ -31,8 +31,8 @@ static inline int thread_prio_comparator(struct prioq_link *first,
 	return p1 < p2 ? (-1) : (p1 > p2);
 }
 
-void sched_strategy_init(struct sched_strategy_data *s) {
-	prioq_link_init(&s->runq_link);
+void sched_strategy_init(struct thread *t) {
+	prioq_link_init(&t->sched_priv.runq_link);
 }
 
 void runq_queue_init(runq_queue_t *queue) {

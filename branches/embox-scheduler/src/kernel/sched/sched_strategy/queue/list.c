@@ -11,8 +11,8 @@
 #include <kernel/thread.h>
 #include <kernel/sched/sched_strategy.h>
 
-void sched_strategy_init(struct sched_strategy_data *s) {
-	dlist_head_init(&s->runq_link);
+void sched_strategy_init(struct thread *t) {
+	dlist_head_init(&t->sched_priv.runq_link);
 }
 
 void runq_queue_init(runq_queue_t *queue) {

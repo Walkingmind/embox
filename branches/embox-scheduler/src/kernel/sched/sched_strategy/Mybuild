@@ -17,6 +17,7 @@ module priority_based extends api {
 	source "runq.c"
 	
 	depends queue.prioq
+	depends affinity_api
 }
 
 module priority_based_smp extends api {
@@ -24,6 +25,7 @@ module priority_based_smp extends api {
 	source "runq.c"
 	
 	depends queue.prioq2
+	depends affinity_api
 }
 
 module trivial extends api {
@@ -31,4 +33,19 @@ module trivial extends api {
 	source "runq.c"
 	
 	depends queue.list
+	depends affinity_api
 }
+
+@DefaultImpl(AffinityNone)
+abstract module affinity_api { 	
+}
+
+module AffinityNone extends affinity_api {
+	source "no_affinity.h"
+}
+
+module AffinitySMP extends affinity_api {
+	source "smp_affinity.h"
+	source "smp_affinity.c"
+}
+

@@ -16,9 +16,9 @@
 #include <module/embox/arch/smp.h>
 #include <kernel/cpu/cpu.h>
 
-void sched_strategy_init(struct sched_strategy_data *s) {
-	dlist_head_init(&s->runq_link);
-	//prioq_link_init(&s->pq_link);
+void sched_strategy_init(struct thread *t) {
+	dlist_head_init(&t->sched_priv.runq_link);
+	sched_affinity_init(t);
 }
 
 /* runq operations */
@@ -45,23 +45,14 @@ struct thread *runq_queue_extract(runq_queue_t *queue) {
 	int i;
 
 	for (i = SCHED_PRIORITY_MAX; i >= SCHED_PRIORITY_MIN; i--) {
-#ifdef NOSMP
-		if (!dlist_empty(&queue->list[i])) {
-			thread = dlist_entry(queue->list[i].next, struct thread,
-					sched_priv.runq_link);
-		}
-#else /* NOSMP */
 		struct thread *t, *nxt;
-		unsigned int mask = 1 << cpu_get_id();
 		dlist_foreach_entry(t, nxt, &queue->list[i], sched_priv.runq_link) {
 			/* Checking the affinity */
-			if ((t->affinity & mask)
-				&& (task_get_affinity(t->task) & mask)) {
+			if (sched_affinity_check(t)) {
 				thread = t;
 				break;
 			}
 		}
-#endif
 
 		if (thread) {
 			runq_queue_remove(queue, thread);

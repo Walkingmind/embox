@@ -19,17 +19,15 @@
 
 struct thread;
 
-struct sched_strategy_data; /* Strategy data of thread   */
-
 struct runq;				/* Queue of running threads  */
 
 /**
  * Initializes scheduler strategy data of the thread.
  *
- * @param data
- *   Structure where storing strategy data of thread.
+ * @param t
+ *   Structure thread for which strategy data will initialize.
  */
-extern void sched_strategy_init(struct sched_strategy_data *data);
+extern void sched_strategy_init(struct thread *t);
 
 /**
  * Initializes queue of running threads. Makes activate current and idle
