@@ -117,7 +117,7 @@ void mutex_unlock(struct mutex *m) {
 
 static int priority_inherit(struct thread *t) {
 	struct mutex *m;
-	__thread_priority_t prior;
+	sched_priority_t prior;
 
 	assert(t);
 	assert(critical_inside(CRITICAL_SCHED_LOCK));
@@ -133,7 +133,7 @@ static int priority_inherit(struct thread *t) {
 }
 
 static void priority_uninherit(struct thread *t) {
-	__thread_priority_t prior;
+	sched_priority_t prior;
 
 	assert(t);
 	assert(critical_inside(CRITICAL_SCHED_LOCK));

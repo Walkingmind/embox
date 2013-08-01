@@ -31,6 +31,7 @@
 #include <kernel/thread/state.h>
 #include <kernel/thread/thread_alloc.h>
 #include <kernel/thread/wait_data.h>
+#include <kernel/sched/sched_priority.h>
 
 #include <kernel/panic.h>
 
@@ -158,7 +159,7 @@ out:
 
 void thread_init(struct thread *t, unsigned int flags,
 		void *(*run)(void *), void *arg) {
-	__thread_priority_t priority;
+	sched_priority_t priority;
 
 	assert(t);
 	assert(run);
@@ -195,7 +196,7 @@ void thread_init(struct thread *t, unsigned int flags,
 	/* setup thread priority. Now we have not started thread yet therefore we
 	 * just set both base and scheduling priority in default value.
 	 */
-	thread_priority_set(t, priority);
+	thread_priority_init(t, priority);
 
 	t->joined = NULL; /* there are not any joined thread */
 
@@ -357,7 +358,9 @@ void thread_yield(void) {
 	sched_post_switch();
 }
 
-int thread_set_priority(struct thread *t, thread_priority_t new_priority) {
+int thread_set_priority(struct thread *t, sched_priority_t new_priority) {
+	sched_priority_t sched_prior;
+
 	assert(t);
 
 	if ((new_priority < THREAD_PRIORITY_MIN)
@@ -365,12 +368,15 @@ int thread_set_priority(struct thread *t, thread_priority_t new_priority) {
 		return -EINVAL;
 	}
 
-	thread_priority_set(t, new_priority);
+	sched_prior = get_sched_priority(t->task->priority, thread_priority_get(t));
+	if(thread_priority_get(t) != sched_prior) {
+		sched_change_scheduling_priority(t, sched_prior);
+	}
 
 	return ENOERR;
 }
 
-thread_priority_t thread_get_priority(struct thread *t) {
+sched_priority_t thread_get_priority(struct thread *t) {
 	assert(t);
 
 	return thread_priority_get(t);
@@ -381,15 +387,6 @@ clock_t thread_get_running_time(struct thread *t) {
 
 	sched_lock();
 	{
-#if 0
-		/* if thread is executing now we have to add recent CPU time slice. */
-		if (thread_state_oncpu(t->state)) {
-			running = clock() - t->last_sync;
-			running += t->running_time;
-		} else {
-			running = t->running_time;
-		}
-#endif
 		running = sched_timing_get(t);
 
 	}

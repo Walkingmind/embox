@@ -107,14 +107,23 @@ static int kernel_task_init(void) {
 	return 0;
 }
 
-int task_add_thread(struct task * task, struct thread *thread) {
-	if((NULL == task) || (NULL == thread)) {
+int task_add_thread(struct task * task, struct thread *t) {
+	if((NULL == task) || (NULL == t)) {
 		return -EINVAL;
 	}
 
-	/* insert new thread to the list */
-	dlist_add_next(dlist_head_init(&thread->thread_link), &task->main_thread->thread_link);
-	thread->task = task;
+	/* insert new t to the list */
+	dlist_head_init(&t->thread_link);
+	dlist_add_next(&t->thread_link, &task->main_thread->thread_link);
+
+	t->task = task;
+
+	if(task->priority != 0) {
+		/* we initialize thread priority for default task priority and now we must
+		 * rescheduler thread
+		 */
+		thread_set_priority(t, thread_priority_get(t));
+	}
 
 	return ENOERR;
 }

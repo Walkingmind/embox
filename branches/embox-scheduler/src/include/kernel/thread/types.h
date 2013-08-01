@@ -20,7 +20,6 @@ typedef unsigned int __thread_state_t;
 
 #include <kernel/sched/sched_strategy.h>
 #include <util/dlist.h>
-#include <kernel/sched/sched_priority.h>
 #include <kernel/thread/thread_priority.h>
 #include <kernel/thread/wait_data.h>
 
@@ -43,15 +42,10 @@ struct thread {
 
 	__thread_id_t      id;            /**< Unique identifier. */
 
-	struct thread_priority thread_priority;
+//	struct thread_priority thread_priority;
 
 	struct task       *task;          /**< Task belong to. */
 	struct dlist_head  thread_link;   /**<list's link holding task threads. */
-
-#if 0
-	clock_t            running_time;  /**< Running time of thread in clocks. */
-	clock_t            last_sync;     /**< Last recalculation of running time.*/
-#endif
 
 	struct thread     *joined;        /**< Thread which joined to this. */
 

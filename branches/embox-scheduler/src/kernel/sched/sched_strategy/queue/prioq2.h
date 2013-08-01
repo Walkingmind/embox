@@ -19,7 +19,6 @@ struct runq_queue {
 
 };
 
-
 typedef struct dlist_head runq_item_t;
 
 typedef struct runq_queue runq_queue_t;

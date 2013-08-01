@@ -230,10 +230,12 @@ int sched_change_scheduling_priority(struct thread *thread,
 	{
 		assert(!thread_state_exited(thread->state));
 
+		thread_priority_set(thread, new_priority);
+
 		if (thread_state_running(thread->state)) {
 			post_switch_if(runq_change_priority(&rq, thread, new_priority));
 		}
-		thread_priority_set(thread, new_priority);
+
 
 		assert(thread_priority_get(thread) == new_priority);
 	}
@@ -300,6 +302,7 @@ out:
 	sched_unlock_noswitch();
 }
 
+//TODO this function looking for a sleep thread for send a signal
 int sched_tryrun(struct thread *thread) {
 	int res = 0;
 
@@ -315,4 +318,3 @@ int sched_tryrun(struct thread *thread) {
 
 	return res;
 }
-

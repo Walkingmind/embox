@@ -269,9 +269,17 @@ static void *task_trampoline(void *arg) {
 	return res;
 }
 
-int task_set_priority(struct task *tsk, task_priority_t new_priority) {
-	struct thread *thr;
+int task_resched_thread(struct task *tsk, struct thread *t) {
 	sched_priority_t sched_prior;
+
+	sched_prior = get_sched_priority(tsk->priority, thread_priority_get(t));
+	sched_change_scheduling_priority(t, sched_prior);
+
+	return 0;
+}
+
+int task_set_priority(struct task *tsk, task_priority_t new_priority) {
+	struct thread *t;
 
 	assert(tsk);
 
@@ -287,11 +295,13 @@ int task_set_priority(struct task *tsk, task_priority_t new_priority) {
 			return 0;
 		}
 
-		task_foreach_thread(thr, tsk) {
-			sched_prior = get_sched_priority(new_priority, thread_priority_get(thr));
-			sched_change_scheduling_priority(thr, sched_prior);
-		}
 		tsk->priority = new_priority;
+
+		task_foreach_thread(t, tsk) {
+			/* reschedule thread */
+			thread_set_priority(t, thread_get_priority(t));
+		}
+
 	}
 	sched_unlock();
 

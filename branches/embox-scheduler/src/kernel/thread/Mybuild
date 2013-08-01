@@ -15,7 +15,6 @@ module core extends thread_mode {
 
 	source "core.c"
 	source "thread_allocator.c"
-	source "thread_priority.c"
 	source "idle_thread.c"
 	source "boot_thread.c"
 	

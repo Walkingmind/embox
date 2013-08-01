@@ -11,12 +11,6 @@
 #include <kernel/thread.h>
 #include <kernel/sched/sched_strategy.h>
 
-#if 0
-void sched_strategy_init(struct thread *t) {
-	dlist_head_init(&t->sched_priv.runq_link);
-}
-#endif
-
 void runq_item_init(runq_item_t *runq_link) {
 	dlist_head_init(runq_link);
 }

@@ -23,19 +23,13 @@ static inline int thread_prio_comparator(struct prioq_link *first,
 		struct prioq_link *second) {
 	struct thread *t1 = prioq_element(first, struct thread, rq_field);
 	struct thread *t2 = prioq_element(second, struct thread, rq_field);
-	__thread_priority_t p1, p2;
+	sched_priority_t p1, p2;
 
 	p1 = thread_priority_get(t1);
 	p2 = thread_priority_get(t2);
 
 	return p1 < p2 ? (-1) : (p1 > p2);
 }
-
-#if 0
-void sched_strategy_init(struct thread *t) {
-	prioq_link_init(&t->sched_priv.runq_link);
-}
-#endif
 
 void runq_item_init(runq_item_t *runq_link) {
 	prioq_link_init(runq_link);

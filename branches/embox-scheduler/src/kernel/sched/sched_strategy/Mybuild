@@ -8,6 +8,7 @@ module nosched extends api {
 	source "nosched.h"
 	
 	depends embox.kernel.thread.current.api
+	depends NoPriority
 }
 
 
@@ -19,6 +20,7 @@ module priority_based extends api {
 	depends queue.prioq
 	depends affinity_api
 	depends timing_api
+	depends priority_api
 }
 
 module priority_based_smp extends api {
@@ -28,6 +30,7 @@ module priority_based_smp extends api {
 	depends queue.prioq2
 	depends affinity_api
 	depends timing_api
+	depends priority_api
 }
 
 module trivial extends api {
@@ -37,6 +40,7 @@ module trivial extends api {
 	depends queue.list
 	depends affinity_api
 	depends timing_api
+	depends priority_api
 }
 
 @DefaultImpl(AffinityNone)
@@ -53,7 +57,7 @@ module AffinitySMP extends affinity_api {
 }
 
 @DefaultImpl(TimeRunning)
-abstract module timing_api { 	
+abstract module timing_api {
 }
 
 module TimeNone extends timing_api {
@@ -63,4 +67,23 @@ module TimeNone extends timing_api {
 module TimeRunning extends timing_api {
 	source "running_time.h"
 	source "running_time.c"
+}
+
+
+@DefaultImpl(InharitancePriority)
+abstract module priority_api {
+}
+
+
+module InharitancePriority extends priority_api {
+	source "thread_priority.c"
+	source "thread_priority.h"
+}
+
+module SimplePriority extends priority_api {
+	source "simple_priority.h"
+}
+
+module NoPriority extends priority_api {
+	source "no_priority.h"
 }

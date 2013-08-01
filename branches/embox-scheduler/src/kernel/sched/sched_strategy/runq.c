@@ -94,8 +94,6 @@ int runq_change_priority(struct runq *rq, struct thread *t, sched_priority_t new
 	assert(rq);
 	assert(t);
 
-	thread_priority_set(t, new_priority);
-
 	if (current != t) {
 		/* FIXME: */
 		runq_queue_remove(&rq->queue, t);

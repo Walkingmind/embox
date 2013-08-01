@@ -37,7 +37,7 @@ struct thread;
  */
 typedef __thread_id_t thread_id_t;
 
-typedef __thread_priority_t thread_priority_t;
+//typedef __thread_priority_t thread_priority_t;
 
 #define THREAD_FLAG_USER             (0x1 << 0) /**< User-space thread. */
 #define THREAD_FLAG_DETACHED         (0x1 << 1) /**< Initially detached. */
@@ -231,10 +231,9 @@ extern int thread_terminate(struct thread *thread);
  */
 extern int thread_launch(struct thread *thread);
 
-extern int thread_set_priority(struct thread *thread,
-		thread_priority_t priority);
+extern int thread_set_priority(struct thread *t, sched_priority_t priority);
 
-extern thread_priority_t thread_get_priority(struct thread *thread);
+extern sched_priority_t thread_get_priority(struct thread *thread);
 
 /**
  * Returns running time of the thread. To get better precision should be

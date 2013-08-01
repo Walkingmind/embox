@@ -19,7 +19,7 @@ static void *boot_stub(void *arg) {
  * and to kernel task. Use this ONLY for bootstrap threads.
  */
 struct thread *thread_init_self(void *stack, size_t stack_sz,
-		thread_priority_t priority) {
+		sched_priority_t priority) {
 	struct thread *thread = stack; /* Allocating at the bottom */
 
 	/* Stack setting up */
@@ -30,7 +30,7 @@ struct thread *thread_init_self(void *stack, size_t stack_sz,
 	thread_init(thread, 0, boot_stub, NULL);
 
 	/* Priority setting up */
-	thread_priority_set(thread, priority);
+	thread_priority_init(thread, priority);
 
 	/* setup state
 	 * this thread must be active and not sleep
