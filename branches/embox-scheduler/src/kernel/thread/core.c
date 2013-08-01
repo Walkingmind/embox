@@ -216,8 +216,6 @@ void thread_init(struct thread *t, unsigned int flags,
 
 	sched_strategy_init(t);
 
-	//t->affinity = THREAD_AFFINITY_NONE; /* TODO for smp */
-
 	wait_data_init(&t->wait_data);
 }
 

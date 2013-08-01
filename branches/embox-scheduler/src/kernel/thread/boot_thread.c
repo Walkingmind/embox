@@ -8,6 +8,7 @@
 #include <stdint.h>
 
 #include <kernel/thread.h>
+#include <kernel/thread/state.h>
 #include <kernel/task.h>
 
 static void *boot_stub(void *arg) {
@@ -30,11 +31,14 @@ struct thread *thread_init_self(void *stack, size_t stack_sz,
 
 	/* Priority setting up */
 	thread_priority_set(thread, priority);
-#if 0
-	/* running time */
-	thread->running_time = clock();
-	thread->last_sync = thread->running_time;
-#endif
+
+	/* setup state
+	 * this thread must be active and not sleep
+	 */
+	thread->state = thread_state_do_activate(thread->state);
+	thread->state = thread_state_do_oncpu(thread->state);
+	thread_set_current(thread);
+
 	return thread;
 }
 

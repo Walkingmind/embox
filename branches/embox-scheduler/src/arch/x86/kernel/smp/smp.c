@@ -37,7 +37,7 @@ extern struct thread *thread_init_self(void *stack, size_t stack_sz,
 
 void startup_ap(void) {
 	extern void idt_load(void);
-	extern int sched_cpu_init(struct thread *thread);
+	//extern int sched_cpu_init(struct thread *thread);
 
 	struct thread *bootstrap;
 
@@ -49,7 +49,7 @@ void startup_ap(void) {
 			THREAD_PRIORITY_MIN);
 
 	cpu_init(cpu_get_id(), bootstrap);
-	sched_cpu_init(bootstrap);
+	//sched_cpu_init(bootstrap);
 
 	__asm__ __volatile__ ("sti");
 
