@@ -32,7 +32,7 @@ void runq_queue_init(runq_queue_t *queue) {
 
 void runq_queue_insert(runq_queue_t *queue, struct thread *thread) {
 	dlist_add_prev(&thread->sched_priv.runq_link,
-			&queue->list[thread->thread_priority.sched_priority]);
+			&queue->list[thread_priority_get(thread)]);
 }
 
 void runq_queue_remove(runq_queue_t *queue, struct thread *thread) {

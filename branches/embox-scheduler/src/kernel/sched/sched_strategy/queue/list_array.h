@@ -16,7 +16,6 @@
 
 struct runq_queue {
 	struct dlist_head list[SCHED_PRIORITY_TOTAL];
-
 };
 
 typedef struct dlist_head runq_item_t;

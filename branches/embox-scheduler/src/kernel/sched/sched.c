@@ -46,8 +46,11 @@ static void sched_switch(void);
 
 CRITICAL_DISPATCHER_DEF(sched_critical, sched_switch, CRITICAL_SCHED_LOCK);
 
-struct runq rq;
+//TODO these variable for scheduler (may be create object scheduler?)
+static struct runq rq;
 static struct work_queue startq;
+static int switch_posted;
+
 
 static inline int in_harder_critical(void) {
 	return critical_inside(__CRITICAL_HARDER(CRITICAL_SCHED_LOCK));
@@ -243,7 +246,6 @@ int sched_change_priority(struct thread *t, sched_priority_t pr) {
 	return 0;
 }
 
-static int switch_posted;
 
 static void post_switch_if(int condition) {
 	assert(in_sched_locked());

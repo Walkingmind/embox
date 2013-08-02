@@ -1,19 +1,15 @@
-/*
+/**
  * @file
  *
  * @date Mar 21, 2013
  * @author: Anton Bondarev
  */
 
-#ifndef NOSCHED_H_
-#define NOSCHED_H_
+#ifndef SCHED_NO_STRATEGY_H_
+#define SCHED_NO_STRATEGY_H_
 
-
-struct runq {
-
-};
 
 struct sched_strategy_data {
 };
 
-#endif /* NOSCHED_H_ */
+#endif /* SCHED_NO_STRATEGY_H_ */
