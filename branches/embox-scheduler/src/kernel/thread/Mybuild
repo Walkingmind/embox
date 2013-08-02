@@ -23,6 +23,7 @@ module core extends thread_mode {
 	depends embox.kernel.task.kernel_task
 	@NoRuntime depends embox.kernel.cpu.common
 	depends embox.kernel.time.jiffies
+	@NoRuntime depends embox.kernel.task.MultiThread
 }
 
 /* FIXME: Deprecated */
