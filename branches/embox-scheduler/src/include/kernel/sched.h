@@ -143,7 +143,7 @@ extern void sched_set_priority(struct thread *thread,
  * @param new_priority
  *   New scheduling priority of the the thread.
  */
-extern int sched_change_scheduling_priority(struct thread *thread,
+extern int sched_change_priority(struct thread *thread,
 		sched_priority_t new_priority);
 
 

@@ -19,17 +19,18 @@ typedef unsigned int sched_priority_t;
 #define SCHED_PRIORITY_TOTAL \
 	(SCHED_PRIORITY_MAX - SCHED_PRIORITY_MIN + 1)
 
-static inline sched_priority_t get_sched_priority(task_priority_t task_priority,
-		sched_priority_t thread_priority) {
-	return (sched_priority_t)(task_priority - TASK_PRIORITY_MIN) * THREAD_PRIORITY_TOTAL
-		+ (sched_priority_t)(thread_priority - THREAD_PRIORITY_MIN);
+static inline sched_priority_t sched_priority_full(task_priority_t tsk_p,
+		sched_priority_t thread_pr) {
+	int task_offset = (tsk_p - TASK_PRIORITY_MIN) * THREAD_PRIORITY_TOTAL;
+
+	return task_offset + (thread_pr - THREAD_PRIORITY_MIN);
 }
 
-static inline sched_priority_t get_thread_priority(task_priority_t task_priority,
-		sched_priority_t thread_priority) {
-	int task_offset = (task_priority - TASK_PRIORITY_MIN)
-			* THREAD_PRIORITY_TOTAL;
-	return thread_priority - task_offset;
+static inline sched_priority_t sched_priority_thread(task_priority_t tsk_p,
+		sched_priority_t thread_pr) {
+	int task_offset = (tsk_p - TASK_PRIORITY_MIN) * THREAD_PRIORITY_TOTAL;
+
+	return thread_pr - task_offset;
 }
 
 

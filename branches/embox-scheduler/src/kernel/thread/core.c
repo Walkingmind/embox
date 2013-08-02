@@ -368,10 +368,10 @@ int thread_set_priority(struct thread *t, sched_priority_t new_priority) {
 		return -EINVAL;
 	}
 
-	prior = get_thread_priority(t->task->priority, thread_priority_get(t));
+	prior = sched_priority_thread(t->task->priority, thread_priority_get(t));
 	if(new_priority != prior) {
-		prior = get_sched_priority(t->task->priority, new_priority);
-		sched_change_scheduling_priority(t, prior);
+		prior = sched_priority_full(t->task->priority, new_priority);
+		sched_change_priority(t, prior);
 	}
 
 	return ENOERR;

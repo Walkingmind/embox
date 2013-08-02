@@ -221,23 +221,22 @@ void sched_post_switch(void) {
 	sched_unlock();
 }
 
-int sched_change_scheduling_priority(struct thread *thread,
-		sched_priority_t new_priority) {
-	assert((new_priority >= SCHED_PRIORITY_MIN)
-			&& (new_priority <= SCHED_PRIORITY_MAX));
+int sched_change_priority(struct thread *t, sched_priority_t pr) {
+	assert((pr >= SCHED_PRIORITY_MIN)
+			&& (pr <= SCHED_PRIORITY_MAX));
 
 	sched_lock();
 	{
-		assert(!thread_state_exited(thread->state));
+		assert(!thread_state_exited(t->state));
 
-		thread_priority_set(thread, new_priority);
+		thread_priority_set(t, pr);
 
-		if (thread_state_running(thread->state)) {
-			post_switch_if(runq_change_priority(&rq, thread, new_priority));
+		if (thread_state_running(t->state)) {
+			post_switch_if(runq_change_priority(&rq, t, pr));
 		}
 
 
-		assert(thread_priority_get(thread) == new_priority);
+		assert(thread_priority_get(t) == pr);
 	}
 	sched_unlock();
 

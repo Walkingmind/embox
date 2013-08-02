@@ -42,8 +42,6 @@ struct thread {
 
 	__thread_id_t      id;            /**< Unique identifier. */
 
-//	struct thread_priority thread_priority;
-
 	struct task       *task;          /**< Task belong to. */
 	struct dlist_head  thread_link;   /**<list's link holding task threads. */
 
@@ -52,9 +50,6 @@ struct thread {
 	struct wait_data   wait_data;
 
 	struct sched_strategy_data sched_priv; /**< Scheduler-private data. */
-
-//TODO this field must be deleted
-	struct mutex      *mutex_waiting; /**< Mutex we are waiting for (if any). */
 };
 
 #endif /* KERNEL_THREAD_TYPES_H_ */

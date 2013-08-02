@@ -24,7 +24,7 @@ int task_add_thread(struct task * task, struct thread *t) {
 	/* we initialize thread priority for default task priority and now we must
 	 * rescheduler thread
 	 */
-	sched_prior = get_sched_priority(task->priority, thread_priority_get(t));
+	sched_prior = sched_priority_full(task->priority, thread_priority_get(t));
 	thread_priority_set(t, sched_prior);
 
 	return ENOERR;
