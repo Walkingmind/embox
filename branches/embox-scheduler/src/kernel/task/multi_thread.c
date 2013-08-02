@@ -10,6 +10,7 @@
 
 
 int task_add_thread(struct task * task, struct thread *t) {
+	sched_priority_t sched_prior;
 	if((NULL == task) || (NULL == t)) {
 		return -EINVAL;
 	}
@@ -20,12 +21,11 @@ int task_add_thread(struct task * task, struct thread *t) {
 
 	t->task = task;
 
-	if(task->priority != 0) {
-		/* we initialize thread priority for default task priority and now we must
-		 * rescheduler thread
-		 */
-		thread_set_priority(t, thread_priority_get(t));
-	}
+	/* we initialize thread priority for default task priority and now we must
+	 * rescheduler thread
+	 */
+	sched_prior = get_sched_priority(task->priority, thread_priority_get(t));
+	thread_priority_set(t, sched_prior);
 
 	return ENOERR;
 }

@@ -21,8 +21,15 @@ typedef unsigned int sched_priority_t;
 
 static inline sched_priority_t get_sched_priority(task_priority_t task_priority,
 		sched_priority_t thread_priority) {
-	return (sched_priority_t)(TASK_PRIORITY_MAX - task_priority) * THREAD_PRIORITY_TOTAL
+	return (sched_priority_t)(task_priority - TASK_PRIORITY_MIN) * THREAD_PRIORITY_TOTAL
 		+ (sched_priority_t)(thread_priority - THREAD_PRIORITY_MIN);
+}
+
+static inline sched_priority_t get_thread_priority(task_priority_t task_priority,
+		sched_priority_t thread_priority) {
+	int task_offset = (task_priority - TASK_PRIORITY_MIN)
+			* THREAD_PRIORITY_TOTAL;
+	return thread_priority - task_offset;
 }
 
 
