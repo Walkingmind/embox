@@ -91,7 +91,6 @@ static void __attribute__((noreturn)) thread_trampoline(void) {
 int thread_create(struct thread **p_thread, unsigned int flags,
 		void *(*run)(void *), void *arg) {
 	struct thread *t;
-	int save_ptr;
 	int res = ENOERR;
 
 	/* check mutually exclusive flags */
@@ -101,16 +100,17 @@ int thread_create(struct thread **p_thread, unsigned int flags,
 	}
 
 	/* check one more mutually exclusive flags */
-	if ((flags & THREAD_FLAG_SUSPENDED) && (flags & THREAD_FLAG_DETACHED)) {
+	if ((flags & THREAD_FLAG_JOINABLE) && (flags & THREAD_FLAG_DETACHED)) {
 		return -EINVAL;
 	}
 
-	/* check whether we need to return thread structure pointer */
-	save_ptr = (flags & THREAD_FLAG_SUSPENDED)
-			|| !(flags & THREAD_FLAG_DETACHED);
+
+	if((flags & THREAD_FLAG_NOTASK) && !(flags & THREAD_FLAG_SUSPENDED)) {
+		return -EINVAL;
+	}
 
 	/* if we need thread handler we check place for result */
-	if (save_ptr && !p_thread) {
+	if ((NULL == p_thread) && !(flags & THREAD_FLAG_DETACHED)) {
 		return -EINVAL;
 	}
 
@@ -150,7 +150,7 @@ int thread_create(struct thread **p_thread, unsigned int flags,
 out:
 	sched_unlock();
 
-	if (save_ptr) {
+	if (!(flags & THREAD_FLAG_DETACHED)) {
 		*p_thread = t;
 	}
 
@@ -362,6 +362,7 @@ int thread_set_priority(struct thread *t, sched_priority_t new_priority) {
 	sched_priority_t prior;
 
 	assert(t);
+	assert(t->task);
 
 	if ((new_priority < THREAD_PRIORITY_MIN)
 			|| (new_priority > THREAD_PRIORITY_MAX)) {

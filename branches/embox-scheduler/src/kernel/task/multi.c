@@ -89,10 +89,13 @@ int new_task(const char *name, void *(*run)(void *), void *arg) {
 		/*
 		 * Thread does not run until we go through sched_unlock()
 		 */
-		if (0 != (res = thread_create(&thd, THREAD_FLAG_NOTASK | THREAD_FLAG_PRIORITY_INHERIT,
+		if (0 != (res = thread_create(&thd,
+				THREAD_FLAG_NOTASK | THREAD_FLAG_SUSPENDED,
 				task_trampoline, param))) {
 			goto out_poolfree;
 		}
+
+
 
 		/* reserve space for task & resources on top of created thread's stack */
 		addr = thread_stack_malloc(thd, task_sz);
@@ -104,6 +107,7 @@ int new_task(const char *name, void *(*run)(void *), void *arg) {
 
 		thd->task = self_task;
 		self_task->main_thread = thd;
+
 
 		self_task->per_cpu = 0;
 
@@ -126,7 +130,11 @@ int new_task(const char *name, void *(*run)(void *), void *arg) {
 			goto out_tablefree;
 		}
 
+		thread_set_priority(thd,
+				sched_priority_thread(task_self()->priority,
+						thread_priority_get(thread_self())));
 		thread_detach(thd);
+		thread_launch(thd);
 
 		res = self_task->tid;
 
