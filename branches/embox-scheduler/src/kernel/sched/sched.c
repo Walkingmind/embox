@@ -39,6 +39,8 @@
 
 #include <embox/unit.h>
 
+
+
 static void post_switch_if(int condition);
 
 static void sched_switch(void);
@@ -108,7 +110,7 @@ void sched_finish(struct thread *t) {
 }
 
 static void do_wait_locked(void) {
-	struct thread *current = sched_current();
+	struct thread *current = thread_get_current();
 	assert(in_sched_locked() && !in_harder_critical());
 	assert(thread_state_running(current->state));
 
@@ -151,7 +153,7 @@ void sched_thread_notify(struct thread *thread, int result) {
 }
 
 void sched_prepare_wait(notify_handler on_notified, void *data) {
-	struct wait_data *wait_data = &sched_current()->wait_data;
+	struct wait_data *wait_data = &thread_get_current()->wait_data;
 
 	wait_data->data = data;
 	wait_data->on_notified = on_notified;
@@ -160,7 +162,7 @@ void sched_prepare_wait(notify_handler on_notified, void *data) {
 }
 
 void sched_cleanup_wait(void) {
-	wait_data_cleanup(&sched_current()->wait_data);
+	wait_data_cleanup(&thread_get_current()->wait_data);
 }
 
 
@@ -172,7 +174,7 @@ static void timeout_handler(struct sys_timer *timer, void *sleep_data) {
 int sched_wait_locked(unsigned long timeout) {
 	int ret;
 	struct sys_timer tmr;
-	struct thread *current = sched_current();
+	struct thread *current = thread_get_current();
 
 	assert(in_sched_locked() && !in_harder_critical());
 	assert(thread_state_running(current->state));
@@ -224,22 +226,21 @@ void sched_post_switch(void) {
 	sched_unlock();
 }
 
-int sched_change_priority(struct thread *t, sched_priority_t pr) {
-	assert((pr >= SCHED_PRIORITY_MIN)
-			&& (pr <= SCHED_PRIORITY_MAX));
+int sched_change_priority(struct thread *t, sched_priority_t prior) {
+	assert(t);
+	assert((prior >= SCHED_PRIORITY_MIN) && (prior <= SCHED_PRIORITY_MAX));
 
 	sched_lock();
 	{
 		assert(!thread_state_exited(t->state));
 
-		thread_priority_set(t, pr);
+		thread_priority_set(t, prior);
 
 		if (thread_state_running(t->state)) {
-			post_switch_if(runq_change_priority(&rq, t, pr));
+			post_switch_if(runq_change_priority(&rq, t, prior));
 		}
 
-
-		assert(thread_priority_get(t) == pr);
+		assert(thread_priority_get(t) == prior);
 	}
 	sched_unlock();
 
@@ -276,7 +277,7 @@ static void sched_switch(void) {
 
 		ipl_enable();
 
-		prev = sched_current();
+		prev = thread_get_current();
 
 		if (prev == (next = runq_switch(&rq))) {
 			ipl_disable();
