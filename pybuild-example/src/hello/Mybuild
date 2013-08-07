@@ -1,5 +1,5 @@
 
-module mybuild_module (opt = option.str) {
+module mybuild_module (opt = option.str("foo")) {
 	"Example"
 	files: "hello.c"
 }
