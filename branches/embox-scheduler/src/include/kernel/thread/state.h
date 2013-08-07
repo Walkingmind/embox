@@ -50,22 +50,15 @@ static inline bool thread_state_oncpu(thread_state_t state) {
 	return state & __THREAD_STATE_ONCPU;
 }
 
-static inline bool thread_state_started(thread_state_t state) {
-	return thread_state_active(state) || thread_state_exited(state);
-}
 
 static inline bool thread_state_running(thread_state_t state) {
 	return thread_state_active(state) && !thread_state_sleeping(state)
 			&& !thread_state_exited(state);
 }
 
-static inline bool thread_state_dead(thread_state_t state) {
-	return !thread_state_active(state) && thread_state_exited(state);
-			//&& thread_state_detached(state);
-}
 
 static inline thread_state_t thread_state_do_activate(thread_state_t state) {
-	assert(!thread_state_started(state));
+	assert(!thread_state_active(state));
 	return state | __THREAD_STATE_ACTIVE;
 }
 
@@ -94,7 +87,6 @@ static inline thread_state_t thread_state_do_outcpu(thread_state_t state) {
 	assert(thread_state_oncpu(state));
 	return state & (~__THREAD_STATE_ONCPU);
 }
-
 
 
 static inline bool thread_state_detached(thread_state_t state) {

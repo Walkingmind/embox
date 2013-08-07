@@ -78,12 +78,11 @@ int sched_init(struct thread *idle, struct thread *current) {
 void sched_start(struct thread *t) {
 	assert(t);
 	assert(!in_harder_critical());
+	assert(!thread_state_active(t->state));
 
 	sched_lock();
 	{
-		assert(!thread_state_started(t->state));
 		post_switch_if(runq_start(&rq, t));
-		assert(thread_state_started(t->state));
 	}
 	sched_unlock();
 }

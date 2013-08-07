@@ -40,9 +40,9 @@ int runq_start(struct runq *rq, struct thread *t) {
 	assert(rq);
 	assert(t);
 	assert(current != t);
-	assert(!thread_state_started(t->state));
+	assert(!thread_state_active(t->state));
+	assert(!thread_state_exited(t->state));
 
-	//t->runq = rq;
 	t->state = thread_state_do_activate(t->state);
 
 	runq_queue_insert(&rq->queue, t);
@@ -83,7 +83,6 @@ void runq_wait(struct runq *rq) {
 	struct thread *current = thread_self();
 
 	assert(rq);
-	//assert(current->runq == rq);
 
 	current->state = thread_state_do_sleep(current->state);
 }

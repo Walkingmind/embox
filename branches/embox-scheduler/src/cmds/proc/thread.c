@@ -49,7 +49,7 @@ static void print_stat(void) {
 				prior = sched_priority_thread(task->priority,
 										thread_priority_get(thread));
 
-				if (thread_state_running(s)) {
+				if (thread_state_active(s)) {
 					state = "running";
 					running++;
 				} else if (thread_state_sleeping(s)) {

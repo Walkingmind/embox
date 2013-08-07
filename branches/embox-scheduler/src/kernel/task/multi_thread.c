@@ -35,7 +35,7 @@ int task_remove_thread(struct task * task, struct thread *thread) {
 	if((NULL == task) || (NULL == thread)) {
 		return -EINVAL;
 	}
-#if 0
+
 	if(NULL == task->main_thread) {
 		return -EINVAL;
 	}
@@ -43,7 +43,7 @@ int task_remove_thread(struct task * task, struct thread *thread) {
 	if(task->main_thread == thread) {
 		return -EBUSY;
 	}
-
+#if 0
 	if(dlist_empty(&task->main_thread->thread_link)) {
 		return -EBUSY;
 	}

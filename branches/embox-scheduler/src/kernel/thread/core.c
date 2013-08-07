@@ -45,25 +45,24 @@ static int id_counter; // TODO make it an indexator
 
 static void thread_delete(struct thread *t) {
 	static struct thread *zombie = NULL;
-	struct thread *current = thread_self();
 
 	assert(t);
-	assert(thread_state_dead(t->state));
-	assert(t != zombie);
-	assert(zombie != current);
-
-	if (zombie != NULL) {
-		thread_free(zombie);
-		zombie = NULL;
-	}
+	assert(thread_state_exited(t->state));
+	assert(thread_state_detached(t->state));
 
 	task_remove_thread(t->task, t);
 
-	if (t == current) {
-		zombie = t;
-	} else {
-		thread_free(t);
+	if (zombie) {
+		thread_free(zombie);
 	}
+
+	if (t == thread_self()) {
+		zombie = t;
+		return;
+	}
+
+	thread_free(t);
+	zombie = NULL;
 }
 
 
@@ -229,27 +228,30 @@ void __attribute__((noreturn)) thread_exit(void *ret) {
 	sched_lock();
 	{
 		/* We can free only not main threads */
-		if(task->main_thread == current) {
+		if (task->main_thread == current) {
 			/* We are last thread. Unlock scheduler and exit task. */
 			sched_unlock();
 			task_exit(ret);
-		} else {
-			/* Finish scheduling of the thread */
-			sched_finish(current);
+			/* NOTREACHED */
+		}
 
-			if (thread_state_dead(current->state)) {
+		/* Finish scheduling of the thread */
+		sched_finish(current);
+
+		current->run_ret = ret;
+
+		/* thread must be joined or detached before exit */
+		if (thread_state_detached(current->state)) {
+			if (current->joined) {
+				/* Thread is attached. Joined thread delete it.    */
+				sched_thread_notify(current->joined, ENOERR);
+			} else {
 				/* Thread is detached. Should be deleted by itself. */
 				thread_delete(current);
-			} else {
-				/* Thread is attached. Joined thread delete it.    */
-				current->run_ret = ret;
-
-				if (current->joined) {
-					sched_thread_notify(current->joined, ENOERR);
-				}
 			}
 		}
 	}
+
 	sched_unlock();
 
 	/* NOTREACHED */
@@ -269,6 +271,8 @@ int thread_join(struct thread *t, void **p_ret) {
 
 	sched_lock();
 	{
+		t->state = thread_state_do_detach(t->state);
+
 		if (!thread_state_exited(t->state)) {
 			/* Target thread is not exited. Waiting for his exiting. */
 			t->joined = current;
@@ -279,7 +283,7 @@ int thread_join(struct thread *t, void **p_ret) {
 		}
 
 		join_ret = t->run_ret;
-		t->state = thread_state_do_detach(t->state);
+
 		thread_delete(t);
 
 		if (p_ret) {
@@ -299,7 +303,7 @@ int thread_detach(struct thread *t) {
 	{
 		t->state = thread_state_do_detach(t->state);
 
-		if (thread_state_dead(t->state)) {
+		if (thread_state_exited(t->state)) {
 			/* The target thread has finished, free it here. */
 			thread_delete(t);
 		}
@@ -316,7 +320,7 @@ int thread_launch(struct thread *t) {
 
 	sched_lock();
 	{
-		if (thread_state_started(t->state)) {
+		if (thread_state_active(t->state)) {
 			res = -EINVAL;
 			goto out;
 		}
