@@ -3,3 +3,5 @@ print 'executing [template/x86/Debug/Pybuild]', __name__
 @module
 def conf(self):
     self.constrain(prj.hello.main)
+    self.constrain(prj.hello.mybuild_module)
+

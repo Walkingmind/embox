@@ -1,21 +1,25 @@
 root_dir = '.'
 build_dir = 'build'
 
-import os
 import sys
 
 sys.path.insert(0, './tools')
 
-from mywaf.model import create_model
 
+def init(ctx):
+    ctx.load('mywaf')
 
 
 def options(ctx):
+    ctx.load('mywaf')
+
     ctx.add_option('--template', type='string', default='', action='store',
                    help='using template')
 
 
 def configure(ctx):
+    ctx.load('mywaf')
+
     template_path = 'templates/' + ctx.options.template
     sys.path.insert(0, template_path)
     import build
@@ -33,29 +37,10 @@ def configure(ctx):
 
 
 def build(bld):
-    print('CC ' + str(bld.env.CC))
-    print('LD ' + str(bld.env.LD))
-    print(bld.env.TEMPLATE + '/conf.py')
+    bld.load('mywaf')
 
-    print(bld.path.find_node(bld.env.TEMPLATE).abspath())
+    # print(bld.env.TEMPLATE + '/conf.py')
+    conf = bld.mybuild('prj.conf.conf', path=['src', bld.env.TEMPLATE])
 
-    create_model(bld)
-
-
-
-# useful, but not used now
-def _load_defaults_from_file(filename):
-    globals_ = {}
-    execfile(filename, globals_)
-
-    try:
-        attrs = globals_['__all__']
-    except KeyError:
-        attrs = [attr for attr in globals_ if not attr.startswith('_')]
-
-    defaults = {}
-    for attr in attrs:
-        defaults[attr] = globals_[attr]
-
-    return defaults
+    print(conf)
 
