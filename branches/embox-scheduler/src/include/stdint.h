@@ -41,8 +41,11 @@ typedef __u32 __u_fast;
 #elif __WORDSIZE == 64
 typedef __s64 __s_fast;
 typedef __u64 __u_fast;
+#elif __WORDSIZE == 16
+typedef __s16 __s_fast;
+typedef __u16 __u_fast;
 #else
-# error "Only 32 and 64 __WORDSIZE values are supported"
+# error "Only 16, 32 and 64 __WORDSIZE values are supported"
 #endif
 
 typedef __s_fast int_fast8_t;
@@ -58,8 +61,15 @@ typedef __u_fast uint_fast64_t;
 typedef int64_t intmax_t;
 typedef uint64_t uintmax_t;
 
-/* ToDo: WARNING 32bit now */
-typedef int intptr_t;
-typedef unsigned int uintptr_t;
+#ifndef __intptr_t_defined
+#define __intptr_t_defined
+typedef __intptr_t intptr_t;
+#endif /*__intptr_t_defined */
+
+#ifndef __uintptr_defined
+#define __uintptr_defined
+typedef __uintptr_t uintptr_t;
+#endif /*__intptr_t_defined */
+
 #endif /* __ASSEMBLER__ */
 #endif /* STDINT_H_ */

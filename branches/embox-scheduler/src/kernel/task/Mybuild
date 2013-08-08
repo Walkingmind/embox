@@ -45,7 +45,9 @@ module MultiThread extends task_thread_api {
 
 module kernel_task {
 	source "common.c"
+
 	depends task_thread_api
+	depends embox.util.DList
 }
 
 module std_signal { 
@@ -70,8 +72,10 @@ module idx_table extends task_environment {
 
 	option number task_res_quantity = 64
 	source "index_desc.c"
+	depends embox.mem.objalloc
 	depends embox.util.idx_table
 	depends api
+	depends io_sync
 }
 
 module errno {
@@ -95,6 +99,7 @@ module io_sync {
 	source "io_sync.c"
 
 	depends embox.kernel.manual_event_api
+	depends embox.kernel.event_api
 }
 
 module waitpid {

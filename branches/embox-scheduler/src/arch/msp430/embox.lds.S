@@ -12,8 +12,8 @@ MEMORY {
 }
 
 SECTIONS {
-	.vector.reset 0xfffe : {
-		*(.vector.reset)
+	.vectors : {
+		*(.vectors)
 	} > vectors
 
 	.text : {

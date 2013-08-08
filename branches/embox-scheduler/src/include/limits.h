@@ -4,55 +4,100 @@
  *
  * @date 16.11.12
  * @author Anton Bondarev
+ * @author Anton Kozlov
+ * 		- asm/limits
  */
 
 #ifndef LIMITS_H_
 #define LIMITS_H_
 
-/**
- * Numerical Limits
- */
+#include <asm/limits.h>
 
-/* Number of bits in a `char'.	*/
-#define CHAR_BIT	8
+#ifndef CHAR_BIT
+#define CHAR_BIT 	8
+#endif /* CHAR_BIT */
 
-/* Number of bits in a `long int'.	*/
-#define LONG_BIT	32
+#ifndef CHAR_MIN
+#define CHAR_MIN 	SCHAR_MIN
+#endif /* CHAR_MIN */
 
-/* Minimum and maximum values a `signed char' can hold.  */
-#define SCHAR_MIN	(-128)
-#define SCHAR_MAX	127
+#ifndef CHAR_MAX
+#define CHAR_MAX 	SCHAR_MAX
+#endif /* CHAR_MAX */
 
-/* Maximum value an `unsigned char' can hold.  (Minimum is 0.)  */
-#define UCHAR_MAX	255
+#ifndef SCHAR_MIN
+#define SCHAR_MIN 	-127
+#endif /* SCHAR_MIN */
 
-/* Minimum and maximum values a `signed short int' can hold.  */
-#define SHRT_MIN	(-32768)
-#define SHRT_MAX	32767
+#ifndef SCHAR_MAX
+#define SCHAR_MAX 	128
+#endif /* SCHAR_MAX */
 
-/* Maximum value an `unsigned short int' can hold.  (Minimum is 0.)  */
-#define USHRT_MAX	65535
+#ifndef UCHAR_MAX
+#define UCHAR_MAX 	255
+#endif /* UCHAR_MAX */
 
-/* Minimum and maximum values a `signed int' can hold.  */
-#define INT_MIN	(-INT_MAX - 1)
-#define INT_MAX	2147483647
 
-/* Maximum value an `unsigned int' can hold.  (Minimum is 0.)  */
+#ifndef WORD_BIT
+#define WORD_BIT 	32
+#endif /* WORD_BIT */
+
+#ifndef INT_MIN
+#define INT_MIN		(-INT_MAX - 1)
+#endif /* INT_MIN */
+
+#ifndef INT_MAX
+#define INT_MAX		2147483647
+#endif /* INT_MAX */
+
+#ifndef UINT_MAX
 #define UINT_MAX	4294967295U
+#endif /* UINT_MAX */
 
-/* Minimum and maximum values a `signed long int' can hold.  */
+
+#ifndef SHRT_MIN
+#define SHRT_MIN	(-32768)
+#endif /* SHRT_MIN */
+
+#ifndef SHRT_MAX
+#define SHRT_MAX	32767
+#endif /* SHRT_MAX */
+
+#ifndef USHRT_MAX
+#define USHRT_MAX	65535
+#endif /* USHRT_MAX */
+
+
+#ifndef LONG_BIT
+#define LONG_BIT	32
+#endif /* LONG_BIT */
+
+#ifndef LONG_MIN
 #define LONG_MIN	(-LONG_MAX - 1)
+#endif /* LONG_MIN */
+
+#ifndef LONG_MAX
 #define LONG_MAX	2147483647L
+#endif /* LONG_MAX */
 
-/* Maximum value an `unsigned long int' can hold.  (Minimum is 0.)  */
+#ifndef ULONG_MAX
 #define ULONG_MAX	4294967295UL
+#endif /* ULONG_MAX */
 
-/* Minimum and maximum values a `signed long long int' can hold.  */
+
+#ifndef LLONG_MIN
 #define LLONG_MIN	(-LLONG_MAX - 1)
-#define LLONG_MAX	9223372036854775807LL
+#endif /* LLONG_MIN */
 
-/* Maximum value an `unsigned long long int' can hold.  (Minimum is 0.)  */
+#ifndef LLONG_MAX
+#define LLONG_MAX	9223372036854775807LL
+#endif /* LLONG_MAX */
+
+
+#ifndef ULLONG_MAX
 #define ULLONG_MAX	18446744073709551615ULL
+#endif /* ULLONG_MAX */
+
 
 /**
  * Pathname Variable Values
