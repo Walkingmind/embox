@@ -20,24 +20,19 @@
 #include <time.h>
 
 #include <kernel/critical.h>
-#include <kernel/irq_lock.h>
-#include <kernel/sched.h>
 #include <kernel/thread/current.h>
 #include <kernel/sched/sched_strategy.h>
 #include <kernel/thread/state.h>
-#include <kernel/time/timer.h>
-#include <kernel/task.h>
 #include <kernel/task/signal.h>
-#include <kernel/work.h>
+
 #include <hal/context.h>
 #include <hal/ipl.h>
 
 #include <profiler/tracing/trace.h>
 
-
-#include <util/member.h>
-
 #include <embox/unit.h>
+
+#include <kernel/sched.h>
 
 
 

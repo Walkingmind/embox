@@ -162,8 +162,8 @@ void thread_init(struct thread *t, unsigned int flags,
 
 	assert(t);
 	assert(run);
-	assert(t->stack);
-	assert(t->stack_sz);
+	assert(thread_stack_get(t));
+	assert(thread_stack_get_size(t));
 
 	t->id = id_counter++; /* setup thread ID */
 
@@ -212,7 +212,8 @@ void thread_init(struct thread *t, unsigned int flags,
 	 * the end
 	 * +++++++++++++++ bottom (t->stack - allocated memory for the stack)
 	 */
-	context_set_stack(&t->context, (char *) t->stack + t->stack_sz);
+	context_set_stack(&t->context,
+			thread_stack_get(t) + thread_stack_get_size(t));
 
 	sched_strategy_init(t);
 

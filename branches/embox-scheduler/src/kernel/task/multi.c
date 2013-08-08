@@ -45,22 +45,7 @@ struct task_creat_param {
 POOL_DEF(creat_param, struct task_creat_param, SIMULTANEOUS_TASK_CREAT);
 
 static void *task_trampoline(void *arg);
-//static void thread_set_task(struct thread *t, struct task *tsk);
 static int task_init_parent(struct task *task, struct task *parent);
-
-
-static void *thread_stack_malloc(struct thread *thread, size_t size) {
-	void *res;
-
-	assert(thread->stack_sz > size);
-
-	res = thread->stack;
-
-	thread->stack    += size;
-	thread->stack_sz -= size;
-
-	return res;
-}
 
 int new_task(const char *name, void *(*run)(void *), void *arg) {
 	struct task_creat_param *param;
@@ -95,10 +80,11 @@ int new_task(const char *name, void *(*run)(void *), void *arg) {
 			goto out_poolfree;
 		}
 
+		addr = thread_stack_get(thd);
 
-
-		/* reserve space for task & resources on top of created thread's stack */
-		addr = thread_stack_malloc(thd, task_sz);
+		if (thread_stack_reserved(thd, task_sz) < 0) {
+			panic("Too small thread stack size");
+		}
 
 		if ((self_task = task_init(addr, task_sz)) == NULL) {
 			res = -EPERM;

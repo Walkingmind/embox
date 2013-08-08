@@ -24,6 +24,17 @@ module core extends thread_mode {
 	@NoRuntime depends embox.kernel.cpu.common
 	depends embox.kernel.time.jiffies
 	@NoRuntime depends embox.kernel.task.MultiThread
+	@NoRuntime depends stack_api
+}
+
+@DefaultImpl(fixed_stack)
+abstract module stack_api {
+}
+
+
+module fixed_stack extends stack_api {
+	source "fixed_stack.c"
+	source "fixed_stack.h"
 }
 
 /* FIXME: Deprecated */
