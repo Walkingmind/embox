@@ -12,7 +12,7 @@
 #define THREAD_AFFINITY_NONE         ((unsigned int)-1)
 
 int sched_affinity_check(struct thread *t , int mask) {
-	if ((t->sched_priv.affinity & mask)
+	if ((t->sched_attr.affinity & mask)
 			&& (task_get_affinity(t->task) & mask)) {
 		return 1;
 	}
@@ -21,13 +21,13 @@ int sched_affinity_check(struct thread *t , int mask) {
 }
 
 void sched_affinity_init(struct thread *t) {
-	t->sched_priv.affinity = THREAD_AFFINITY_NONE;
+	t->sched_attr.affinity = THREAD_AFFINITY_NONE;
 }
 
 void sched_affinity_set(struct thread *t, int mask) {
-	t->sched_priv.affinity = mask;
+	t->sched_attr.affinity = mask;
 }
 
 int sched_affinity_get(struct thread *t) {
-	return t->sched_priv.affinity;
+	return t->sched_attr.affinity;
 }

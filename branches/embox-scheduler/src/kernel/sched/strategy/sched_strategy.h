@@ -18,7 +18,7 @@ struct runq {
 	runq_queue_t queue;
 };
 
-struct sched_strategy_data {
+struct sched_attr {
 	runq_item_t runq_link;
 	affinity_t affinity;
 	sched_timing_t sched_time;

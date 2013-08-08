@@ -20,17 +20,17 @@ void runq_queue_init(runq_queue_t *queue) {
 }
 
 void runq_queue_insert(runq_queue_t *queue, struct thread *thread) {
-	dlist_add_prev(&thread->sched_priv.runq_link, queue);
+	dlist_add_prev(&thread->sched_attr.runq_link, queue);
 }
 
 void runq_queue_remove(runq_queue_t *queue, struct thread *thread) {
-	dlist_del(&thread->sched_priv.runq_link);
+	dlist_del(&thread->sched_attr.runq_link);
 }
 
 struct thread *runq_queue_extract(runq_queue_t *queue) {
 	struct thread *thread;
 
-	thread = dlist_entry(queue->next, struct thread, sched_priv.runq_link);
+	thread = dlist_entry(queue->next, struct thread, sched_attr.runq_link);
 	runq_queue_remove(queue, thread);
 
 	return thread;

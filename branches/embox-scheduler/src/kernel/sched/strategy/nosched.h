@@ -9,7 +9,7 @@
 #define SCHED_NO_STRATEGY_H_
 
 
-struct sched_strategy_data {
+struct sched_attr {
 };
 
 #endif /* SCHED_NO_STRATEGY_H_ */

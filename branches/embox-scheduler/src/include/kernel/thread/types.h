@@ -45,10 +45,9 @@ struct thread {
 
 	struct thread     *joined;       /**< Thread which joined to this. */
 
-	struct wait_data   wait_data;    /**< Hold data for waiting mode */
+	struct wait_data   wait_data;    /**< Hold data in waiting mode */
 
-	/* TODO may be named 'struct sched_attributes' */
-	struct sched_strategy_data sched_priv; /**< Scheduler-private data. */
+	struct sched_attr  sched_attr;   /**< Scheduler-private data. */
 };
 
 #endif /* KERNEL_THREAD_TYPES_H_ */

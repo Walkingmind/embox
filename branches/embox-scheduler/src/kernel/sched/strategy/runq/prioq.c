@@ -12,7 +12,7 @@
 #include <kernel/sched/sched_strategy.h>
 #include <kernel/task.h>
 
-#define rq_field      sched_priv.runq_link
+#define rq_field      sched_attr.runq_link
 
 
 /* return -1 if priority t1 less than t2

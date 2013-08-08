@@ -13,7 +13,7 @@
 #include <kernel/task.h>
 #include <kernel/sched.h>
 
-#define prior_field(field)   t->sched_priv.thread_priority.field
+#define prior_field(field)   t->sched_attr.thread_priority.field
 
 int thread_priority_init(struct thread *t, sched_priority_t new_priority) {
 	assert(t);
