@@ -25,6 +25,7 @@ module priority_based extends api {
 	depends priority_api
 	
 	depends runq.prioq
+	
 	depends Runq
 }
 

@@ -55,7 +55,6 @@ int runq_finish(struct runq *rq, struct thread *t) {
 	assert(rq && t);
 	assert(thread_state_running(t->state));
 
-	//t->runq = NULL;
 	t->state = thread_state_do_exit(t->state);
 	if (!(is_current = (t == thread_self()))) {
 		runq_queue_remove(&rq->queue, t);
@@ -71,7 +70,7 @@ int runq_wake_thread(struct runq *rq, struct thread *t) {
 	assert(thread_state_sleeping(t->state));
 
 	t->state = thread_state_do_wake(t->state);
-	//t->runq = rq;
+
 	if (t != current) {
 		runq_queue_insert(&rq->queue, t);
 	}
@@ -85,6 +84,9 @@ void runq_wait(struct runq *rq) {
 	assert(rq);
 
 	current->state = thread_state_do_sleep(current->state);
+	/* we don't remove current because it is not in runq, we just mark it as
+	 * waiting and after sched switch all will be correct
+	 */
 }
 
 int runq_change_priority(struct runq *rq, struct thread *t, sched_priority_t new_priority) {
