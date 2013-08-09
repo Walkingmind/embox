@@ -1,0 +1,12 @@
+package embox.mem
+
+module heap_lds {
+	source "heap.lds.S"
+//	depends heap_api, page_api /* this for including modules files */
+}
+
+module phymem {
+	source "phymem.c"
+	depends heap_lds /* this for label end of busy memory */
+}
+

@@ -1,0 +1,20 @@
+/*FIXME mybuild libarch is bad packet */
+package embox.arch.x86
+
+static module libarch extends embox.arch.libarch {
+	source "setjmp.S"
+	source "cmpxchg_impl.h"
+}
+
+static module LibDl {
+	source "dl/dl_relocate.c"
+}
+
+static module LibM {
+	source "math/sin.S"
+	source "math/cos.S"
+	source "math/acos.S"
+	source "math/asin.S"	
+	source "math/sqrt.S"
+	source "math/log10.S"
+}
