@@ -40,7 +40,7 @@ def build(bld):
     bld.load('mywaf')
 
     # print(bld.env.TEMPLATE + '/conf.py')
-    conf = bld.mybuild('prj.x86.debug.conf', path='src templates')
+    prj = bld.mybuild('prj.x86.debug.conf', path='src templates')
 
-    print(conf)
+    print(prj.x86.debug.conf)
 
