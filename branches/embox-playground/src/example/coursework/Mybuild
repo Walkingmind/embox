@@ -1,8 +1,0 @@
-package embox.example.coursework
-
-module tsc_error {
-	source "tsc_error.c"
-
-	depends embox.lib.LibC
-	depends embox.framework.LibFramework
-}

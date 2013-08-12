@@ -1,7 +1,0 @@
-
-package mybuild.lang
-
-annotation For {
-	Module value
-}
-
