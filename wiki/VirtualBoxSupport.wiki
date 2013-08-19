@@ -1,31 +1,22 @@
-﻿#summary Virual Box HOWTO
-#label vbox,virtual-box,running
-
-= Virtual Box =
+﻿= Virtual Box =
  == Quick start ==
   This guide assumes that you have already got familar with building embox. If you don't - first you have to be done with that. So, here is the steps:
   * Build Embox
   * Create .vdi virtual hard drive image for Virtual Box
   * Create and run a virtual machine using the created VDI
   === Step one ===
-   First step is described just fine on this wiki. The only difference is that you have to load x86/vb_debug template. It differs from common x86/debug merely with commented ne2k driver (Qemu network card) in mods.config file. It will look like this:
+   First step is described just fine on this wiki. The only difference is that you have to load x86/debug template. It will look like this:
 {{{
-	make confload-x86/vb_debug
+	cd </path/to/project/directory>
+	make confload-x86/debug
 	make
 }}}
    After you get embox file in your /project/folder/build/base/bin directory you can get too step two.
   === Step two ===
-   It consists of configuring and using a script that will create a VDI image that will be run on a virtual machine. Also you got to have grub 0.97 installed. It's installation instructions are also available on this wiki.
-   First of all you have to configure the script. It contains two constants that HAVE to be modified before you start it.
+   It consists of using a script that will create a VDI image that will be run on a virtual machine. Also you got to have grub 0.97 installed (it's installation instructions are also available on this wiki. Now we can proceed to running script. Note that it have to be run as root.
 {{{
-   EMBOX_BIN_DIR="/home/user/Projects/Embox/build/base/bin"
-   VDI_OUTPUT_DIR="/home/user"
-}}}
-   First constant is a directory, where your embox binary is stored after compilation. Do NOT put slash in the end of path. Most likely it will end with "..../build/base/bin". Second constant is an output directory, where VDI will be stored.
-   After you have configured the script's directories you can proceed to running script. Note that it have to be run as root.
-{{{
-	cd </path/to/project/directory>
-	./scripts/makevdi.sh
+	./scripts/disk/make_img.sh
+	./scripts/disk/img2vdi.sh build/base/bin/embox
 }}}
   === Step three ===
    Now, just start up Virtual Box manager, create a machine with the created VDI image of "Other/Other" type, and launch it. You'll boot into grub shell. All you need is to type
@@ -34,59 +25,3 @@
 	boot
 }}}
    That's all.
- == Script internals ==
-  Here is the code of a script, maybe it will be updated with some comments of internal logic soon. A pretty fine good picture of what is happening in this script you can get by reading [InstallToolchainSimulation "all simulators"] page.
-{{{
-#!/bin/bash
-# Gotta have a grub 0.97-like installed on your system
-# 
-
-EMBOX_BIN_DIR="/home/user/Projects/Embox/build/base/bin"
-EMBOX_BIN="embox"
-VDI_OUTPUT_DIR="/home/user"
-VDI_OUTPUT_IMG="embox.vdi"
-TEMP_DIR="/tmp"
-TEMP_IMG="embox_vdi_temp.img"
-DD_IMAGE_SIZE=40320
-DD_IMAGE_OFFSET=32256
-MOUNT_DIR="/mnt/embox"
-GRUB_DIR="/boot/grub"
-LOOP_DEVICE="/dev/loop0"
-
-if [ "$(id -u)" != "0" ]; then
-	echo "This script must be run as root" 1>&2
-	exit 1
-fi
-
-echo -e "\n\nTrying to make up an empty disk image\n\n"
-dd if=/dev/zero of=$TEMP_DIR/$TEMP_IMG count=$DD_IMAGE_SIZE
-
-echo -e "\n\nMake a new pertition on image\n\n"
-echo -e "x\nh\n16\ns\n63\nc\n40\nr\nn\np\n1\n\n\nw\n\n\n" | fdisk $TEMP_DIR/$TEMP_IMG
-
-echo -e "\n\nMake a file system\n\n"
-losetup -o $DD_IMAGE_OFFSET $LOOP_DEVICE $TEMP_DIR/$TEMP_IMG
-mke2fs $LOOP_DEVICE
-losetup -d $LOOP_DEVICE
-
-echo -e "\n\nMount image\n\n"
-mkdir $MOUNT_DIR
-mount -o loop,offset=$DD_IMAGE_OFFSET $TEMP_DIR/$TEMP_IMG $MOUNT_DIR
-
-echo -e "\n\nMoving files to image\n\n"
-mkdir -p $MOUNT_DIR$GRUB_DIR
-cp $EMBOX_BIN_DIR/$EMBOX_BIN $MOUNT_DIR
-cp $GRUB_DIR/{stage1,stage2,e2fs_stage1_5} $MOUNT_DIR$GRUB_DIR
-umount $TEMP_DIR/$TEMP_IMG
-
-echo -e "\n\nInstall grub\n\n"
-echo -e "device (hd0) $TEMP_DIR/$TEMP_IMG\ngeometry (hd0) 40 16 63\nroot (hd0,0)\nsetup (hd0)\nquit\n\n" | grub --device-map=/dev/null
-
-echo -e "\n\nConvert image to VDI\n\n"
-rm -f $VDI_OUTPUT_DIR/$VDI_OUTPUT_IMG
-VBoxManage convertfromraw --format VDI $TEMP_DIR/$TEMP_IMG $VDI_OUTPUT_DIR/$VDI_OUTPUT_IMG
-chmod 777 $VDI_OUTPUT_DIR/$VDI_OUTPUT_IMG
-
-rm -f $TEMP_DIR/$TEMP_IMG
-
-}}}
