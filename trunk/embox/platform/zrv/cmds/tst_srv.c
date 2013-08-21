@@ -15,20 +15,22 @@
 #include <math.h>
 #include <string.h>
 
-#include <kernel/time/ktime.h>
-#include <net/inetdevice.h>
-#include <embox/cmd.h>
-#include <kernel/thread.h>
-#include <err.h>
+#include <pthread.h>
 
-#include <net/netfilter.h>
 #include <util/hashtable.h>
 #include <mem/misc/pool.h>
-#include <kernel/time/timer.h>
 
+#include <embox/cmd.h>
+
+
+//TODO try to use POSIX API in user application
+#include <kernel/time/ktime.h> /* ktime_get_timeval */
+#include <kernel/time/timer.h>
+#include <net/netfilter.h>
 #include <kernel/softirq.h>
 
-#define MAX_ITER_COUNT 	LLONG_MAX
+
+#define MAX_ITER_COUNT  LLONG_MAX
 
 EMBOX_CMD(tst_srv);
 
@@ -241,7 +243,9 @@ static int tst_srv(int argc, char **argv){
 	int res, host;
 	socklen_t addr_len;
 	struct sockaddr_in addr;
-	struct thread *tr;
+	pthread_t tr;
+	int ret;
+
 	addr.sin_family = AF_INET;
 	addr.sin_port= htons(7770);
 	addr.sin_addr.s_addr = htonl(INADDR_ANY);
@@ -273,6 +277,7 @@ static int tst_srv(int argc, char **argv){
 	}
 
 	while (1) {
+		struct sched_param sched_param;
 		addr_len = sizeof addr;
 		res = accept(host,(struct sockaddr *)&addr, &addr_len);
 		if (res <= 0) {
@@ -283,13 +288,14 @@ static int tst_srv(int argc, char **argv){
 			printf("accept ok\n");
 		}
 
-		tr = thread_create(0, client_process, (void *) res);
-		if(err(tr)){
-			printf("Error.. thread_create() failed. errno=%d\n", err(tr));
+		if(0 != (ret = pthread_create(&tr, 0, client_process, (void *) res))) {
+			printf("Error.. thread_create() failed. errno=%d\n", ret);
 			continue;
 		}
-		thread_set_priority(tr, 160);
-		thread_detach(tr);
+		//thread_set_priority(tr, 160);
+		sched_param.sched_priority = 160;
+		pthread_setschedparam(tr, SCHED_OTHER, &sched_param);
+		pthread_detach(tr);
 	}
 	close(host);
     return 0;
