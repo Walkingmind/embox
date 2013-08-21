@@ -19,6 +19,7 @@
 #include <net/inetdevice.h>
 #include <embox/cmd.h>
 #include <kernel/thread.h>
+#include <err.h>
 
 #include <net/netfilter.h>
 #include <util/hashtable.h>
@@ -282,8 +283,9 @@ static int tst_srv(int argc, char **argv){
 			printf("accept ok\n");
 		}
 
-		if(thread_create(&tr, 0, client_process, (void *) res)){
-			printf("Error.. thread_create() failed. errno=%d\n", errno);
+		tr = thread_create(0, client_process, (void *) res);
+		if(err(tr)){
+			printf("Error.. thread_create() failed. errno=%d\n", err(tr));
 			continue;
 		}
 		thread_set_priority(tr, 160);
