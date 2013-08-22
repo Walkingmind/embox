@@ -1,24 +1,23 @@
 root_dir = '.'
 build_dir = 'build'
 
-import sys
-
-sys.path.insert(0, './tools')
+TOOLS_DIR = './tools'
 
 
 def init(ctx):
-    ctx.load('mywaf')
-
+    ctx.load('mywaf', tooldir=TOOLS_DIR)
 
 def options(ctx):
-    ctx.load('mywaf')
+    ctx.load('mywaf', tooldir=TOOLS_DIR)
+    prj = ctx.mybuild('prj.x86.debug.conf', path='src templates')
 
     ctx.add_option('--template', type='string', default='', action='store',
                    help='using template')
 
 
 def configure(ctx):
-    ctx.load('mywaf')
+    ctx.load('mywaf', tooldir=TOOLS_DIR)
+    prj = ctx.mybuild('prj.x86.debug.conf', path='src templates')
 
     template_path = 'templates/' + ctx.options.template
 
@@ -37,8 +36,6 @@ def configure(ctx):
 
 
 def build(bld):
-    bld.load('mywaf')
-
     # print(bld.env.TEMPLATE + '/conf.py')
     prj = bld.mybuild('prj.x86.debug.conf', path='src templates')
 
