@@ -1,7 +1,0 @@
-
-print 'executing [src/hello/Pybuild]', __name__
-
-@module
-def main(self):
-    self.sources = 'hello.c'
-    #pass
