@@ -1,0 +1,6 @@
+
+hello :: module(opt=option.str("foo")) {
+	"Example"
+	files: [],
+};
+
