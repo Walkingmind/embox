@@ -1,23 +1,23 @@
-root_dir = '.'
-build_dir = 'build'
+top = '.'
+out = 'build'
 
-TOOLS_DIR = './tools'
+from waflib import Context as wafcontext
 
+mywaf = wafcontext.load_tool('mywaf', tooldir=['tools'])
+mywaf.register_namespace('prj', path=['src', 'templates'])
 
-def init(ctx):
-    ctx.load('mywaf', tooldir=TOOLS_DIR)
+import prj
+
 
 def options(ctx):
-    ctx.load('mywaf', tooldir=TOOLS_DIR)
-    prj = ctx.mybuild('prj.x86.debug.conf', path='src templates')
+    ctx.load('mywaf')
 
     ctx.add_option('--template', type='string', default='', action='store',
                    help='using template')
 
 
 def configure(ctx):
-    ctx.load('mywaf', tooldir=TOOLS_DIR)
-    prj = ctx.mybuild('prj.x86.debug.conf', path='src templates')
+    ctx.load('mywaf')
 
     template_path = 'templates/' + ctx.options.template
 
@@ -37,7 +37,5 @@ def configure(ctx):
 
 def build(bld):
     # print(bld.env.TEMPLATE + '/conf.py')
-    prj = bld.mybuild('prj.x86.debug.conf', path='src templates')
-
-    print(prj.x86.debug.conf)
+    bld.mybuild(prj.x86.debug.conf)
 
