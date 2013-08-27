@@ -32,10 +32,12 @@ def configure(ctx):
     ctx.find_program(ctx.env.CC, var='CC')
     ctx.find_program(ctx.env.LD, var='LD')
 
-    ctx.mybuild('prj.x86.debug.conf', path='src templates')
+    ctx.mybuild(prj.x86.debug.conf)
 
 
 def build(bld):
     # print(bld.env.TEMPLATE + '/conf.py')
     bld.mybuild(prj.x86.debug.conf)
 
+def moduletest(tst):
+    tst.load('mywaf')
