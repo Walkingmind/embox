@@ -39,5 +39,6 @@ def build(bld):
     # print(bld.env.TEMPLATE + '/conf.py')
     bld.mybuild(prj.x86.debug.conf)
 
-def moduletest(tst):
-    tst.load('mywaf')
+
+def selftest(ctx):
+    ctx.load('mywaf')
