@@ -25,8 +25,8 @@ EMBOX_CMD(control_srv);
 int iter;
 
 int getMsg(char* buf){
-	if(!iter)strcpy(buf,"subject=unclassified, object=unclassified, request=-w-, action=ALLOW, function=security_node_permissions");
-	if(iter==1)strcpy(buf,"login=root");
+	if(!iter)strcpy(buf,"subject=unclassified,object=unclassified,request=-w-,action=ALLOW,function=security_node_permissions");
+	if(iter==1)strcpy(buf,"login=root,action=ALLOW");
 	return strlen(buf);
 }
 
