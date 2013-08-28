@@ -1,0 +1,24 @@
+package zrv.cmd.net
+
+@Cmd(name = "control_srv",
+	help = "Start control server",
+	man = '''
+		NAME
+			control_srv - control server
+		SYNOPSIS
+			control_srv
+		DESCRIPTION
+			Start control server in the system
+		EXAMPLES
+			control_srv
+		AUTHORS
+			Aleev Dmitry
+	''')
+module control_srv {
+	source "control_srv.c"
+
+	depends embox.lib.LibC
+	depends embox.compat.posix.net.socket
+	depends embox.compat.posix.LibPosix
+	depends embox.framework.LibFramework
+}
