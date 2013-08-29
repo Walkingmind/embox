@@ -141,12 +141,13 @@ static void * client_process(void * args) {
 #define PKT_POOL_SZ      10
 
 #define PKT_SEC_RATIO	 100
-#define PKT_TMR_SEC      30
+#define PKT_TMR_SEC      1
 
 #define PKT_LIMIT        PKT_SEC_RATIO * PKT_TMR_SEC
 
 struct pkt_ht_item {
 	unsigned char sha[ETH_ALEN];
+	size_t avg;
 	size_t cnt;
 };
 
@@ -178,7 +179,7 @@ static int pkt_counter_callback(const struct nf_rule *test_r,
 
 	++item->cnt;
 
-	ret = item->cnt > PKT_LIMIT ? 1 : 0;
+	ret = item->cnt + item->avg > 2 * PKT_LIMIT ? 1 : 0;
 
 	softirq_unlock();
 
@@ -199,11 +200,15 @@ static void pkt_tmr_hnd(struct sys_timer *tmr, struct hashtable *ht) {
 	struct pkt_ht_item *item;
 
 	softirq_lock();
-	while ((key = hashtable_get_key_first(ht)) != NULL) {
+	key = hashtable_get_key_first(ht);
+
+	while (key != NULL) {
 		item = hashtable_get(ht, *key);
-		assert(item != NULL);
-		hashtable_del(ht, *key);
-		pool_free(&pkt_ht_item_pool, item);
+		item->avg = (item->avg + item->cnt) / 2;
+		item->cnt = 0;
+
+
+		key = hashtable_get_key_next(ht, key);
 	}
 	softirq_unlock();
 }
