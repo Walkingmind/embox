@@ -23,9 +23,12 @@
 
 EMBOX_CMD(control_srv);
 
-int getMsg(struct seculog_desc *slog_desc, char* buf, size_t len){
+static struct seculog_desc slog_desc;
+
+static int getMsg(struct seculog_desc *slog_desc, char* buf, size_t len){
 
 	if (0 > seculog_get(slog_desc, buf, len)) {
+		*buf = 0;
 		return 0;
 	}
 
@@ -41,10 +44,6 @@ static void * client_process(void * args) {
 	int bytes;
 
 	int sock, actn, len;
-
-	struct seculog_desc slog_desc;
-
-	seculog_open(SECULOG_LABEL_MANDATORY | SECULOG_LABEL_LOGIN_ACT, &slog_desc);
 
 	sock=(int)args;
 	printf("control_srv: Wait request...\n");
@@ -78,7 +77,7 @@ static void * client_process(void * args) {
 
 				len=getMsg(&slog_desc, buf, 1024);
 				send(sock,buf,len+1,0);
-				/*if(!len) break;*/
+				if(!len) break;
 			}
 			else{
 				printf("control_srv: Incorrect request\n");
@@ -93,8 +92,6 @@ static void * client_process(void * args) {
 	}
 
 	printf("control_srv: closing socket\n");
-
-	seculog_close(&slog_desc);
 
 	close(sock);
 
@@ -111,6 +108,8 @@ static int control_srv(int argc, char **argv){
 	addr.sin_family = AF_INET;
 	addr.sin_port= htons(7780);
 	addr.sin_addr.s_addr = htonl(INADDR_ANY);
+
+	seculog_open(SECULOG_LABEL_MANDATORY | SECULOG_LABEL_LOGIN_ACT, &slog_desc);
 
 	/* Create listen socket */
 	host = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
@@ -148,6 +147,9 @@ static int control_srv(int argc, char **argv){
 		}
 		pthread_detach(tr);
 	}
+
 	close(host);
-    return 0;
+	seculog_close(&slog_desc);
+
+	return 0;
 }
