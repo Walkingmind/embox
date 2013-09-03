@@ -21,4 +21,5 @@ module control_srv {
 	depends embox.compat.posix.net.socket
 	depends embox.compat.posix.LibPosix
 	depends embox.framework.LibFramework
+	depends embox.security.seculog
 }
