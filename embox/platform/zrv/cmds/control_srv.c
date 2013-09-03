@@ -15,18 +15,20 @@
 #include <math.h>
 #include <string.h>
 
+#include <security/seculog.h>
+
 #include <pthread.h>
 
 #include <embox/cmd.h>
 
-
-
 EMBOX_CMD(control_srv);
-int iter;
 
-int getMsg(char* buf){
-	if(!iter)strcpy(buf,"subject=unclassified,object=unclassified,request=-w-,action=ALLOW,function=security_node_permissions");
-	if(iter==1)strcpy(buf,"login=root,action=ALLOW");
+int getMsg(struct seculog_desc *slog_desc, char* buf, size_t len){
+
+	if (0 > seculog_get(slog_desc, buf, len)) {
+		return 0;
+	}
+
 	return strlen(buf);
 }
 
@@ -40,10 +42,12 @@ static void * client_process(void * args) {
 
 	int sock, actn, len;
 
+	struct seculog_desc slog_desc;
+
+	seculog_open(SECULOG_LABEL_MANDATORY | SECULOG_LABEL_LOGIN_ACT, &slog_desc);
+
 	sock=(int)args;
 	printf("control_srv: Wait request...\n");
-
-
 
 	while(1){
 		FD_ZERO(&fds);
@@ -53,8 +57,7 @@ static void * client_process(void * args) {
 
 		actn = select(sock + 1, &fds, NULL, NULL, &tv);
 		if (actn <= 0) {
-			close(sock);
-			return NULL;
+			break;
 		}
 
 		bytes=0;
@@ -67,17 +70,15 @@ static void * client_process(void * args) {
 				memset(buf,0,sizeof(buf));
 				buf[0]='$';
 				buf[1]=1;
-				iter=0;
 
 				send(sock,buf,2,0);
 			}
 			else if((!strncmp(buf,"next",4)) && (strlen(buf) == 4)){
 				memset(buf,0,sizeof(buf));
 
-				len=getMsg(buf);
+				len=getMsg(&slog_desc, buf, 1024);
 				send(sock,buf,len+1,0);
-				if(!len) break;
-				iter++;
+				/*if(!len) break;*/
 			}
 			else{
 				printf("control_srv: Incorrect request\n");
@@ -91,10 +92,14 @@ static void * client_process(void * args) {
 
 	}
 
+	printf("control_srv: closing socket\n");
+
+	seculog_close(&slog_desc);
+
 	close(sock);
+
 	return (void*)0;
 }
-
 
 static int control_srv(int argc, char **argv){
 	int res, host;
