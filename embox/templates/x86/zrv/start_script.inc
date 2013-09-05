@@ -10,6 +10,7 @@
 "dropbear &",
 "httpd &",
 "snmpd &",
+"control_srv &",
 "login",
 
 
