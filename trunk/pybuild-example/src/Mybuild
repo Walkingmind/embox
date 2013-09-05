@@ -1,6 +1,11 @@
+module hello: {
+	| opt = option.str("foo") |
+	"""Example"""
 
-hello :: module(opt=option.str("foo")) {
-	"Example"
-	files: [],
-};
+	files: []
+}
+
+project proj: {
+	components: []
+}
 
