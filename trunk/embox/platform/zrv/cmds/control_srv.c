@@ -46,7 +46,7 @@ static void * client_process(void * args) {
 	int sock, actn, len;
 
 	sock=(int)args;
-	printf("control_srv: Wait request...\n");
+//	printf("control_srv: Wait request...\n");
 
 	while(1){
 		FD_ZERO(&fds);
@@ -65,7 +65,7 @@ static void * client_process(void * args) {
 		if(bytes>0) {
 
 			if((!strncmp(buf,"test",4)) && (strlen(buf) == 4)){
-				printf("control_srv: Correct request\n");
+//				printf("control_srv: Correct request\n");
 				memset(buf,0,sizeof(buf));
 				buf[0]='$';
 				buf[1]=1;
@@ -91,7 +91,7 @@ static void * client_process(void * args) {
 
 	}
 
-	printf("control_srv: closing socket\n");
+//	printf("control_srv: closing socket\n");
 
 	close(sock);
 
@@ -138,7 +138,7 @@ static int control_srv(int argc, char **argv){
 			printf("control_srv: Error.. accept() failed. errno=%d\n", errno);
 			continue;
 		} else {
-			printf("control_srv: accept ok\n");
+//			printf("control_srv: accept ok\n");
 		}
 
 		if(0 != (ret = pthread_create(&tr, 0, client_process, (void *) res))) {
