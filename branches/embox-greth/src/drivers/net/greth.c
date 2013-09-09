@@ -58,7 +58,7 @@ EMBOX_UNIT_INIT(greth_init);
 
 /* GRETH buffer descriptor */
 struct greth_bd {
-	uint32_t status;
+	volatile uint32_t status;
 	uint32_t address;
 };
 
@@ -74,9 +74,6 @@ struct greth_regs {
 	uint32_t hash_msb;
 	uint32_t hash_lsb;
 };
-
-
-
 
 
 struct greth_dev {
@@ -110,7 +107,7 @@ static struct greth_bd *greth_alloc_rx_bd(struct greth_dev *dev, struct sk_buff 
 	return bd;
 }
 
-static inline struct greth_bd *greth_alloc_tx_bd(struct greth_dev *dev, struct sk_buff *skb) {
+static struct greth_bd *greth_alloc_tx_bd(struct greth_dev *dev, struct sk_buff *skb) {
 	struct greth_bd *bd = dev->base->tx_desc_p;
 
 	bd->address = (uint32_t)skb->mac.raw;
@@ -140,15 +137,17 @@ static void greth_rings_init(struct greth_dev *dev) {
 	/* initialize rx ring buffer descriptors */
 	skb = skb_alloc(ETH_FRAME_LEN);
 	greth_alloc_rx_bd(dev, skb);
+
 }
 
-#define DEBUG 1
+#define DEBUG 0
 #if DEBUG
 #include <kernel/printk.h>
 /* Debugging routines */
 static inline void show_packet(uint8_t *raw, int size, char *title) {
 	int i;
 
+	irq_lock();
 	printk("\nPACKET(%d) %s:", size, title);
 	for (i = 0; i < size; i++) {
 		if (!(i % 16)) {
@@ -157,17 +156,16 @@ static inline void show_packet(uint8_t *raw, int size, char *title) {
 		printk(" %02hhX", *(raw + i));
 	}
 	printk("\n.\n");
+	irq_unlock();
+}
+#else
+static inline void show_packet(uint8_t *raw, int size, char *title) {
 }
 #endif
 
 
 static int greth_xmit(struct net_device *dev, struct sk_buff *skb) {
-	struct greth_bd *bd;
-
-	irq_lock();
-
-	printk("greth xmit start\n");
-
+	volatile struct greth_bd *bd;
 
 	bd = greth_alloc_tx_bd(&greth_dev, skb);
 	REG_ORIN(&greth_dev.base->control, GRETH_CTRL_TX_EN);
@@ -175,10 +173,6 @@ static int greth_xmit(struct net_device *dev, struct sk_buff *skb) {
 	while(bd->status & GRETH_BD_EN);
 
 	skb_free(skb);
-
-	printk("greth xmit done\n");
-
-	irq_unlock();
 
 	return ENOERR;
 }
@@ -335,3 +329,4 @@ static int greth_init(void) {
 
 	return inetdev_register_dev(nic);
 }
+
