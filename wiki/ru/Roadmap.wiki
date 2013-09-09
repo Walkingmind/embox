@@ -1,18 +1,32 @@
 #summary Embox development roadmap
 #labels Phase-Requirements,Featured
 
-= 2013/09/01 v0.4.1 [http://code.google.com/p/embox/issues/list?can=1&q=milestone=v0.4.1 [issues]] =
+= 2014/03/01 v0.4.1 [http://code.google.com/p/embox/issues/list?can=1&q=milestone=v0.4.1 [issues]] =
   * Перевод всех модулей на новую систему сборки
-  * Поддержка архитектуры MSP430
-  * Поддержка USB
   * Переработка структуры файловой подсистемы
   * Переработка подсистемы памяти
   * Улучшение подсистемы терминала (pty, ttyS и так далее)
 
-= 2013/07/01 v0.4.0 [http://code.google.com/p/embox/issues/list?can=1&q=milestone=v0.4.0 [issues]] [http://code.google.com/p/embox/issues/list?q=milestone=v0.4.0 [open issues]] =
+= 2014/01/01 v0.4.0 [http://code.google.com/p/embox/issues/list?can=1&q=milestone=v0.4.0 [issues]] =
   * Чистка проекта
   * Новая система сборки
 
+= 2013/11/01 v0.3.6 [http://code.google.com/p/embox/issues/list?can=1&q=milestone=v0.3.6 [issues]] =
+  * Добавить библиотеку SysLink для процессоров Davinci
+  * Добавить поддержку файловых ситем (Ext4, CIFS)
+  * Добавить тип (applications), команды пользователя с многократным запуском
+  * Добавить драйвер сетевой карты Virtio-net
+  * Поддержка USB
+  * Пеработать модуль 'task' 
+  * Переработать подситсему индекстных дескрипторов
+
+= 2013/09/15 v0.3.5 [http://code.google.com/p/embox/issues/list?can=1&q=milestone=v0.3.5 [issues]] [http://code.google.com/p/embox/issues/list?q=milestone=v0.3.4 [open issues]] =
+  * Добавлена поддержка MSP430 
+  * Добавлены файловые системы (Ext3, jffs2)
+  * Добавлен интерфейс журнала и кеширование блочных устройст
+  * Добавлен драйвер сетевой карты Greth
+  * Переработан модуль 'scheduler'
+  * Улучшена сетевая подсистема
 
 = 2013/06/01 v0.3.4 [http://code.google.com/p/embox/issues/list?can=1&q=milestone=v0.3.4 [issues]] =
   * Поддержка архитектуры PowerPC
