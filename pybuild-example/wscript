@@ -7,37 +7,19 @@ mywaf = wafcontext.load_tool('mywaf', tooldir=['tools'])
 mywaf.register_namespace('prj', path=['src', 'templates'])
 
 import prj
+mybuild = mywaf.mybuild_project(prj.hello)
 
-
+@mybuild
 def options(ctx):
-    ctx.load('mywaf')
+    pass
 
-    ctx.add_option('--template', type='string', default='', action='store',
-                   help='using template')
-
-
+@mybuild
 def configure(ctx):
-    ctx.load('mywaf')
+    pass
 
-    template_path = 'templates/' + ctx.options.template
-
-    crosstool = getattr(build, 'CROSS_COMPILE', '')
-    ctx.env.CC = crosstool + "gcc"
-    ctx.env.LD = crosstool + "ld"
-    ctx.env.TEMPLATE = template_path
-
-    for flag in ['CFLAGS', 'CXXFLAGS', 'CPPFLAGS', 'LDFLAGS', 'ARFLAGS', 'ASFLAGS']:
-        setattr(ctx.env, 'user_' + flag, getattr(build, flag, []))
-
-    ctx.find_program(ctx.env.CC, var='CC')
-    ctx.find_program(ctx.env.LD, var='LD')
-
-    ctx.mybuild(prj.x86.debug.conf)
-
-
+@mybuild
 def build(bld):
-    # print(bld.env.TEMPLATE + '/conf.py')
-    bld.mybuild(prj.x86.debug.conf)
+    pass
 
 
 def selftest(ctx):
