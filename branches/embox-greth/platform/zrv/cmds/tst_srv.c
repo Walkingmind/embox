@@ -30,7 +30,7 @@
 #include <kernel/softirq.h>
 
 
-#define MAX_ITER_COUNT  LLONG_MAX
+#define MAX_ITER_COUNT  100000
 
 EMBOX_CMD(tst_srv);
 
@@ -139,11 +139,15 @@ static void * client_process(void * args) {
 
 #define PKT_HT_SZ        10
 #define PKT_POOL_SZ      10
-#define PKT_LIMIT        300
-#define PKT_TMR_INTERVAL 3000
+
+#define PKT_SEC_RATIO	 100
+#define PKT_TMR_SEC      1
+
+#define PKT_LIMIT        PKT_SEC_RATIO * PKT_TMR_SEC
 
 struct pkt_ht_item {
 	unsigned char sha[ETH_ALEN];
+	size_t avg;
 	size_t cnt;
 };
 
@@ -153,6 +157,7 @@ static struct sys_timer pkt_tmr;
 static int pkt_counter_callback(const struct nf_rule *test_r,
 		struct hashtable *pkt_ht) {
 	struct pkt_ht_item *item;
+	int ret;
 
 	if (test_r->not_hwaddr_src) {
 		return 0; /* ok: mac addres not specify */
@@ -160,27 +165,25 @@ static int pkt_counter_callback(const struct nf_rule *test_r,
 
 	softirq_lock();
 	item = hashtable_get(pkt_ht, (void *) test_r->hwaddr_src);
-	softirq_unlock();
 	if (item == NULL) {
 		item = pool_alloc(&pkt_ht_item_pool);
 		if (item == NULL) {
+			softirq_unlock();
 			return 1; /* drop: error: no memory */
 		}
 		memcpy(item->sha, test_r->hwaddr_src, ETH_ALEN);
 		item->cnt = 0;
 
-		softirq_lock();
 		hashtable_put(pkt_ht, item->sha, item);
-		softirq_unlock();
 	}
 
 	++item->cnt;
 
-	if (item->cnt > PKT_LIMIT) {
-		return 1; /* drop: flood from this host */
-	}
+	ret = item->cnt + item->avg > 2 * PKT_LIMIT ? 1 : 0;
 
-	return 0; /* ok */
+	softirq_unlock();
+
+	return ret;
 }
 
 static size_t pkt_ht_key_hash(void *key_) {
@@ -197,11 +200,15 @@ static void pkt_tmr_hnd(struct sys_timer *tmr, struct hashtable *ht) {
 	struct pkt_ht_item *item;
 
 	softirq_lock();
-	while ((key = hashtable_get_key_first(ht)) != NULL) {
+	key = hashtable_get_key_first(ht);
+
+	while (key != NULL) {
 		item = hashtable_get(ht, *key);
-		assert(item != NULL);
-		hashtable_del(ht, *key);
-		pool_free(&pkt_ht_item_pool, item);
+		item->avg = (item->avg + item->cnt) / 2;
+		item->cnt = 0;
+
+
+		key = hashtable_get_key_next(ht, key);
 	}
 	softirq_unlock();
 }
@@ -217,7 +224,7 @@ static int pkt_counter_init(void) {
 		return -ENOMEM;
 	}
 
-	ret = timer_init(&pkt_tmr, TIMER_PERIODIC, PKT_TMR_INTERVAL,
+	ret = timer_init(&pkt_tmr, TIMER_PERIODIC, PKT_TMR_SEC * 1000,
 			(sys_timer_handler_t)pkt_tmr_hnd, pkt_ht);
 	if (ret != 0) {
 		hashtable_destroy(pkt_ht);
