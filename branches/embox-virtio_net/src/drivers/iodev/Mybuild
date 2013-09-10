@@ -1,0 +1,13 @@
+package embox.driver.iodev
+
+module iodev_video {
+	source "iodev_video.c"
+
+	depends embox.driver.video.fonts
+
+	/**
+	 * TODO cycle
+	depends embox.driver.video.fb
+	depends embox.driver.video.vesa
+	*/
+}

@@ -1,0 +1,7 @@
+package embox.test
+
+module recursion {
+	source "stack_recursion.c"
+
+	depends embox.framework.LibFramework
+}
