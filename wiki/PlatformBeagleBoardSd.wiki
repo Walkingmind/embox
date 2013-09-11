@@ -1,7 +1,7 @@
 #summary Describe creating BeagleBoard bootable SD
 #labels Phase-Deploy,Phase-Support
 
-= Details =
+= Boot SD =
 
  * Build embox with arm/omap template
  * Create uImage with scripts/omap-uboot-uimage like so
@@ -16,3 +16,19 @@ This will place `uImage` to embox root.
 WARNING!!! It will destroy all /dev/sdb content! Make sure device argument points to SD card, that you want overwrite.
 
 Now you have bootable SD, plug it BeagleBoard and power it on.
+
+= QEMU =
+
+Beagle board can run on QEMU from linaro. Get it from [https://launchpad.net/qemu-linaro]
+
+Build is pretty straightforward:
+{{{
+./configure --audio-drv-list='pa alsa sdl' --python=/usr/bin/python2 --smbd=/usr/bin/smbd --enable-docs --enable-mixemu --enable-linux-aio --enable-seccomp --target-list=arm-softmmu
+make
+}}}
+
+Assuming you have prepared boot SD as descibed above. Run from directory where QEMU build
+
+{{{
+./arm-softmmu/qemu-system-arm -M beagle -sd /dev/sdb -serial stdio
+}}}
