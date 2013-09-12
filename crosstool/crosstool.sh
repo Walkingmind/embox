@@ -26,7 +26,7 @@ source $CROSSTOOL_ARCH.in
 #source mips.in
 
 # Create temp working dir
-TMP_DIR=$(mktemp -d)
+TMP_DIR=$(mktemp -d build.XXXXX)
 CUR_DIR=$(pwd)
 PATCHES_DIR=$CUR_DIR/patches
 
@@ -46,7 +46,7 @@ PATCHES="$(ls $PATCHES_DIR/*.patch 2>/dev/null)
 GET_URL[0]="http://www.mirrorservice.org/sites/ftp.gnu.org/gnu/binutils/binutils-2.22.tar.gz"
 GET_URL[1]="http://mirrors.kernel.org/gnu/gmp/gmp-5.0.2.tar.bz2"
 GET_URL[2]="http://www.multiprecision.org/mpc/download/mpc-0.9.tar.gz"
-GET_URL[3]="http://www.mpfr.org/mpfr-current/mpfr-3.1.1.tar.bz2"
+GET_URL[3]="http://www.mpfr.org/mpfr-current/mpfr-3.1.2.tar.bz2"
 GET_URL[4]="http://www.mirrorservice.org/sites/ftp.gnu.org/gnu/gcc/gcc-4.6.2/gcc-4.6.2.tar.bz2"
 GET_URL[5]="http://ftp.gnu.org/gnu/gdb/gdb-7.4.tar.bz2"
 
@@ -118,7 +118,7 @@ do_gcc() {
 		--disable-multilib \
 		--with-gnu-as \
 		--without-headers \
-		--enable-languages=c \
+		--enable-languages=c,c++ \
 		--disable-libssp \
 		--with-mpfr-include=$(pwd)/../${NAME[4]}/mpfr/src \
 		--with-mpfr-lib=$(pwd)/mpfr/src/.libs \
@@ -160,5 +160,3 @@ print_msg "directory is $TMP_DIR"
 do_download && do_unpack && do_binutils && do_gcc && do_gdb && makepkg
 
 popd > /dev/null
-
-rm -fr $TMP_DIR
