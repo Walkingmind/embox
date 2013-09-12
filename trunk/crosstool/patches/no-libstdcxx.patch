@@ -1,0 +1,42 @@
+--- gcc-4.6.2/configure.old	2013-09-12 16:17:51.207630923 +0400
++++ gcc-4.6.2/configure	2013-09-12 16:21:11.134291696 +0400
+@@ -3231,7 +3231,7 @@
+     libgloss_dir=arm
+     ;;
+   arm-*-elf* | strongarm-*-elf* | xscale-*-elf* | arm*-*-eabi* )
+-    noconfigdirs="$noconfigdirs target-libffi target-qthreads"
++    noconfigdirs="$noconfigdirs target-libstdc++-v3 target-libffi target-qthreads"
+     libgloss_dir=arm
+     ;;
+   arm*-*-linux-gnueabi)
+@@ -3508,7 +3508,7 @@
+     noconfigdirs="$noconfigdirs ld binutils gprof target-libgloss ${libgcj}"
+     ;;
+   microblaze*)
+-    noconfigdirs="$noconfigdirs gprof target-libssp ${libgcj}"
++    noconfigdirs="$noconfigdirs gprof target-libstdc++-v3 target-libssp ${libgcj}"
+     ;;
+   mips*-sde-elf*)
+     noconfigdirs="$noconfigdirs ${libgcj}"
+@@ -3534,10 +3534,10 @@
+     noconfigdirs="$noconfigdirs target-newlib target-libgloss"
+     ;;
+   mips*-*-*)
+-    noconfigdirs="$noconfigdirs gprof ${libgcj}"
++    noconfigdirs="$noconfigdirs gprof target-libstdc++-v3 ${libgcj}"
+     libgloss_dir=mips
+     ;;
+-  romp-*-*)
++  romp-*-*target-libstdc++-v3 )
+     noconfigdirs="$noconfigdirs bfd binutils ld gas opcodes target-libgloss ${libgcj}"
+     ;;
+   sh-*-* | sh64-*-*)
+@@ -3558,7 +3558,7 @@
+     libgloss_dir=sparc
+     ;;
+   sparc-*-elf*)
+-    noconfigdirs="$noconfigdirs ${libgcj}"
++    noconfigdirs="$noconfigdirs target-libstdc++-v3 ${libgcj}"
+     ;;
+   sparc64-*-elf*)
+     noconfigdirs="$noconfigdirs ${libgcj}"
