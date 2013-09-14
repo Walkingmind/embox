@@ -8,5 +8,3 @@ TARGET_OPTIONS="--with-tune=leon --with-cpu=v8"
 
 #TARGET=sparc-leon-elf
 #TARGET_OPTIONS=--with-soft-fp
-
-PATCHES="tc-sparc.patch gengtype.patch"
