@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 # Build a GNU/Linux cross-toolchain
 # $Id$
@@ -18,21 +18,15 @@ error_exit() {
 
 [ ! -z $CROSSTOOL_ARCH ] || error_exit "Provide arch name, like \n$0 sparc"
 
-source $CROSSTOOL_ARCH.in
+source ./$CROSSTOOL_ARCH.in
 
-#source arm.in
-#source microblaze.in
-#source sparc.in
-#source mips.in
-
-# Create temp working dir
-TMP_DIR=$(mktemp -d build.XXXXX)
 CUR_DIR=$(pwd)
+# Create temp working dir
+TMP_DIR=$CUR_DIR/$(mktemp -d build.XXXXX)
 PATCHES_DIR=$CUR_DIR/patches
 
 PATCHES="$(ls $PATCHES_DIR/*.patch 2>/dev/null) 
 	$(ls $PATCHES_DIR/$CROSSTOOL_ARCH/*.patch 2>/dev/null)"
-
 
 # Keys:
 #  0 - binutils
@@ -41,8 +35,6 @@ PATCHES="$(ls $PATCHES_DIR/*.patch 2>/dev/null)
 #  3 - mpfr
 #  4 - gcc
 #  5 - gdb
-
-
 GET_URL[0]="http://www.mirrorservice.org/sites/ftp.gnu.org/gnu/binutils/binutils-2.22.tar.gz"
 GET_URL[1]="http://mirrors.kernel.org/gnu/gmp/gmp-5.0.2.tar.bz2"
 GET_URL[2]="http://www.multiprecision.org/mpc/download/mpc-0.9.tar.gz"
