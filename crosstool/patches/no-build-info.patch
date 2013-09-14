@@ -1,0 +1,11 @@
+--- gcc-4.6.2/gcc/configure.orig	2011-10-12 22:07:25.000000000 +0400
++++ gcc-4.6.2/gcc/configure	2013-09-14 15:47:16.000000000 +0400
+@@ -7666,7 +7666,7 @@
+ *** Info documentation will not be built." >&2;}
+   BUILD_INFO=
+ else
+-  BUILD_INFO=info
++  BUILD_INFO=
+ fi
+ 
+ 
