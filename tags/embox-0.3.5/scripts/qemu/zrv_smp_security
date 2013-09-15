@@ -1,0 +1,13 @@
+#!/bin/bash
+
+QEMU=qemu-system-i386
+IMAGE=../../build/base/bin/embox
+EMBOX_MODS_CONF=../../conf/mods.config
+SMP="-smp 2,cores=2"
+
+sudo $QEMU -kernel $IMAGE $SMP \
+ -drive file="< путь к образу >/zrv-mandatory.img",media=disk \
+ -net nic,model=e1000,macaddr=AA:BB:CC:DD:EE:11 \
+ -net socket,mcast=230.0.0.1:12345 -nographic $@
+
+
