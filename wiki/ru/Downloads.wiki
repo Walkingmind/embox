@@ -2,11 +2,12 @@
 
 = Стабильные версии Embox =
 
-Крайняя стабильная версия *embox-0.3.4* (вышла 01 Июня 2013)
+Крайняя стабильная версия *embox-0.3.5* (вышла 15 Сентября 2013)
 
 || Версия || Размер || SHA1 ||
-|| *[http://embox.googlecode.com/files/embox-0.3.4.txz embox-0.3.4.txz]* || 3.4 MB || `61a9cc9c69816025c220397d2d14aea61131f591` ||
-|| *[http://embox.googlecode.com/files/embox-0.3.4.tar.gz embox-0.3.4.tar.gz]* || 4.7 MB || `029dd33416c0c148cf80bc22dbecd63df68c8004` ||
+|| *[http://embox.googlecode.com/files/embox-0.3.5.txz embox-0.3.5.txz]* || 3.1 MB || `b3e87befc969b0be15028c2120650322eaff6727` ||
+|| *[http://embox.googlecode.com/files/embox-0.3.5.tar.gz embox-0.3.5.tar.gz]* || 4.6 MB || `751ee04db1dfcb2bdc7eb7581b33a486a6aff721` ||
+|| [http://embox.googlecode.com/files/embox-0.3.4.txz embox-0.3.4.txz] || 3.4 MB || `61a9cc9c69816025c220397d2d14aea61131f591` ||
 || [http://embox.googlecode.com/files/embox-0.3.3.txz embox-0.3.3.txz] || 1.1 MB || `f97a4e415b8f1037f766aa60d503b62ee5a4d585` ||
 || [http://embox.googlecode.com/files/embox-0.3.2.txz embox-0.3.2.txz] || 987 KB || `7ea9589c69987f2186871d54573445336544716e` ||
 || [http://embox.googlecode.com/files/embox-0.3.1.txz embox-0.3.1.txz] || 939 KB || `955da3031a250b282da079f3c1f6e37fea79ad58` ||
