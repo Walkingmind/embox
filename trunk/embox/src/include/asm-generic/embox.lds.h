@@ -58,6 +58,7 @@
 #define LDS_INPUT_DATA \
 	ALIGNMENT();                   \
 	*(.data)                       \
+	*(.sdata)                      \
 	*(.data.*)                     \
 	__app_data_start = .;          \
 	*(.app.data.*)                 \
@@ -67,6 +68,7 @@
 #define LDS_INPUT_BSS \
 	ALIGNMENT();                   \
 	*(.bss)                        \
+	*(.sbss)                       \
 	*(.bss.*)                      \
 	__app_bss_start = .;           \
 	*(.app.bss.*)                  \

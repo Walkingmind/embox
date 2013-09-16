@@ -26,19 +26,15 @@ SECTIONS {
 	SECTION_SYMBOLS(rodata)
 
 	.data : {
-		ALIGNMENT();
-		*(.data)
-		ALIGNMENT();
+		LDS_INPUT_DATA
 		LDS_INPUT_RESERVE
 	} SECTION_REGION(data)
 	SECTION_SYMBOLS(data)
 
 	.bss : {
-		ALIGNMENT();
-		*(.bss)
-		ALIGNMENT();
+		LDS_INPUT_BSS
 	} SECTION_REGION(bss)
-	SECTION_SYMBOLS(bss) 
+	SECTION_SYMBOLS(bss)
 }
 
 _mem_begin = LDS_REGION_BASE_sdram;
