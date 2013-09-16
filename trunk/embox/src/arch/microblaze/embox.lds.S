@@ -36,8 +36,8 @@ SECTIONS {
 		LDS_INPUT_BSS
 	} SECTION_REGION(bss)
 	SECTION_SYMBOLS(bss)
-	_bstart = bss_vma;
-	_bend = _bstart + bss_len;
+	_bstart = _bss_vma;
+	_bend = _bstart + _bss_len;
 
 	.reserve (NOLOAD): {
 		LDS_INPUT_RESERVE
