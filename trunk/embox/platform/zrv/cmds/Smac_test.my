@@ -1,12 +1,14 @@
 
 package zrv.cmd
 
+@Cmd(name="smac_test")
 module smac_test {
 	@IncludePath("$(PLATFORM_DIR)/zrv/include")
 	source "smac_test.c"
 	depends smac_test_piece
 }
 
+@Cmd(name="smac_test_piece")
 module smac_test_piece {
 	@IncludePath("$(PLATFORM_DIR)/zrv/include")
 	source "smac_test_piece.c"
