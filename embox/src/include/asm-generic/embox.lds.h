@@ -63,6 +63,9 @@
 	__app_data_start = .;          \
 	*(.app.data.*)                 \
 	__app_data_end = .;            \
+	__app_data_size =              \
+	    (__app_data_end -          \
+	     __app_data_start);        \
 
 
 #define LDS_INPUT_BSS \
@@ -78,8 +81,7 @@
 #define LDS_INPUT_RESERVE \
 	ALIGNMENT();                   \
 	__app_reserve_start = .;       \
-	. += (__app_data_end -         \
-	      __app_data_start);       \
+	. += __app_data_size;          \
 	__app_reserve_end = .;         \
 	*(.reserve*)                   \
 
