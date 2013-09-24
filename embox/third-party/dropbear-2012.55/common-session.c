@@ -189,13 +189,13 @@ void session_loop(void(*loophandler)(void)) {
 		/* process session socket's incoming/outgoing data */
 		if (ses.sock_out != -1) {
 			if (FD_ISSET(ses.sock_out, &writefd) && !isempty(&ses.writequeue)) {
-				write_packet();
+				dropbear_write_packet();
 			}
 		}
 
 		if (ses.sock_in != -1) {
 			if (FD_ISSET(ses.sock_in, &readfd)) {
-				read_packet();
+				dropbear_read_packet();
 			}
 			
 			/* Process the decrypted packet. After this, the read buffer
