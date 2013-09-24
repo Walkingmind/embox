@@ -49,7 +49,7 @@ static void buf_compress(buffer * dest, buffer * src, unsigned int len);
 #endif
 
 /* non-blocking function writing out a current encrypted packet */
-void write_packet(void) {
+void dropbear_write_packet(void) {
 	int len, written;
 	buffer * writebuf = NULL;
 	time_t now;
@@ -107,7 +107,7 @@ void write_packet(void) {
 /* Non-blocking function reading available portion of a packet into the
  * ses's buffer, decrypting the length if encrypted, decrypting the
  * full portion if possible */
-void read_packet(void) {
+void dropbear_read_packet(void) {
 
 	int len;
 	unsigned int maxlen;
