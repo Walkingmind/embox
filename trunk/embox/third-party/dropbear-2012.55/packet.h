@@ -28,8 +28,8 @@
 
 #include "includes.h"
 
-void write_packet(void);
-void read_packet(void);
+void dropbear_write_packet(void);
+void dropbear_read_packet(void);
 void decrypt_packet(void);
 void encrypt_packet(void);
 
