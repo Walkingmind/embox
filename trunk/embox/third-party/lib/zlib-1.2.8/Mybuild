@@ -1,10 +1,10 @@
 package third_party.zlib
 
-module libs {
+static module libs {
 	depends embox.lib.LibC
-	
+
 	depends embox.arch.x86.LibM // FIXME:
-	
+
 	source "empty.c" // FIXME: workaround
 
 	@Rule(script="$(MAKE) -C $(THIRDPARTY_DIR)/lib/zlib-1.2.8 MAKEFLAGS= EMBOX_MAKEFLAGS='$(MAKEFLAGS)' ROOT_DIR=$(abspath $(ROOT_DIR)) EMBOX_CFLAGS='$(CFLAGS)' EMBOX_CXXFLAGS='$(CXXFLAGS)' EMBOX_CPPFLAGS='$(EMBOX_EXPORT_CPPFLAGS)'")
@@ -24,7 +24,7 @@ module libs {
 	''')
 module gzip {
 	depends libs
-	
+
 	@Rule(script="true")
 	source "../../../../../../third-party/lib/zlib-1.2.8/minigzip.o"
 	source "minigzip_cmd.c"
