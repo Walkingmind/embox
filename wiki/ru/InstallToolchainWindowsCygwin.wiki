@@ -68,6 +68,10 @@ Cygwin загрузит свои установочные файлы в зада
 Выберите пакет *make*, версия *3.81* или выше.
  http://embox.googlecode.com/svn/wiki/images/InstallToolchainWindowsCygwin/cygwin-setup-make.png
   Наберите `make` в поле поиска и выберите _make_ в категории _Devel_.
+  
+==== Возможные проблемы ===
+
+См. https://code.google.com/p/embox/issues/detail?id=504
 
 ==== gcc ====
 
