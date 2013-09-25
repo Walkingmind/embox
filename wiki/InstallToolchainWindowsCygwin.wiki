@@ -68,6 +68,9 @@ Select package *make*, version *3.81* or higher.
  http://embox.googlecode.com/svn/wiki/images/InstallToolchainWindowsCygwin/cygwin-setup-make.png
   Type `make` into search field and select _make_ from category _Devel_.
 
+==== make troubleshooting ====
+See https://code.google.com/p/embox/issues/detail?id=504
+
 ==== gcc ====
 
 You are free to choose between *gcc* and *gcc4* packages of any stable version.
