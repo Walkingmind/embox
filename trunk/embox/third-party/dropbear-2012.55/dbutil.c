@@ -467,7 +467,12 @@ static struct task_data {
 	int errfds[2];
 } data;
 
-extern int pipe_pty(int pipe[2]);
+#include <termios.h>
+extern int pipe_pty(int pipe[2], const struct termios *tio);
+static const struct termios pipetio = {
+	.c_lflag = ICANON,
+	.c_oflag = ONLCR,
+};
 
 static void *child_handler(void *arg) {
 	int *infds = data.infds;
@@ -480,9 +485,9 @@ static void *child_handler(void *arg) {
 	const int FDIN = 0;
 	const int FDOUT = 1;
 
-	pipe_pty(infds);
-	pipe_pty(outfds);
-	pipe_pty(errfds);
+	pipe_pty(infds, NULL);
+	pipe_pty(outfds, &pipetio);
+	pipe_pty(errfds, NULL);
 
 #ifdef EMBOX_FULL
 	TRACE(("back to normal sigchld"))
