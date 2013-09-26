@@ -358,6 +358,7 @@ static void chansessionrequest(struct Channel *channel) {
 		ret = sessioncommand(channel, chansess, 0, 0);
 	} else if (strcmp((const char *)type, "pty-req") == 0) {
 #ifndef EMBOX_FULL
+		ret = DROPBEAR_SUCCESS;
 		goto out;
 #else
 		ret = sessionpty(chansess);
