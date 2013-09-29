@@ -1,6 +1,0 @@
-package mybuild.lang
-
-annotation Rule {
-	string prerequisites
-	string script
-}

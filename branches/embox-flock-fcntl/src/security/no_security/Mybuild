@@ -1,6 +1,0 @@
-
-package embox.security
-
-module no_security extends api {
-	source "no_security.c"
-}
