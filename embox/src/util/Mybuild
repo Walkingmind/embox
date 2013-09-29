@@ -1,7 +1,7 @@
 package embox.util
 
 /*
-   Modules here are true libraries without init functions. 
+   Modules here are true libraries without init functions.
    So it's safe and natural to have it static
 */
 
@@ -11,6 +11,7 @@ static module Prioq {
 
 static module Array {
 	source "array_impl.h"
+	source "array_spread.lds.S"
 }
 
 static module Bit {
@@ -31,7 +32,7 @@ static module SListNDebug extends SList {
 
 @DefaultImpl(ListNDebug)
 abstract module List {
-	
+
 }
 
 static module ListDebug extends List {
