@@ -436,7 +436,7 @@ static int exec(int argc, char *argv[]) {
 	if (argc == 1) {
 		int i;
 		mutex_init(&pending_mutex);
-		cond_init(&pending_cond);
+		cond_init(&pending_cond, NULL);
 
 		for (i = 0; i < GRID_MAX_CONNECTIONS; i++) {
 			clients[i].fd = -1;
