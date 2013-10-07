@@ -1,0 +1,18 @@
+/*FIXME mybuild libarch is bad packet */
+package embox.kernel
+
+@Mandatory
+module Kernel {
+	/* FIXME
+	 * 1.it depends from embox.prom.printf (for init.c)
+	 */
+	source "init.c"
+
+	depends embox.arch.libarch
+	depends embox.arch.locore
+	depends embox.arch.cpu
+	depends embox.kernel.stack
+
+	depends embox.framework.runlevel
+	depends embox.lib.LibCAssert
+}
