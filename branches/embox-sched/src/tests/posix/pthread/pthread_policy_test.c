@@ -1,15 +1,14 @@
 /**
  * @file
  *
- * @date Aug 23, 2013
- * @author: Anton Bondarev
+ * @date 09.10.13
+ * @author: Vita Loginova
  */
 
 #include <pthread.h>
 #include <embox/test.h>
 #include <kernel/thread.h>
 #include <err.h>
-#include <embox/test.h>
 #include <kernel/sched.h>
 
 static pthread_t low, medium, high, low_other;
