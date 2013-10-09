@@ -80,10 +80,6 @@ void sched_start(struct thread *t) {
 
 	sched_lock();
 	{
-		if (t->policy == SCHED_FIFO) {
-			sched_ticker_fini(&rq);
-		}
-
 		post_switch_if(runq_start(&rq, t));
 	}
 	sched_unlock();
@@ -199,6 +195,10 @@ static void sched_switch(void) {
 
 		if (prev->policy == SCHED_FIFO && next->policy != SCHED_FIFO) {
 			sched_ticker_init();
+		}
+
+		if (prev->policy != SCHED_FIFO && next->policy == SCHED_FIFO) {
+			sched_ticker_fini(&rq);
 		}
 
 		/* Running time recalculation */
