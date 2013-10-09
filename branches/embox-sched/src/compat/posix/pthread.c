@@ -371,6 +371,10 @@ int pthread_setconcurrency(int new_level) {
 */
 int pthread_setschedparam(pthread_t thread, int policy,
 		const struct sched_param *param) {
+	assert((policy != SCHED_FIFO && policy != SCHED_RR) ||
+			param->sched_priority >= 200, "In current realization you must "
+			"use SCHED_FIFO and SCHED_RR only with priority more or equal 200");
+
 	thread->policy = policy;
 	return thread_set_priority(thread, param->sched_priority);
 }
