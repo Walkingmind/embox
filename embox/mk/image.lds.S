@@ -2,6 +2,18 @@
 
 #include <asm-generic/embox.lds.h>
 
+#ifdef ARCH_TEXT_ALIGNMENT
+# define TEXT_ALIGNMENT    ARCH_TEXT_ALIGNMENT
+#else
+# define TEXT_ALIGNMENT    DEFAULT_TEXT_ALIGNMENT
+#endif
+
+#ifdef ARCH_DATA_ALIGNMENT
+# define DATA_ALIGNMENT    ARCH_DATA_ALIGNMENT
+#else
+# define DATA_ALIGNMENT    DEFAULT_DATA_ALIGNMENT
+#endif
+
 PHDRS {
 	text     PT_LOAD  FLAGS(5);  /* R_E */
 	rodata   PT_LOAD  FLAGS(5);  /* R_E */
@@ -15,16 +27,14 @@ SECTION_SYMBOLS(data)
 SECTION_SYMBOLS(bss)
 
 SECTIONS {
-	.text : {
-		REGION_ALIGN();
+	.text : ALIGN(TEXT_ALIGNMENT) {
 
 		*(.text)
 		*(.text.*)
 
 	} SECTION_REGION(text) :text
 
-	.rodata : {
-		REGION_ALIGN();
+	.rodata : ALIGN(DATA_ALIGNMENT) {
 
 		*(.rodata)
 		*(.rodata.*)
@@ -47,8 +57,7 @@ SECTIONS {
 
 	} SECTION_REGION(rodata) :rodata
 
-	.data : {
-		REGION_ALIGN();
+	.data : ALIGN(DATA_ALIGNMENT) {
 
 		*(.data)
 		*(.sdata)
@@ -58,8 +67,7 @@ SECTIONS {
 
 	} SECTION_REGION(data) :data
 
-	.bss : {
-		REGION_ALIGN();
+	.bss : ALIGN(DATA_ALIGNMENT) {
 
 		*(.bss)
 		*(.sbss)
