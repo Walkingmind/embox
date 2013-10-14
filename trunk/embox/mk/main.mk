@@ -232,6 +232,19 @@ Usage: $(MAKE) xconfig
 endef # xconfig
 
 #
+# Disassembly
+#
+
+.PHONY : disasm
+disasm :
+	+@$(make_mybuild) build DISASSEMBLY=y
+
+define help-disasm
+Usage: $(MAKE) disasm
+  Disassembly image file
+endef # disasm
+
+#
 # Cleaning targets.
 #
 
@@ -343,7 +356,8 @@ help_entries := \
 	clean \
 	confclean \
 	cacheclean \
-	distclean
+	distclean \
+	disasm
 help_targets := $(help_entries:%=help-%)
 
 # Fixup documentation variables escaping colons (':' -> '$$:').
