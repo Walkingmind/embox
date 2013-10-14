@@ -1,15 +1,15 @@
 package embox.kernel.task
 
 @DefaultImpl(single)
-abstract module api { 
+abstract module api {
 	option number max_resource_size = 1024
-	
+
 }
 
 module single extends api {
 	source "single.c"
 	depends kernel_task
-	
+
 
 	depends embox.kernel.thread.current.api
 	depends embox.kernel.sched.strategy.api
@@ -20,9 +20,9 @@ module single extends api {
 module multi extends api {
 	source "multi.c"
 	depends kernel_task
-	
+
 	option number tasks_quantity = 20
-	
+
 	depends embox.util.idx_table
 
 	/* uses task_self() to initialize resources, which implies
@@ -55,15 +55,15 @@ module kernel_task {
 
 }
 
-module std_signal { 
-	source "std_signal.c"
+module std_signal {
+//	source "std_signal.c"
 
 	depends api
 //	depends signal_common
 }
 
-module rt_signal { 
-	source "rt_signal.c"
+module rt_signal {
+//	source "rt_signal.c"
 
 	depends api
 	depends signal_common
@@ -72,7 +72,7 @@ module rt_signal {
 
 module signal_common {
 	source "signal.c"
-	
+
 	depends embox.kernel.sched.sched
 }
 
@@ -113,13 +113,13 @@ module io_sync {
 
 module waitpid {
 	source "waitpid.c"
-	
+
 	depends embox.kernel.sched.sched
 	depends embox.kernel.sched.wait_queue
 }
 @DefaultImpl(task_no_thread_key)
 abstract module task_key_table {
-	
+
 }
 
 module task_no_thread_key extends task_key_table {
@@ -128,7 +128,7 @@ module task_no_thread_key extends task_key_table {
 
 module task_thread_key extends task_key_table {
 	option number keys_quantity = 0x400
-	
+
 	source "task_thread_key.h"
 	source "task_thread_key.c"
 }
