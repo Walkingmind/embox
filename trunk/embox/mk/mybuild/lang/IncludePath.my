@@ -2,6 +2,10 @@
 package mybuild.lang
 
 annotation IncludePath {
-	string value 
+	string value
+}
+
+annotation IncludePathBefore {
+	string value
 }
 
