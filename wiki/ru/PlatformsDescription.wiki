@@ -9,8 +9,8 @@
 == ARM ==
  || <img src="http://embox.googlecode.com/svn/wiki/images/PlatformsDescription/SAM7-P256-1.png" width="320" height="240"> || эта отладочная плата содержит контроллер at91sam7 с простой периферией. Это очень дешевое и простое для ознакомление решение. Более подробно [PlatformOlimexSam7 здесь] ||
  || <img src="http://embox.googlecode.com/svn/wiki/images/PlatformsDescription/embox_lego.jpg" width="320" height="240">  ||  Embox supports [http://en.wikipedia.org/wiki/Lego_Mindstorms Lego Mindstorms NXT]. Более подробно [PlatformLegoNxt здесь] ||
- || <img src="http://embox.googlecode.com/svn/wiki/images/PlatformsDescription/board_stm32vl_discovery.jpg" width="320" height="240">  || Отладочная плата с Cortex-M3 и встроенным отладчиком. Подробнее [PlatformStm32Discovery здесь] ||
+ || <img src="http://embox.googlecode.com/svn/wiki/images/PlatformsDescription/stm32vldiscovery.jpg" width="320" height="240">  || Отладочная плата с Cortex-M3 и встроенным отладчиком. Подробнее [PlatformStm32Discovery здесь] ||
 
 == x86 ==
  || <img src="http://embox.googlecode.com/svn/wiki/images/PlatformsDescription/embox_asus.jpg" width="320" height="240"> || Embox поддерживает платформу PC (x86), также он может выполняться на симуляторе [http://wiki.qemu.org/Main_Page QEMU].||
- || <img src="http://embox.googlecode.com/svn/wiki/images/PlatformsDescription/bifferboard.png" width="320" height="240"> || Embox поддерживает [http://sites.google.com/site/bifferboard Bifferboard]. Более подробно [PlatformBifferboard здесь] ||
+ || <img src="http://embox.googlecode.com/svn/wiki/images/PlatformsDescription/bifferboard.jpg" width="320" height="240"> || Embox поддерживает [http://sites.google.com/site/bifferboard Bifferboard]. Более подробно [PlatformBifferboard здесь] ||

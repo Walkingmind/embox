@@ -1,28 +1,52 @@
 #summary Описание работы с Bifferboard
 
-= HOW-TO =
+*[https://sites.google.com/site/bifferboard/ Bifferboard]* - это одноплатный миникомпьютер на базе Intel 486SX CPU @ 150Mhz.
 
- # скачать утилиты для работы с Bifferboard
+= С чего начать =
+
+ # Поддержка USB Prolific 2303 Single Port Serial Driver в linux ядре
+  # для сборки драйвера как модуль, выберите M: модуль будет называться pl2303
+{{{
+Device Drivers ->
+ [*] USB support ->
+  <*> USB Serial Converter support
+   <M> USB Prolific 2303 Single Port Serial Driver
+}}}
+  # make && make modules_install
+ # Доступ к PL2303 USB serial адаптеру (/dev/ttyUSB0)
+  # добавьте новое udev правило в /etc/udev/rules.d/, напр. /etc/udev/rules.d/85-pl2303-serial.rules со следующим содержанием:
+{{{
+ATTRS{idVendor}=="067b", ATTRS{idProduct}=="2303", MODE="0666"
+}}}
+  # перезагрузите udev правила
+{{{
+udevadm control --reload-rules
+}}}
+ # Вам понадобится [http://alioth.debian.org/projects/minicom Minicom] для взаимодействия с serial портом
+  # В секции 'Serial port setup', выберите следующие настройки
+   # жамкните 'A' и выставьте 'Serial Device' в /dev/ttyUSB0
+   # жамкните ‘E’ и выберите Bps/Par/Bits. Выставьте в 115200 8N1
+   # жамкните ‘F’/'G' и выставьте 'Hardware Flow Control'/'Software Flow Control' в 'No'
+ # Подготовьте BIfferboard
+  # скачать необходимые утилиты
 {{{
 svn co https://bifferboard.svn.sourceforge.net/svnroot/bifferboard/utils
 }}}
- # подключить ethernet и usb кабели к Bifferboard
- # запустить minicom
- # конфигурирование Bifferboard
+  # подключить ethernet и usb кабели к Bifferboard
+  # конфигурирование Bifferboard
 {{{
 sudo ./bb_eth_setconfig.py
 }}}
-  # установить "Terget MAC"
-  # установить "Flash Size" в "8 MB"
-  # установить "Boot image type" в "flat binary"
-  # установить "Load address" в "0x400000"
-  # нажать "Connect" (статус Polling)
-  # включить питание платы
-  # нажать "Write" (если статус Connected)
- # собрать Embox с x86/bifferboard конфигом
- # прошить во flash Bifferboard (вставьте MAC вашей платы)
+   # установить "Terget MAC" (со стикера на плате)
+   # установить "Flash Size" в "8 MB"
+   # установить "Boot image type" в "flat binary"
+   # установить "Load address" в "0x400000"
+   # нажать "Connect" (статус Polling)
+   # включить питание платы
+   # нажать "Write" (если статус Connected)
+ # Собрать Embox с x86/bifferboard конфигом
+ # Прошить во flash Bifferboard (вставьте MAC вашей платы)
 {{{
-sudo ./bb_eth_upload8.py eth0 00:b3:f6:00:6e:6f path/embox.bin
+sudo ./bb_eth_upload8.py eth0 <Target MAC> path/embox.bin
 }}}
- # перезагрузить Bifferboard
-
+ # Перезагрузить Bifferboard

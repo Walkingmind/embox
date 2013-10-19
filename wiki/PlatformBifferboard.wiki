@@ -1,31 +1,52 @@
 #summary Getting started with Bifferboard
 
-<img src="http://embox.googlecode.com/svn/wiki/images/PlatformsDescription/bifferboard.jpg" width="320" height="240" align="right">
-
 *[https://sites.google.com/site/bifferboard/ Bifferboard]* is a tiny computer with 150MHz Intel 486SX CPU.
 
-= Step-by-step =
+= How to Get Started =
 
- # Checkout Bifferboard utils
+ # Linux kernel USB Prolific 2303 Single Port Serial Driver support
+  # to compile this driver as a module, choose M here: the module will be called pl2303
 {{{
-svn co https://bifferboard.svn.sourceforge.net/svnroot/bifferboard/utils
+Device Drivers ->
+ [*] USB support ->
+  <*> USB Serial Converter support
+   <M> USB Prolific 2303 Single Port Serial Driver
 }}}
- # Plug-in Ethernet and USB cables to the Bifferboard
- # Run `minicom`
- # Configure the Bifferboard
+  # make && make modules_install
+ # Accessing PL2303 USB serial adapter (/dev/ttyUSB0)
+  # add a udev rule to /etc/udev/rules.d/, e.g. /etc/udev/rules.d/85-pl2303-serial.rules with the following content:
+{{{
+ATTRS{idVendor}=="067b", ATTRS{idProduct}=="2303", MODE="0666"
+}}}
+  # tell udev to reload it’s ruleset
+{{{
+udevadm control --reload-rules
+}}}
+ # You need [http://alioth.debian.org/projects/minicom Minicom] to communicate with the serial port
+  # In the 'Serial port setup', choose the right setting for the serial device 
+   # press 'A' and set 'Serial Device' to /dev/ttyUSB0
+   # press ‘E’ to navigate to Bps/Par/Bits. Set it to 115200 8N1
+   # press ‘F’/'G' and set the 'Hardware Flow Control'/'Software Flow Control' to 'No'
+ # Prepare Bifferboard
+  # checkout utils
+{{{
+svn co https://svn.code.sf.net/p/bifferboard/svn/utils
+}}}
+  # Plug-in Ethernet and USB cables to the Bifferboard
+  # configure the Bifferboard
 {{{
 sudo ./bb_eth_setconfig.py
 }}}
-  # set "Target MAC"
-  # set "Flash Size" to "8 MB"
-  # set "Boot image type" to "flat binary"
-  # set "Load address" to "0x400000"
-  # push "Connect" (status Polling)
-  # switch power on
-  # push "Write" (if status is Connected)
+   # set "Target MAC" (from sticker on the board)
+   # set "Flash Size" to "8 MB"
+   # set "Boot image type" to "flat binary"
+   # set "Load address" to "0x400000"
+   # push "Connect" (status Polling)
+   # switch power on
+   # push "Write" (if status is Connected)
  # Build Embox with *x86/bifferboard* template
  # Flash the Bifferboard (set your board's MAC)
 {{{
-sudo ./bb_eth_upload8.py eth0 00:b3:f6:00:6e:6f path/to/embox.bin
+sudo ./bb_eth_upload8.py eth0 <Target MAC> path/to/embox.bin
 }}}
  # Reset the Bifferboard
