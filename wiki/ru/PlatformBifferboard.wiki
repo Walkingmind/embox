@@ -30,7 +30,7 @@ udevadm control --reload-rules
  # Подготовьте BIfferboard
   # скачать необходимые утилиты
 {{{
-svn co https://bifferboard.svn.sourceforge.net/svnroot/bifferboard/utils
+svn co https://svn.code.sf.net/p/bifferboard/svn/utils
 }}}
   # подключить ethernet и usb кабели к Bifferboard
   # конфигурирование Bifferboard
