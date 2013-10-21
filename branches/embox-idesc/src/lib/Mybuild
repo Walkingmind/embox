@@ -1,0 +1,62 @@
+package embox.lib
+
+@DefaultImpl(rl_linenoise)
+abstract module readline_api { }
+
+module rl_linenoise extends readline_api {
+	@IncludePath("$(THIRDPARTY_DIR)/include")
+	source "readline/rl_linenoise.c"
+
+	depends embox.compat.posix.fs.dirent
+	depends embox.lib.LibC
+	depends third_party.lib.linenoise
+}
+
+static module LibCurses {
+	source "curses.c"
+
+	depends embox.compat.posix.termios
+	depends embox.mem.pool
+}
+
+static module LibElf {
+	source "elf/elf.c"
+
+	@NoRuntime depends embox.lib.LibCStdio
+	@NoRuntime depends embox.lib.LibCString
+}
+
+static module LibExec {
+	source "exec/exec.c"
+
+	depends embox.mem.mmap_api
+	@NoRuntime depends LibElf
+}
+
+
+static module LibCMisc {
+	source "crypt/crc32.c"
+	source "crypt/md5.c"
+	source "crypt/b64.c"
+}
+
+
+
+static module LibGcc {
+	source "gcc/clzsi2.c"
+	source "gcc/lshrdi3.c"
+	source "gcc/divdi3.c"
+	source "gcc/divsi3.c"
+	source "gcc/moddi3.c"
+	source "gcc/modsi3.c"
+	source "gcc/udivdi3.c"
+	source "gcc/udivsi3.c"
+	source "gcc/umoddi3.c"
+	source "gcc/umodsi3.c"
+	source "gcc/muldi3.c"
+	source "gcc/mulsi3.c"
+}
+
+static module Tokenizer {
+	source "shell/tokenizer.c"
+}

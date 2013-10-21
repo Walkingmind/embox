@@ -1,0 +1,28 @@
+package embox.security
+
+module smac extends api {
+	source "smac.c",
+	       "smac_security.c",
+	       "smac_task.c"
+
+	@InitFS
+	source "smac_users"
+
+	option number max_entries = 64
+
+	/* valid are
+	   0 : no logging
+	   1 : log denied
+	   2 : log accepted
+	   3 : log denied & accepted
+	*/
+	option number audit=1
+	option string audit_file="/tmp/smac_log"
+
+	option string default_file_label="*"
+
+	depends embox.fs.xattr
+
+	depends embox.security.seculog
+
+}
