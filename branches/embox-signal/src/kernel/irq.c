@@ -160,7 +160,7 @@ void irq_dispatch(unsigned int irq_nr) {
 
 	trace_block_enter(&interrupt_tb);
 
-	assert(irq_stack_protection() == 0, 
+	assert(irq_stack_protection() == 0,
 			"Stack overflow detected on irq dispatch");
 
 	if (irq_table[irq_nr]) {
