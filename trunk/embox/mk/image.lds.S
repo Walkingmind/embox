@@ -40,12 +40,14 @@ SECTIONS {
 		*(.rodata.*)
 		*(.const)
 
+		ALIGNMENT();
 		_ctors_start = .;
 		KEEP(*(.init_array))
 		KEEP(*(.ctors))
 		KEEP(*(.ctors.*))
 		_ctors_end   = .;
 
+		ALIGNMENT();
 		/*_eh_frame_start = .;*/
 		__EH_FRAME_BEGIN__ = .;
 		KEEP(*(.eh_frame))
@@ -72,6 +74,8 @@ SECTIONS {
 		*(.bss)
 		*(.sbss)
 		*(.bss.[a-zA-Z0-9-]*) /* this hell is to exclude '.bss..reserve'. */
+		/* *(.tbss) */
+		/* *(.tbss.*) */
 
 		ALIGNMENT();
 		_bss_end = .;
