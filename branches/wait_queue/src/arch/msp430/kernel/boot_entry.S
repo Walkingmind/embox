@@ -37,8 +37,8 @@ _start:
 	# disabling Watchdog right here
 	mov #WDTHOLD, &WDTCTL
 
-	mov #__stack, r1
-	
+	mov #_stack_top, r1
+
 	call #hardware_init_hook
 
 	call #software_init_hook
@@ -90,5 +90,5 @@ irq_body:
 
 	add #2, r1
 
-	reti	
-	
+	reti
+
