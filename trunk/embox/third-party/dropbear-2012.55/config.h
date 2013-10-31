@@ -89,13 +89,13 @@
 #define HAVE_FCNTL_H 1
 
 /* Define to 1 if you have the `freeaddrinfo' function. */
-//#define HAVE_FREEADDRINFO 1
+#define HAVE_FREEADDRINFO 1
 
 /* Define to 1 if you have the `gai_strerror' function. */
 #define HAVE_GAI_STRERROR 1
 
 /* Define to 1 if you have the `getaddrinfo' function. */
-//#define HAVE_GETADDRINFO 1
+#define HAVE_GETADDRINFO 1
 
 /* Define to 1 if you have the `getnameinfo' function. */
 //#define HAVE_GETNAMEINFO 1
