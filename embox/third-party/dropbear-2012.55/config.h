@@ -98,7 +98,7 @@
 #define HAVE_GETADDRINFO 1
 
 /* Define to 1 if you have the `getnameinfo' function. */
-//#define HAVE_GETNAMEINFO 1
+#define HAVE_GETNAMEINFO 1
 
 /* Define to 1 if you have the `getspnam' function. */
 //#define HAVE_GETSPNAM 1
