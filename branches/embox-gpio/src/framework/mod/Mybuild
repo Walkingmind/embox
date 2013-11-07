@@ -1,0 +1,16 @@
+package embox.framework
+
+module mod {
+	/*FIXME mybuild make flags options */
+	@DefineMacro("__FRAMEWORK__")
+	source "core.c"
+
+	@DefineMacro("__EMBUILD__")
+	@Generated(script="$(MAKE) -f mk/script/c-runtime-inject.mk")
+	source "depsinject.c"
+
+	@Generated(script="$(MAKE) -f mk/script/lds-apps.mk")
+	source "apps.lds.S"
+
+	depends embox.util.Array
+}
