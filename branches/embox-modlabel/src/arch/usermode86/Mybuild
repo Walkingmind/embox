@@ -1,0 +1,6 @@
+
+package embox.arch.usermode86
+
+module free_lds {
+	source "free.lds.S"
+}
