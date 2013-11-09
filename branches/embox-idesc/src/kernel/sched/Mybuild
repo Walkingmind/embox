@@ -8,15 +8,15 @@ module sched {
 	depends embox.kernel.timer.sys_timer /* for timeslices support */
 	depends embox.arch.context /* context_switch */
 	depends strategy.api
-	
-	@NoRuntime depends embox.kernel.task.std_signal
+
+	@NoRuntime depends embox.kernel.thread.signal
 	@NoRuntime depends embox.kernel.thread.current.api
 	@NoRuntime depends embox.compat.posix.util.time
 	@NoRuntime depends embox.kernel.critical
 	@NoRuntime depends embox.profiler.trace
-	
+
 	@NoRuntime depends embox.kernel.event_sched
-	
+
 	@NoRuntime depends sched_ticker
 }
 
