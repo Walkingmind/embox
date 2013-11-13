@@ -1,5 +1,0 @@
-package embox.arch.x86
-
-module stackframe extends embox.arch.stackframe {
-	source "stack_iter.h", "stack_iter.c"
-}
