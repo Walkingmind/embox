@@ -22,5 +22,6 @@ Import-Package: org.apache.log4j,
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Export-Package: org.mybuild.configfile.ui.contentassist,
  org.mybuild.configfile.ui.contentassist.antlr,
- org.mybuild.configfile.ui.internal
+ org.mybuild.configfile.ui.internal,
+ org.mybuild.configfile.ui.quickfix
 Bundle-Activator: org.mybuild.configfile.ui.internal.ConfigFileActivator
