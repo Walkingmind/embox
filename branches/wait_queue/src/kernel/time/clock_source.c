@@ -146,18 +146,32 @@ struct clock_source *clock_source_get_best(enum clock_source_property pr) {
 	dlist_foreach(csh_lnk,tmp,&clock_source_list) {
 		csh = dlist_entry(csh_lnk, struct clock_source_head, lnk);
 		cs = csh->clock_source;
+		
+		switch (pr) {
+			case CS_ANY:
+			case CS_WITH_IRQ:
+				if (cs->event_device) {
+					resolution = cs->event_device->resolution;
+				}
 
-		if (cs->event_device) {
-			resolution = cs->event_device->resolution;
-		}
-
-		if (pr == CS_ANY && cs->counter_device) {
-			resolution = max(resolution, cs->counter_device->resolution);
-		}
-
-		if (resolution > best_resolution) {
-			best_resolution = resolution;
-			best = cs;
+				if (pr == CS_ANY && cs->counter_device) {
+					resolution = max(resolution, cs->counter_device->resolution);
+				}
+				if (resolution > best_resolution) {
+					best_resolution = resolution;
+					best = cs;
+				}	
+			break;
+			
+			case CS_WITHOUT_IRQ:
+				if (cs->counter_device) {
+					resolution = cs->counter_device->resolution;
+				}
+				if (resolution > best_resolution) {
+					best_resolution = resolution;
+					best = cs;
+				}
+			break;
 		}
 	}
 
