@@ -1,0 +1,27 @@
+package embox.cmd.net
+
+@Cmd(name = "httpd",
+	help = "Start HTTP server",
+	man = '''
+		NAME
+			httpd - HTTP server
+		SYNOPSIS
+			httpd address
+		DESCRIPTION
+			Start HTTP server
+		EXAMPLES
+			httpd
+			After that try connect to it from web browser
+		AUTHORS
+			Ilia Vaprol
+	''')
+module httpd {
+	source "httpd.c"
+
+	depends embox.lib.LibC
+	depends embox.compat.posix.LibPosix
+	depends embox.compat.posix.net.socket
+	depends embox.fs.core
+	depends embox.framework.LibFramework
+	depends embox.net.util.request_parser
+}
