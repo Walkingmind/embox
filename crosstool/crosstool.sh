@@ -39,8 +39,8 @@ GET_URL[0]="http://www.mirrorservice.org/sites/ftp.gnu.org/gnu/binutils/binutils
 GET_URL[1]="http://mirrors.kernel.org/gnu/gmp/gmp-5.0.2.tar.bz2"
 GET_URL[2]="http://www.multiprecision.org/mpc/download/mpc-0.9.tar.gz"
 GET_URL[3]="http://www.mpfr.org/mpfr-current/mpfr-3.1.2.tar.bz2"
-GET_URL[4]="http://www.mirrorservice.org/sites/ftp.gnu.org/gnu/gcc/gcc-4.6.2/gcc-4.6.2.tar.bz2"
-GET_URL[5]="http://ftp.gnu.org/gnu/gdb/gdb-7.6.1.tar.bz2"
+GET_URL[4]="http://www.mirrorservice.org/sites/ftp.gnu.org/gnu/gcc/gcc-4.6.4/gcc-4.6.4.tar.bz2"
+GET_URL[5]="http://ftp.gnu.org/gnu/gdb/gdb-7.6.tar.bz2"
 
 for i in $(seq 0 $((${#GET_URL[@]} - 1))); do
 	TARBALL[$i]=$(basename ${GET_URL[$i]})
