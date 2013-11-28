@@ -318,6 +318,7 @@ static module libtommath {
      "libtommath/bn_mp_to_unsigned_bin_n.c"
 }
 
+@App
 @Cmd(name = "dropbear",
 	help = "Dropbear SSH server",
 	man = '''
