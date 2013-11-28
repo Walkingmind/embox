@@ -954,10 +954,12 @@ static void execchild(void *user_data) {
 	}
 #endif
 
+#if 0
 	/* change directory */
 	if (chdir(ses.authstate.pw_dir) < 0) {
 		dropbear_exit("Error changing directory");
 	}
+#endif
 
 #ifndef DISABLE_X11FWD
 	/* set up X11 forwarding if enabled */
