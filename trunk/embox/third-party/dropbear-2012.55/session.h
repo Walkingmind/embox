@@ -218,7 +218,7 @@ struct serversession {
 	/* The resolved remote address, used for lastlog etc */
 	char *remotehost;
 
-#ifdef __uClinux__
+#if defined(__uClinux__) || defined(__EMBOX__)
 	pid_t server_pid;
 #endif
 
