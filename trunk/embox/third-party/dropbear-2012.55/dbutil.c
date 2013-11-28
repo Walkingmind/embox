@@ -677,6 +677,8 @@ void run_shell_command(const char* cmd, unsigned int maxfd, char* usershell) {
 	execv(usershell, argv);
 #else
 	shell_run(shell_lookup("tish"));
+	exitflag = 1;
+	exit(0);
 #endif
 }
 
