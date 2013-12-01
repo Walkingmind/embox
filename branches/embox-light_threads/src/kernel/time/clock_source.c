@@ -97,11 +97,22 @@ time64_t clock_source_read(struct clock_source *cs) {
 
 static time64_t cs_full_read(struct clock_source *cs) {
 	static cycle_t prev_cycles, cycles, cycles_all;
-	int old_jiffies, safe;
-	struct time_event_device *ed = cs->event_device;
-	struct time_counter_device *cd = cs->counter_device;
+	int old_jiffies, cycles_per_jiff, safe;
+	struct time_event_device *ed;
+	struct time_counter_device *cd;
 
-	int cycles_per_jiff = cd->resolution / ed->resolution;
+	assert(cs);
+
+	ed = cs->event_device;
+	assert(ed);
+	assert(ed->resolution != 0);
+
+	cd = cs->counter_device;
+	assert(cd);
+	assert(cd->read);
+	assert(cd->resolution != 0);
+
+	cycles_per_jiff = cd->resolution / ed->resolution;
 	safe = 0;
 
 	do {
@@ -146,18 +157,32 @@ struct clock_source *clock_source_get_best(enum clock_source_property pr) {
 	dlist_foreach(csh_lnk,tmp,&clock_source_list) {
 		csh = dlist_entry(csh_lnk, struct clock_source_head, lnk);
 		cs = csh->clock_source;
+		
+		switch (pr) {
+			case CS_ANY:
+			case CS_WITH_IRQ:
+				if (cs->event_device) {
+					resolution = cs->event_device->resolution;
+				}
 
-		if (cs->event_device) {
-			resolution = cs->event_device->resolution;
-		}
-
-		if (pr == CS_ANY && cs->counter_device) {
-			resolution = max(resolution, cs->counter_device->resolution);
-		}
-
-		if (resolution > best_resolution) {
-			best_resolution = resolution;
-			best = cs;
+				if (pr == CS_ANY && cs->counter_device) {
+					resolution = max(resolution, cs->counter_device->resolution);
+				}
+				if (resolution > best_resolution) {
+					best_resolution = resolution;
+					best = cs;
+				}	
+			break;
+			
+			case CS_WITHOUT_IRQ:
+				if (cs->counter_device) {
+					resolution = cs->counter_device->resolution;
+				}
+				if (resolution > best_resolution) {
+					best_resolution = resolution;
+					best = cs;
+				}
+			break;
 		}
 	}
 
