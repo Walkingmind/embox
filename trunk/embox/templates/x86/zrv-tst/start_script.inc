@@ -6,6 +6,8 @@
 "ifconfig eth0 192.168.51.191 netmask 255.255.255.0 hw ether AA:BB:CC:DD:EE:02",
 "route add 192.168.51.0 netmask 255.255.255.0 eth0",
 "date -s 201304161719.20",
+"iptables -F INPUT",
+"iptables -A INPUT ! -s 192.168.51.192 -j DROP",
 "tst_srv &",
 "login",
 
