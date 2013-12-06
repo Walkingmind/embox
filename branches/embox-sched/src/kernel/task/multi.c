@@ -246,6 +246,9 @@ void __attribute__((noreturn)) task_exit(void *res) {
 	}
 	sched_unlock();
 
+	task->main_thread = NULL; // XXX
+	thread_exit(NULL);
+
 	/* NOTREACHED */
 	panic("Returning from task_exit()");
 }
@@ -349,7 +352,7 @@ static int task_table_init(void) {
 }
 
 int unit_init(void) {
-	
+
 	task_table_init();
 
 	task_table_add(task_kernel_task());
