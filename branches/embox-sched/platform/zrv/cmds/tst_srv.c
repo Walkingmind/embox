@@ -232,7 +232,7 @@ static int pkt_counter_init(void) {
 	}
 
 	nf_rule_init(&rule);
-	rule.target = NF_TARGET_ACCEPT;
+	rule.target = NF_TARGET_DROP;
 	rule.test_hnd = (nf_test_hnd)pkt_counter_callback;
 	rule.test_hnd_data = (void *)pkt_ht;
 
