@@ -8,7 +8,7 @@ abstract module api {
 
 module nosched extends api {
 	source "nosched.h"
-	
+
 	depends embox.kernel.thread.current.api
 	depends NoPriority
 	depends AffinityNone
@@ -23,31 +23,31 @@ module priority_based extends api {
 	depends affinity_api
 	depends timing_api
 	depends priority_api
-	
+
 	depends runq.prioq
-	
+
 	depends Runq
 }
 
 module priority_based_smp extends api {
 	source "sched_strategy.h"
-	
+
 	depends affinity_api
 	depends timing_api
 	depends priority_api
-	
-	depends runq.prioq
+
+	depends runq.list_array
 	depends Runq
 }
 
 module trivial extends api {
 	source "sched_strategy.h"
-	
+
 	depends affinity_api
 	depends timing_api
-	
+
 	depends NoPriority
-	
+
 	depends runq.list
 	depends Runq
 }
@@ -58,17 +58,17 @@ abstract module runq_api {
 }
 
 module NoRunq extends runq_api {
-	
+
 }
 
 module Runq extends runq_api {
 	source "runq.h"
-	
+
 	depends runq.api
 }
 
 @DefaultImpl(AffinityNone)
-abstract module affinity_api { 	
+abstract module affinity_api {
 }
 
 module AffinityNone extends affinity_api {
