@@ -527,6 +527,8 @@ static void *child_handler(void *arg) {
 }
 #endif
 
+#include <kernel/task.h>
+
 /* Sets up a pipe for a, returning three non-blocking file descriptors
  * and the pid. exec_fn is the function that will actually execute the child process,
  * it will be run after the child has fork()ed, and is passed exec_data.
