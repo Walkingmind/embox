@@ -232,8 +232,10 @@ image_prerequisites = $(mk_file) \
 	$(ld_scripts) $(ld_objs) $(ld_libs)
 
 #XXX
+FINAL_LINK_WITH_CC ?= 
 ifeq (1,$(FINAL_LINK_WITH_CC))
 
+FINAL_LDFLAGS ?= 
 $(image_nosymbols_o): $(image_lds) $(embox_o) $$(common_prereqs)
 	$(CC) -Wl,--relax $(FINAL_LDFLAGS) \
 	$(embox_o) \
