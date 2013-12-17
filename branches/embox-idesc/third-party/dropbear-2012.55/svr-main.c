@@ -46,6 +46,8 @@ static void commonsetup(void);
 
 #include <embox/cmd.h>
 
+#include <kernel/task.h>
+
 EMBOX_CMD(main);
 
 #if defined(DBMULTI_dropbear) || !defined(DROPBEAR_MULTI)
