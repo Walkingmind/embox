@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 # Build a GNU/Linux cross-toolchain
 # $Id$
@@ -18,12 +18,12 @@ error_exit() {
 
 [ ! -z $CROSSTOOL_ARCH ] || error_exit "Provide arch name, like \n$0 sparc"
 
-source ./$CROSSTOOL_ARCH.in
+. ./$CROSSTOOL_ARCH.in
 
 CUR_DIR=$(pwd)
 # Create temp working dir
 if [ ! -z $TMP_DIR -a -d $TMP_DIR ]; then 
-	TMP_DIR=$(realpath $TMP_DIR)
+	TMP_DIR=$(readlink -f $TMP_DIR)
 else
 	TMP_DIR=$CUR_DIR/$(mktemp -d build.XXXXX)
 fi
@@ -33,6 +33,8 @@ PATCHES_DIR=$CUR_DIR/patches
 PATCHES="$(ls $PATCHES_DIR/*.patch 2>/dev/null) 
 	$(ls $PATCHES_DIR/$CROSSTOOL_ARCH/*.patch 2>/dev/null)"
 
+
+declare -A GET_URL
 # Keys:
 #  0 - binutils
 #  1 - gmp
