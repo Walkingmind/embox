@@ -46,7 +46,7 @@ int serial_register_devfs(struct uart *dev) {
  */
 static int dev_uart_open(struct node *node, struct file_desc *desc, int flags) {
 	struct uart *uart_dev = uart_dev_lookup(node->name);
-       
+
 	if (!uart_dev) {
 		return -ENOENT;
 	}
@@ -75,17 +75,12 @@ static size_t dev_uart_write(struct file_desc *desc, void *buff, size_t size) {
 	struct uart *uart_dev = desc->file_info;
 	struct tty *tty = &uart_dev->tty;
 	size_t written, left = size;
-	int ch;
 
 	do {
 		written = tty_write(tty, buff, left);
 
-		while (-1 != (ch = tty_out_getc(tty))) {
-			uart_putc(uart_dev, ch);
-		}
-
 		left -= written;
-		buff = (void *)((char *)buff + written);
+		buff = (char *) buff + written;
 	} while (left != 0);
 
 	return size;
