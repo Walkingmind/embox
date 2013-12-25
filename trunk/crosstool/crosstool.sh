@@ -22,7 +22,12 @@ source ./$CROSSTOOL_ARCH.in
 
 CUR_DIR=$(pwd)
 # Create temp working dir
-TMP_DIR=$CUR_DIR/$(mktemp -d build.XXXXX)
+if [ ! -z $TMP_DIR -a -d $TMP_DIR ]; then 
+	TMP_DIR=$(realpath $TMP_DIR)
+else
+	TMP_DIR=$CUR_DIR/$(mktemp -d build.XXXXX)
+fi
+
 PATCHES_DIR=$CUR_DIR/patches
 
 PATCHES="$(ls $PATCHES_DIR/*.patch 2>/dev/null) 
@@ -144,8 +149,6 @@ makepkg() {
 }
 
 echo "" > $LOG_FILE
-
-[ -d $TMP_DIR ] || mkdir $TMP_DIR
 
 pushd $TMP_DIR > /dev/null
 
