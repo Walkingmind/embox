@@ -88,7 +88,7 @@ static void *grid_connection_handler(void* args) {
 
 	MD(printk("grid_connection_handler\n"));
 	/* Set socket to be nonblock. See ignore_telnet_options() */
-	//fcntl(sock, F_SETFD, O_NONBLOCK);
+	//fcntl(sock, F_SETFL, O_NONBLOCK);
 
 	timeout.tv_sec = 100;
 	timeout.tv_usec = 0;
