@@ -21,10 +21,10 @@
 
 /* Default hostkey paths - these can be specified on the command line */
 #ifndef DSS_PRIV_FILENAME
-#define DSS_PRIV_FILENAME "dropbear_dss_host_key"
+#define DSS_PRIV_FILENAME "/dropbear_dss_host_key"
 #endif
 #ifndef RSA_PRIV_FILENAME
-#define RSA_PRIV_FILENAME "dropbear_rsa_host_key"
+#define RSA_PRIV_FILENAME "/dropbear_rsa_host_key"
 #endif
 
 /* Set NON_INETD_MODE if you require daemon functionality (ie Dropbear listens
@@ -212,7 +212,7 @@ much traffic. */
 /* We'll use /dev/urandom by default, since /dev/random is too much hassle.
  * If system developers aren't keeping seeds between boots nor getting
  * any entropy from somewhere it's their own fault. */
-#define DROPBEAR_RANDOM_DEV "random"
+#define DROPBEAR_RANDOM_DEV "/random"
 
 /* prngd must be manually set up to produce output */
 /*#define DROPBEAR_PRNGD_SOCKET "/var/run/dropbear-rng"*/
