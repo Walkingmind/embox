@@ -6,7 +6,7 @@
   Instead of using monolithic architecture, Embox is organized into a set of fine-grained modules, each of which implements some interface. Typical example is a scheduling strategy or a memory allocation algorithm. Thus the final image of Embox can be finely tuned for a specific usage.
 
  == Cross-platform ==
-  Currently Embox is ported on five processor architectures: [ArchX86 x86], [ArchSparc SPARC], [ArchArm ARM], [ArchMips MIPS] and [ArchMicroblaze Microblaze]. The complete list of supported platform can be found [PlatformsDescription here]. [EmboxArchPorting Porting] Embox to a new platform is relatively simple: all you need is to implement a well-defined Hardware Abstraction Level interface.
+  Currently Embox is ported on several processor architectures: [http://en.wikipedia.org/wiki/X86 x86], [http://en.wikipedia.org/wiki/SPARC SPARC], [http://en.wikipedia.org/wiki/ARM_architecture ARM], [http://en.wikipedia.org/wiki/MIPS_architecture MIPS], [http://en.wikipedia.org/wiki/DLX DLX], [http://en.wikipedia.org/wiki/Powerpc PowerPC].. The complete list of supported platform can be found [PlatformsDescription here]. Porting Embox to a new platform is relatively simple: all you need is to implement a well-defined Hardware Abstraction Level interface.
 
  == Testing framework ==
   Embox includes an embedded unit testing framework which can be used for developing, debugging and self-checking both hardware and software modules of the system.
