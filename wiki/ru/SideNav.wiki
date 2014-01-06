@@ -90,13 +90,8 @@
       * [EMBuildFeatureProposals Предложения по развитию]
     * [EmboxModules Модули]
       * [EmboxKernelPacket пакет kernel]
-      * [EmboxDevInterface Embox Dev]
       * [EmboxTrapsDescription Traps Description]
       * [ModuleTerminalDescription Терминал]
-        * [IOShell IO Shell]
-        * [RuNewIOShell New IO Shell]
-        * [RuShellTalking Обсуждение Shell'a]
-       * [RuShell_iTerminal Shell iTerminal]
       * Тестирование
         * [EmboxTestsFramework Tests Framework]
         * [EmboxTestsMmuFramework Tests Mmu Framework]

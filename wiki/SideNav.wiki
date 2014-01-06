@@ -97,13 +97,8 @@
       * [EMBuildFeatureProposals Feature proposals]
     * [EmboxModules Modules]
       * [EmboxKernelPacket Embox Kernel packet]
-      * [EmboxDevInterface Embox Dev]
       * [EmboxTrapsDescription Traps Description]
       * [ModuleTerminalDescription Terminal]
-        * [IOShell IO Shell]
-        * [RuNewIOShell New IO Shell]
-        * [RuShellTalking Shell Talking]
-        * [RuShell_iTerminal Shell iTerminal]
         * [PosixTTyDesignApproach Posix TTY design approach]
       * Testing
         * [EmboxTestsFramework Tests Framework]
