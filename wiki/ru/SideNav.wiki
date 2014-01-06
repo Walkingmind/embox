@@ -97,17 +97,10 @@
         * [RuNewIOShell New IO Shell]
         * [RuShellTalking Обсуждение Shell'a]
        * [RuShell_iTerminal Shell iTerminal]
-      * Network
-        * [EmboxNetworkDescription Описание сетевой подсистемы]
       * Тестирование
         * [EmboxTestsFramework Tests Framework]
         * [EmboxTestsMmuFramework Tests Mmu Framework]
         * [EmboxTestsTrapsFramework Tests Traps Framework]
       * [FileSystemDescription Файловая система]
         * [PartitionsInterfaceDescription Описание интерфейса разделов]
-      * [ThreadsDescription Потоки]
-        * [ElfRunning Запуск Elf]
-        * [Schedulers Менеджер потоков]
-      * USB
-        * [USBDescription USB]
     * [EmboxArt Art]

@@ -105,18 +105,11 @@
         * [RuShellTalking Shell Talking]
         * [RuShell_iTerminal Shell iTerminal]
         * [PosixTTyDesignApproach Posix TTY design approach]
-      * Network
-        * [EmboxNetworkDescription Network Description]
       * Testing
         * [EmboxTestsFramework Tests Framework]
         * [EmboxTestsMmuFramework Tests Mmu Framework]
         * [EmboxTestsTrapsFramework Tests Traps Framework]
       * [FileSystemDescription FS]
         * [PartitionsInterfaceDescription Partitions Interface Description]
-      * [ThreadsDescription Threads]
-        * [ElfRunning Elf Running]
-        * [Schedulers Schedulers]
-      * USB
-        * [USBDescription USB]
     * [EmboxArt Art]
  

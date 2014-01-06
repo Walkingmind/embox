@@ -16,4 +16,4 @@
  || <img src="http://embox.googlecode.com/svn/wiki/images/PlatformsDescription/bifferboard.jpg" width="320" height="240"> || Embox поддерживает [http://sites.google.com/site/bifferboard Bifferboard]. Более подробно [PlatformBifferboard здесь] ||
 
 == MIPS == 
- || <img src="http://embox.googlecode.com/svn/wiki/images/PlatformsDescription/duinomite.jpg" width="320" height="240"> || Embox поддерживает плату [https://www.olimex.com/Products/Duino/Duinomite/DUINOMITE/ Duinomite] на основе микроконтроллера PIC32MX795 который имеет MIPS архитектуру. Более подробно [PlatformDuinomite здесь]  
+ || <img src="http://embox.googlecode.com/svn/wiki/images/PlatformsDescription/duinomite.jpg" width="320" height="240"> || Embox поддерживает плату [https://www.olimex.com/Products/Duino/Duinomite/DUINOMITE/ Duinomite] на основе микроконтроллера PIC32MX795 который имеет MIPS архитектуру. Более подробно [PlatformDuinomite здесь] ||
