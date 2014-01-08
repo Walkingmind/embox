@@ -11,7 +11,7 @@
   * New build system
   * Cleaning source code
 
-= 2013/02/01 v0.3.6 [http://code.google.com/p/embox/issues/list?can=1&q=milestone=v0.3.6 [issues]] [http://code.google.com/p/embox/issues/list?q=milestone=v0.3.6 [open issues]] =
+= 2014/02/01 v0.3.6 [http://code.google.com/p/embox/issues/list?can=1&q=milestone=v0.3.6 [issues]] [http://code.google.com/p/embox/issues/list?q=milestone=v0.3.6 [open issues]] =
   * Rework 'index descriptor' subsystem
   * Support file systems (Ext4, CIFS)
   * Add new type user module (applications)
