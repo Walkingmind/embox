@@ -1,0 +1,24 @@
+
+package embox.driver.usb
+
+module core {
+	source "usb_core.c"
+	source "usb_port.c"
+	source "usb_queue.c"
+	source "usb_obj.c"
+	source "usb_pnp.c"
+
+	source "usb_class.c"
+
+	source "usb_driver.c"
+	depends embox.driver.char_dev
+
+	source "usb_dev_desc.c"
+}
+
+module driver_example {
+	source "usb_driver_example.c"
+
+	depends core
+}
+
