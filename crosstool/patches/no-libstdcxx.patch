@@ -1,5 +1,5 @@
---- gcc-4.6.4/configure.old	2013-09-12 16:17:51.207630923 +0400
-+++ gcc-4.6.4/configure	2013-09-12 16:21:11.134291696 +0400
+--- gcc-4.6.4/configure.old	2014-01-28 16:55:11.097852645 +0400
++++ gcc-4.6.4/configure	2014-01-28 16:53:02.541852039 +0400
 @@ -3231,7 +3231,7 @@
      libgloss_dir=arm
      ;;
@@ -9,7 +9,17 @@
      libgloss_dir=arm
      ;;
    arm*-*-linux-gnueabi)
-@@ -3508,7 +3508,7 @@
+@@ -3495,6 +3495,9 @@
+   powerpc-*-eabi* | powerpcle-*-eabi* | powerpc-*-rtems* )
+     libgloss_dir=rs6000
+     ;;
++  powerpc-*-elf)
++    noconfigdirs="$noconfigdirs target-libstdc++-v3 ${libgcj}"
++    ;;
+   rs6000-*-lynxos*)
+     noconfigdirs="$noconfigdirs target-newlib gprof ${libgcj}"
+     ;;
+@@ -3508,7 +3511,7 @@
      noconfigdirs="$noconfigdirs ld binutils gprof target-libgloss ${libgcj}"
      ;;
    microblaze*)
@@ -18,7 +28,7 @@
      ;;
    mips*-sde-elf*)
      noconfigdirs="$noconfigdirs ${libgcj}"
-@@ -3534,10 +3534,10 @@
+@@ -3534,10 +3537,10 @@
      noconfigdirs="$noconfigdirs target-newlib target-libgloss"
      ;;
    mips*-*-*)
@@ -31,7 +41,7 @@
      noconfigdirs="$noconfigdirs bfd binutils ld gas opcodes target-libgloss ${libgcj}"
      ;;
    sh-*-* | sh64-*-*)
-@@ -3558,7 +3558,7 @@
+@@ -3558,7 +3561,7 @@
      libgloss_dir=sparc
      ;;
    sparc-*-elf*)
