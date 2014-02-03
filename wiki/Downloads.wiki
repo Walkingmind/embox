@@ -5,8 +5,8 @@
 The latest stable release of Embox is *embox-0.3.6* (released on Feb 1 2013).
 
 || Version || Size || SHA1 Checksum ||
-|| *[https://googledrive.com/host/0B-PxXtV6LZirdWdCR01vbEJ1dmM/embox-0.3.6.txz embox-0.3.6.txz]* || 3.3 MB || '8200f5e2a3e920d52eb1296cb23d0719880599ec' ||
-|| *[https://googledrive.com/host/0B-PxXtV6LZirdWdCR01vbEJ1dmM/embox-0.3.6.tar.gz embox-0.3.6.tar.gz]* || 4.8 MB || '37db9d35cab3bf58ef1a95571624961089b2843a' ||
+|| *[https://googledrive.com/host/0B-PxXtV6LZirdWdCR01vbEJ1dmM/embox-0.3.6.txz embox-0.3.6.txz]* || 3.3 MB || `8200f5e2a3e920d52eb1296cb23d0719880599ec` ||
+|| *[https://googledrive.com/host/0B-PxXtV6LZirdWdCR01vbEJ1dmM/embox-0.3.6.tar.gz embox-0.3.6.tar.gz]* || 4.8 MB || `37db9d35cab3bf58ef1a95571624961089b2843a` ||
 || [http://embox.googlecode.com/files/embox-0.3.5.txz embox-0.3.5.txz] || 3.1 MB || `b3e87befc969b0be15028c2120650322eaff6727` ||
 || [http://embox.googlecode.com/files/embox-0.3.5.tar.gz embox-0.3.5.tar.gz] || 4.6 MB || `751ee04db1dfcb2bdc7eb7581b33a486a6aff721` ||
 || [http://embox.googlecode.com/files/embox-0.3.4.txz embox-0.3.4.txz] || 3.4 MB || `61a9cc9c69816025c220397d2d14aea61131f591` ||
