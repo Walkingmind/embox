@@ -100,8 +100,8 @@ ifneq (,$(filter -j,$(EMBOX_MAKEFLAGS)))
 EMBOX_IMPORTED_MAKEFLAGS += -j $(shell nproc)
 endif
 
-EMBOX_DERIVED_CFLAGS    := $(EMBOX_IMPORTED_CFLAGS) 
-EMBOX_DERIVED_CXXFLAGS  := $(EMBOX_IMPORTED_CXXFLAGS) 
+EMBOX_DERIVED_CFLAGS    := $(EMBOX_IMPORTED_CFLAGS)
+EMBOX_DERIVED_CXXFLAGS  := $(EMBOX_IMPORTED_CXXFLAGS)
 EMBOX_DERIVED_MAKEFLAGS := $(EMBOX_IMPORTED_MAKEFLAGS)
 
 QMAKE_CONF_M4  := $(shell (cd tree && find . -name qmake.conf.m4))
@@ -188,7 +188,9 @@ build_and_install: configure
 			make install && \
 			(cp $(QT_BUILD_DIR)/mkspecs/qdevice.pri $(QT_INSTALL_DIR)/mkspecs/ || true) && \
 			mkdir -p $(ROOT_DIR)/conf/rootfs/fonts && \
-			cp -l -f -u `find $(QT_INSTALL_DIR)/lib/fonts/ -type f` $(ROOT_DIR)/conf/rootfs/fonts; \
+			cp -l -f -u `find $(QT_INSTALL_DIR)/lib/fonts/ -type f` $(ROOT_DIR)/conf/rootfs/fonts &&\
+			rm -r $(QT_INSTALL_DIR)/include && \
+			ln -s $(QT_BUILD_DIR)/include $(QT_INSTALL_DIR)/include; \
 		fi
 
 $(ROOTFS_IMAGE): build_and_install
