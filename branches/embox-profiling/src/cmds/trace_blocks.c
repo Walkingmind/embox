@@ -27,9 +27,14 @@ static void print_instrument_trace_block_stat(void) {
 	struct __trace_block *tb = auto_profile_tb_first();
 	printf("Automatic trace points:\n");
 	
-	do {
+	printf("%15s %12s %20s %11s\n", "Name", "Count", "Ticks", "Time");
+	if (tb) do {
+		printf("%15s %12lld %20llu %10Lfs\n", tb->name,
+			tb->count, tb->time,
+			(tb->tc->cs) ? (long double) 1.0 * tb->time / 1000000000 : 0);
+		
 		tb = auto_profile_tb_next(tb);
-	} while (tb != auto_profile_tb_first());
+	} while (tb);
 }
 
 static void print_trace_block_stat(void) {
@@ -37,7 +42,7 @@ static void print_trace_block_stat(void) {
 	int number = 0;
 
 	printf("%2s %15s %12s %20s %11s\n", "#", "Name", "Count", "Ticks", "Time");
-
+	
 	array_spread_nullterm_foreach(tb, __trace_blocks_array)
 	{
 		if (tb->active) {
