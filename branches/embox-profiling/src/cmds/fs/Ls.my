@@ -20,8 +20,10 @@ package embox.cmd.fs
 			Anton Bondarev
 	''')
 module ls {
+	@InstrumentProfiling("false")
+	
 	source "ls.c"
-
+	
 	depends embox.lib.LibC
 	depends embox.compat.posix.util.getopt
 	depends embox.compat.posix.fs.fsop
