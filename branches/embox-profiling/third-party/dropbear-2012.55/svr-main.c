@@ -133,13 +133,13 @@ struct main_data {
 };
 
 void *main_daemon(void *arg) {
-	struct main_data *data = (struct main_data *)arg;
+//	struct main_data *data = (struct main_data *)arg;
 //	fd_set fds = data->fds;
 //	unsigned int i = data->i, j;
 //	int val;
 //	int maxsock = data->maxsock;
-	int *listensocks = data->listensocks;
-	size_t listensockcount = data->listensockcount;
+//	int *listensocks = data->listensocks;
+//	size_t listensockcount = data->listensockcount;
 //
 //	int *childpipes = data->childpipes;
 //	char **preauth_addrs = data->preauth_addrs;
@@ -150,8 +150,8 @@ void *main_daemon(void *arg) {
 	unsigned int i, j;
 	int val;
 	int maxsock = -1;
-//	int listensocks[MAX_LISTEN_ADDR];
-//	size_t listensockcount = 0;
+	int listensocks[MAX_LISTEN_ADDR];
+	size_t listensockcount = 0;
 	//FILE *pidfile = NULL;
 
 	int childpipes[MAX_UNAUTH_CLIENTS];
