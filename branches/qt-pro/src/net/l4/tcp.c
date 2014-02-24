@@ -68,9 +68,9 @@ EMBOX_NET_PROTO(ETH_P_IPV6, IPPROTO_TCP, tcp_rcv,
  * +7. Remove seq_next (use rem.seq instead, build packet, and then rebuild only)
  * +8. Add lock/unlock
  * +9. Add rexmit
- * +-10. Add window
- * 11. Add options
- * +-12. Add timeout (i.e. sockopts) to tcp_sock.c
+ * +10. Add window
+ * +11. Add options
+ * +12. Add timeout (i.e. sockopts) to tcp_sock.c
  */
 
 
@@ -106,7 +106,7 @@ static inline void packet_print(const struct tcp_sock *tcp_sk,
 		const struct sk_buff *skb, const char *msg, int family,
 		const void *addr, in_port_t port) { }
 
-#else 
+#else
 
 void debug_print(__u8 code, const char *msg, ...) {
 	va_list args;
@@ -893,7 +893,7 @@ static enum tcp_ret_code process_ack(struct tcp_sock *tcp_sk,
 	ack2last_ack = ack - tcp_sk->last_ack;
 	seq = tcp_sk->self.seq;
 
-	if (ack2last_ack == 0) { 
+	if (ack2last_ack == 0) {
 		/* no new acknowledgments */
 		if ((seq != ack) && !tcp_sk->rexmit_mode) {
 			++tcp_sk->dup_ack;
