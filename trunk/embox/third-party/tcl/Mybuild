@@ -19,6 +19,11 @@ module tclsh {
 	@Rule(script="$(EXTERNAL_MAKE) -f $(abspath $(ROOT_DIR))/mk/main-stripping.mk TARGET_APP='$(module_id)' FILE_APP='$(abspath $@)'")
 	@AddPrefix("^BUILD/extbld/third_party/tcl/core/src/tcl-build")
 	source "strip.tclsh.o"
+	
+	@InitFS
+	@AddPrefix("../../build/extbld/third_party/tcl/core/src/tcl/library")
+	source "init.tcl",
+		"history.tcl"
 
 	@NoRuntime depends third_party.tcl.core
 }
