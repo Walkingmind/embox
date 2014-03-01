@@ -5,7 +5,7 @@
  *****************************************************************************/
 
 /*
- * Copyright (C) 2000 - 2013, Intel Corp.
+ * Copyright (C) 2000 - 2014, Intel Corp.
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -44,6 +44,8 @@
 #ifndef __ACTABLES_H__
 #define __ACTABLES_H__
 
+
+#pragma pack(push) /* Set default struct packing */
 
 ACPI_STATUS
 AcpiAllocateRootTable (
@@ -193,5 +195,7 @@ AcpiTbInstallTable (
 ACPI_STATUS
 AcpiTbParseRootTable (
     ACPI_PHYSICAL_ADDRESS   RsdpAddress);
+
+#pragma pack(pop) /* Restore original struct packing */
 
 #endif /* __ACTABLES_H__ */

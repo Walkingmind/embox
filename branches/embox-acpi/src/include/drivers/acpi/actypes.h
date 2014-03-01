@@ -5,7 +5,7 @@
  *****************************************************************************/
 
 /*
- * Copyright (C) 2000 - 2013, Intel Corp.
+ * Copyright (C) 2000 - 2014, Intel Corp.
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -43,6 +43,8 @@
 
 #ifndef __ACTYPES_H__
 #define __ACTYPES_H__
+
+#pragma pack(push) /* Set default struct packing */
 
 /* acpisrc:StructDefs -- for acpisrc conversion */
 
@@ -954,8 +956,8 @@ typedef struct acpi_object_list
  * Miscellaneous common Data Structures used by the interfaces
  */
 #define ACPI_NO_BUFFER              0
-#define ACPI_ALLOCATE_BUFFER        (ACPI_SIZE) (-1)
-#define ACPI_ALLOCATE_LOCAL_BUFFER  (ACPI_SIZE) (-2)
+#define ACPI_ALLOCATE_BUFFER        (ACPI_SIZE) (-1)    /* Let ACPICA allocate buffer */
+#define ACPI_ALLOCATE_LOCAL_BUFFER  (ACPI_SIZE) (-2)    /* For internal use only (enables tracking) */
 
 typedef struct acpi_buffer
 {
@@ -963,10 +965,6 @@ typedef struct acpi_buffer
     void                            *Pointer;       /* pointer to buffer */
 
 } ACPI_BUFFER;
-
-/* Free a buffer created in an ACPI_BUFFER via ACPI_ALLOCATE_LOCAL_BUFFER */
-
-#define ACPI_FREE_BUFFER(b)         ACPI_FREE(b.Pointer)
 
 
 /*
@@ -1318,5 +1316,7 @@ typedef struct acpi_memory_list
 #define ACPI_OSI_WIN_7                  0x0B
 #define ACPI_OSI_WIN_8                  0x0C
 
+
+#pragma pack(pop) /* Restore original struct packing */
 
 #endif /* __ACTYPES_H__ */

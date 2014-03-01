@@ -5,7 +5,7 @@
  *****************************************************************************/
 
 /*
- * Copyright (C) 2000 - 2013, Intel Corp.
+ * Copyright (C) 2000 - 2014, Intel Corp.
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -43,6 +43,8 @@
 
 #ifndef __ACOUTPUT_H__
 #define __ACOUTPUT_H__
+
+#pragma pack(push) /* Set default struct packing */
 
 /*
  * Debug levels and component IDs. These are used to control the
@@ -463,5 +465,7 @@
 
 #endif /* ACPI_DEBUG_OUTPUT */
 
+
+#pragma pack(pop) /* Restore original struct packing */
 
 #endif /* __ACOUTPUT_H__ */

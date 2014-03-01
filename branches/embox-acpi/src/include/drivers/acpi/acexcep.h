@@ -5,7 +5,7 @@
  *****************************************************************************/
 
 /*
- * Copyright (C) 2000 - 2013, Intel Corp.
+ * Copyright (C) 2000 - 2014, Intel Corp.
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -44,6 +44,8 @@
 #ifndef __ACEXCEP_H__
 #define __ACEXCEP_H__
 
+
+#pragma pack(push) /* Set default struct packing */
 
 /* This module contains all possible exception codes for ACPI_STATUS */
 
@@ -344,5 +346,7 @@ static const ACPI_EXCEPTION_INFO    AcpiGbl_ExceptionNames_Ctrl[] =
 };
 
 #endif /* EXCEPTION_TABLE */
+
+#pragma pack(pop) /* Restore original struct packing */
 
 #endif /* __ACEXCEP_H__ */

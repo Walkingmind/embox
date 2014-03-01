@@ -7,7 +7,7 @@
  *****************************************************************************/
 
 /*
- * Copyright (C) 2000 - 2013, Intel Corp.
+ * Copyright (C) 2000 - 2014, Intel Corp.
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -49,6 +49,8 @@
 #include <drivers/acpi/platform/acenv.h>
 #include <drivers/acpi/actypes.h>
 
+
+#pragma pack(push) /* Set default struct packing */
 
 /* Types for AcpiOsExecute */
 
@@ -550,5 +552,7 @@ AcpiOsCloseDirectory (
     void                    *DirHandle);
 #endif
 
+
+#pragma pack(pop) /* Restore original struct packing */
 
 #endif /* __ACPIOSXF_H__ */

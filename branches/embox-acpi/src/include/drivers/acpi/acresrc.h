@@ -5,7 +5,7 @@
  *****************************************************************************/
 
 /*
- * Copyright (C) 2000 - 2013, Intel Corp.
+ * Copyright (C) 2000 - 2014, Intel Corp.
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -48,6 +48,8 @@
 
 #include <drivers/acpi/amlresrc.h>
 
+
+#pragma pack(push) /* Set default struct packing */
 
 /*
  * If possible, pack the following structures to byte alignment, since we
@@ -436,5 +438,7 @@ extern ACPI_RSDUMP_INFO         AcpiRsDumpSpiSerialBus[];
 extern ACPI_RSDUMP_INFO         AcpiRsDumpUartSerialBus[];
 extern ACPI_RSDUMP_INFO         AcpiRsDumpGeneralFlags[];
 #endif
+
+#pragma pack(pop) /* Restore original struct packing */
 
 #endif  /* __ACRESRC_H__ */

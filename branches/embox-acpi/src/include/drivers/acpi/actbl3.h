@@ -5,7 +5,7 @@
  *****************************************************************************/
 
 /*
- * Copyright (C) 2000 - 2013, Intel Corp.
+ * Copyright (C) 2000 - 2014, Intel Corp.
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -44,6 +44,8 @@
 #ifndef __ACTBL3_H__
 #define __ACTBL3_H__
 
+
+#pragma pack(push) /* Set default struct packing */
 
 /*******************************************************************************
  *
@@ -440,8 +442,7 @@ typedef struct acpi_table_pcct
 {
     ACPI_TABLE_HEADER       Header;             /* Common ACPI table header */
     UINT32                  Flags;
-    UINT32                  Latency;
-    UINT32                  Reserved;
+    UINT64                  Reserved;
 
 } ACPI_TABLE_PCCT;
 
@@ -449,8 +450,16 @@ typedef struct acpi_table_pcct
 
 #define ACPI_PCCT_DOORBELL              1
 
+/* Values for subtable type in ACPI_SUBTABLE_HEADER */
+
+enum AcpiPcctType
+{
+    ACPI_PCCT_TYPE_GENERIC_SUBSPACE     = 0,
+    ACPI_PCCT_TYPE_RESERVED             = 1     /* 1 and greater are reserved */
+};
+
 /*
- * PCCT subtables
+ * PCCT Subtables, correspond to Type in ACPI_SUBTABLE_HEADER
  */
 
 /* 0: Generic Communications Subspace */
@@ -464,6 +473,9 @@ typedef struct acpi_pcct_subspace
     ACPI_GENERIC_ADDRESS    DoorbellRegister;
     UINT64                  PreserveMask;
     UINT64                  WriteMask;
+    UINT32                  Latency;
+    UINT32                  MaxAccessRate;
+    UINT16                  MinTurnaroundTime;
 
 } ACPI_PCCT_SUBSPACE;
 
@@ -722,8 +734,6 @@ typedef struct acpi_tpm2_control
 } ACPI_TPM2_CONTROL;
 
 
-/* Reset to default packing */
-
-#pragma pack()
+#pragma pack(pop) /* Restore original struct packing */
 
 #endif /* __ACTBL3_H__ */

@@ -5,7 +5,7 @@
  *****************************************************************************/
 
 /*
- * Copyright (C) 2000 - 2013, Intel Corp.
+ * Copyright (C) 2000 - 2014, Intel Corp.
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -44,6 +44,8 @@
 #ifndef __ACTBL2_H__
 #define __ACTBL2_H__
 
+
+#pragma pack(push) /* Set default struct packing */
 
 /*******************************************************************************
  *
@@ -371,6 +373,14 @@ typedef struct acpi_table_dbg2
     UINT32                  InfoCount;
 
 } ACPI_TABLE_DBG2;
+
+
+typedef struct acpi_dbg2_header
+{
+    UINT32                  InfoOffset;
+    UINT32                  InfoCount;
+
+} ACPI_DBG2_HEADER;
 
 
 /* Debug Device Information Subtable */
@@ -1408,8 +1418,6 @@ typedef struct acpi_table_wdrt
 } ACPI_TABLE_WDRT;
 
 
-/* Reset to default packing */
-
-#pragma pack()
+#pragma pack(pop) /* Restore original struct packing */
 
 #endif /* __ACTBL2_H__ */

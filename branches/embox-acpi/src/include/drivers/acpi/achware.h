@@ -5,7 +5,7 @@
  *****************************************************************************/
 
 /*
- * Copyright (C) 2000 - 2013, Intel Corp.
+ * Copyright (C) 2000 - 2014, Intel Corp.
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -44,6 +44,8 @@
 #ifndef __ACHWARE_H__
 #define __ACHWARE_H__
 
+
+#pragma pack(push) /* Set default struct packing */
 
 /* Values for the _SST predefined method */
 
@@ -223,5 +225,7 @@ AcpiHwDerivePciId (
     ACPI_HANDLE             RootPciDevice,
     ACPI_HANDLE             PciRegion);
 
+
+#pragma pack(pop) /* Restore original struct packing */
 
 #endif /* __ACHWARE_H__ */

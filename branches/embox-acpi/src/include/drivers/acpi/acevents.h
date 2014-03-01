@@ -5,7 +5,7 @@
  *****************************************************************************/
 
 /*
- * Copyright (C) 2000 - 2013, Intel Corp.
+ * Copyright (C) 2000 - 2014, Intel Corp.
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -44,6 +44,8 @@
 #ifndef __ACEVENTS_H__
 #define __ACEVENTS_H__
 
+
+#pragma pack(push) /* Set default struct packing */
 
 /*
  * evevent
@@ -206,9 +208,10 @@ AcpiEvGetGpeDevice (
     ACPI_GPE_BLOCK_INFO     *GpeBlock,
     void                    *Context);
 
-ACPI_GPE_XRUPT_INFO *
+ACPI_STATUS
 AcpiEvGetGpeXruptBlock (
-    UINT32                  InterruptNumber);
+    UINT32                  InterruptNumber,
+    ACPI_GPE_XRUPT_INFO     **GpeXruptBlock);
 
 ACPI_STATUS
 AcpiEvDeleteGpeXrupt (
@@ -354,5 +357,7 @@ ACPI_HW_DEPENDENT_RETURN_VOID (
 void
 AcpiEvTerminate (
     void))
+
+#pragma pack(pop) /* Restore original struct packing */
 
 #endif  /* __ACEVENTS_H__  */
