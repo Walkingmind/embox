@@ -1,0 +1,18 @@
+package embox.driver.diag
+
+abstract module diag_api {
+}
+
+module mem_diag extends diag_api {
+	source "mem_diag.c"
+	depends embox.lib.LibC
+}
+
+module no_diag extends diag_api {
+	source "no_diag.c"
+}
+
+module usermode extends diag_api {
+	source "usermode.c"
+}
+
