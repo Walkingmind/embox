@@ -1,8 +1,8 @@
 /**
- * @file 
- * @brief 
+ * @file
+ * @brief
  *
- * @author  Anton Kozlov 
+ * @author  Anton Kozlov
  * @date    07.02.2013
  */
 
@@ -15,8 +15,8 @@
 
 EMBOX_CMD(who_cmd);
 
-const static char *login = "LOGIN";
-const static char *localhost = "(localhost)";
+static const char *login = "LOGIN";
+static const char *localhost = "(localhost)";
 
 static int who_cmd(int argc, char **argv) {
 	struct utmp *ut;
@@ -40,7 +40,7 @@ static int who_cmd(int argc, char **argv) {
 			continue;
 		}
 
-		printf("%8s %8s %16s %8s %4d\n", user, ut->ut_line, 
+		printf("%8s %8s %16s %8s %4d\n", user, ut->ut_line,
 				host, "", ut->ut_pid);
 	}
 

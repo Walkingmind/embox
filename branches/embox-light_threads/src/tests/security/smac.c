@@ -1,8 +1,8 @@
 /**
- * @file 
+ * @file
  * @brief test for access of http://embox.googlecode.com/files/ext2_users.img
  *
- * @author  Anton Kozlov 
+ * @author  Anton Kozlov
  * @date    18.02.2013
  */
 
@@ -38,9 +38,9 @@ TEST_TEARDOWN_SUITE(teardown_suite);
 #define HIGH "high_label"
 #define LOW  "low_label"
 
-const static char *high_static = HIGH;
-const static char *low_static = LOW;
-const static char *smac_star = "*";
+static const char *high_static = HIGH;
+static const char *low_static = LOW;
+static const char *smac_star = "*";
 
 #define SMAC_BACKUP_LEN 1024
 
@@ -142,8 +142,8 @@ TEST_CASE("Low subject should be able r/w low object") {
 TEST_CASE("High subject shouldn't be able change high object label") {
 
 	smac_labelset(high_static);
-	
-	test_assert_equal(-1, setxattr(FILE_H, smac_xattrkey, smac_star, 
+
+	test_assert_equal(-1, setxattr(FILE_H, smac_xattrkey, smac_star,
 				strlen(smac_star), 0));
 
 	test_assert_equal(EACCES, errno);
@@ -153,8 +153,8 @@ TEST_CASE("High subject shouldn't be able change high object label") {
 TEST_CASE("Low subject shouldn't be able change high object label") {
 
 	smac_labelset(low_static);
-	
-	test_assert_equal(-1, setxattr(FILE_H, smac_xattrkey, smac_star, 
+
+	test_assert_equal(-1, setxattr(FILE_H, smac_xattrkey, smac_star,
 				strlen(smac_star), 0));
 
 	test_assert_equal(EACCES, errno);
@@ -165,9 +165,9 @@ TEST_CASE("smac admin should be able change high object label") {
 
 	smac_labelset(smac_admin);
 
-	test_assert_zero(setxattr(FILE_H, smac_xattrkey, smac_star, 
+	test_assert_zero(setxattr(FILE_H, smac_xattrkey, smac_star,
 				strlen(smac_star), 0));
 
-	test_assert_zero(setxattr(FILE_H, smac_xattrkey, high_static, 
+	test_assert_zero(setxattr(FILE_H, smac_xattrkey, high_static,
 				strlen(high_static), 0));
 }

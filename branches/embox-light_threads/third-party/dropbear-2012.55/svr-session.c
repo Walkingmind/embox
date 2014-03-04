@@ -136,6 +136,7 @@ void svr_session(int sock, int childpipe) {
 /* failure exit - format must be <= 100 chars */
 void svr_dropbear_exit(int exitcode, const char* format, va_list param) {
 
+	vfprintf(stderr, format, param);
 #if 0
 	char fmtbuf[300];
 
