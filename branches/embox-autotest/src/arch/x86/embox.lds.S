@@ -29,4 +29,9 @@ SECTIONS {
 		*(.text)
 		*(.text.*)
 	}
+#if 0 
+	.eh_frame : {
+		*(.eh_frame)
+	} SECTION_REGION(data)
+#endif
 }
