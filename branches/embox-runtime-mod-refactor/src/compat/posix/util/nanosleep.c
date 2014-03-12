@@ -1,0 +1,38 @@
+/**
+ * @file
+ *
+ * @date Sep 25, 2013
+ * @author: Anton Bondarev
+ */
+#include <errno.h>
+#include <time.h>
+
+#include <kernel/time/ktime.h>
+
+int nanosleep(const struct timespec *rqtp, struct timespec *rmtp) {
+	int res;
+	time64_t nsec;
+	struct timespec start_time;
+
+	clock_gettime(0, &start_time);
+
+	nsec = timespec_to_ns(rqtp);
+
+	/* 10^-9 = nsec; 10^-3 = msec; 
+ 	 n * nsec = (n / 1_000_000) * msec */
+	res = ksleep(nsec / 1000000);
+	if (res < 0) {
+		if (NULL != rmtp) {
+			clock_gettime(0, rmtp);
+			*rmtp = timespec_sub(start_time, *rmtp);
+		}
+		SET_ERRNO(EINTR);
+		return -1;
+	}
+	return ENOERR;
+}
+
+void delay(int d) {
+	//FIXME delay must plase in linux/delay.h
+
+}
