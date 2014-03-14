@@ -63,7 +63,7 @@
         * [ThreadAPI Прикладной интерфейс для работы с потоками]
     * [SchedulerDescription Планировщик]
       * [BootAndIdle Потоки Boot и Idle]
-      * [SchedulerAPI Интерфейс рабы с планировщиком]
+      * [SchedulerAPI Интерфейс работы с планировщиком]
       * [SchedStrategy Стратегия планирования]
       * [WaitqAndSchedWaitAPI Интерфейсы waitq и sched_wait]
       * [StateMachine Машина состояний потока]
