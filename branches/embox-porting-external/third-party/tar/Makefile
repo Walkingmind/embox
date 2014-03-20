@@ -24,7 +24,7 @@ PKG_CONF_FLAGS += --target=$(shell ECC="$(EMBOX_CROSS_COMPILE)"; echo -n $${ECC:
 EMBOX_IMPORTED_CPPFLAGS :=
 #EMBOX_IMPORTED_CPPFLAGS += -save-temps=obj
 EMBOX_IMPORTED_CPPFLAGS += -I$(shell pwd)/include
-EMBOX_IMPORTED_CPPFLAGS += $(filter -I%,$(EMBOX_CPPFLAGS)) 
+EMBOX_IMPORTED_CPPFLAGS += $(filter -I%,$(EMBOX_CPPFLAGS))
 EMBOX_IMPORTED_CPPFLAGS += $(filter -nostdinc,$(EMBOX_CPPFLAGS))
 EMBOX_IMPORTED_CPPFLAGS += $(filter -D__EMBOX__,$(EMBOX_CPPFLAGS))
 
@@ -38,7 +38,7 @@ EMBOX_IMPORTED_CFLAGS += $(filter -fno-stack-protector,$(EMBOX_CFLAGS))
 EMBOX_IMPORTED_CFLAGS += $(filter -mno-unaligned-access,$(EMBOX_CFLAGS))
 
 EMBOX_IMPORTED_CXXFLAGS :=
-EMBOX_IMPORTED_CXXFLAGS += $(EMBOX_IMPORTED_CPPFLAGS) 
+EMBOX_IMPORTED_CXXFLAGS += $(EMBOX_IMPORTED_CPPFLAGS)
 EMBOX_IMPORTED_CXXFLAGS += $(subst .,$(ROOT_DIR),$(filter -I%,$(EMBOX_CXXFLAGS))) # remove me
 EMBOX_IMPORTED_CXXFLAGS += $(filter -fno-common,$(EMBOX_CXXFLAGS))
 EMBOX_IMPORTED_CXXFLAGS += $(filter -march%,$(EMBOX_CXXFLAGS))
@@ -50,7 +50,7 @@ EMBOX_IMPORTED_CXXFLAGS += $(filter -fno-rtti,$(EMBOX_CXXFLAGS))
 EMBOX_IMPORTED_CXXFLAGS += $(filter -fno-exceptions,$(EMBOX_CXXFLAGS))
 EMBOX_IMPORTED_CXXFLAGS += $(filter -fno-threadsafe-statics,$(EMBOX_CXXFLAGS))
 
-EMBOX_IMPORTED_LDFLAGS := 
+EMBOX_IMPORTED_LDFLAGS :=
 EMBOX_IMPORTED_LDFLAGS += $(filter -static,$(EMBOX_LDFLAGS))
 EMBOX_IMPORTED_LDFLAGS += $(filter -nostdlib,$(EMBOX_LDFLAGS))
 ifneq (,$(filter -m%,$(EMBOX_LDFLAGS)))
@@ -88,11 +88,11 @@ $(DOWNLOADED):
 # We cannot automatically detect if there were or not changes in extracted sources
 # and do not want to accidentally remove some possible desired changes.
 # Therefore it is left to the discretion of the user.
-# HINT: Typically it is good to perform build directory cleanup: 'make clean'   
-# The patch is saved to .extracted for the user to be able to compare previous patch with current one. 
+# HINT: Typically it is good to perform build directory cleanup: 'make clean'
+# The patch is saved to .extracted for the user to be able to compare previous patch with current one.
 # In some situations this might be useful.
 $(EXTRACTED): $(PKG_PATCH) $(DOWNLOADED)
-	 [ ! -e $@ ] || (echo Re-patching is needed. Please resolve manually. && false) 
+	 [ ! -e $@ ] || (echo Re-patching is needed. Please resolve manually. && false)
 	rm -rf $(PKG_SRC_DIR)
 	mkdir -p $(PKG_SRC_DIR)
 	tar -C $(PKG_SRC_DIR) -xzf $(abspath $(PKG_BUNDLE)) --strip-components=1
@@ -114,7 +114,7 @@ $(ENVIRONMENT): | $(PKG_BUILD_DIR)
 	echo "EMBOX_IMPORTED_CXXFLAGS='$(EMBOX_IMPORTED_CXXFLAGS)'" >> $@
 	echo "EMBOX_IMPORTED_LDFLAGS='$(EMBOX_IMPORTED_LDFLAGS)'"   >> $@
 	echo "EMBOX_CROSS_COMPILE='$(EMBOX_CROSS_COMPILE)'"         >> $@
-	echo "PKG_CONF_FLAGS='$(PKG_CONF_FLAGS)'"                   >> $@ 
+	echo "PKG_CONF_FLAGS='$(PKG_CONF_FLAGS)'"                   >> $@
 
 # intentionally not taking into account possible changes in $(QMAKE_CONF)
 configure: merge_trees $(ENVIRONMENT) | $(PKG_BUILD_DIR)
