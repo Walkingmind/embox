@@ -106,7 +106,7 @@ static int exec(int argc, char **argv) {
 	trace_block_enter(&more_inner);
 	screen(fp);
 	trace_block_leave(&more_inner);
-	
+
 	fclose(fp);
 	trace_block_leave(&more_outer);
 	
