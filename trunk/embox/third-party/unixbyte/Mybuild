@@ -51,9 +51,11 @@ module byte_dhry2 {
 	@Rule(script="$(CP) $(abspath $(EXTERNAL_BUILD_DIR))/third_party/unixbyte/core/src/unixbyte-build/src/dhry_2.o $(abspath $(mod_build_dir))/dhry_2.o")
 	@AddPrefix("^BUILD/extbld/^MOD_PATH")
 	source "strip.dhry_1.o"
-	
+
 	@AddPrefix("^BUILD/extbld/^MOD_PATH")
 	source "dhry_2.o"
 
 	depends core
+	depends embox.kernel.thread.signal.sigstate
+	depends embox.kernel.thread.signal.siginfoq
 }
