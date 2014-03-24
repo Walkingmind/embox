@@ -72,6 +72,15 @@ struct grid_task {
 	int client_num;
 };
 
+enum grid_msg_type {
+	GRID_MSG_INTERMEDIATE_RESULT,
+	GRID_MSG_FINISH_RESULT,
+	GRID_MSG_CALC,
+	GRID_MSG_INFO,
+	GRID_MSG_PRINT,
+	GRID_MSG_NOOP
+};
+
 static DLIST_DEFINE(grid_pending_task_list);
 /*static DLIST_DEFINE(grid_running_task_list);*/
 POOL_DEF(grid_task_pool, struct grid_task, GRID_TASK_MAX_COUNT);
