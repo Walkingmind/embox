@@ -27,6 +27,10 @@ module checkopts {
 	depends embox.framework.example
 }
 
+@Cmd(name = "grid",
+	help = "",
+	man = '''
+	''')
 module grid {
 	source "grid_sched.c"
 
