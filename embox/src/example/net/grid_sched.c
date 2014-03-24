@@ -12,8 +12,10 @@
 #include <string.h>
 #include <stdio.h>
 #include <time.h>
+#include <arpa/inet.h>
 #include <kernel/thread.h>
 #include <kernel/printk.h>
+#include <err.h>
 
 #include <utmp.h>
 
@@ -180,7 +182,6 @@ static void *grid_server_hnd(void* args) {
 		int client_socket_len = sizeof(client_socket);
 		int client_descr = accept(listening_descr, (struct sockaddr *)&client_socket,
 								  &client_socket_len);
-		struct thread *thread;
 		size_t i;
 
 		if (client_descr < 0) {
@@ -205,8 +206,7 @@ static void *grid_server_hnd(void* args) {
 
 		clients[i].fd = client_descr;
 		memcpy(&clients[i].addr_in, &client_socket, sizeof(struct sockaddr_in));
-
-		if (0 != thread_create(&thread, 0, grid_connection_handler, (void *) i)) {
+		if (0 != err(thread_create(0, grid_connection_handler, (void *) i))) {
 			MD(printk("thread_create error \n"));
 		}
 	}
@@ -424,12 +424,10 @@ static void *client_handler(void *args) {
 }
 
 static int exec(int argc, char *argv[]) {
-	struct thread *thread;
 	int sock = 0;
 	const int port = 40000;
 	char *addr = argv[1];
 	char *uline;
-	struct thread *client_thd;
 
 	struct sockaddr_in dst;
 
@@ -444,8 +442,8 @@ static int exec(int argc, char *argv[]) {
 			clients[i].grid_task = NULL;
 		}
 
-		thread_create(&thread, 0, grid_server_hnd, NULL);
-		thread_create(&thread, 0, grid_mainloop_hnd, NULL);
+		thread_create(0, grid_server_hnd, NULL);
+		thread_create(0, grid_mainloop_hnd, NULL);
 		addr = "127.0.0.1";
 
 		sleep(1);
@@ -475,7 +473,7 @@ static int exec(int argc, char *argv[]) {
 
 	printk("Connection established\n");
 
-	thread_create(&client_thd, 0, client_handler, &sock);
+	thread_create(0, client_handler, &sock);
 
 	while ((uline = readline("grid> "))) {
 		if (!strcmp(uline, "calc")) {
