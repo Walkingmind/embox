@@ -14,7 +14,8 @@ enum grid_msg_type {
 	GRID_MSG_FINISH_RESULT,
 	GRID_MSG_CALC,
 	GRID_MSG_INFO,
-	GRID_MSG_PRINT
+	GRID_MSG_PRINT,
+	GRID_MSG_NOOP
 };
 
 #endif /* GRID_TYPES_H_ */
