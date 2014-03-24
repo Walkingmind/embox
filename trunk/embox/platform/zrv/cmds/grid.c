@@ -36,7 +36,6 @@
 #include <mem/misc/pool.h>
 #include <readline/readline.h>
 #include <kernel/time/ktime.h>
-#include "grid_types.h"
 #include <stdlib.h>
 
 static int grid_do_int(int num, int client_num);
