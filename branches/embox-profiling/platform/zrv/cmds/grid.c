@@ -12,8 +12,10 @@
 #include <string.h>
 #include <stdio.h>
 #include <time.h>
+#include <arpa/inet.h>
 #include <kernel/thread.h>
 #include <kernel/printk.h>
+#include <err.h>
 
 #include <utmp.h>
 
@@ -34,7 +36,6 @@
 #include <mem/misc/pool.h>
 #include <readline/readline.h>
 #include <kernel/time/ktime.h>
-#include "grid_types.h"
 #include <stdlib.h>
 
 static int grid_do_int(int num, int client_num);
@@ -61,11 +62,22 @@ static struct {
 	/* Telnetd port bind to */
 #define GRID_PORT 40000
 #define GRID_TASK_MAX_COUNT 0x10
+#define NOOP_FREQUENCY 1000
+#define NOOP_TIMEOUT   3000
 
 struct grid_task {
 	struct dlist_head link;
 	int task_num;
 	int client_num;
+};
+
+enum grid_msg_type {
+	GRID_MSG_INTERMEDIATE_RESULT,
+	GRID_MSG_FINISH_RESULT,
+	GRID_MSG_CALC,
+	GRID_MSG_INFO,
+	GRID_MSG_PRINT,
+	GRID_MSG_NOOP
 };
 
 static DLIST_DEFINE(grid_pending_task_list);
@@ -85,13 +97,14 @@ static void *grid_connection_handler(void* args) {
 	struct timeval timeout;
 	int client_num = (int) args;
 	int sock = clients[client_num].fd;
+	int last_noop = clock();
 
 	MD(printk("grid_connection_handler\n"));
 	/* Set socket to be nonblock. See ignore_telnet_options() */
 	//fcntl(sock, F_SETFL, O_NONBLOCK);
 
-	timeout.tv_sec = 100;
-	timeout.tv_usec = 0;
+	timeout.tv_sec = NOOP_FREQUENCY / MSEC_PER_SEC;
+	timeout.tv_usec = NOOP_FREQUENCY % MSEC_PER_SEC;
 
 	while(1) {
 		int fd_cnt;
@@ -106,12 +119,24 @@ static void *grid_connection_handler(void* args) {
 		fd_cnt = select(sock + 1, &readfds, NULL, NULL, &timeout);
 
 		if (fd_cnt <= 0) {
+			if (clock() - last_noop > NOOP_TIMEOUT) {
+				MD(printk("disconnecting from node %s\n",
+							inet_ntoa(clients[client_num].addr_in.sin_addr)));
+				break;
+			}
+			else if (clock() - last_noop > NOOP_FREQUENCY) {
+				buf[0] = GRID_MSG_NOOP;
+				write(sock, buf, sizeof(buf));
+			}
 			continue;
 		}
 
 		gtask = clients[client_num].grid_task;
 
 		read(sock, &inbuf, sizeof(inbuf));
+
+		/* update after any activity */
+		last_noop = clock();
 
 		switch(inbuf[0]) {
 		case GRID_MSG_INFO:
@@ -136,6 +161,8 @@ static void *grid_connection_handler(void* args) {
 
 			gtask_free(gtask);
 			break;
+		case GRID_MSG_NOOP:
+			/* last_noop already up to date */
 		default:
 			break;
 		}
@@ -180,7 +207,6 @@ static void *grid_server_hnd(void* args) {
 		int client_socket_len = sizeof(client_socket);
 		int client_descr = accept(listening_descr, (struct sockaddr *)&client_socket,
 								  &client_socket_len);
-		struct thread *thread;
 		size_t i;
 
 		if (client_descr < 0) {
@@ -205,8 +231,7 @@ static void *grid_server_hnd(void* args) {
 
 		clients[i].fd = client_descr;
 		memcpy(&clients[i].addr_in, &client_socket, sizeof(struct sockaddr_in));
-
-		if (0 != thread_create(&thread, 0, grid_connection_handler, (void *) i)) {
+		if (0 != err(thread_create(0, grid_connection_handler, (void *) i))) {
 			MD(printk("thread_create error \n"));
 		}
 	}
@@ -416,6 +441,9 @@ static void *client_handler(void *args) {
 
 				task_mask |= 0x8;
 				break;
+			case GRID_MSG_NOOP:
+				write(sock, buf, sizeof(buf));
+				break;
 			}
 		}
 	}
@@ -424,12 +452,10 @@ static void *client_handler(void *args) {
 }
 
 static int exec(int argc, char *argv[]) {
-	struct thread *thread;
 	int sock = 0;
 	const int port = 40000;
 	char *addr = argv[1];
 	char *uline;
-	struct thread *client_thd;
 
 	struct sockaddr_in dst;
 
@@ -444,8 +470,8 @@ static int exec(int argc, char *argv[]) {
 			clients[i].grid_task = NULL;
 		}
 
-		thread_create(&thread, 0, grid_server_hnd, NULL);
-		thread_create(&thread, 0, grid_mainloop_hnd, NULL);
+		thread_create(0, grid_server_hnd, NULL);
+		thread_create(0, grid_mainloop_hnd, NULL);
 		addr = "127.0.0.1";
 
 		sleep(1);
@@ -475,7 +501,7 @@ static int exec(int argc, char *argv[]) {
 
 	printk("Connection established\n");
 
-	thread_create(&client_thd, 0, client_handler, &sock);
+	thread_create(0, client_handler, &sock);
 
 	while ((uline = readline("grid> "))) {
 		if (!strcmp(uline, "calc")) {
