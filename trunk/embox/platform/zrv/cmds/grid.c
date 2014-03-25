@@ -278,12 +278,16 @@ static void grid_do_info(int client_num) {
 	char *info = malloc(201);
 	int off = 0;
 	int buf[3];
+	struct sockaddr_in sin;
+	socklen_t sin_len;
 	if (info == NULL) {
 		printf("malloc() failed\n");
 		return;
 	}
 	off = sizeof(buf);
-	off += sprintf(info+off, "node %s", "10.0.2.16");
+	sin_len = sizeof sin;
+	getsockname(clients[client_num].fd, (struct sockaddr *)&sin, &sin_len);
+	off += sprintf(info+off, "node %s", inet_ntoa(sin.sin_addr));
 	for (int i = 1; i < GRID_MAX_CONNECTIONS; i++) {
 		if (clients[i].fd != -1) {
 			off += sprintf(info+off, ", node %s", /*ind++,*/
