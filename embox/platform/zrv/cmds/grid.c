@@ -48,7 +48,7 @@ struct grid_task;
 	/* Upper limit of concurent telnet connections.
 	 * ToDo: move those into config files
 	 */
-#define MD(x) 
+#define MD(x)
 #define GRID_MAX_CONNECTIONS 5
 static struct {
 	int fd;
@@ -112,7 +112,6 @@ static void *grid_connection_handler(void* args) {
 		struct grid_task *gtask;
 
 		FD_ZERO(&readfds);
-
 		FD_SET(sock, &readfds);
 
 		fd_cnt = select(sock + 1, &readfds, NULL, NULL, &timeout);
@@ -228,8 +227,9 @@ static void *grid_server_hnd(void* args) {
 			continue;
 		}
 
-		clients[i].fd = client_descr;
 		memcpy(&clients[i].addr_in, &client_socket, sizeof(struct sockaddr_in));
+		clients[i].grid_task = NULL;
+		clients[i].fd = client_descr;
 		if (0 != err(thread_create(0, grid_connection_handler, (void *) i))) {
 			MD(printf("thread_create error \n"));
 		}
@@ -325,7 +325,6 @@ static void *grid_mainloop_hnd(void* args) {
 				mutex_unlock(&clients[i].mutex);
 
 				if (!check) {
-					thread_yield();
 					continue;
 				}
 
@@ -346,10 +345,12 @@ static void *grid_mainloop_hnd(void* args) {
 			}
 
 			if (i >= GRID_MAX_CONNECTIONS) {
-				//assert(0);
+				break;
 			}
 		}
 		mutex_unlock(&pending_mutex);
+
+		thread_yield();
 	}
 
 	return NULL;
@@ -468,9 +469,8 @@ static int exec(int argc, char *argv[]) {
 		cond_init(&pending_cond, NULL);
 
 		for (i = 0; i < GRID_MAX_CONNECTIONS; i++) {
-			clients[i].fd = -1;
 			mutex_init(&clients[i].mutex);
-			clients[i].grid_task = NULL;
+			clients[i].fd = -1;
 		}
 
 		thread_create(0, grid_server_hnd, NULL);
