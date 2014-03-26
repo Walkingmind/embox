@@ -1,0 +1,10 @@
+package embox.framework
+
+module test {
+	/*FIXME mybuild make flags options */
+	@DefineMacro("__FRAMEWORK__")
+	source "emit.c", "registry.c", "run.c"
+
+	depends embox.lib.Printk
+	depends embox.arch.libarch
+}
