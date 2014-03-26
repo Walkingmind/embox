@@ -1,7 +1,0 @@
-package embox.test.fs.file_api
-
-module open_test {
-	source "fopen.c"
-	
-	depends embox.fs.core
-}
