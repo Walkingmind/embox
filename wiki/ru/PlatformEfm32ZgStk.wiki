@@ -1,0 +1,72 @@
+#summary Getting started with Efm32ZgStk
+#labels Phase-Deploy
+
+<img src="http://www.silabs.com/SiteCollectionImages/board-images/efm32zg-stk3200.png" align="right">
+На плате установлен микроконтроллер EFM32ZG222F32 Zero Gecko и отладчик SEGGER J-Link.
+
+===Установка окружения===
+
+ # Скачайте установочный архив с компилятором с https://launchpad.net/gcc-arm-embedded/+download. Файл будет примерно называться gcc-arm-none-eabi-4_8-`*`-linux.tar.bz2
+ # Расспакуйте его. Дальше будет предполагаться глобальная установка в `/opt`, но можно установить в любую другую директорию.
+{{{
+$ cd /opt
+$ sudo tar -axf ~/Downloads/gcc-arm-none-eabi-4_8-2013q4-20131204-linux.tar.bz2
+}}}
+(Из-за того, что `/opt` не доступен для записи обычному пользователю, `tar` вызывается через `sudo`.
+ # Download and extract SEGGER J-Link software pack for Linux (32 or 64 bit TGZ) from http://www.segger.com/jlink-software.html When serial number requested click on "I do not have a serial number because I own an eval board with J-Link on-board"
+ # Скачайте и распакуйте SEGGER J-Link набор ПО для Linux (32 или 64 битный TGZ) с http://www.segger.com/jlink-software.html Когда появится запрос серийного номера, нажмите "I do not have a serial number because I own an eval board with J-Link on-board"
+
+===Конфигурирование и сборка Embox===
+ # Скачайте и распакуйте Embox. Откройте терминал и смените текущую директорию в нем на корневую директорию Embox.
+{{{
+$ cd ~/embox
+}}}
+ # Загрузите конфигурацию `platform/efm32zg_sk3200/debug`
+{{{
+$ make confload-platform/efm32zg_sk3200/debug
+}}}
+ # Если вы установили компилятор не в `/opt`, отредактируйте `conf/build.conf`, изменив `CROSS_COMPILE`. Например, если Вы установили компилятор в `~/gcc-arm-embedded`, тогда `CROSS_COMPILE` должна быть такой
+{{{
+CROSS_COMPILE = ~/gcc-arm-embedded/gcc-arm-none-eabi-4_8-2013q4/bin/arm-none-eabi-
+}}}
+ # Начните сборку
+{{{
+$ make
+}}}
+В конце вы должны увидеть `Build complete`.
+
+===Загрузка Embox===
+На данном этапе у Вас должен быть открыт один терминал с текущей директорией Embox, и Embox должен быть собран.
+ # Откройте второй терминал и смените директорию на распакованную директорию SEGGER.
+ # Запустите `gdb` сервер JLink
+{{{
+$ sudo ./JLinkGDBServer
+...
+J-Link found 1 JTAG device, Total IRLen = 4
+JTAG ID: 0x0BC11477 (Cortex-M0)
+Connected to target
+Waiting for GDB connection...
+}}}
+ # Переключитесь на первый терминал и запустите `gdb` с следующими параметрами. Если вы установили компилятор не в `/opt`, введите другой путь до `gdb`.
+{{{
+$ /opt/gcc-arm-none-eabi-4_8-2013q4/bin/arm-none-eabi-gdb build/base/bin/embox -x platform/efm32zg_sk3200/.gdbinit
+Target interface speed set to 30 kHz
+Target endianess set to "little endian"
+Resetting target
+Select auto target interface speed (2000 kHz)
+Selecting device: EFM32ZG222F32
+Flash breakpoints enabled
+(gdb) 
+}}} 
+ # Теперь загрузите Embox и запустите его.
+{{{
+(gdb) load
+Loading section .text, size 0x53b4 lma 0x0
+Loading section .ARM.exidx, size 0x8 lma 0x53b4
+Loading section .rodata, size 0x1e20 lma 0x53c0
+Loading section .data, size 0x1a0 lma 0x71e0
+Start address 0x74, load size 29564
+Transfer rate: 14435 KB/sec, 5912 bytes/write.
+(gdb) c
+Continuing.
+}}}
