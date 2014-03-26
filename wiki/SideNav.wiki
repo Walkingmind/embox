@@ -22,6 +22,7 @@
         * [PlatformLegoNxtExamples Examples]
         * [PlatformLegoNxtSound Sound]
       * [PlatformStm32Discovery STM32 Discovery]
+      * [PlatformEfm32ZgStk EFM32 Zero Gecko Starter Kit]
       * [PlatformSecoQsevenOmap3 SECO Qseven-747/OMAP3]
       * [PlatformBeagleBoardSd BeagleBoard]
     * [ArchMicroblaze Microblaze]
