@@ -13,8 +13,7 @@ module kernel_task {
 
 	@NoRuntime depends embox.kernel.task.api
 	depends embox.kernel.task.task_resource // FIXME
-	depends embox.kernel.task.task_table_api
-	depends embox.kernel.thread.thread_mode
+	depends embox.kernel.task.task_table_api	
 }
 
 module multi extends api {
