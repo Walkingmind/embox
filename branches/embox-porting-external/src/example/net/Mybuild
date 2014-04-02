@@ -26,12 +26,3 @@ module checkopts {
 	depends embox.lib.LibC
 	depends embox.framework.example
 }
-
-module grid {
-	source "grid_sched.c"
-
-	depends embox.kernel.thread.core
-	depends embox.compat.posix.net.socket
-	depends embox.compat.posix.LibPosix
-	depends embox.framework.example
-}

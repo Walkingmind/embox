@@ -25,6 +25,9 @@ module tclsh {
 	source "init.tcl",
 		"history.tcl",
 		"tclIndex"
+	
+	@InitFS
+	source "example/server.tcl"
 
 	@NoRuntime depends third_party.tcl.core
 }
