@@ -282,8 +282,6 @@ echo "" > $LOG_FILE
 pushd $TMP_DIR > /dev/null
 
 print_msg "directory is $TMP_DIR"
-makepkg
-exit 0
 
 do_download && do_unpack && do_gmp && do_mpfr && do_mpc && do_binutils && do_gcc && do_gdb && makepkg
 
