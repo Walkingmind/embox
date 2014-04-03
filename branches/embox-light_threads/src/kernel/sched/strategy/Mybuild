@@ -100,7 +100,9 @@ abstract module priority_api {
 
 
 module InharitancePriority extends priority_api {
-	source "thread_priority.c"
+	source "lwthread_priority.c"
+	
+	source "thread_priority.c"	
 	source "thread_priority.h"
 	source "runnable_priority.c"
 }
