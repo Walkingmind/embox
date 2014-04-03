@@ -44,6 +44,8 @@
 #include <fs/file_system.h>
 #include <fs/file_desc.h>
 
+#include <util/bit.h>
+
 #include "qnx6.h"
 
 static int qnx6fs_open(struct node *node, struct file_desc *file_desc,
@@ -91,7 +93,7 @@ static unsigned qnx6_get_devblock(struct qnx6_superblock *sb, __fs32 block)
 static unsigned qnx6_block_map(struct node *node, unsigned iblock);
 
 struct buffer_head *qnx6_get_block(struct node *node, unsigned int iblock,
-		int create)  
+		int create)
 {
 	unsigned phys;
 
@@ -154,7 +156,7 @@ static unsigned qnx6_block_map(struct node *node, unsigned no)
 		}
 		bitdelta -= ptrbits;
 		levelptr = (no >> bitdelta) & mask;
-		ptr = ((__fs32 *)bh->b_data)[levelptr]; 
+		ptr = ((__fs32 *)bh->b_data)[levelptr];
 
 		if (!qnx6_check_blockptr(ptr))
 			return 0;
@@ -262,7 +264,7 @@ static struct buffer_head *qnx6_check_first_superblock(struct qnx6_superblock *s
 		printk(KERN_ERR "qnx6: unable to read the first superblock\n");
 		return NULL;
 	}
-	sb = (struct qnx6_super_block *)bh->b_data; 
+	sb = (struct qnx6_super_block *)bh->b_data;
 	if (fs32_to_cpu(sbi, sb->sb_magic) != QNX6_SUPER_MAGIC) {
 		sbi->s_bytesex = BYTESEX_BE;
 		if (fs32_to_cpu(sbi, sb->sb_magic) == QNX6_SUPER_MAGIC) {
@@ -283,7 +285,7 @@ static struct buffer_head *qnx6_check_first_superblock(struct qnx6_superblock *s
 						offset * s->s_blocksize);
 			}
 		}
-		brelse(bh); 
+		brelse(bh);
 		return NULL;
 	}
 	return bh;
@@ -451,7 +453,7 @@ static int qnx6_fill_super(struct qnx6_superblock *s, void *data, int silent)
 
 	/* ease the later tree level calculations */
 	sbi = QNX6_SB(s);
-	sbi->s_ptrbits = blog2(s->s_blocksize / 4);
+	sbi->s_ptrbits = bit_ctz(s->s_blocksize / 4);
 	sbi->nodes = qnx6_private_node(s, &sb1->Inode);
 	if (!sbi->nodes)
 		goto out;
@@ -553,7 +555,7 @@ struct node *qnx6_iget_wname(struct qnx6_superblock *sb, unsigned ino,
 	struct buffer_head *bh = NULL;
 	__u32 n, offs;
 
-	/*node = iget_locked(sb, ino); */ 
+	/*node = iget_locked(sb, ino); */
 	/*node = qnx6_embox_iget(sb, ino); */
 	node = qnx6_alloc_node(sb, name, namelen);
 	if (!node)
@@ -655,17 +657,17 @@ static int qnx6fs_close(struct file_desc *desc) {
 
 static size_t qnx6fs_read(struct file_desc *desc, void *buff, size_t size) {
 	struct buffer_head *bh;
-	unsigned iblk; 
+	unsigned iblk;
 	off_t offs;
 	void *obuf = buff;
 
 	while (size > 0) {
 		int toread;
 
-		iblk = desc->cursor >> QNX6_BH_BLOCK_SHIFT; 
+		iblk = desc->cursor >> QNX6_BH_BLOCK_SHIFT;
 		offs = desc->cursor & (~QNX6_BH_BLOCK_MASK);
 
-		toread = min(size, min(QNX6_BH_BLOCK_SIZE - offs, 
+		toread = min(size, min(QNX6_BH_BLOCK_SIZE - offs,
 					QNX6_I(desc->node)->i_size - desc->cursor));
 		if (toread <= 0) {
 			break;
@@ -748,10 +750,10 @@ struct dirent_masq {
 	struct filesystem *d_fs;
 };
 
-static int embox_mount_filldir(void *dirent, const char *name, int size, 
+static int embox_mount_filldir(void *dirent, const char *name, int size,
 		loff_t pos, __u64 node, unsigned d_type) {
 	struct node *n;
-	struct dirent_masq dm; 
+	struct dirent_masq dm;
 	struct qnx_file qf;
 	struct dirent_masq *dmasq = dirent;
 

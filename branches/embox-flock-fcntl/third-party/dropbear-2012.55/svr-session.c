@@ -87,7 +87,7 @@ void svr_session(int sock, int childpipe) {
 
 	/* Initialise server specific parts of the session */
 	svr_ses.childpipe = childpipe;
-#ifdef __uClinux__
+#if defined(__uClinux__) || defined(__EMBOX__)
 	svr_ses.server_pid = getpid();
 #endif
 	svr_authinitialise();
@@ -136,6 +136,8 @@ void svr_session(int sock, int childpipe) {
 /* failure exit - format must be <= 100 chars */
 void svr_dropbear_exit(int exitcode, const char* format, va_list param) {
 
+	vfprintf(stderr, format, param);
+#if 0
 	char fmtbuf[300];
 
 	if (!sessinitdone) {
@@ -159,8 +161,9 @@ void svr_dropbear_exit(int exitcode, const char* format, va_list param) {
 	}
 
 	_dropbear_log(LOG_INFO, fmtbuf, param);
+#endif
 
-#ifdef __uClinux__
+#if defined(__uClinux__) || defined(__EMBOX__)
 	/* only the main server process should cleanup - we don't want
 	 * forked children doing that */
 	if (svr_ses.server_pid == getpid())

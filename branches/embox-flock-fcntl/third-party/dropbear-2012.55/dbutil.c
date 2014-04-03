@@ -462,32 +462,15 @@ static struct task_data {
 	int *ret_errfd;
 	void *exec_data;
 	void(*exec_fn)(void *user_data);
-	int infds[2];
-	int outfds[2];
-	int errfds[2];
+	int slave_pty;
 } data;
 
-#include <termios.h>
-extern int pipe_pty(int pipe[2], const struct termios *tio);
-static const struct termios pipetio = {
-	.c_lflag = ICANON,
-	.c_oflag = ONLCR,
-};
+extern int ppty(int pptyfds[2]);
 
 static void *child_handler(void *arg) {
-	int *infds = data.infds;
-	int *outfds = data.outfds;
-	int *errfds = data.errfds;
 	int *ret_errfd = data.ret_errfd;
 	void(*exec_fn)(void *user_data) = data.exec_fn;
 	void *exec_data = data.exec_data;
-
-	const int FDIN = 0;
-	const int FDOUT = 1;
-
-	pipe_pty(infds, NULL);
-	pipe_pty(outfds, &pipetio);
-	pipe_pty(errfds, NULL);
 
 #ifdef EMBOX_FULL
 	TRACE(("back to normal sigchld"))
@@ -498,21 +481,11 @@ static void *child_handler(void *arg) {
 #endif
 	/* redirect stdin/stdout */
 
-	if ((dup2(infds[FDIN], STDIN_FILENO) < 0) ||
-		(dup2(outfds[FDOUT], STDOUT_FILENO) < 0) ||
-		(ret_errfd && dup2(errfds[FDOUT], STDERR_FILENO) < 0)) {
+	if ((dup2(data.slave_pty, STDIN_FILENO) < 0) ||
+		(dup2(data.slave_pty, STDOUT_FILENO) < 0) ||
+		(ret_errfd && dup2(data.slave_pty, STDERR_FILENO) < 0)) {
 		TRACE(("leave noptycommand: error redirecting FDs"))
 		dropbear_exit("Child dup2() failure");
-	}
-
-	close(infds[FDOUT]);
-	close(infds[FDIN]);
-	close(outfds[FDIN]);
-	close(outfds[FDOUT]);
-	if (ret_errfd)
-	{
-		close(errfds[FDIN]);
-		close(errfds[FDOUT]);
 	}
 
 	exec_fn(exec_data);
@@ -527,6 +500,8 @@ static void *child_handler(void *arg) {
 }
 #endif
 
+#include <kernel/task.h>
+
 /* Sets up a pipe for a, returning three non-blocking file descriptors
  * and the pid. exec_fn is the function that will actually execute the child process,
  * it will be run after the child has fork()ed, and is passed exec_data.
@@ -534,22 +509,11 @@ static void *child_handler(void *arg) {
  * ret_pid can be passed as  NULL to discard the pid. */
 int spawn_command(void(*exec_fn)(void *user_data), void *exec_data,
 		int *ret_writefd, int *ret_readfd, int *ret_errfd, pid_t *ret_pid) {
-	int infds[2];
-	int outfds[2];
-	int errfds[2];
+	int pty[2];
 	pid_t pid;
 
-	const int FDIN = 0;
-	const int FDOUT = 1;
-
 	/* redirect stdin/stdout/stderr */
-	if (pipe(infds) != 0) {
-		return DROPBEAR_FAILURE;
-	}
-	if (pipe(outfds) != 0) {
-		return DROPBEAR_FAILURE;
-	}
-	if (ret_errfd && pipe(errfds) != 0) {
+	if (ppty(pty) != 0) {
 		return DROPBEAR_FAILURE;
 	}
 
@@ -558,9 +522,7 @@ int spawn_command(void(*exec_fn)(void *user_data), void *exec_data,
 #elif defined(EMBOX_FULL)
 	pid = fork();
 #else
-	data.infds[0] = infds[0]; data.infds[1] = infds[1];
-	data.outfds[0] = outfds[0]; data.outfds[1] = outfds[1];
-	data.errfds[0] = errfds[0]; data.errfds[1] = errfds[1];
+	data.slave_pty = pty[1];
 	data.ret_errfd = ret_errfd;
 	data.exec_fn = exec_fn;
 	data.exec_data = exec_data;
@@ -570,6 +532,8 @@ int spawn_command(void(*exec_fn)(void *user_data), void *exec_data,
 	if (pid < 0) {
 		return DROPBEAR_FAILURE;
 	}
+
+	close(pty[1]);
 
 #ifdef EMBOX_FULL
 	if (!pid) {
@@ -607,25 +571,15 @@ int spawn_command(void(*exec_fn)(void *user_data), void *exec_data,
 #endif
 	{
 		/* parent */
-		close(infds[FDIN]);
-		close(outfds[FDOUT]);
-
-		//setnonblocking(outfds[FDIN]);
-		//setnonblocking(infds[FDOUT]);
-
-		if (ret_errfd) {
-			close(errfds[FDOUT]);
-			//setnonblocking(errfds[FDIN]);
-		}
 
 		if (ret_pid) {
 			*ret_pid = pid;
 		}
 
-		*ret_writefd = infds[FDOUT];
-		*ret_readfd = outfds[FDIN];
+		*ret_writefd = pty[0];
+		*ret_readfd = pty[0];
 		if (ret_errfd) {
-			*ret_errfd = errfds[FDIN];
+			*ret_errfd = pty[0];
 		}
 		return DROPBEAR_SUCCESS;
 	}
@@ -677,6 +631,8 @@ void run_shell_command(const char* cmd, unsigned int maxfd, char* usershell) {
 	execv(usershell, argv);
 #else
 	shell_run(shell_lookup("tish"));
+	exitflag = 1;
+	exit(0);
 #endif
 }
 

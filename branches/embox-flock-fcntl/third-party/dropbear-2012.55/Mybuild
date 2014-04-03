@@ -318,6 +318,7 @@ static module libtommath {
      "libtommath/bn_mp_to_unsigned_bin_n.c"
 }
 
+@App
 @Cmd(name = "dropbear",
 	help = "Dropbear SSH server",
 	man = '''
@@ -375,6 +376,7 @@ module dropbear {
 	depends libtomcrypt
 	depends embox.compat.posix.util.All
 	depends embox.kernel.time.timekeeper /* TODO */
+	@NoRuntime depends embox.lib.LibCStringDup
 }
 
 module dropbearkey {

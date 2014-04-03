@@ -18,6 +18,7 @@ build_gen_ts := $(MKGEN_DIR)/build-gen.timestamp
 
 build : $(build_gen_ts)
 	@$(MAKE) -f mk/script/build/oldconf-gen.mk MAKEFILES=''
+	@$(MAKE) -f mk/extbld.mk MAKEFILES=''
 	@$(MAKE) -f mk/image2.mk MAKEFILES=''
 
 buildgen : $(build_gen_ts)
@@ -50,7 +51,7 @@ mod-list :
 	@$(info $(addsuffix $(\n),$(MODULE_LIST)))#
 
 $(MODULE_LIST:%=mod-include-reason-%) : mod-include-reason-% :
-	@$(info $(call mod_include_reason,$*))#
+	$(call mod_include_reason,$*)#
 
 $(MODULE_LIST:%=mod-brief-%) : mod-brief-% :
 	@$(info $(call mod_brief,$*))#
