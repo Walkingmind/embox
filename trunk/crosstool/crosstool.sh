@@ -262,7 +262,7 @@ makepkg() {
 	local binutils_dir="install-binutils"
 	local gcc_dir="install-gcc"
 	local gdb_dir="install-gdb"
-	local pkg_dir="$TARGET-${NAME[4]}"
+	local pkg_dir="$TARGET-toolchain"
 	print_msg "Prepare package directory"
 	if [ -d $pkg_dir ]; then
 		rm -rf $pkg_dir/*
@@ -282,6 +282,8 @@ echo "" > $LOG_FILE
 pushd $TMP_DIR > /dev/null
 
 print_msg "directory is $TMP_DIR"
+makepkg
+exit 0
 
 do_download && do_unpack && do_gmp && do_mpfr && do_mpc && do_binutils && do_gcc && do_gdb && makepkg
 
