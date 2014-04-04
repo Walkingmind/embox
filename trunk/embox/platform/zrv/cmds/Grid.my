@@ -16,6 +16,7 @@ package zrv.cmd
 module grid {
 	source "grid.c"
 
+	depends embox.lib.readline_api
 	depends embox.kernel.thread.core
 	depends embox.compat.posix.net.socket
 	depends embox.compat.posix.LibPosix
