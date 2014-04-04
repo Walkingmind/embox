@@ -194,7 +194,8 @@ do_gcc() {
 	local mpfr_dir="$TMP_DIR/install-mpfr"
 	local mpc_dir="$TMP_DIR/install-mpc"
 	local binutils_dir="$TMP_DIR/install-binutils"
-	local path=$PATH:$binutils_dir/bin
+	local path=$binutils_dir/bin:$PATH
+	local ld_lib_path=$gmp_dir/lib:$mpfr_dir/lib:$mpc_dir/lib:$LD_LIBRARY_PATH
 	print_msg "Build gcc start"
 	if [ ! -d $build_dir ]; then
 		mkdir $build_dir
@@ -220,7 +221,7 @@ do_gcc() {
 	fi
 	make -j `nproc` -q all-gcc all-target-libgcc
 	if [ $? -ne 0 ]; then
-		PATH=$path make -j `nproc` all-gcc all-target-libgcc \
+		PATH=$path LD_LIBRARY_PATH=$ld_lib_path make -j `nproc` all-gcc all-target-libgcc \
 			&& PATH=$path make -j `nproc` install-gcc install-target-libgcc \
 			|| error_exit "Building gcc failed"
 	fi
