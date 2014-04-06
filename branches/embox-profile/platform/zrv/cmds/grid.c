@@ -14,7 +14,6 @@
 #include <time.h>
 #include <arpa/inet.h>
 #include <kernel/thread.h>
-#include <kernel/printk.h>
 #include <err.h>
 
 #include <utmp.h>
@@ -49,7 +48,7 @@ struct grid_task;
 	/* Upper limit of concurent telnet connections.
 	 * ToDo: move those into config files
 	 */
-#define MD(x) 
+#define MD(x)
 #define GRID_MAX_CONNECTIONS 5
 static struct {
 	int fd;
@@ -99,7 +98,7 @@ static void *grid_connection_handler(void* args) {
 	int sock = clients[client_num].fd;
 	int last_noop = clock();
 
-	MD(printk("grid_connection_handler\n"));
+	MD(printf("grid_connection_handler\n"));
 	/* Set socket to be nonblock. See ignore_telnet_options() */
 	//fcntl(sock, F_SETFL, O_NONBLOCK);
 
@@ -113,14 +112,13 @@ static void *grid_connection_handler(void* args) {
 		struct grid_task *gtask;
 
 		FD_ZERO(&readfds);
-
 		FD_SET(sock, &readfds);
 
 		fd_cnt = select(sock + 1, &readfds, NULL, NULL, &timeout);
 
 		if (fd_cnt <= 0) {
 			if (clock() - last_noop > NOOP_TIMEOUT) {
-				MD(printk("disconnecting from node %s\n",
+				MD(printf("disconnecting from node %s\n",
 							inet_ntoa(clients[client_num].addr_in.sin_addr)));
 				break;
 			}
@@ -171,7 +169,7 @@ static void *grid_connection_handler(void* args) {
 	close(sock);
 	clients[client_num].fd = -1;
 
-	MD(printk("exiting from grid_connection_handler\n"));
+	MD(printf("exiting from grid_connection_handler\n"));
 
 	return NULL;
 }
@@ -186,22 +184,22 @@ static void *grid_server_hnd(void* args) {
 	listening_socket.sin_addr.s_addr = htonl(GRID_ADDR);
 
 	if ((listening_descr = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP)) < 0) {
-		printk("can't create socket\n");
+		printf("can't create socket\n");
 		return NULL;
 	}
 
 	if ((res = bind(listening_descr, (struct sockaddr *)&listening_socket,
 					sizeof(listening_socket))) < 0) {
-		printk("bind() failed\n");
+		printf("bind() failed\n");
 		goto listen_failed;
 	}
 
 	if ((res = listen(listening_descr, GRID_MAX_CONNECTIONS)) < 0) {
-		printk("listen() failed\n");
+		printf("listen() failed\n");
 		goto listen_failed;
 	}
 
-	MD(printk("grid_sched is ready to accept connections\n"));
+	MD(printf("grid_sched is ready to accept connections\n"));
 	while (1) {
 		struct sockaddr_in client_socket;
 		int client_socket_len = sizeof(client_socket);
@@ -210,11 +208,11 @@ static void *grid_server_hnd(void* args) {
 		size_t i;
 
 		if (client_descr < 0) {
-			MD(printk("accept() failed. code=%d\n", -errno));
+			MD(printf("accept() failed. code=%d\n", -errno));
 			continue;
 		}
 
-		MD(printk("Attempt to connect from address %s:%d\n",
+		MD(printf("Attempt to connect from address %s:%d\n",
 			inet_ntoa(client_socket.sin_addr), ntohs(client_socket.sin_port)));
 
 		for (i = 0; i < GRID_MAX_CONNECTIONS; i++) {
@@ -224,15 +222,16 @@ static void *grid_server_hnd(void* args) {
 		}
 
 		if (i >= GRID_MAX_CONNECTIONS) {
-			MD(printk("limit of connections exceded\n"));
+			MD(printf("limit of connections exceded\n"));
 			close(client_descr);
 			continue;
 		}
 
-		clients[i].fd = client_descr;
 		memcpy(&clients[i].addr_in, &client_socket, sizeof(struct sockaddr_in));
+		clients[i].grid_task = NULL;
+		clients[i].fd = client_descr;
 		if (0 != err(thread_create(0, grid_connection_handler, (void *) i))) {
-			MD(printk("thread_create error \n"));
+			MD(printf("thread_create error \n"));
 		}
 	}
 
@@ -279,12 +278,16 @@ static void grid_do_info(int client_num) {
 	char *info = malloc(201);
 	int off = 0;
 	int buf[3];
+	struct sockaddr_in sin;
+	socklen_t sin_len;
 	if (info == NULL) {
-		printk("malloc() failed\n");
+		printf("malloc() failed\n");
 		return;
 	}
 	off = sizeof(buf);
-	off += sprintf(info+off, "node %s", "10.0.2.16");
+	sin_len = sizeof sin;
+	getsockname(clients[client_num].fd, (struct sockaddr *)&sin, &sin_len);
+	off += sprintf(info+off, "node %s", inet_ntoa(sin.sin_addr));
 	for (int i = 1; i < GRID_MAX_CONNECTIONS; i++) {
 		if (clients[i].fd != -1) {
 			off += sprintf(info+off, ", node %s", /*ind++,*/
@@ -322,7 +325,6 @@ static void *grid_mainloop_hnd(void* args) {
 				mutex_unlock(&clients[i].mutex);
 
 				if (!check) {
-					thread_yield();
 					continue;
 				}
 
@@ -330,7 +332,7 @@ static void *grid_mainloop_hnd(void* args) {
 
 				clients[i].grid_task = gtask;
 
-				MD(printk("Going to do %d task on %d\n", gtask->task_num, i));
+				MD(printf("Going to do %d task on %d\n", gtask->task_num, i));
 
 				{
 					int buf[3];
@@ -343,10 +345,12 @@ static void *grid_mainloop_hnd(void* args) {
 			}
 
 			if (i >= GRID_MAX_CONNECTIONS) {
-				//assert(0);
+				break;
 			}
 		}
 		mutex_unlock(&pending_mutex);
+
+		thread_yield();
 	}
 
 	return NULL;
@@ -417,7 +421,7 @@ static void *client_handler(void *args) {
 					ktime_get_timespec(&curtime);
 					calc_time = timespec_sub(curtime, calc_time);
 
-					printk("a+b+c = %d; time=%d,%03d; %s\ngrid> ",
+					printf("a+b+c = %d; time=%d,%03d; %s\ngrid> ",
 							task_res[0] + task_res[1] + task_res[2], 
 							(int)calc_time.tv_sec, (int)(calc_time.tv_nsec / 1000000),
 							client_list);
@@ -436,7 +440,7 @@ static void *client_handler(void *args) {
 
 				if (list_print) {
 					write(1, client_list, buf[1]);
-					printk("\ngrid> ");
+					printf("\ngrid> ");
 				}
 
 				task_mask |= 0x8;
@@ -465,9 +469,8 @@ static int exec(int argc, char *argv[]) {
 		cond_init(&pending_cond, NULL);
 
 		for (i = 0; i < GRID_MAX_CONNECTIONS; i++) {
-			clients[i].fd = -1;
 			mutex_init(&clients[i].mutex);
-			clients[i].grid_task = NULL;
+			clients[i].fd = -1;
 		}
 
 		thread_create(0, grid_server_hnd, NULL);
@@ -479,7 +482,7 @@ static int exec(int argc, char *argv[]) {
 	}
 
 	if (!inet_aton(addr, &dst.sin_addr)) {
-		printk("Error...Invalid ip address '%s'", argv[1]);
+		printf("Error...Invalid ip address '%s'", argv[1]);
 		return -1;
 	}
 
@@ -488,18 +491,18 @@ static int exec(int argc, char *argv[]) {
 
 	sock = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
 	if (sock < 0) {
-		printk("can't create socket!");
+		printf("can't create socket!");
 		return -1;
 	}
 
 	if (connect(sock, (struct sockaddr *)&dst, sizeof dst) < 0) {
-		printk("Error... Cant connect to remote address %s:%d\n",
+		printf("Error... Cant connect to remote address %s:%d\n",
 				inet_ntoa(dst.sin_addr), (unsigned short)port);
 		close(sock);
 		return -1;
 	}
 
-	printk("Connection established\n");
+	printf("Connection established\n");
 
 	thread_create(0, client_handler, &sock);
 
