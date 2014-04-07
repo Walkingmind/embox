@@ -1,0 +1,22 @@
+package embox.cmd.fs
+
+@Cmd(name = "touch",
+	help = "Create an empty file",
+	man = '''
+		NAME
+			touch - create a file
+		SYNOPSIS
+			touch  FILE
+		DESCRIPTION
+			touch is used to create a file
+		AUTHORS
+			Andrey Gazukin
+	''')
+module touch {
+	source "touch.c"
+
+	depends embox.compat.posix.fs.fsop
+	depends embox.compat.posix.util.getopt
+	depends embox.fs.core
+	depends embox.framework.LibFramework
+}
