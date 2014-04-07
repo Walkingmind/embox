@@ -1,0 +1,16 @@
+package embox.driver
+
+abstract module ambapp_api { }
+
+module ambapp_dumb extends ambapp_api {
+	source "ambapp_dumb.h"
+}
+
+module ambapp extends ambapp_api {
+	source "ambapp.h"
+}
+
+module amba_registry {
+	source "amba_registry.c"
+	source "ambapp.c"
+}
