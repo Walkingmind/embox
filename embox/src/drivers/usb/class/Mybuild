@@ -25,5 +25,6 @@ module scsi {
 module cdc {
 	source "usb_class_cdc.c"
 	
-	depends embox.driver.usb.core 
+	depends embox.driver.usb.core
+	depends embox.mem.kmalloc_api
 }
