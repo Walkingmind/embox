@@ -1,8 +1,12 @@
 #summary Describe creating BeagleBoard bootable SD
 #labels Phase-Deploy,Phase-Support
 
+This page describes image building process that will boot embox on BeagleBoard.
+If you want to run on real hardware, refer SD section. If you are looking for simulator, refer to QEMU.
+
 = Boot SD =
 
+Step-by-step 
  * Build embox with arm/omap template
  * Create uImage with scripts/omap-uboot-uimage like so
 {{{
@@ -19,16 +23,20 @@ Now you have bootable SD, plug it BeagleBoard and power it on.
 
 = QEMU =
 
-Beagle board can run on QEMU from linaro. Get it from [https://launchpad.net/qemu-linaro]
+BeagleBoard is supported in QEMU with Linaro patched. Get it from [https://launchpad.net/qemu-linaro]
 
-Build is pretty straightforward:
+To just run embox on qemu choose creating nand image. If you want to test bootable sd before putting it in BeagleBoard, there is SD subsection.
+
+== NAND image ==
+Nand image creating is a bit complicated. So we've prepared scripts to build it and run qemu with apropriate options. Simply type
+
 {{{
-./configure --audio-drv-list='pa alsa sdl' --python=/usr/bin/python2 --smbd=/usr/bin/smbd --enable-docs --enable-mixemu --enable-linux-aio --enable-seccomp --target-list=arm-softmmu
-make
+  user:~/embox$ ./scripts/qemu/auto_qemu
 }}}
 
-Assuming you have prepared boot SD as descibed above. Run from directory where QEMU build
+== SD card ==
+Assuming you have prepared boot SD as descibed above, type
 
 {{{
-./arm-softmmu/qemu-system-arm -M beagle -sd /dev/sdb -serial stdio
+qemu-system-arm -M beagle -sd /dev/sdb -serial stdio
 }}}
