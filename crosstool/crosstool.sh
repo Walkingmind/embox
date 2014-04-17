@@ -260,6 +260,9 @@ do_gdb() {
 }
 
 makepkg() {
+	local gmp_dir="install-gmp"
+	local mpfr_dir="install-mpfr"
+	local mpc_dir="install-mpc"
 	local binutils_dir="install-binutils"
 	local gcc_dir="install-gcc"
 	local gdb_dir="install-gdb"
@@ -270,7 +273,7 @@ makepkg() {
 	else
 		mkdir $pkg_dir
 	fi
-	cp -r $binutils_dir/* $gcc_dir/* $gdb_dir/* $pkg_dir
+	cp -r $gmp_dir/* $mpfr_dir/* $mpc_dir/* $binutils_dir/* $gcc_dir/* $gdb_dir/* $pkg_dir
 	print_msg "Stripping..."
 	find $pkg_dir | xargs file | grep -e "executable" -e "shared object" | grep ELF \
 	  | cut -f 1 -d : | xargs strip --strip-unneeded 2> /dev/null
