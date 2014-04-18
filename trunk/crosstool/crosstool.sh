@@ -71,6 +71,16 @@ do_unpack() {
 		[ -d ${NAME[$i]} ] || tar xaf $DOWNLOAD/${TARBALL[$i]}
 	done
 
+	print_msg "Set symlinks for gcc"
+	ln -s ../${NAME[0]} ${NAME[4]}/gmp
+	ln -s ../${NAME[2]} ${NAME[4]}/mpc
+	ln -s ../${NAME[1]} ${NAME[4]}/mpfr
+
+	print_msg "Set symlinks for gdb"
+	ln -s ../${NAME[0]} ${NAME[5]}/gmp
+	ln -s ../${NAME[2]} ${NAME[5]}/mpc
+	ln -s ../${NAME[1]} ${NAME[5]}/mpfr
+
 	print_msg "Apply patches"
 	for f in $PATCHES; do
 		print_msg "Applying $f"
@@ -171,10 +181,7 @@ do_binutils() {
 			--prefix=$install_dir \
 			--target=$TARGET \
 			--with-float=soft \
-			--enable-soft-float
-			--with-mpfr=$mpfr_dir \
-			--with-gmp=$gmp_dir \
-			--with-mpc=$mpc_dir \
+			--enable-soft-float \
 			|| [ -e Makefile ] || error_exit "Configuration binutils failed"
 	fi
 	make -j `nproc` -q all
@@ -213,6 +220,7 @@ do_gcc() {
 			--with-gnu-ld \
 			--enable-languages=c,c++ \
 			--enable-soft-float \
+			--disable-shared \
 			--with-gmp=$gmp_dir \
 			--with-mpfr=$mpfr_dir \
 			--with-mpc=$mpc_dir \
@@ -273,7 +281,7 @@ makepkg() {
 	else
 		mkdir $pkg_dir
 	fi
-	cp -r $gmp_dir/* $mpfr_dir/* $mpc_dir/* $binutils_dir/* $gcc_dir/* $gdb_dir/* $pkg_dir
+	cp -r $binutils_dir/* $gcc_dir/* $gdb_dir/* $pkg_dir
 	print_msg "Stripping..."
 	find $pkg_dir | xargs file | grep -e "executable" -e "shared object" | grep ELF \
 	  | cut -f 1 -d : | xargs strip --strip-unneeded 2> /dev/null
@@ -287,6 +295,6 @@ pushd $TMP_DIR > /dev/null
 
 print_msg "directory is $TMP_DIR"
 
-do_download && do_unpack && do_gmp && do_mpfr && do_mpc && do_binutils && do_gcc && do_gdb && makepkg
+do_download && do_unpack && do_binutils && do_gcc && do_gdb && makepkg
 
 popd > /dev/null
