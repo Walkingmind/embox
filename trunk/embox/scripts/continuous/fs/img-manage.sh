@@ -53,8 +53,6 @@ build_dir() {
 build() {
 	content="$1"
 	tmp_dir=tmp_$FS
-
-	echo $tmp_dir
 	
 	if [ jffs2 = $FS ] || [iso9660 = $FS ]; then
 		mkdir -p $tmp_dir
