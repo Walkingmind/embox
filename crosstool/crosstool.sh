@@ -15,6 +15,7 @@ error_exit() {
 }
 
 [ ! -z $CROSSTOOL_ARCH ] || error_exit "Provide arch name, like \n$0 sparc"
+[ -f $CROSSTOOL_ARCH.in ] || error_exit "This arch is not supported"
 
 . ./$CROSSTOOL_ARCH.in
 
