@@ -26,4 +26,4 @@
 "snmpd &",
 "mount -t ext2 /dev/hda /mnt",
 "export QT_QPA_FONTDIR=/fonts",
-"texteditor -platform vnc &",
+/*"texteditor -platform vnc",*/
