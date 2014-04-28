@@ -20,20 +20,20 @@ EMBOX_CMD(smac_test);
 
 static struct test_res ref_read = {
 	.tr_ecode = {
-		0,	-301,	-301,	-301, 
-		0,	0,	-301,	-301, 
-		0,	0,	0,	-301, 
-		0,	0,	0,	0,
+                0,       -EACCES, -EACCES, -EACCES, 
+                0,       0,       -EACCES, -EACCES, 
+                0,       0,       0,       -EACCES, 
+                0,       0,       0,       0,
 	},
 	.tr_pos = NFILES * NUSERS,
 };
 
 static struct test_res ref_write = {
 	.tr_ecode = {
-		0, 	-301, 	-301, 	-301, 
-		-301, 	0, 	-301, 	-301, 
-		-301, 	-301, 	0, 	-301, 
-		-301, 	-301, 	-301, 	0,
+                0,       -EACCES, -EACCES, -EACCES, 
+                -EACCES, 0,       -EACCES, -EACCES, 
+                -EACCES, -EACCES, 0,       -EACCES, 
+                -EACCES, -EACCES, -EACCES, 0,
 	},
 	.tr_pos = NFILES * NUSERS,
 };
