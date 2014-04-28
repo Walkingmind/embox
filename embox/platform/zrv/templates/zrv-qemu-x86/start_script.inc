@@ -24,6 +24,11 @@
 "dropbear",
 "httpd &",
 "snmpd &",
-"mount -t ext2 /dev/hda /mnt",
+
+"mkdir -m 777 /mandatory_test",
+"mount -t ext2 /dev/hda /mandatory_test",
+
 "export QT_QPA_FONTDIR=/fonts",
+
+"login",
 /*"texteditor -platform vnc",*/
