@@ -25,5 +25,6 @@
 "httpd &",
 "snmpd &",
 "export QT_QPA_FONTDIR=/fonts",
+"login &",
 "texteditor -platform vnc",
 
