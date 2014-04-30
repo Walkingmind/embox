@@ -1,0 +1,15 @@
+#!/usr/bin/runtest
+
+source [file join [file dirname [info script]] exec_through_telnet.exp]
+
+proc telnet_test {} {
+	set TELNET_PROMPT ":/#"
+	send "help\r\n"
+	expect {
+	        timeout  { puts "telnet.exp: help command timeout\n"; return -1 }
+	        $TELNET_PROMPT
+	}
+	return 0
+}
+
+exec_cmd "$embox_ip" telnet_test
