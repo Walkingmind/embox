@@ -284,6 +284,7 @@ static void grid_do_info(int client_num) {
 		printf("malloc() failed\n");
 		return;
 	}
+	memset(info, 0, 201);
 	off = sizeof(buf);
 	sin_len = sizeof sin;
 	getsockname(clients[client_num].fd, (struct sockaddr *)&sin, &sin_len);
@@ -421,11 +422,12 @@ static void *client_handler(void *args) {
 					ktime_get_timespec(&curtime);
 					calc_time = timespec_sub(curtime, calc_time);
 
-					printf("a+b+c = %d; time=%d,%03d; %s\ngrid> ",
+					printf("a+b+c = %d; time=%d,%03d; %s\r\ngrid> ",
 							task_res[0] + task_res[1] + task_res[2], 
 							(int)calc_time.tv_sec, (int)(calc_time.tv_nsec / 1000000),
 							client_list);
 
+					memset(client_list, 0, 200);
 				}
 
 				break;
@@ -440,7 +442,7 @@ static void *client_handler(void *args) {
 
 				if (list_print) {
 					write(1, client_list, buf[1]);
-					printf("\ngrid> ");
+					printf("\r\ngrid> ");
 				}
 
 				task_mask |= 0x8;
@@ -507,7 +509,7 @@ static int exec(int argc, char *argv[]) {
 	thread_create(0, client_handler, &sock);
 
 	while ((uline = readline("grid> "))) {
-		if (!strcmp(uline, "calc")) {
+		if (!strcmp(uline, "calculate")) {
 			task_mask = 0;
 			list_print = 0;
 			ktime_get_timespec(&calc_time);
