@@ -4,7 +4,7 @@ package embox.compat.posix.proc
 module All {
 
 	depends exec,
-		fork,
+		vfork,
 		waitpid,
 		//signal,
 		exit,
@@ -20,8 +20,16 @@ static module exec {
 	depends embox.util.LibUtil
 }
 
-static module fork {
-	source "fork.c"
+static module fork { 
+
+	// FIXME
+}
+
+@DefaultImpl(vfork_stack_copy)
+abstract module vfork { }
+
+static module vfork_stack_copy extends vfork {
+	source "vfork_stack_copy.c"
 
 	depends embox.kernel.task.syslib.kfork_api
 	depends embox.util.LibUtil
