@@ -25,10 +25,4 @@
 "httpd &",
 "snmpd &",
 
-"mkdir -m 777 /mandatory_test",
-"mount -t ext2 /dev/hda /mandatory_test",
-
-"export QT_QPA_FONTDIR=/fonts",
 "login &",
-//"shell_run tish &",
-"texteditor -platform vnc",
