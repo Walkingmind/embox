@@ -1,0 +1,18 @@
+/*FIXME mybuild libarch is bad packet */
+package embox.arch.arm
+
+static module libarch extends embox.arch.libarch {
+	source "setjmp.S"
+	
+	//source "asm_stack_move.S"
+	//source "stack_move.c"
+}
+
+module cxxabi {
+	source "cxxabi/aeabi_atexit.c"
+	depends embox.lib.cxx.DestructionPolicy
+}
+
+static module vfork extends embox.arch.vfork_entry {
+	source "vfork.S"
+}
