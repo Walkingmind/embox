@@ -27,7 +27,7 @@
 "smac_adm -R service -o unclassified  -a r",
 
 "telnetd &",
-"dropbear",
+"dropbeard",
 "httpd &",
 "snmpd &",
 "export QT_QPA_FONTDIR=/fonts",
