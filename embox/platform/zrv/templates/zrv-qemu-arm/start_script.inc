@@ -7,6 +7,12 @@
 "date -s 201304161719.20",
 "mkdir /mnt",
 
+"mkdir -m 755 /mandatory_test",
+
+"mkramdisk -s 0x800000 /dev/rd_mandatory",
+"dd if=zrv-mandatory.img of=/dev/rd_mandatory",
+"mount -t ext2 /dev/rd_mandatory /mandatory_test/",
+
 "smac_adm -R high_label -o low_label  -a r",
 "smac_adm -R low_label  -o high_label -a w",
 "smac_adm -R _  	-o smac_admin -a r",
