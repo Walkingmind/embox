@@ -1,0 +1,38 @@
+package third_party.cmd
+
+@Build(stage=2,script="$(EXTERNAL_MAKE)")
+@App
+@Cmd(name = "iperf",
+	help = "iperf is a tool for measuring maximum TCP and UDP bandwidth performance",
+	man = '''
+		NAME
+			iperf is a tool for measuring maximum TCP and UDP bandwidth performance.
+		SYNOPSIS
+			iperf [-s|-c host] [options]
+       		iperf [-h|--help] [-v|--version]
+
+		AUTHORS
+			Andrey Gazukin
+	''')
+module iperf {
+	@AddPrefix("^BUILD/extbld/^MOD_PATH/install")
+	@Rule(script="$(EXTERNAL_MAKE) -f $(abspath $(ROOT_DIR))/mk/main-stripping.mk TARGET_APP='$(module_id)' FILE_APP='$(abspath $@)'")
+	source "strip.iperf.o"
+
+	@NoRuntime depends iperf_stubs
+	@NoRuntime depends embox.compat.posix.net.inet_addr
+	@NoRuntime depends embox.compat.posix.pthreads
+	@NoRuntime depends embox.kernel.task.resource.errno
+	@NoRuntime depends embox.lib.LibCType
+	@NoRuntime depends third_party.lib.libgcc_toolchain
+}
+
+module iperf_stubs {
+	@IncludePathBefore("$(THIRDPARTY_DIR)/iperf/include")
+	source "stubs.c"
+
+	@NoRuntime depends embox.lib.cxx.lib
+	@NoRuntime depends embox.kernel.task.resource.errno
+	@NoRuntime depends embox.lib.LibCString
+	@NoRuntime depends embox.lib.Printk
+}
