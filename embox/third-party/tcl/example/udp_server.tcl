@@ -13,7 +13,7 @@ proc execCmd {sock} {
     flush $dst_sock
 }
 
-set port 12345	
+set port 12345
 set sock [udp_open $port]
 puts "1"
 fconfigure $sock -buffering none
