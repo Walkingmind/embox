@@ -1,0 +1,14 @@
+
+To get cross-compiler you should checkout our scripts from *http://embox.googlecode.com/svn/trunk/crosstool* by a command
+{{{
+svn checkout http://embox.googlecode.com/svn/trunk/crosstool
+}}}
+than enter the *crosstool* folder and build toolchain for wished architecture
+{{{
+cd crosstool
+./crosstool <ARCH>
+}}}
+
+ARCH can be follow: arm, microblaze, ppc, mips, sparc
+
+
