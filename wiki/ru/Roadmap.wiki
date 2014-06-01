@@ -1,16 +1,25 @@
 #summary Embox development roadmap
 #labels Phase-Requirements,Featured
 
-= 2014/06/01 v0.4.1 [http://code.google.com/p/embox/issues/list?can=1&q=milestone=v0.4.1 [issues]] =
-  * Перевод всех модулей на новую систему сборки
-  * Переработка структуры файловой подсистемы
-  * Переработка подсистемы памяти
-  * Улучшение подсистемы терминала (pty, ttyS и так далее)
-
-= 2014/04/01 v0.4.0 [http://code.google.com/p/embox/issues/list?can=1&q=milestone=v0.4.0 [issues]] =
+= 2014/10/01 v0.4.0 [http://code.google.com/p/embox/issues/list?can=1&q=milestone=v0.4.0 [issues]] =
   * Чистка проекта
   * Новая система сборки
 
+= 2014/09/01 v0.3.8 [http://code.google.com/p/embox/issues/list?can=1&q=milestone=v0.3.8 [issues]]  [http://code.google.com/p/embox/issues/list?q=milestone=v0.3.8 [open issues]] =
+  * переработка файловой системы
+  * улучшение подсистемы терминалов (pty, ttyS, etc.)
+  * Добавить IP фрагментацию
+  * Улучшить IP стек
+  * Поддержка IPSec
+
+= 2014/06/01 v0.3.7 [http://code.google.com/p/embox/issues/list?can=1&q=milestone=v0.3.7 [issues]] =
+  * Переработана подсистема памяти (Отдельная куча для каждой задачи)
+  * Добавлен системный вызов vfork()
+  * Добавлен простой путь переноса сторонних приложений с GNU системой сборки (configure, make)
+  * Добавлен язык TCL
+  * Добавлен фреймворк для регрессионного удаленного тестирования
+  * Исправлено много ошибок в IP стеке и файловой подсистеме
+  
 = 2014/02/01 v0.3.6 [http://code.google.com/p/embox/issues/list?can=1&q=milestone=v0.3.6 [issues]]  [http://code.google.com/p/embox/issues/list?q=milestone=v0.3.6 [open issues]] =
   * Переработать подсистему индексных дескрипторов
   * Добавить поддержку файловых ситем (Ext4, CIFS)
