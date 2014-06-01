@@ -1,7 +1,5 @@
   * [QuickOverview О проекте]
   * [Roadmap]
-  * [GettingStarted Быстрый старт]
-
   * [GettingStarted User Guide]
     * [InstallToolchain Установка окружения]
       * [InstallToolchainWindowsCygwin Особенности установки в Windows]
