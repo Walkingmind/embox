@@ -1,5 +1,5 @@
 
-Для того чтобы собрать компилятор для нужной архитектуры вам следует скачать скприпты с адреса *http://embox.googlecode.com/svn/trunk/crosstool* командой
+Для того чтобы собрать компилятор для нужной архитектуры вам следует скачать скприпты с адреса * "http://embox.googlecode.com/svn/trunk/crosstool" * командой
 {{{
 svn checkout http://embox.googlecode.com/svn/trunk/crosstool
 }}}

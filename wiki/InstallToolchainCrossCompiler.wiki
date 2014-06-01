@@ -1,5 +1,5 @@
 
-To get cross-compiler you should checkout our scripts from *http://embox.googlecode.com/svn/trunk/crosstool* by a command
+To get cross-compiler you should checkout our scripts from * "http://embox.googlecode.com/svn/trunk/crosstool" * by a command
 {{{
 svn checkout http://embox.googlecode.com/svn/trunk/crosstool
 }}}
