@@ -76,7 +76,7 @@ sudo apt-get install qemu
 </td></tr></table>
 Once you have the QEMU installed, you can run it using the following command:
 {{{
-qemu-system-i386 -kernel build/base/bin/embox
+qemu-system-i386 -kernel build/base/bin/embox -nographic
 }}}
 More details about using QEMU you can get [SimulationQemu here].
 
