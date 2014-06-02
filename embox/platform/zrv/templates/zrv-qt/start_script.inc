@@ -21,7 +21,7 @@
 "smac_adm -R service -o unclassified  -a r",
 
 "telnetd &",
-"dropbear",
+"dropbeard",
 "httpd &",
 "snmpd &",
 "mount -t ext2 /dev/hda /mnt",
