@@ -9,33 +9,33 @@
 || *[https://googledrive.com/host/0B-PxXtV6LZirdWdCR01vbEJ1dmM/embox-0.3.7.tar.gz embox-0.3.7.tar.gz]* || 5.7 MB || `af4fd774dc58adf3bd32763407e0fabe6908b51d` ||
 || [https://googledrive.com/host/0B-PxXtV6LZirdWdCR01vbEJ1dmM/embox-0.3.6.txz embox-0.3.6.txz] || 3.3 MB || `8200f5e2a3e920d52eb1296cb23d0719880599ec` ||
 || [https://googledrive.com/host/0B-PxXtV6LZirdWdCR01vbEJ1dmM/embox-0.3.6.tar.gz embox-0.3.6.tar.gz] || 4.8 MB || `37db9d35cab3bf58ef1a95571624961089b2843a` ||
-|| [http://embox.googlecode.com/files/embox-0.3.5.txz embox-0.3.5.txz] || 3.1 MB || `b3e87befc969b0be15028c2120650322eaff6727` ||
-|| [http://embox.googlecode.com/files/embox-0.3.5.tar.gz embox-0.3.5.tar.gz] || 4.6 MB || `751ee04db1dfcb2bdc7eb7581b33a486a6aff721` ||
-|| [http://embox.googlecode.com/files/embox-0.3.4.txz embox-0.3.4.txz] || 3.4 MB || `61a9cc9c69816025c220397d2d14aea61131f591` ||
-|| [http://embox.googlecode.com/files/embox-0.3.3.txz embox-0.3.3.txz] || 1.1 MB || `f97a4e415b8f1037f766aa60d503b62ee5a4d585` ||
-|| [http://embox.googlecode.com/files/embox-0.3.2.txz embox-0.3.2.txz] || 987 KB || `7ea9589c69987f2186871d54573445336544716e` ||
-|| [http://embox.googlecode.com/files/embox-0.3.1.txz embox-0.3.1.txz] || 939 KB || `955da3031a250b282da079f3c1f6e37fea79ad58` ||
-|| [http://embox.googlecode.com/files/embox-0.3.0.txz embox-0.3.0.txz] || 700 KB || `6a4046e7867c6e90120dd222d12adabb9c884adb` ||
-|| [http://embox.googlecode.com/files/embox-0.2.3.txz embox-0.2.3.txz] || 650 KB || `7cb8153df423425931ab7fae7f93eb39881a81ed` ||
-|| [http://embox.googlecode.com/files/embox-0.2.2.txz embox-0.2.2.txz] || 533 KB || `69560803363542460f58d3c211d62416d72781d7` ||
-|| [http://embox.googlecode.com/files/embox-0.2.1.txz embox-0.2.1.txz] || 399 KB || `e66f971ee16071863ec4be3ff2056d5abd05c8f3` ||
-|| [http://embox.googlecode.com/files/embox-0.2.0.txz embox-0.2.0.txz] || 392 KB || `c019bafa6d5d4a21fa3bdb2867a498d9d4ff530a` ||
-|| [http://embox.googlecode.com/files/embox-0.1.11.txz embox-0.1.11.txz] || 379 KB || `1e405fa344d39b2af505339207025ea8651e608e` ||
-|| [http://embox.googlecode.com/files/embox-0.1.10.txz embox-0.1.10.txz] || 356 KB || `ea5194728818042b9a630fc9ab5ddba2f2298a33` ||
-|| [http://embox.googlecode.com/files/embox-0.1.9.txz embox-0.1.9.txz] || 335 KB || `675302e81ecdf71e44f24b3de72002525b3da732` ||
-|| [http://embox.googlecode.com/files/embox-0.1.8.txz embox-0.1.8.txz] || 327 KB || `859f6874cb2aba03d5dd3aa1da28348ad61acabc` ||
-|| [http://embox.googlecode.com/files/embox-0.1.7.txz embox-0.1.7.txz] || 323 KB || `4774e1b21769faf26e3df467b835b14eee814347` ||
-|| [http://embox.googlecode.com/files/embox-0.1.6.txz embox-0.1.6.txz] || 307 KB || `43a0bdbe9848996184d446b62335546ece74d00c` ||
-|| [http://embox.googlecode.com/files/embox-0.1.5.txz embox-0.1.5.txz] || 257 KB || `dfcc08cd2b717998c74a8eda574776160080a8da` ||
-|| [http://embox.googlecode.com/files/embox-0.1.4.txz embox-0.1.4.txz] || 244 KB || `0810a3c0543beeb670094fab8ef9be566d1c689d` ||
-|| [http://embox.googlecode.com/files/embox-0.1.3.txz embox-0.1.3.txz] || 412 KB || `6694744f871d87af6238022d12fd6b0b83cea6ba` ||
-|| [http://embox.googlecode.com/files/embox-0.1.2.txz embox-0.1.2.txz] || 213 KB || `aeb0c65f8371aaa930b7195b7b41515520d0f5b0` ||
-|| [http://embox.googlecode.com/files/embox-0.1.1.txz embox-0.1.1.txz] || 203 KB || `c2ea3f5c63b16aa13c03560066e80c590c45d416` ||
-|| [http://embox.googlecode.com/files/embox-0.1.txz embox-0.1.txz] || 201 KB || `7c9b327d87ac992b477ff6a1b3c2572895b306a0` ||
+|| [https://googledrive.com/host/0B-PxXtV6LZirdWdCR01vbEJ1dmM/embox-0.3.5.txz embox-0.3.5.txz] || 3.1 MB || `b3e87befc969b0be15028c2120650322eaff6727` ||
+|| [https://googledrive.com/host/0B-PxXtV6LZirdWdCR01vbEJ1dmM/embox-0.3.5.tar.gz embox-0.3.5.tar.gz] || 4.6 MB || `751ee04db1dfcb2bdc7eb7581b33a486a6aff721` ||
+|| [https://googledrive.com/host/0B-PxXtV6LZirdWdCR01vbEJ1dmM/embox-0.3.4.txz embox-0.3.4.txz] || 3.4 MB || `61a9cc9c69816025c220397d2d14aea61131f591` ||
+|| [https://googledrive.com/host/0B-PxXtV6LZirdWdCR01vbEJ1dmM/embox-0.3.3.txz embox-0.3.3.txz] || 1.1 MB || `f97a4e415b8f1037f766aa60d503b62ee5a4d585` ||
+|| [https://googledrive.com/host/0B-PxXtV6LZirdWdCR01vbEJ1dmM/embox-0.3.2.txz embox-0.3.2.txz] || 987 KB || `7ea9589c69987f2186871d54573445336544716e` ||
+|| [https://googledrive.com/host/0B-PxXtV6LZirdWdCR01vbEJ1dmM/embox-0.3.1.txz embox-0.3.1.txz] || 939 KB || `955da3031a250b282da079f3c1f6e37fea79ad58` ||
+|| [https://googledrive.com/host/0B-PxXtV6LZirdWdCR01vbEJ1dmM/embox-0.3.0.txz embox-0.3.0.txz] || 700 KB || `6a4046e7867c6e90120dd222d12adabb9c884adb` ||
+|| [https://googledrive.com/host/0B-PxXtV6LZirdWdCR01vbEJ1dmM/embox-0.2.3.txz embox-0.2.3.txz] || 650 KB || `7cb8153df423425931ab7fae7f93eb39881a81ed` ||
+|| [https://googledrive.com/host/0B-PxXtV6LZirdWdCR01vbEJ1dmM/embox-0.2.2.txz embox-0.2.2.txz] || 533 KB || `69560803363542460f58d3c211d62416d72781d7` ||
+|| [https://googledrive.com/host/0B-PxXtV6LZirdWdCR01vbEJ1dmM/embox-0.2.1.txz embox-0.2.1.txz] || 399 KB || `e66f971ee16071863ec4be3ff2056d5abd05c8f3` ||
+|| [https://googledrive.com/host/0B-PxXtV6LZirdWdCR01vbEJ1dmM/embox-0.2.0.txz embox-0.2.0.txz] || 392 KB || `c019bafa6d5d4a21fa3bdb2867a498d9d4ff530a` ||
+|| [https://googledrive.com/host/0B-PxXtV6LZirdWdCR01vbEJ1dmM/embox-0.1.11.txz embox-0.1.11.txz] || 379 KB || `1e405fa344d39b2af505339207025ea8651e608e` ||
+|| [https://googledrive.com/host/0B-PxXtV6LZirdWdCR01vbEJ1dmM/embox-0.1.10.txz embox-0.1.10.txz] || 356 KB || `ea5194728818042b9a630fc9ab5ddba2f2298a33` ||
+|| [https://googledrive.com/host/0B-PxXtV6LZirdWdCR01vbEJ1dmM/embox-0.1.9.txz embox-0.1.9.txz] || 335 KB || `675302e81ecdf71e44f24b3de72002525b3da732` ||
+|| [https://googledrive.com/host/0B-PxXtV6LZirdWdCR01vbEJ1dmM/embox-0.1.8.txz embox-0.1.8.txz] || 327 KB || `859f6874cb2aba03d5dd3aa1da28348ad61acabc` ||
+|| [https://googledrive.com/host/0B-PxXtV6LZirdWdCR01vbEJ1dmM/embox-0.1.7.txz embox-0.1.7.txz] || 323 KB || `4774e1b21769faf26e3df467b835b14eee814347` ||
+|| [https://googledrive.com/host/0B-PxXtV6LZirdWdCR01vbEJ1dmM/embox-0.1.6.txz embox-0.1.6.txz] || 307 KB || `43a0bdbe9848996184d446b62335546ece74d00c` ||
+|| [https://googledrive.com/host/0B-PxXtV6LZirdWdCR01vbEJ1dmM/embox-0.1.5.txz embox-0.1.5.txz] || 257 KB || `dfcc08cd2b717998c74a8eda574776160080a8da` ||
+|| [https://googledrive.com/host/0B-PxXtV6LZirdWdCR01vbEJ1dmM/embox-0.1.4.txz embox-0.1.4.txz] || 244 KB || `0810a3c0543beeb670094fab8ef9be566d1c689d` ||
+|| [https://googledrive.com/host/0B-PxXtV6LZirdWdCR01vbEJ1dmM/embox-0.1.3.txz embox-0.1.3.txz] || 412 KB || `6694744f871d87af6238022d12fd6b0b83cea6ba` ||
+|| [https://googledrive.com/host/0B-PxXtV6LZirdWdCR01vbEJ1dmM/embox-0.1.2.txz embox-0.1.2.txz] || 213 KB || `aeb0c65f8371aaa930b7195b7b41515520d0f5b0` ||
+|| [https://googledrive.com/host/0B-PxXtV6LZirdWdCR01vbEJ1dmM/embox-0.1.1.txz embox-0.1.1.txz] || 203 KB || `c2ea3f5c63b16aa13c03560066e80c590c45d416` ||
+|| [https://googledrive.com/host/0B-PxXtV6LZirdWdCR01vbEJ1dmM/embox-0.1.txz embox-0.1.txz] || 201 KB || `7c9b327d87ac992b477ff6a1b3c2572895b306a0` ||
 
 = EmLinux =
 
-Крайний стабильный релиз - [http://embox.googlecode.com/files/emlinux-0.2.txz emlinux-0.2].
+Крайний стабильный релиз - [https://googledrive.com/host/0B-PxXtV6LZirdWdCR01vbEJ1dmM/emlinux-0.2.txz emlinux-0.2].
 
 Вышел 30 Ноя 2010.
 
@@ -44,8 +44,8 @@ EmLinux - часть проекта Embox.
 EmLinux набор скриптов для генерации легковесного образа Linux системы.
 Использует Embox в качестве загрузчика.
 
- * [http://embox.googlecode.com/files/emlinux-0.2.txz emlinux-0.2.txz]
- * [http://embox.googlecode.com/files/emlinux-0.1.txz emlinux-0.1.txz]
+ * [https://googledrive.com/host/0B-PxXtV6LZirdWdCR01vbEJ1dmM/emlinux-0.2.txz emlinux-0.2.txz]
+ * [https://googledrive.com/host/0B-PxXtV6LZirdWdCR01vbEJ1dmM/emlinux-0.1.txz emlinux-0.1.txz]
 
 = Tools =
 
