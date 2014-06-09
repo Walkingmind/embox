@@ -52,7 +52,7 @@ export ANNOTATION_HANDLERS := mk/mybuild/annotation_handlers
 
 export RM     := rm -f
 export CP     := cp
-export MV     := mv
+export MV     := mv -f
 export PRINTF := printf
 export MKDIR  := mkdir -p
 export LN     := ln -s
