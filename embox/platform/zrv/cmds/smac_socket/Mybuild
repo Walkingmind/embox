@@ -1,0 +1,6 @@
+package zrv.cmd
+
+@Cmd(name="smac_socket")
+module smac_socket {
+	source "smac_socket.c"	
+}
