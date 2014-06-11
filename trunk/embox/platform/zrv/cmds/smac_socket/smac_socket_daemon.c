@@ -28,6 +28,9 @@ static struct sockaddr_in *get_ip_addr(char *addr, struct sockaddr_in *sockaddr)
 	strncpy(tmp_addr, addr, sizeof(tmp_addr));
 
 	port_str = strchr(tmp_addr, ':');
+	if (NULL == port_str) {
+		return NULL;
+	}
 	*port_str++ = 0;
 
 	sockaddr->sin_port = htons(atoi(port_str));
@@ -94,6 +97,10 @@ static int smac_socket_main(int argc, char *argv[]) {
 	}
 
 	sockaddr_p = get_ip_addr(argv[argc - 1], &sockaddr);
+	if (NULL == sockaddr_p) {
+		printf("wrong ip address\n");
+		return -1;
+	}
 
 	create_server_connection(sockaddr_p);
 
