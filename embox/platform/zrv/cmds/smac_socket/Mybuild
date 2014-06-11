@@ -10,3 +10,10 @@ module smac_socket_server {
 module smac_socket_daemon {
 	source "smac_socket_daemon.c"	
 }
+
+@Cmd(name="smac_socket_client")
+module smac_socket_client {
+	source "smac_socket_client.c"	
+}
+
+
