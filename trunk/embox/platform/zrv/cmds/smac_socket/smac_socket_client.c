@@ -1,9 +1,11 @@
 /**
  * @file
  *
- * @date Jun 9, 2014
+ * @date Jun 10, 2014
  * @author: Anton Bondarev
  */
+
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
@@ -17,7 +19,7 @@
 EMBOX_CMD(smac_socket_main);
 
 static void usage(char *cmd) {
-	printf("Usage: %s use only smac_socket_server\n", cmd);
+	printf("Usage: %s use for connect to smac_socket_server\n", cmd);
 }
 
 static struct sockaddr_in *get_ip_addr(char *addr, struct sockaddr_in *sockaddr) {
@@ -34,44 +36,16 @@ static struct sockaddr_in *get_ip_addr(char *addr, struct sockaddr_in *sockaddr)
 
 	inet_aton(tmp_addr, &sockaddr->sin_addr);
 
-	sockaddr->sin_family = AF_INET;
-
 	return sockaddr;
 }
 
-static int create_server_connection(struct sockaddr_in *sockaddr) {
+static int create_client_connection(struct sockaddr_in *sockaddr) {
 	int res, sock;
-	struct sockaddr_in client_addr;
-	socklen_t addr_len;
 
-	/* Create listen socket */
 	sock = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
-	if (sock < 0) {
-		printf("Error.. can't create socket. errno=%d\n", errno);
-		return sock;
-	}
-
-	res = bind(sock, (struct sockaddr *)sockaddr, sizeof(*sockaddr));
+	res = connect(sock, (struct sockaddr *)sockaddr, sizeof(*sockaddr));
 	if (res < 0) {
-		printf("Error.. bind() failed. errno=%d\n", errno);
-		return res;
-	}
-
-	res = listen(sock, 10);
-	if (res < 0) {
-		printf("Error.. listen() failed. errno=%d\n", errno);
-		return res;
-	}
-	while (1) {
-		addr_len = sizeof(client_addr);
-		res = accept(sock,(struct sockaddr *)&client_addr, &addr_len);
-		if (res <= 0) {
-			/* error code in client, now */
-			printf("Error.. accept() failed. errno=%d\n", errno);
-			continue;
-		}
-		/* close accepted socket */
-		close(res);
+		printf("Error.. connection refuse\n");
 	}
 
 	close(sock);
@@ -95,7 +69,7 @@ static int smac_socket_main(int argc, char *argv[]) {
 
 	sockaddr_p = get_ip_addr(argv[argc - 1], &sockaddr);
 
-	create_server_connection(sockaddr_p);
+	create_client_connection(sockaddr_p);
 
 	return 0;
 }
