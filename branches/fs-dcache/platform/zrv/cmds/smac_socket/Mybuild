@@ -1,0 +1,19 @@
+package zrv.cmd
+
+@Cmd(name="smac_socket_server")
+module smac_socket_server {
+	source "smac_socket_server.c"
+	
+	@NoRuntime depends smac_socket_daemon
+}
+@Cmd(name="smac_socket_daemon")
+module smac_socket_daemon {
+	source "smac_socket_daemon.c"	
+}
+
+@Cmd(name="smac_socket_client")
+module smac_socket_client {
+	source "smac_socket_client.c"	
+}
+
+
