@@ -71,6 +71,8 @@ install_crosscompilers() {
 
 write_path() {
 	$SUDO ./write_compiler_path.sh "$__path_prepend" "$__path_add" /etc/profile.d/compiler_path.sh
+	$SUDO cp ./sbin.sh /etc/profile.d/
+	$SUDO chmod a+x /etc/profile.d/sbin.sh
 }
 
 install_qemu() {
