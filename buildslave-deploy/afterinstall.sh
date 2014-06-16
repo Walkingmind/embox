@@ -1,6 +1,21 @@
 
+TSIM_URL="http://www.gaisler.com/anonftp/tsim/tsim-eval-2.0.32.tar.gz"
+QEMU_LINARO_URL="https://launchpad.net/qemu-linaro/trunk/2014.01/+download/qemu-linaro-1.7.0-2014.01.tar.gz"
+
+INSTALL_PATH="/opt"
+
 SUDO=sudo
 APT_GET_INSTALL="$SUDO apt-get -qy install"
+
+__path_add=""
+path_add() {
+	__path_add="$__path_add:$1"
+}
+
+__path_prepend=""
+path_prepend() {
+	__path_prepend="$1:$__path_prepend"
+}
 
 enable_autostart() {
 	for i; do
@@ -8,8 +23,23 @@ enable_autostart() {
 	done
 }
 
+install_tsim() {
+	INSTALL_TSIM="$INSTALL_PATH/tsim-eval"
+
+	wget -c $TSIM_URL
+	bname=$(basename $TSIM_URL)
+
+	tar -axf $bname
+
+	$SUDO mkdir $INSTALL_TSIM
+	$SUDO cp ./tsim-eval/tsim/linux-x64/tsim-leon3 $INSTALL_TSIM
+
+	path_add $INSTALL_TSIM
+}
+
 install_bootstrap() {
-	$APT_GET_INSTALL openssh-server vim subversion build-essential libncurses5-dev gcc-multilib g++-multilib texinfo
+	$APT_GET_INSTALL openssh-server vim subversion build-essential libncurses5-dev gcc-multilib g++-multilib texinfo cmake u-boot-tools
+	install_tsim
 	enable_autostart ssh
 }
 
@@ -29,22 +59,43 @@ do_crosscompilers() {
 	done
 }
 
-
 install_crosscompilers() {
-	INSTALL_CROSSCOMPILERS_PATH="/opt"
 	pushd crosstool
-	PATH_ADD=""
 	for i in *-toolchain.tar.*; do
-		$SUDO tar -C $INSTALL_CROSSCOMPILERS_PATH -axf $i
-		PATH_ADD=$PATH_ADD":${INSTALL_CROSSCOMPILERS_PATH}/${i%.tar.*}/bin"
+		$SUDO tar -C $INSTALL_PATH -axf $i
+		path_add "$INSTALL_PATH/${i%.tar.*}/bin"
 	done
 	popd
 
-	$SUDO ./write_compiler_path.sh "$PATH_ADD" /etc/profile.d/compiler_path.sh
+}
+
+write_path() {
+	$SUDO ./write_compiler_path.sh "$__path_prepend" "$__path_add" /etc/profile.d/compiler_path.sh
 }
 
 install_qemu() {
 	$APT_GET_INSTALL qemu-system
+}
+
+install_qemu_linaro_arm() {
+	INSTALL_QEMU_LINARO_PATH=$INSTALL_PATH/qemu-linaro
+
+	$APT_GET_INSTALL zlib1g-dev libglib2.0-dev libpixman-1-dev libfdt-dev
+
+	wget -c $QEMU_LINARO_URL
+	bname=$(basename $QEMU_LINARO_URL)
+	tar -axf $bname
+	dname=${bname%.tar.*}
+	pushd $dname
+
+	
+	./configure --target-list=arm-softmmu
+	make
+	sudo make DESTDIR=$INSTALL_QEMU_LINARO_PATH install
+
+	path_prepend $INSTALL_QEMU_LINARO_PATH/usr/local/bin
+
+	popd
 }
 
 do_devel() {
@@ -53,13 +104,17 @@ do_devel() {
 	do_crosscompilers
 	install_crosscompilers
 	install_qemu
+	install_qemu_linaro_arm
+
+	write_path
 }
 
 do_buildslave_sudo() {
 	$SUDO usermod -a -G sudo buildbot
 	echo "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
 	echo "buildbot now is a member of sudo group."
-	echo "Allow the group to execute commands without password prompt"
+	echo "Allow the group to execute commands without password prompt."
+	echo "Also, adjust secure path to \"Defaults !secure_path\""
 	echo "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
 	echo Press any key to continue
 
