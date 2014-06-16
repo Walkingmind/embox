@@ -36,6 +36,8 @@ static struct sockaddr_in *get_ip_addr(char *addr, struct sockaddr_in *sockaddr)
 
 	inet_aton(tmp_addr, &sockaddr->sin_addr);
 
+	sockaddr->sin_family = AF_INET;
+
 	return sockaddr;
 }
 
