@@ -20,5 +20,5 @@ module backup {
 	depends embox.compat.posix.fs.dirent
 	depends embox.compat.posix.fs.fsop
 	depends embox.compat.posix.util.getopt
-	//depends embox.cmd.shell
+	depends embox.cmd.shell
 }
