@@ -1,0 +1,6 @@
+package ex.cmd.tst
+
+@Cmd(name="tst_net_tcp")
+module net_tcp {
+	source "tst_tcp.c"
+}

@@ -1,0 +1,6 @@
+package ex.cmd.tst
+
+@Cmd(name="tst_net_recv")
+module net_recv {
+	source "tst_net_recv.c"
+}
