@@ -26,11 +26,12 @@
 
 "smac_adm -R service -o unclassified  -a r",
 
-"telnetd &",
+"su -c telnetd &",
+/*"su -c dropbeard", */
 "dropbeard",
-"httpd &",
-"snmpd &",
+"su -c httpd &",
+"su -c snmpd &",
 "export QT_QPA_FONTDIR=/fonts",
 "login &",
-"texteditor -platform vnc",
+"su -c texteditor -platform vnc",
 
