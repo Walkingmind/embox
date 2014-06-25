@@ -1,5 +1,6 @@
 package ex.cmd.tst
 
+@AutoCmd
 @Cmd(name="tst_net_recv")
 module net_recv {
 	source "tst_net_recv.c"

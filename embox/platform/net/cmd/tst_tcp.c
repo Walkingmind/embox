@@ -24,10 +24,6 @@
 #include <string.h>
 #include <netdb.h>
 
-#include <embox/cmd.h>
-
-
-EMBOX_CMD(tst_net_tcp);
 struct sockaddr_in localaddr_out;// struct for obmen s socket
 int ssSocket1;//for prd info
 unsigned int contr;
@@ -60,13 +56,13 @@ unsigned char creat_socket()
     return 0;
 }
 
-static int tst_net_tcp(int argc, char **argv)
+int main(int argc, char **argv)
 {
 	unsigned char  str[2000];
 	unsigned char buff[2000];
 	int rc;
 	unsigned int len_str;
-	unsigned char mas[4] = {0x7f, 0x0, 0x0, 0x2};
+	unsigned char mas[4] = {0x7f, 0x0, 0x0, 0x1};
 	if (creat_socket() != 0) {
     	printf("error creat_socket\n");
 
