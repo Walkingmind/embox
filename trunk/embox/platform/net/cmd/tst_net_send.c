@@ -25,8 +25,6 @@
 #include <kernel/time/ktime.h>
 #include <kernel/time/clock_source.h>
 
-#include <embox/cmd.h>
-
 static struct sockaddr_in *get_ip_addr(char *addr, struct sockaddr_in *sockaddr) {
 	char *port_str;
 	char tmp_addr[0x20];
@@ -45,10 +43,9 @@ static struct sockaddr_in *get_ip_addr(char *addr, struct sockaddr_in *sockaddr)
 	return sockaddr;
 }
 
-EMBOX_CMD(tst_net_s);
 #define SECONDS_1900_1970 2208988800L
 
-static int tst_net_s(int argc, char **argv) {
+int main(int argc, char **argv) {
 	unsigned char str[2000];
 	int sock1;
 	unsigned int len_str;

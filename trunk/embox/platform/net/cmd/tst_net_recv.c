@@ -25,13 +25,10 @@
 #include <drivers/diag.h>
 #include <util/macro.h>
 
-#include <embox/cmd.h>
-
-EMBOX_CMD(tst_net_r);
 #define SIZE_BUF_IN 2000
 static unsigned char buf_in[SIZE_BUF_IN];
 
-static int tst_net_r(int argc, char **argv) {
+int main(int argc, char **argv) {
 	int res, sock;
 	struct sockaddr_in addr;
 	struct sockaddr addr2;
