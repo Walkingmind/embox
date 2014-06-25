@@ -54,6 +54,7 @@ module sock {
 	depends embox.framework.LibFrameworkNet
 
 	depends sock_xattr_api
+	@NoRuntime depends embox.security.api
 }
 
 @DefaultImpl(sock_xattr)
@@ -63,7 +64,7 @@ module sock_xattr extends sock_xattr_api {
 	source "socket/sock_xattr.c"
 	source "socket/sock_xattr.h"
 
-	depends embox.fs.xattr_list
+	depends embox.fs.xattr_list	
 }
 
 module neighbour {
