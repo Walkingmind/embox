@@ -21,7 +21,6 @@
 "smac_adm -R service -o unclassified  -a r",
 
 "su -c telnetd &",
-/*"su -c dropbeard", */
 "dropbeard",
 "su -c httpd &",
 "su -c snmpd &",
