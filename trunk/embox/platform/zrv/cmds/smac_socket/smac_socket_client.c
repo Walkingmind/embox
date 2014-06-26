@@ -47,12 +47,14 @@ static int create_client_connection(struct sockaddr_in *sockaddr) {
 	sock = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
 	res = connect(sock, (struct sockaddr *)sockaddr, sizeof(*sockaddr));
 	if (res < 0) {
-		printf("Error.. connection refuse\n");
+		printf("Error... connection refused\n");
+	} else { 
+		printf("OK... connection succeded\n");
 	}
 
 	close(sock);
 
-    return 0;
+	return 0;
 }
 
 static int smac_socket_main(int argc, char *argv[]) {
