@@ -7,7 +7,7 @@
 "date -s 201304161719.20",
 "mkdir /mnt",
 
-"mkdir -m 755 /mandatory_test",
+"mkdir -m 777 /mandatory_test",
 
 "mkramdisk -s 0x800000 /dev/rd_mandatory",
 "dd if=zrv-mandatory.img of=/dev/rd_mandatory",
