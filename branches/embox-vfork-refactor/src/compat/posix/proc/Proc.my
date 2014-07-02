@@ -1,0 +1,128 @@
+
+package embox.compat.posix.proc
+
+module All {
+
+	depends exec,
+		//vfork,
+		waitpid,
+		//signal,
+		exit,
+		uid,
+		nice,
+		priority,
+		pid
+}
+
+@DefaultImpl(exec_stop_parent)
+abstract module exec { }
+
+static module exec_stop_parent extends exec {
+	source "exec.c"
+
+	depends vfork
+	depends embox.util.LibUtil
+	@NoRuntime depends embox.kernel.task.resource.argv
+
+	depends exec_lib
+}
+
+static module exec_exchanged extends exec {
+	source "exec_exchanged.c"
+
+	depends embox.kernel.task.resource.argv
+	depends exec_lib
+}
+
+static module exec_lib {
+	source "exec_lib.c"
+	depends embox.kernel.task.resource.module_ptr
+}
+
+@DefaultImpl(fork_copy_everything)
+abstract module fork { }
+
+module fork_copy_everything extends fork { 
+	source "fork_copy_everything.c"
+	depends embox.arch.fork_entry
+	depends fork_copy_addr_space
+}
+
+/* FIXME artifical module to bypass single `extends` restriction */
+static module fork_copy_addr_space extends embox.kernel.addr_space { 
+	source "fork_copy_addr_space.h"
+}
+
+@DefaultImpl(vfork_internal_stub)
+abstract module vfork { }
+
+static module vfork_internal_stub extends vfork {
+	source "vfork_release_parent_stub.c",
+	       "vfork_task_vforking_id.c"
+
+	depends embox.util.LibUtil
+}
+
+static module vfork_exchanged extends vfork {
+	source "vfork_exchanged.c",
+	       "vfork_task_vforking.c"
+
+	depends embox.kernel.task.resource.vfork
+
+	depends embox.util.LibUtil
+}
+
+static module vfork_stop_parent extends vfork {
+	source "vfork_stop_parent.c",
+	       "vfork_task_vforking_id.c"
+
+	depends embox.arch.vfork_entry
+	depends embox.util.LibUtil
+}
+
+static module waitpid {
+	source "waitpid.c"
+
+	depends embox.util.LibUtil
+	depends embox.kernel.task.syslib.waitpid
+}
+
+static module signal {
+	source "signal.c"
+
+	depends embox.kernel.thread.signal
+	depends sigset
+}
+
+static module sigset {
+	source "sigset.c"
+	depends embox.util.Bitmap
+}
+
+static module exit {
+	source "exit.c"
+
+	depends embox.util.LibUtil
+}
+
+static module uid {
+	source "uid.c"
+
+	depends embox.kernel.task.resource.u_area
+}
+
+static module nice {
+	source "nice.c"
+
+	depends priority
+}
+
+static module priority {
+	source "priority.c"
+
+	depends embox.kernel.task.resource.u_area
+}
+
+static module pid {
+	source "pid.c"
+}
