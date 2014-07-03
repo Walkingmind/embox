@@ -38,8 +38,9 @@ static int task_argv_inherit(const struct task *task,
 
 static int argv_to_argc(char *const argv[]) {
 	int argc;
-	
-	assert(argv);
+
+	if (argv == NULL)
+		return 0;
 
 	for (argc = 0; argv[argc]; argc ++) {
 	}
