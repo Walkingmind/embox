@@ -11,10 +11,6 @@
 #include <unistd.h>
 #include <errno.h>
 
-#include <embox/cmd.h>
-
-EMBOX_CMD(smac_socket_main);
-
 static void usage(char *cmd) {
 	printf("Usage: %s start as server\n ip_addr:port\n", cmd);
 }
@@ -35,7 +31,7 @@ static int smac_socket_start_server(char *argv[]) {
 	return 0;
 }
 
-static int smac_socket_main(int argc, char *argv[]) {
+int main(int argc, char *argv[]) {
 	int opt;
 
 	while (-1 != (opt = getopt(argc, argv, "h"))) {

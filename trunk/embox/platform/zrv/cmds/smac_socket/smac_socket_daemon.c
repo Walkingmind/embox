@@ -12,10 +12,6 @@
 #include <arpa/inet.h>
 
 
-#include <embox/cmd.h>
-
-EMBOX_CMD(smac_socket_main);
-
 static void usage(char *cmd) {
 	printf("Usage: %s use only smac_socket_server\n", cmd);
 }
@@ -82,7 +78,7 @@ static int create_server_connection(struct sockaddr_in *sockaddr) {
     return 0;
 }
 
-static int smac_socket_main(int argc, char *argv[]) {
+int main(int argc, char *argv[]) {
 	int opt;
 	struct sockaddr_in sockaddr, *sockaddr_p;
 

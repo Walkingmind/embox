@@ -1,16 +1,20 @@
 package zrv.cmd
 
+@AutoCmd
 @Cmd(name="smac_socket_server")
 module smac_socket_server {
 	source "smac_socket_server.c"
 	
 	@NoRuntime depends smac_socket_daemon
 }
+
+@AutoCmd
 @Cmd(name="smac_socket_daemon")
 module smac_socket_daemon {
 	source "smac_socket_daemon.c"	
 }
 
+@AutoCmd
 @Cmd(name="smac_socket_client")
 module smac_socket_client {
 	source "smac_socket_client.c"	
