@@ -1,0 +1,8 @@
+root:_:::::::
+smac_administrator:smac_admin:::::::
+user:high_label:::::::
+guest:low_label:::::::
+unclassified:unclassified:::::::
+service:service:::::::
+secret:secret:::::::
+confidentially:confidentially:::::::
