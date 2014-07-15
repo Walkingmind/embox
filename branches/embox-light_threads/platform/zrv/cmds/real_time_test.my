@@ -1,0 +1,24 @@
+package zrv.cmd
+
+@Cmd(name = "real_time_test",
+	help = "Start real time test",
+	man = '''
+		NAME
+			real_time_test - test server
+		SYNOPSIS
+			real_time_test
+		DESCRIPTION
+			Start real_time_test in the system
+		EXAMPLES
+			real_time_test
+		AUTHORS
+			Aleev Dmitry
+	''')
+module real_time_test {
+	source "real_time_test.c"
+
+	depends embox.compat.libc.LibC
+	depends embox.compat.posix.net.socket
+	depends embox.compat.posix.LibPosix
+	depends embox.framework.LibFramework
+}
