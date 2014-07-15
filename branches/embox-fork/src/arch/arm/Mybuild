@@ -1,4 +1,0 @@
-
-package embox.arch.arm
-
-abstract module cmsis { }
