@@ -97,7 +97,7 @@ __srcgen_includes := $(call __srcgen_includes_fn,)
 $(and $(shell $(MKDIR) $(__srcgen_includes)),)
 
 cppflags_fn = \
-	-U__linux__ -Ulinux \
+	-U__linux__ -Ulinux -U__linux \
 	-D__EMBOX__ \
 	-D__unix \
 	-D"__impl_x(path)=<../path>"\
