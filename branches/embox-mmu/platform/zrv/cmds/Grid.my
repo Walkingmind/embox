@@ -1,0 +1,24 @@
+
+package zrv.cmd
+
+@Cmd(name = "grid",
+	help = "example of grid system",
+	man = '''
+		NAME
+			grid - simple example of a grid system
+		SYNOPSIS
+			grid [remote-host]
+		DESCRIPTION
+			
+		AUTHORS
+			Alexander Kalmuk
+	''')
+module grid {
+	source "grid.c"
+
+	depends embox.lib.readline_api
+	depends embox.kernel.thread.core
+	depends embox.compat.posix.net.socket
+	depends embox.compat.posix.LibPosix
+	depends embox.framework.cmd
+}
