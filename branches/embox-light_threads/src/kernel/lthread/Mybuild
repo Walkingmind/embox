@@ -1,6 +1,0 @@
-package embox.kernel.lthread
-
-module lthread {
-	source "lthread.c"
-	option number lthread_pool_size=512
-}
