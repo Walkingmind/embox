@@ -1,0 +1,7 @@
+package ex.cmd.tst
+
+@AutoCmd
+@Cmd(name="tst_net_send")
+module net_send11 {
+	source "tst_net_send.c"
+}
