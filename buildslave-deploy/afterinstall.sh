@@ -38,7 +38,7 @@ install_tsim() {
 }
 
 install_bootstrap() {
-	$APT_GET_INSTALL openssh-server vim subversion build-essential libncurses5-dev gcc-multilib g++-multilib texinfo 
+	$APT_GET_INSTALL openssh-server vim subversion build-essential libncurses5-dev gcc-multilib g++-multilib texinfo flex bison
 	$APT_GET_INSTALL cmake u-boot-tools libgmp-dev libmpfr-dev libmpc-dev #build dependencies for embox
 	install_tsim
 	enable_autostart ssh
