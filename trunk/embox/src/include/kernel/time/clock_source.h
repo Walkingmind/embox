@@ -4,9 +4,6 @@
  *
  * @date 06.07.2011
  * @author Ilia Vaprol
- * @author Roman Kurbatov
- *         - Interface for iterating time devices (clock_source_get_list() and
- *           clock_source_foreach()).
  */
 
 #ifndef KERNEL_CLOCK_SOURCE_H_
@@ -42,11 +39,6 @@ struct clock_source {
 };
 
 extern struct clock_source *clock_source_get_best(enum clock_source_property property);
-
-extern struct dlist_head *clock_source_get_list(void);
-
-#define clock_source_foreach(csh) \
-	dlist_foreach_entry(csh, clock_source_get_list(), lnk)
 
 /**
  * Read cycles from clock source since moment when it started. This function may be used exactly
