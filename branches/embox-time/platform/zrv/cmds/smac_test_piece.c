@@ -29,7 +29,7 @@ static int do_test(struct test_res *tr, const char *cmd) {
 
 	ecode = shell_exec(sh, cmd);
 
-	tr->tr_ecode[tr->tr_pos++] = ecode;
+	tr->tr_ecode[tr->tr_pos++] = ecode ? -EACCES : 0;
 
 	if (!ecode) {
 		printf("Command returned with code %d: %s\n",

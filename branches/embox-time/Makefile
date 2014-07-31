@@ -23,6 +23,7 @@ export PLATFORM_DIR   := $(ROOT_DIR)/platform
 export SUBPLATFORM_TEMPLATE_DIR := templates/
 
 export BUILD_DIR      := $(ROOT_DIR)/build/base
+export EXTERNAL_BUILD_DIR := $(ROOT_DIR)/build/extbld
 
 export DOC_DIR        := $(ROOT_DIR)/build/doc
 
@@ -51,7 +52,7 @@ export ANNOTATION_HANDLERS := mk/mybuild/annotation_handlers
 
 export RM     := rm -f
 export CP     := cp
-export MV     := mv
+export MV     := mv -f
 export PRINTF := printf
 export MKDIR  := mkdir -p
 export LN     := ln -s
