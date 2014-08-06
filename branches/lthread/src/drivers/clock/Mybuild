@@ -31,7 +31,6 @@ module pit extends embox.arch.clock {
 	source "pit.c"
 
 	option number irq_num=0
-	option number slowdown_factor=1
 
 	depends embox.kernel.irq
 	@NoRuntime depends embox.kernel.time.clock_source
@@ -99,4 +98,12 @@ module usermode extends embox.arch.clock {
 
 	depends embox.kernel.irq
 	depends embox.kernel.time.clock_source
+}
+
+module hpet {
+	@IncludePath("$(THIRDPARTY_DIR)/lib/acpica/include")
+	source "hpet.c"
+	
+	depends embox.kernel.time.clock_source
+	depends third_party.lib.acpica
 }
