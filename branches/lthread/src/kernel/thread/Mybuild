@@ -17,6 +17,9 @@ module core extends thread_mode {
 	source "thread_allocator.c"
 	source "thread_register.c"
 	source "thread_switch.c"
+	
+	option boolean timer_allocate_on_stack = true
+	source "thread_sched_wait.c"
 
 	depends starter
 
