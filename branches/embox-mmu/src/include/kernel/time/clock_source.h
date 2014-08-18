@@ -4,6 +4,9 @@
  *
  * @date 06.07.2011
  * @author Ilia Vaprol
+ * @author Roman Kurbatov
+ *         - Interface for iterating time devices (clock_source_get_list() and
+ *           clock_source_foreach()).
  */
 
 #ifndef KERNEL_CLOCK_SOURCE_H_
@@ -32,12 +35,18 @@ struct clock_source {
 	const char *name;
 	struct time_event_device *event_device;
 	struct time_counter_device *counter_device;
-	volatile clock_t jiffies; /* count of jiffies since clock source started */
+	volatile clock_t jiffies; /**< count of jiffies since clock source started */
+	clock_t jiffies_cnt; /**< interjiffes count */
 	uint32_t flags; /**< periodical or not */
 	time64_t (*read)(struct clock_source *cs);
 };
 
 extern struct clock_source *clock_source_get_best(enum clock_source_property property);
+
+extern struct dlist_head *clock_source_get_list(void);
+
+#define clock_source_foreach(csh) \
+	dlist_foreach_entry(csh, clock_source_get_list(), lnk)
 
 /**
  * Read cycles from clock source since moment when it started. This function may be used exactly
