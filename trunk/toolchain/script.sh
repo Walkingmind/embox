@@ -9,10 +9,14 @@ BINUTILS_VER=2.23.1
 GCC_VER=4.7.2
 NEWLIB_VER=1.20.0
 
+
 SOURCEWARE_URL=ftp://sourceware.org/pub
-BINUTILS_URL=$SOURCEWARE_URL/binutils/releases/binutils-$BINUTILS_VER.tar.bz2
-GCC_URL=$SOURCEWARE_URL/gcc/releases/gcc-$GCC_VER/gcc-$GCC_VER.tar.bz2
-NEWLIB_URL=$SOURCEWARE_URL/newlib/newlib-$NEWLIB_VER.tar.gz
+#BINUTILS_URL=$SOURCEWARE_URL/binutils/releases/binutils-$BINUTILS_VER.tar.bz2
+#GCC_URL=$SOURCEWARE_URL/gcc/releases/gcc-$GCC_VER/gcc-$GCC_VER.tar.bz2
+#NEWLIB_URL=$SOURCEWARE_URL/newlib/newlib-$NEWLIB_VER.tar.gz
+BINUTILS_URL="http://ftp.gnu.org/gnu/binutils/binutils-2.23.1.tar.bz2"
+GCC_URL="http://ftp.gnu.org/gnu/gcc/gcc-4.7.2/gcc-4.7.2.tar.bz2"
+NEWLIB_URL="http://optimate.dl.sourceforge.net/project/devkitpro/sources/newlib/newlib-1.20.0.tar.gz"
 
 export TARGET=i386-pc-embox
 export PREFIX=`pwd`/output
