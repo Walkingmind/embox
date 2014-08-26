@@ -1,0 +1,7 @@
+package third_party.lib
+
+static module softfloat {
+    source "softfloat-macros.c",
+           "softfloat-specialize.c",
+           "softfloat.c"
+}
