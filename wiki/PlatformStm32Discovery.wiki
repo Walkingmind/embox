@@ -7,7 +7,7 @@ The board has integrated debugger that allows to program it with single USB-A-US
  * Configure and compile with *arm/stm32_vl* template.
  * In command line run
  {{{
- sudo openocd -f /usr/share/openocd/scripts/board/stm32f4discovery.cfg
+ $ sudo openocd -f /usr/share/openocd/scripts/board/stm32f4discovery.cfg
  }}}
  * Load Embox with usual gdb commands
  {{{
