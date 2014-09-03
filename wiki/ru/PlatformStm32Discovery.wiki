@@ -1,5 +1,27 @@
 #summary Describes project Embox's usage on Stm32Discovery
 
+На этой плате установлен отладчик, что позволяет начать использовать её, имея только USB-A-USB-mini-B провод. Вы можете запустить Embox выполнив несколько простых шагов:
+ * Установите OpenOCD версии 0.6.0 или выше
+ * Сконфигурируйте и скомпилируйте Embox с темплейтом *arm/stm32_vl*
+ * В командной строке выполните
+ {{{
+ $ sudo openocd -f /usr/share/openocd/scripts/board/stm32f4discovery.cfg
+ }}}
+ * Загрузите Embox с помощью gdb
+ {{{
+ $ gdb build/base/bin/embox
+ (gdb) target extended-remote :3333
+ (gdb) monitor halt
+ (gdb) load
+ (gdb) monitor reset
+ }}}
+
+Для получения полного руководства по использованию Embox совместно с Eclipse обратитесь по
+[PlatformStm32DiscoveryFull этой ссылке]
+
+<wiki:comment>
+#summary Describes project Embox's usage on Stm32Discovery
+
 На этой плате установлен отладчик, что позволяет начать использовать её, имея только USB-A-USB-mini-B провод.
 
 Мы используем свободное программное обеспечение для общения со встроенным отладчиком: https://github.com/texane/stlink, которое предоставляет cервер GDB. Это единственный выбор для Linux систем, на Windows вы можете предпочесть GDB сервер от произодителя.
@@ -19,3 +41,4 @@ c
 
 Для получения полного руководства по использованию Embox совместно с Eclipse обратитесь по
 [PlatformStm32DiscoveryFull этой ссылке]
+</wiki:comment>
