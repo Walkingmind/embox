@@ -1,5 +1,7 @@
 #summary Describes project Embox's usage on Stm32Discovery
 
+<img src="http://embox.googlecode.com/svn/wiki/images/PlatformsDescription/stm32discovery.jpg" width="320" height="240" align="right">
+
 На этой плате установлен отладчик, что позволяет начать использовать её, имея только USB-A-USB-mini-B провод. Вы можете запустить Embox выполнив несколько простых шагов:
  * Установите OpenOCD версии 0.6.0 или выше
  * Сконфигурируйте и скомпилируйте Embox с темплейтом *arm/stm32_vl*
