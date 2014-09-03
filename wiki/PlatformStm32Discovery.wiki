@@ -20,7 +20,7 @@ The board has integrated debugger that allows to program it with single USB-A-US
 
 For complete guide for using Embox and Eclipse please refer [PlatformStm32DiscoveryFull this link]
 
-<!--
+<wiki:comment>
 #summary Getting started with Stm32Discovery
 
 <img src="http://embox.googlecode.com/svn/wiki/images/PlatformsDescription/stm32discovery.jpg" width="320" height="240" align="right">
@@ -43,4 +43,4 @@ c
 Notice, that commands above use st-util's default gdb port that you might change.
 
 For complete guide for using Embox and Eclipse please refer [PlatformStm32DiscoveryFull this link]
--->
+</wiki:comment>
