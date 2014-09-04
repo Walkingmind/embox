@@ -20,10 +20,10 @@
 
 "smac_adm -R service -o unclassified  -a r",
 
-"telnetd &",
+"su -c telnetd &",
 "dropbeard",
-"httpd &",
-"snmpd &",
+"su -c httpd &",
+"su -c snmpd &",
 "mount -t ext2 /dev/hda /mnt",
 "export QT_QPA_FONTDIR=/fonts",
 "texteditor -platform emboxvc",
