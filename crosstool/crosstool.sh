@@ -47,8 +47,8 @@ GET_URL[0]="http://ftp.gnu.org/gnu/gmp/gmp-5.1.3.tar.bz2"
 GET_URL[1]="http://ftp.gnu.org/gnu/mpfr/mpfr-3.1.2.tar.gz"
 GET_URL[2]="http://ftp.gnu.org/gnu/mpc/mpc-1.0.2.tar.gz"
 GET_URL[3]="http://ftp.gnu.org/gnu/binutils/binutils-2.24.tar.bz2"
-GET_URL[4]="http://ftp.gnu.org/gnu/gcc/gcc-4.8.2/gcc-4.8.2.tar.bz2"
-GET_URL[5]="http://ftp.gnu.org/gnu/gdb/gdb-7.7.tar.bz2"
+GET_URL[4]="http://ftp.gnu.org/gnu/gcc/gcc-4.9.1/gcc-4.9.1.tar.bz2"
+GET_URL[5]="http://ftp.gnu.org/gnu/gdb/gdb-7.8.tar.xz"
 
 DOWNLOAD=../download
 
@@ -143,6 +143,7 @@ do_gcc() {
 			--with-gnu-as \
 			--with-gnu-ld \
 			--enable-languages=c,c++ \
+			--enable-multilib \
 			--enable-soft-float \
 			$TARGET_OPTIONS \
 			|| error_exit "Configuration gcc failed"
