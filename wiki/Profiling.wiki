@@ -1,0 +1,59 @@
+#summary Description of Embox instrumentation profiler
+
+<wiki:toc max_depth="2">
+
+Embox profiler is based on [https://gcc.gnu.org/onlinedocs/gcc-4.3.3/gcc/Code-Gen-Options.html GCC features to instrument code].
+
+There are two options to profile execution time of the funcions:
+	* System-wide profiling
+	* Profile functions only from the specific source file
+
+== System-wide profiling ==
+
+Overhead increasing should be taken into account!
+To profile the whole system you should add following string to `conf/build.conf` and rebuild system.
+{{{
+CFLAGS += $(PROFILING_CFLAGS)
+}}}
+
+== How to profile functions from specific source file ==
+
+There is special option for Mybuild to profile functions from specific file.
+Add `@InstrumentProfile("true")` option to appropriate *.my file before the source file. It should look like
+{{{
+package embox.cmd
+
+@Cmd(name= "hw", help =, man ="""")
+module hw {
+	@InstrumentProfiling(true)
+	source "hw.c"
+}
+}}}
+
+Save my-file and rebuild system.
+
+== Gathering the profiling information ==
+
+To start gathering profiling information, execute following command: `tbprof -e`.
+To stop gathering it, execute `tbprof -d`.
+
+`tbprof -c CMD -a -b -c` equals sequential executing
+{{{
+	tbprof -e
+	CMD -a -b -c
+	tbprof -d
+}}}
+
+Running `tbprof -n M -c CMD -a -b -c` will lead CMD to be executed M times. For example, you can run test #1 thousand times.
+{{{
+tbprof -n 1000 -c test -n 1
+}}}
+
+Every time you start gathering profiling information, old records are being deleted.
+
+`trace_blocks -n` will show current information.
+
+`trace_blocks -n 10' will show top 10 time-consuming funcions.
+
+`trace_blocks -f STR -n 10' will show top 10 functions that have STR in their full names (full name looks like path/to/source/source.c:func_na,e).
+

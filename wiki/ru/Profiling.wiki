@@ -17,7 +17,6 @@ CFLAGS += $(PROFILING_CFLAGS)
 }}}
 
 После этого нужно пересобрать систему.
-Обратите внимание: при таком профилировании накладные расходы возрастут.
 
 == Профилирование функций из определённого файла ==
 
@@ -26,10 +25,10 @@ CFLAGS += $(PROFILING_CFLAGS)
 {{{
 package embox.cmd
 
-@Cmd(name = ”hw”, help = ,man = """")
+@Cmd(name = "hw", help = ,man = """")
 module hw {
     @InstrumentProfiling(true)
-    source ”hw.c”
+    source "hw.c"
 }
 }}}
 

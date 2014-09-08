@@ -81,6 +81,7 @@
         * [MybuildMakeLanguageExtension Make language extensions]
         * [MybuildFramework Mybuild framework]
         * [MybuildScripts Generator scripts]
+    * [Profiling Profiling]
   * [GSoC Google Summer of Code]
     * [GSoC2012 GSoC 2012 Ideas]
     * [GSoC2011 GSoC 2011 Ideas]
