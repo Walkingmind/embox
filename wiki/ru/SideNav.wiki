@@ -79,6 +79,7 @@
         * [MybuildFramework Фреймворк Mybuild]
         * [MybuildScripts Скрипты генерации]
     * [QtRunningOnVNC Running Qt on VNC server]
+    * [Profiling Профилирование]
   * [GSoC Google Summer of Code]
     * [GSoC2012 Идеи для GSoC 2012]
     * [GSoC2011 Идеи для GSoC 2011]
