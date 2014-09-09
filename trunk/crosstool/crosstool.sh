@@ -135,7 +135,6 @@ do_gcc() {
 		PATH=$path $source_dir/configure \
 			--prefix=$install_dir \
 			--target=$TARGET \
-			--disable-multilib \
 			--disable-libssp \
 			--disable-shared \
 			--without-headers \
