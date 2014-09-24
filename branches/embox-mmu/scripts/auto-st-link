@@ -1,3 +1,0 @@
-#!/bin/sh
-
-st-util && while [ $? -eq 0 ]; do st-util; done
