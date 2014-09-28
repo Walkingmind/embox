@@ -1,0 +1,177 @@
+#!/bin/bash
+
+DATADIR="$(dirname "$0")"
+CONFDIR=./conf
+
+KERNEL=./build/base/bin/embox
+MODS_CONF=$CONFDIR/mods.config
+LDS_CONF=$CONFDIR/lds.conf
+BUILD_CONF=$CONFDIR/build.conf
+
+ARCHs=()
+NICs=()
+
+info() {
+	echo $@ >&2
+}
+
+error() {
+	echo $@ >&2
+	exit 1
+}
+
+guessed_info() {
+	info $1: ${!1} "$2"
+}
+
+error_empty() {
+	if [ -z "${!1}" ]; then
+		error $1 is empty
+	fi
+}
+
+get_user_undef_guess() {
+	label="(got)"
+	if [ -z "${!1+defined}" ]; then
+		eval "$1=\"$($2)\""
+		label="(guessed)"
+	fi
+	guessed_info "$1" $label
+}
+
+get_user_empty_guess() {
+	get_user_undef_guess "$@"
+	error_empty "$1"
+}
+
+guess_arch() { sed -n 's/ARCH *= *//p' $BUILD_CONF; }
+get_user_empty_guess AUTOQEMU_ARCH guess_arch
+
+guess_mem() { 
+	ram=$(sed -n 's/^RAM *([0-9x]*, *\([0-9]*\)M)/\1/p' $LDS_CONF)
+	if [ $ram ]; then 
+		echo $ram
+	else
+		echo 128
+	fi
+}
+get_user_empty_guess AUTOQEMU_MEM guess_mem
+
+guess_nics() { sed -n 's/\t*\(@Runlevel([0-9])\|\) \+include\ embox.driver.net.\([a-z0-9_]\+\)\((.*)\|\)$/\2/p' $MODS_CONF | grep -v loopback | head -n 1; }
+get_user_undef_guess AUTOQEMU_NICS guess_nics
+
+guessed_info AUTOQEMU_NICS_CONFIG "(got)"
+
+guess_kvm() {
+	ret=""
+	# Build kvm argument
+	if [ $AUTOQEMU_ARCH = "x86" ]; then
+		egrep '(vmx|svm)' /proc/cpuinfo > /dev/null
+		if [ $? -eq 0 ]; then
+			ret="-enable-kvm"
+		else
+			info VT is not supported by CPU
+		fi
+		
+		dmesg | tail | grep "kvm: disabled by bios" > /dev/null
+		if [ $? -eq 0 ]; then
+			info "kvm disabled by bios. You can enable VT in bios"
+			ret=
+		fi
+		
+		lsmod | egrep '(kvm_intel|kvm_amd)' > /dev/null
+		if [ $? -ne 0 ]; then
+			info no kvm kernel module loaded
+			ret=
+		fi
+	fi
+	echo $ret;
+}
+get_user_undef_guess AUTOQEMU_KVM_ARG guess_kvm
+
+guess_load_arg() { 
+	if [ $AUTOQEMU_ARCH != "arm" ]; then 
+		echo "-kernel $KERNEL"
+	else		
+		if [ ! $AUTOQEMU_NAND_BUILD_SKIP ];  then 
+			echo "Making uImage..." >&2
+			OMAP_UBOOT_IMAGE_BOARD=qemu ./scripts/omap-uboot-uimage >/dev/null
+			if [ 0 -ne $? ]; then
+				exit 1
+			fi
+			echo "Making nand image..." >&2
+			NAND_SIZE=$(sed -n 's/.*\<AUTOQEMU_UIMAGE_SIZE_MB=\([0-9]\+\).*$/\1/p' $LDS_CONF)
+			./scripts/qemu/beagle/run.sh beagle_nand.img ./uImage $NAND_SIZE >/dev/null 2>/dev/null
+			rm ./uImage
+		fi
+		echo "-mtdblock beagle_nand.img"
+	fi
+}
+get_user_empty_guess AUTOQEMU_LOAD_ARG guess_load_arg
+
+guess_nographic() { echo "-nographic"; }
+get_user_undef_guess AUTOQEMU_NOGRAPHIC_ARG guess_nographic
+
+declare -A ARCH2QEMU
+ARCH2QEMU=(
+	[arm]="qemu-system-arm -M overo"
+	[microblaze]="qemu-system-microblaze -M petalogix-s3adsp1800"
+	[mips]="qemu-system-mips -M mipssim"
+	[ppc]="qemu-system-ppc -M virtex-ml507"
+	[sparc]="qemu-system-sparc -M leon3_generic -cpu LEON3"
+	[x86]="qemu-system-i386"
+)
+
+QEMU=$AUTOQEMU_PREFIX${ARCH2QEMU[$AUTOQEMU_ARCH]}
+QEMU_VER=$($QEMU --version | sed 's/.*version \([0-9.]\+\).*/\1/;s/\./ /g' | xargs printf "%02d%02d%02d")
+
+if [ $QEMU_VER -gt 010200 ]; then
+	MB_XEMACLINE="xlnx.xps-ethernetlite"
+else
+	MB_XEMACLINE="xilinx-ethlite"
+fi
+
+declare -A NIC2QEMU
+NIC2QEMU=(
+	[e1000]="e1000"
+	[ne2k_pci]="ne2k_pci"
+	[rtl8139]="rtl8139"
+	[virtio]="virtio"
+	[xemaclite]=$MB_XEMACLINE
+	[lan9118]="lan9118"
+)
+
+IFS=" " read -a qemu_nics <<< "$AUTOQEMU_NICS"
+IFS=" " read -a qemu_nics_config <<< "$AUTOQEMU_NICS_CONFIG"
+sudo=""
+nic_lines=""
+nic_n=${#qemu_nics[*]}
+if [ $nic_n -gt 0 ]; then
+	sudo=sudo
+	for ni in "${!qemu_nics[@]}"; do
+
+		if [ ${qemu_nics_config[$ni]} ] && [ ${qemu_nics_config[$ni]} != "-" ]; then
+			host_nic_config=${qemu_nics_config[$ni]}
+		else
+			host_nic_config="tap,script=$DATADIR/start_script,downscript=$DATADIR/stop_script"
+		fi
+
+		nic_model=${NIC2QEMU[${qemu_nics[$ni]}]}
+		if [ ! $nic_model ]; then 
+			error "nic model ${qemu_nics[$ni]} is not supported"
+		fi
+		nic_macaddr="AA:BB:CC:DD:EE:0$(($ni + 2))"
+		nic_lines="$nic_lines \
+			-net nic,vlan=$ni,model=$nic_model,macaddr=$nic_macaddr \
+			-net $host_nic_config,vlan=$ni"
+	done
+fi
+
+ARG_LINE="$sudo $QEMU $AUTOQEMU_LOAD_ARG $AUTOQEMU_KVM_ARG -m $AUTOQEMU_MEM $nic_lines ${AUTOQEMU_NOGRAPHIC_ARG--nographic} $@"
+
+info "$ARG_LINE"
+$ARG_LINE
+
+if [ -f beagle_nand.img ]; then
+	rm beagle_nand.img
+fi

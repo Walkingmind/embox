@@ -1,0 +1,17 @@
+package embox.kernel.sched.strategy.runq
+
+@DefaultImpl(prioq)
+abstract module api { }
+
+module prioq extends api {
+	source "prioq.c", "prioq.h"
+	depends embox.util.priolist
+}
+
+module list extends api {
+	source "list.c", "list.h"
+}
+
+module list_array extends api {
+	source "list_array.c", "list_array.h"
+}

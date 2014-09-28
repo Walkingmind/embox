@@ -1,0 +1,33 @@
+package zrv.cmd.sys
+
+@Cmd(name = "uname",
+	help = "Print system information",
+	man = '''
+		NAME
+			uname - print system information
+		SYNOPSIS
+			uname [OPTIONS] ...
+		DESCRIPTION
+			Print certain system information
+			-a	print all information
+			-s	print the kernel name
+			-n	print the network node hostname
+			-r	print the kernel release
+			-v	print the kernel version
+			-m	print the machine hardware name
+			-p	print the processor type
+			-i	print the hardware platform
+			-o	print the operating system
+			-h	help message
+		AUTHOR
+			Serge Ivantsov, Ilia Vaprol
+	''')
+module uname {
+	source "uname.c"
+	
+	option string system = "OS Zarya-RV"
+	option string platform = ""
+	
+	depends embox.compat.posix.util.utsname
+	depends embox.framework.LibFramework
+}
