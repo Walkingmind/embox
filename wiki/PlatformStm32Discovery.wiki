@@ -7,7 +7,7 @@ The board has integrated debugger that allows to program it with single USB-A-US
  * Configure and compile with *arm/stm32_vl* template.
  * In command line run
  {{{
- $ sudo openocd -f /usr/share/openocd/scripts/board/stm32f4discovery.cfg
+ $ sudo openocd -f /usr/share/openocd/scripts/board/stm32vldiscovery.cfg
  }}}
  * Load Embox with usual gdb commands
  {{{
@@ -19,28 +19,3 @@ The board has integrated debugger that allows to program it with single USB-A-US
  }}}
 
 For complete guide for using Embox and Eclipse please refer [PlatformStm32DiscoveryFull this link]
-
-<wiki:comment>
-#summary Getting started with Stm32Discovery
-
-<img src="http://embox.googlecode.com/svn/wiki/images/PlatformsDescription/stm32discovery.jpg" width="320" height="240" align="right">
-
-The board has integrated debugger that allows to program it with single USB-A-USB-mini-B wire.
-
-We are using free (as a speech) software to communicate with the debugger: https://github.com/texane/stlink, that provides gdb server. It is a single choice on Linux systems, on Windows, practically, you may prefer manufacturer's own software.
-
-To try Embox on the board, you should configure and compile with *arm/stm32_vl* template.
-
-Further, setup stlink (you may adjust rights for device, set up symlinks, etc. All required steps are on stlink's repo page) and run st-util from it's package.
-
-And finally, load Embox with usual gdb commands 
-{{{
-target extended-remote :4242
-load
-c
-}}}
-
-Notice, that commands above use st-util's default gdb port that you might change.
-
-For complete guide for using Embox and Eclipse please refer [PlatformStm32DiscoveryFull this link]
-</wiki:comment>

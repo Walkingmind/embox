@@ -7,7 +7,7 @@
  * Сконфигурируйте и скомпилируйте Embox с темплейтом *arm/stm32_vl*
  * В командной строке выполните
  {{{
- $ sudo openocd -f /usr/share/openocd/scripts/board/stm32f4discovery.cfg
+ $ sudo openocd -f /usr/share/openocd/scripts/board/stm32vldiscovery.cfg
  }}}
  * Загрузите Embox с помощью gdb
  {{{
@@ -20,27 +20,3 @@
 
 Для получения полного руководства по использованию Embox совместно с Eclipse обратитесь по
 [PlatformStm32DiscoveryFull этой ссылке]
-
-<wiki:comment>
-#summary Describes project Embox's usage on Stm32Discovery
-
-На этой плате установлен отладчик, что позволяет начать использовать её, имея только USB-A-USB-mini-B провод.
-
-Мы используем свободное программное обеспечение для общения со встроенным отладчиком: https://github.com/texane/stlink, которое предоставляет cервер GDB. Это единственный выбор для Linux систем, на Windows вы можете предпочесть GDB сервер от произодителя.
-
-Вы должны сконфигурировать и скомпилировать Embox с темплейтом *arm/stm32_vl*
-
-Далее, вы должны настроить stutil (изменить права доступа и т.д.) и запустить st-util из его комплекта.
-
-После запуска st-util запуск Embox производится стандартным способом 
-{{{
-target extended-remote :4242
-load
-c
-}}}
-
-Заметьте, указан порт GDB, используемый stutil по умолчанию. Вы можете изменить его по своему желанию.
-
-Для получения полного руководства по использованию Embox совместно с Eclipse обратитесь по
-[PlatformStm32DiscoveryFull этой ссылке]
-</wiki:comment>
