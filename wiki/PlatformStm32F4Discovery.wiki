@@ -1,6 +1,6 @@
 #summary Getting started with Stm32Discovery
 
-<img src="http://embox.googlecode.com/svn/wiki/images/PlatformsDescription/stm32f4_discovery.jpg" width="350" height="550" align="right">
+<img src="http://embox.googlecode.com/svn/wiki/images/PlatformsDescription/stm32f4_discovery.jpg" width="320" height="240" align="right">
 
 The board has integrated debugger that allows to program it with single USB-A-USB-mini-B wire. You can run and test Embox after few quite simple steps. Please, read it all before doing anything.
  * Install OpenOCD v0.6.0 or later.
