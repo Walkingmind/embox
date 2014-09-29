@@ -1,16 +1,22 @@
 #summary Embox development roadmap
 #labels Phase-Requirements,Featured
 
-= 2014/10/01 v0.4.0 [http://code.google.com/p/embox/issues/list?can=1&q=milestone=v0.4.0 [issues]] [http://code.google.com/p/embox/issues/list?q=milestone=v0.4.0 [open issues]] =
+= 2015/02/01 v0.4.0 [http://code.google.com/p/embox/issues/list?can=1&q=milestone=v0.4.0 [issues]] [http://code.google.com/p/embox/issues/list?q=milestone=v0.4.0 [open issues]] =
   * Чистка проекта
   * Новая система сборки
 
-= 2014/09/28 v0.3.8 [http://code.google.com/p/embox/issues/list?can=1&q=milestone=v0.3.8 [issues]] =
-  * переработка файловой системы
-  * улучшение подсистемы терминалов (pty, ttyS, etc.)
+= 2014/11/01 v0.3.9 [http://code.google.com/p/embox/issues/list?can=1&q=milestone=v0.3.9 [issues]] [http://code.google.com/p/embox/issues/list?q=milestone=v0.4.0 [open issues]] =
   * Добавить IP фрагментацию
-  * Улучшить IP стек
-  * Поддержка IPSec
+  * IP телефон на плате STM32F407
+  * Поддержка протокола ModBus
+
+= 2014/09/28 v0.3.8 [http://code.google.com/p/embox/issues/list?can=1&q=milestone=v0.3.8 [issues]] =
+  * Переработана платформа для MMU (работают x86, Microblaze, SPARC (leon3))
+  * Улучшен IP стек
+  * Добавлено тестирование на основе PacketDrill
+  * Добавлена платформа STM32F407
+  * Портирована библиотека pjsip
+  * httpd с поддержкой cgi сценарией (c и lua)
 
 = 2014/06/01 v0.3.7 [http://code.google.com/p/embox/issues/list?can=1&q=milestone=v0.3.7 [issues]] =
   * Переработана подсистема памяти (Отдельная куча для каждой задачи)
