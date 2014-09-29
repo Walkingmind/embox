@@ -36,6 +36,7 @@
          * [PlatformLegoNxtExamples Примеры]
          * [PlatformLegoNxtSound Звук]
        * [PlatformStm32Discovery STM32 Discovery]
+       * [PlatformStm32F4Discovery STM32F4 Discovery]
        * [PlatformEfm32ZgStk EFM32 Zero Gecko Starter Kit]
     * [GettingStartedX86 x86]
       * [SimulationQemuX86 QEMU x86 simulator]
