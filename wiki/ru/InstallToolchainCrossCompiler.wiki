@@ -9,5 +9,5 @@ cd crosstool
 ./crosstool <ARCH>
 }}}
 
-ARCH может быть следующим: arm, microblaze, ppc, mips, sparc
+ARCH может быть следующим: arm, microblaze, ppc, mips, sparc, i386
 

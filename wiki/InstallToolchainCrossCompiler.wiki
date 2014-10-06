@@ -9,6 +9,6 @@ cd crosstool
 ./crosstool <ARCH>
 }}}
 
-ARCH can be follow: arm, microblaze, ppc, mips, sparc
+ARCH can be follow: arm, microblaze, ppc, mips, sparc, i386
 
 
