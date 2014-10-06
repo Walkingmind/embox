@@ -3,7 +3,10 @@
 # Build a GNU/Linux cross-toolchain
 # $Id$
 
+set -ve 
+
 CROSSTOOL_ARCH=$1
+MAKE_FLAGS=-j$(nproc || echo 1)
 
 print_msg() {
 	echo -e $1 | tee -a $LOG_FILE
@@ -19,10 +22,14 @@ error_exit() {
 
 . ./$CROSSTOOL_ARCH.in
 
+realpath() {
+	[[ $1 = /* ]] && echo "$1" || echo "$PWD/${1#./}"
+}
+
 CUR_DIR=$(pwd)
 # Create temp working dir
 if [ ! -z $TMP_DIR -a -d $TMP_DIR ]; then 
-	TMP_DIR=$(readlink -f $TMP_DIR)
+	TMP_DIR=$(realpath $TMP_DIR)
 else
 	TMP_DIR=$CUR_DIR/$(mktemp -d build-$CROSSTOOL_ARCH.XXXXX)
 fi
@@ -31,11 +38,9 @@ LOG_FILE=$TMP_DIR/emtool.log
 
 PATCHES_DIR=$CUR_DIR/patches
 
-PATCHES="$(ls $PATCHES_DIR/*.patch 2>/dev/null) 
-	$(ls $PATCHES_DIR/$CROSSTOOL_ARCH/*.patch 2>/dev/null)"
+PATCHES="$(ls $PATCHES_DIR/*.patch 2>/dev/null || true) 
+	$(ls $PATCHES_DIR/$CROSSTOOL_ARCH/*.patch 2>/dev/null || true)"
 
-
-declare -A GET_URL
 # Keys:
 #  0 - gmp
 #  1 - mpfr
@@ -43,12 +48,12 @@ declare -A GET_URL
 #  3 - binutils
 #  4 - gcc
 #  5 - gdb
-GET_URL[0]="http://ftp.gnu.org/gnu/gmp/gmp-5.1.3.tar.bz2"
-GET_URL[1]="http://ftp.gnu.org/gnu/mpfr/mpfr-3.1.2.tar.gz"
-GET_URL[2]="http://ftp.gnu.org/gnu/mpc/mpc-1.0.2.tar.gz"
-GET_URL[3]="http://ftp.gnu.org/gnu/binutils/binutils-2.24.tar.bz2"
-GET_URL[4]="http://ftp.gnu.org/gnu/gcc/gcc-4.9.1/gcc-4.9.1.tar.bz2"
-GET_URL[5]="http://ftp.gnu.org/gnu/gdb/gdb-7.8.tar.xz"
+GET_URL=("http://ftp.gnu.org/gnu/gmp/gmp-5.1.3.tar.bz2" \
+	"http://ftp.gnu.org/gnu/mpfr/mpfr-3.1.2.tar.gz" \
+	"http://ftp.gnu.org/gnu/mpc/mpc-1.0.2.tar.gz" \
+	"http://ftp.gnu.org/gnu/binutils/binutils-2.24.tar.bz2" \
+	"http://ftp.gnu.org/gnu/gcc/gcc-4.9.1/gcc-4.9.1.tar.bz2" \
+	"http://ftp.gnu.org/gnu/gdb/gdb-7.8.tar.xz")
 
 DOWNLOAD=../download
 
@@ -69,7 +74,8 @@ do_unpack() {
 	print_msg "Extract sources"
 	for i in $(seq 0 $((${#GET_URL[@]} - 1))); do
 		print_msg "Extracting ${TARBALL[$i]}"
-		[ -d ${NAME[$i]} ] || tar xaf $DOWNLOAD/${TARBALL[$i]}
+		unzip_tar=$(echo ${TARBALL[$i]} | sed 's/.*\.gz/z/;s/.*.\.bz2/j/;s/.*\.xz/J/')
+		[ -d ${NAME[$i]} ] || tar -${unzip_tar}xf $DOWNLOAD/${TARBALL[$i]}
 	done
 
 	print_msg "Set symlinks for binutils"
@@ -109,11 +115,11 @@ do_binutils() {
 			--target=$TARGET \
 			--with-float=soft \
 			--enable-soft-float \
+			--disable-werror \
 			|| [ -e Makefile ] || error_exit "Configuration binutils failed"
 	fi
-	make -j `nproc` -q all
-	if [ $? -ne 0 ]; then
-		make -j `nproc` all && make -j `nproc` install \
+	if ! make -q all; then
+		make $MAKE_FLAGS all && make $MAKE_FLAGS install \
 			|| error_exit "Building binutils failed"
 	fi
 	popd > /dev/null
@@ -147,10 +153,9 @@ do_gcc() {
 			$TARGET_OPTIONS \
 			|| error_exit "Configuration gcc failed"
 	fi
-	make -j `nproc` -q all-gcc all-target-libgcc
-	if [ $? -ne 0 ]; then
-		PATH=$path make -j `nproc` all-gcc all-target-libgcc \
-			&& PATH=$path make -j `nproc` install-gcc install-target-libgcc \
+	if ! make -q all-gcc all-target-libgcc; then 
+		PATH=$path make $MAKE_FLAGS all-gcc all-target-libgcc \
+			&& PATH=$path make $MAKE_FLAGS install-gcc install-target-libgcc \
 			|| error_exit "Building gcc failed"
 	fi
 	popd > /dev/null
@@ -172,9 +177,8 @@ do_gdb() {
 			--target=$TARGET \
 			|| error_exit "Configuration gdb failed"
 	fi
-	make -j `nproc` -q all
-	if [ $? -ne 0 ]; then
-		make -j `nproc` all && make -j `nproc` install \
+	if ! make -q all; then 
+		make $MAKE_FLAGS all && make $MAKE_FLAGS install \
 			|| error_exit "Building gdb failed"
 	fi
 	popd > /dev/null
