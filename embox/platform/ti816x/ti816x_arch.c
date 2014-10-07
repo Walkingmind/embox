@@ -7,10 +7,19 @@
  */
 
 #include <hal/reg.h>
-#include <platform_shutdown.h>
+#include <hal/arch.h>
 
-void platform_shutdown(arch_shutdown_mode_t mode) {
+void arch_init(void) {
+
+}
+
+void arch_idle(void) {
+
+}
+
+void arch_shutdown(arch_shutdown_mode_t mode) {
 	if (mode == ARCH_SHUTDOWN_MODE_REBOOT) { 
 		REG_STORE(0x481800a0, 0x2);
 	}
+	while (1);
 }
