@@ -23,6 +23,10 @@
 #include <mem/misc/pool.h>
 #include <util/dlist.h>
 
+#include <kernel/lthread/lthread.h>
+#include <kernel/lthread/lthread_priority.h>
+#include <err.h>
+
 #define MODOPS_VOLUME      OPTION_GET(NUMBER, volume)
 #define MODOPS_SAMPLE_RATE OPTION_GET(NUMBER, sample_rate)
 #define MODOPS_BUF_CNT     OPTION_GET(NUMBER, buf_cnt)
@@ -47,6 +51,7 @@ struct pa_strm {
 };
 
 static struct pa_strm *_strm = NULL; /* for EVAL_AUDIO_HalfTransfer_CallBack */
+static struct lthread *halftransfer_irq_handler;
 
 static irq_return_t stm32f4_audio_i2s_dma_interrupt(unsigned int irq_num, void *dev_id) {
 	extern void Audio_MAL_I2S_IRQHandler(void);
@@ -54,11 +59,32 @@ static irq_return_t stm32f4_audio_i2s_dma_interrupt(unsigned int irq_num, void *
 	return IRQ_HANDLED;
 }
 
+static void strm_get_data(struct pa_strm*, uint16_t*, size_t);
+
+static void * halftransfer_action(void *data) {
+	static int half = 1;
+	if (!_strm->completed) {
+		strm_get_data(_strm,
+				half ? _strm->buf
+					: &_strm->buf[ARRAY_SIZE(_strm->buf) / 2],
+				ARRAY_SIZE(_strm->buf) / 2);
+		half = !half;
+	}
+
+	return NULL;
+}
+
 PaError Pa_Initialize(void) {
 	D("", __func__);
 
 	if (0 != irq_attach(STM32F4_AUDIO_I2S_DMA_IRQ, stm32f4_audio_i2s_dma_interrupt,
 				0, NULL, "stm32f4_audio")) {
+		return paUnanticipatedHostError;
+	}
+
+	halftransfer_irq_handler = lthread_create(&halftransfer_action, NULL);
+	if (err(halftransfer_irq_handler)) {
+		(void)irq_detach(STM32F4_AUDIO_I2S_DMA_IRQ, NULL);
 		return paUnanticipatedHostError;
 	}
 
@@ -73,6 +99,8 @@ PaError Pa_Terminate(void) {
 	if (0 != irq_detach(STM32F4_AUDIO_I2S_DMA_IRQ, NULL)) {
 		return paUnanticipatedHostError;
 	}
+
+	lthread_delete(halftransfer_irq_handler);
 
 	return paNoError;
 }
@@ -94,7 +122,7 @@ void Pa_Sleep(long msec) {
 const PaDeviceInfo * Pa_GetDeviceInfo(PaDeviceIndex device) {
 	static const PaDeviceInfo info = {
 		.structVersion = 1,
-		.name = "stm32f4_audio",
+		.name = "stm32f4_audio_device",
 		.hostApi = 0,
 		.maxInputChannels = 1,
 		.maxOutputChannels = 1,
@@ -110,8 +138,17 @@ const PaDeviceInfo * Pa_GetDeviceInfo(PaDeviceIndex device) {
 }
 
 const PaHostApiInfo * Pa_GetHostApiInfo(PaHostApiIndex hostApi) {
-	D(": %d = NULL", __func__, hostApi);
-	return NULL;
+	static const PaHostApiInfo info = {
+		.structVersion = 1,
+		.type = paInDevelopment,
+		.name = "stm32f4_audio_hostapi",
+		.deviceCount = 1,
+		.defaultInputDevice = 0,
+		.defaultOutputDevice = 0
+	};
+
+	D(": %d = %p", __func__, hostApi, hostApi == 0 ? &info : NULL);
+	return hostApi == 0 ? &info : NULL;
 }
 
 const PaStreamInfo * Pa_GetStreamInfo(PaStream *stream) {
@@ -173,9 +210,23 @@ PaError Pa_CloseStream(PaStream *stream) {
 	return paNoError; 
 }
 
+static void data16_to_16(uint16_t *dest, uint16_t *src, size_t len) {
+	while (len--) {
+		*dest++ = le16_to_cpu(*src++);
+	}
+}
+
+static void data32_to_16(uint16_t *dest, uint32_t *src, size_t len) {
+	uint16_t *src16 = (uint16_t *)src;
+
+	while (len--) {
+		++src16;
+		*dest++ = le16_to_cpu(*src16++);
+	}
+}
+
 static void strm_get_data(struct pa_strm *strm, uint16_t *buf, size_t len) {
 	static uint32_t callback_buf[BUF_SZ];
-	uint16_t *callback_buf16;
 	int rc;
 
 	assert(strm != NULL);
@@ -189,14 +240,15 @@ static void strm_get_data(struct pa_strm *strm, uint16_t *buf, size_t len) {
 	}
 	else assert(rc == paContinue);
 
-	callback_buf16 = (uint16_t *)callback_buf;
-	while (len--) {
-		callback_buf16++;
-		//printk("%#2hhx ", *((unsigned char *)callback_buf16));
-		//printk("%#2hhx ", *((unsigned char *)callback_buf16 + 1));
-		//if (len % 8 == 0)
-		//	printk("\n");
-		*buf++ = le16_to_cpu(*callback_buf16++);
+	switch (strm->sample_format) {
+	default:
+		assert(0);
+	case paInt16:
+		data16_to_16(buf, (uint16_t *)callback_buf, len);
+		break;
+	case paInt32:
+		data32_to_16(buf, callback_buf, len);
+		break;
 	}
 }
 
@@ -261,17 +313,7 @@ uint32_t Codec_TIMEOUT_UserCallback(void) {
 }
 
 void EVAL_AUDIO_HalfTransfer_CallBack(uint32_t pBuffer, uint32_t Size) {
-	//printk("half: %x %x\n", pBuffer, Size);
-	static int half = 1;
-	if (!_strm->completed) {
-		strm_get_data(_strm, half ? _strm->buf : &_strm->buf[ARRAY_SIZE(_strm->buf) / 2], ARRAY_SIZE(_strm->buf) / 2);
-		half = !half;
-	}
-//	assert(_strm != NULL);
-//	printk("half: %x %x\n", pBuffer, Size);
-//	if (!_strm->completed) {
-//		strm_get_data(_strm, _strm->buf, ARRAY_SIZE(_strm->buf));
-//	}
+	lthread_launch(halftransfer_irq_handler);
 }
 
 void EVAL_AUDIO_TransferComplete_CallBack(uint32_t pBuffer, uint32_t Size) {

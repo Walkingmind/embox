@@ -42,6 +42,14 @@ int kformat(const char *pathname, const char *fs_type) {
 	return -1;
 }
 
+int krename(const char *oldpath, const char *newpath) {
+	return -1;
+}
+
 int kumount(const char *dir) {
+	return -1;
+}
+
+int kflock(int fd, int operation) {
 	return -1;
 }

@@ -28,6 +28,8 @@
 OBJALLOC_DEF(dir_pool, DIR, MAX_DIR_QUANTITY);
 
 DIR *opendir(const char *path) {
+	return SET_ERRNO(ENOSYS), NULL;
+#if 0
 	struct path node_path, leaf;
 	DIR *d;
 	int res;
@@ -62,9 +64,12 @@ DIR *opendir(const char *path) {
 	d->current.d_ino = 0;
 
 	return d;
+#endif
 }
 
 int closedir(DIR *dir) {
+	return SET_ERRNO(ENOSYS);
+#if 0
 	if (NULL == dir) {
 		SET_ERRNO(EBADF);
 		return -1;
@@ -73,9 +78,12 @@ int closedir(DIR *dir) {
 	objfree(&dir_pool, dir);
 
 	return 0;
+#endif
 }
 
 struct dirent *readdir(DIR *dir) {
+	return SET_ERRNO(ENOSYS), NULL;
+#if 0
 	struct path child;
 
 	SET_ERRNO(0);
@@ -95,4 +103,5 @@ struct dirent *readdir(DIR *dir) {
 	dir->current.d_ino = (ino_t)child.node;
 
 	return &dir->current;
+#endif
 }

@@ -10,14 +10,18 @@
 #include <kernel/thread/thread_local.h>
 #include <kernel/task/thread_key_table.h>
 
+#include <kernel/printk.h>
+
 int pthread_setspecific(pthread_key_t key, const void *value) {
 	pthread_t pt = pthread_self();
+	printk("setspec %d %p; self %p\n", key, value, pt);
 
 	return thread_local_set(pt, key, (void *)value);
 }
 
 void *pthread_getspecific(pthread_key_t key) {
 	pthread_t pt = pthread_self();
+	printk("getspec %d; self %p\n", key, pt);
 
 	return thread_local_get(pt, key);
 }

@@ -41,7 +41,13 @@ int thread_local_free(struct thread *t) {
 	return ENOERR;
 }
 
+#define DATA_SZ 10
+//static void *data[DATA_SZ];
 void *thread_local_get(struct thread *t, size_t idx) {
+#if 0
+	assert(idx < DATA_SZ);
+	return data[idx];
+#else
 	void *res;
 	struct thread_key_table *kt;
 
@@ -60,9 +66,15 @@ void *thread_local_get(struct thread *t, size_t idx) {
 	mutex_unlock(&kt->mutex);
 
 	return res;
+#endif
 }
 
 int thread_local_set(struct thread *t, size_t idx, void *value) {
+#if 0
+	assert(idx < DATA_SZ);
+	data[idx] = value;
+	return 0;
+#else
 	int res = ENOERR;
 	struct thread_key_table *kt;
 
@@ -81,4 +93,5 @@ int thread_local_set(struct thread *t, size_t idx, void *value) {
 	mutex_unlock(&kt->mutex);
 
 	return res;
+#endif
 }

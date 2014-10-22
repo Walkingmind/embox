@@ -62,7 +62,7 @@ static module fsop {
 
 	depends embox.kernel.task.resource.errno
 	depends embox.fs.core
-	depends embox.fs.Perm
+	//depends embox.fs.Perm
 	depends embox.fs.SysLibFileSystem
 	depends umask // mkdir
 }

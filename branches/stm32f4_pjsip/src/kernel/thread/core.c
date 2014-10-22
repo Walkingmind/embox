@@ -149,6 +149,7 @@ struct thread *thread_create(unsigned int flags, void *(*run)(void *), void *arg
 out_unlock:
 	sched_unlock();
 
+	printk("thread_create = %p\n", t);
 	return t;
 }
 

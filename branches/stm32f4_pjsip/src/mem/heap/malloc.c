@@ -36,6 +36,7 @@ void *memalign(size_t boundary, size_t size) {
 	return mspace_memalign(boundary, size, task_self_mspace());
 }
 
+#include <kernel/printk.h>
 void *malloc(size_t size) {
 	void *ptr;
 
@@ -44,6 +45,7 @@ void *malloc(size_t size) {
 	}
 
 	ptr = mspace_malloc(size, task_self_mspace());
+	//printk("malloc %zu = %p\n", size, ptr);
 
 	if (ptr == NULL) {
 		if (size == 0) {

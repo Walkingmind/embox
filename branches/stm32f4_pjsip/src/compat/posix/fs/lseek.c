@@ -9,26 +9,24 @@
 #include <sys/types.h>
 #include <unistd.h>
 #include <fs/kfile.h>
-#include <fs/file_desc.h>
 #include <fs/index_descriptor.h>
 #include <fs/idesc.h>
 #include <kernel/task.h>
 
+extern const struct idesc_ops idesc_file_ops;
+
 off_t lseek(int fd, off_t offset, int origin) {
-	struct file_desc *desc;
+	struct idesc *idesc;
 	off_t ret;
 
 	if (!idesc_index_valid(fd)
-			|| (NULL == index_descriptor_get(fd))) {
+			|| (NULL == (idesc = index_descriptor_get(fd))) 
+			|| (idesc->idesc_ops != &idesc_file_ops)) {
 		return SET_ERRNO(EBADF);
 	}
 
-	desc = file_desc_get(fd);
-	if (desc == NULL) {
-		return -ESPIPE;
-	}
-
-	ret = kseek(desc, offset, origin);
+	ret = kseek(member_cast_out(idesc, struct file_desc, idesc),
+			offset, origin);
 	if (ret < 0) {
 		return SET_ERRNO(-ret);
 	}

@@ -27,6 +27,7 @@ int creat(const char *pathname, mode_t mode) {
 	return rc;
 }
 
+#if 0
 int mkdir(const char *pathname, mode_t mode) {
 	int rc;
 	struct path leaf;
@@ -36,6 +37,7 @@ int mkdir(const char *pathname, mode_t mode) {
 	DPRINTF(("mkdir(%s, %d ...) = %d\n", pathname, mode, rc));
 	return rc;
 }
+#endif
 
 int remove(const char *pathname) {
 	int rc;
@@ -77,6 +79,7 @@ int stat(const char *path, struct stat *buf) {
 	return rc;
 }
 
+#if 0
 int truncate(const char *path, off_t length) {
 	struct path node, leaf;
 	int res;
@@ -93,6 +96,7 @@ int truncate(const char *path, off_t length) {
 	DPRINTF(("truncate(%s, %d ...) = %d\n", path, length, res));
 	return res;
 }
+#endif
 
 int flock(int fd, int operation) {
 	return kflock(fd, operation);

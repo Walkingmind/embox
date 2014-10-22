@@ -37,6 +37,8 @@ struct node *find_node(DIR *dir, char * node_name) {
 extern int kcreat(struct path *dir, const char *path, mode_t mode, struct path *child);
 
 int open(const char *path, int __oflag, ...) {
+	return SET_ERRNO(ENOSYS);
+#if 0
 	char path_buf[PATH_MAX];
 	char name[NAME_MAX];
 	struct file_desc *kfile;
@@ -127,4 +129,5 @@ out:
 	closedir(dir);
 
 	return rc >= 0 ? rc : SET_ERRNO(-rc);
+#endif
 }

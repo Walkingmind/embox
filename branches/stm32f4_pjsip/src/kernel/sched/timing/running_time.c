@@ -33,8 +33,8 @@ void sched_timing_start(struct schedee *s) {
 }
 
 void sched_timing_stop(struct schedee *s) {
-	struct thread *t = mcast_out(s, struct thread, schedee);
+	//struct thread *t = mcast_out(s, struct thread, schedee);
 	clock_t spent = clock() - s->sched_timing.last_sync;
 	s->sched_timing.running_time += spent;
-	task_set_clock(t->task, task_get_clock(t->task) + spent);
+	//task_set_clock(t->task, task_get_clock(t->task) + spent);
 }

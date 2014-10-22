@@ -38,6 +38,7 @@ static struct thread *boot_thread_create(void) {
 	bootstrap = thread_init_stack(&_stack_top - kernel_stack_sz, kernel_stack_sz,
 			THREAD_PRIORITY_NORMAL, boot_stub, NULL);
 
+	printk("bootstrap %p; kernel_task %p\n", bootstrap, task_kernel_task());
 	task_set_main(task_kernel_task(), bootstrap);
 
 	return bootstrap;
