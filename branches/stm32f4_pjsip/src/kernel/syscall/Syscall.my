@@ -1,0 +1,10 @@
+package embox.kernel
+
+module syscall {
+	source "syscall.c"
+
+	//depends embox.arch.syscall
+	depends embox.kernel.syscall.syscall_table 
+	depends embox.mem.mmap_api
+	depends embox.kernel.task.resource.mmap
+}

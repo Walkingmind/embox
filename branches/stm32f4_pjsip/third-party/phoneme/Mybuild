@@ -1,0 +1,10 @@
+package third_party.phoneme
+
+@Build(stage=1,script="$(EXTERNAL_MAKE) download extract patch")
+module src {
+}
+
+module hello {
+	@InitFS
+	source "hello.jar" /* XXX bug in initfs. IT must be hello/hello.jar */
+}
