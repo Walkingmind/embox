@@ -6,8 +6,21 @@ svn checkout http://embox.googlecode.com/svn/trunk/crosstool
 затем перейти в папку *crosstool* и собрать требуемый компелятор с помощью скрипта
 {{{
 cd crosstool
-./crosstool <ARCH>
+./crosstool.sh <ARCH>
 }}}
 
 ARCH может быть следующим: arm, microblaze, ppc, mips, sparc, i386
 
+Для сборки нужно установить следующие пакеты:
+  * libisl-dev
+  * libcloog-isl-dev
+  * gcc-multilib
+  * g++-multilib
+  * libncurses5-dev
+  * texinfo
+
+Это можно сделать командами
+{{{
+sudo apt-get install libisl-dev libcloog-isl-dev gcc-multilib g++-multilib
+sudo apt-get install libncurses5-dev texinfo
+}}}
