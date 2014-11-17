@@ -1,6 +1,4 @@
 
-.PHONY: $$(image_prerequisites)
-
 include $(MKGEN_DIR)/build.mk
 include mk/flags.mk
 include $(SRCGEN_DIR)/image.rule.mk
@@ -31,7 +29,7 @@ EMBOX_IMPORTED_LDFLAGS_FULL += $(__image_ld_libs1:.%=-Wl,$(rootdir)%)
 EMBOX_IMPORTED_LDFLAGS_FULL += -Wl,--end-group
 
 # We are not including user ld scripts in flags, since it is not required to do
-# working object, only compilation errors are matter. If required, place it below 
+# working object, only compilation errors are matter. If required, place it below
 # --relax flag and perfrom 2 phase link at arch-unknown-embox, first with user lds,
 # next with image.lds
 #EMBOX_IMPORTED_LDFLAGS_FULL += $(__image_ld_scripts1:.%=-Wl,-T,$(rootdir)%)
@@ -50,8 +48,6 @@ $(EMBOX_GCC_ENV): | $(dir $(EMBOX_GCC_ENV))
 	@echo EMBOX_IMPORTED_LDFLAGS="'"$(EMBOX_IMPORTED_LDFLAGS)"'"           >> $@
 	@echo EMBOX_IMPORTED_LDFLAGS_FULL="'"$(EMBOX_IMPORTED_LDFLAGS_FULL)"'" >> $@
 
-$$(image_prerequisites):
-
 TOOLCHAIN_TEST_SRC := $(ROOT_DIR)/mk/extbld/toolchain_test.c
 TOOLCHAIN_TEST_OUT := $(OBJ_DIR)/toolchain_test
 
@@ -64,7 +60,7 @@ do_test : $(TOOLCHAIN_TEST_OUT)
 $(TOOLCHAIN_TEST_OUT): $(EMBOX_GCC_ENV)
 ifeq ($(filter usermode%,$(ARCH)),)
 	EMBOX_GCC_LINK=full $(EMBOX_GCC) $(TOOLCHAIN_TEST_SRC) -o $(TOOLCHAIN_TEST_OUT)
-else 
+else
 	@echo "Full linking mode isn't supported for usermode arch!"
 endif
 

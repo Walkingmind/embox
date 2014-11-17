@@ -29,10 +29,13 @@ export DOC_DIR        := $(ROOT_DIR)/build/doc
 
 export BIN_DIR        := $(BUILD_DIR)/bin
 export OBJ_DIR        := $(BUILD_DIR)/obj
-export LIB_DIR        := $(BUILD_DIR)/lib
-export SRCGEN_DIR     := $(BUILD_DIR)/src-gen
-export MKGEN_DIR      := $(SRCGEN_DIR)
-export AUTOCONF_DIR   := $(SRCGEN_DIR)
+
+export DIST_DIR       := $(BUILD_DIR)
+export GEN_DIR        := $(DIST_DIR)/gen
+export SRCGEN_DIR     := $(GEN_DIR)
+export MKGEN_DIR      := $(GEN_DIR)
+export AUTOCONF_DIR   := $(GEN_DIR)
+
 export ROOTFS_DIR     := $(OBJ_DIR)/rootfs
 export ROOTFS_IMAGE   := $(OBJ_DIR)/rootfs.cpio
 export USER_ROOTFS_DIR:= $(CONF_DIR)/rootfs
@@ -61,7 +64,7 @@ export CPIO   := $(shell for i in gcpio cpio; do type $$i >/dev/null 2>&1 && ech
 export AWK    := $(shell for i in gawk awk nawk mawk; do type $$i >/dev/null 2>&1 && echo $$i && break; done)
 export TSORT  := tsort
 export TAC    := $(if $(shell which tac),tac,tail -rq)
-export SEQ    := seq -w 
+export SEQ    := seq -w
 export ECHO   := $(shell which echo) #force using feature-rich echo instead of shell builtin
 
 # Check Make version (we need at least GNU Make 3.81). Fortunately,

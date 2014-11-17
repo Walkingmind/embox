@@ -154,3 +154,6 @@ override ARFLAGS = rcs
 
 CCFLAGS ?=
 
+INCLUDES_FROM_FLAGS := \
+	$(patsubst -I%,%,$(filter -I%,$(CPPFLAGS) $(CXXFLAGS)))
+
