@@ -34,12 +34,12 @@ cmd_notouch = \
 # Creates shell script with command if it is too big to be passed through
 # command line. Must be called from recipe.
 #   1. Output file.
-#   2. The complete command 
+#   2. The complete command
 cmd_assemble = \
 	$(ECHO) '$(\h)!/bin/sh' > $1; \
 	$(foreach w,$2,$(ECHO) -n $(strip $(call sh_quote,$w)) ""  >> $1$(\n))
 
-#cmd_notouch = \
+# cmd_notouch = \
 	OUTFILE=$(call trim,$1); { $2; }
 
 #   1. Output file.
@@ -95,7 +95,7 @@ gen_make_dep = \
 # 2. Variable name.
 # 3. Value.
 gen_make_tsvar = \
-	$(PRINTF) '%s : %s := %s\n\n' \
+	$(PRINTF) '%s : %s := %s\n' \
 		$(call sh_quote,$1) \
 		$(call sh_quote,$2) \
 		$(call sh_quote,$3)
@@ -103,7 +103,7 @@ gen_make_tsvar = \
 # 2. Funtion name.
 # 3. Function body.
 gen_make_tsfn = \
-	$(PRINTF) '%s : %s = %s\n\n' \
+	$(PRINTF) '%s : %s = %s\n' \
 		$(call sh_quote,$1) \
 		$(call sh_quote,$2) \
 		$(call sh_quote,$3)
@@ -150,7 +150,7 @@ build_sources := \
 		$(addprefix $m,$(call get,$m,sources)))
 
 # 1. Annotation target
-# 2. Annotation option 
+# 2. Annotation option
 annotation_value = $(call get,$(call invoke,$1,getAnnotationValuesOfOption,$2),value)
 
 #
@@ -209,7 +209,6 @@ __gen_stage = \
 $(@build_image) :
 	@$(call cmd_notouch_stdout,$(@file), \
 		$(gen_banner); \
-		$(call gen_make_var,__image_prerequisities,$$$$(image_prerequisites)); \
 		$(call gen_make_var,__image_mk_file,$(mk_file)); \
 		$(call __gen_stage,1); \
 		$(call __gen_stage,2))
@@ -389,7 +388,7 @@ $(@module_ld_rmk) $(@module_ar_rmk) : is_app = \
 
 build_deps = $(call annotation_value,$1,$(my_bld_dep_value))
 
-# Maps moduleType to that one, which instance is in build. For example, if 'api' extended 
+# Maps moduleType to that one, which instance is in build. For example, if 'api' extended
 # by 'impl1' and 'impl2', and 'impl2' is in build, calling this with 'api' moduleType will
 # return moduleType of 'impl2'.
 # 1. moduleType
@@ -614,7 +613,7 @@ source_initfs_cp_target_name=$(or $(strip \
 	$(call get,$(call source_annotation_values,$s,$(my_initfs_target_name)),value)),$(call get,$s,fileName))
 source_initfs_cp_out = $(addprefix $$(ROOTFS_DIR)/, \
 	       $(foreach s,$1,$(source_initfs_cp_target_dir)/$(source_initfs_cp_target_name)))
-	
+
 $(@source_initfs_cp_rmk) : out = $(call source_initfs_cp_out,$@)
 $(@source_initfs_cp_rmk) : src_file = $(file)
 $(@source_initfs_cp_rmk) : mk_file = $(patsubst %,$(value source_rmk_mk_pat),$(file))
@@ -647,3 +646,101 @@ $(@source_gen) :
 	+@$(call cmd_notouch_stdout,$(@file), \
 		$(script))
 
+
+ifdef GEN_DIST
+
+%/. :
+	@$(MKDIR) $*
+
+.SECONDEXPANSION :
+
+@source_dist := \
+	$(addprefix source-dist/,$(notdir $(build_sources)))
+
+all .PHONY : $(@source_dist)
+
+$(@source_dist) : file = $(call source_file,$@)
+$(@source_dist) : @file = $(DIST_DIR)/$(file)
+$(@source_dist) : @dir = $(patsubst %/,%,$(dir $(@file)))
+$(@source_dist) : | $$(@dir)/.
+$(@source_dist) :
+	@if [ -e $(file) ]; then cp -Trf $(file) $(@file); fi
+
+@dist_cpfiles := $(addprefix dist-cpfile-/$(DIST_DIR)/, \
+	mk/core/common.mk \
+	mk/core/string.mk \
+	$(wildcard mk/extbld/*) \
+	mk/script/application_template.c \
+	mk/script/lds-apps.mk \
+	mk/script/nm2c.awk \
+	mk/script/qt-plugin.mk \
+	mk/script/script-common.mk \
+	mk/arhelper.mk \
+	mk/build-dist.mk \
+	mk/extbld.mk \
+	mk/flags.mk \
+	mk/image.lds.S \
+	mk/image2.mk \
+	mk/image3.mk \
+	mk/image_lib.mk \
+	mk/main-stripping.mk \
+	mk/main-dist.mk \
+	mk/main-stripping.sh \
+	mk/phymem_cc_addon.tmpl.c \
+	Makefile)
+
+@dist_cpfiles += $(addprefix dist-cpfile-/$(DIST_DIR)/, \
+	doc \
+	$(SRC_DIR)/arch/$(ARCH)/embox.lds.S)
+
+__source_dirs := $(sort $(dir $(call source_file,$(build_sources))))
+@dist_cpfiles += $(addprefix dist-cpfile-/$(DIST_DIR)/, \
+	$(wildcard $(foreach e,*.h *.inc,$(addsuffix $e,$(__source_dirs)))))
+
+include mk/flags.mk  # INCLUDES_FROM_FLAGS
+
+@dist_includes := $(addprefix dist-includes-/,$(sort \
+	$(call filter-patsubst,$(abspath $(ROOT_DIR))/%,$(DIST_DIR)/%, \
+		$(filter-out $(abspath \
+				$(DIST_DIR) $(DIST_DIR)/% \
+				$(CONF_DIR) $(CONF_DIR)/%),$(abspath \
+			$(call expand,$(call get, \
+				$(sort $(call source_annotation_values,$(build_sources), \
+					$(my_incpath_val) $(my_incpath_before_val))),value)) \
+			$(INCLUDES_FROM_FLAGS))))))
+
+# remove nested directories
+@dist_includes := \
+	$(filter-out $(addsuffix /%,$(@dist_includes)),$(@dist_includes))
+
+@dist_conf := $(addprefix dist-conf-/$(DIST_DIR)/conf/, \
+	rootfs \
+	start_script.inc)
+
+@dist_all := \
+	$(@dist_cpfiles) \
+	$(@dist_includes) \
+	$(@dist_conf)
+
+
+all .PHONY : $(@dist_all)
+
+$(@dist_cpfiles) : dist-cpfile-/% : | $$(*D)/.
+$(@dist_cpfiles) : @file = $(subst -dist.,.,$(@:dist-cpfile-/%=%))
+$(@dist_cpfiles) : file = $(@:dist-cpfile-/$(DIST_DIR)/%=$(ROOT_DIR)/%)
+$(@dist_cpfiles) :
+	@cp -Trf $(file) $(@file)
+
+
+$(@dist_includes) : dist-includes-/% : | $$(*D)/.
+$(@dist_includes) : @file = $(@:dist-includes-/%=%)
+$(@dist_includes) : file = $(@file:$(DIST_DIR)/%=$(ROOT_DIR)/%)
+
+$(@dist_conf) : dist-conf-/% : | $$(*D)/.
+$(@dist_conf) : @file = $(@:dist-conf-/%=%)
+$(@dist_conf) : file = $(@file:$(DIST_DIR)/conf/%=$(CONF_DIR)/%)
+
+$(@dist_includes) $(@dist_conf) :
+	@if [ -e $(file) ]; then cp -Trf $(file) $(@file); fi
+
+endif # GEN_DIST

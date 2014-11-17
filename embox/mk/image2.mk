@@ -6,7 +6,7 @@
 
 ifeq ($(STAGE),1)
 embox_o   := $(OBJ_DIR)/embox.o
-else 
+else
 embox_o   := $(OBJ_DIR)/embox-2.o
 $(embox_o) : $(OBJ_DIR)/embox.o
 endif
@@ -126,7 +126,10 @@ $(embox_o): $$(common_prereqs)
 
 stages := $(wordlist 1,$(STAGE),1 2)
 
-$(embox_o) : $(__image_prerequisities)
+image_prereqs = $(common_prereqs) \
+	$(ld_scripts) $(ld_objs) $(ld_libs)
+
+$(embox_o) : $$(image_prereqs)
 $(embox_o) : mk_file = $(__image_mk_file)
 $(embox_o) : ld_scripts = $(__image_ld_scripts1) # TODO check this twice
 $(embox_o) : ld_objs = $(foreach s,$(stages),$(__image_ld_objs$s))
@@ -140,6 +143,3 @@ $(image_lds) : flags = \
 			$(if $(value PLATFORM), \
 				$(PLATFORM_DIR)/$(PLATFORM)/arch/$(ARCH)/platform.lds.S)))
 -include $(image_lds).d
-
-image_prerequisites = $(mk_file) \
-	$(ld_scripts) $(ld_objs) $(ld_libs)
