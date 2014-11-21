@@ -10,7 +10,7 @@ PKG_PATCHES := pkg_patch.txt
 include $(EXTBLD_LIB)
 
 define option_get
-$(shell echo OPTION_BOOLEAN_third_party__qt__core__$(1) | gcc -P -E -include $(ROOT_DIR)/build/base/src-gen/include/config/third_party/qt/core.h -)
+$(shell echo OPTION_BOOLEAN_third_party__qt__core__$(1) | gcc -P -E -include $(SRCGEN_DIR)/include/config/third_party/qt/core.h -)
 endef
 
 QT_CONF_FLAGS := -hostprefix $(PKG_INSTALL_DIR)
@@ -79,7 +79,7 @@ QT_CFLAGS   := $(QT_CPPFLAGS) -Wno-error
 QT_CXXFLAGS := $(QT_CPPFLAGS) $(filter -I%,$(EMBOX_CXXFLAGS)) -fpermissive -Wno-error
 QT_CXXFLAGS := $(subst -I./,-I$(ROOT_DIR)/,$(QT_CXXFLAGS))
 
-$(CONFIGURE) : 
+$(CONFIGURE) :
 	cd $(PKG_SOURCE_DIR) && ( \
 		CC='$(EMBOX_GCC)' CXX='$(EMBOX_GXX)' CFLAGS='$(QT_CFLAGS)' CXXFLAGS='$(QT_CXXFLAGS)' \
 			m4 --prefix-builtins $(QMAKE_CONF_M4) > $(QMAKE_CONF) && \
@@ -87,7 +87,7 @@ $(CONFIGURE) :
 	)
 	touch $@
 
-$(BUILD) : 
+$(BUILD) :
 	cd $(PKG_SOURCE_DIR) && ( \
 		make MAKEFLAGS='$(EMBOX_MAKEFLAGS)' \
 	)
@@ -95,7 +95,7 @@ $(BUILD) :
 
 $(ROOTFS_IMAGE) : $(INSTALL)
 
-$(INSTALL) : 
+$(INSTALL) :
 	cd $(PKG_SOURCE_DIR) && ( \
 		make install MAKEFLAGS='$(EMBOX_MAKEFLAGS)' \
 	)
