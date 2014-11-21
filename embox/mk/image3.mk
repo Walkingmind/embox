@@ -13,7 +13,6 @@ all : image
 
 FORCE :
 
-include mk/core/common.mk
 include mk/image_lib.mk
 
 include $(MKGEN_DIR)/build.mk
@@ -32,8 +31,8 @@ include mk/flags.mk # It must be included after a user-defined config.
 
 ld_prerequisites =
 ar_prerequisites =
-initfs_prerequisites = 
-initfs_cp_prerequisites = 
+initfs_prerequisites =
+initfs_cp_prerequisites =
 
 .SECONDEXPANSION:
 
@@ -113,7 +112,7 @@ image_pass1_o = $(OBJ_DIR)/image_pass1.o
 image_files := $(IMAGE) $(image_nosymbols_o) $(image_pass1_o)
 
 #XXX
-FINAL_LINK_WITH_CC ?= 
+FINAL_LINK_WITH_CC ?=
 ifeq (1,$(FINAL_LINK_WITH_CC))
 
 ram_sz :=$(shell echo LDS_REGION_SIZE_RAM | $(CC) -E -P -imacros $(SRCGEN_DIR)/config.lds.h - | sed 's/M/*1024*1024/' | bc)
@@ -122,9 +121,9 @@ phymem_cflags_addon := \
 	-Wl,--defsym=_reserve_end=__phymem_space \
 	-Wl,--defsym=_ram_size=$(ram_sz) \
 	-DPHYMEM_SPACE_SIZE=$(ram_sz) \
-	mk/phymem_cc_addon.tmpl.c 
+	mk/phymem_cc_addon.tmpl.c
 
-FINAL_LDFLAGS ?= 
+FINAL_LDFLAGS ?=
 $(image_nosymbols_o): $(image_lds) $(embox_o) $$(common_prereqs)
 	$(CC) -Wl,--relax \
 	$(embox_o) \
@@ -226,7 +225,7 @@ $(__cpio_files) : FORCE
 			attr -s $(basename $(subst =,.,$a)) -V $(subst .,,$(suffix $(subst =,.,$a))) $f;) \
 		find $f -name .svn -type d -print0 | xargs -0 /bin/rm -rf)
 
-__copy_user_rootfs : 
+__copy_user_rootfs :
 	if [ -d $(USER_ROOTFS_DIR) ]; \
 	then \
 		cd $(USER_ROOTFS_DIR) \
