@@ -53,7 +53,6 @@ EXTERNAL_MAKE_FLAGS = \
 			DOC_DIR \
 			BIN_DIR \
 			OBJ_DIR \
-			LIB_DIR \
 			GEN_DIR \
 			SRCGEN_DIR \
 			MKGEN_DIR \
