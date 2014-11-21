@@ -10,7 +10,7 @@ PKG_PATCHES := pkg_patch.txt
 include $(EXTBLD_LIB)
 
 define option_get
-$(shell echo OPTION_BOOLEAN_third_party__cmd__lua__$(1) | gcc -P -E -include $(ROOT_DIR)/build/base/src-gen/include/config/third_party/cmd/lua.h -)
+$(shell echo OPTION_BOOLEAN_third_party__cmd__lua__$(1) | gcc -P -E -include $(SRCGEN_DIR)/include/config/third_party/cmd/lua.h -)
 endef
 
 LUA_CPPFLAGS :=
@@ -21,7 +21,7 @@ ifneq (0,$(call option_get,luabitop_support))
 LUA_CPPFLAGS += -DLUABITOP_SUPPORT
 endif
 
-$(BUILD) : 
+$(BUILD) :
 	cd $(PKG_SOURCE_DIR) && ( \
 		make posix MAKEFLAGS='$(EMBOX_IMPORTED_MAKEFLAGS)' \
 			CC=$(EMBOX_GCC) \
@@ -30,7 +30,7 @@ $(BUILD) :
 	)
 	touch $@
 
-$(INSTALL) : 
+$(INSTALL) :
 	cp $(PKG_SOURCE_DIR)/src/lua $(PKG_INSTALL_DIR)/lua.o
 	mkdir -p $(PKG_INSTALL_DIR)/include
 	cp $(PKG_SOURCE_DIR)/src/lua.h $(PKG_INSTALL_DIR)/include/
