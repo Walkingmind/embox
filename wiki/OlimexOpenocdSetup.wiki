@@ -12,12 +12,12 @@ Assuming you have Olimex SAM7 series board with JTAG interface adapter. You can 
  * OpenOCD have predefined configs for boards and interfaces. You should combine boards/olimex_sam7_ex256 with one in interfaces, that suite your JTAG adapter, in openocd.conf. Or you can use predefined [http://embox.googlecode.com/files/openocd.cfg one]
  * In command line run 
 {{{
-openocd openocd.conf
+openocd -f openocd.conf
 }}}
  * Now you have gdb-server compatible environment on your local machine on tcp port 3333. You can simply load firmware like
 {{{
 gdb build/base/bin/embox # provide elf file
-(gdb) target remote-extended :3333
+(gdb) target extended-remote :3333
 (gdb) load
 (gdb) continue
 }}}
