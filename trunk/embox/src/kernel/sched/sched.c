@@ -65,11 +65,6 @@ int sched_init(struct schedee *current) {
 	runq_init(&rq.queue);
 	rq.lock = SPIN_UNLOCKED;
 
-#if 0
-	assert(idle->waiting); // XXX
-	sched_wakeup(idle);
-#endif
-
 	sched_set_current(current);
 
 	sched_ticker_init();
@@ -88,7 +83,7 @@ void sched_set_current(struct schedee *schedee) {
 
 static void sched_check_preempt(struct schedee *t) {
 	// TODO ask runq
-	if (schedee_priority_get(&schedee_get_current()->priority) < 
+	if (schedee_priority_get(&schedee_get_current()->priority) <
 			schedee_priority_get(&t->priority))
 		sched_post_switch(); // TODO SMP
 }
@@ -149,10 +144,10 @@ static void __sched_freeze(struct schedee *s) {
 	spin_lock(&rq.lock);
 	{
 		in_rq = s->ready && !sched_active(s);
-		
+
 		if (in_rq)
 			__sched_dequeue(s);
-		
+
 		s->ready = false;
 
 		/* XXX ponder on safety of the below code outside of the rq->lock*/
