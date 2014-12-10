@@ -1,0 +1,8 @@
+package embox.kernel
+
+module critical {
+	source "critical.c"
+
+	depends embox.kernel.cpu.bkl_api
+	depends embox.kernel.cpu.cpudata_api
+}
