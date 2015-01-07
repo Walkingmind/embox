@@ -1,88 +1,108 @@
-#summary First steps
-#labels Featured
+#summary Getting started
 
-This page describes simple steps to get the first Embox image running on x86 simulator (using the QEMU simulator). More detailed introductions can be found in the corresponding sections.
-There are also platform-specific instructions available separately for each of [PlatformsDescription supported platforms].
+This page describes a simple way to build and run Embox.
 
-= [InstallToolchain Preparing environment] = 
-Depending on your operating system perform the following steps. If it is unclear for you what is happening below please refer to the [InstallToolchain complete manual].
-<table cellspacing="10" width="839"><tr valign="top"><td width="50%">
-== Windows ==
-First you have to install [http://cygwin.com/ Cygwin] Unix compatibility layer. During normal installation you'll be asked for additional packages, choose *make* and *gcc*. In the most case that will be enough.
- There are possible issues with using default gcc from Cygwin. If you are experiencing some problems with building Embox, try to use [http://code.google.com/p/embox/wiki/Downloads?tm=2#Tools our build] of gcc as one known to work.
+Required environment:
+ * gcc and make
+ * cross compiler for taget platform
+
+= Preparing environment =
+<table cellspacing="10"><tr valign="top"><td width="50%">
+== Windows(R) (Cygwin) ==
+Install [http://cygwin.com/ cygwin]. During installation choose make and gcc packages.
+More details [InstallToolchainWindowsCygwin here].
 </td><td>
 == Linux ==
-Linux boxes usually already have working compilation environment. If not, simply install *make* and *gcc* with your packet manager.
- For example, there is metapackage on Ubuntu for those things, installing is quite simple:
+Usually essential environment is installed out of box in case of Linux. If it isn’t, you can do it yourself. For Debian-based systems:
 {{{
-sudo apt-get install build-essential
+$ sudo apt-get install build-essential
 }}}
 </td></tr></table>
-
-= [BuildingEmbox Building Embox] =
-Well, you've installed build environment, now it's time to perform you first Embox build. Embox is highly configurable, it consists of a set of modules that can be configured with custom options, and compiling it is not just typing `make`.
-
-Anyway, first of all, you have to go into `embox` directory (which contains `src/`, `mk/`, etc.):
+= Building Embox =
+Since Embox is highly configurable project, it is necessary to specify modules to be built and params for them. To build project make command is used.
+All command described below are called from the root directory of the project which includes (conf/, src/, ...)
 {{{
-cd embox
+$ cd embox
 }}}
 
-== Configuring ==
-Before actually compiling the system, you have to describe a configuration to build.
-
-Embox is bundled with a set of common configuration templates for various architectures and purposes. It is much more easy to modify one of them instead of writing your own from scratch. To list all available template just type:
+== Configuring Embox ==
+For configuring it is needed to specify params and modules supposed to be included in the system. Embox has several prepared templates, to see the list of them use the following command:
 {{{
 $ make confload
 }}}
-
-Once you know the name of the template, you should _load_ it in order to be able to build it.
 <table cellspacing="10" width="839"><tr valign="top"><td width="50%">
-The simplest way to load it is to type the following line with *`<template>`* substituted by the desired value.
+The simplest way to load a template is to specify its name in command:
 {{{
 make confload-<template>
 }}}
 </td><td>
-For example, if you want to play with Embox just as on a real machine, configure it using *`x86/debug`* template:
+
+For the quick overview you can use qemu template, that exists for each architecture. For x86 it is *`x86/qemu`*:
 {{{
-make confload-x86/debug
+make confload-x86/qemu
 }}}
 </td></tr></table>
 
-Another way of loading a template is using an interactive menu (however, it requires `dialog` program to be installed):
+Project configurations for different target platform you can find
+[PlatformsDescription here].
+
+== Image building ==
+After configuring the project it is enough just to run make script:
 {{{
-$ make menuconfig
+$ make
 }}}
 
-== Compiling ==
-Now you can build Embox just typing
+== Launching on QEMU ==
+The built image can be run on QEMU. The simplest way is to execute ./scripts/qemu/auto_qemu script:
 {{{
+$ sudo ./scripts/qemu/auto_qemu
+}}}
+In this script tuntab is created, so it requires superuser rights. Despite that, script uses ethtool util, that can be installed on Debian-based system as follows:
+{{{
+$ sudo apt-get install ethtool
+}}}
+If the launch succeeds, messages are output on QEMU screen. After the system is loaded, you’ll see the prompt
+"embox>", now you are able to run commans.
+For exmple, "help" lists all existing commands.
+
+For testing the connection ping 10.0.2.16. If the connection is established you can connect to the Embox terminal via telnet.
+
+To quit from Qemu type *ctrl + 'a'* and *'X'* after that.
+
+== Debugging ==
+For debugging you can use the same script with *-s -S -no-kvm* flags:
+{{{
+$ sudo ./scripts/qemu/auto_qemu -s -S -no-kvm
+}}}
+After that QEMU is waitig for connection by a gdb-client.
+
+For debugging via console debugger run gdb in the other terminal:
+{{{
+$ gdb ./build/base/bin/embox
+...
+(gdb) target extended-remote :1234
+(gdb) continue
+}}}
+Now system starts loading.
+
+At any moment in gdb terminal you can type *ctrl + 'c'* and see the stack of the current thread (`backtrace`) and set breakpoints (`break <function name>`, `break <file name>:<line number>`).
+
+You can connect to QEMU via Eclipse, details [InstallToolchainEclipseRemoteDebug here].
+
+== Building on other architectures==
+Embox supports the following processor architectures: x86, ARM, Microblaze, SPARC, PPC, MIPS.
+
+In order to work with architectures differed from x86 you need [InstallToolchainCrossCompiler cross compiler].
+After installing cross compiler just repeat step by step all points starting with configuring:
+{{{
+make confload-<arch>/qemu
 make
+sudo ./scripts/qemu/auto_qemu
 }}}
-Based on the configuration loaded on the previous step the build system determines which modules are needed to be built and includes those to the image.
+Output is quite the same as in the case of the x86 architecture.
 
-= [SimulationQemu Running on QEMU] =
-The most straightforward way to test the resulting image is to run it under the [http://www.qemu.org QEMU simulator].
-<table cellspacing="10" width="839"><tr valign="top"><td width="50%">
-== Windows ==
-On Windows you can use *Qemu Manager*, a step-by-step guide is available [SimulationQemuWindows here].
+=== Net support on different architectures ===
+Embox supports net for x86, ARM, and Microblaze architectures.
 
-Another option is to build QEMU for Windows manually as described on the [http://wiki.qemu.org/Hosts/W32 QEMU wiki].
-</td><td>
-== Linux ==
-Installation on Linux is pretty simple, most likely that just installing *qemu* package will be enough:
-{{{
-sudo apt-get install qemu
-}}}
-</td></tr></table>
-Once you have the QEMU installed, you can run it using the following command:
-{{{
-qemu-system-i386 -kernel build/base/bin/embox -nographic
-}}}
-More details about using QEMU you can get [SimulationQemu here].
-
-A new window should appear with Embox running within it.
-In case of success you will get a command prompt:
-{{{
-embox>
-}}}
-Type *`help`* to list all available commands.
+=== Debugging on different architectures ===
+Debugging on different architectures is the same as on the x86 architecture, but it is not needed to specify *-no-kvm* key.
