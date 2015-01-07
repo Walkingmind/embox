@@ -63,7 +63,7 @@ $ sudo apt-get install ethtool
 }}}
 If the launch succeeds, messages are output on QEMU screen. After the system is loaded, you’ll see the prompt
 "embox>", now you are able to run commans.
-For exmple, "help" lists all existing commands.
+For example, "help" lists all existing commands.
 
 For testing the connection ping 10.0.2.16. If the connection is established you can connect to the Embox terminal via telnet.
 
