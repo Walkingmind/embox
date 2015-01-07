@@ -46,13 +46,13 @@ make confload-x86/qemu
 Project configurations for different target platform you can find
 [PlatformsDescription here].
 
-== Image building ==
+== Building image ==
 After configuring the project it is enough just to run make script:
 {{{
 $ make
 }}}
 
-== Launching on QEMU ==
+== Launch on QEMU ==
 The built image can be run on QEMU. The simplest way is to execute ./scripts/qemu/auto_qemu script:
 {{{
 $ sudo ./scripts/qemu/auto_qemu
@@ -92,7 +92,7 @@ You can connect to QEMU via Eclipse, details [InstallToolchainEclipseRemoteDebug
 == Building on other architectures==
 Embox supports the following processor architectures: x86, ARM, Microblaze, SPARC, PPC, MIPS.
 
-In order to work with architectures differed from x86 you need [InstallToolchainCrossCompiler cross compiler].
+In order to work with architectures differed from x86 you need a [InstallToolchainCrossCompiler cross compiler].
 After installing cross compiler just repeat step by step all points starting with configuring:
 {{{
 make confload-<arch>/qemu
@@ -102,7 +102,7 @@ sudo ./scripts/qemu/auto_qemu
 Output is quite the same as in the case of the x86 architecture.
 
 === Net support on different architectures ===
-Embox supports net for x86, ARM, and Microblaze architectures.
+Embox supports net on x86, ARM, and Microblaze architectures.
 
 === Debugging on different architectures ===
 Debugging on different architectures is the same as on the x86 architecture, but it is not needed to specify *-no-kvm* key.
