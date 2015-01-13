@@ -133,10 +133,10 @@ static ssize_t pipe_read(struct idesc *idesc, void *buf, size_t nbyte) {
 		if (idesc_pipe_isclosed(&pipe->write_desc)) {
 			/* Nothing to do, what's read, that's read */
 			break;
-		} 
+		}
 
 		if (res > 0) {
-			/* Smth read, notify write end (can't be closed, 
+			/* Smth read, notify write end (can't be closed,
  			 * checked already) */
 			idesc_notify(&pipe->write_desc.idesc, POLLOUT);
 			break;
@@ -160,7 +160,7 @@ static ssize_t pipe_write(struct idesc *idesc, const void *buf, size_t nbyte) {
 	assert(idesc->idesc_ops == &idesc_pipe_ops);
 	assert(idesc->idesc_amode == FS_MAY_WRITE);
 
-	cbuf = buf; 
+	cbuf = buf;
 	/* nbyte == 0 is ok to passthrough */
 
 	pipe = idesc_to_pipe(idesc);
@@ -175,7 +175,7 @@ static ssize_t pipe_write(struct idesc *idesc, const void *buf, size_t nbyte) {
 		/* Try to write some data */
 		len = ring_buff_enqueue(pipe->buff, (void *) cbuf, nbyte);
 		if (len > 0) {
-			/* Notzero was written, adjust pointers and notify 
+			/* Notzero was written, adjust pointers and notify
  			 * (read end can't be closed) */
 			cbuf += len;
 			nbyte -= len;
@@ -305,7 +305,7 @@ static struct pipe *pipe_alloc(void) {
 	}
 
 	pipe->buff = pipe_buff;
-	pipe->buf_size = DEFAULT_PIPE_BUFFER_SIZE;
+	pipe->buf_size = DEFAULT_PIPE_BUFFER_SIZE - 1;
 	ring_buff_init(pipe_buff, 1, DEFAULT_PIPE_BUFFER_SIZE, storage);
 
 	mutex_init(&pipe->mutex);
