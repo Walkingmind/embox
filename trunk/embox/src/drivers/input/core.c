@@ -90,13 +90,10 @@ int input_dev_input(struct input_dev *dev) {
 
 	irq_lock();
 	{
-		if (dev->curprocessd == NULL) {
-			if (1 != ring_buff_alloc(&dev->rbuf, 1, (void **) &dev->curprocessd)) {
+		if (!dev->curprocessd && !ring_buff_fill_nulls(&dev->rbuf, 1)) {
 				ret = 0;
 				goto out_unlock;
 			}
-
-			memset(dev->curprocessd, 0, sizeof(struct input_event));
 		}
 
 		if (0 > (ret = dev->ops->event_get(dev, dev->curprocessd))) {
@@ -163,7 +160,7 @@ int input_dev_register(struct input_dev *dev) {
 
 	dev->event_cb = NULL;
 
-	ring_buff_init(&dev->rbuf, sizeof(struct input_event), 
+	ring_buff_init(&dev->rbuf, sizeof(struct input_event),
 			INPUT_DEV_EVENT_QUEUE_LEN, &dev->event_buf);
 
 	dev->curprocessd = NULL;
@@ -213,7 +210,7 @@ int input_dev_open(struct input_dev *dev, indev_event_cb_t *event) {
 		if (res < 0) {
 			return res;
 		}
-	} 
+	}
 
 	if (dev->ops->start) {
 
