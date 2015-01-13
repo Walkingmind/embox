@@ -4,25 +4,23 @@
 
 = Introduction =
 
-Now this document is not complete, if you have some unclear part you should
-contact us, may be in our google group. We explain the details and refine this
-document.
+Codestyle is incomplete now, so if you have some misunderstandings,
+feel free to ask us any questions, and we’ll answer them and correct this document.
 
-Moreover you can meet some parts which don't correspond this codestyle you may
-correct it yourself or inform us.
+Also you might face some code parts which don’t correspond our codestyle.
+In this case you can correct it and inform us.
 
 == Embox codestyle ==
 
-As a basis for coding style adopted in the Embox project, take the style
-Kernighan and Ritchie (K & R). The following are the basic rules of structure
-and design code.
+Mainly we use Kernighan and Ritchie (K&R) code style in the Embox project.
+We don’t use national symbols in source code including comments.
+Basic rules of code design are listed below.
 
 === Text placement ===
 
 The length of the rows should not exceed 80 characters.
 
-The size of the function must be of the order of one screen (learn to write in
-a good manner).
+The size of the function should be around of one screen.
 
 === Tabs and Brackets ===
 
@@ -54,63 +52,67 @@ int bar(void) {
 }
 }}}
 *Comments to the example*:
- * As the indentation is used tabs, the editor should specify the length of tabs in 4.
- * Tiny notation (for example, a single if) is not used. Always put curly braces.
- * The opening brace is placed on the same line, where the operand to which it belongs (after 1 space).
- * Closing brace is put on a new line at the same level (the indentation), as 'parent' code.
+ * We use tabs as the indentation, you should specify tab size in your editor as 4 spaces.
+ * Shorthand notations are not allowed to use. Always put braces.
+ * An opening brace is placed on the same line as the operand which it belongs to. Before a brace you should put one space.
+ * A closing brace is placed on a new line at the same level as parent code.
 
 === Blanks and blank lines ===
 
-*Blank lines*:
- * No more than one blank line in a row
- * At the end of the file one blank line
- * Between the declarations or definitions of the functions and variables one blank line
- * Definition of local variables of the function is separated from code by one blank line
+*Blanks*:
+ * You should not place more than one blank lines in a row.
+ * At the end of the file you should place one blank line.
+ * You should place one blank line between the declarations or definitions of the functions and variables.
+ * Local variable definitions are separated from code by one blank line.
 
-Spaces are arranged as standard.
+We use standard style for the space character.
 
 *One space is placed*:
  * between operators:
 {{{
 int a = x + y * (1 + b) / foo(11);
 }}}
- * between control constructs (for/while/if/switch) and brackets:
+ * between constructs such as for/while/if/switch and brackets:
 {{{
 if (a < 7) {
   ...
 }
 }}}
- * When casting the type:
+ * in case of type casting:
 {{{
 int x = (int) ((double) a / 13 + 13);
 }}}
 *No space is placed*:
- * Function definition:
+ * between a function definition and brackets:
 {{{
 int main(void) {
 }
 }}}
- * Function call:
+ * between a function call and brackets:
 {{{
 int x = foo(1);
 }}}
- * Before and after increment and decrement operator:
+ * before and after an increment/decrement operator:
 {{{
 i++;
 }}}
- * At a pointer between a name and {{{*}}}:
+ * between a pointer name and {{{*}}}:
 {{{
 struct list_head *tmp;
 }}}
 
-=== Macroses ===
+=== Macros ===
 
- * Every defined constant name should contain only upper case symbols.
- * Macros are also written in large letters with the underscore.
- * Allow (not require) use lower case symbols (as in usual function name), if it isn't differ from usual functions during its calling, that meens it have no side effect at all (there is no *return* in it and etc.)
- * If macrose is multiline you should use '\' and place it at the end of each line (except last) separating it space symbols
- * Each macrose's arguments must be in brackets, except string concatenation *##*
- * Macros consisted of several expressions must be in *do { ... } while(0)*
+ * If a macro is multi-line you should place a backward slash at the end of each line in one space symbol.
+ * Each macro argument must be put between brackets excepting string concatenation *##*. Macro parameters should differ from ordinary ones. For example:
+{{{
+#define MACRO(_field) struct somestruct ss = { .field = _field }
+}}}
+ * Any final statement-terminating semicolon should be supplied by the macro invocation rather than the macro. Pay attention on absence of semicolon
+ after while (0).
+{{{
+#define MACRO(...) do { } while(0)
+}}}
 
 Examples of good macros:
 {{{
@@ -130,42 +132,73 @@ Examples of good macros:
   } while (0)
 }}}
 
-=== Naming conventions ===
+=== Naming ===
 
-All exported (externally accessible) functions and variables must be prefixed,
-specific for the current module.
+==== General requirements  ====
+Each entity must have a significant name. It is common to use
+{{{underline_style_name}}}. Almost everywhere we use lower case.
+Upper case is used in macro names and constant
+names defined by #define.
+==== Module naming ====
+A module is consist of related entities. Each of them must begin with
+a module-specific prefix.
+==== Local variables ====
+It is allowed to use common abridgments such as cnt, err, ret etc. in names of local variables. Variable names should be short but significant.
+We use i, j, k for numeric iteration and i_entityname for list iteration.
+==== Global variables and constants ====
+Are you sure that you are not able to manage without global variables? Then you should name it as {{{<module name>_r_<variable name>}}} in order to make it distinctive from other variables. Global constants should be named as
+{{{<module name>_c_<constant name>}}}.
+==== Functions ====
+Name format for functions is {{{<module name>_<function name>}}} even if
+the function isn't exported. Function name should be clear and represent its action.
+You should not use abridgments if you cannot prove its necessity. Compare
+{{{count_active_users()}}} and {{{cntusr()}}}.
 
-All except the macro is written in small letters, through emphasis.
+Not exported functions should be static.
+==== Structures ====
+A structure name may include a little specific prefix. It is convenient especially if structure consists of fields which name is the same as name of the some other structure field. For example:
+{{{
+struct net_interface { .ni_name, .ni_num, .ni_xxx }
+}}}
+==== Constants and macros ====
+Only #define’d constants and macros have {{{UPPER_СASE}}} name. You can write a macro name in lower_case if it is used as an ordinary function, in other words, if the macro has no side effects.
 
 === Conventional comments ===
-
- * The code must contain only English language. This applies not only to comment, but the naming of functions and variables.
- * Allowed only comments in the C-style:
+ * Comment is an ordinary complete sentence which should be written in proper English.
+ * Comments should include description of non-obvious behavior of a function.  For example, if a function must be called locked.
+{{{
+/** Called by critical dispatching code with IRQs disabled. */
+static void sched_preempt(void) {
+    sched_lock();
+    __schedule(1);
+    sched_unlock();
+}
+}}}
+ * Try avoid excess commenting like “++i; // increments i”.
+ * Keep comments in a relevant state. A comment that contradicts a code if worse than absence of it.
+ * A code should consist of only English text, no transliteration is allowed. It concerns also naming functions and variables.
+ * Only C-style comments are allowed:
 {{{
 /* ... */
 }}}
- * Comments *//...* not allowed
- * Large blocks of code should be disabled by using the conditional compilation preprocessor:
+ * Comments like *//...* are not allowed
+ * Unused code blocks should be disabled by using the conditional compilation preprocessor
 {{{
 #if 0
   ... unused_code ...
 #endif
 }}}
- * Multiline comments starting an asterisk. Each sentence finish a point. Sections are separeted blank line:
+ * Multi-line comments should begin with a star. At the end of a sentence a dot is placed and sections are separated with a blank line.
 {{{
 /* This code is necessary.
  *
- * Attension! It uses architecture-dependent code for SPARC.
+ * Attention! It uses architecture-dependent code for SPARC.
  */
 ... Some code
 }}}
- * Every file have to start with a header. The header must format as [http://www.stack.nl/~dimitri/doxygen/manual.html Doxygen] comments. The header shoul conteins a following information:
-     * Autors
-     * Date of creation
-     * Short and detail description of the module
-     * Changes list
- * The doxygen comments must be placed under each public funtion
-    How to start each file:
+ * At the beginning of the files and functions [http://www.stack.nl/~dimitri/doxygen/manual.html Doxygen] comments should be written. At the first place it is about headers that contain module API.
+
+Each file should start with:
 {{{
 /**
  * @file
@@ -182,7 +215,7 @@ All except the macro is written in small letters, through emphasis.
  *           section, e.g. you may use hyphens to create a list of items.
  */
 }}}
-   An example of such comments:
+An example of such comment:
 {{{
 /**
  * @file
@@ -208,7 +241,7 @@ All except the macro is written in small letters, through emphasis.
  */
 }}}
 
- * Each macros, type definition, function prototype, enumeration, union, structure, and its fields, must be particularly described in comments.
+ * Each macro, type definition, function prototype, enumeration, union, structure, and its fields, must be particularly described in comments
 
 {{{
 /**
@@ -254,12 +287,11 @@ typedef irq_return_t (*irq_handler_t)(irq_nr_t irq_nr, void *data);
  * @retval -ENOSYS if kernel is compiled without IRQ support
  */
 extern int irq_attach(irq_nr_t irq_nr, irq_handler_t handler,
-		irq_flags_t flags, void *data, const char *dev_name);
+    irq_flags_t flags, void *data, const char *dev_name);
 }}}
 
-=== Header (‘.h’) files ===
-
-The body of header file must be organized in the following way:
+=== Header files ===
+The body of header file should be organized in the following way:
 {{{
 #ifndef <subsystem_prefix>_<file_name>_H_
 #define <subsystem_prefix>_<file_name>_H_
