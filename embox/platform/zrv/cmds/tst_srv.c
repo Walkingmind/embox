@@ -212,22 +212,16 @@ static void pkt_tmr_hnd(struct sys_timer *tmr, struct hashtable *ht) {
 	}
 	softirq_unlock();
 }
+HASHTABLE_DEF(pkt_hashtable, PKT_HT_SZ, pkt_ht_key_hash, pkt_ht_key_cmp);
 
 static int pkt_counter_init(void) {
 	int ret;
 	struct nf_rule rule;
-	struct hashtable *pkt_ht;
-
-	pkt_ht = hashtable_create(PKT_HT_SZ, pkt_ht_key_hash,
-			pkt_ht_key_cmp);
-	if (pkt_ht == NULL) {
-		return -ENOMEM;
-	}
+	struct hashtable *pkt_ht = &pkt_hashtable;
 
 	ret = timer_init_msec(&pkt_tmr, TIMER_PERIODIC, PKT_TMR_SEC * 1000,
 			(sys_timer_handler_t)pkt_tmr_hnd, pkt_ht);
 	if (ret != 0) {
-		hashtable_destroy(pkt_ht);
 		return ret;
 	}
 
@@ -239,7 +233,6 @@ static int pkt_counter_init(void) {
 	ret = nf_add_rule(NF_CHAIN_INPUT, &rule);
 	if (ret != 0) {
 		timer_close(&pkt_tmr);
-		hashtable_destroy(pkt_ht);
 		return ret;
 	}
 
