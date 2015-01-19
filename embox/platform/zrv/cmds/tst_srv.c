@@ -152,11 +152,14 @@ struct pkt_ht_item {
 };
 
 POOL_DEF(pkt_ht_item_pool, struct pkt_ht_item, PKT_POOL_SZ);
+POOL_DEF(ht_item_pool, struct hashtable_item, PKT_POOL_SZ);
+
 static struct sys_timer pkt_tmr;
 
 static int pkt_counter_callback(const struct nf_rule *test_r,
 		struct hashtable *pkt_ht) {
 	struct pkt_ht_item *item;
+	struct hashtable_item *ht_item;
 	int ret;
 
 	if (test_r->not_hwaddr_src) {
@@ -174,7 +177,10 @@ static int pkt_counter_callback(const struct nf_rule *test_r,
 		memcpy(item->sha, test_r->hwaddr_src, ETH_ALEN);
 		item->cnt = 0;
 
-		hashtable_put(pkt_ht, item->sha, item);
+		ht_item = pool_alloc(&ht_item_pool);
+		ht_item = hashtable_item_init(ht_item, item->sha, item);
+		hashtable_put(pkt_ht, ht_item);
+
 	}
 
 	++item->cnt;
