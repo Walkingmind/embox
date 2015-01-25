@@ -41,8 +41,8 @@ EMBOX_IMPORTED_MAKEFLAGS += -j $(shell nproc)
 endif
 
 ifdef GEN_DIST
-_abs_dist_dir := $(abspath $(DIST_DIR))
-root2dist = $(subst $(abspath $(ROOT_DIR)),$(_abs_dist_dir),$(filter-out -I$(_abs_dist_dir)%,$1)) $(filter -I$(_abs_dist_dir)%,$1) 
+_abs_dist_dir := $(abspath $(DIST_BASE_DIR))
+root2dist = $(subst $(abspath $(ROOT_DIR)),$(_abs_dist_dir),$(filter-out -I$(_abs_dist_dir)%,$1)) $(filter -I$(_abs_dist_dir)%,$1)
 else
 root2dist = $1
 endif
