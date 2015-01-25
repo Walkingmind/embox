@@ -1,8 +1,8 @@
 #!/bin/bash
 
-if [ $EMBOX_GCC_ENV ] && [ -f $EMBOX_GCC_ENV ]; then 
+if [ $EMBOX_GCC_ENV ] && [ -f $EMBOX_GCC_ENV ]; then
 	. $EMBOX_GCC_ENV
-else 
+else
 	echo "No EMBOX_GCC_ENV is set" >&2
 	exit 1
 fi
@@ -14,7 +14,7 @@ case $cmd in
 	*)     echo "Unknown flags for $cmd"; exit 1;;
 esac
 
-case $EMBOX_GCC_LINK in 
+case $EMBOX_GCC_LINK in
 	full)
 	       	ARG_LINE="$C_CXX_FLAGS $EMBOX_IMPORTED_LDFLAGS $EMBOX_IMPORTED_LDFLAGS_FULL"
 		;;
@@ -31,6 +31,6 @@ case " $@" in
 esac
 
 ARG_LINE="$ARG_LINE $EMBOX_IMPORTED_CPPFLAGS"
-#echo "$EMBOX_CROSS_COMPILE${cmd#arch-embox-} $@ $ARG_LINE" >&2
-$EMBOX_CROSS_COMPILE${cmd#arch-embox-} "$@" $ARG_LINE
+# echo "$EMBOX_CROSS_COMPILE${cmd#arch-embox-} $@ ${ARG_LINE//$PWD/.}" >&2
+$EMBOX_CROSS_COMPILE${cmd#arch-embox-} "$@" ${ARG_LINE//$PWD/.}
 exit $?
