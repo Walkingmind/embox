@@ -1,5 +1,0 @@
-package embox.arch.sparc
-
-module testtrap extends embox.arch.testtrap {
-	source "testtraps_core.c"
-}

@@ -1,5 +1,0 @@
-package embox.arch.mips
-
-static module libarch extends embox.arch.libarch {
-	source "setjmp.S"
-}

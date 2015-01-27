@@ -1,4 +1,0 @@
-
-package third_party.bsp
-
-abstract module st_bsp_api { }

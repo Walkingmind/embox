@@ -1,7 +1,0 @@
-package embox.driver.gpmc
-
-abstract module gpmc_api { }
-
-module omap3_gpmc extends gpmc_api {
-	source "omap_gpmc.c"
-}
