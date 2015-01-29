@@ -1,4 +1,4 @@
-# $Id: arhelper.mk 15147 2015-01-25 23:28:34Z Eldar.Abusalimov $
+# $Id$
 #
 #   Date: Sep 24, 2013
 # Author: Eldar Abusalimov
