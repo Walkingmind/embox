@@ -1,0 +1,33 @@
+<!-- this template could be inlined, but during development I want it as 
+template several times, so decided to leave it so -->
+<script id="BlockTemplate" type="text/ng-template">
+    <div class="block">
+	<button type="button" class="btn btn-default led led-off"
+	    ng-class="{'led-red' : led_pair[0].state}"
+	    ng-click="led_switch({led : led_pair[0]})">Red</button>
+	<div class="block-caption">{{led_pair[0].index / 2 + 1}}</div>
+	<button type="button" class="btn btn-default led led-off"
+	    ng-class="{'led-blue' : led_pair[1].state}"
+	    ng-click="led_switch({led : led_pair[1]})">Blue</button>
+	</div>
+    </div>
+</script>
+
+<div class="container" ng-controller="LedsCtrl">
+
+    <div class="row">
+	<div class="block-pair" ng-repeat="block_pair in leds_state">
+	    <block-template led-pair="block_pair[0]" led-switch="led_switch(led)"></block-template>
+	    <block-template led-pair="block_pair[1]" led-switch="led_switch(led)"></block-template>
+	    <hr>
+	</div>
+    </div>
+
+    <div class="row">
+	<!-- Refresh -->
+	<button type="button" class="btn btn-link" ng-click="update()">Refresh</button>
+	<!-- Save -->
+	<button type="button" class="btn btn-link" ng-click="save()">Save</button>
+    </div>
+
+</div
