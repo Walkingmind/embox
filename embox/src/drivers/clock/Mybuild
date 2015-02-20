@@ -5,6 +5,7 @@ module at91_pitc extends embox.arch.clock {
 
 	depends embox.kernel.irq
 	depends embox.kernel.time.clock_source
+	@NoRuntime depends embox.kernel.time.timer
 }
 
 module gptimer extends embox.arch.clock {
@@ -12,7 +13,8 @@ module gptimer extends embox.arch.clock {
 
 	depends embox.kernel.irq
 	depends embox.kernel.time.clock_source
-	
+	@NoRuntime depends embox.kernel.time.timer
+
 	depends embox.driver.ambapp_api /*if ampa pnp enable option not required */
 	option number gptimer_base=0x80000300 /* if amba pnp disable */
 	option number irq_num=8               /* if amba pnp disable */
@@ -20,11 +22,12 @@ module gptimer extends embox.arch.clock {
 
 module mb_timer extends embox.arch.clock {
 	source "mb_timer.c"
-	
+
 	option number mbtimer_base
 	option number irq_num
 
 	depends embox.kernel.irq
+	@NoRuntime depends embox.kernel.time.timer
 }
 
 module pit extends embox.arch.clock {
@@ -34,6 +37,7 @@ module pit extends embox.arch.clock {
 
 	depends embox.kernel.irq
 	@NoRuntime depends embox.kernel.time.clock_source
+	@NoRuntime depends embox.kernel.time.timer
 }
 
 module cortexm_systick extends embox.arch.clock {
@@ -41,6 +45,7 @@ module cortexm_systick extends embox.arch.clock {
 
 	//depends embox.kernel.irq
 	depends embox.kernel.time.clock_source
+	@NoRuntime depends embox.kernel.time.timer
 }
 
 @BuildDepends(embox.arch.arm.cmsis)
@@ -49,6 +54,7 @@ module cmsis_systick extends embox.arch.clock {
 
 	//depends embox.kernel.irq
 	depends embox.kernel.time.clock_source
+	@NoRuntime depends embox.kernel.time.timer
 }
 
 
@@ -57,6 +63,7 @@ module omap3_clk extends embox.arch.clock {
 
 	depends embox.kernel.irq
 	depends embox.kernel.time.clock_source
+	@NoRuntime depends embox.kernel.time.timer
 }
 
 module ti8168_clk extends embox.arch.clock {
@@ -64,6 +71,7 @@ module ti8168_clk extends embox.arch.clock {
 
 	depends embox.kernel.irq
 	depends embox.kernel.time.clock_source
+	@NoRuntime depends embox.kernel.time.timer
 }
 
 module ppc_clk extends embox.arch.clock {
@@ -71,6 +79,7 @@ module ppc_clk extends embox.arch.clock {
 
 	depends embox.kernel.irq
 	depends embox.kernel.time.clock_source
+	@NoRuntime depends embox.kernel.time.timer
 }
 
 // TODO Can be used with pit. That means tsc not implements embox.arch.clock
@@ -81,16 +90,18 @@ module tsc {
 
 module mips_clk extends embox.arch.clock {
 	source "mips_clk.c"
-	
+
 	depends embox.kernel.irq
 	depends embox.kernel.time.clock_source
 	depends embox.arch.interrupt
+	@NoRuntime depends embox.kernel.time.timer
 }
 
 module lapic_timer extends embox.arch.clock {
 	source "lapic_timer.c"
 
 	depends embox.driver.interrupt.lapic
+	@NoRuntime depends embox.kernel.time.timer
 }
 
 module usermode extends embox.arch.clock {
@@ -98,12 +109,13 @@ module usermode extends embox.arch.clock {
 
 	depends embox.kernel.irq
 	depends embox.kernel.time.clock_source
+	@NoRuntime depends embox.kernel.time.timer
 }
 
 module hpet {
 	@IncludePath("$(THIRDPARTY_DIR)/lib/acpica/include")
 	source "hpet.c"
-	
+
 	depends embox.kernel.time.clock_source
 	depends third_party.lib.acpica
 }
