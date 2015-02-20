@@ -27,7 +27,7 @@
 #include <kernel/time/ktime.h> /* ktime_get_timeval */
 #include <kernel/time/timer.h>
 #include <net/netfilter.h>
-#include <kernel/softirq_lock.h>
+#include <kernel/sched/sched_lock.h>
 
 
 #define MAX_ITER_COUNT  100000
@@ -166,12 +166,12 @@ static int pkt_counter_callback(const struct nf_rule *test_r,
 		return 0; /* ok: mac addres not specify */
 	}
 
-	softirq_lock();
+	sched_lock();
 	item = hashtable_get(pkt_ht, (void *) test_r->hwaddr_src);
 	if (item == NULL) {
 		item = pool_alloc(&pkt_ht_item_pool);
 		if (item == NULL) {
-			softirq_unlock();
+			sched_unlock();
 			return 1; /* drop: error: no memory */
 		}
 		memcpy(item->sha, test_r->hwaddr_src, ETH_ALEN);
@@ -187,7 +187,7 @@ static int pkt_counter_callback(const struct nf_rule *test_r,
 
 	ret = item->cnt + item->avg > 2 * PKT_LIMIT ? 1 : 0;
 
-	softirq_unlock();
+	sched_unlock();
 
 	return ret;
 }
@@ -205,7 +205,7 @@ static void pkt_tmr_hnd(struct sys_timer *tmr, struct hashtable *ht) {
 	unsigned char **key;
 	struct pkt_ht_item *item;
 
-	softirq_lock();
+	sched_lock();
 	key = hashtable_get_key_first(ht);
 
 	while (key != NULL) {
@@ -216,7 +216,7 @@ static void pkt_tmr_hnd(struct sys_timer *tmr, struct hashtable *ht) {
 
 		key = hashtable_get_key_next(ht, key);
 	}
-	softirq_unlock();
+	sched_unlock();
 }
 HASHTABLE_DEF(pkt_hashtable, PKT_HT_SZ, pkt_ht_key_hash, pkt_ht_key_cmp);
 

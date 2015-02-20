@@ -9,7 +9,7 @@
 #include <errno.h>
 #include <stdlib.h>
 #include <mem/misc/pool.h>
-#include <kernel/softirq_lock.h>
+#include <kernel/sched/sched_lock.h>
 #include <framework/mod/options.h>
 #include <framework/net/sock/self.h>
 #include <embox/net/family.h>
@@ -54,11 +54,11 @@ static inline struct packet_sock *sk2packet(struct sock *sk) {
 }
 
 static inline void af_packet_rcv_lock(void) {
-	softirq_lock();
+	sched_lock();
 }
 
 static inline void af_packet_rcv_unlock(void) {
-	softirq_unlock();
+	sched_unlock();
 }
 
 static int packet_sock_init(struct sock *sk) {
@@ -73,7 +73,7 @@ static int packet_sock_init(struct sock *sk) {
 		dlist_add_prev(&psk->lnk, &packet_g_sock_list);
 	}
 	af_packet_rcv_unlock();
-	
+
 	return 0;
 }
 
@@ -160,8 +160,8 @@ static int packet_recvmsg(struct sock *sk, struct msghdr *msg,
  	 * Whole packet should be stored in future, and for tun it will be
 	 * starting from ip header
 	 */
-	n_byte = skb_write_iovec(skb->nh.raw, skb->len - (skb->nh.raw - skb->mac.raw), 
-			msg->msg_iov, msg->msg_iovlen); 
+	n_byte = skb_write_iovec(skb->nh.raw, skb->len - (skb->nh.raw - skb->mac.raw),
+			msg->msg_iov, msg->msg_iovlen);
 
 	skb_free(skb);
 	msg->msg_iov->iov_len = n_byte; /* XXX */
@@ -171,7 +171,7 @@ static int packet_recvmsg(struct sock *sk, struct msghdr *msg,
 static int packet_sendmsg(struct sock *sk, struct msghdr *msg, int flags) {
 	return 0;
 }
- 
+
 static int packet_sock_setsockopt(struct sock *sk, int level,
 		int optname, const void *optval, socklen_t optlen) {
 
@@ -196,7 +196,7 @@ void sock_packet_add(struct sk_buff *skb) {
 	struct packet_sock *psk;
 
 	dlist_foreach_entry(psk, &packet_g_sock_list, lnk) {
-		if (psk->sll.sll_ifindex == 0 
+		if (psk->sll.sll_ifindex == 0
 				|| psk->sll.sll_ifindex == skb->dev->index) {
 			skb_queue_push(&psk->rx_q, skb_clone(skb));
 			sock_notify(&psk->sk, POLLIN | POLLERR);

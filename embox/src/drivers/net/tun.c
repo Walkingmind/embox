@@ -1,8 +1,8 @@
 /**
- * @file 
- * @brief 
+ * @file
+ * @brief
  *
- * @author  Anton Kozlov 
+ * @author  Anton Kozlov
  * @date    21.07.2014
  */
 
@@ -18,7 +18,7 @@
 #include <embox/unit.h>
 
 #include <kernel/thread/sync/mutex.h>
-#include <kernel/softirq_lock.h>
+#include <kernel/sched/sched_lock.h>
 #include <embox/device.h> //XXX
 #include <fs/node.h>
 #include <fs/file_desc.h>
@@ -38,11 +38,11 @@ struct tun {
 static struct net_device *tun_g_array[TUN_N];
 
 static inline void tun_krnl_lock(struct tun *tun) {
-	softirq_lock();
+	sched_lock();
 }
 
 static inline void tun_krnl_unlock(struct tun *tun) {
-	softirq_unlock();
+	sched_unlock();
 }
 
 static inline void tun_user_lock(struct tun *tun) {
@@ -117,7 +117,7 @@ static inline struct net_device *tun_netdev_by_node(const struct node *node) {
 	return tun_netdev_by_name(node->name);
 }
 
-static inline int tun_netdev_by_desc(const struct file_desc *fdesc, 
+static inline int tun_netdev_by_desc(const struct file_desc *fdesc,
 		struct net_device **netdev, struct tun **tun) {
 	*netdev = fdesc->file_info;
 	if (!*netdev) {
@@ -129,7 +129,7 @@ static inline int tun_netdev_by_desc(const struct file_desc *fdesc,
 
 static int tun_dev_open(struct node *node, struct file_desc *file_desc, int flags) {
 	struct net_device *netdev;
-	struct tun *tun; 
+	struct tun *tun;
 
 	netdev = tun_netdev_by_node(node);
 	if (!netdev) {
@@ -142,7 +142,7 @@ static int tun_dev_open(struct node *node, struct file_desc *file_desc, int flag
 	waitq_init(&tun->wq);
 
 	tun_krnl_lock(tun);
-	{ 
+	{
 		skb_queue_init(&tun->rx_q);
 	}
 	tun_krnl_unlock(tun);
@@ -154,7 +154,7 @@ static int tun_dev_open(struct node *node, struct file_desc *file_desc, int flag
 
 static int tun_dev_close(struct file_desc *desc) {
 	struct net_device *netdev;
-	struct tun *tun; 
+	struct tun *tun;
 	int err;
 
 	err = tun_netdev_by_desc(desc, &netdev, &tun);
@@ -170,7 +170,7 @@ static int tun_dev_close(struct file_desc *desc) {
 static size_t tun_dev_read(struct file_desc *desc, void *buf, size_t size) {
 	struct waitq_link *wql = &thread_self()->schedee.waitq_link;
 	struct net_device *netdev;
-	struct tun *tun; 
+	struct tun *tun;
 	struct sk_buff *skb;
 	int err, ret;
 
@@ -192,7 +192,7 @@ static size_t tun_dev_read(struct file_desc *desc, void *buf, size_t size) {
 		}
 		tun_krnl_unlock(tun);
 
-		if (skb) { 
+		if (skb) {
 			int len = min(size, skb->len);
 			memcpy(buf, skb->mac.raw, len);
 			ret = len;
@@ -207,7 +207,7 @@ static size_t tun_dev_read(struct file_desc *desc, void *buf, size_t size) {
 
 static size_t tun_dev_write(struct file_desc *desc, void *buf, size_t size) {
 	struct net_device *netdev;
-	struct tun *tun; 
+	struct tun *tun;
 	struct sk_buff *skb;
 	int err;
 
@@ -230,7 +230,7 @@ static size_t tun_dev_write(struct file_desc *desc, void *buf, size_t size) {
 	return 0;
 }
 
-static int tun_dev_ioctl(struct file_desc *desc, int request, ...) { 
+static int tun_dev_ioctl(struct file_desc *desc, int request, ...) {
 	return 0;
 }
 
@@ -268,7 +268,7 @@ static int tun_init(void) {
 		if (err != 0) {
 			goto err_netdev_free;
 		}
-		
+
 		err = char_dev_register(tun_name, &tun_dev_file_ops);
 		if (err != 0) {
 			goto err_inetdev_deregister;
