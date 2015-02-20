@@ -27,7 +27,7 @@
 #include <kernel/time/ktime.h> /* ktime_get_timeval */
 #include <kernel/time/timer.h>
 #include <net/netfilter.h>
-#include <kernel/softirq.h>
+#include <kernel/softirq_lock.h>
 
 
 #define MAX_ITER_COUNT  100000
