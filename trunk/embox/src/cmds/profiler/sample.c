@@ -9,6 +9,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <errno.h>
+#include <stdbool.h>
 
 #include <unistd.h>
 #include <util/array.h>
@@ -42,9 +43,9 @@ int main(int argc, char **argv) {
 	action act = SHOW_INFO;
 
 	counters = get_counters();
-	
+
 	getopt_init();
-	
+
 	while ((c = getopt(argc, argv, "hsl:ti:")) != -1) {
 		switch (c) {
 			case 'i':
@@ -71,7 +72,7 @@ int main(int argc, char **argv) {
 				break;
 		}
 	}
-	
+
 	switch(act) {
 		case START_PROFILING:
 			if (!sampling_profiler_is_running()){
@@ -94,7 +95,7 @@ int main(int argc, char **argv) {
 				printf("Profiler is not running. Type \"sample -h\" for usage.\n");
 				return 0;
 			}*/
-			
+
 			printf("Sampling information:\n");
 			printf("%5s %10s   %s\n", "  ", "Counter", "Function");
 			for (i = 0; i < SAMPLE_HASH_SIZE; i++) {
@@ -104,9 +105,9 @@ int main(int argc, char **argv) {
 				entries[i].counter = counters[i];
 				entries[i].number = i;
 			}
-			
+
 			qsort(entries, SAMPLE_HASH_SIZE, sizeof(struct entry), entry_cmp);
-			
+
 			if (limiter == 0)
 				limiter = total_entries;
 
