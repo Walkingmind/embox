@@ -7,19 +7,22 @@ static module tclsh_export_scripts {
 	source "init.tcl",
 		"history.tcl",
 		"tclIndex"
-	
+
 	@InitFS
-	source "../example/tcp_server.tcl",
-		"../example/udp_server.tcl"
+	@AddPrefix("../example")
+	source "tcp_server.tcl",
+		"udp_server.tcl",
+		"fib.tcl",
+		"run_embox_cmd.tcl"
 }
 
 @Build(stage=2, script="$(EXTERNAL_MAKE)")
 static module core {
 	@AddPrefix("^BUILD/extbld/^MOD_PATH/install")
 	source "libtcl8.6.a", "libtclstub8.6.a"
-	
+
 	@NoRuntime depends embox.compat.libc.LibC
-	
+
 	depends tclsh_export_scripts
 }
 
