@@ -1,9 +1,0 @@
-
-package embox.service
-
-@Cmd(name="hello_srs", help="", man="")
-module hello_srs {
-
-	source "hello_srs.c"
-
-}
