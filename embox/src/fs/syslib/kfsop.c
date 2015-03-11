@@ -64,7 +64,7 @@ static int create_new_node(struct path *parent, const char *name, mode_t mode) {
 	}
 
 	/* XXX it's here and not in vfs since vfs node associated with drive after
- 	 * creating. security may call driver dependent features, like setting 
+ 	 * creating. security may call driver dependent features, like setting
 	 * xattr
 	 */
 	security_node_cred_fill(node.node);
@@ -299,7 +299,7 @@ int kmount(const char *dev, const char *dir, const char *fs_type) {
 			return -1;
 		}
 	}
-	
+
 	if (ENOERR != (res = fs_perm_lookup(dir, &lastpath, &dir_node))) {
 		errno = -res;
 		return -1;
@@ -323,7 +323,7 @@ int kmount(const char *dev, const char *dir, const char *fs_type) {
 
 	}
 
-	if (NULL == mount_table_add(&dir_node, root_path.node, dev, fs_type)) {
+	if (NULL == mount_table_add(&dir_node, root_path.node, dev)) {
 		drv->fsop->umount(&dir_node);
 		//todo free root
 		errno = -res;

@@ -37,7 +37,7 @@ static struct node *test_node;
  *                 |    (ch4)
  *                 |
  *                (ch2)->(r3)
- *                        | 
+ *                        |
  *                        |
  *                       (ch3)
  *
@@ -59,7 +59,7 @@ static int test_mt_path_init(const char *strpath, const char *name) {
 
 	vfs_add_leaf(node, root_node);
 
-	mdesc = mount_table_add(&path, root_node, "", "");
+	mdesc = mount_table_add(&path, root_node, "");
 	assert(mdesc);
 
 	return 0;
@@ -79,7 +79,7 @@ static int test_mt_path_fini(const char *strpath) {
 	vfs_del_leaf(path.node);
 
 	node_free(root_node);
-	
+
 	return 0;
 }
 
@@ -90,7 +90,7 @@ static int setup_suite(void) {
 	test_node = node_alloc("test", strlen("test"));
 
 	vfs_add_leaf(test_node, root.node);
-	
+
 	test_mt_path_init("/test", "ch1");
 	test_mt_path_init("/test/ch1", "ch2");
 	test_mt_path_init("/test/ch1/ch2", "ch3");
