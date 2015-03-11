@@ -1,0 +1,16 @@
+package embox.pnet
+
+module pnet_entry {
+	source "pnet_entry.c"
+	depends embox.pnet.core
+	depends embox.compat.posix.util.time
+	depends embox.profiler.trace
+}
+
+module net_entry extends embox.net.entry_api {
+	option number hnd_priority = 200
+	source "net_entry.c"
+	depends embox.pnet.core
+	depends embox.kernel.lthread.lthread
+	depends pnet_entry
+}
