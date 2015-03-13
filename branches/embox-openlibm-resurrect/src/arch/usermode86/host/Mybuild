@@ -1,0 +1,12 @@
+
+package embox.arch.usermode86
+
+@Build(stage=1,script="$(EXTERNAL_MAKE) build")
+module host {
+	@AddPrefix("^BUILD/extbld/^MOD_PATH")
+	source "host_ctx.o",
+		"host_irq.c",
+		"host_main.c",
+		"host_net.c",
+		"host_timer.c"
+}

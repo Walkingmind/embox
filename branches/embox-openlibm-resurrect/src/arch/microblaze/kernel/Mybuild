@@ -1,0 +1,27 @@
+package embox.arch.microblaze.kernel
+
+module boot extends embox.arch.boot {
+	source "boot.S"
+}
+
+module context extends embox.arch.context {
+	source "context.c", "context_switch.S", "context.h"
+}
+
+module locore extends embox.arch.locore {
+	source "entry.S", "exception_table.S", "traps_core.c"
+	source "mb_trap_dispatcher.c"
+}
+
+module interrupt extends embox.arch.interrupt {
+	source "irq_entry.S", "irq_handler.c", "ipl_impl.h"
+	depends locore
+}
+
+module arch extends embox.arch.arch {
+	source "arch.c"
+	option number icache_size
+	option number icache_line
+	option number dcache_size
+	option number dcache_line
+}

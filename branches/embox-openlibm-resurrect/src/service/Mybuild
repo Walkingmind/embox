@@ -1,0 +1,16 @@
+package embox.service
+
+@AutoCmd
+@Cmd(name="cgi_cmd_wrapper", help="", man="")
+module cgi_cmd_wrapper {
+	option boolean cmds_check = false
+	option string allowed_cmds = ""
+	source "cgi_cmd_wrapper.c"
+}
+
+@AutoCmd
+@Cmd(name="multipart_formdata", help="", man="")
+module multipart_formdata {
+	option string base = "/"
+	source "multipart_formdata.c"
+}
