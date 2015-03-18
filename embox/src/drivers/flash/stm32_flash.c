@@ -1,8 +1,8 @@
 /**
- * @file 
- * @brief 
+ * @file
+ * @brief
  *
- * @author  Anton Kozlov 
+ * @author  Anton Kozlov
  * @date    23.10.2014
  */
 
@@ -22,11 +22,11 @@
 
 static const struct flash_dev_drv stm32_flash_drv;
 const struct flash_dev stm32_flash = {
-	.bdev = NULL, 
+	.bdev = NULL,
 	.drv = &stm32_flash_drv,
 	.flags = 0,
 	.start = 0x08004000,
-	.end   = 0x0800ffff,
+	.end   = 0x08010000,
 	.num_block_infos = 1,
 	.block_info = {
 		.block_size = 0x004000,
@@ -80,9 +80,9 @@ static int stm32_flash_erase_block(struct flash_dev *dev, uint32_t block) {
 
 	stm32_flash_set_program_size();
 
-	REG_STORE(&FLASH->CR, 
-			(REG_LOAD(&FLASH->CR) & 0xffffff07) 
-			| FLASH_CR_SER 
+	REG_STORE(&FLASH->CR,
+			(REG_LOAD(&FLASH->CR) & 0xffffff07)
+			| FLASH_CR_SER
 			| ((STM32_FIRST_BLOCK_OFFSET + block) << 3));
 
 	sr = REG_LOAD(&FLASH->SR);
