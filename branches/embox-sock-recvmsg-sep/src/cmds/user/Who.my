@@ -1,0 +1,23 @@
+
+package embox.cmd.user
+
+@AutoCmd
+@Cmd(name = "who",
+	help = "Display currently logged users",
+	man = '''
+		NAME
+			who - Display currently logged users
+		SYNOPSIS
+			who
+		DESCRIPTION
+			Print table with currently logged users
+		AUTHOR
+			Anton Kozlov
+	''')
+module who {
+	source "who.c"
+
+	depends embox.compat.posix.passwd
+
+	depends embox.compat.posix.utmp_api
+}

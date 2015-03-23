@@ -1,0 +1,21 @@
+
+package embox.cmd.user
+
+@AutoCmd
+@Cmd(name = "whoami",
+	help = "Display current user's name",
+	man = '''
+		NAME
+			whoami - display current user's name
+		SYNOPSIS
+			whoami
+		DESCRIPTION
+			Print current user name to stdout.
+		AUTHOR
+			Anton Kozlov
+	''')
+module whoami {
+	source "whoami.c"
+
+	depends embox.compat.posix.passwd
+}
