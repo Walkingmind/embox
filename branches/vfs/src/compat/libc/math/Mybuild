@@ -1,0 +1,10 @@
+package embox.compat.libc
+
+static module LibCMath {
+	
+	@IncludePath("$(THIRDPARTY_DIR)/lib/softfloat")
+	source "soft_fp.c"
+	
+	depends third_party.lib.OpenLibm
+	depends third_party.lib.softfloat
+}
