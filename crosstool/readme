@@ -1,2 +1,0 @@
-sudo apt-get install libisl-dev libcloog-isl-dev gcc-multilib g++-multilib
-sudo apt-get install libncurses5-dev texinfo
