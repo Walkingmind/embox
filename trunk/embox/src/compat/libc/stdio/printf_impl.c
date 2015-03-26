@@ -269,7 +269,7 @@ static int print_f(void (*printchar_handler)(struct printchar_handler_data *d, i
 
 	pc += zero_left;
 	while (zero_left--) printchar_handler(printchar_data, '0');
- 
+
 	pc += postfix_len;
 	while (postfix_len--) printchar_handler(printchar_data, *postfix++);
 
@@ -319,7 +319,7 @@ single_print:
 			printchar_handler(printchar_data, *format);
 			continue;
 		}
-		
+
 		ops = 0;
 
 		/* get flags */
