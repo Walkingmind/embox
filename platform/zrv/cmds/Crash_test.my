@@ -16,5 +16,5 @@ package zrv.cmd
 module crash_test {
 	source "crash_test.c"
 
-	depends embox.compat.libc.LibC
+	depends embox.compat.libc.all
 }

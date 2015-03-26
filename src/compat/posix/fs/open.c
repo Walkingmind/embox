@@ -14,7 +14,6 @@
 #include <libgen.h>
 
 #include <util/array.h>
-#include <fs/posix.h>
 #include <fs/vfs.h>
 
 #include <fs/kfile.h>
@@ -40,7 +39,7 @@ int open(const char *path, int __oflag, ...) {
 	char path_buf[PATH_MAX];
 	char name[NAME_MAX];
 	struct file_desc *kfile;
-	va_list args;	
+	va_list args;
 	mode_t mode;
 	int rc;
 	char *parent_path;

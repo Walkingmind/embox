@@ -7,20 +7,21 @@ module core {
 	source "core.c"
 	source "thread_allocator.c"
 	source "thread_switch.c"
-	
+
 	depends sched_wait
-	
+
 	@NoRuntime depends embox.kernel.sched.sched
+	@NoRuntime depends embox.kernel.sched.sched_ticker
 	@NoRuntime depends embox.arch.context
 
 
 	@NoRuntime depends stack_api
 	@NoRuntime depends thread_local
-	@NoRuntime depends thread_cancel	
+	@NoRuntime depends thread_cancel
 	@NoRuntime depends signal_api
 	@NoRuntime depends thread_wait
-	
-	@NoRuntime depends embox.compat.libc.LibCAssert
+
+	@NoRuntime depends embox.compat.libc.assert
 
 	depends embox.kernel.cpu.common
 	depends embox.kernel.sched.current.api

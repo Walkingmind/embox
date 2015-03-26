@@ -27,7 +27,7 @@
 #include <kernel/time/ktime.h> /* ktime_get_timeval */
 #include <kernel/time/timer.h>
 #include <net/netfilter.h>
-#include <kernel/softirq.h>
+#include <kernel/sched/sched_lock.h>
 
 
 #define MAX_ITER_COUNT  100000
@@ -152,36 +152,42 @@ struct pkt_ht_item {
 };
 
 POOL_DEF(pkt_ht_item_pool, struct pkt_ht_item, PKT_POOL_SZ);
+POOL_DEF(ht_item_pool, struct hashtable_item, PKT_POOL_SZ);
+
 static struct sys_timer pkt_tmr;
 
 static int pkt_counter_callback(const struct nf_rule *test_r,
 		struct hashtable *pkt_ht) {
 	struct pkt_ht_item *item;
+	struct hashtable_item *ht_item;
 	int ret;
 
 	if (test_r->not_hwaddr_src) {
 		return 0; /* ok: mac addres not specify */
 	}
 
-	softirq_lock();
+	sched_lock();
 	item = hashtable_get(pkt_ht, (void *) test_r->hwaddr_src);
 	if (item == NULL) {
 		item = pool_alloc(&pkt_ht_item_pool);
 		if (item == NULL) {
-			softirq_unlock();
+			sched_unlock();
 			return 1; /* drop: error: no memory */
 		}
 		memcpy(item->sha, test_r->hwaddr_src, ETH_ALEN);
 		item->cnt = 0;
 
-		hashtable_put(pkt_ht, item->sha, item);
+		ht_item = pool_alloc(&ht_item_pool);
+		ht_item = hashtable_item_init(ht_item, item->sha, item);
+		hashtable_put(pkt_ht, ht_item);
+
 	}
 
 	++item->cnt;
 
 	ret = item->cnt + item->avg > 2 * PKT_LIMIT ? 1 : 0;
 
-	softirq_unlock();
+	sched_unlock();
 
 	return ret;
 }
@@ -199,7 +205,7 @@ static void pkt_tmr_hnd(struct sys_timer *tmr, struct hashtable *ht) {
 	unsigned char **key;
 	struct pkt_ht_item *item;
 
-	softirq_lock();
+	sched_lock();
 	key = hashtable_get_key_first(ht);
 
 	while (key != NULL) {
@@ -210,24 +216,18 @@ static void pkt_tmr_hnd(struct sys_timer *tmr, struct hashtable *ht) {
 
 		key = hashtable_get_key_next(ht, key);
 	}
-	softirq_unlock();
+	sched_unlock();
 }
+HASHTABLE_DEF(pkt_hashtable, PKT_HT_SZ, pkt_ht_key_hash, pkt_ht_key_cmp);
 
 static int pkt_counter_init(void) {
 	int ret;
 	struct nf_rule rule;
-	struct hashtable *pkt_ht;
-
-	pkt_ht = hashtable_create(PKT_HT_SZ, pkt_ht_key_hash,
-			pkt_ht_key_cmp);
-	if (pkt_ht == NULL) {
-		return -ENOMEM;
-	}
+	struct hashtable *pkt_ht = &pkt_hashtable;
 
 	ret = timer_init_msec(&pkt_tmr, TIMER_PERIODIC, PKT_TMR_SEC * 1000,
 			(sys_timer_handler_t)pkt_tmr_hnd, pkt_ht);
 	if (ret != 0) {
-		hashtable_destroy(pkt_ht);
 		return ret;
 	}
 
@@ -239,7 +239,6 @@ static int pkt_counter_init(void) {
 	ret = nf_add_rule(NF_CHAIN_INPUT, &rule);
 	if (ret != 0) {
 		timer_close(&pkt_tmr);
-		hashtable_destroy(pkt_ht);
 		return ret;
 	}
 
