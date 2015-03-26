@@ -11,7 +11,7 @@ package zrv.cmd
 module version {
 	source "version.c"
 
-	depends embox.compat.libc.LibC
+	depends embox.compat.libc.all
 	depends embox.compat.posix.util.getopt
 	depends embox.framework.LibFramework
 }

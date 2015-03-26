@@ -3,7 +3,7 @@ package embox.driver
 module flash_emu {
 	source "flash_emu.c"
 	option number dev_quantity=4
-	
+
 	depends embox.fs.node
 	depends embox.mem.page_api
 	depends embox.mem.sysmalloc_api

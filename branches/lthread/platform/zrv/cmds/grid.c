@@ -14,7 +14,7 @@
 #include <time.h>
 #include <arpa/inet.h>
 #include <kernel/thread.h>
-#include <err.h>
+#include <util/err.h>
 
 #include <utmp.h>
 
