@@ -119,7 +119,7 @@ int sock_dgram_recvmsg(struct sock *sk, struct msghdr *msg, int flags) {
 		return err;
 	}
 
-	nrecv = skb_iovec_buf(msg->msg_iov, msg->msg_iovlen, 
+	nrecv = skb_iovec_buf(msg->msg_iov, msg->msg_iovlen,
 			skb->p_data, skb->p_data_end - skb->p_data);
 
 	sk->rx_data_len -= skb->p_data_end - skb->p_data;

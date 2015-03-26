@@ -16,7 +16,7 @@ package zrv.cmd
 module backup {
 	source "backup.c"
 
-	depends embox.compat.libc.LibC
+	depends embox.compat.libc.all
 	depends embox.compat.posix.fs.dirent
 	depends embox.compat.posix.fs.fsop
 	depends embox.compat.posix.util.getopt
