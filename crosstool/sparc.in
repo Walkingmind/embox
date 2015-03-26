@@ -3,8 +3,4 @@
 #also --with-cpu=leon was added  to libgloss (binutils)
 
 TARGET=sparc-elf
-#TARGET_OPTIONS="--with-tune=leon --with-cpu=leon"
-TARGET_OPTIONS="--with-tune=leon --with-cpu=v8"
-
-#TARGET=sparc-leon-elf
-#TARGET_OPTIONS=--with-soft-fp
+TARGET_OPTIONS=
