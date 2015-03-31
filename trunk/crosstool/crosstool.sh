@@ -3,7 +3,7 @@
 # Build a GNU/Linux cross-toolchain
 # $Id$
 
-set -ve 
+set -e 
 
 CROSSTOOL_ARCH=$1
 MAKE_FLAGS=-j$(nproc || echo 1)
