@@ -1,5 +1,4 @@
 #arm
-#this flags was recommended by debian --with-arch=armv4 --with-no-thumb-interwork
-
-TARGET=arm-none-eabi
-TARGET_OPTIONS="--enable-interwork --with-float=soft"
+# it's pretty hard to build proper cortex-{TYPE}{ver} multilib. We decide to use 
+# https://launchpad.net/gcc-arm-embedded. 4.9-2015-q1-update is known to work.
+error_exit 'Please, download and install https://launchpad.net/gcc-arm-embedded'
