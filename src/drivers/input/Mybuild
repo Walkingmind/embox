@@ -3,6 +3,11 @@ package embox.driver.input
 module core {
 	option number hnd_priority = 200
 	source "core.c"
+	
+	@IncludeExport(path="drivers/input")
+	source "input_dev.h"
+	@IncludeExport(path="drivers/input")
+	source "keymap.h"
 
 	depends embox.kernel.irq
 	depends embox.util.DList
