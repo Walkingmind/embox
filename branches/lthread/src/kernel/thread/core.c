@@ -66,7 +66,7 @@ static void __attribute__((noreturn)) thread_trampoline(void) {
 	assert(!critical_inside(CRITICAL_SCHED_LOCK));
 
 	/* execute user function handler */
-	res = current->schedee.run(current->schedee.run_arg);
+	res = current->run(current->run_arg);
 	thread_exit(res);
 	/* NOTREACHED */
 }
@@ -204,6 +204,9 @@ void thread_init(struct thread *t, sched_priority_t priority,
 
 	t->joining = NULL;
 
+	t->run = run;
+	t->run_arg = arg;
+
 	/* cpu context init */
 	/* setup stack pointer to the top of allocated memory
 	 * The structure of kernel thread stack follow:
@@ -215,12 +218,12 @@ void thread_init(struct thread *t, sched_priority_t priority,
 	 * the end
 	 * +++++++++++++++ bottom (t->stack - allocated memory for the stack)
 	 */
-	context_init(&t->context, CONTEXT_PRIVELEGED | CONTEXT_IRQDISABLE, 
+	context_init(&t->context, CONTEXT_PRIVELEGED | CONTEXT_IRQDISABLE,
 			thread_trampoline, thread_stack_get(t) + thread_stack_get_size(t));
 
 	sigstate_init(&t->sigstate);
 
-	schedee_init(&t->schedee, priority, thread_process, run, arg);
+	schedee_init(&t->schedee, priority, thread_process);
 
 	/* initialize everthing else */
 	thread_wait_init(&t->thread_wait);
@@ -438,5 +441,5 @@ clock_t thread_get_running_time(struct thread *t) {
 
 void thread_set_run_arg(struct thread *t, void *run_arg) {
 	assert(t->state == TS_INIT);
-	t->schedee.run_arg = run_arg;
+	t->run_arg = run_arg;
 }
