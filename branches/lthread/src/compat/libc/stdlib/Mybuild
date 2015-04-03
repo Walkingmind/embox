@@ -9,7 +9,7 @@ static module rand {
 static module config {
 	source "getpagesize.c"
 	source "sysconf.c"
-	
+
 	depends embox.mem.page_api
 }
 
@@ -22,7 +22,8 @@ static module core {
 	source "abort.c"
 	source "strtoll.c"
 	source "strtoull.c"
-	source "atol.c"	
+	source "atol.c"
+	source "itoa.c"
 
 	depends config
 	@NoRuntime depends rand /* qsort required*/
