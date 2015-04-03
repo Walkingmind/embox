@@ -14,13 +14,13 @@ char *itoa( int num, char *buf, unsigned short int base )
 	char *p = buf;
 	char *p1, *p2;
 	int ud = 0;
-	
+
 	*buf = '\0';	/* initialize buffer. In the case of an error, this will already be in the buffer, indicating that the result is invalid (NULL). */
 	p1 = buf;	/* start of buffer */
 
 	// check base
 	if( base < 2 || base > 36 )
-		{ return; }
+		{ return buf; }
 
 	/* If num < 0, put `-' in the head.  */
 	if( num < 0 )
