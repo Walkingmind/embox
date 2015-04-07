@@ -44,7 +44,7 @@ static int diag_fstat(struct idesc *data, void *buff) {
 	st->st_mode = S_IFCHR;
 
 	return 0;
-	
+
 }
 
 static int diag_ioctl(struct idesc *desc, int request, void *data) {
