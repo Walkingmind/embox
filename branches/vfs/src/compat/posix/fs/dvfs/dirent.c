@@ -51,7 +51,7 @@ int closedir(DIR *dir) {
 		SET_ERRNO(EBADF);
 		return -1;
 	}
-	
+
 	dir->dir_dentry->usage_count--;
 	objfree(&dir_pool, dir);
 
@@ -66,18 +66,24 @@ struct dirent *readdir(DIR *dir) {
 		SET_ERRNO(EBADF);
 		return NULL;
 	}
-	
+
 	l = (struct lookup) {
 		.parent = dir->dir_dentry,
 		.item   = dir->prv_dentry,
 	};
 
+	c.pos = dir->pos;
 	if (dvfs_iterate(&l, &c)) {
 		SET_ERRNO(EAGAIN);
 		return NULL;
 	}
 
+	if (!l.item) {
+		dir->pos = 0;
+		return NULL;
+	}
 	fill_dirent(&dir->dirent, l.item);
+	dir->pos++;
 
 	return &dir->dirent;
 }
