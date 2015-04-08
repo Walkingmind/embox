@@ -11,7 +11,9 @@
 #include <sys/cdefs.h>
 #include <sys/types.h>
 
-struct sched_timing { 
+#include <kernel/sched/sched_timing.h>
+
+struct sched_timing {
 	EMPTY_STRUCT_BODY
 };
 
