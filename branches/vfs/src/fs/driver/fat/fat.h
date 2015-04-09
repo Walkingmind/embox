@@ -232,6 +232,7 @@ struct fat_fs_info {
 };
 
 struct fat_file_info {
+	struct fat_fs_info *fsi;
 	struct volinfo *volinfo;		/* vol_info_t used to open this file */
 	uint32_t dirsector;			/* physical sector containing dir entry of this file */
 	uint8_t diroffset;			/* # of this entry within the dir sector */
@@ -249,5 +250,5 @@ int fat_check_filename(char *filename);
 
 extern char *path_canonical_to_dir(char *dest, char *src);
 extern char *path_dir_to_canonical(char *dest, char *src, char dir);
- 
+
 #endif /* FAT_H_ */
