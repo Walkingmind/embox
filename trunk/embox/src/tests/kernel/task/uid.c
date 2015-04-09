@@ -1,8 +1,8 @@
 /**
- * @file 
- * @brief 
+ * @file
+ * @brief
  *
- * @author  Anton Kozlov 
+ * @author  Anton Kozlov
  * @date    05.02.2013
  */
 
@@ -46,6 +46,6 @@ TEST_CASE("seteuid should be compatible with POSIX") {
 
 #include <kernel/task/resource/u_area.h>
 static int teardown_test(void) {
-        memset(task_self_u_area(), 0, sizeof(struct task_u_area));
+        memset(task_self_resource_u_area(), 0, sizeof(struct task_u_area));
 	return 0;
 }
