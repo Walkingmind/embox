@@ -1,14 +1,16 @@
 /**
- * @file 
- * @brief 
+ * @file
+ * @brief
  *
- * @author  Anton Kozlov 
+ * @author  Anton Kozlov
  * @date    23.04.2014
  */
 
 #include <unistd.h>
 #include <sys/wait.h>
+
 #include <embox/test.h>
+#include <kernel/task.h>
 
 EMBOX_TEST_SUITE("waitpid testsuite");
 
@@ -40,8 +42,8 @@ TEST_CASE("waitpid for any child should wait till child finished") {
 	pid_t child_pid, wp_ret;
 	int status;
 
-	child_pid = new_task("", test_waitpid_child, 
-			param2void(TEST_WAITPID_SLEEP_MUL, 
+	child_pid = new_task("", test_waitpid_child,
+			param2void(TEST_WAITPID_SLEEP_MUL,
 				TEST_WAITPID_CHILD_ECODE));
 
 	wp_ret = waitpid(-1, &status, 0);
@@ -57,8 +59,8 @@ TEST_CASE("waitpid WNOHANG for any child shouldn't wait till child finished") {
 	pid_t child_pid, wp_ret;
 	int status;
 
-	child_pid = new_task("", test_waitpid_child, 
-			param2void(TEST_WAITPID_SLEEP_MUL, 
+	child_pid = new_task("", test_waitpid_child,
+			param2void(TEST_WAITPID_SLEEP_MUL,
 				TEST_WAITPID_CHILD_ECODE));
 
 	wp_ret = waitpid(-1, &status, WNOHANG);
@@ -77,8 +79,8 @@ TEST_CASE("waitpid for explicit child should wait till child finished") {
 	pid_t child_pid, wp_ret;
 	int status;
 
-	child_pid = new_task("", test_waitpid_child, 
-			param2void(TEST_WAITPID_SLEEP_MUL, 
+	child_pid = new_task("", test_waitpid_child,
+			param2void(TEST_WAITPID_SLEEP_MUL,
 				TEST_WAITPID_CHILD_ECODE));
 
 	wp_ret = waitpid(child_pid, &status, 0);
@@ -93,8 +95,8 @@ TEST_CASE("waitpid for any child should wait till all child finished") {
 	int i;
 
 	for (i = 0; i < 2; i++) {
-		cpid[i] = new_task("", test_waitpid_child, 
-				param2void(TEST_WAITPID_SLEEP_MUL, 
+		cpid[i] = new_task("", test_waitpid_child,
+				param2void(TEST_WAITPID_SLEEP_MUL,
 					TEST_WAITPID_CHILD_ECODE + i));
 		pid_sum += cpid[i];
 		ecode_sum += i;
@@ -120,8 +122,8 @@ TEST_CASE("waitpid for any child should wait till child finished in order") {
 	int i;
 
 	for (i = 0; i < 2; i++) {
-		cpid[i] = new_task("", test_waitpid_child, 
-				param2void(i * TEST_WAITPID_SLEEP_MUL, 
+		cpid[i] = new_task("", test_waitpid_child,
+				param2void(i * TEST_WAITPID_SLEEP_MUL,
 					TEST_WAITPID_CHILD_ECODE + i));
 	}
 
@@ -142,8 +144,8 @@ TEST_CASE("waitpid for target child should wait till it finished") {
 	int i;
 
 	for (i = 0; i < 2; i++) {
-		cpid[i] = new_task("", test_waitpid_child, 
-				param2void(i * TEST_WAITPID_SLEEP_MUL, 
+		cpid[i] = new_task("", test_waitpid_child,
+				param2void(i * TEST_WAITPID_SLEEP_MUL,
 					TEST_WAITPID_CHILD_ECODE + i));
 	}
 
@@ -170,8 +172,8 @@ TEST_CASE("waitpid for target child should wait till it finished") {
 	int i;
 
 	for (i = 0; i < 2; i++) {
-		cpid[i] = new_task("", test_waitpid_child, 
-				param2void(i * TEST_WAITPID_SLEEP_MUL, 
+		cpid[i] = new_task("", test_waitpid_child,
+				param2void(i * TEST_WAITPID_SLEEP_MUL,
 					TEST_WAITPID_CHILD_ECODE + i));
 	}
 

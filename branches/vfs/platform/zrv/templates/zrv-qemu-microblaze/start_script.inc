@@ -22,7 +22,7 @@
 
 "su -c telnetd &",
 /*"su -c dropbeard", */
-"dropbeard",
+/*"dropbeard",*/
 "su -c httpd &",
 "su -c snmpd &",
 
