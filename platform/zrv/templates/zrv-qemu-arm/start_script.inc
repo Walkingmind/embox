@@ -33,5 +33,5 @@
 "su -c snmpd &",
 "export QT_QPA_FONTDIR=/fonts",
 "login &",
-"su -c texteditor -platform vnc",
+"su -c \"texteditor -platform vnc\"",
 

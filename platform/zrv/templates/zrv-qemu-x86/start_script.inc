@@ -31,4 +31,4 @@
 "export QT_QPA_FONTDIR=/fonts",
 "login &",
 //"shell_run tish &",
-"su -c texteditor -platform vnc",
+"su -c \"texteditor -platform vnc\"",
