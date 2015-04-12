@@ -1,2 +1,0 @@
-TARGET=msp430-elf
-TARGET_OPTIONS= 

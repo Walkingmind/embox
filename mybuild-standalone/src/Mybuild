@@ -1,5 +1,0 @@
-package app
-
-module hello {
-	source "hello.c"
-}
