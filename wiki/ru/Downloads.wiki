@@ -2,11 +2,13 @@
 
 = Стабильные версии Embox =
 
-Крайняя стабильная версия *embox-0.3.8* (вышла 28 Сентября 2014)
+Крайняя стабильная версия *embox-0.3.9* (вышла 12 Апреля 2015)
 
 || Версия || Размер || SHA1 ||
-|| *[https://googledrive.com/host/0B-PxXtV6LZirdWdCR01vbEJ1dmM/embox-0.3.8.txz embox-0.3.8.txz]* || 3.3 MB || `4b301ecfcedb4021cd8ebb200b61522798db8c8e` ||
-|| *[https://googledrive.com/host/0B-PxXtV6LZirdWdCR01vbEJ1dmM/embox-0.3.8.tar.gz embox-0.3.8.tar.gz]* || 5.0 MB || `5985c29074bfcb06cfa30c4a23069bad178573fc` ||
+|| *[https://googledrive.com/host/0B-PxXtV6LZirdWdCR01vbEJ1dmM/embox-0.3.9.txz embox-0.3.9.txz]* || 2.9 MB || `f13ed5289f798ed5a484d6d362a59e50109b7ed7` ||
+|| *[https://googledrive.com/host/0B-PxXtV6LZirdWdCR01vbEJ1dmM/embox-0.3.9.tar.gz embox-0.3.9.tar.gz]* || 4.6 MB || `49f9636c82540d922f9f1b1d768502af77fef72f` ||
+|| [https://googledrive.com/host/0B-PxXtV6LZirdWdCR01vbEJ1dmM/embox-0.3.8.txz embox-0.3.8.txz] || 3.3 MB || `4b301ecfcedb4021cd8ebb200b61522798db8c8e` ||
+|| [https://googledrive.com/host/0B-PxXtV6LZirdWdCR01vbEJ1dmM/embox-0.3.8.tar.gz embox-0.3.8.tar.gz] || 5.0 MB || `5985c29074bfcb06cfa30c4a23069bad178573fc` ||
 || [https://googledrive.com/host/0B-PxXtV6LZirdWdCR01vbEJ1dmM/embox-0.3.7.txz embox-0.3.7.txz] || 3.7 MB || `76a175b38f59b7319a766c6564df6b63bffd88be` ||
 || [https://googledrive.com/host/0B-PxXtV6LZirdWdCR01vbEJ1dmM/embox-0.3.7.tar.gz embox-0.3.7.tar.gz] || 5.7 MB || `af4fd774dc58adf3bd32763407e0fabe6908b51d` ||
 || [https://googledrive.com/host/0B-PxXtV6LZirdWdCR01vbEJ1dmM/embox-0.3.6.txz embox-0.3.6.txz] || 3.3 MB || `8200f5e2a3e920d52eb1296cb23d0719880599ec` ||
