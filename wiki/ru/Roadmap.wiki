@@ -1,14 +1,22 @@
 #summary Embox development roadmap
 #labels Phase-Requirements,Featured
 
-= 2015/02/01 v0.4.0 [http://code.google.com/p/embox/issues/list?can=1&q=milestone=v0.4.0 [issues]] [http://code.google.com/p/embox/issues/list?q=milestone=v0.4.0 [open issues]] =
+= 2015/07/01 v0.4.0 [http://code.google.com/p/embox/issues/list?can=1&q=milestone=v0.4.0 [issues]] [http://code.google.com/p/embox/issues/list?q=milestone=v0.4.0 [open issues]] =
   * Чистка проекта
   * Новая система сборки
-
-= 2014/11/01 v0.3.9 [http://code.google.com/p/embox/issues/list?can=1&q=milestone=v0.3.9 [issues]] [http://code.google.com/p/embox/issues/list?q=milestone=v0.4.0 [open issues]] =
-  * Добавить IP фрагментацию
   * IP телефон на плате STM32F407
-  * Поддержка протокола ModBus
+  * Поддержка VoCore & BlackSwift платформ
+
+= 2015/04/12 v0.3.9 [http://code.google.com/p/embox/issues/list?can=1&q=milestone=v0.3.9 [issues]] =
+  * Добавлен новый механизм размещения публичных заголовочных файлов
+  * Добавлена поддержка протокола !ModBus с помощью библиотеки libmodbus
+  * Lisp500 заменен на schema
+  * Добавлена поддержка языка mruby
+  * Исправлены несколько ошибок в TCP портоколе, приводивших к неправильной обработке закрывающихся сокетов
+  * Softirq заменены на ligth_thread ы
+  * Исправлена работа с функцией nanosleep для маленьких интервалов времени
+  * Улучшена реализация файловой системы FAT 
+  * Поддержка SD карты на STM32F4discovery
 
 = 2014/09/28 v0.3.8 [http://code.google.com/p/embox/issues/list?can=1&q=milestone=v0.3.8 [issues]] =
   * Переработана платформа для MMU (работают x86, Microblaze, SPARC (leon3))
@@ -26,13 +34,13 @@
   * Добавлен фреймворк для регрессионного удаленного тестирования
   * Исправлено много ошибок в IP стеке и файловой подсистеме
   
-= 2014/02/01 v0.3.6 [http://code.google.com/p/embox/issues/list?can=1&q=milestone=v0.3.6 [issues]]  [http://code.google.com/p/embox/issues/list?q=milestone=v0.3.6 [open issues]] =
+= 2014/02/01 v0.3.6 [http://code.google.com/p/embox/issues/list?can=1&q=milestone=v0.3.6 [issues]] =
   * Переработана подсистему индексных дескрипторов
   * Добавлена поддержку файловых ситем (Ext4, CIFS)
   * Добавлен новый тип модулей(applications), команды пользователя с многократным запуском
   * Добавлен драйвер сетевой карты Virtio-net
   * Поддержка USB
-  * Добавлена библиотеку SysLink для процессоров Davinci
+  * Добавлена библиотеку !SysLink для процессоров Davinci
   * Пеработан модуль 'task'
   
 
