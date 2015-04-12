@@ -1,0 +1,24 @@
+package embox.cmd
+
+@AutoCmd
+@Cmd(name = "lssata",
+	help = "Display sata ports and devices",
+	man = '''
+		NAME
+			lssata - list sata ports and devices
+		SYNOPSIS
+			lsi2c [-f] [-h]
+		DESCRIPTION
+			lssata is a utility for displaying information
+			about sata ports and devices connected to them.
+		OPTIONS
+			-f print full information
+			-h print help
+		AUTHOR
+			Kirill Smirnov
+	''')
+module lssata {
+	source "lssata.c"
+
+	depends embox.driver.ahci.core
+}

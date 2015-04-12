@@ -1,0 +1,23 @@
+package embox.cmd
+
+@AutoCmd
+@Cmd(name = "clock",
+	help = "Print existing in system clock sources",
+	man = '''
+		NAME
+			clock - Print existing in system clock sources
+		SYNOPSIS
+			clock TODO
+		DESCRIPTION
+			Detailed description.
+		AUTHORS
+			Alina Kramar
+	''')
+module clock {
+	source "clock.c"
+
+	depends embox.compat.libc.all
+	depends embox.compat.posix.LibPosix
+	depends embox.kernel.time.clock_source
+	depends embox.framework.LibFramework
+}

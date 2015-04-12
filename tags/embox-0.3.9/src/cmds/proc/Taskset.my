@@ -1,0 +1,22 @@
+package embox.cmd.proc
+
+@AutoCmd
+@Cmd(name = "taskset",
+	help = "report a snapshot of the current processes.",
+	man = '''
+		NAME
+			taskset - retrieve or set a process's CPU affinity
+		SYNOPSIS
+			taskset -p [mask] tid
+		DESCRIPTION
+			retrieve or set a process's CPU affinity
+		AUTHORS
+			Anton Bulychev
+	''')
+module taskset {
+	source "taskset.c"
+
+	depends embox.compat.libc.all
+	depends embox.kernel.task.api
+	depends embox.kernel.task.resource.affinity
+}

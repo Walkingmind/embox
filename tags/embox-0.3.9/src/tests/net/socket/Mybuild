@@ -1,0 +1,19 @@
+package embox.test.net.socket
+
+module inet_socket_test {
+	source "inet_socket_test.c"
+
+	depends embox.compat.posix.net.socket
+	depends embox.compat.posix.LibPosix
+	depends embox.framework.LibFramework
+	depends embox.driver.net.loopback
+	depends embox.net.af_inet
+}
+
+module packet_socket_test {
+	source "packet_socket_test.c"
+
+	depends embox.compat.posix.net.socket
+	depends embox.compat.posix.LibPosix
+	depends embox.framework.LibFramework
+}

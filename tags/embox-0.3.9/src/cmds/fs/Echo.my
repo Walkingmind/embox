@@ -1,0 +1,21 @@
+package embox.cmd.fs
+
+@AutoCmd
+@Cmd(name = "echo",
+	help = "Display last debug messages..",
+	man = '''
+		NAME
+			echo - display a line of text
+		SYNOPSIS
+			echo "STRING" >> FILE
+		DESCRIPTION
+			 Echo the STRING(s) to standard output.
+	''')
+module echo {
+	source "echo.c"
+
+	depends embox.compat.libc.all
+	depends embox.compat.posix.util.getopt
+	depends embox.compat.posix.fs.file
+	depends embox.framework.LibFramework
+}

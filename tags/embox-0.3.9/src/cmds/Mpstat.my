@@ -1,0 +1,21 @@
+package embox.cmd
+
+@AutoCmd
+@Cmd(name = "mpstat",
+	help = "report processors related statistics..",
+	man = '''
+		NAME
+			mpstat - report processors related statistics.
+		SYNOPSIS
+			mpstat -P ALL
+		DESCRIPTION
+			Report processors related statistics.
+		AUTHORS
+			Anton Bulychev
+	''')
+module mpstat {
+	source "mpstat.c"
+
+	depends embox.compat.libc.all
+	depends embox.kernel.cpu.stats
+}

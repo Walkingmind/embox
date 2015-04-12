@@ -1,0 +1,102 @@
+package embox.compat.libc.stdio
+
+static module print {
+	option number support_floating = 1
+
+	source "printf_impl.c"
+	source "printf_impl.h"
+
+	depends embox.compat.libc.math                   // depends from support_floating value
+	@NoRuntime depends embox.compat.libc.stdlib.core // atoi
+	@NoRuntime depends embox.compat.libc.type
+}
+
+static module sprintf {
+	source "sprintf.c"
+	source "snprintf.c"
+
+	@NoRuntime depends print
+	@NoRuntime depends embox.lib.LibGcc
+}
+
+static module file_pool {
+	option number file_quantity = 16
+
+	source "stdio_file.c"
+}
+
+static module open {
+	source "fopen.c"
+	depends file_pool
+	depends embox.compat.posix.fs.open
+	@NoRuntime depends embox.compat.libc.str
+}
+
+static module fseek {
+	source "fseek.c"
+
+	depends embox.compat.posix.fs.lseek
+}
+
+static module printf {
+	source "printf.c"
+}
+
+static module file_ops {
+	source "stdfile_static.c"
+
+	source "fgetc.c"
+	source "ungetc.c"
+	source "fgets.c"
+
+	source "funopen.c"
+	source "fileno.c"
+	source "fread.c"
+	source "fwrite.c"
+	source "fioctl.c"
+	source "fflush.c"
+	source "fclose.c"
+
+	source "stdio_stubs.c"
+	source "buf.c"
+
+	depends file_pool
+	depends embox.compat.posix.fs.file_ops
+	
+
+	source "fputc.c"
+	source "fputs.c"
+
+	source "printf.c"
+	source "fprintf.c"
+	@NoRuntime depends print
+}
+
+static module rename {
+	source "rename.c"
+}
+
+static module all {
+	@NoRuntime depends rename
+	@NoRuntime depends sprintf
+	@NoRuntime depends open
+	@NoRuntime depends fseek
+	@NoRuntime depends file_ops
+	@NoRuntime depends scanf
+	@NoRuntime depends perror
+	@NoRuntime depends div
+}
+
+static module perror {
+	source "perror.c"
+}
+
+static module scanf {
+	source "scanf.c"
+}
+
+static module div {
+	source "div.c"
+	source "ldiv.c"
+	/* source "lldiv.c" */
+}

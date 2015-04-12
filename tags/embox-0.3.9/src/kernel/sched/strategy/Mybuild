@@ -1,0 +1,28 @@
+package embox.kernel.sched.strategy
+
+module priority_based {
+
+	depends embox.kernel.sched.affinity.affinity
+	depends embox.kernel.sched.timing.timing
+	depends embox.kernel.sched.priority.priority
+
+	depends runq.prioq
+}
+
+module priority_based_smp {
+
+	depends embox.kernel.sched.affinity.affinity
+	depends embox.kernel.sched.timing.timing
+	depends embox.kernel.sched.priority.priority
+
+	depends runq.list_array
+}
+
+module trivial {
+
+	depends embox.kernel.sched.affinity.affinity
+	depends embox.kernel.sched.timing.timing
+	depends embox.kernel.sched.priority.none
+
+	depends runq.list
+}

@@ -1,0 +1,19 @@
+
+package embox.arch.msp430.kernel
+
+module arch extends embox.arch.arch {
+	source "arch.c"
+}
+
+module boot {
+	source "boot_entry.S"
+	source "init_hooks.c"
+}
+
+module irq extends embox.arch.interrupt {
+	source "ipl_impl.h"
+	source "interrupt_handle.c"
+
+	depends embox.kernel.irq
+}
+

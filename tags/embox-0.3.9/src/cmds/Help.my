@@ -1,0 +1,23 @@
+package embox.cmd
+
+@AutoCmd
+@Cmd(name = "help",
+	help = "Shows all available commands",
+	man = '''
+		NAME
+			help - displays all possible commands
+		SYNOPSIS
+			help [-h]
+		AUTHORS
+			Alexandr Batyukov
+	''')
+module help {
+	/* FIXME:
+	 * 1.it depends from embox.framework.cmd (called from help.c)
+	 */
+	source "help.c"
+
+	@NoRuntime depends embox.compat.libc.stdio.printf
+	depends embox.compat.posix.util.getopt
+	depends embox.framework.LibFramework
+}

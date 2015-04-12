@@ -1,0 +1,29 @@
+package embox.cmd.net
+
+@AutoCmd
+@Cmd(name = "ntpdate",
+	help = "Set the date and time via NTP",
+	man = '''
+		NAME
+			ntpdate - Set the date and time via NTP
+		SYNOPSIS
+			ntpdate [keys] server
+		DESCRIPTION
+			TODO
+		AUTHORS
+			Alexander Kalmuk
+			Ilia Vaprol
+	''')
+module ntpdate {
+	option number timeout = 5000
+	source "ntpdate.c"
+
+	depends embox.compat.posix.fs.file_ops
+	depends embox.compat.posix.net.inet_addr
+	depends embox.compat.posix.net.socket
+	depends embox.compat.posix.util.getopt
+	depends embox.framework.LibFramework
+	depends embox.kernel.time.timekeeper
+	depends embox.compat.libc.all
+	depends embox.net.lib.ntp
+}

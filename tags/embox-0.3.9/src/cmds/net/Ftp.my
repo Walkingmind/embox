@@ -1,0 +1,33 @@
+package embox.cmd.net
+
+@AutoCmd
+@Cmd(name = "ftp",
+	help = "FTP client",
+	man = '''
+		NAME
+			ftp - Simple File Transfer Protocol client
+		SYNOPSIS
+			ftp [-h] [address [port]]
+		DESCRIPTION
+			Simple implimentation of File Transport Protocol (client side)
+		OPTIONS
+			-h	help message
+			address
+				address of host
+		EXAMPLES
+			ftp 10.0.2.10
+		SEE ALSO
+			tftp
+		AUTHORS
+			Ilia Vaprol
+	''')
+module ftp {
+	source "ftp.c"
+	option number cmd_buff_sz=128
+	option number data_buff_sz=1024
+
+	depends embox.compat.posix.util.getpass
+	depends embox.compat.libc.all
+	depends embox.compat.posix.net.socket
+	depends embox.framework.LibFramework
+}

@@ -1,0 +1,9 @@
+package embox.net.l2
+
+module ethernet {
+	source "ethernet.c"
+
+	@NoRuntime depends embox.compat.libc.assert
+	@NoRuntime depends embox.compat.libc.str
+	depends embox.net.dev
+}
