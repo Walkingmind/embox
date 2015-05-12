@@ -1,0 +1,39 @@
+This page describes image building process that will boot embox on BeagleBoard.
+If you want to run on real hardware, refer SD section. If you are looking for simulator, refer to QEMU.
+
+# Boot SD #
+
+Step-by-step
+  * Build embox with arm/omap template
+  * Create uImage with scripts/omap-uboot-uimage like so
+```
+  user:~/embox$ ./scripts/omap-uboot-uimage
+```
+This will place `uImage` to embox root.
+  * Create SD with [this](http://embox.googlecode.com/files/embox-omap-sd.tar.gz)  script like so
+```
+  user:~/embox$ /path/to/embox-omap-sd/create-boot-sd /dev/sdb ./uImage
+```
+WARNING!!! It will destroy all /dev/sdb content! Make sure device argument points to SD card, that you want overwrite.
+
+Now you have bootable SD, plug it BeagleBoard and power it on.
+
+# QEMU #
+
+BeagleBoard is supported in QEMU with Linaro patched. Get it from https://launchpad.net/qemu-linaro
+
+To just run embox on qemu choose creating nand image. If you want to test bootable sd before putting it in BeagleBoard, there is SD subsection.
+
+## NAND image ##
+Nand image creating is a bit complicated. So we've prepared scripts to build it and run qemu with apropriate options. Simply type
+
+```
+  user:~/embox$ ./scripts/qemu/auto_qemu
+```
+
+## SD card ##
+Assuming you have prepared boot SD as descibed above, type
+
+```
+qemu-system-arm -M beagle -sd /dev/sdb -serial stdio
+```

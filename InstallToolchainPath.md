@@ -1,0 +1,76 @@
+**[PATH](http://en.wikipedia.org/wiki/Path_(variable))** environment variable
+specifies a list of directories where executable programs are located. Each time
+you type the command without its full path, the
+[shell](http://en.wikipedia.org/wiki/Shell_(computing)) searches every directory
+listed in the `PATH` variable from the beginning and invokes the first found
+executable.
+
+
+
+# Windows #
+
+Some things to denote first:
+  * `PATH` variable on Windows uses _semicolon_ (**`;`**) to separate directories in the list
+  * Variables can refer to another one using _percent_ signs: **`%VARIABLE_NAME%`**
+  * Environment variables on Windows are case insensitive
+
+To manage **Environment Variables** open the corresponding properties dialog:
+  1. Right click **My Computer** icon and select **Properties**
+    * Users of Windows Vista or higher should also click on **Advanced system settings** link on the left side of the opened window
+  1. Open **Advanced** tab and press **Environment Variables**
+
+You have two options here - you can either modify system-wide `PATH` variable or
+create user variable which takes precedence over the system one.
+
+## Per-user setup ##
+
+Using this option affects only the current user account. This is useful for
+users with limited administrative rights.
+
+To create new user variable:
+  * Press _New..._ inside _User variables_ pane
+  * Type `PATH` inside the first field and the desired value inside the second one
+
+Do not forget to keep the default system paths in the overridden `PATH` variable.
+
+## System-wide setup ##
+
+Use this option if you want your changes to take effect for all users on your
+computer. Be careful and do not remove any directories from `PATH` unless you
+clearly understand what you are doing.
+
+To modify `PATH` system variable select it in _System variables_ pane and
+double-click it or press _Edit..._.
+
+## Example ##
+
+The most common reason to modify `PATH` variable is the need to append some
+directory to it.
+
+Consider the case of adding Cigwin executables directory to the `PATH`. Let
+Cigwin is installed to `C:\cygwin`, and we don't want to modify system paths
+(or we don't have such permissions).
+Thus we create new user variable (or modify existing one, if any) and name it
+`PATH`. As far as we don't need to completely override system paths, the desired
+value of the new variable is:
+```
+%PATH%;C:\cygwin\bin
+```
+> ![http://embox.googlecode.com/svn/wiki/images/InstallToolchainPath/environment-variables-path-cygwin.png](http://embox.googlecode.com/svn/wiki/images/InstallToolchainPath/environment-variables-path-cygwin.png)
+
+# Linux #
+
+Some important rules concerning environment variables in Linux (and Unix in general):
+  * `PATH` variable uses _colon_ (**`:`**) delimiter
+  * Variables can refer to another one using _dollar_ sign: **`$VARIABLE_NAME`**
+  * Environment variables are local to process, and child processes inherit all the environment variables of parent process
+  * Case sensitivity
+
+It is assumed that you are experienced enough to learn how to set environment
+variables in your shell.
+
+For `bash` you typically have to edit **`~/.profile`** or **`~/.bash_profile`**
+adding something like:
+```
+export PATH="$PATH:/path/to/your/bin"
+```

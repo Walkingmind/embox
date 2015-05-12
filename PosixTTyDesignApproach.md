@@ -1,0 +1,3 @@
+# Design #
+
+http://embox.googlecode.com/svn/wiki/images/Modules/posix_tty_designapproach.JPG

@@ -1,0 +1,150 @@
+# That our Thread can #
+
+The system can run multiple threads (no more than 256, including idle\_thread), which may in turn have access to CPU time.
+They have priorities, and may be in different states.
+For them, provides the following mechanisms: message queues, waiting for events and mutexes.
+http://code.google.com/p/embox/wiki/RuSchedulers
+
+# What is the Thread #
+
+The interface is described in the thread kernel / thread.h, he realized in thread.c. In thread.h described the structure of
+the stream, which contains the following fields (fields are excluded, directly related to the scheduler and absolutely
+unnecessary to the user):
+```
+struct context context; /* The context of the appropriate stream. In fact, determines the state and actions within a thread */
+
+void (*run)(void);      /* Function that starts the thread. */
+
+thread_id_t id;         /* ID of the stream. Unique to each of the existing */        
+
+thread_priority_t priority; /* The priority of the stream. The higher it is, the more / sooner / more often the thread of work. */ 
+
+thread_state_t state;  /* The state of thread. Possible values are:     
+  THREAD_STATE_RUN  (thread is running or ready to run),     
+  THREAD_STATE_STOP (stream or not run, or removed),      
+  THREAD_STATE_WAIT (thread waits for some event),     
+  THREAD_STATE_ZOMBIE (thread stopped, but not yet removed). */
+
+bool need_message;      /* If true, then the thread waits for a message (state == THREAD_STATE_WAIT). */ 
+
+queue_t messages;       /* The message queue for this stream. */ 
+
+struct event msg_event; /* This event occurs when a thread receives the message. About events, see below. */
+```
+
+# Necessary functions for threads #
+
+On an example of any of the tests for the thread can be seen that threading is the following:
+
+## Creating and initializing ##
+
+Creates a pointer to the stream:
+```
+struct thread * thread;
+```
+Allocated space for the thread's stack (stack size pick and choose by eye, so the overthread was not):
+```
+#define THREAD_STACK_SIZE 0x10000
+char stack[THREAD_STACK_SIZE];
+```
+Describes the function, with which the Thread will begin its work:
+```
+void run() {
+    printf("Hello, World!");
+}
+```
+Isolation of a new thread and initializes it done as follows:
+```
+thread = thread_create(run, stack + THREAD_STACK_SIZE);
+```
+The second argument thread\_create - a pointer to the top of the stack allocated for the stream.
+
+Add to scheduler thread by running the procedure
+```
+thread_start(thread);
+```
+Only then will begin to notice that the scheduler thread and give it the CPU time.
+
+(For more details about the scheduler: http://code.google.com/p/embox/wiki/RuSchedulers)
+
+## Priorities ##
+
+By order of priority of the heart - a non-negative integer not greater than 256 (like, more than enough).
+Can be changed on request. Priority of the newly created stream will be equal to one.
+Priority particular stream idle\_thread (omission of at the moment coincides with the thread of the system) is zero,
+and the change it is not recommended.
+Asking another thread priority of zero is not prohibited.
+
+At any time prior to the addition to the scheduler can change the priority of the thread, just writing
+thread->priority = value; BUT NOTE: you can not change the thread priority that is added to the scheduler
+(state == THREAD\_STATE\_RUN). This can lead to system crashes or loss of some streams. To change the priority
+of the stream, it's safer just to do the following:
+
+Most likely, this will work if the stream is not added to the scheduler (this limitation should be provided to scheduler\_remove);
+```
+thread_change_priority(thread, new_priority);
+```
+Most likely, this will work if the stream is not added to the scheduler (this limitation should be provided to scheduler\_remove);
+
+## Removing Threads ##
+
+Threads themselves are dying, having fullfilled their function. You can also stop (remove) the thread by applying to it
+```
+thread_stop(thread);
+```
+Actually, at the end of the thread is called, this function precisely. It removes the thread from the scheduler, and
+(eventually) release out of his memory.
+# Additional functionality #
+
+## Developments ##
+
+Sometimes, the current thread to lull before the onset of some event. For example, a mutex and message queues used in this way.
+The structure of the events described in the kernel / thread.h (there was a need to specify the thread field as an event
+that occurs when a message is received).  Necessary for this function are described in the kernel / scheduler.h
+(both directly related to work with the scheduler):
+```
+int scheduler_sleep (struct event * event); /* lulls the current thread and binds it to the event event. */
+
+int scheduler_wakeup(struct event *event); /* Wakes up all threads that are tied to the event event. */ 
+// zero if the operation is completed.
+
+void event_init(struct event *event); /* initialize the required event. */
+```
+
+## Messages ##
+
+Sometimes the stream to do some work, but the information can be obtained only from a different thread.
+This information it can get as a message that has:
+```
+int type;   /* message type */
+
+void *data; /* Information in the message. */
+```
+In order to store incoming messages, it has a place in which they are placed upon receipt. If the stream to a message, it takes the first message from the queue and processes it. If the queue is empty, then he goes to sleep and waits for the arrival of the message. When he wakes up the parish itself and processes it. Methods:
+```
+struct message *msg_new(void); /* Allocate memory for the message. Returns a pointer to the selected message.*/
+
+int msg_erase(struct message *message); /* Freeing from under the posts.*/
+
+void msg_send(struct message *message, struct thread *thread); /* Send a message thread thread message. */
+
+struct message *msg_receive(void); /* Attempt to read the message the current thread. In the case of feyla sleep. */
+```
+
+## Mutexes ##
+
+Sometimes, to some resources can not receive simultaneously access multiple threads. In this case, using mutexes. For each such resource is tied a mutex. When a thread attempts to access, he learns a mutex is locked if it is.
+If not, the thread blocks the mutex and continues. Otherwise, the thread goes to sleep and gets up in the queue inside the mutex.
+When the mutex is unlocked took his thread, if the queue is not empty, mutex immediately engaged in a kind of stream of this release, which,
+in turn, awakens.
+
+Mutex structure and essential features described in the kernel / mutex.h:
+
+```
+void mutex_init(struct mutex *mutex); /* Initializes mutex. Makes all empty. */
+
+void mutex_lock(struct mutex *mutex); /* Locks the mutex the current thread. If the mutex was already occupied, then lulls the current thread.*/
+
+void mutex_unlock(struct mutex *mutex); /* Frees a mutex from the current thread.    
+Perhaps, the mutex is immediately engaged by some of the thread in the queue. */
+```

@@ -1,0 +1,10 @@
+We use platform **petalogix-s3adsp1800** because QEMU has support for it. For running Embox on microblaze QEMU you have to build Embox with template **microblaze/petalogic** and start QEMU with option **-M petalogix-s3adsp1800**.
+
+You must have qemu-system-microblaze simulator or you can configure QEMU as following
+```
+ ./configure --target-list=microblaze-linux-user,microblaze-softmmu
+```
+Full command for start simulation look as:
+```
+qemu-system-microblaze -s -S -nographic -M petalogix-s3adsp1800 -net none -kernel <project_path>/build/base/bin/embox
+```

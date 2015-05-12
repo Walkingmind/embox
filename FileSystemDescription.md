@@ -1,0 +1,34 @@
+
+
+# Introduction #
+
+The file system is an abstraction of a file interface (open, close, read, write, ioctrl) as well as a distribution and data formats in storage devices.
+
+We can describe root file system as structure of different file systems, and then handle file and folders in these file system through his symbolic name.
+
+Each file system can create file if permissions allow, and delete it. These operation describe in the appropriate structure.
+
+| rootfs | Rootfs is a node with ramfs driver. Another systems just mount another filesystem over rootfs and ignore it. |
+|:-------|:-------------------------------------------------------------------------------------------------------------|
+| ramfs  | Resizable simple ram filesystem (virtual filesystem) |
+| devfs  | Device filesystem |
+
+# Features #
+
+  1. We can use initramfs (cpio, tar formats)
+  1. We can load ELF files
+  1. We can use an interface for a device driver that appears in a file system (devfs)
+
+# Roadmap #
+
+# How-To #
+
+To use ramfs image:
+  * сreate a separate folder
+  * place there necessary files
+  * cd into this folder
+  * find . -depth -print | cpio -H newc -ov > ../ramfs.cpio
+  * fix path in the option(RAMFS\_CPIO, "path/ramfs.cpio")
+  * mount cpio /ramfs
+
+# Roadmap #

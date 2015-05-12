@@ -1,0 +1,19 @@
+# PNET #
+
+Two principles of network data transmission are in common today: the first is the channel switching and the second is the packet switching.
+
+In the first case connection is established once, building the whole route of data path, though taking a good deal of time. But further data delivery is conducted upon fixed set of rules yielding a determinacy in time. This principle is traditionally utilized by the networks where determinant time is vital (telephony, remote controlling and so on).
+
+When the principle of packet switching is used building the whole route is unnecessary because analysis and processing of packets is conducted at each network host which packet passes. Upon analysing packet further routing takes place and the decision how should it be processed is made. Traditionally this principle is utilized by IP networks and in networks with variable environment of data transmission. This type of data delivery is very flexible and cheap, but determinant time isn’t gained.
+
+The general idea of creating ‘pnet’ stack is the attempt to combine advantages of these types of data transmission, gaining determinant time in delivery and processing of a packet in networks, where packet switching principle is used.
+
+The next figure shows the path of packet processing in a common stack of network protocols.
+
+![http://embox.googlecode.com/svn/wiki/images/Network/net-stack.png](http://embox.googlecode.com/svn/wiki/images/Network/net-stack.png)
+
+As it is seen analysis of different parts of packet is conducted each at it’s own level and depending on the result actions take place. ‘pnet’ on contrary makes an attempt to compute all actions necessary to process a packet and then process it using computed requirements with defined priority.
+
+![http://embox.googlecode.com/svn/wiki/images/Network/pnet-stack.png](http://embox.googlecode.com/svn/wiki/images/Network/pnet-stack.png)
+
+Doing so this approach enables processing specified types of packets using specified determined rules. These rules can be either statically set or be dynamically generated during the system’s operation.

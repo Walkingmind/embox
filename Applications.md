@@ -1,0 +1,6 @@
+Applications are programs user directly interacts. In contrast with [Services](Services.md),
+which build for another programs, application are build for user.
+
+There are only two ways for application to get started:
+  * Application is the only applicaiton is system
+  * Application directly called by Shell.

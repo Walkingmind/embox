@@ -1,0 +1,62 @@
+
+
+# Introduction #
+
+Embox source code was originally developed as part of commercial projects
+[Lanit-Tercom Inc](http://lanit-tercom.com). The main direction of the project
+was an embedded systems. Project's code has been opened. There is an opportunity
+to apply the project for training purposes. The project is now supported and
+actively develops not only by [Lanit-Terom Inc.](http://lanit-tercom.com), but
+by the Department of System Programming of St. Petersburg State University,
+as well as students from other faculties and universities.
+
+# Commercial #
+
+Embox currently used for 3 commercial projects.
+
+## Bootloader ##
+
+The project supports a network, command interpretator and other parts suitable
+for your bootloader, also allows you to fine-tune the interfaces also has
+compatibility with a Linux driver interface. It was used as a boot loader.
+And to debug various memory device drivers.
+
+## Hardware development ##
+
+With flexible and customizable testing system developed by the project
+developers have the equipment, including VHDL design, it is possible to create
+a system of tests, (unit tests for sismulation, regression tests and integration
+tests). Helps in hardware testing at very early stages of development.
+
+## Product certification ##
+
+As far as the complete source tree is hardly ever used for the final release,
+there are special tools provided for those who need to pass the code
+certification. A fine-grained modular structure allows you to extract only those
+sources which are used in the final build.
+
+# Educational #
+
+The core development team consists of students and graduates of
+[Saint-Petersburg State University](http://www.math.spbu.ru/en/index.html).
+
+## Student projects ##
+
+[Theoretical Cybernetics department](http://www.math.spbu.ru/en/chairs/dep21.html)
+intrested in the project results. As a result of the partnership between
+departments was robotics OS.
+Now the project works on [Lego Mindstorms NXT](PlatformLegoNxt.md) and has some
+commercial advantage.
+
+## Coursework ##
+
+  * [Разработка системы тестирования программно-аппаратных комплексов (Batyukov A.M.)](http://se.math.spbu.ru/SE/YearlyProjects/2010/445/Batyukov_report.pdf/view)
+  * [Особенности open-source разработки на основе проекта “Embox” (Fomin A.D.)](http://se.math.spbu.ru/SE/YearlyProjects/2010/445/Fomin_report.doc/view)
+
+## Graduate paper ##
+  * [Flash filesystem for Embox RTOS (Russian) (Батюков А. М.)](http://se.math.spbu.ru/SE/diploma/2011/Batjukov%20Aleksandr%20-%20text.pdf)
+  * [Build system, code analysis and verification tool for Embox RTOS (Russian) (Абусалимов Э. Ш.)](http://se.math.spbu.ru/SE/diploma/2011/Abusalimov%20Jeldar%20-%20text.doc)
+
+# Just for fun #
+
+Enjoy the kernel hacking!

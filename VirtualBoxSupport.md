@@ -1,0 +1,30 @@
+﻿= Virtual Box =
+> ## Quick start ##
+> > This guide assumes that you have already got familar with building embox. If you don't - first you have to be done with that. So, here is the steps:
+    * Build Embox
+    * Create .vdi virtual hard drive image for Virtual Box
+    * Create and run a virtual machine using the created VDI
+> > ### Step one ###
+> > > First step is described just fine on this wiki. The only difference is that you have to load x86/debug template. It will look like this:
+```
+	cd </path/to/project/directory>
+	make confload-x86/debug
+	make
+```
+> > > After you get embox file in your build/base/bin directory you can get too step two.
+
+> > ### Step two ###
+> > > It consists of using a script that will create a VDI image that will be run on a virtual machine. Also you got to have grub 0.97 installed (it's installation instructions are also available on this wiki. The next commands craete the .img and .vdi files which would placed at build/base/bin directory. Note that it have to be run as root.
+```
+	./scripts/disk/make_img.sh
+	./scripts/disk/img2vdi.sh build/base/bin/embox.img
+```
+> > > After you get embox.vdi file in build/base/bin directory you can get too step three.
+
+> > ### Step three ###
+> > > Now, just start up Virtual Box manager, create a machine with the created VDI image of "Other/Other" type. Also, because Embox supports the virtio-net network driver, you should choose Paravirtualized Network in Setting->Network->Advanced->Adapter Type. It's time to launch it. You'll boot into grub shell. All you need is to type:
+```
+	kernel /embox
+	boot
+```
+> > > That's all.

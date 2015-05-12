@@ -1,0 +1,40 @@
+# create Debug Config #
+  * RB-click on  'C/C++ Application' ->New
+    * Project: embox
+    * Name: Qemu Embox
+    * Tab Main:
+      * Disable auto build
+      * Using GDB...Select other:
+        * use configuration specific settings
+        * Standard GDB Process Launcher
+    * Tab Debugger:
+      * Debugger: gdbserver
+      * X start on startup: kernel\_start
+        * Advanced: Variables,Registers
+      * GDB command set: standard
+      * GDB command file:
+      * Protocol: mi1
+
+http://embox.googlecode.com/svn/wiki/images/InstallToolchainEclipseDebugCygwin/eclipse_debug_config1.JPG
+
+http://embox.googlecode.com/svn/wiki/images/InstallToolchainEclipseDebugCygwin/eclipse_debug_config2.JPG
+
+http://embox.googlecode.com/svn/wiki/images/InstallToolchainEclipseDebugCygwin/eclipse_debug_config3.JPG
+
+http://embox.googlecode.com/svn/wiki/images/InstallToolchainEclipseDebugCygwin/eclipse_debug_config4.JPG
+
+# Start QEMU for debugging #
+Embox root directory
+```
+  qemu-system-i386 -kernel .\build\base\bin\embox -s -S -gdb tcp::1234,ipv4
+```
+
+## click Debug ##
+
+http://embox.googlecode.com/svn/wiki/images/InstallToolchainEclipseDebugCygwin/eclipse_debug_config_finished.JPG
+
+# Start QEMU release #
+Embox root directory
+```
+  qemu-system-i386 -kernel .\build\base\bin\embox
+```

@@ -1,0 +1,33 @@
+# Introduction #
+
+This page describes full process of getting Embox to discover board. It's assumed that you have clean Ubuntu (12.04)
+
+  1. Install eclipse
+```
+$ sudo apt-get install eclipse
+```
+  1. Now install C Development Toolkit for Eclipse. Launch Eclipse, go to Help -> Install New Software. In work with repositary field supply `http://download.eclipse.org/tools/cdt/releases/indigo` for 12.04's eclipse version. Note that you may have another version.
+  1. Due some Eclipse behaviour, you need install Main Feature, TCF and Uncategorized only at first and restart Eclipse, and only then you can continue installing CDT Optional Features.
+  1. Download [arm-none-eabi-gcc](http://embox.googlecode.com/files/arm-none-eabi-gcc-4.6.2.tar.bz2) and add it's location to your path. Or another reasonable way is to copy it's content to `/usr/local`.
+```
+ $ tar -zxf arm-none-eabi-gcc-4.6.2.tar.bz2
+ $ sudo cp arm-none-eabi-gcc-4.6.2/* /usr/local/
+```
+  1. Download and extract [stutil](http://embox.googlecode.com/files/texane-stlink.tar.bz2) (homepage: https://github.com/texane/stlink).
+    1. Copy `st-util` to one of directories from $PATH, e.g. `/usr/local/bin`
+    1. Copy it's configs to system directories. Prevent kernel's usb-storage from managing board:
+```
+# cp stlink_v1.modprobe.conf /etc/modprobe.d
+# modprobe -r usb-storage && modprobe usb-storage
+```
+> > And adjust rights to regular user be able run `st-util`:
+```
+# cp 49-stlinkv*.rules /etc/udev/rules.d/
+# udevadm control --reload-rules
+```
+  1. At this step you need Embox source snapshot. You may get it from Download section or SVN.
+  1. Now manage project for Embox in Eclipse. Press File -> New -> Project ... -> General -> Project. Uncheck 'Use default location' and supply next field path to Embox source root.
+  1. On `Make target` select `config arm stm32vl` and `all` then.
+  1. Configure debug configuration. Create new one under the 'GDB Hardware debug', select `embox` as Application, on Debugger tab select GDB command: `arm-none-eabi-gdb` and connection by TCP to `localhost:4242`.
+  1. Run gdb server for discovery. On terminal execute `auto-st-link` from `embox-root/scripts`.
+  1. Now you can load Embox by pressing Debug.

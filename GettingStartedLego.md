@@ -1,0 +1,3 @@
+You must install as usual **gcc** and **make** utilities.
+
+As cross-compiler you have to use arm-elf-gcc you can download it from download page or you can build it as describe on the cross-compiling page.

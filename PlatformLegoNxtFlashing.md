@@ -1,0 +1,39 @@
+# Linux #
+## Using libnxt ##
+
+  1. [Get](http://code.google.com/p/libnxt/downloads/detail?name=libnxt-0.3.tar.gz&can=2&q=) and compiling libnxt
+```
+$ cd <dir_libnxt-0.3>
+$ scons
+```
+OR get [prebuilt binaries](http://embox.googlecode.com/files/libnxt-0.3_prebuilt.tar.gz).
+  1. Configure Embox with 'arm' platform 'nxt' template
+  1. Put NXT brick into flashing mode. This can be done via power\_mng nxt platform test or via long (6s) pressing of reset button. In flashing mode brick clicks every ~1 sec.
+  1. Flashing Embox
+```
+# fwflash embox.bin
+```
+
+For those who don't like scons: http://pastebin.com/wjJHAxQY.
+
+### Troubleshooting ###
+
+  * You must have write access for usb device! (Notice fwflash running with root priveleges)
+  * Even with root you probably cannot flash nxt. Check if existing Linux driver gets device (e.g. cdc\_acm for me)
+```
+# modprobe -r cdc_acm
+# modprobe -r sam_be
+```
+This will remove linux modules, confilicting with `fwflash`. Some modules may not be presented in your system, so errors on running commands above are normal
+
+# Windows #
+  1. [Getting](http://bricxcc.sourceforge.net/utilities.html) and installing NeXTTool
+  1. Configure Embox with 'arm' platform 'nxt' template
+  1. Put NXT brick into flashing mode. This can be done via power\_mng nxt platform test or via long (6s) pressing of reset button. In flashing mode brick clicks every ~1 sec.
+  1. Flashing Embox from NeXTTool directory
+```
+# nexttool -firmware=<path>/embox.bin
+```
+
+### Troubleshooting ###
+  * Windows 7 by default recognizes Lego Mindstorms NXT Brick as GPS Camera. Uninstall GPS Camera's driver from system and install drivers from Lego's software CD.

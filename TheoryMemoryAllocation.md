@@ -1,0 +1,119 @@
+
+
+# Description #
+
+Memory allocation algorithms used to manage chunks of memory allocated for
+objects during program execution.
+
+These algorithms are used to allocate memory for objects of various types.
+For example, the dynamic objects with unknown size, the virtual mode table,
+a set of objects of the same nature and size (e.g. network packet descriptor) and etc.
+
+Memory can be allocated not only for data objects, but for the instructions
+of a process. In this case it is expedient to use [virtual memory mode](VirtualMemory.md),
+that allows you to isolate the process address space from each other.
+To work with the [virtual memory](VirtualMemory.md) allocation is used through the pages.
+
+For different types of objects characterized by different requirements for memory,
+so using different management strategies. This allows us to improve the efficiency
+of the overall program.
+
+# Physical and virtual memory #
+
+As mentioned above, the operating system can operate using [virtual mode](VirtualMemory.md),
+and can run processes in real mode. Virtual mode is used in most modern operating systems
+and is supported at the hardware level, all modern processors, since greatly simplifies
+the allocation mechanisms and memory isolation.
+
+But there are a number of computing systems in which this mechanism may be redundant.
+These systems include real-time system, which at the compile-time is already known
+address map for all processes (threads) that will work in the system. In such systems
+often don't need to have a mechanism for allocation memory for the code, and objects
+often can be allocated by a static way. But even in such systems is useful to have
+a mechanism for dynamic memory allocation.
+
+# Memory allocation #
+
+## Object Manager ##
+This approach is useful when you want to allocate a great
+number of objects with fixed size. The high border of the number of
+holding objects is limited by fixed value before compiling.
+
+Objects will be stored in the array with size equal to high border.
+Then free elements of array link into list of free objects. So, **allocation**
+of object - returning a link to free space, **deallocation** of object - returning of the
+link in the list of free object.
+
+Object manager belong to O(1) complexity class, where n is an array size.
+
+## SLAB allocator ##
+[http://www.ibm.com/developerworks/linux/library/l-linux-slab-allocator/index.html
+slab allocator]
+
+Shortly, it is an algorithm with the main goal to minimize time for operations by
+allocating and inizialization some parts of dynamic memory for objects with the same size.
+But how many objects will be allocated by user? Because Algorithm don't know answer
+for this question ,it try to allocate memory for some part of obeject and inizialize
+this part (called slab). Each slab will initialize as object manager. Slabs may be free,
+partically full and full and only that. Collection of all slabs for objects with fixed
+size named cache. Cache contains three list in it's structure: list of free slabs, list
+of particial full slabs and list of full slabs.
+
+So, **allocation** of object: we search cache that contains objects having appropriated size
+(it's requires number of operations equal to number of different sizes). Then we get first
+of particial full slabs and allocate object for O(1) operation. If slab is full, we delete
+it from list of particial full slabs and add to list of full slabs. It's O(1) operations.
+
+**Deallocation** of object - obviously it's O(1)
+So, the main costs consist of time for inizializing of each slab. It is O(n), where n is
+number of objects stored on slab.
+Obviosly optimizations based on statistic to define optimal init size of each slab.
+
+## Boundary Markers ##
+This method based on double linked list of free and busy blocks. Order of blocks in the list
+has such property, that previous block has lower addresses.
+Each block has to pointers(on previos and next block) and two descriptors at beginning and end
+of block. Each descriptor contains flag indicated free it or busy and number(int) equal to
+it own size. It's method allows to allocate objects of any size. Note, we will keep an
+invarint: each free block has previous busy block and next busy block. This is not exist two free blocks, that point by one another.
+
+**Allocation**.We go through list and search "appropriate" block. There are several strategies:
+  * first free
+  * "the best". In this case we search block with minimum difference between it size and size of our object.
+  * "the worst". As in previous case, but difference must be maximum.
+All algorithms belong to O(n) complexity class. But efficiency depends on practice.
+Let's consider first algorithm.
+So, we iterate through the list and look at descriptor of each
+block. If current block is not appropriated we shift on size of descripror(O(1)) and get pointer
+pointer to next block. If current block is required we move dacriptor and change it. So we divide
+current block into to blocks - busy and free(O(1) operations). And new free block has no free nearby
+block.
+
+**Deallocation**. We delete object by pointer(it's O(1) obviously). But then we get new free block.
+Then we combine it with nearby free blocks. It's O(1) operations.
+
+## Buddy system ##
+
+See http://en.wikipedia.org/wiki/Buddy_memory_allocation
+
+Shortly, this algorithm represent pool of memory as binary tree. Element of tree is block of memory.
+Size of parent of each node is equal to double size of child. E.g. root has 2^n size. Its
+two children have 2^(n-1) size and etc.
+
+**Allocation**. We go through the tree from leafs to root and search free block with appropriate size.
+Then mark it block as busy and go to its child to mark it, then go to its children and so on.
+
+**Deallocation**.
+We search appropriate block by pointer to it. Then mark it as free. Then go to leafs and by the way mark
+other nodes if need. Let's look at buddy of our block(this is its brother). If it is free, then
+combine them and mark their parent as free. Recursively make such merge for parent and so on.
+
+## Proof links ##
+
+http://rtportal.upv.es/rtmalloc/ allocator for real-time systems
+
+http://web.archive.org/web/20070728155440/http://dixx.ru/reference/tlsf - translate
+
+http://wkaras.webs.com/heapmm/heapmm.html
+
+http://www.iolanguage.com/Library/Papers/MemoryManagement/fragsolved.pdf

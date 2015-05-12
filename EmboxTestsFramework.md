@@ -1,0 +1,73 @@
+
+
+# Tests #
+
+The system includes a set of tests for diagnosis.
+
+# Add a new test #
+
+## Requirements to test's source code ##
+
+### Entry point ###
+
+```
+int run(void);
+```
+
+### Macro for test declaration ###
+
+```
+EMBOX_TEST(run);
+```
+
+### Example ###
+
+```
+#include <embox/test.h>
+
+EMBOX_TEST(run);
+
+/**
+ * The test itself.
+ *
+ * @return the test result
+ * @retval 0 on success
+ * @retval nonzero on failure
+ */
+static int run(void) {
+	int result = 0;
+
+	/*
+	 * The test itself.
+	 */
+
+	return result;
+}
+```
+
+## Требования к содержимому Makefile ##
+
+  * Makefile must be described as:
+```
+$_MODS += <test_name>
+
+$_SRCS-<test_name> += *.c
+```
+
+```
+$_DEPS-<test_name> += <dep>
+```
+
+# Test configuration #
+
+```
+test(<test_name>, <runlevel>)
+```
+or
+```
+test_platform(<test_name>, <runlevel>)
+```
+Where:
+
+  * `<test_name>` - name of test module
+  * `<runlevel>` - (optional) runlevel

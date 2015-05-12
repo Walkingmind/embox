@@ -1,0 +1,37 @@
+# Introducing Embox #
+> ## Modular and configurable kernel ##
+> > Instead of using monolithic architecture, Embox is organized into a set of fine-grained modules, each of which implements some interface. Typical example is a scheduling strategy or a memory allocation algorithm. Thus the final image of Embox can be finely tuned for a specific usage.
+
+
+> ## Cross-platform ##
+> > Currently Embox is ported on several processor architectures: [x86](http://en.wikipedia.org/wiki/X86), [SPARC](http://en.wikipedia.org/wiki/SPARC), [ARM](http://en.wikipedia.org/wiki/ARM_architecture), [MIPS](http://en.wikipedia.org/wiki/MIPS_architecture), [DLX](http://en.wikipedia.org/wiki/DLX), [PowerPC](http://en.wikipedia.org/wiki/Powerpc).. The complete list of supported platform can be found [here](PlatformsDescription.md). Porting Embox to a new platform is relatively simple: all you need is to implement a well-defined Hardware Abstraction Level interface.
+
+
+> ## Testing framework ##
+> > Embox includes an embedded unit testing framework which can be used for developing, debugging and self-checking both hardware and software modules of the system.
+
+
+> ## Designing a new hardware ##
+> > As a highly configurable system, Embox can run in a very constrained environment such as hardware simulators. Thus it can be used at early stages of hardware development. At the design phase you can estimate required hardware resources and during the debugging you prepare a set of tests with the required coverage.
+
+
+> ## Certification process ##
+> > A build system used in Embox allows you to get a source distribution with only required modules included. It reduces the total amount of code needed for certification making that process more cheaper. In addition the build system allows to get full files list and modules graph.
+
+# Project Applications #
+
+
+> ## Embedded systems ##
+> > This is the main scope of the project.
+
+
+> ## Robotics ##
+> > Embox has been ported to [Lego Mindstorms NXT](http://mindstorms.lego.com/en-us/Default.aspx) platform.
+
+
+> ## Education ##
+> > The project is used for teaching students for practice in the programming and design of embedded system, robotics, architecture of operating system, telecommunication system.
+
+
+> ## Just for fun ##
+> > We enjoy kernel hacking.

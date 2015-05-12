@@ -1,0 +1,38 @@
+Drivers are common modules formally. There are some features developed for drivers but can be used by anoter modules (this demonstrates `virtual_device` approach)
+
+# Drivers features #
+
+## EMBOX\_DEVICE macro ##
+
+This macro used if You want access device via file abstraction. Using is simple
+```
+EMBOX_DEVICE("name", &file_op);
+```
+
+This defines /dev/name file with specified file\_operations\_t (see documentation [?])
+
+# Drivers list #
+
+## diag ##
+Symbol interfaces for debugging and early stage interface for user
+
+## clock ##
+Drivers for system clock, setted for timer clock, scheduler clock.
+
+## interrupt ##
+Drivers for system interrupt controller. Although IC build in CPU often, it's an module (some cores may be bundled with different ICs)
+
+## gpio ##
+Drivers for gpio controllers.
+
+## serial ##
+Symbolic interfaces, most of them are UART, like diag, but have abilities to work with different mode
+
+## keyboard ##
+Driver for IBM PC keyboard. Implements `keyboard` interface, only this is accessed (another `keyboard` driver can be used without code modification)
+
+## net ##
+Drivers for network devices
+
+## video ##
+Drivers for accessing Frame Buffer on video devices

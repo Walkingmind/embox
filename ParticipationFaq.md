@@ -1,0 +1,54 @@
+# Participation FAQ #
+
+### What are desireable skills to participate in project? ###
+
+Desire to explore and learn operating systems and minimal experience in IT enough.
+
+### Which ways could I participate? ###
+
+We need people in different ways. So, please describe yourself (where are you from, what kind of education and expirience you have, what you want to do in our project) and we will suggest you tasks you may to resolve.
+
+### How to start contribute? ###
+
+If you would like to participate in the project, please contact Eldar Abusalimov (or mail directly to eldar.abusalimov@gmail.com). Alternatively you may also mail to (or CC him) Anton Bondarev (anton.bondarev2310@gmail.com).
+After that you will receive a small test, e.g. fix some bug, and welcome to the project.
+
+### Where to add code? ###
+
+Do not commit not stable code into trunk! The latest depends on task you working on. For example, if you add a new command, which uses system call, you need to function code to the library and call it from your function code.
+Please add unit test for new functions.
+
+### Does exit description of project directory structure? ###
+
+At the moment structure is actively changing. To most stable directories is cmds - internal commands, tests - unit tests, examples - usage examples, fs - file system, net - network stack and so on.
+
+### What about code review? ###
+
+Considerable part of code better to place into separate branch. When you need to rename files or directories, please discuss it before with project members.
+There are two ways of code review:
+  * First - when you finished work in you branch merge trunk into it and create review request.
+  * Second - merge you work into trunk (be carefull to do not brake trunk) and ask for review.
+In any case, before review please provide description of code you commit.
+Request for code review could be created using web-interface on project page.
+
+### When do tests run? How to run tests manually? ###
+
+Tests starts while system booting (you could provide runlevel). Test command allows to run tests manually.
+
+### I've never seen before such kind of build systme, does it "make" wrapper written inside this project? ###
+
+Build system written on Python mostly by Eldar ((eldar.abusali...@gmail.com). You could read description in Russian here - http://habrahabr.ru/post/144935/. At the moment the system in under heavy development. New version will have more features to help us to resolve problems we met in this project.
+
+### How do you usually work with information beyond the qemu screen? ###
+
+It is problem. We are going to implement logging screen output to the file. At the moment you can use following approach. Use configuration nonvga\_debug and run qemu with -nographic option. Use 'x' after ctlr + 'A' to exit from qemu.
+
+### Is there separation between kernel space and user space at the moment? ###
+
+At the moment, no. But we are working on that. The main idea is use system calls from user space and usual function calls from kernel space. Allow to configure privileges for modules at the boot time.
+
+### What is the overal information about the project, how many active developers, how many newbies? Do you have meetings to discuss current status and plans? ###
+
+Active developers for current month about ten people with different kind of activeness. We have about one newbie per month. Significant part of developers from Saint Petersburg
+State University, so we have meetings periodicaly and discuss such kind of things.
+It were cases when people from England and Austria participated in project. I've never seen them :).

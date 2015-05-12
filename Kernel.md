@@ -1,0 +1,17 @@
+As like the whole system, Embox kernel is also modular.
+
+![http://embox.googlecode.com/svn/wiki/images/Kernel/kernel-architecture.png](http://embox.googlecode.com/svn/wiki/images/Kernel/kernel-architecture.png)
+
+
+
+
+The type of Embox kernel architecture - exokernel. Kernel includes the following parts:
+  * Threads
+  * Tasks
+  * Timers and clock source management
+  * Hardware and software interrupts handling
+
+Kernel properties:
+  * Data Separation
+  * Damage Limitation
+  * Timesharing the processor between the partitions(threads, tasks or event handlers)

@@ -1,0 +1,28 @@
+# Introduction #
+
+[Quadamo 747-X/Omap3](http://www.seco.com/en/item/quadmo747-x_omap3/) hosted on [SECOCQ7-pITX/Xboard](http://www.seco.com/en/item/secocq7-pitx_xboard).
+Diag interface implemented by UART3, which is on JTAG (or Manufacturer) connector on pITX-board.
+
+# Details #
+
+How to get Embox working on these good:
+
+  * Download secoTools, which is supplied by Seco in private customer sections, no links, sorry.
+  * Build embox with arm/omap template
+  * Run scripts/omap-uboot-uimage from embox top dir, this will assemble  image suitable for u-boot:
+```
+ ./scripts/omap-uboot-uimage
+```
+> `uImage` file will appear in top dir.
+  * Download http://embox.googlecode.com/files/embox.scr and http://embox.googlecode.com/files/seco_qseven_omap3_fs_stub.tar.gz
+  * In secoTools there is secoCreateBootDevice.sh, which is run by
+```
+./secoCreateBootDevice <device> <x-loader> <u-boot> <boot script> <kernel image> <FS_X.tar.gz>
+```
+You should run
+```
+ ./secoCreateBootDevice <device> x-load-sd_omap-3730.bin.ift u-boot-sd_omap-3730.bin embox.scr /embox/path/uImage seco_qseven_omap3_fs_stub.tar.gz
+```
+`<device>` here means dev entry of your uSD card, where everything will be placed, e.g. /dev/sdb.
+
+Now you have bootable uSD. Insert it in pITX's card reader and power up the board.

@@ -1,0 +1,1 @@
+There is nothing special to note about using Embox on QEMU for x86. Please refer to the [generic QEMU guide](SimulationQemu.md).

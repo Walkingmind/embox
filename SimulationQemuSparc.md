@@ -1,0 +1,36 @@
+This page is about simulating Embox on QEMU SPARC. It is assumed that you're familiar with general notes about [using the QEMU](SimulationQemu.md).
+
+# Installing QEMU #
+To be able to use QEMU for simulating SPARC CPUs, you have to get `qemu-system-sparc`. Usually it is available through the package manager of your OS under the names **qemu-system** or **qemu-kvm-extras**:
+```
+sudo apt-get install qemu-system
+```
+
+Another option is to configure and build it manually:
+configure it
+```
+./configure --target-list=sparc-softmmu
+```
+Add single line to the end of the function '''grlib\_apbuart\_init''' in the file '''
+
+<qemu\_path>
+
+/hw/grlib\_apbuart.c'''
+```
+    uart->status = UART_TRANSMIT_SHIFT_EMPTY | UART_TRANSMIT_FIFO_EMPTY;
+```
+and build it
+```
+make
+sudo make install
+```
+
+# Running QEMU #
+To simulate Embox on QEMU for LEON3 processor run `qemu-system-sparc` passing these additional options:
+```
+-M leon3_generic -cpu LEON3
+```
+For example:
+```
+qemu-system-sparc -nographic -M leon3_generic -cpu LEON3 -kernel path/to/embox
+```

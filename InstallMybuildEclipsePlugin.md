@@ -1,0 +1,41 @@
+# Introduction #
+
+Embox uses [Mybuild](Mybuild.md) for build automation and configuration management. Mybuild uses special text files (so-called my-files), that describe modules to build.
+
+In order to get IDE support of Mybuild (syntax highlighting of my-files, code completion, refactorings and so on), you have to install **Mybuild plugin for Eclipse**.
+
+# Brief #
+
+If you're familiar with Eclipse plugin installation process, then all you need is an address of the update site with latest version of Mybuild plugin:
+
+> <b><a href='http://embox.googlecode.com/svn/trunk/eclipse-plugin/update-site/'>http://embox.googlecode.com/svn/trunk/eclipse-plugin/update-site/</a></b>
+
+The feature to install is called **Mybuild**.
+
+# Step-by-step #
+
+## Open Install New Software dialog ##
+
+From Eclipse main menu open **Help → Install New Software...**
+
+## Select Update Site ##
+
+Enter the address of our update site into _Work with_ field:
+> <b><a href='http://embox.googlecode.com/svn/trunk/eclipse-plugin/update-site/'>http://embox.googlecode.com/svn/trunk/eclipse-plugin/update-site/</a></b>.
+After loading of the site contents, check **Mybuild** item.
+> ![http://embox.googlecode.com/svn-history/r4819/wiki/images/InstallMybuildEclipsePlugin/mybuild-eclipse-plugin-install.png](http://embox.googlecode.com/svn-history/r4819/wiki/images/InstallMybuildEclipsePlugin/mybuild-eclipse-plugin-install.png)
+
+## Confirm Selected Features ##
+
+By default you'll see all features included. No need to change them, so go **Next >**.
+
+## Finish the Installation ##
+
+You will have to _accept the terms of license agreements_ to be able to proceed.
+
+**Note:** During the installation you will get _Security Warning_ message, which
+notifies about installing a software from uncertified sources. This is a normal
+case, so just continue the installation.
+
+After the Software will be installed you will be prompted to restart Eclipse for
+the changes to take effect.

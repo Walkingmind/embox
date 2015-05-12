@@ -1,0 +1,13 @@
+Configure qemu-system-mips
+```
+./configure --target-list=mips-softmmu
+```
+
+For simulate Embox on QEMU for MIPSSim platform you should start QEMU with options **-M mipssim**
+```
+qemu-system-mips -s -S -serial stdio -kernel <project_path>/build/base/bin/embox -M mipssim
+```
+or
+```
+qemu-system-mips -s -S -nographic -kernel <project_path>/build/base/bin/embox -M mipssim
+```

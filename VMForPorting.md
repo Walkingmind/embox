@@ -1,0 +1,48 @@
+# KVM #
+Google, register for a link (because of license)
+
+Kilobyte Virtual Machine (Java CLDC 1.1). First candidate for porting.
+  * + Clean code.
+  * + Porting seems simple.
+  * - License forbid publication (can't submit in svn rep)
+
+# PhoneMe (Monty VM) #
+http://java.net/projects/phoneme
+
+  * +- full feature Java CLDC implementation
+  * - too big
+
+# eLua #
+http://www.eluaproject.net/
+Lua interpreter for embedded system. http://www.eluaproject.net/
+  * - intended for no OS purpose (Lack of general functions such as print)
+
+# Python on chip #
+http://code.google.com/p/python-on-a-chip/
+Little python
+  * - intended for no OS purpose (Lack of general functions such as print)
+
+# TinyPython #
+http://code.google.com/p/tinypy/downloads/list
+  * + small (~80 kb)
+  * - depends on filesystem alot IMHO
+
+# TinyScheme #
+http://tinyscheme.sourceforge.net/home.html
+
+  * + small
+  * + simple! (one C-file)
+
+# _**Lisp5000**_ #
+http://code.google.com/p/lisp5000/
+Clean version of lisp500.
+Now in workout
+
+  * + small (30 kb C-file)
+  * ~~+ simple (there is no need even in files)~~
+
+# ~~LYSP~~ #
+http://piumarta.com/software/lysp/
+small lisp easy for extending forward own implementaion
+  * - lack of general function (seems like just only parser and integer operations)
+  * - depends on dynamic linking

@@ -1,0 +1,10 @@
+We use platform **virtex-ml507** because QEMU has support for it. For running Embox on PowerPC QEMU you have to build Embox with template **ppc/ml507** and start QEMU with option **-M petalogix-s3adsp1800**.
+
+You must have **qemu-system-ppc** simulator or you can configure QEMU as following
+```
+ ./configure --target-list=ppc-softmmu
+```
+Full command for start simulation look as:
+```
+qemu-system-ppc -s -S -nographic -M virtex-ml507 -m 256 -net none -kernel <project_path>/build/base/bin/embox
+```
